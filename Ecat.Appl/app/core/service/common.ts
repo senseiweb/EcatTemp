@@ -47,7 +47,7 @@ export default class EcCommon
                 resourceName: 'ResetPin',
                 entityType: et.loginTk
             },
-            demographics: {
+            profile: {
                 resourceName: 'Demographics',
                 entityType: et.unk
             }

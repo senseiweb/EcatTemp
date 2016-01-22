@@ -1,7 +1,7 @@
 ﻿<div class="container animated fadeInRight">
 
     <div class="block-header">
-        <h2>{{main.user.firstName}} {{main.user.lastName}} <small>{{main.user.prettyInstituteRole}}, Dubai, United Arab Emirates</small></h2>
+        <h2>{{profile.user.firstName}} {{profile.user.lastName}} <small>{{profile.user.prettyInstituteRole}}, Dubai, United Arab Emirates</small></h2>
 
         <ul class="actions m-t-20 hidden-xs">
             
@@ -27,7 +27,7 @@
             <div class="pmo-pic">
                 <div class="p-relative">
                     <a href="">
-                        <img class="img-responsive" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}" alt="User Profile">
+                        <img class="img-responsive" ng-src="{{profile.user.avatarLocation || profile.user.defaultAvatarLocation}}" alt="User Profile">
                     </a>
 
                     <a href="" class="pmop-edit">
@@ -40,21 +40,24 @@
                 <h2>Contact</h2>
 
                 <ul>
-                    <li><i class="zmdi zmdi-email"></i> {{main.user.email}}</li>
+                    <li><i class="zmdi zmdi-email"></i> {{profile.user.email}}</li>
                  </ul>
             </div>
         </div>
 
         <div class="pm-body clearfix">
             <ul class="tab-nav tn-justified">
-                <li class="btn-wave" ng-if="profile.isInstructor" ng-class="{active: profile.page === profile.pageTypeEnum.Facilitator}">
-                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Facilitator">Instructor</a>
+                <li class="btn-wave" ng-if="profile.showFacilitator" ng-class="{active: profile.page === profile.pageTypeEnum.Facilitator}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Facilitator">Faciliator</a>
                 </li>
-                <li class="btn-wave" ng-if="profile.isStudent" ng-class="{active: profile.page === profile.pageTypeEnum.Student}">
+                <li class="btn-wave" ng-if="profile.showStudent" ng-class="{active: profile.page === profile.pageTypeEnum.Student}">
                     <a href="" ng-click="profile.page = profile.pageTypeEnum.Student">Student</a>
                 </li>
-                <li class="btn-wave" ng-class="{active: profile.page === profile.pageTypeEnum.Connection}">
-                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Connection">Connections</a>
+                <li class="btn-wave" ng-if="profile.showExternal" ng-class="{active: profile.page === profile.pageTypeEnum.External}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.External">External</a>
+                </li>
+                <li class="btn-wave" ng-class="{active: profile.page === profile.pageTypeEnum.Connections}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Connections">Connections</a>
                 </li>
             </ul>
             <div ng-switch="profile.page">
@@ -64,8 +67,11 @@
                 <div ng-switch-when="1">
                     <div  ng-include="'wwwroot/app/core/userViews/tmpls/profile.student.tmpl.html'"></div>
                 </div>
-                <div ng-switch-when="2" >
+                <div ng-switch-when="2">
                     <div ng-include="'wwwroot/app/core/userViews/tmpls/profile.external.tmpl.html'"></div>
+                </div>
+                <div ng-switch-when="3">
+                    <div ng-include="'wwwroot/app/core/userViews/tmpls/profile.connection.tmpl.html'"></div>
                 </div>
                 <div ng-switch-default >
                     <div ng-include="'wwwroot/app/core/userViews/tmpls/profile.main.tmpl.html'"></div>

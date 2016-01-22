@@ -84,21 +84,21 @@ export default class AppStart {
             .directive(compareTo.directiveId, () => new compareTo())
             .directive(iMask.directiveId, () => new iMask)
             .directive(emailValidator.directiveId, ['$q', dataCtx.serivceId, ($q, dataCtx) => new emailValidator($q, dataCtx)])
-            .directive(ecMalihuScrollDirective.EcOverFlowNiceScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', IEcatStateProvider.providerId, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowNiceScroll(nss, $state, stateMgr)])
-                .provider(ecStateProvider.providerId, ecStateProvider)
-                .provider(ecCoreCfgProvider.providerId, ecCoreCfgProvider)
-                .service(ecMalihuScrollService.serviceId, ecMalihuScrollService)
-                .service(authService.serviceId,authService)
-                .service(dataCtx.serivceId, dataCtx)
-                .service(emFactory.serviceId, emFactory)
-                .service(userRepo.serviceId, userRepo)
-                .service(utilityRepo.serviceId, utilityRepo)
-                .service(growl.serviceId, growl)
-                .service(common.serviceId, common)
-                .service(logger.serviceId, logger)
-                .service(localDs.serviceId, localDs)
-                .service(dialogService.serviceId, dialogService)
-                .run(['$rootScope','$state','breeze', this.stateChangeError]);
+            .directive(ecMalihuScrollDirective.EcOverFlowMalihuScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', IEcatStateProvider.providerId, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowMalihuScroll(nss, $state, stateMgr)])
+            .provider(ecStateProvider.providerId, ecStateProvider)
+            .provider(ecCoreCfgProvider.providerId, ecCoreCfgProvider)
+            .service(ecMalihuScrollService.serviceId, ecMalihuScrollService)
+            .service(authService.serviceId,authService)
+            .service(dataCtx.serivceId, dataCtx)
+            .service(emFactory.serviceId, emFactory)
+            .service(userRepo.serviceId, userRepo)
+            .service(utilityRepo.serviceId, utilityRepo)
+            .service(growl.serviceId, growl)
+            .service(common.serviceId, common)
+            .service(logger.serviceId, logger)
+            .service(localDs.serviceId, localDs)
+            .service(dialogService.serviceId, dialogService)
+            .run(['$rootScope','$state','breeze', this.stateChangeError]);
 
         this.ngShell = ng;
     }   
@@ -130,7 +130,7 @@ export default class AppStart {
                 window.sessionStorage.setItem('ECAT:TOKEN', JSON.stringify(existingUserToken));
                 loginToken = existingUserToken;
             } else {
-                loginToken = null;
+                loginToken = existingUserToken ? existingUserToken : null;
             }
         } 
 

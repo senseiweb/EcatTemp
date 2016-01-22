@@ -50,16 +50,18 @@ export default class EcGlobalLogin {
         switch (state) {
         case 'register':
             if (this.user) {
-                this.mode = state;
                 return null;
             }
             const user = this.dataCtx.user.createUserLocal(true);
-            this.mode = state;
             this.user = user;
+            this.userEmail = null;
+            this.userPassword = null;
             break;
         default:
             this.mode = state;
         }
+
+        this.mode = state;
     }
 
     logMeIn(user): void {

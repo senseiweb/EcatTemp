@@ -1,5 +1,38 @@
 ﻿<div class="pmb-block">
     <div class="pmbb-header">
+        <h2><i class="zmdi zmdi-face"></i> About Me</h2>
+        <ul class="actions" ng-if="!profile.editing_aboutMeForm">
+            <li class="uib-dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+                <ul class="uib-dropdown-menu uib-dropdown-menu-right">
+                    <li>
+                        <a ng-click="profile.editing_aboutMeForm = true" href="">Edit</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="pmbb-body p-l-30">
+        <div class="pmbb-view" ng-if="!profile.editing_aboutMeForm">
+            {{profile.aboutMeText}}
+        </div>
+        <form ng-submit="profile.saveForm('aboutMeForm')" ng-if="profile.editing_aboutMeForm" name="profile.aboutMeForm">
+            <div class="fg-line">
+                <div text-angular ng-model="profile.aboutMeText" class="pmbb-edit"></div>
+            </div>
+            <div class="m-t-10">
+                <button class="btn btn-primary btn-sm" type="submit" ng-disabled="profile.aboutMeForm.$pristine && profile.aboutMeForm.$invalid">Save</button>
+                <button class="btn btn-link btn-sm" ng-click="profile.cancelFormEdit('aboutMeForm')">Cancel</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+<div class="pmb-block">
+    <div class="pmbb-header">
         <h2><i class="zmdi zmdi-account m-r-5"></i> Basic Information</h2>
 
         <ul class="actions" ng-if="!profile.editing_basicInfoForm">
@@ -20,19 +53,19 @@
         <div class="pmbb-view" ng-if="!profile.editing_basicInfoForm">
             <dl class="dl-horizontal">
                 <dt>Full Name</dt>
-                <dd>{{main.user.saluatation}} {{ main.user.lastName}}, {{main.user.firstName}} <span ng-if="main.user.goByName">[AKA: {{main.user.goByName}}]</span></dd>
+                <dd>{{profile.user.saluatation}} {{ profile.user.lastName}}, {{profile.user.firstName}} <span ng-if="profile.user.goByName">[AKA: {{profile.user.goByName}}]</span></dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>Gender</dt>
-                <dd>{{main.user.mpGender}}</dd>
+                <dd>{{profile.user.mpGender}}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>Affiliation</dt>
-                <dd>{{main.user.mpMilAffiliation}}</dd>
+                <dd>{{profile.user.mpMilAffiliation}}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>Military Component</dt>
-                <dd>{{main.user.mpMilComponent}}</dd>
+                <dd>{{profile.user.mpMilComponent}}</dd>
             </dl>
         </div>
 
@@ -44,7 +77,7 @@
                     <div class="fg-line">
                         <input type="text"
                                name="lastname"
-                               ng-model="main.user.lastName"
+                               ng-model="profile.user.lastName"
                                class="form-control input-lg fg-input"
                                maxlength="40"
                                ng-disabled="profile.isLtiRole"
@@ -62,7 +95,7 @@
                     <div class="fg-line">
                         <input type="text"
                                name="firstname"
-                               ng-model="main.user.firstName"
+                               ng-model="profile.user.firstName"
                                class="form-control input-lg fg-input"
                                maxlength="40"
                                ng-disabled="profile.isLtiRole"
@@ -80,7 +113,7 @@
                     <div class="fg-line">
                         <input type="email"
                                name="email"
-                               ng-model="main.user.email"
+                               ng-model="profile.user.email"
                                class="form-control input-lg fg-input"
                                maxlength="40"
                                ng-disabled="profile.isLtiRole"
@@ -98,7 +131,7 @@
                     <div class="fg-line">
                         <input type="text"
                                name="gobyname"
-                               ng-model="main.user.goByName"
+                               ng-model="profile.user.goByName"
                                class="form-control input-lg fg-input"
                                maxlength="40" />
                     </div>
@@ -109,7 +142,7 @@
                 <label for="gender" class="control-label col-md-2 ">Gender</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.gender.$touched && profile.basicInfoForm.gender.$invalid}">
                     <div class="fg-line">
-                        <select ng-model="main.user.mpGender"
+                        <select ng-model="profile.user.mpGender"
                                 name="gender"
                                 required
                                 class="form-control input-lg fg-input">
@@ -127,7 +160,7 @@
                 <label for="milaffil" class="control-label col-md-2 ">Military Affiliation</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.milaffil.$touched && profile.basicInfoForm.milaffil.$invalid}">
                     <div class="fg-line">
-                        <select ng-model="main.user.mpMilAffiliation"
+                        <select ng-model="profile.user.mpMilAffiliation"
                                 name="milaffil"
                                 ng-change="profile.updatePayGradeList()"
                                 required
@@ -144,9 +177,9 @@
                 <label for="milcomponent" class="control-label col-md-2">Military Component</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.milcomponent.$touched && profile.basicInfoForm.milcomponent.$invalid}">
                     <div class="fg-line">
-                        <select ng-model="main.user.mpMilComponent"
+                        <select ng-model="profile.user.mpMilComponent"
                                 name="milcomponent"
-                                ng-disabled="main.user.mpMilAffiliation === profile.local.milAffil.none"
+                                ng-disabled="profile.user.mpMilAffiliation === profile.local.milAffil.none"
                                 required
                                 class="form-control input-lg fg-input"
                                 ng-options="value for (component, value) in profile.local.milComponent">
@@ -161,7 +194,7 @@
                 <label for="paygrade" class="control-label col-md-2">PayGrade</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.paygrade.$touched && profile.basicInfoForm.paygrade.$invalid}">
                     <div class="fg-line">
-                        <select ng-model="main.user.mpMilPaygrade"
+                        <select ng-model="profile.user.mpMilPaygrade"
                                 name="paygrade"
                                 required
                                 class="form-control input-lg fg-input"

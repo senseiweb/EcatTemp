@@ -68,7 +68,7 @@ declare module ecat {
         login: IApiResource;
         resetPin: IApiResource;
         fetch: IApiResource;
-        demographics: IApiResource;
+        profile: IApiResource;
         checkEmail: IApiResource;
     }
 

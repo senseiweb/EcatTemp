@@ -125,6 +125,7 @@ export class EcMapEntityType {
     static loginTk = 'LoginToken';
     static facProfile = 'EcInstructor';
     static studProfile = 'EcStudent';
+    static externalProfile = 'EcExternal';
     static course = 'EcCourse';
     static academy = 'EcAcademy';
     static group = 'EcGroup';

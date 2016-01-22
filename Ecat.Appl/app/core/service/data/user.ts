@@ -72,6 +72,28 @@ export default class EcUserRepo
          return user;
     }
 
+    createUserToken(): ecat.entity.ILoginToken {
+
+        this.persona = this.manager.createEntity(AppVar.EcMapEntityType.person, this.userStatic.person, breeze.EntityState.Unchanged) as ecat.entity.IPerson;
+
+        const newToken = {
+            personId: this.persona.personId,
+            person: this.persona,
+            tokenExpire: this.userStatic.tokenExpire,
+            tokenExpireWarning: this.userStatic.tokenExpireWarning,
+            authToken: this.userStatic.authToken,
+        } as ecat.entity.ILoginToken;
+
+        const token = this.manager.createEntity(AppVar.EcMapEntityType.loginTk,
+            newToken, breeze.EntityState.Unchanged) as ecat.entity.ILoginToken;
+
+        this.token.expire = token.tokenExpire;
+        this.token.auth = token.authToken;
+        this.token.warning = token.tokenExpireWarning;
+
+        return token;
+    }
+
     emailIsUnique(email: string): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
         const requestCfg: angular.IRequestConfig = {
             method: 'get',
@@ -91,9 +113,10 @@ export default class EcUserRepo
     getUserProfile(): breeze.promises.IPromise<any> {
         const self = this;
 
-        const resource = this.rname.user.demographics.resourceName;
+        const resource = this.rname.user.profile.resourceName;
         if (this.isLoaded.userProfile) {
-            return this.$q.when(this.utilityRepo.queryLocal(this.manager, resource));
+            const pred = new breeze.Predicate('personId', breeze.FilterQueryOp.Equals, this.persona.personId);
+            return this.$q.when(this.utilityRepo.queryLocal(this.manager, resource, null, pred));
         }
 
         return this.query.from(resource)
@@ -103,45 +126,24 @@ export default class EcUserRepo
             .catch(this.utilityRepo.queryFailed);
 
         function getUserProfileResponse(userProfileResult: breeze.QueryResult) {
-            const userDemographic = userProfileResult.results[0];
-            if (userDemographic) {
-                return userDemographic;
+            const userProfile = userProfileResult.results[0];
+            if (userProfile) {
+                return userProfile;
             }
 
-            const demog = { personId: self.persona.personId }
+            const profile = { personId: self.persona.personId }
 
             switch (self.persona.mpInstituteRole) {
                 case AppVar.EcMapInstituteRole.student:
-                    return self.manager.createEntity(AppVar.EcMapEntityType.studProfile, demog);
+                    return self.manager.createEntity(AppVar.EcMapEntityType.studProfile, profile);
                 case AppVar.EcMapInstituteRole.facilitator:
-                    return self.manager.createEntity(AppVar.EcMapEntityType.facProfile, demog);
+                    return self.manager.createEntity(AppVar.EcMapEntityType.facProfile, profile);
+                case AppVar.EcMapInstituteRole.external:
+                    return self.manager.createEntity(AppVar.EcMapEntityType.externalProfile, profile);
                 default:
                     return null;
             }
         }
-    }
-
-    //TODO: Add logic if context is not activated
-    createUserToken(): ecat.entity.ILoginToken {
-  
-        this.persona = this.manager.createEntity(AppVar.EcMapEntityType.person, this.userStatic.person, breeze.EntityState.Unchanged) as ecat.entity.IPerson;
-
-        const newToken = {
-            personId: this.persona.personId,
-            person: this.persona,
-            tokenExpire: this.userStatic.tokenExpire,
-            tokenExpireWarning: this.userStatic.tokenExpireWarning,
-            authToken: this.userStatic.authToken,
-        } as ecat.entity.ILoginToken;
-
-        const token = this.manager.createEntity(AppVar.EcMapEntityType.loginTk,
-            newToken, breeze.EntityState.Unchanged) as ecat.entity.ILoginToken;
-
-        this.token.expire = token.tokenExpire;
-        this.token.auth = token.authToken;
-        this.token.warning = token.tokenExpireWarning;
-       
-        return token;
     }
 
     loadManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {

@@ -1,36 +1,4 @@
-﻿<div class="pmb-block">
-    <div class="pmbb-header">
-        <h2><i class="zmdi zmdi-face"></i> About Me</h2>
-        <ul class="actions" ng-if="!profile.editing_aboutMeForm">
-            <li class="uib-dropdown" uib-dropdown>
-                <a href="" uib-dropdown-toggle>
-                    <i class="zmdi zmdi-more-vert"></i>
-                </a>
-                <ul class="uib-dropdown-menu uib-dropdown-menu-right">
-                    <li>
-                        <a ng-click="profile.editing_aboutMeForm = true" href="">Edit</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="pmbb-body p-l-30">
-        <div class="pmbb-view" ng-if="!profile.editing_aboutMeForm">
-            {{main.user.student.bio}}
-        </div>
-        <form ng-submit="profile.saveForm('aboutMeForm')" ng-if="profile.editing_aboutMeForm" name="profile.aboutMeForm">
-            <div class="fg-line">
-                <div text-angular ng-model="main.user.student.bio" class="pmbb-edit"></div>
-            </div>
-            <div class="m-t-10">
-                <button class="btn btn-primary btn-sm" type="submit">Save</button>
-                <button class="btn btn-link btn-sm" ng-click="profile.cancelFormEdit('aboutMeForm')">Cancel</button>
-            </div>
-        </form>
-
-
-    </div>
-</div>
+﻿
 <div ng-include="'wwwroot/app/core/userViews/tmpls/profile.main.tmpl.html'"></div>
 
 <div class="pmb-block">

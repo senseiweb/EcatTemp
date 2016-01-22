@@ -15,11 +15,7 @@ export abstract class EcMalihuScroll implements angular.IDirective {
     }
 }
 
-//export class EcHtmlNiceScroll extends EcMalihuScroll {
-//    static directiveId = 'html';
-//}
-
-export class EcOverFlowNiceScroll extends EcMalihuScroll {
+export class EcOverFlowMalihuScroll extends EcMalihuScroll {
     static directiveId = 'cOverflow';
 }
 

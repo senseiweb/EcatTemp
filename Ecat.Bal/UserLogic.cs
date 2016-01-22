@@ -137,7 +137,7 @@ namespace Ecat.Bal
                 return null;
             }
 
-            var hasValidPassword = PasswordHash.ValidatePassword(userPassword, user.Security.PasswordHash);
+           var hasValidPassword = PasswordHash.ValidatePassword(userPassword, user.Security.PasswordHash);
 
             if (!hasValidPassword)
             {

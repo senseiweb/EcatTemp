@@ -99,6 +99,8 @@ namespace Ecat.Dal.Context
 
         public virtual DbSet<EcStudent> Students { get; set; }
         public virtual DbSet<EcFacilitator> Facilitators { get; set; }
+        public virtual DbSet<EcExternal> Externals { get; set; }
+
     }
 
     internal sealed class MainConfig : DbMigrationsConfiguration<EcatCtx>

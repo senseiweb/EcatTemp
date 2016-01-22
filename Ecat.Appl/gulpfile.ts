@@ -50,14 +50,14 @@ const clean = (path, done): any => {
     return del(path, done);
 }
 
-gulp.task('buildStepClean', (done) => {
+gulp.task('buildClean', (done) => {
     const keys = Object.keys(pubPaths);
     let source = keys.map((key) => `${pubPaths[key]}/**`);
     source = source.concat(['**/*.map']);
     return clean(source, done);
 });
 
-gulp.task('buildStepScripts', () => {
+gulp.task('buildScripts', () => {
     const sysJsMap = sysJsCfg.map;
     const mappedKeys = Object.keys(sysJsMap);
     const source = mappedKeys.filter((key) => {
@@ -79,28 +79,28 @@ gulp.task('buildStepScripts', () => {
 
     return gulp.src(sourceScripts)
         .pipe($$.plumber())
-        .pipe($$.debug({ title: 'Building Scripts'}))
+        .pipe($$.debug({ title: 'Script Build:'}))
         .pipe(gulp.dest(pubPaths.scripts));
 });
 
-gulp.task('buildStepStyles', () => {
+gulp.task('buildStyles', () => {
     return gulp.src(['Content/ecat.less'])
         .pipe($$.plumber())
-        .pipe($$.debug({ title: 'buildStepStyles' }))
+        .pipe($$.debug({ title: 'Styles Build:' }))
         .pipe($$.less())
         .pipe($$.autoprefixer({ browser: [`last 2 version`, '> 5%'] }))
         .pipe(gulp.dest(pubPaths.styles));
 });
 
-gulp.task('buildStepIndexHtml', () => {
+gulp.task('buildIndexHtml', () => {
     return gulp.src(['./Views/Lti/Secure.cshtml'])
         .pipe($$.plumber())
-        .pipe($$.debug({title: 'Building Index'}))
+        .pipe($$.debug({title: 'Index Build: '}))
         .pipe($$.rename('index.html'))
         .pipe(gulp.dest(`${paths.webroot}/`));
 });
 
-gulp.task('buildStepFonts', () => {
+gulp.task('buildFonts', () => {
     const check = (file: any) => {
         return file.path.toLowerCase().indexOf('roboto') === -1 &&
             file.path.toLowerCase().indexOf('weather') === -1 &&
@@ -114,20 +114,20 @@ gulp.task('buildStepFonts', () => {
 
     return gulp.src(sourcePaths.fonts)
             .pipe($$.plumber())
-        .pipe($$.debug({title: 'Building Fonts'}))
+        .pipe($$.debug({title: 'Fonts Build:'}))
         .pipe($$.if(check, $$.flatten(), $$.rename(renameOption)))
         .pipe(gulp.dest(pubPaths.fonts));
 });
 
 
-gulp.task('buildStepImages', () => {
+gulp.task('buildImages', () => {
     return gulp.src(sourcePaths.images)
-        .pipe($$.debug({title: 'Building Images'}))
+        .pipe($$.debug({title: 'Image Build:'}))
         .pipe($$.plumber())
         .pipe(gulp.dest(pubPaths.img));
 });
 
-gulp.task('buildStepTemplates', () => {
+gulp.task('buildTemplates', () => {
     const options = {
         standalone: true,
         base: (file: any) => { return file.relative; },
@@ -144,27 +144,27 @@ gulp.task('buildStepTemplates', () => {
     }
     return gulp.src('app/**/*.html', { base: 'app/' })
         .pipe($$.plumber())
-        .pipe($$.debug({title:'Building Template'}))
+        .pipe($$.debug({title:'Template Build:'}))
         .pipe($$.htmlmin({ collapseWhitespace: true }))
         .pipe($$.angularTemplatecache(options))
         .pipe(gulp.dest('./wwwroot/app/'));
 
 });
 
-gulp.task('buildStepApp', () => {
+gulp.task('buildApp', () => {
     return gulp.src([sourcePaths.appJs, sourcePaths.appHtml])
-        .pipe($$.debug({title:'Building App'}))
+        .pipe($$.debug({title:'App Build:'}))
         .pipe($$.print())
         .pipe(gulp.dest(pubPaths.appLocation));
 });
 
-gulp.task('rebuildApp', gulp.series('buildStepClean',
-    'buildStepScripts',
-    'buildStepStyles',
-    'buildStepIndexHtml',
-    'buildStepFonts',
-    'buildStepImages',
-    'buildStepTemplates',
-    'buildStepApp'));
+gulp.task('rebuildApp', gulp.series('buildClean',
+    'buildScripts',
+    'buildStyles',
+    'buildIndexHtml',
+    'buildFonts',
+    'buildImages',
+    'buildTemplates',
+    'buildApp'));
 
-gulp.task('buildApp', gulp.series('rebuildApp', () => gulp.watch(['{app,content,scripts,views}/*.{js,html,less}', '!scripts/vendor/bower/**'], gulp.series('rebuildApp'))));
+gulp.task('buildAppWatch', gulp.series('rebuildApp', () => gulp.watch(['{app,content,scripts,views}/*.{js,html,less}', '!scripts/vendor/bower/**'], gulp.series('rebuildApp'))));
