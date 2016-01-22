@@ -4,6 +4,9 @@ export default class EcLocalDataService
 {
     static serviceId = 'data.local';
 
+    milAffil = AppVars.EcMapAffiliation;
+
+    milComponent = AppVars.EcMapComponent;
 
     milPayGrade: ecat.local.IMilPayGrade = {
         civ: {

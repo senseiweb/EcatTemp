@@ -66,7 +66,7 @@
                                class="form-control input-lg fg-input"
                                maxlength="40"
                                ng-disabled="profile.isLtiRole"
-                               required/>
+                               required />
                     </div>
                     <small class="help-block"
                            ng-if="profile.isLtiRole">Centrally controlled field</small>
@@ -114,9 +114,9 @@
                                 required
                                 class="form-control input-lg fg-input">
                             <option value="">[Select Your Gender]</option>
-                            <option value="{{profile.gender.Female}}">Female</option>
-                            <option value="{{profile.gender.Male}}">Male</option>
-                            <option value="{{profile.gender.Other}}">Other</option>
+                            <option value="{{profile.gender.female}}">Female</option>
+                            <option value="{{profile.gender.male}}">Male</option>
+                            <option value="{{profile.gender.other}}">Other</option>
                         </select>
                     </div>
                     <small class="help-block" ng-show="profile.basicInfoForm.gender.$touched && profile.basicInfoForm.gender.$error.required">This is a required field.</small>

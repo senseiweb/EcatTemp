@@ -2,17 +2,18 @@
 import ICommon from 'core/service/common'
 import ILocal from 'core/service/data/local'
 import IDialog from 'core/service/dialog'
+import IStateMgr from "core/provider/ecStateProvider"
 import * as AppVar from 'appVars'
 
 enum PageTypeEnum {
     Facilitator,
     Student,
-    Connection
+    External
 }
 
 export default class EcUserProfile {
     static controllerId = 'app.user.profile';
-    static $inject = ['$scope',ICommon.serviceId, IDataCtx.serivceId, ILocal.serviceId, IDialog.serviceId]; 
+    static $inject = ['$scope',ICommon.serviceId, IDataCtx.serivceId, ILocal.serviceId, IDialog.serviceId, IStateMgr.providerId]; 
 
     gender = AppVar.EcMapGender;
     aboutMeForm: angular.IFormController;
@@ -29,12 +30,12 @@ export default class EcUserProfile {
     logSuccess = this.common.logger.getLogFn(EcUserProfile.controllerId, AppVar.EcMapAlertType.success);
     nonAllowList = {};
     pageTypeEnum = PageTypeEnum;
-    page = this.pageTypeEnum.Connection;
+    page = this.pageTypeEnum.External;
     payGradeList: Array<{ pg: string, displayName: string }> = [];
     studentInfoForm: angular.IFormController;
     user: ecat.entity.IPerson;
 
-    constructor($scope: angular.IScope, private common: ICommon, private dataCtx: IDataCtx, private local: ILocal, private dialog: IDialog) {
+    constructor($scope: angular.IScope, private common: ICommon, private dataCtx: IDataCtx, private local: ILocal, private dialog: IDialog, private stateMgr: IStateMgr) {
         console.log('Profile Loaded');
         this.user = dataCtx.user.persona;
         this.isStudent = this.user.mpInstituteRole === AppVar.EcMapInstituteRole.student;
@@ -50,8 +51,10 @@ export default class EcUserProfile {
             this.isLtiRole = true;
         }
 
-        $scope.$on('$stateChangeStart', (event) => {
-            if (!this.user.isRegistrationComplete) {
+        $scope.$on('$stateChangeStart', (event, toState: angular.ui.IState) => {
+            const parent = toState.parent as angular.ui.IState;
+
+            if (!this.user.isRegistrationComplete && parent.name === stateMgr.global.redirect.name ) {
                 event.preventDefault();
                 dialog.swal('Registration Error', 'You muse complete your profile, before using the app', 'error');
             }

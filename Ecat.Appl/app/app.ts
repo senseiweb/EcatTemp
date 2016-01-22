@@ -19,23 +19,21 @@ import coreModCfg from 'core/config/coreModCfg'
 
 //Import Module Controllers
 import mainCntrl from 'core/global/main' 
-import {EcSideBarCntrl as sidebarCntrl} from 'core/directives/sidebar'
 import dashboardCntrl from 'core/userViews/dashboard'
 import profileCntrl from 'core/userViews/profile'
 import loginCntrl from 'core/global/login'
 
 //Import Module directives
-import {EcSidebarDirective as ecSidebar} from 'core/directives/sidebar'
 import ecToggleSb from 'core/directives/toggleSidebar'
 import ecToggleSub from 'core/directives/toggleSubMenu'
 import  * as ecMalihuScrollDirective from 'core/directives/malihuScroll'
 import ecFrmCntrl from 'core/directives/frmControl'
 import ecFgLine from 'core/directives/fgLine'
 import btnWave from 'core/directives/btnWaves'
-import tabError from "core/directives/tabError"
-import iMask from "core/directives/inputMask"
-import compareTo from "core/directives/compareTo"
-import emailValidator from "core/directives/userEmailValidator"
+import tabError from 'core/directives/tabError'
+import iMask from 'core/directives/inputMask'
+import compareTo from 'core/directives/compareTo'
+import emailValidator from 'core/directives/userEmailValidator'
 
 //Import Module Services/Factory/Providers
 import ecStateProvider from 'core/provider/ecStateProvider'
@@ -48,12 +46,12 @@ import utilityRepo from 'core/service/data/utility'
 import growl from 'core/service/plugin/growl'
 import common from 'core/service/common'
 import logger from 'core/service/logger'
-import dialogService from "core/service/dialog"
-import localDs from "core/service/data/local"
-import authService from "core/service/requestAuthenicator"
+import dialogService from 'core/service/dialog'
+import localDs from 'core/service/data/local'
+import authService from 'core/service/requestAuthenicator'
 
 import * as Enum from 'appVars'
-import moment from "moment"
+import moment from 'moment'
 
 export default class AppStart {
     constructor() {
@@ -74,13 +72,11 @@ export default class AppStart {
             .config(coreModCfg)
             .constant('userStatic', this.setUserStatic())
             .controller(mainCntrl.controllerId, mainCntrl)
-            .controller(sidebarCntrl.controllerId, sidebarCntrl)
             .controller(dashboardCntrl.controllerId, dashboardCntrl)
             .controller(profileCntrl.controllerId, profileCntrl)
             .controller(loginCntrl.controllerId, loginCntrl)
             .directive(ecFgLine.directiveId, () => new ecFgLine())
             .directive(ecFrmCntrl.directiveId, () => new ecFrmCntrl())
-            .directive(ecSidebar.directiveId, () => new ecSidebar())
             .directive(ecToggleSb.directiveId, () => new ecToggleSb())
             .directive(ecToggleSub.directiveId, () => new ecToggleSub())
             .directive(btnWave.directiveId, () => new btnWave())

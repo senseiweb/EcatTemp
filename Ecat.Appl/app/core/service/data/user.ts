@@ -192,7 +192,7 @@ export default class EcUserRepo
 
         function loginUserResponse(result: angular.IHttpPromiseCallbackArg<any>) {
             const token = JSON.parse(result.data.loginToken) as ecat.entity.ILoginToken;
-            const user = token.person;
+            const user = angular.copy(token.person);
 
             self.persona = self.manager.createEntity(AppVar.EcMapEntityType.person, user, breeze.EntityState.Unchanged, breeze.MergeStrategy.PreserveChanges) as ecat.entity.IPerson;
 
@@ -203,10 +203,16 @@ export default class EcUserRepo
             self.token.password = password;
 
             if (saveLogin) {
-                localStorage.setItem('Ecat:RememberMe:', userEmail);
-                localStorage.setItem('ECAT:TOKEN', result.data.loginToken);
+                localStorage.setItem('ECAT:RME', userEmail);
+                localStorage.setItem('ECAT:TOKEN', JSON.stringify({
+                    personId: token.person.personId,
+                    person: token.person,
+                    authToken: self.token.auth,
+                    tokenExpireWarning: self.token.warning,
+                    tokenExpire: self.token.expire
+                }));
             } else {
-                localStorage.removeItem('Ecat:RememberMe');
+                localStorage.removeItem('ECAT:RME');
             }
 
             self.isLoaded.userToken = true;

@@ -33,7 +33,7 @@ export default class EcUtilityRepoServices {
 
     queryFailed = (error: any) => {
         const msg = `${this.coreCfg.errorPrefix} Error querying data: ${error ? (error.message || error.statusText) : 'Unknown Reason'}`;
-        this.common.logger.logError(msg, error, 'Query Result', true);
+        this.common.logger.logError(msg, error, 'Query Result', false);
         return this.common.$q.reject(error);
     }
 

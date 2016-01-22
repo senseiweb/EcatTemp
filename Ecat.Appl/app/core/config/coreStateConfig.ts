@@ -130,7 +130,7 @@ export default class EcatGlobalStateConfig
             templateUrl: 'wwwroot/app/core/global/main.html',
             controller: 'app.global.main as main',
             resolve: {
-                isLoggedIn: [ICommon.serviceId, IDataCtx.serivceId, 'userStatic', this.checkValidToken]
+                isLoggedIn: [ICommon.serviceId, IDataCtx.serivceId, 'userStatic', 'manager', this.checkValidToken]
             }
         }
 
@@ -155,7 +155,10 @@ export default class EcatGlobalStateConfig
             parent: this.app,
             url: '/redirect',
             abstract: true,
-            template: '<div ui-view></div>'
+            template: '<div ui-view></div>',
+            resolve: {
+                manager: ['manager',(manager) => manager]
+            }
         }
 
         error: angular.ui.IState = {

@@ -238,7 +238,8 @@
     <Content Include="app\core\userViews\dashboard.html" />
     <Content Include="app\core\userViews\profile.html" />
     <Content Include="app\core\userViews\tmpls\profile.connection.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.instructor.tmpl.html" />
+    <Content Include="app\core\userViews\tmpls\profile.external.tmpl.html" />
+    <Content Include="app\core\userViews\tmpls\profile.facilitator.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.main.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.student.tmpl.html" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
@@ -651,7 +652,6 @@
     <TypeScriptCompile Include="app\core\directives\frmControl.ts" />
     <TypeScriptCompile Include="app\core\directives\inputMask.ts" />
     <TypeScriptCompile Include="app\core\directives\malihuScroll.ts" />
-    <TypeScriptCompile Include="app\core\directives\sidebar.ts" />
     <TypeScriptCompile Include="app\core\directives\tabError.ts" />
     <TypeScriptCompile Include="app\core\directives\toggleSidebar.ts" />
     <TypeScriptCompile Include="app\core\directives\toggleSubMenu.ts" />

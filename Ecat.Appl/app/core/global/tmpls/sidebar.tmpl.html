@@ -5,7 +5,7 @@
                 <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
             </div>
             <div class="profile-info">
-                {{main.user.rank}} {{main.user.lastName}}, {{main.user.firstName}}
+                {{main.user.salutation}} {{main.user.lastName}}, {{main.user.firstName}}
                 <i class="zmdi zmdi-caret-down"></i>
             </div>
         </a>
@@ -33,7 +33,7 @@
         </li>
         <li class="sub-menu" ng-class="{'active toggled': main.$state.includes('widgets') }">
             <a href="" toggle-submenu>
-                <i class="zmdi zmdi-widgets"></i> 
+                <i class="zmdi zmdi-widgets"></i>
                 Sys Admin
             </a>
             <ul>
@@ -45,6 +45,16 @@
                 </li>
                 <li>
                     <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)">Widgets</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu" data-ng-class="{'active toggled': main.$state.includes('widgets') }">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-widgets"></i> Data Anaylsis
+            </a>
+            <ul>
+                <li>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)"> Self/Peer</a>
                 </li>
             </ul>
         </li>

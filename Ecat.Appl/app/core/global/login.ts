@@ -8,17 +8,14 @@ export default class EcGlobalLogin {
     static controllerId = 'app.global.login';
     static $inject = ['$scope','$state', '$stateParams','$timeout',IEcatStateProvider.providerId, IDataCtx.serivceId, ICommon.serviceId, ILocal.serviceId];
     badAccount = false;
-    badInput = false;
     gender = Enum.EcMapGender;
     inFlight = false;
-    isUserNameFieldLocked = false;
     mode = 'main';
     private logSucceess = this.common.logger.getLogFn(EcGlobalLogin.controllerId, Enum.EcMapAlertType.success);
     private logWarning = this.common.logger.getLogFn(EcGlobalLogin.controllerId, Enum.EcMapAlertType.warning);
     private logError = this.common.logger.getLogFn(EcGlobalLogin.controllerId, Enum.EcMapAlertType.danger);
     registrationSuccess = false;
     rememberMe = false;
-    storePin = false;
     user: ecat.entity.IPerson;
     userEmail = '';
     userPassword = '';
@@ -35,7 +32,7 @@ export default class EcGlobalLogin {
     ) {
         console.log('Login Controller Loaded');
         this.mode = params.mode;
-        const reminder = localStorage.getItem('Ecat:RememberMe');
+        const reminder = localStorage.getItem('ECAT:RME');
         this.rememberMe = !!reminder;
 
         if (this.rememberMe) {
@@ -48,8 +45,6 @@ export default class EcGlobalLogin {
     }
 
     closeBadAccountAlert(): void { this.badAccount = false; }
-
-    closeBadInputAlert(): void { this.badInput = false; }
 
     changeState(state: string): any {
         switch (state) {
@@ -69,7 +64,7 @@ export default class EcGlobalLogin {
 
     logMeIn(user): void {
         const self = this;
-       
+        this.badAccount = false;
         function logInSuccess(loginUser: ecat.entity.IPerson): void {
             if (loginUser.isRegistrationComplete) {
                 self.$state.go(self.stateMgr.global.dashboard.name);
@@ -80,11 +75,8 @@ export default class EcGlobalLogin {
 
         function loginError(error): void {
             self.badAccount = true;
-            self.logWarning(error, error, true);
+            self.logWarning('Could not located an account matching those credentials', error, true);
             self.registrationSuccess = false;
-            self.$timeout(() => {
-                self.badAccount = false;
-            }, 2000);
         }
 
         this.dataCtx.user.loginUser(this.userEmail, this.userPassword, this.rememberMe)
