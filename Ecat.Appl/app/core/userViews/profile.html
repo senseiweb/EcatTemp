@@ -1,0 +1,76 @@
+﻿<div class="container animated fadeInRight">
+
+    <div class="block-header">
+        <h2>{{main.user.firstName}} {{main.user.lastName}} <small>{{main.user.prettyInstituteRole}}, Dubai, United Arab Emirates</small></h2>
+
+        <ul class="actions m-t-20 hidden-xs">
+            
+            <li class="uib-dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="uib-dropdown-menu uib-dropdown-menu-right">
+                    <li>
+                        <a href="">Privacy Settings</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="profile.changePassword()">Update Password</a>
+                    </li>
+                 </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card" id="profile-main">
+        <div class="pm-overview c-overflow">
+            <div class="pmo-pic">
+                <div class="p-relative">
+                    <a href="">
+                        <img class="img-responsive" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}" alt="User Profile">
+                    </a>
+
+                    <a href="" class="pmop-edit">
+                        <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
+                    </a>
+                </div>
+
+            </div>
+            <div class="pmo-block pmo-contact hidden-xs">
+                <h2>Contact</h2>
+
+                <ul>
+                    <li><i class="zmdi zmdi-email"></i> {{main.user.email}}</li>
+                 </ul>
+            </div>
+        </div>
+
+        <div class="pm-body clearfix">
+            <ul class="tab-nav tn-justified">
+                <li class="btn-wave" ng-if="profile.isInstructor" ng-class="{active: profile.page === profile.pageTypeEnum.Facilitator}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Facilitator">Instructor</a>
+                </li>
+                <li class="btn-wave" ng-if="profile.isStudent" ng-class="{active: profile.page === profile.pageTypeEnum.Student}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Student">Student</a>
+                </li>
+                <li class="btn-wave" ng-class="{active: profile.page === profile.pageTypeEnum.Connection}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Connection">Connections</a>
+                </li>
+            </ul>
+            <div ng-switch="profile.page">
+                <div ng-switch-when="0">
+                    <div ng-include="'wwwroot/app/core/userViews/tmpls/profile.instructor.tmpl.html'"></div>
+                </div>
+                <div ng-switch-when="1">
+                    <div  ng-include="'wwwroot/app/core/userViews/tmpls/profile.student.tmpl.html'"></div>
+                </div>
+                <div ng-switch-when="2" >
+                    <div ng-include="'wwwroot/app/core/userViews/tmpls/profile.student.tmpl.html'"></div>
+                </div>
+                <div ng-switch-default >
+                    <div ng-include="'wwwroot/app/core/userViews/tmpls/profile.main.tmpl.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,121 @@
+﻿<div class="sidebar-inner c-overflow">
+    <div class="profile-menu">
+        <a href="" toggle-submenu>
+            <div class="profile-pic">
+                <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
+            </div>
+            <div class="profile-info">
+                {{main.user.rank}} {{main.user.lastName}}, {{main.user.firstName}}
+                <i class="zmdi zmdi-caret-down"></i>
+            </div>
+        </a>
+        <ul class="main-menu">
+            <li>
+                <a data-ui-sref="pages.profile.profile-about" data-ng-click="home.sidebarStat($event)"><i class="zmdi zmdi-account"></i> View/Edit Profile</a>
+            </li>
+            <li>
+                <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
+            </li>
+            <li>
+                <a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
+            </li>
+            <li>
+                <a href=""><i class="zmdi zmdi-time-restore" ng-click="main.logout()"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+    <ul class="main-menu">
+        <li ui-sref-active="active">
+            <a ui-sref="stateMgr.global.dashboard.name" ng-click="main.sidebarStat($event)">
+                <i class="zmdi zmdi-home"></i> 
+                Home
+            </a>
+        </li>
+        <li class="sub-menu" ng-class="{'active toggled': main.$state.includes('widgets') }">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-widgets"></i> 
+                Sys Admin
+            </a>
+            <ul>
+                <li>
+                    <a ui-sref-active="active" ui-sref="stateMgr.sysAdmin" data-ng-click="main.sidebarStat($event)">Academy</a>
+                </li>
+                <li>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)">Courses</a>
+                </li>
+                <li>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)">Widgets</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu" data-ng-class="{'active toggled': main.$state.includes('widgets') }">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-widgets"></i> Course Designer
+            </a>
+            <ul>
+                <li>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)"> Self/Peer</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu" data-ng-class="{ 'active toggled': main.$state.includes('tables') }">
+            <a href="" toggle-submenu><i class="zmdi zmdi zmdi-view-list"></i> Course Admin</a>
+            <ul>
+                <li><a ui-sref-active="active" data-ui-sref="tables.tables" ng-click="mactrl.sidebarStat($event)">Tables</a></li>
+                <li>
+                    <a ui-sref-active="active" data-ui-sref="tables.data-table" ng-click="mactrl.sidebarStat($event)">Data Tables</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu" ng-class="{ 'active toggled': mactrl.$state.includes('form') }">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-collection-text"></i> 
+                Instructor
+            </a>
+            <ul>
+                <li>
+                    <a ui-sref-active="active" ui-sref="form.basic-form-elements" ng-click="mactrl.sidebarStat($event)">Basic Form Elements</a>
+                </li>
+                <li>
+                    <a ui-sref-active="active" ui-sref="form.form-components" ng-click="mactrl.sidebarStat($event)">Form Components</a>
+                </li>
+                <li>
+                    <a ui-sref-active="active" ui-sref="form.form-examples" ng-click="mactrl.sidebarStat($event)">Form Examples</a>
+                </li>
+                <li>
+                    <a ui-sref-active="active" ui-sref="form.form-validations" ng-click="mactrl.sidebarStat($event)">Form Validation</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu" ng-class="{ 'active toggled': mactrl.$state.includes('user-interface') }">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-swap-alt"></i>
+                Student
+            </a>
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="user-interface.ui-bootstrap" data-ng-click="mactrl.sidebarStat($event)">UI Bootstrap</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="user-interface.colors" data-ng-click="mactrl.sidebarStat($event)">Colors</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('charts') }">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-trending-up"></i>
+                Cognitive Assessment
+            </a>
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="charts.flot-charts" data-ng-click="mactrl.sidebarStat($event)">Flot Charts</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="charts.other-charts" data-ng-click="mactrl.sidebarStat($event)">Other Charts</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu" data-ng-class="{'active toggled': main.$state.includes('photo-gallery') }">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-image"></i>
+                Group Assessment
+            </a>
+            <ul>
+                <li><a data-ui-sref-active="active" data-ui-sref="photo-gallery.photos" data-ng-click="mactrl.sidebarStat($event)">Default</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="photo-gallery.timeline" data-ng-click="mactrl.sidebarStat($event)">Timeline</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>

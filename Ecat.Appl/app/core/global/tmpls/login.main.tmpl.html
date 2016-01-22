@@ -1,0 +1,55 @@
+﻿<div class="lc-block toggled animated fadeIn" id="l-login">
+    <div class="alert alert-success" style="font-size: 1.2em" ng-if="login.registrationSuccess">
+        <i class="zmdi zmdi-thumb-up"></i> Success! Your account has been registered.
+    </div>
+    <form name="login.loginForm" class="form-horizontal" role="form" novalidate>
+        <div class="form-group p-t-10">
+            <label for="email" class="control-label col-md-3 ">Email Address</label>
+            <div class="col-md-9" ng-class="{'has-error': login.loginForm.email.$touched && login.loginForm.email.$invalid}">
+                <div class="fg-line">
+                    <input type="email"
+                           name="email"
+                           ng-model="login.userEmail"
+                           ng-model-options="{updateOnBlur: true, allowInvalid: true}"
+                           ng-disabled="login.inFlight"
+                           class="form-control fg-input"
+                           maxlength="40"
+                           required/>
+                </div>
+                <small class="help-block" ng-show="login.loginForm.email.$touched && login.loginForm.email.$error.required">This is a required field.</small>
+                <small class="help-block" ng-show="login.loginForm.email.$touched && login.loginForm.email.$error.email">This is not a valid email address</small>
+            </div>
+        </div>
+
+        <div class="form-group p-t-10">
+            <label for="password" class="control-label col-md-3">ECAT Password</label>
+            <div class="col-md-9" ng-class="{'has-error': login.loginForm.password.$touched && login.loginForm.password.$invalid}">
+                <div class="fg-line">
+                    <input type="password"
+                           name="password"
+                           ng-model="login.userPassword"
+                           class="form-control  fg-input"
+                           ng-minlength="5"
+                           maxlength="10"
+                           autocomplete="off"
+                           required/>
+                </div>
+                <small class="help-block" ng-show="login.loginForm.password.$touched && login.loginForm.password.$error.required">This is a required field</small>
+                <small class="help-block"
+                       ng-show="login.loginForm.password.$touched && login.loginForm.password.$error.minlength">Not enough characters</small>
+                <small class="help-block" ng-show="login.loginForm.password.$touched && login.loginForm.password.$error.maxlength">To many characters</small>
+            </div>
+        </div>
+
+    </form>
+    <a href="" class="btn btn-login btn-danger btn-float" ng-class="{disabled: !login.loginForm.$valid || login.inFlight}" ng-click="login.logMeIn()"><i class="zmdi zmdi-arrow-forward"></i></a>
+    <div class="m-t-30 login-navigation">
+        <button class="btn btn-default btn-icon-text waves-effect" ng-click="login.changeState('register')">
+            <i class="zmdi zmdi-info-outline "></i> Register
+        </button>
+        <button class="btn btn-default btn-icon-text waves-effect" ng-click="login.changeState('forgot')">
+            <i class="zmdi zmdi-help-outline"></i> Forgot Password
+        </button>
+    </div>
+
+</div>

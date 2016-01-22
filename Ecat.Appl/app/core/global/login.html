@@ -1,0 +1,12 @@
+﻿
+<div ng-switch="login.mode">
+    <div ng-switch-when="forgot">
+        <div ng-include="'wwwroot/app/core/global/tmpls/login.forgot.tmpl.html'"></div>
+    </div>
+    <div ng-switch-when="register">
+        <div ng-include="'wwwroot/app/core/global/tmpls/login.register.tmpl.html'"></div>
+    </div>
+    <div ng-switch-default>
+        <div ng-include="'wwwroot/app/core/global/tmpls/login.main.tmpl.html'"></div>
+    </div>
+</div>

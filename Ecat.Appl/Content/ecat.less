@@ -1,0 +1,97 @@
+﻿/*
+ * Ecat Colors
+ */
+@ecat-blue: #3B4769;
+
+@import (inline) '../Scripts/vendor/bower/animate.css/animate.min.css';
+@import (inline) '../Scripts/vendor/bower/material-design-iconic-font/dist/css/material-design-iconic-font.min.css';
+@import (inline) '../Scripts/vendor/bower/bootstrap-sweetalert/lib/sweet-alert.css';
+@import (inline) '../Scripts/vendor/angular-loading-bar/src/loading-bar.css';
+@import (inline) '../Scripts/vendor/bower/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css';
+@import (inline) '../Scripts/vendor/bower/font-awesome/css/font-awesome.min.css';
+@import (inline) '../Scripts/vendor/bower/textAngular/dist/textAngular.css';
+@import (inline) '../Scripts/vendor/bower/sweetalert/dist/sweetalert.css';
+
+@import 'app.less';
+
+  #l-register{
+       width: 700px;
+  }
+
+ .lrg-input.form-control {
+    font-size: 24px;
+ }
+
+
+body {
+    [data-notify="container"][class*="alert-pastel-"] {
+	background-color: rgb(255, 255, 255);
+	border-width: 0px;
+	border-left: 15px solid rgb(255, 240, 106);
+	border-radius: 0px;
+	box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.3);
+	letter-spacing: 1px;
+    }
+    [data-notify="container"].alert-pastel-info {
+	    border-left-color: rgb(255, 179, 40);
+    }
+    [data-notify="container"].alert-pastel-danger {
+	    border-left-color: rgb(255, 103, 76);
+    }
+    [data-notify="container"][class*="alert-pastel-"] > [data-notify="title"] {
+	    color: rgb(80, 80, 57);
+	    display: block;
+	    font-weight: 700;
+	    margin-bottom: 5px;
+    }
+    [data-notify="container"][class*="alert-pastel-"] > [data-notify="message"] {
+	    font-weight: 400;
+        text-align: left;
+        color:#0b3d69
+    }
+
+    &.login-content {
+        &:after{
+            height: 95.5%;
+        }
+
+        .help-block {
+            text-align: left;
+            font-size: 12px;
+        }
+
+        #user-token {
+            display: inline-block;
+        }
+
+        #loading-bar-spinner {
+            display: inline-block;
+        }
+    }
+}
+
+
+
+.ta-toolbar {
+	background-color: #F0F0F0;
+	padding: 10px 10px 5px;
+	margin-left: 0px; /* Override bootstrap */
+	border: 1px solid #EEE;
+}
+
+.ta-toolbar .btn-group {
+	margin-bottom: 5px;
+}
+
+.ta-editor, .white-box {
+	padding: 10px;
+	background-color: #FFF;
+	border: 1px solid #EEE;
+}
+
+textarea.ta-bind {
+	width: 100%;
+}
+.ta-toolbar .btn {
+    border: 1px solid transparent;
+}

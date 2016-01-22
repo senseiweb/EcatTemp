@@ -1,0 +1,98 @@
+﻿<div class="lc-block toggled animated fadeInRight" id="l-register">
+
+    <form  name="login.userRegForm" class="form-horizontal" role="form" novalidate>
+        <div class="form-group p-t-10">
+            <label for="email" class="control-label col-md-3 ">Email Address</label>
+            <div class="col-md-9" ng-class="{'has-success': login.userRegForm.email.$valid,'has-error': login.userRegForm.email.$touched && login.userRegForm.email.$invalid}">
+                <div class="fg-line">
+                    <input type="email"
+                           name="email"
+                           ng-model="login.user.email"
+                           ng-model-options="{updateOnBlur: true, allowInvalid: true,debounce: 2000}"
+                           ng-disabled="login.userRegForm.email.$pending"
+                           class="form-control fg-input"
+                           maxlength="40"
+                           unique-email-validator
+                           required/>
+                </div>
+                <small class="help-block" ng-show="login.userRegForm.email.$touched && login.userRegForm.lastName.$error.required">This is a required field.</small>
+                <small class="help-block" ng-show="login.userRegForm.email.$pending">Checking email address</small>
+                <small class="help-block" ng-show="login.userRegForm.email.$touched && login.userRegForm.email.$error.uniqueEmail">Unable to verify that this is a unique email</small>
+            </div>
+        </div>
+
+        <div class="form-group p-t-10">
+            <label for="lastName" class="control-label col-md-3">Last Name</label>
+            <div class="col-md-9" ng-class="{'has-error': login.userRegForm.lastname.$touched && login.userRegForm.lastname.$invalid}">
+                <div class="fg-line">
+                    <input type="text"
+                           name="lastname"
+                           ng-model="login.user.lastName"
+                           class="form-control fg-input"
+                           maxlength="40"
+                           required/>
+                </div>
+                <small class="help-block" ng-show="login.userRegForm.lastname.$touched && login.userRegForm.lastname.$error.required">This is a required field.</small>
+            </div>
+        </div>
+
+        <div class="form-group p-t-10">
+            <label for="firstName" class="control-label col-md-3 ">First Name</label>
+            <div class="col-md-9" ng-class="{'has-error': login.userRegForm.firstname.$touched && login.userRegForm.firstname.$invalid}">
+                <div class="fg-line">
+                    <input type="text"
+                           name="firstname"
+                           ng-model="login.user.firstName"
+                           class="form-control fg-input"
+                           maxlength="40"
+                           required/>
+                </div>
+                <small class="help-block" ng-show="login.userRegForm.firstname.$touched && login.userRegForm.firstname.$error.required">This is a required field.</small>
+            </div>
+        </div>
+        <div class="form-group p-t-10">
+            <label for="password" class="control-label col-md-3">ECAT Password <br/> [5-10 Characters]</label>
+
+            <div class="col-md-9" ng-class="{'has-error': login.userRegForm.password.$touched && login.userRegForm.password.$invalid}">
+                <div class="fg-line">
+                    <input type="password"
+                           name="password"
+                           ng-model="login.user.security.tempPassword"
+                           class="form-control  fg-input"
+                           ng-model-options="{allowInvalid: true}"
+                           ng-minlength="5"
+                           maxlength="10"
+                           autocomplete="off"
+                           required />
+                </div>
+                <small class="help-block" ng-show="login.userRegForm.password.$touched && login.userRegForm.password.$error.required">This is a required field</small>
+                <small class="help-block"
+                       ng-show="login.userRegForm.password.$touched && login.userRegForm.password.$error.minlength">Not enough characters</small>
+                <small class="help-block" ng-show="login.userRegForm.password.$touched && login.userRegForm.password.$error.maxlength">To many characters</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="verifypassword" class="control-label col-md-3">Verify Password</label>
+            <div class="col-md-9" ng-class="{'has-error': login.userRegForm.verifypassword.$touched && login.userRegForm.verifypassword.$invalid}">
+                <div class="fg-line">
+                    <input type="password"
+                           name="verifypassword"
+                           ng-model="login.user.verifyPassword"
+                           class="form-control fg-input"
+                           compare-to="login.user.security.tempPassword"
+                           autocomplete="off" />
+                </div>
+                <small class="help-block" ng-show="login.userRegForm.verifypassword.$touched && login.userRegForm.verifypassword.$error.compareTo">Password must match</small>
+            </div>
+        </div>
+    </form>
+    <a href="" class="btn btn-login btn-danger btn-float" ng-class="{disabled: !login.userRegForm.$valid}"><i class="zmdi zmdi-arrow-forward" ng-click="login.processRegistration()"></i></a>
+    <div class="m-t-30 login-navigation">
+        <button class="btn btn-default btn-icon-text waves-effect" ng-click="login.changeState('login')">
+            <i class="zmdi zmdi-info-outline "></i> Return to Login
+        </button>
+        <button class="btn btn-default btn-icon-text waves-effect" ng-click="login.changeState('forgot')">
+            <i class="zmdi zmdi-help-outline"></i> Forgot Password
+        </button>
+    </div>
+</div>

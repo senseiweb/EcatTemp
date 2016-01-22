@@ -1,0 +1,9 @@
+﻿<!-- ReSharper disable Html.TagNotResolved -->
+<div ng-class="{ 'sw-toggled': main.layoutType === '1', 'modal-open': main.sidebarToggle.left === true }">
+    <header id="header" data-current-skin="blue" ng-include="'wwwroot/app/core/global/tmpls/header.tmpl.html'"></header>
+
+    <aside id="sidebar" ec-sidebar  data-ng-class="{ 'toggled': main.sidebarToggle.left}"></aside>
+    <section id="main">
+        <div ui-view></div>
+    </section>
+</div>
