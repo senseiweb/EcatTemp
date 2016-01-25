@@ -228,6 +228,7 @@
     <Content Include="app\core\global\login.html" />
     <Content Include="app\core\global\main.html" />
     <Content Include="app\core\global\tmpls\error.html" />
+    <Content Include="app\core\global\tmpls\errorNotify.tmpl.html" />
     <Content Include="app\core\global\tmpls\header.tmpl.html" />
     <Content Include="app\core\global\tmpls\login.forgot.tmpl.html" />
     <Content Include="app\core\global\tmpls\login.lock.tmpl.html" />

@@ -1,5 +1,5 @@
 ﻿import IEcatStateProvider from 'core/provider/ecStateProvider'
-import * as Enum from "appVars"
+import * as AppVar from "appVars"
 import IDataCtx from "core/service/data/context"
 import ICommon from "core/service/common"
 import ILocal from "core/service/data/local"
@@ -8,12 +8,12 @@ export default class EcGlobalLogin {
     static controllerId = 'app.global.login';
     static $inject = ['$scope','$state', '$stateParams','$timeout',IEcatStateProvider.providerId, IDataCtx.serivceId, ICommon.serviceId, ILocal.serviceId];
     badAccount = false;
-    gender = Enum.EcMapGender;
+    gender = AppVar.EcMapGender;
     inFlight = false;
     mode = 'main';
-    private logSucceess = this.common.logger.getLogFn(EcGlobalLogin.controllerId, Enum.EcMapAlertType.success);
-    private logWarning = this.common.logger.getLogFn(EcGlobalLogin.controllerId, Enum.EcMapAlertType.warning);
-    private logError = this.common.logger.getLogFn(EcGlobalLogin.controllerId, Enum.EcMapAlertType.danger);
+    private logSucceess = this.common.logger.getLogFn(EcGlobalLogin.controllerId, AppVar.EcMapAlertType.success);
+    private logWarning = this.common.logger.getLogFn(EcGlobalLogin.controllerId, AppVar.EcMapAlertType.warning);
+    private logError = this.common.logger.getLogFn(EcGlobalLogin.controllerId, AppVar.EcMapAlertType.danger);
     registrationSuccess = false;
     rememberMe = false;
     user: ecat.entity.IPerson;
@@ -64,7 +64,11 @@ export default class EcGlobalLogin {
         this.mode = state;
     }
 
-    logMeIn(user): void {
+    logMeIn($event: JQueryKeyEventObject): void {
+        if ($event && $event.keyCode !== AppVar.Keycode.Enter) {
+            return null;
+        }
+
         const self = this;
         this.badAccount = false;
         function logInSuccess(loginUser: ecat.entity.IPerson): void {
@@ -87,7 +91,7 @@ export default class EcGlobalLogin {
 
     }
 
-    processRegistration(): void {
+   processRegistration(): void {
         this.dataCtx.user.saveUserChanges()
             .then(() => {
                 this.dataCtx.user.persona = null;
