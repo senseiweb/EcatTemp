@@ -15,8 +15,7 @@
         </ul>
     </div>
     <div class="pmbb-body p-l-30">
-        <div class="pmbb-view" ng-if="!profile.editing_aboutMeForm">
-            {{profile.aboutMeText}}
+        <div class="pmbb-view" ng-if="!profile.editing_aboutMeForm" ng-bind-html="profile.aboutMeText">
         </div>
         <form ng-submit="profile.saveForm('aboutMeForm')" ng-if="profile.editing_aboutMeForm" name="profile.aboutMeForm">
             <div class="fg-line">

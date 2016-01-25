@@ -1,6 +1,7 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import * as AppVar from 'appVars'
 import ICommon from 'core/service/common'
+import ICoreStates from "core/config/states/core"
 import moment from 'moment'
 
 export default class EcUserRepo
@@ -144,6 +145,24 @@ export default class EcUserRepo
                     return null;
             }
         }
+    }
+
+    isAuthorized(authorizedRoles: Array<string>): angular.IPromise<any> {
+        const isAuthorized = authorizedRoles.some((role) => this.persona.mpInstituteRole === role);
+        const deferred = this.$q.defer();
+        const coreStates = new ICoreStates;
+        if (!isAuthorized) {
+            const routingError: ecat.IRoutingError = {
+                errorCode: AppVar.SysErrorType.NotAuthorized,
+                message: 'You do not have the appropriate authorization level to access that resources',
+                redirectTo: coreStates.dashboard.name
+            }
+            deferred.reject(routingError);
+        }
+
+        deferred.resolve();
+
+        return deferred.promise;
     }
 
     loadManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {

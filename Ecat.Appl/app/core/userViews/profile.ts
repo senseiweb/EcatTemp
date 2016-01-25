@@ -2,7 +2,7 @@
 import ICommon from 'core/service/common'
 import ILocal from 'core/service/data/local'
 import IDialog from 'core/service/dialog'
-import IStateMgr from "core/provider/ecStateProvider"
+import IStateProvider from "core/provider/stateProvider"
 import * as AppVar from 'appVars'
 
 enum PageTypeEnum {
@@ -14,7 +14,7 @@ enum PageTypeEnum {
 
 export default class EcUserProfile {
     static controllerId = 'app.user.profile';
-    static $inject = ['$scope',ICommon.serviceId, IDataCtx.serivceId, ILocal.serviceId, IDialog.serviceId, IStateMgr.providerId]; 
+    static $inject = ['$scope', ICommon.serviceId, IDataCtx.serivceId, ILocal.serviceId, IDialog.serviceId, IStateProvider.providerId]; 
 
     aboutMeText: string;
     aboutMeForm: angular.IFormController;
@@ -39,7 +39,7 @@ export default class EcUserProfile {
     user: ecat.entity.IPerson;
     userRoles = AppVar.EcMapInstituteRole;
 
-    constructor($scope: angular.IScope, private common: ICommon, private dataCtx: IDataCtx, private local: ILocal, private dialog: IDialog, private stateMgr: IStateMgr) {
+    constructor($scope: angular.IScope, private common: ICommon, private dataCtx: IDataCtx, private local: ILocal, private dialog: IDialog, private stateMgr: IStateProvider) {
         console.log('Profile Loaded');
         this.user = dataCtx.user.persona;
 
@@ -70,12 +70,13 @@ export default class EcUserProfile {
         $scope.$on('$stateChangeStart', (event, toState: angular.ui.IState) => {
             const parent = toState.parent as angular.ui.IState;
 
-            if (!this.user.isRegistrationComplete && parent.name === stateMgr.global.redirect.name ) {
+            if (!this.user.isRegistrationComplete && parent !== stateMgr.core.redirect.name ) {
                 event.preventDefault();
                 dialog.swal('Registration Error', 'You muse complete your profile, before using the app', 'error');
             }
         });
-        $scope.$on(common.coreCfg.globalEvent.saveChangesEvent, (data: any) => {
+
+        $scope.$on(common.coreCfg.coreEvents.saveChangesEvent, (data: any) => {
             if (!this.user.isRegistrationComplete) {
                 this.inflight = data.inflight;
             }
@@ -101,6 +102,10 @@ export default class EcUserProfile {
 
                 if (this.showFacilitator) {
                     this.user.facilitator.entityAspect.rejectChanges();
+                }
+
+                if (this.showExternal) {
+                    this.user.external.entityAspect.rejectChanges();
                 }
 
             });

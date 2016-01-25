@@ -35,7 +35,7 @@ namespace Ecat.Dal
 
     public interface IUserRepo
     {
-        Task<object> GetUserDemographic(int personId, string role);
+        Task<object> GetUserProfile(int personId, EcRoles role);
         SaveResult BzSaveUser(JObject saveBundle, EcPerson person = null);
         Task<List<UserVO>> LmsGetUserById(UserFilterType filter, List<string> ids);
         Task<bool> LmsCheckCredentials(string bbUiD, string bbPass);

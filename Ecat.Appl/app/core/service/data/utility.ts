@@ -1,5 +1,5 @@
 ﻿import 'breezeSaveError'
-import ICoreModCfg from 'core/provider/coreModCfgProvider'
+import ICoreCfg from 'core/provider/coreCfgProvider'
 import ICommon from 'core/service/common'
 
 export default class EcUtilityRepoServices {
@@ -14,7 +14,7 @@ export default class EcUtilityRepoServices {
         user: false
     }
 
-    constructor(private coreCfg: ICoreModCfg,
+    constructor(private coreCfg: ICoreCfg,
             private common: ICommon
     ) { }
 
@@ -38,6 +38,7 @@ export default class EcUtilityRepoServices {
     }
 
     saveChanges = (manager: breeze.EntityManager): breeze.promises.IPromise<breeze.SaveResult | angular.IPromise<void>> => {
+        //TODO: Add a check for token still valid before change
         if (!manager.hasChanges()) {
             return this.common.$q.reject('Nothing to save!');
         }

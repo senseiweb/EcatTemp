@@ -77,33 +77,24 @@ namespace Ecat.Dal
             return await _wsUser.HasValidateCredentials(bbUiD, bbPass);
         }
 
-        public async Task<EcFacilitator> GetInstructorDemographics(EcPerson person)
-        {
-            var instructorDemo = await _serverCtx.Facilitators.FindAsync(person.PersonId);
-            return instructorDemo ?? new EcFacilitator() { PersonId = person.PersonId };
-        }
-
         public IQueryable<EcPerson> GetUser => _serverCtx.Persons.AsQueryable();
 
         public IQueryable<EcPerson> GetUserWithSecurity => _serverCtx.Persons.Include(u => u.Security).AsQueryable();
 
-        public async Task<object> GetUserDemographic(int personId, string role)
+        public async Task<object> GetUserProfile(int personId, EcRoles role)
         {
             switch (role)
             {
-                case EcMapInstituteRole.Student:
+                case EcRoles.Student:
                     return await _serverCtx.Students.FindAsync(personId);
-                case EcMapInstituteRole.Facilitator:
+                case EcRoles.Facilitator:
                     return await _serverCtx.Facilitators.FindAsync(personId);
+                case EcRoles.CrseAdmin:
+                case EcRoles.Designer:
+                    return await _serverCtx.Externals.FindAsync(personId);
                 default:
-                    return null;
+                    return await _serverCtx.Externals.FindAsync(personId);
             }
-        }
-
-        public async Task<EcStudent> GetStudentDemographics(int personId)
-        {
-            var studentDemo = await _serverCtx.Students.FindAsync(personId);
-            return studentDemo ?? new EcStudent {PersonId = personId };
         }
 
         public async Task<EcSecurity> GetSecurity(EcPerson person)

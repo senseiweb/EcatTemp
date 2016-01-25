@@ -1,4 +1,4 @@
-﻿import IEcatStateProvider from 'core/provider/ecStateProvider'
+﻿import IStateProvider from 'core/provider/stateProvider'
 import * as Enum from "appVars"
 import IDataCtx from "core/service/data/context"
 import ICommon from "core/service/common"
@@ -6,7 +6,7 @@ import ILocal from "core/service/data/local"
 
 export default class EcGlobalLogin {
     static controllerId = 'app.global.login';
-    static $inject = ['$scope','$state', '$stateParams','$timeout',IEcatStateProvider.providerId, IDataCtx.serivceId, ICommon.serviceId, ILocal.serviceId];
+    static $inject = ['$scope', '$state', '$stateParams', '$timeout', IStateProvider.providerId, IDataCtx.serivceId, ICommon.serviceId, ILocal.serviceId];
     badAccount = false;
     gender = Enum.EcMapGender;
     inFlight = false;
@@ -25,7 +25,7 @@ export default class EcGlobalLogin {
         private $state: angular.ui.IStateService,
         params: any,
         private $timeout: angular.ITimeoutService,
-    private stateMgr: IEcatStateProvider,
+        private stateMgr: IStateProvider,
         private dataCtx: IDataCtx,
         private common: ICommon, 
         private local: ILocal
@@ -39,7 +39,7 @@ export default class EcGlobalLogin {
             this.userEmail = reminder;
         }
 
-        $scope.$on(common.coreCfg.globalEvent.saveChangesEvent, (data: any) => {
+        $scope.$on(common.coreCfg.coreEvents.saveChangesEvent, (data: any) => {
             this.inFlight = data.inflight;
         });
     }
@@ -69,9 +69,9 @@ export default class EcGlobalLogin {
         this.badAccount = false;
         function logInSuccess(loginUser: ecat.entity.IPerson): void {
             if (loginUser.isRegistrationComplete) {
-                self.$state.go(self.stateMgr.global.dashboard.name);
+                self.$state.go(self.stateMgr.core.dashboard.name);
             } else {
-                self.$state.go(self.stateMgr.global.profile.name);
+                self.$state.go(self.stateMgr.core.profile.name);
             }
         }
 

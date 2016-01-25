@@ -1,13 +1,14 @@
-﻿export default class EcCoreModeCfgProvider {
+﻿
+export default class EcCoreCfgProvider {
     static providerId = 'coreModCfg';
 
     constructor()
         {
-            this.$get = (): ecat.ICoreModCfg =>
+            this.$get = (): ecat.ICoreCfg =>
                 (
                     {
                         errorPrefix: this.errorPrefix,
-                        globalEvent: this.globalEvent
+                        coreEvents: this.coreEvents
                     }
                 );
         }
@@ -15,5 +16,5 @@
     $get: any;
 
     errorPrefix: string;
-    globalEvent: ecat.IGlobalEvents = {};
+    coreEvents: ecat.IGlobalEvents = {};
 }

@@ -225,6 +225,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\admin\academy\academy.html" />
     <Content Include="app\core\global\login.html" />
     <Content Include="app\core\global\main.html" />
     <Content Include="app\core\global\tmpls\error.html" />
@@ -635,16 +636,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\admin\" />
+    <Folder Include="app\admin\config\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\admin\academy\academy.ts" />
+    <TypeScriptCompile Include="app\admin\admin.ts" />
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appVars.ts" />
-    <TypeScriptCompile Include="app\core\config\adminStateConfig.ts" />
-    <TypeScriptCompile Include="app\core\config\coreModCfg.ts" />
-    <TypeScriptCompile Include="app\core\config\coreStateConfig.ts" />
-    <TypeScriptCompile Include="app\core\config\entityCfg.ts" />
-    <TypeScriptCompile Include="app\core\config\globalCfg.ts" />
+    <TypeScriptCompile Include="app\core\config\stateConfig.ts" />
+    <TypeScriptCompile Include="app\core\config\states\admin.ts" />
+    <TypeScriptCompile Include="app\core\config\states\core.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
+    <TypeScriptCompile Include="app\core\config\coreConfig.ts" />
     <TypeScriptCompile Include="app\core\directives\avatar.ts" />
     <TypeScriptCompile Include="app\core\directives\btnWaves.ts" />
     <TypeScriptCompile Include="app\core\directives\compareTo.ts" />
@@ -658,8 +661,8 @@
     <TypeScriptCompile Include="app\core\directives\userEmailValidator.ts" />
     <TypeScriptCompile Include="app\core\global\login.ts" />
     <TypeScriptCompile Include="app\core\global\main.ts" />
-    <TypeScriptCompile Include="app\core\provider\coreModCfgProvider.ts" />
-    <TypeScriptCompile Include="app\core\provider\ecStateProvider.ts" />
+    <TypeScriptCompile Include="app\core\provider\coreCfgProvider.ts" />
+    <TypeScriptCompile Include="app\core\provider\stateProvider.ts" />
     <TypeScriptCompile Include="app\core\service\common.ts" />
     <TypeScriptCompile Include="app\core\service\data\context.ts" />
     <TypeScriptCompile Include="app\core\service\data\emFactory.ts" />

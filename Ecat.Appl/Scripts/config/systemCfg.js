@@ -121,10 +121,10 @@
                 "directive": 'app/core/directives',
                 "provider": 'app/core/provider',
                 "service": 'app/core/service',
-                "global": 'app/core/global'
+                "global": 'app/core/global',
+                "admin": 'app/admin'
             }
-        },
-        "student": {}
+        }
     }
 };
 

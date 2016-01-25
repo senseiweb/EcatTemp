@@ -22,7 +22,7 @@ namespace Ecat.Bal
         private readonly IUserRepo _userRepo;
 
         public int EcatUserId { get; set; }
-        public string EcatInstitueRole { get; set; }
+        public EcRoles EcatInstitueRole { get; set; }
 
         public UserLogic(ICommonRepo commonRepo, IUserRepo userRepo)
         {
@@ -72,9 +72,9 @@ namespace Ecat.Bal
 
         }
 
-        public async Task<object> GetUserDemographics()
+        public async Task<object> GetUserProfile()
         {
-           return await _userRepo.GetUserDemographic(EcatUserId, EcatInstitueRole);
+           return await _userRepo.GetUserProfile(EcatUserId, EcatInstitueRole);
         }
 
         public LoginToken GetUserSecurityToken(LoginToken token, bool secureIt)

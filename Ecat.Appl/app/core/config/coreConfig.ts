@@ -1,21 +1,25 @@
-﻿import ICoreModCfgProvider from "core/provider/coreModCfgProvider"
+﻿import ICoreModCfgProvider from "core/provider/coreCfgProvider"
 import IAuthService from "core/service/requestAuthenicator"
 
-export default class EcatGlobalConfig {
-    static $inject = ['$httpProvider','$ocLazyLoadProvider', `${ICoreModCfgProvider.providerId}Provider`, '$provide'];
+import ICoreCfg from "core/provider/coreCfgProvider"
+
+export default class EcCoreConfig {
+    static $inject = ['$httpProvider', '$ocLazyLoadProvider', `${ICoreCfg.providerId}Provider`, '$provide'];
+
     private globalEvents = {
         saveChangesEventId: 'global.data.saveChanges'
     }
 
     constructor($httpProvider: angular.IHttpProvider,
         $ocLazyLoadProvider: oc.ILazyLoadProvider,
-        coreModCfg: ICoreModCfgProvider,
+        coreCfg: ICoreCfg,
         $provide: angular.auto.IProvideService    ) {
+
+        coreCfg.errorPrefix = '[Core Error]: ';
 
         $ocLazyLoadProvider.config({
             debug: true
         });
-
 
         $provide.decorator('taOptions', [
                 '$delegate', '$timeout', (taOptions, $timeout) => {
@@ -30,12 +34,11 @@ export default class EcatGlobalConfig {
                     }
                     return taOptions;
                 }
-            ]
-        );
+            ]);
 
         $httpProvider.interceptors.push(IAuthService.serviceId);
 
-        coreModCfg.globalEvent.saveChangesEvent = this.globalEvents.saveChangesEventId;
+        coreCfg.coreEvents.saveChangesEvent = this.globalEvents.saveChangesEventId;
     }
 }
 

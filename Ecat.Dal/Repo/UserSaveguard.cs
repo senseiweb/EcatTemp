@@ -62,6 +62,7 @@ namespace Ecat.Dal
             foreach (var nonUserEntity in saveMap.Where(entry => entry.Key != typeof(EcPerson) &&
                                                         entry.Key != typeof(EcFacilitator) &&
                                                         entry.Key != typeof(EcUserNotify) &&
+                                                        entry.Key != typeof(EcExternal) &&
                                                         entry.Key != typeof(EcSecurity) &&
                                                         entry.Key != typeof(EcStudent)).ToList())
             {
@@ -87,7 +88,7 @@ namespace Ecat.Dal
             }
 
             //Process Person Type Entities
-            var personEntityKey = saveMap.FirstOrDefault(map => map.Key == typeof(EcPerson)).Key;
+            var personEntityKey = saveMap.SingleOrDefault(map => map.Key == typeof(EcPerson)).Key;
 
             if (personEntityKey != null)
             {
@@ -98,7 +99,7 @@ namespace Ecat.Dal
             }
 
             //Process Profile Type Entities
-           var profileEntity = saveMap.FirstOrDefault(map => map.Key.IsAssignableFrom(typeof(IPersonProfile))).Key;
+           var profileEntity = saveMap.SingleOrDefault(map => typeof(IPersonProfile).IsAssignableFrom(map.Key)).Key;
 
             if (profileEntity != null)
             {
@@ -299,6 +300,11 @@ namespace Ecat.Dal
                     Debug.Assert(newPerson != null);
 
                     newPerson.IsRegistrationComplete = true;
+
+                    if (newPersonInfo.OriginalValuesMap == null)
+                    {
+                        newPersonInfo.OriginalValuesMap = new Dictionary<string, object>();
+                    }
 
                     newPersonInfo.OriginalValuesMap.Add("IsRegistrationComplete", null);
 

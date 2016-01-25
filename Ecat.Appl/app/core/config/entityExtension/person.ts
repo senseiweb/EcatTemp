@@ -11,11 +11,11 @@ export class PersonInitializer
               person.defaultAvatarLocation = `${imgDirectory}default.png`;
         }
 
-        this.initProperties.forEach((property) => {
-            if (person[property] === 'Unknown') {
-                person[property] = null;
-            }
-        });
+        //this.initProperties.forEach((property) => {
+        //    if (person[property] === 'Unknown') {
+        //        person[property] = null;
+        //    }
+        //});
         
     }
 }
@@ -72,7 +72,6 @@ export class PersonClientExtended implements ecat.entity.PersonClientExtensions
         }
         return null;
     }
-
 
     get prettyInstituteRole(): string {
         switch (this.mpInstituteRole) {

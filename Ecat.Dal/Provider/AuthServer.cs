@@ -84,7 +84,9 @@ namespace Ecat.Dal
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
             identity.AddClaim(new Claim(ClaimTypes.PrimarySid, loginToken.PersonId.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.Role, loginToken.Role.ToString()));
+
+            var roleId = Convert.ToInt32(loginToken.Role);
+            identity.AddClaim(new Claim(ClaimTypes.Role, roleId.ToString()));
 
             loginToken.TokenExpire = DateTime.Now.Add(TimeSpan.FromMinutes(60));
             loginToken.TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromMinutes(55));

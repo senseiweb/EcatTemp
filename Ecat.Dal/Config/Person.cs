@@ -45,7 +45,7 @@ namespace Ecat.Dal.Config
             Property(p => p.UnitFirstSergeant).IsRequired().HasMaxLength(100);
             Property(p => p.UnitFirstSergeantEmail).IsRequired().HasMaxLength(50);
             Property(p => p.ContactNumber).HasMaxLength(15);
-            Property(p => p.Bio).HasMaxLength(50);
+            Property(p => p.Bio).HasMaxLength(3000);
             Property(p => p.PersonId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
         }
@@ -56,6 +56,7 @@ namespace Ecat.Dal.Config
         public ConfigPersonInstructorProfile()
         {
             HasRequired(p => p.Person).WithOptional(p => p.Facilitator);
+            Property(p => p.Bio).HasMaxLength(3000);
             HasKey(p => p.PersonId);
             Property(p => p.PersonId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
@@ -77,6 +78,7 @@ namespace Ecat.Dal.Config
         public ConfigPersonExternal()
         {
             HasRequired(p => p.Person).WithOptional(p => p.External);
+            Property(p => p.Bio).HasMaxLength(3000);
             HasKey(p => p.PersonId);
             Property(p => p.PersonId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 

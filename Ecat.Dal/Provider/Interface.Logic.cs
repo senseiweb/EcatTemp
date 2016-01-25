@@ -18,14 +18,14 @@ namespace Ecat.Dal
         Task<bool> ChangePasswordSuccess(string token, string oldPassword, string newPassword);
         Task<EcPerson> GetPerson(int pk = 0,  string email = null);
         Task<UserVO> GetBbPerson(string bbUserId = null, string bbUserName = null);
-        Task<object> GetUserDemographics();
+        Task<object> GetUserProfile();
         Task<LoginToken> LoginUser(string userEmail, string userPassword);
         Task<EcPerson> ResetPin(string bbUserId, string bbUserPass, string newUserPin);
         SaveResult SaveClientUser(JObject saveBundle);
         LoginToken GetUserSecurityToken(LoginToken token, bool secureIt);
         Task<bool> SaveChangesSuccess(EcPerson person);
         int EcatUserId { get; set; }
-        string EcatInstitueRole { get; set; }
+        EcRoles EcatInstitueRole { get; set; }
         string DecipherInstituteRole(string[] personRoles);
     }
 

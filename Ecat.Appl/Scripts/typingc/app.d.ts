@@ -26,9 +26,9 @@ declare module 'systemCfg' {
 
 declare module ecat {
 
-    interface ICoreModCfg {
+    interface ICoreCfg {
         errorPrefix?: string;
-        globalEvent: IGlobalEvents;
+        coreEvents: IGlobalEvents;
     }
 
     interface ILocalStorageKeys

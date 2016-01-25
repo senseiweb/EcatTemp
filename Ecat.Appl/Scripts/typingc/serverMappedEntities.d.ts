@@ -17,6 +17,7 @@ declare module ecat.entity
     {
         student: IStudent;
         facilitator: IFacilitator;
+        external: IExternal;
     }
 
     interface ILoginToken extends breeze.Entity, Ecat.Models.LoginToken
@@ -29,6 +30,8 @@ declare module ecat.entity
     interface IStudent extends breeze.Entity, Ecat.Models.EcStudent { }
 
     interface IFacilitator extends breeze.Entity, Ecat.Models.EcFacilitator { }
+
+    interface IExternal extends breeze.Entity, Ecat.Models.EcExternal { }
 
     interface ISecurity extends  breeze.Entity, Ecat.Models.EcSecurity {}
 }

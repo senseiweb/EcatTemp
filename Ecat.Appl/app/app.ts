@@ -1,4 +1,5 @@
 ﻿import ng = require('angular')
+import swal from "sweetalert"
 //Required Modules
 import 'animate'
 import 'ocLazyLoad'
@@ -10,12 +11,10 @@ import 'ngMessage'
 import 'uiBootstrap'
 import 'textNg'
 import 'templates'
-import IEcatStateProvider from 'core/provider/ecStateProvider'
 
 //Import Module Configuration
-import globalStateCfg from 'core/config/coreStateConfig'
-import globalMiscCfg from 'core/config/globalCfg'
-import coreModCfg from 'core/config/coreModCfg'
+import stateCfg from 'core/config/stateConfig'
+import coreCfg from 'core/config/coreConfig'
 
 //Import Module Controllers
 import mainCntrl from 'core/global/main' 
@@ -36,9 +35,9 @@ import compareTo from 'core/directives/compareTo'
 import emailValidator from 'core/directives/userEmailValidator'
 
 //Import Module Services/Factory/Providers
-import ecStateProvider from 'core/provider/ecStateProvider'
+import stateProvider from 'core/provider/stateProvider'
 import ecMalihuScrollService from 'core/service/plugin/malihuScroll'
-import ecCoreCfgProvider from 'core/provider/coreModCfgProvider'
+import coreCfgProvider from 'core/provider/coreCfgProvider'
 import dataCtx from 'core/service/data/context'
 import emFactory from 'core/service/data/emFactory'
 import userRepo from 'core/service/data/user'
@@ -67,9 +66,8 @@ export default class AppStart {
                 'textAngular',
                 'templates'
             ])
-            .config(globalStateCfg)
-            .config(globalMiscCfg)
-            .config(coreModCfg)
+            .config(stateCfg)
+            .config(coreCfg)
             .constant('userStatic', this.setUserStatic())
             .controller(mainCntrl.controllerId, mainCntrl)
             .controller(dashboardCntrl.controllerId, dashboardCntrl)
@@ -84,9 +82,9 @@ export default class AppStart {
             .directive(compareTo.directiveId, () => new compareTo())
             .directive(iMask.directiveId, () => new iMask)
             .directive(emailValidator.directiveId, ['$q', dataCtx.serivceId, ($q, dataCtx) => new emailValidator($q, dataCtx)])
-            .directive(ecMalihuScrollDirective.EcOverFlowMalihuScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', IEcatStateProvider.providerId, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowMalihuScroll(nss, $state, stateMgr)])
-            .provider(ecStateProvider.providerId, ecStateProvider)
-            .provider(ecCoreCfgProvider.providerId, ecCoreCfgProvider)
+            .directive(ecMalihuScrollDirective.EcOverFlowMalihuScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', stateProvider.providerId, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowMalihuScroll(nss, $state, stateMgr)])
+            .provider(stateProvider.providerId, stateProvider)
+            .provider(coreCfgProvider.providerId, coreCfgProvider)
             .service(ecMalihuScrollService.serviceId, ecMalihuScrollService)
             .service(authService.serviceId,authService)
             .service(dataCtx.serivceId, dataCtx)
@@ -139,16 +137,42 @@ export default class AppStart {
         return loginToken ;
     }
 
-    private stateChangeError = ($rootScope: angular.IRootScopeService, $state: angular.ui.IStateService, ...params: any[]) => {
+    private stateChangeError = ($rootScope: angular.IRootScopeService, $state: angular.ui.IStateService, dialog:dialogService, ...params: any[]) => {
         $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, routeError) => {
+
             if (typeof routeError === 'object') {
+
                 const error = routeError as ecat.IRoutingError;
                 event.preventDefault();
+
                 switch (error.errorCode) {
                     case Enum.SysErrorType.AuthNoToken:
-                    case Enum.SysErrorType.AuthNoUid:
+                    case Enum.SysErrorType.AuthExpired:
                         console.log(error.message);
                         return $state.go(error.redirectTo, params[0]);
+
+                    case Enum.SysErrorType.RegNotComplete:
+                        const regError: SweetAlert.Settings = {
+                            title: 'Registration Error',
+                            text: error.message,
+                            type: 'error',
+                            closeOnConfirm: true
+                        }
+                        swal(regError, () => {
+                            $state.go(error.redirectTo);
+                        });
+
+                    case Enum.SysErrorType.NotAuthorized:
+                        const alertSetting: SweetAlert.Settings = {
+                            title: 'Authorization Error',
+                            text: error.message,
+                            type: 'error',
+                            closeOnConfirm: true
+                        }
+                        swal(alertSetting, () => {
+                            $state.go(error.redirectTo);
+                        });
+
                     default:
                         console.log(error.message);
                 }

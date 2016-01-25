@@ -24,15 +24,13 @@ export default class EcToggleSideBar implements angular.IDirective {
                 }
             }
 
-            if (element.data('target') === 'chat') {
-                if (scope.modelRight === false) {
-                    scope.$apply(() => { scope.modelRight = false; });
-                }
-            } else {
-                scope.$apply(() => { scope.modelRight = false; });
-            }
+        //    if (element.data('target') === 'chat') {
+        //        if (scope.modelRight === false) {
+        //            scope.$apply(() => { scope.modelRight = false; });
+        //        }
+        //    } else {
+        //        scope.$apply(() => { scope.modelRight = false; });
+        //    }
         });
     }
-
-
 }

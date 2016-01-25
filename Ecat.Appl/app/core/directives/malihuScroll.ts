@@ -1,14 +1,14 @@
 ﻿import mcs from 'core/service/plugin/malihuScroll'
-import IEcatStateProvider from 'core/provider/ecStateProvider'
+import IStateProvider from 'core/provider/stateProvider'
 
 
 export abstract class EcMalihuScroll implements angular.IDirective {
-    constructor(private mCustomScrollService: mcs, private $state: angular.ui.IStateService, private stateMgr: IEcatStateProvider) {  }
+    constructor(private mCustomScrollService: mcs, private $state: angular.ui.IStateService, private stateMgr: IStateProvider) {  }
     restrict = 'EC';
 
     link = (scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
         if (!element.hasClass('ismobile')) {
-            if (!this.$state.includes(this.stateMgr.global.redirect.name)) {
+            if (!this.$state.includes(this.stateMgr.core.redirect.name)) {
                 this.mCustomScrollService.malihuScroll(element, 'minimal-dark', 'y');
             }
         }

@@ -48,7 +48,9 @@ namespace Ecat.Appl.Controllers
                     int.TryParse(stringUid, out parsedUid);
                 }
 
-                _userLogic.EcatInstitueRole = caller.FindFirst(ClaimTypes.Role).Value;
+                var roleString = caller.FindFirst(ClaimTypes.Role).Value;
+                _userLogic.EcatInstitueRole = (EcRoles) Enum.Parse(typeof (EcRoles), roleString);
+
                 _userLogic.EcatUserId = parsedUid;
                 base.Initialize(controllerContext);
             }
@@ -106,9 +108,9 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public async Task<object> Demographics()
+        public async Task<object> Profiles()
         {
-            return await _userLogic.GetUserDemographics();
+            return await _userLogic.GetUserProfile();
         }
 
         [HttpGet]

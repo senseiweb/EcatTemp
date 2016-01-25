@@ -11,7 +11,7 @@
         </a>
         <ul class="main-menu">
             <li>
-                <a data-ui-sref="pages.profile.profile-about" data-ng-click="home.sidebarStat($event)"><i class="zmdi zmdi-account"></i> View/Edit Profile</a>
+                <a data-ui-sref="{{stateMgr.core.profile.name}}" data-ng-click="main.sidebarStat($event)"><i class="zmdi zmdi-account"></i> View/Edit Profile</a>
             </li>
             <li>
                 <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
@@ -26,25 +26,25 @@
     </div>
     <ul class="main-menu">
         <li ui-sref-active="active">
-            <a ui-sref="stateMgr.global.dashboard.name" ng-click="main.sidebarStat($event)">
+            <a ui-sref="stateMgr.core.dashboard.name" ng-click="main.sidebarStat($event)">
                 <i class="zmdi zmdi-home"></i> 
                 Home
             </a>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': main.$state.includes('widgets') }">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes('admin') }" ng-if="main.adminAuthorized()">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-widgets"></i>
-                Sys Admin
+                System Admin
             </a>
             <ul>
                 <li>
-                    <a ui-sref-active="active" ui-sref="stateMgr.sysAdmin" data-ng-click="main.sidebarStat($event)">Academy</a>
+                    <a ui-sref-active="active" ui-sref="{{stateMgr.admin.academy.name}}" data-ng-click="main.sidebarStat($event)">Academy</a>
                 </li>
                 <li>
-                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)">Courses</a>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.core." data-ng-click="main.sidebarStat($event)">Courses</a>
                 </li>
                 <li>
-                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)">Widgets</a>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.core." data-ng-click="main.sidebarStat($event)">Widgets</a>
                 </li>
             </ul>
         </li>
@@ -54,7 +54,7 @@
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)"> Self/Peer</a>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.core." data-ng-click="main.sidebarStat($event)"> Self/Peer</a>
                 </li>
             </ul>
         </li>
@@ -64,7 +64,7 @@
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.global." data-ng-click="main.sidebarStat($event)"> Self/Peer</a>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.core." data-ng-click="main.sidebarStat($event)"> Self/Peer</a>
                 </li>
             </ul>
         </li>

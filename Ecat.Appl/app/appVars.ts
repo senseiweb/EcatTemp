@@ -151,7 +151,9 @@ export enum EntityTypes {
 
 export enum SysErrorType {
     Undefined,
-    AuthNoUid,
-    AuthNoToken
+    AuthNoToken,
+    AuthExpired,
+    NotAuthorized,
+    RegNotComplete
 }
 

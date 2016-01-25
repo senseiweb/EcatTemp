@@ -1,6 +1,6 @@
 ﻿import {EcMapEntityType as et} from 'appVars'
 import ILogger from 'core/service/logger'
-import ICoreCfg from 'core/provider/coreModCfgProvider'
+import ICoreCfg from 'core/provider/coreCfgProvider'
 
 export default class EcCommon
 {
@@ -48,7 +48,7 @@ export default class EcCommon
                 entityType: et.loginTk
             },
             profile: {
-                resourceName: 'Demographics',
+                resourceName: 'Profiles',
                 entityType: et.unk
             }
         }
