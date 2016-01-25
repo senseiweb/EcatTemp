@@ -138,6 +138,17 @@ export class EcMapEntityType {
 
 }
 
+export enum Keycode {
+    Enter = 13,
+    Escape = 27,
+    A = 65,
+    B = 66,
+    c = 67,
+    D = 68,
+    E = 69,
+    F = 70
+}
+
 export enum EntityTypes {
     SpAssessResult,
     SpAssessResponse,

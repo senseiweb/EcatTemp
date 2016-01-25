@@ -5,15 +5,10 @@ import moment from "moment"
 export default class EcLoggerService {
     static serviceId = 'core.logger';
     static $inject = ['$log', IGrowl.serviceId];
-    errorTemplate = '<div data-notify="container" class="col-xs-11 col-sm-5 alert alert-{0} growl-animated" role="alert">' +
-    '<span data-notify="title">{1}</span>' +
-    '<span data-notify="message">{2}</span><br/>' +
-    '<button type="button" class="btn btn-link waves-effect data-growl="dismiss">[Submit As Bug]</button>' +
-    '</div>'; 
     eventList: Array<ecat.SigEvent> = [];
 
 
-    constructor(private $log: angular.ILogService,private growl: IGrowl) { }
+    constructor(private $log: angular.ILogService, private growl: IGrowl) { }
         
     getLogFn = (moduleId: string, alert: AlertType) => {
         const logFuncName = alert || null;
@@ -52,8 +47,7 @@ export default class EcLoggerService {
 
         const options: NotifyOptions = {
             message: message,
-            title: `<strong>${source}</strong>: `,
-            icon: 'zmdi'
+            title: `<strong>${source}</strong>: `
         };
 
         const settings: NotifySettings = {
@@ -68,33 +62,34 @@ export default class EcLoggerService {
         };
 
         if (showLog) {
-            let evetType: string;
+            let eventType: string;
    
             switch (logType) {
                 case AlertType.danger:
-                    options.icon = `${options.icon} zmdi-alert-triangle`;
+                    options.icon = `zmdi-alert-circle-o`;
                     settings.placement.from = 'top';
                     settings.placement.align = 'right';
                     settings.animate.enter = AnimType.bounceInRight;
                     settings.animate.exit = AnimType.bounceOutRight;
-                    settings.allow_dismiss = false;
+                    settings.allow_dismiss = true;
                     settings.type = 'pastel-danger';
-                    settings.delay = 8500;
-                    settings.url_target = 'addLinkToBugTracker';
-                    settings.template = this.errorTemplate;
-                    evetType = 'Error';
+                    settings.delay = 10000;
+                    eventType = 'Error';
                     break;
                 case AlertType.info:
-                    options.icon = `${options.icon} zmdi-info-alert`;
-                    evetType = 'Informational';
+                    options.icon = `zmdi-info-alert`;
+                    settings.type = 'pastel-info';
+                    eventType = 'Informational';
                     break;
                 case AlertType.warning:
-                    options.icon = `${options.icon} zmdi-triangle-up`;
-                    evetType = 'Warning';
+                    options.icon = `zmdi-triangle-up`;
+                    settings.type = 'pastel-warning';
+                    eventType = 'Warning';
                     break;
                 case AlertType.success:
-                    options.icon = `${options.icon} zmdi-assignment-check`;
-                    evetType = 'Success';
+                    options.icon = `zmdi-assignment-check`;
+                    settings.type = 'pastel-success';
+                    eventType = 'Success';
                     break;
                 default:
                     options.icon = `${options.icon} zmdi-attachment-alt`;
@@ -102,7 +97,7 @@ export default class EcLoggerService {
             }
 
             const event: ecat.SigEvent = {
-                eventType: evetType,
+                eventType: eventType,
                 eventTimeStamp: moment(new Date()),
                 source: source,
                 event: message
