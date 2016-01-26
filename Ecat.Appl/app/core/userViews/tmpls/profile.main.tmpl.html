@@ -68,7 +68,7 @@
             </dl>
         </div>
 
-        <form data-ng-submit="profile.saveBasicInformation" name="profile.basicInfoForm" class="pmbb-edit form-horizontal" ng-if="profile.editing_basicInfoForm" role="form">
+        <form data-ng-submit="profile.saveForm('basicInfoForm')" name="profile.basicInfoForm" class="pmbb-edit form-horizontal" ng-if="profile.editing_basicInfoForm" role="form">
 
             <div class="form-group p-t-10">
                 <label for="lastName" class="control-label col-md-2">Last Name</label>
@@ -145,7 +145,7 @@
                                 name="gender"
                                 required
                                 class="form-control input-lg fg-input">
-                            <option value="">[Select Your Gender]</option>
+                            <option value="Unknown">[Select Your Gender]</option>
                             <option value="{{profile.gender.female}}">Female</option>
                             <option value="{{profile.gender.male}}">Male</option>
                             <option value="{{profile.gender.other}}">Other</option>
@@ -164,7 +164,7 @@
                                 ng-change="profile.updatePayGradeList()"
                                 required
                                 class="form-control input-lg fg-input"
-                                ng-options="value for (affil, value) in profile.local.milAffil">
+                                ng-options="affil.prop as affil.value for affil in profile.affiliationList | filter:{value: '!Unknown'}">
                             <option value="">[Select Your Military Affiliation]</option>
                         </select>
                     </div>
@@ -178,10 +178,10 @@
                     <div class="fg-line">
                         <select ng-model="profile.user.mpMilComponent"
                                 name="milcomponent"
-                                ng-disabled="profile.user.mpMilAffiliation === profile.local.milAffil.none"
+                                ng-disabled="profile.user.mpMilAffiliation === profile.local.milAffil.none || profile.user.mpMilAffiliation === profile.local.milAffil.unk"
                                 required
                                 class="form-control input-lg fg-input"
-                                ng-options="value for (component, value) in profile.local.milComponent">
+                                ng-options="comp.prop as comp.value for comp in profile.componentList | filter:{value: '!Unknown'}">
                             <option value="">[Select Your Military Component]</option>
                         </select>
                     </div>
@@ -193,11 +193,11 @@
                 <label for="paygrade" class="control-label col-md-2">PayGrade</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.paygrade.$touched && profile.basicInfoForm.paygrade.$invalid}">
                     <div class="fg-line">
-                        <select ng-model="profile.user.mpMilPaygrade"
+                        <select  ng-model="profile.user.mpMilPaygrade"
                                 name="paygrade"
                                 required
                                 class="form-control input-lg fg-input"
-                                ng-options="pay.pg as pay.displayName for pay in profile.payGradeList">
+                                ng-options="pay.pg as pay.displayName for pay in profile.payGradeList | filter:{displayName: '!Unknown'}">
                             <option value="">[Select Your Paygrade]</option>
                         </select>
                     </div>

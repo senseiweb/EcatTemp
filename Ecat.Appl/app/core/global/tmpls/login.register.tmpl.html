@@ -8,7 +8,7 @@
                     <input type="email"
                            name="email"
                            ng-model="login.user.email"
-                           ng-model-options="{updateOnBlur: true, allowInvalid: true,debounce: 2000}"
+                           ng-model-options="{updateOnBlur: 'default blur', allowInvalid: true, debounce: {'default': 1500, 'blur': 0}}"
                            ng-disabled="login.userRegForm.email.$pending"
                            class="form-control fg-input"
                            maxlength="40"

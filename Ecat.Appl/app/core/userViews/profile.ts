@@ -18,7 +18,9 @@ export default class EcUserProfile {
 
     aboutMeText: string;
     aboutMeForm: angular.IFormController;
+    affiliationList = this.local.milAffil;
     basicInfoForm: angular.IFormController;
+    componentList = this.local.milComponent;
     editing_aboutMeForm = false;
     editing_basicInfoForm = false;
     editing_studentInfoForm = false;
@@ -31,7 +33,8 @@ export default class EcUserProfile {
     nonAllowList = {};
     pageTypeEnum = PageTypeEnum;
     page = this.pageTypeEnum.External;
-    payGradeList: Array<{ pg: string, displayName: string }> = [];
+    payGradeList = this.local.milPaygradeList;
+    payGradeEnum = AppVar.EcMapPaygrade;
     showExternal = false;
     showStudent = false;
     showFacilitator = false;
@@ -70,16 +73,14 @@ export default class EcUserProfile {
         $scope.$on('$stateChangeStart', (event, toState: angular.ui.IState) => {
             const parent = toState.parent as angular.ui.IState;
 
-            if (!this.user.isRegistrationComplete && parent !== stateMgr.core.redirect.name ) {
+            if (!this.user.isRegistrationComplete && parent.name !== stateMgr.core.redirect.name ) {
                 event.preventDefault();
                 dialog.swal('Registration Error', 'You muse complete your profile, before using the app', 'error');
             }
         });
 
         $scope.$on(common.coreCfg.coreEvents.saveChangesEvent, (data: any) => {
-            if (!this.user.isRegistrationComplete) {
                 this.inflight = data.inflight;
-            }
         });
     }
 
@@ -142,8 +143,13 @@ export default class EcUserProfile {
         }
     }
 
-    updatePayGradeList() {
-        return this.local.updatePayGradeList(this.user);
+    updatePayGradeList(): void {
+        const userWPaygrade = this.local.updatePayGradeList(this.user);
+        
+        if (userWPaygrade) {
+            this.user = userWPaygrade.user;
+            this.payGradeList = userWPaygrade.paygradelist;
+        }
     }
 
     private getProfile(): void {

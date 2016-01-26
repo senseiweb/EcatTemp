@@ -4,11 +4,41 @@ export default class EcLocalDataService
 {
     static serviceId = 'data.local';
 
-    milAffil = AppVars.EcMapAffiliation;
 
-    milComponent = AppVars.EcMapComponent;
+    get milAffil(): Array<{prop: string, value: string}> {
+        const affilArray = [];
+        const affiliations  = AppVars.EcMapAffiliation;
+        for (let prop in affiliations) {
+            if (affiliations.hasOwnProperty(prop)) {
+                affilArray.push({ prop: prop, value: affiliations[prop] });
+            }
+        }
+        return affilArray;
+    }
+    
+    get milComponent(): Array<{ prop: string, value: string }> {
+        const componentArray = [];
+        const components = AppVars.EcMapComponent;
+        for (let prop in components) {
+            if (components.hasOwnProperty(prop)) {
+                componentArray.push({ prop: prop, value: components[prop] });
+            }
+        }
+        return componentArray;
+    }
 
-    milPayGrade: ecat.local.IMilPayGrade = {
+    get milPaygradeList(): Array<{ pg: string, displayName: string }> {
+        const paygradeArray = [];
+        const paygrades = AppVars.EcMapPaygrade;
+        for (let prop in paygrades) {
+            if (paygrades.hasOwnProperty(prop)) {
+                paygradeArray.push({ pg: prop, displayName: paygrades[prop] });
+            }
+        }
+        return paygradeArray;
+    }
+
+    milPaygradeGraft: ecat.local.IMilPayGrade = {
         civ: {
             designator: AppVars.EcMapPaygrade.civ
         },
@@ -188,11 +218,11 @@ export default class EcLocalDataService
         }
     }
 
-    updatePayGradeList = (user: ecat.entity.IPerson): Array<{ pg: string, displayName: string }> => {
+    updatePayGradeList = (user: ecat.entity.IPerson): {user: ecat.entity.IPerson, paygradelist: Array<{pg: string, displayName: string }>} => {
 
         const payGradeList: Array < { pg: string, displayName: string } > = [];
 
-        const milPayGrade = this.milPayGrade;
+        const milPayGrade = this.milPaygradeGraft;
 
         if (!user || !user.mpMilAffiliation) {
 
@@ -209,13 +239,13 @@ export default class EcLocalDataService
                         });
                 }
             }
-            return payGradeList;
+            return { user: user, paygradelist: payGradeList };
         } else {
             user.mpMilComponent = user.mpMilAffiliation === AppVars.EcMapAffiliation.none  ? AppVars.EcMapComponent.none: user.mpMilComponent;
 
-            user.mpMilPaygrade = user.mpMilAffiliation === AppVars.EcMapAffiliation.none ? this.milPayGrade.civ.designator : user.mpMilPaygrade;
+            user.mpMilPaygrade = user.mpMilAffiliation === AppVars.EcMapAffiliation.none ? this.milPaygradeGraft.civ.designator : user.mpMilPaygrade;
 
-            const selectedAffiliation = user.mpMilAffiliation === AppVars.EcMapAffiliation.uscg ? AppVars.EcMapAffiliation.usn : user.mpMilAffiliation ===  AppVars.EcMapAffiliation.none ? this.milPayGrade.civ.designator : user.mpMilAffiliation;
+            const selectedAffiliation = user.mpMilAffiliation === AppVars.EcMapAffiliation.uscg ? AppVars.EcMapAffiliation.usn : user.mpMilAffiliation === AppVars.EcMapAffiliation.none ? this.milPaygradeGraft.civ.designator : user.mpMilAffiliation;
 
             const affilList = AppVars.EcMapAffiliation;
 
@@ -244,7 +274,7 @@ export default class EcLocalDataService
                 }
             }
         }
-        return payGradeList;
+        return { user: user, paygradelist: payGradeList };
     }
 
 }

@@ -1,4 +1,4 @@
-﻿import IEcatStateProvider from 'core/provider/ecStateProvider'
+﻿import IEcatStateProvider from 'core/provider/stateProvider'
 import * as AppVar from "appVars"
 import IDataCtx from "core/service/data/context"
 import ICommon from "core/service/common"
@@ -39,7 +39,7 @@ export default class EcGlobalLogin {
             this.userEmail = reminder;
         }
 
-        $scope.$on(common.coreCfg.globalEvent.saveChangesEvent, (data: any) => {
+        $scope.$on(common.coreCfg.coreEvents.saveChangesEvent, (data: any) => {
             this.inFlight = data.inflight;
         });
     }
@@ -73,9 +73,9 @@ export default class EcGlobalLogin {
         this.badAccount = false;
         function logInSuccess(loginUser: ecat.entity.IPerson): void {
             if (loginUser.isRegistrationComplete) {
-                self.$state.go(self.stateMgr.global.dashboard.name);
+                self.$state.go(self.stateMgr.core.dashboard.name);
             } else {
-                self.$state.go(self.stateMgr.global.profile.name);
+                self.$state.go(self.stateMgr.core.profile.name);
             }
         }
 

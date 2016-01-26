@@ -246,9 +246,18 @@ namespace Ecat.Dal
         {
             if (_loggedInPerson == null)
             {
-                var errors =
-                  profileEntityInfos.Select(info => new EFEntityError(info, "Unauthorized Request", "Cannot update profile information for anonymous user!", null));
-                throw new EntityErrorsException(errors);
+                if (profileEntityInfos.Count() > 1 ||
+                    profileEntityInfos.Any(info => info.EntityState != EntityState.Added))
+                {
+                    var errors = profileEntityInfos.Select(info => new EFEntityError(info, "Unauthorized Request",
+                        "Cannot update profile information for anonymous user!", null));
+                    throw new EntityErrorsException(errors);
+                }
+
+                    var newProfile = profileEntityInfos.Single().Entity as IPersonProfile;
+                    var newUser = _saveMapRef[typeof (EcPerson)].Single().Entity as EcPerson;
+                    newProfile.PersonId = newUser.PersonId;
+                    return profileEntityInfos;
             }
 
             if (_loggedInPerson.MpInstituteRole == EcMapInstituteRole.HqAdmin)
