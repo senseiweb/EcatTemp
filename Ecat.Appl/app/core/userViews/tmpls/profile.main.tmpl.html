@@ -2,11 +2,11 @@
     <div class="pmbb-header">
         <h2><i class="zmdi zmdi-face"></i> About Me</h2>
         <ul class="actions" ng-if="!profile.editing_aboutMeForm">
-            <li class="uib-dropdown" uib-dropdown>
+            <li class="dropdown" uib-dropdown>
                 <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-more-vert"></i>
                 </a>
-                <ul class="uib-dropdown-menu uib-dropdown-menu-right">
+                <ul class="dropdown-menu dropdown-menu-right">
                     <li>
                         <a ng-click="profile.editing_aboutMeForm = true" href="">Edit</a>
                     </li>
@@ -26,8 +26,6 @@
                 <button class="btn btn-link btn-sm" ng-click="profile.cancelFormEdit('aboutMeForm')">Cancel</button>
             </div>
         </form>
-
-
     </div>
 </div>
 <div class="pmb-block">
@@ -35,12 +33,12 @@
         <h2><i class="zmdi zmdi-account m-r-5"></i> Basic Information</h2>
 
         <ul class="actions" ng-if="!profile.editing_basicInfoForm">
-            <li class="uib-dropdown" uib-dropdown>
+            <li class="dropdown" uib-dropdown>
                 <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-more-vert"></i>
                 </a>
 
-                <ul class="uib-dropdown-menu uib-dropdown-menu-right">
+                <ul class="dropdown-menu dropdown-menu-right">
                     <li>
                         <a ng-click="profile.editing_basicInfoForm = true" href="">Edit</a>
                     </li>
@@ -69,7 +67,6 @@
         </div>
 
         <form data-ng-submit="profile.saveForm('basicInfoForm')" name="profile.basicInfoForm" class="pmbb-edit form-horizontal" ng-if="profile.editing_basicInfoForm" role="form">
-
             <div class="form-group p-t-10">
                 <label for="lastName" class="control-label col-md-2">Last Name</label>
                 <div class="col-md-10" ng-class="{'has-success': profile.isLtiRole, 'has-error': profile.basicInfoForm.lastname.$touched && profile.basicInfoForm.lastname.$invalid}">
@@ -145,7 +142,7 @@
                                 name="gender"
                                 required
                                 class="form-control input-lg fg-input">
-                            <option value="Unknown">[Select Your Gender]</option>
+                            <option value="{{profile.gender.unk}}">[Select Your Gender]</option>
                             <option value="{{profile.gender.female}}">Female</option>
                             <option value="{{profile.gender.male}}">Male</option>
                             <option value="{{profile.gender.other}}">Other</option>
@@ -164,7 +161,7 @@
                                 ng-change="profile.updatePayGradeList()"
                                 required
                                 class="form-control input-lg fg-input"
-                                ng-options="affil.prop as affil.value for affil in profile.affiliationList | filter:{value: '!Unknown'}">
+                                ng-options="affil.value as affil.value for affil in profile.affiliationList | filter:{value: '!Unknown'}">
                             <option value="">[Select Your Military Affiliation]</option>
                         </select>
                     </div>
@@ -181,7 +178,7 @@
                                 ng-disabled="profile.user.mpMilAffiliation === profile.local.milAffil.none || profile.user.mpMilAffiliation === profile.local.milAffil.unk"
                                 required
                                 class="form-control input-lg fg-input"
-                                ng-options="comp.prop as comp.value for comp in profile.componentList | filter:{value: '!Unknown'}">
+                                ng-options="comp.value as comp.value for comp in profile.componentList | filter:{value: '!Unknown'}">
                             <option value="">[Select Your Military Component]</option>
                         </select>
                     </div>

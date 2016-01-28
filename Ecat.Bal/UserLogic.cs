@@ -21,8 +21,7 @@ namespace Ecat.Bal
         private readonly ICommonRepo _commonRepo;
         private readonly IUserRepo _userRepo;
 
-        public int EcatUserId { get; set; }
-        public EcRoles EcatInstitueRole { get; set; }
+        public EcPerson User { get; set; }
 
         public UserLogic(ICommonRepo commonRepo, IUserRepo userRepo)
         {
@@ -74,7 +73,7 @@ namespace Ecat.Bal
 
         public async Task<object> GetUserProfile()
         {
-           return await _userRepo.GetUserProfile(EcatUserId, EcatInstitueRole);
+           return await _userRepo.GetUserProfile(User);
         }
 
         public LoginToken GetUserSecurityToken(LoginToken token, bool secureIt)
@@ -183,11 +182,7 @@ namespace Ecat.Bal
 
         public SaveResult SaveClientUser(JObject saveBundle)
         {
-            if (EcatUserId == 0) return _userRepo.BzSaveUser(saveBundle);
-
-            var person = _userRepo.GetUser.FirstOrDefault(p => p.PersonId == EcatUserId);
-
-            return _userRepo.BzSaveUser(saveBundle, person);
+            return _userRepo.BzSaveUser(saveBundle, User);
         }
 
         public string DecipherInstituteRole(string[] personRoles)

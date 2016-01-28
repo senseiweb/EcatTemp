@@ -165,9 +165,8 @@ namespace Ecat.Models
         LessThan
     }
 
-    public enum EpmeSchools
+    public enum EdCategoary
     {
-        Bcee,
         Clc,
         Epmeic,
         Afsncoa,

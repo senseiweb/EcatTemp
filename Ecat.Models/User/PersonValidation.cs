@@ -43,7 +43,7 @@ namespace Ecat.Models
 
             var listOfApprovedPaygrade = mapMilPaygrade.GetFields().Where(field => field.IsLiteral).Select(field => field.GetValue(null).ToString()).ToList();
 
-            if (!listOfApprovedPaygrade.Contains(person.MpMilAffiliation))
+            if (!listOfApprovedPaygrade.Contains(person.MpMilPaygrade))
             {
                 ErrorMessage = "Military Paygrade must be of a known value";
                 return new ValidationResult(ErrorMessage);
@@ -53,7 +53,7 @@ namespace Ecat.Models
 
             var listOfApprovedComponent = mapMilComponent.GetFields().Where(field => field.IsLiteral).Select(field => field.GetValue(null).ToString()).ToList();
 
-            if (listOfApprovedComponent.Contains(person.MpMilAffiliation)) return ValidationResult.Success;
+            if (listOfApprovedComponent.Contains(person.MpMilComponent)) return ValidationResult.Success;
 
             ErrorMessage = "Military Component must be of a known value";
 

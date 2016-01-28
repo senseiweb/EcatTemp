@@ -4,40 +4,6 @@ export default class EcLocalDataService
 {
     static serviceId = 'data.local';
 
-
-    get milAffil(): Array<{prop: string, value: string}> {
-        const affilArray = [];
-        const affiliations  = AppVars.EcMapAffiliation;
-        for (let prop in affiliations) {
-            if (affiliations.hasOwnProperty(prop)) {
-                affilArray.push({ prop: prop, value: affiliations[prop] });
-            }
-        }
-        return affilArray;
-    }
-    
-    get milComponent(): Array<{ prop: string, value: string }> {
-        const componentArray = [];
-        const components = AppVars.EcMapComponent;
-        for (let prop in components) {
-            if (components.hasOwnProperty(prop)) {
-                componentArray.push({ prop: prop, value: components[prop] });
-            }
-        }
-        return componentArray;
-    }
-
-    get milPaygradeList(): Array<{ pg: string, displayName: string }> {
-        const paygradeArray = [];
-        const paygrades = AppVars.EcMapPaygrade;
-        for (let prop in paygrades) {
-            if (paygrades.hasOwnProperty(prop)) {
-                paygradeArray.push({ pg: prop, displayName: paygrades[prop] });
-            }
-        }
-        return paygradeArray;
-    }
-
     milPaygradeGraft: ecat.local.IMilPayGrade = {
         civ: {
             designator: AppVars.EcMapPaygrade.civ
@@ -162,8 +128,8 @@ export default class EcLocalDataService
         e7: {
             designator: AppVars.EcMapPaygrade.e7,
             usaf: {
-                rankShortName: 'A1C',
-                rankLongName: 'Airman First Class'
+                rankShortName: 'MSgt',
+                rankLongName: 'McD'
             },
             usa: {
                 rankShortName: 'PFC',
@@ -216,6 +182,41 @@ export default class EcLocalDataService
                 rankLongName: 'Lance Corporal'
             }
         }
+    }
+
+    constructor() {  }
+
+    get milAffil(): Array<{prop: string, value: string}> {
+        const affilArray = [];
+        const affiliations  = AppVars.EcMapAffiliation;
+        for (let prop in affiliations) {
+            if (affiliations.hasOwnProperty(prop)) {
+                affilArray.push({ prop: prop, value: affiliations[prop] });
+            }
+        }
+        return affilArray;
+    }
+    
+    get milComponent(): Array<{ prop: string, value: string }> {
+        const componentArray = [];
+        const components = AppVars.EcMapComponent;
+        for (let prop in components) {
+            if (components.hasOwnProperty(prop)) {
+                componentArray.push({ prop: prop, value: components[prop] });
+            }
+        }
+        return componentArray;
+    }
+
+    get milPaygradeList(): Array<{ pg: string, displayName: string }> {
+        const paygradeArray = [];
+        const paygrades = AppVars.EcMapPaygrade;
+        for (let prop in paygrades) {
+            if (paygrades.hasOwnProperty(prop)) {
+                paygradeArray.push({ pg: prop, displayName: paygrades[prop] });
+            }
+        }
+        return paygradeArray;
     }
 
     updatePayGradeList = (user: ecat.entity.IPerson): {user: ecat.entity.IPerson, paygradelist: Array<{pg: string, displayName: string }>} => {

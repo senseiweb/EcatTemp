@@ -1,6 +1,5 @@
 ﻿import ICommon from 'core/service/common'
-import IDataCtx from 'core/service/data/context'
-
+import IDataCtx from "core/service/data/context"
 
 export default class EcAuthenicator {
     static serviceId = 'data.authenicator';
@@ -9,24 +8,24 @@ export default class EcAuthenicator {
     constructor(private $injector: angular.auto.IInjectorService) { }
 
     request = (rqCfg: angular.IRequestConfig): any => {
-        const dataCtx = this.$injector.get(IDataCtx.serivceId) as IDataCtx;
-        const common = this.$injector.get(ICommon.serviceId) as ICommon;
+        const c = this.$injector.get(ICommon.serviceId) as ICommon;
+        const dCtx = this.$injector.get(IDataCtx.serviceId) as IDataCtx;
 
         const requestUrl = rqCfg.url.toLowerCase().indexOf('breeze') > -1;
 
         if (!requestUrl) {
-            return common.$q.when(rqCfg);
+            return c.$q.when(rqCfg);
         }
 
-        const token = dataCtx.user.token;
+        const token = dCtx.user.token;
         const now = new Date();
 
         if (token && token.auth && token.expire > now) {
             rqCfg.headers.Authorization = `Bearer ${token.auth
                 }`;
 
-            return common.$q.when(rqCfg);
+            return c.$q.when(rqCfg);
         }
-        return common.$q.when(rqCfg);
+        return c.$q.when(rqCfg);
     }
 }

@@ -20,109 +20,39 @@
         </ul>
     </div>
     <div class="pmbb-body p-l-30">
-        <div class="pmbb-view" ng-if="!profile.editing_studentInfoForm">
+        <div class="pmbb-view" ng-if="!profile.editing_externalUserForm">
             <dl class="dl-horizontal">
                 <dt>Home Station</dt>
                 <dd>{{main.user.external.homeStation}}</dd>
             </dl>
         </div>
 
-        <form data-ng-submit="profile.saveForm()" name="profile.studentInfoForm" class="pmbb-edit form-horizontal" ng-if="profile.editing_studentInfoForm" role="form">
-            <div class="form-group p-t-10">
-                <label for="contactnumber" class="control-label col-md-2 ">Contact Number</label>
-                <div class="col-md-10" ng-class="{'has-error': profile.studentInfoForm.contactnumber.$touched && profile.studentInfoForm.contactnumber.$invalid}">
-                    <div class="fg-line">
-                        <input type="text"
-                               name="contactnumber"
-                               input-mask="{mask: '(000) 000-0000'}"
-                               ng-model="main.user.student.contactNumber"
-                               class="form-control input-lg fg-input"
-                               maxlength="40"
-                               required />
+        <form ng-submit="profile.saveForm('externalUserForm')" name="profile.externalUserForm" class="pmbb-edit form-horizontal" ng-if="profile.editing_externalInfoForm" role="form">
+            <div class="alert alert-dismissible alert-info" ng-if="profile.user.external">
+                Just a minute...waiting for your profile information to finish loading;
+            </div>
+            <div ng-if="!profile.user.external">
+                <div class="form-group p-t-10">
+                    <label for="homestation" class="control-label col-md-2 ">Home Station</label>
+                    <div class="col-md-10" ng-class="{'has-error': profile.studentInfoForm.homestation.$touched && profile.studentInfoForm.homestaion.$invalid}">
+                        <div class="fg-line">
+                            <input type="text"
+                                   name="homestation"
+                                   ng-model="profile.user.student.homeStation"
+                                   class="form-control input-lg fg-input"
+                                   maxlength="40"
+                                   required/>
+                        </div>
+                        <small class="help-block" ng-show="profile.studentInfoForm.homestation.$touched && profile.studentInfoForm.homestation.$error.required">This is a required field.</small>
                     </div>
-                    <small class="help-block" ng-show="profile.studentInfoForm.contactnumber.$touched && profile.studentInforForm.contactnumber.$error.required">This is a required field.</small>
+                </div>
+
+                <div class="m-t-30">
+                    <button class="btn btn-primary btn-sm" type="submit" ng-disabled="profile.inflight">Save</button>
+                    <button class="btn btn-link btn-sm" data-ng-click="profile.cancelFormEdit('externalUserForm')" ng-disabled="profile.inflight">Cancel</button>
                 </div>
             </div>
 
-            <div class="form-group p-t-10">
-                <label for="homestation" class="control-label col-md-2 ">Home Station</label>
-                <div class="col-md-10" ng-class="{'has-error': profile.studentInfoForm.homestation.$touched && profile.studentInfoForm.homestaion.$invalid}">
-                    <div class="fg-line">
-                        <input type="text"
-                               name="homestation"
-                               ng-model="main.user.student.homeStation"
-                               class="form-control input-lg fg-input"
-                               maxlength="40"
-                               required />
-                    </div>
-                    <small class="help-block" ng-show="profile.studentInfoForm.homestation.$touched && profile.studentInfoForm.homestation.$error.required">This is a required field.</small>
-                </div>
-            </div>
-
-            <div class="form-group p-t-10">
-                <label for="unitcc" class="control-label col-md-2 ">Unit Commander (Rank/Name)</label>
-                <div class="col-md-10" ng-class="{'has-error': profile.studentInfoForm.unitcc.$touched && profile.studentInfoForm.unitcc.$invalid}">
-                    <div class="fg-line">
-                        <input type="text"
-                               name="unitcc"
-                               ng-model="main.user.student.unitCommander"
-                               class="form-control input-lg fg-input"
-                               maxlength="40"
-                               required />
-                    </div>
-                    <small class="help-block" ng-show="profile.studentInfoForm.unitcc.$touched && profile.studentInfoForm.unitcc.$error.required">This is a required field.</small>
-                </div>
-            </div>
-
-            <div class="form-group p-t-10">
-                <label for="unitccemail" class="control-label col-md-2 ">Unit Commander Email</label>
-                <div class="col-md-10" ng-class="{'has-error': profile.studentInfoForm.unitccemail.$touched && profile.studentInfoForm.unitccemail.$invalid}">
-                    <div class="fg-line">
-                        <input type="email"
-                               name="unitccemail"
-                               ng-model="main.user.student.unitCommanderEmail"
-                               class="form-control input-lg fg-input"
-                               maxlength="40"
-                               required />
-                    </div>
-                    <small class="help-block" ng-show="profile.studentInfoForm.unitccemail.$touched && profile.studentInfoForm.unitccemail.$error.required">This is a required field.</small>
-                </div>
-            </div>
-
-            <div class="form-group p-t-10">
-                <label for="unitfirstshirt" class="control-label col-md-2 ">Unit First Sergeant (Rank/Name)</label>
-                <div class="col-md-10" ng-class="{'has-error': profile.studentInfoForm.unitfirstshirt.$touched && profile.studentInfoForm.unitfirstshirt.$invalid}">
-                    <div class="fg-line">
-                        <input type="text"
-                               name="unitfirstshirt"
-                               ng-model="main.user.student.unitFirstSergeant"
-                               class="form-control input-lg fg-input"
-                               maxlength="40"
-                               required />
-                    </div>
-                    <small class="help-block" ng-show="profile.studentInfoForm.unitfirstshirt.$touched && profile.studentInfoForm.unitfirstshirt.$error.required">This is a required field.</small>
-                </div>
-            </div>
-
-            <div class="form-group p-t-10">
-                <label for="unitfirstshirtemail" class="control-label col-md-2 ">Unit First Sergeant Email</label>
-                <div class="col-md-10" ng-class="{'has-error': profile.studentInfoForm.unitfirstshirtemail.$touched && profile.studentInfoForm.unitfirstshirtemail.$invalid}">
-                    <div class="fg-line">
-                        <input type="email"
-                               name="unitfirstshirtemail"
-                               ng-model="main.user.student.unitFirstSergeantEmail"
-                               class="form-control input-lg fg-input"
-                               maxlength="40"
-                               required />
-                    </div>
-                    <small class="help-block" ng-show="profile.studentInfoForm.unitfirstshirtemail.$touched && profile.studentInfoForm.unitfirstshirtemail.$error.required">This is a required field.</small>
-                </div>
-            </div>
-
-            <div class="m-t-30">
-                <button class="btn btn-primary btn-sm" type="submit" ng-disabled="profile.inflight">Save</button>
-                <button class="btn btn-link btn-sm" data-ng-click="profile.cancelFormEdit('studentInfoForm')" ng-disabled="profile.inflight">Cancel</button>
-            </div>
 
 
         </form>

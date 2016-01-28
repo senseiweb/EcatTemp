@@ -509,6 +509,7 @@
     <Compile Include="Config\SpStratResponse.cs" />
     <Compile Include="Context\Instructor.cs" />
     <Compile Include="Context\Main.cs" />
+    <Compile Include="Context\Seed.cs" />
     <Compile Include="Context\Student.cs" />
     <Compile Include="Context\Testing.cs" />
     <Compile Include="Context\User.cs" />

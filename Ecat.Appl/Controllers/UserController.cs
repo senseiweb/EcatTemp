@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -13,54 +14,27 @@ using Ecat.Dal.Context;
 using Ecat.Models;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
+using Ecat.Appl.Utilities;
 using Ecat.Bal;
 
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    public class UserController : ApiController
+    [EcatRolesAuthorized]
+    public class UserController : EcatApiController
     {
         private readonly ICommonRepo _commonRepo;
         private readonly IUserLogic _userLogic;
 
-        /// <summary>
-        /// Initializes the <see cref="T:System.Web.Http.ApiController"/> instance with the specified controllerContext.
-        /// </summary>
-        /// <param name="controllerContext">The <see cref="T:System.Web.Http.Controllers.HttpControllerContext"/> object that is used for the initialization.</param>
-        protected override void Initialize(HttpControllerContext controllerContext)
-        {
-
-            var caller = User as ClaimsPrincipal;
-
-            var isAuthenticated = caller != null && caller.Identity.IsAuthenticated;
-
-            if (!isAuthenticated)
-            {
-                base.Initialize(controllerContext);
-
-            }
-            else
-            {
-                var parsedUid = 0;
-                var stringUid = caller.FindFirst(ClaimTypes.PrimarySid).Value;
-                if (stringUid != null)
-                {
-                    int.TryParse(stringUid, out parsedUid);
-                }
-
-                var roleString = caller.FindFirst(ClaimTypes.Role).Value;
-                _userLogic.EcatInstitueRole = (EcRoles) Enum.Parse(typeof (EcRoles), roleString);
-
-                _userLogic.EcatUserId = parsedUid;
-                base.Initialize(controllerContext);
-            }
-
-        }
-
-        public UserController(ICommonRepo common, IUserLogic userLogic)
+        public UserController(ICommonRepo common, IUserLogic userLogic) 
         {
             _commonRepo = common;
             _userLogic = userLogic;
+        }
+
+        internal override void SetUser(EcPerson person)
+        {
+            _userLogic.User = person;
         }
 
         [HttpGet]
@@ -120,17 +94,5 @@ namespace Ecat.Appl.Controllers
             return await _userLogic.ResetPin(bbUserId, bbUserPass, newUserPin);
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public string Ping()
-        {
-            return "Pong";
-        }
-
-        [HttpGet]
-        public string SecretPin()
-        {
-            return "Pong";
-        }
-    }
+     }
 }

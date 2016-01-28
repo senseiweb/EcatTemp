@@ -1,22 +1,13 @@
-﻿import IUserRepo from 'core/service/data/user'
-import IUtilityRepo from 'core/service/data/utility'
-import IEntityFactory from 'core/service/data/emFactory'
-import * as PersonExt from 'core/config/entityExtension/person'
-import * as appVars from 'appVars'
+﻿import IEntityFactory from 'core/service/data/emFactory'
+import IUserRepo from 'core/service/data/user'
+import ILocal from 'core/service/data/local'
+import * as AppVars from "appVars"
 
 export default class EcDataContext {
-    static serivceId = 'data.context';
-    static $inject = [IUtilityRepo.serviceId, IEntityFactory.serviceId];
-    private corePersonConfig: ecat.entity.IEntityExtension = {
-        entityName: appVars.EcMapEntityType.person,
-        ctorFunc: PersonExt.PersonClientExtended,
-        initFunc: (personEntity: ecat.entity.IPerson) => new PersonExt.PersonInitializer(personEntity)
-    }
+    static serviceId = 'data.context';
+    static $inject = [IEntityFactory.serviceId];
 
-    private coreEntityCfgs: Array<ecat.entity.IEntityExtension> = [this.corePersonConfig];
-
-    constructor(private utilityRepo: IUtilityRepo, emFactory: IEntityFactory) {
-
+    constructor(emFactory: IEntityFactory) {
         this.repoNames.forEach((name: string) => {
             Object.defineProperty(this, name, {
                 configurable: true,
@@ -32,12 +23,10 @@ export default class EcDataContext {
             });
         });
 
-        utilityRepo.userManager = emFactory.getNewManager(appVars.EcMapApiResource.user, this.coreEntityCfgs);
     }
-    repoNames = [appVars.EcMapApiResource.user];
+    repoNames = [AppVars.EcMapApiResource.user, 'local'];
     user: IUserRepo;
-
-
+    local: ILocal;
 }
 
 

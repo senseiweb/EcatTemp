@@ -1,66 +1,78 @@
-﻿import {EcMapEntityType as et} from 'appVars'
-import ILogger from 'core/service/logger'
+﻿import ILogger from 'core/service/logger'
 import ICoreCfg from 'core/provider/coreCfgProvider'
+import IDialog from "core/service/dialog"
+import swal from "sweetalert"
+import * as AppVars from "appVars"
+import IStateMgr from "core/provider/stateProvider"
+import moment from 'moment'
 
 export default class EcCommon
 {
     static serviceId = 'core.common';
-    static $inject = ['$q', '$rootScope', ILogger.serviceId, ICoreCfg.providerId];
-    serverEnvironment: string;
-    appEndpoint: string;
-    keycodes= {
-       enter: 13     
-    }
+    static $inject = ['$q', '$rootScope', '$state', '$stateParams', ILogger.serviceId, ICoreCfg.providerId, IDialog.serviceId, IStateMgr.providerId];
 
-    private _localStorageKeys = {
+    appEndpoint: string;
+    appVar = AppVars;
+    keycodes =  {
+        enter: 13
+    }
+    serverEnvironment: string;
+    private localStorageKeysBak = {
         userId: 'ECAT:UID',
         appServer: 'ECAT:APPSERVER',
         clientProfile: `ECAT:CLIENTPROFILE:${this.localStorageUid}`
     };
-
-    get localStorageKeys(): ecat.ILocalStorageKeys { return this._localStorageKeys; };
-
+    get localStorageKeys(): ecat.ILocalStorageKeys { return this.localStorageKeysBak; };
     get localStorageUid(): string {
         return localStorage.getItem((this.localStorageKeys) ? this.localStorageKeys.userId : 'unknown');
     };
-
+    logSuccess = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.success);
+    logError = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.danger);
+    logWarning = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.warning);
+    logInfo = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.info);
+    moment = moment;
     resourceNames: ecat.IAllApiResources = {
         user: {
             endPointName: 'User',
             checkEmail: {
                 resourceName: 'CheckUserEmail',
-                entityType: et.unk
+                entityType: AppVars.EcMapEntityType.unk
             },
             regUser: {
                 resourceName: 'PreRegister',
-                entityType: et.loginTk
+                entityType: AppVars.EcMapEntityType.loginTk
             },
             fetch: {
                 resourceName: 'Fetch',
-                entityType: et.loginTk
+                entityType: AppVars.EcMapEntityType.loginTk
             },
             login: {
                 resourceName: 'Login',
-                entityType: et.person
+                entityType: AppVars.EcMapEntityType.person
             }, 
             resetPin: {
                 resourceName: 'ResetPin',
-                entityType: et.loginTk
+                entityType: AppVars.EcMapEntityType.loginTk
             },
             profile: {
                 resourceName: 'Profiles',
-                entityType: et.unk
+                entityType: AppVars.EcMapEntityType.unk
             }
         }
     }
+    swal = swal;
     tokenEndpoint: string;
 
     constructor(public $q: angular.IQService,
-                public $rootScope: angular.IRootScopeService,
-                public logger: ILogger,
-                public coreCfg: ICoreCfg) {
+        public $rootScope: ecat.IEcRootScope,
+        public $state: angular.ui.IStateService,
+        public $stateParams: ecat.IEcatParams,
+        public logger: ILogger,
+        public coreCfg: ICoreCfg,
+        public dialog: IDialog,
+        public stateMgr: IStateMgr ) {
 
-        const environment = window.localStorage.getItem(this._localStorageKeys.appServer);
+        const environment = window.localStorage.getItem(this.localStorageKeysBak.appServer);
         this.serverEnvironment = environment || `${window.location.protocol}//${window.location.host}`;
 
         this.appEndpoint = `${this.serverEnvironment}/breeze/`;
@@ -68,8 +80,8 @@ export default class EcCommon
     }
 
 
-    broadcast(...args): void {
-        this.$rootScope.$broadcast.apply(this.$rootScope, args);
+    broadcast(event: string,...args): void {
+        this.$rootScope.$broadcast(event, args);
         
     }
 

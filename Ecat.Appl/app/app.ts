@@ -21,6 +21,7 @@ import mainCntrl from 'core/global/main'
 import dashboardCntrl from 'core/userViews/dashboard'
 import profileCntrl from 'core/userViews/profile'
 import loginCntrl from 'core/global/login'
+import adminAcademy from "admin/academy/academy"
 
 //Import Module directives
 import ecToggleSb from 'core/directives/toggleSidebar'
@@ -41,9 +42,8 @@ import coreCfgProvider from 'core/provider/coreCfgProvider'
 import dataCtx from 'core/service/data/context'
 import emFactory from 'core/service/data/emFactory'
 import userRepo from 'core/service/data/user'
-import utilityRepo from 'core/service/data/utility'
 import growl from 'core/service/plugin/growl'
-import common from 'core/service/common'
+import common from "core/service/common"
 import logger from 'core/service/logger'
 import dialogService from 'core/service/dialog'
 import localDs from 'core/service/data/local'
@@ -73,6 +73,7 @@ export default class AppStart {
             .controller(dashboardCntrl.controllerId, dashboardCntrl)
             .controller(profileCntrl.controllerId, profileCntrl)
             .controller(loginCntrl.controllerId, loginCntrl)
+            .controller(adminAcademy.controllerId, adminAcademy)
             .directive(ecFgLine.directiveId, () => new ecFgLine())
             .directive(ecFrmCntrl.directiveId, () => new ecFrmCntrl())
             .directive(ecToggleSb.directiveId, () => new ecToggleSb())
@@ -81,16 +82,15 @@ export default class AppStart {
             .directive(tabError.directiveId, () => new tabError())
             .directive(compareTo.directiveId, () => new compareTo())
             .directive(iMask.directiveId, () => new iMask)
-            .directive(emailValidator.directiveId, ['$q', dataCtx.serivceId, ($q, dataCtx) => new emailValidator($q, dataCtx)])
+            .directive(emailValidator.directiveId, ['$q', dataCtx.serviceId, ($q, dataCtx) => new emailValidator($q, dataCtx)])
             .directive(ecMalihuScrollDirective.EcOverFlowMalihuScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', stateProvider.providerId, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowMalihuScroll(nss, $state, stateMgr)])
             .provider(stateProvider.providerId, stateProvider)
             .provider(coreCfgProvider.providerId, coreCfgProvider)
             .service(ecMalihuScrollService.serviceId, ecMalihuScrollService)
             .service(authService.serviceId,authService)
-            .service(dataCtx.serivceId, dataCtx)
+            .service(dataCtx.serviceId, dataCtx)
             .service(emFactory.serviceId, emFactory)
             .service(userRepo.serviceId, userRepo)
-            .service(utilityRepo.serviceId, utilityRepo)
             .service(growl.serviceId, growl)
             .service(common.serviceId, common)
             .service(logger.serviceId, logger)

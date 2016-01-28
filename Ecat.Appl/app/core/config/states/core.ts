@@ -1,19 +1,17 @@
-﻿import IEcStateConfig from 'core/provider/stateProvider'
-import * as AppVar from "appVars"
-import IDataCtx from 'core/service/data/context'
-import ICommon from "core/service/common"
+﻿import ICommon from "core/service/common"
+import IDataCtx from "core/service/data/context"
 
 export default class EcCoreStates {
 
-    private checkValidToken = ($state: angular.ui.IStateService, common: ICommon, dataCtx: IDataCtx) => {
-        const deferred = common.$q.defer();
+    private checkValidToken = (c: ICommon, dCtx: IDataCtx) => {
+        const deferred = c.$q.defer();
         let error: ecat.IRoutingError;
 
-        if (dataCtx.user.token.validatity() === AppVar.TokenStatus.Missing) {
+        if (dCtx.user.token.validatity() === c.appVar.TokenStatus.Missing) {
 
             error = {
                 message: 'Authentication Error: No user token',
-                errorCode: AppVar.SysErrorType.AuthNoToken,
+                errorCode: c.appVar.SysErrorType.AuthNoToken,
                 redirectTo: this.login.name,
                 params: { mode: 'login' }
             }
@@ -22,10 +20,10 @@ export default class EcCoreStates {
             return deferred.promise;
         }
 
-        if (dataCtx.user.token.validatity() === AppVar.TokenStatus.Expired) {
+        if (dCtx.user.token.validatity() === c.appVar.TokenStatus.Expired) {
             error = {
                 message: 'Authentication Error: Token Invalid ',
-                errorCode: AppVar.SysErrorType.AuthNoToken,
+                errorCode: c.appVar.SysErrorType.AuthNoToken,
                 redirectTo: this.login.name,
                 params: { mode: 'lock' }
             }
@@ -55,13 +53,13 @@ export default class EcCoreStates {
         return deferred.promise;
     }
 
-    private loadManager = (dataCtx: IDataCtx) => {
+    private loadManager = (dataCtx) => {
         return dataCtx.user.loadManager();
     }
 
-    private appController($rootScope: any, state, stateMgr: IEcStateConfig) {
-        $rootScope.$state = state;
-        $rootScope.stateMgr = stateMgr;
+    private appController(c: ICommon) {
+        c.$rootScope.$state = c.$state;
+        c.$rootScope.stateMgr = c.stateMgr;
         //Determining application mobile browswer
         const mobileBrowser = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
 
@@ -77,9 +75,9 @@ export default class EcCoreStates {
             abstract: true,
             template: '<div ui-view></div>',
             controllerAs: 'app',
-            controller: ['$rootScope', '$state', IEcStateConfig.providerId, this.appController],
+            controller: [ICommon.serviceId, this.appController],
             resolve: {
-                manager: [IDataCtx.serivceId, this.loadManager]
+                manager: [IDataCtx.serviceId, this.loadManager]
             }
         };
     }
@@ -92,7 +90,7 @@ export default class EcCoreStates {
             templateUrl: 'wwwroot/app/core/global/main.html',
             controller: 'app.global.main as main',
             resolve: {
-                isLoggedIn: ['$state', ICommon.serviceId, IDataCtx.serivceId, 'userStatic', 'manager', this.checkValidToken]
+                isLoggedIn: [ICommon.serviceId, IDataCtx.serviceId, 'userStatic', 'manager', this.checkValidToken]
             }
         };
     }

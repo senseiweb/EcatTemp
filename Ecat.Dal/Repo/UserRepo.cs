@@ -81,19 +81,16 @@ namespace Ecat.Dal
 
         public IQueryable<EcPerson> GetUserWithSecurity => _serverCtx.Persons.Include(u => u.Security).AsQueryable();
 
-        public async Task<object> GetUserProfile(int personId, EcRoles role)
+        public async Task<object> GetUserProfile(EcPerson user)
         {
-            switch (role)
+            switch (user.MpInstituteRole)
             {
-                case EcRoles.Student:
-                    return await _serverCtx.Students.FindAsync(personId);
-                case EcRoles.Facilitator:
-                    return await _serverCtx.Facilitators.FindAsync(personId);
-                case EcRoles.CrseAdmin:
-                case EcRoles.Designer:
-                    return await _serverCtx.Externals.FindAsync(personId);
+                case EcMapInstituteRole.Student:
+                    return await _serverCtx.Students.FindAsync(user.PersonId);
+                case EcMapInstituteRole.Facilitator:
+                    return await _serverCtx.Facilitators.FindAsync(user.PersonId);
                 default:
-                    return await _serverCtx.Externals.FindAsync(personId);
+                    return await _serverCtx.Externals.FindAsync(user.PersonId);
             }
         }
 

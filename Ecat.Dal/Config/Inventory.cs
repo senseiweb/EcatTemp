@@ -12,7 +12,6 @@ namespace Ecat.Dal.Config
               .HasForeignKey(p => p.ModifiedById)
                .WillCascadeOnDelete(false);
 
-
         }
     }
 
@@ -24,8 +23,6 @@ namespace Ecat.Dal.Config
               .WithMany()
               .HasForeignKey(p => p.ModifiedById)
                .WillCascadeOnDelete(false);
-
-
         }
     }
 

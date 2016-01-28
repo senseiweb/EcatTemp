@@ -1,16 +1,12 @@
-﻿import swal from 'sweetalert'
+﻿import swal from "sweetalert"
 
 export default class EcDialogService
 {
     static serviceId = 'core.dialog';
-    static $inject = ['$templateCache', '$q'];
-    swal = swal;
+    static $inject = ['$q','$templateCache'];
 
-    constructor(private $tc: angular.ITemplateCacheService,private $q: angular.IQService) {
+    constructor(private $q:angular.IQService, private $tc: angular.ITemplateCacheService) {
         
-    }
-
-    sucessConfirmAlert(title: string, content: string): void {
     }
 
     warningConfirmAlert(warningTitle: string, warningContent: string, confirmBtnText: string): angular.IPromise<any> {
@@ -30,11 +26,11 @@ export default class EcDialogService
         settings.closeOnCancel = false;
         settings.closeOnConfirm = false;
 
-        this.swal(settings, (confirmed) => {
+        swal(settings, (confirmed) => {
             if (confirmed) {
                 deferred.resolve();
             } else {
-                this.swal.close();
+                swal.close();
                 deferred.reject('User Canceled');
             }
         });
@@ -53,7 +49,7 @@ export default class EcDialogService
         registerSettings.html = true;
 
 
-        return this.swal(registerSettings);
+        return swal(registerSettings);
 
     }
 

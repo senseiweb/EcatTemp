@@ -1,16 +1,14 @@
 ﻿import 'breeze'
-import ICommon from 'core/service/common'
 import * as appVar from 'appVars'
+import ICommon from "core/service/common";
 
 export default class EcEmFactory {
     static serviceId = 'data.emfactory';
+    static $inject = ['$injector'];
+    private common = this.$injector.get('core.common') as ICommon;
 
-    static $inject = ['$injector', ICommon.serviceId];
-
-    constructor(private $injector: angular.auto.IInjectorService,
-        private common: ICommon) {
+    constructor(private $injector: angular.auto.IInjectorService) {
     }
-
 
     getRepo(reporName: string): any {
         const repo = this.$injector.get(`data.${reporName}`);
@@ -20,7 +18,6 @@ export default class EcEmFactory {
     getNewManager(apiResourceName: appVar.EcMapApiResource, clientExtensions?: Array<ecat.entity.IEntityExtension>): breeze.EntityManager {
         breeze.NamingConvention.camelCase.setAsDefault();
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
-
         const serviceName = this.common.appEndpoint + apiResourceName;
         const metaDataStore = this.createMetadataStore(clientExtensions);
         //this.registerResourceTypes(metaDataStore, apiResourceName);

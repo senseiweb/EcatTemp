@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Ecat.Models
 {
-    public class EcSecurity: IPersonProfile
+    public class EcSecurity
     {
         public int PersonId { get; set; }
 

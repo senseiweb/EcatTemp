@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -114,7 +115,7 @@ namespace Ecat.Dal
                 saveMap[securityEntityKey] = ProcessSecurity(saveMap[securityEntityKey]);
             }
 
-            foreach (var auditableEntity in saveMap.Where(map => map.Key.IsAssignableFrom(typeof(IAuditable))).SelectMany(auditableItem => auditableItem.Value.Select(entityInfo => entityInfo.Entity).OfType<IAuditable>()))
+            foreach (var auditableEntity in saveMap.Where(map => typeof(IAuditable).IsAssignableFrom(map.Key)).SelectMany(auditableItem => auditableItem.Value.Select(entityInfo => entityInfo.Entity).OfType<IAuditable>()))
             {
                 auditableEntity.ModifiedById = _loggedInPerson?.ModifiedById ?? 0;
                 auditableEntity.ModifiedDate = DateTime.Now;
@@ -128,7 +129,7 @@ namespace Ecat.Dal
             var personEntityInfo = personEntityInfos.Single();
             var personEntity = personEntityInfo.Entity as EcPerson;
 
-            if (personEntity?.PersonId == _loggedInPerson.PersonId)
+            if (personEntity?.PersonId != _loggedInPerson.PersonId)
             {
                 var errors = personEntityInfos.Select(info => new EFEntityError(info, "Ownership Error", "Could relate entities to you, changes to other individual records are not allowed!", "PersonId"));
                 throw new EntityErrorsException(errors);
@@ -226,7 +227,7 @@ namespace Ecat.Dal
             }
 
 
-            if ( _loggedInPerson.MpInstituteRole != EcMapInstituteRole.HqAdmin ||  securityRecord.PersonId != _loggedInPerson?.PersonId){
+            if ( _loggedInPerson.MpInstituteRole != EcMapInstituteRole.HqAdmin &&  securityRecord.PersonId != _loggedInPerson?.PersonId){
                 var errors = securityEntityInfos.Select(info => new EFEntityError(info, "Unauthorized Action", "Anonymous users are allowed to perform the requested action.", null));
                 throw new EntityErrorsException(errors);
             }
@@ -254,10 +255,10 @@ namespace Ecat.Dal
                     throw new EntityErrorsException(errors);
                 }
 
-                    var newProfile = profileEntityInfos.Single().Entity as IPersonProfile;
-                    var newUser = _saveMapRef[typeof (EcPerson)].Single().Entity as EcPerson;
-                    newProfile.PersonId = newUser.PersonId;
-                    return profileEntityInfos;
+                var newProfile = profileEntityInfos.Single().Entity as IPersonProfile;
+                var newUser = _saveMapRef[typeof (EcPerson)].Single().Entity as EcPerson;
+                newProfile.PersonId = newUser.PersonId;
+                return profileEntityInfos;
             }
 
             if (_loggedInPerson.MpInstituteRole == EcMapInstituteRole.HqAdmin)
@@ -281,58 +282,81 @@ namespace Ecat.Dal
             }
             else
             {
-              
                 var profileEntity = profileEntityInfos.Single().Entity as IPersonProfile;
 
                 if (profileEntity?.PersonId != _loggedInPerson.PersonId)
                 {
                     var errors =
-                    profileEntityInfos.Select(info => new EFEntityError(info, "Unauthorized Changes", "Cannot update profiles that do not belong to you!", null));
+                        profileEntityInfos.Select(
+                            info =>
+                                new EFEntityError(info, "Unauthorized Changes",
+                                    "Cannot update profiles that do not belong to you!", null));
                     throw new EntityErrorsException(errors);
                 }
 
-                if (!_loggedInPerson.IsRegistrationComplete)
-                {
-                    var vc = new ValidationContext(profileEntity);
+                if (_loggedInPerson.IsRegistrationComplete) return profileEntityInfos;
 
-                    if (!Validator.TryValidateObject(profileEntity, vc, null, true))
+                var vc = new ValidationContext(profileEntity);
+
+                if (!Validator.TryValidateObject(profileEntity, vc, null, true))
+                {
+                    var errors =
+                        profileEntityInfos.Select(
+                            info =>
+                                new EFEntityError(info, "Validation Errors", "Cannot validate profile information!",
+                                    null));
+                    throw new EntityErrorsException(errors);
+                }
+
+                var infoForPersonInMap =
+                    _saveMapRef.Where(map => map.Key == typeof (EcPerson))
+                        .SelectMany(map => map.Value)
+                        .Select(info => info)
+                        .SingleOrDefault(info =>
+                        {
+                            var entity = info.Entity as EcPerson;
+                            return entity?.PersonId == _loggedInPerson.PersonId;
+                        });
+
+
+                if (infoForPersonInMap != null)
+                {
+                    var personEntity = infoForPersonInMap.Entity as EcPerson;
+                    Contract.Assert(personEntity != null);
+                    personEntity.IsRegistrationComplete = true;
+
+                    if (infoForPersonInMap.OriginalValuesMap == null)
                     {
-                        var errors =
-                             profileEntityInfos.Select(info => new EFEntityError(info, "Validation Errors", "Cannot validate profile information!", null));
-                        throw new EntityErrorsException(errors);
+                        infoForPersonInMap.OriginalValuesMap = new Dictionary<string, object>();
                     }
 
+                    infoForPersonInMap.OriginalValuesMap.Add("IsRegistrationComplete", null);
+                }
+                else
+                {
                     var ctxProvider = new EFContextProvider<EcatCtx>();
                     var newPersonInfo = ctxProvider.CreateEntityInfo(_loggedInPerson, EntityState.Modified);
                     var newPerson = newPersonInfo.Entity as EcPerson;
 
-                    Debug.Assert(newPerson != null);
+                    Contract.Assert(newPerson != null);
 
                     newPerson.IsRegistrationComplete = true;
-
-                    if (newPersonInfo.OriginalValuesMap == null)
+                    newPersonInfo.OriginalValuesMap = new Dictionary<string, object>
                     {
-                        newPersonInfo.OriginalValuesMap = new Dictionary<string, object>();
-                    }
-
-                    newPersonInfo.OriginalValuesMap.Add("IsRegistrationComplete", null);
+                        {"IsRegistrationComplete", null}
+                    };
 
                     List<EntityInfo> existingPersonInfo;
 
                     if (!_saveMapRef.TryGetValue(typeof (EcPerson), out existingPersonInfo))
                     {
                         existingPersonInfo = new List<EntityInfo>();
-                        _saveMapRef.Add(typeof(EcPerson), existingPersonInfo);
+                        _saveMapRef.Add(typeof (EcPerson), existingPersonInfo);
                     }
 
                     existingPersonInfo.Add(newPersonInfo);
                 }
 
-            }
-
-            if (_serverCtx.ChangeTracker.HasChanges())
-            {
-                _serverCtx.SaveChanges();
             }
 
             return profileEntityInfos;

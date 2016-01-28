@@ -24,9 +24,16 @@ namespace Ecat.Dal
         SaveResult SaveClientUser(JObject saveBundle);
         LoginToken GetUserSecurityToken(LoginToken token, bool secureIt);
         Task<bool> SaveChangesSuccess(EcPerson person);
-        int EcatUserId { get; set; }
-        EcRoles EcatInstitueRole { get; set; }
+        EcPerson User { get; set; }
         string DecipherInstituteRole(string[] personRoles);
+    }
+
+
+    public interface ISysAdminLogic
+    {
+        EcPerson User { get; set; }
+        Task<List<AcademyCategory>> GetAcademyCategory();
+        SaveResult BzSave(JObject saveBundle);
     }
 
     public interface ICommonLogic

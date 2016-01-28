@@ -2,7 +2,6 @@
 import AdminStates from "core/config/states/admin"
 import CoreStates from "core/config/states/core"
 import * as AppVar from "appVars"
-import {SysErrorType as sysErrors} from 'appVars'
 
 export default class EcCoreStateConfig {
     static $inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', `${IEcStateProvider.providerId}Provider`, 'userStatic'];

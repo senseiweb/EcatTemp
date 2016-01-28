@@ -10,6 +10,7 @@
 declare module Ecat.Models {
 	interface EcPerson {
 		personId: number;
+		isEnabled: boolean;
 		bbUserId: string;
 		bbUserName: string;
 		lastName: string;
@@ -89,6 +90,7 @@ declare module Ecat.Models {
 	}
 	interface EcAcademy {
 		id: number;
+		name: string;
 		mpEducationLevel: string;
 		epmeSchool: Ecat.Models.EpmeSchool;
 		bbCategoryId: string;

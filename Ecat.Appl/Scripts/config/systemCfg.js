@@ -14,6 +14,7 @@
         "breezeNg": 'scripts/vendor/bower/breeze-client/build/adapters/breeze.bridge.angular.js',
         "breezeSaveError": 'scripts/vendor/bower/breeze-client-labs/breeze.saveErrorExtensions.js',
         "ngMessage": 'scripts/vendor/bower/angular-messages/angular-messages.min.js',
+        "ngTable": 'scripts/vendor/bower/ng-table/dist/ng-table.min.js',
         "moment": 'scripts/vendor/bower/moment/moment.js',
         "bsGrowl": 'scripts/vendor/bower/remarkable-bootstrap-notify/bootstrap-notify.js',
         "sweetalert": 'scripts/vendor/bower/sweetalert/dist/sweetalert.min.js',
@@ -107,6 +108,10 @@
         "textNg": {
             "format": 'global',
             "deps": ['textNgSantize', 'textNgRangy']
+        },
+        "ngTable": {
+            "format": 'global',
+            "deps": ['angular']
         }
     },
     "packages": {

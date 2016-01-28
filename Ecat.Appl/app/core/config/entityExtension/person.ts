@@ -86,3 +86,9 @@ export class PersonClientExtended implements ecat.entity.PersonClientExtensions
         }
     }
 }
+
+export var personConfig: ecat.entity.IEntityExtension = {
+    entityName: AppVar.EcMapEntityType.person,
+    ctorFunc: this.PersonClientExtended,
+    initFunc: (personEntity: ecat.entity.IPerson) => new PersonInitializer(personEntity)
+}

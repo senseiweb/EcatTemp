@@ -1,19 +1,17 @@
-﻿import IEcatStateProvider from 'core/provider/stateProvider'
-import * as AppVar from "appVars"
+﻿import ICommon from "core/service/common"
 import IDataCtx from "core/service/data/context"
-import ICommon from "core/service/common"
-import ILocal from "core/service/data/local"
 
 export default class EcGlobalLogin {
     static controllerId = 'app.global.login';
-    static $inject = ['$scope','$state', '$stateParams','$timeout',IEcatStateProvider.providerId, IDataCtx.serivceId, ICommon.serviceId, ILocal.serviceId];
+    static $inject = ['$scope','$timeout', ICommon.serviceId, IDataCtx.serviceId];
+
     badAccount = false;
-    gender = AppVar.EcMapGender;
+    gender = this.c.appVar.EcMapGender;
     inFlight = false;
+    logSucceess = this.c.logSuccess('Login Controller');
+    logWarning = this.c.logWarning('Login Controller');
+    logError = this.c.logError('Login Controller');
     mode = 'main';
-    private logSucceess = this.common.logger.getLogFn(EcGlobalLogin.controllerId, AppVar.EcMapAlertType.success);
-    private logWarning = this.common.logger.getLogFn(EcGlobalLogin.controllerId, AppVar.EcMapAlertType.warning);
-    private logError = this.common.logger.getLogFn(EcGlobalLogin.controllerId, AppVar.EcMapAlertType.danger);
     registrationSuccess = false;
     rememberMe = false;
     user: ecat.entity.IPerson;
@@ -22,16 +20,12 @@ export default class EcGlobalLogin {
     userRegForm: angular.IFormController;
 
     constructor(private $scope: angular.IScope,
-        private $state: angular.ui.IStateService,
-        params: any,
         private $timeout: angular.ITimeoutService,
-    private stateMgr: IEcatStateProvider,
-        private dataCtx: IDataCtx,
-        private common: ICommon, 
-        private local: ILocal
-    ) {
+        private c: ICommon,
+        private dCtx: IDataCtx) {
+
         console.log('Login Controller Loaded');
-        this.mode = params.mode;
+        this.mode = c.$stateParams.mode;
         const reminder = localStorage.getItem('ECAT:RME');
         this.rememberMe = !!reminder;
 
@@ -39,7 +33,7 @@ export default class EcGlobalLogin {
             this.userEmail = reminder;
         }
 
-        $scope.$on(common.coreCfg.coreEvents.saveChangesEvent, (data: any) => {
+        $scope.$on(c.coreCfg.coreEvents.saveChangesEvent, (data: any) => {
             this.inFlight = data.inflight;
         });
     }
@@ -52,7 +46,7 @@ export default class EcGlobalLogin {
             if (this.user) {
                 return null;
             }
-            const user = this.dataCtx.user.createUserLocal(true);
+            const user = this.dCtx.user.createUserLocal(true);
             this.user = user;
             this.userEmail = null;
             this.userPassword = null;
@@ -61,11 +55,12 @@ export default class EcGlobalLogin {
             this.mode = state;
         }
 
+        this.badAccount = false;
         this.mode = state;
     }
 
     logMeIn($event: JQueryKeyEventObject): void {
-        if ($event && $event.keyCode !== AppVar.Keycode.Enter) {
+        if ($event && $event.keyCode !== this.c.appVar.Keycode.Enter) {
             return null;
         }
 
@@ -73,9 +68,9 @@ export default class EcGlobalLogin {
         this.badAccount = false;
         function logInSuccess(loginUser: ecat.entity.IPerson): void {
             if (loginUser.isRegistrationComplete) {
-                self.$state.go(self.stateMgr.core.dashboard.name);
+                self.c.$state.go(self.c.stateMgr.core.dashboard.name);
             } else {
-                self.$state.go(self.stateMgr.core.profile.name);
+                self.c.$state.go(self.c.stateMgr.core.profile.name);
             }
         }
 
@@ -85,16 +80,16 @@ export default class EcGlobalLogin {
             self.registrationSuccess = false;
         }
 
-        this.dataCtx.user.loginUser(this.userEmail, this.userPassword, this.rememberMe)
+        this.dCtx.user.loginUser(this.userEmail, this.userPassword, this.rememberMe)
             .then(logInSuccess)
             .catch(loginError);
 
     }
 
    processRegistration(): void {
-        this.dataCtx.user.saveUserChanges()
+        this.dCtx.user.saveUserChanges()
             .then(() => {
-                this.dataCtx.user.persona = null;
+                this.dCtx.user.persona = null;
                 this.user = null;
                 this.registrationSuccess = true;
                 this.mode = 'main';

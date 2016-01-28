@@ -1,6 +1,4 @@
-﻿import ICoreModCfgProvider from "core/provider/coreCfgProvider"
-import IAuthService from "core/service/requestAuthenicator"
-
+﻿import IAuthService from "core/service/requestAuthenicator"
 import ICoreCfg from "core/provider/coreCfgProvider"
 
 export default class EcCoreConfig {
@@ -13,7 +11,7 @@ export default class EcCoreConfig {
     constructor($httpProvider: angular.IHttpProvider,
         $ocLazyLoadProvider: oc.ILazyLoadProvider,
         coreCfg: ICoreCfg,
-        $provide: angular.auto.IProvideService    ) {
+        $provide: angular.auto.IProvideService) {
 
         coreCfg.errorPrefix = '[Core Error]: ';
 

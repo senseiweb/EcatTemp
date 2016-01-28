@@ -36,6 +36,7 @@ namespace Ecat.Models
     public static class EcMapGender
     {
         public const string Unk = "Unknown",
+            Other = "Other",
             Male = "Male",
             Female = "Female";
     }

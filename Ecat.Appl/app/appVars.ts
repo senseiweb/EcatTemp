@@ -26,6 +26,7 @@ export class EcMapGender {
     static unk = 'Unknown';
     static male = 'Male';
     static female = 'Female';
+    static other = 'Other';
 }
 
 export class EcMapAffiliation {

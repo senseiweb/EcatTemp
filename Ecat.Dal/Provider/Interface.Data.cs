@@ -31,11 +31,17 @@ namespace Ecat.Dal
         Task<List<CourseMembershipVO>> GetCourseMembersById(string bbCourseId, bool forceUpdate = false);
         Task<List<CourseVO>> GetBbCourses(EpmeSchool school = EpmeSchool.Bcee, bool forceUpdate = false);
         Task<List<GroupVO>> GetBbCourseGroup(string bbCourseId, bool forceUpdate = false);
+        Task<CategoryVO[]> GetCategoryList();
+    }
+
+    public interface ISaRepo
+    {
+        SaveResult BzSave(JObject saveBundle, EcPerson user);
     }
 
     public interface IUserRepo
     {
-        Task<object> GetUserProfile(int personId, EcRoles role);
+        Task<object> GetUserProfile(EcPerson user);
         SaveResult BzSaveUser(JObject saveBundle, EcPerson person = null);
         Task<List<UserVO>> LmsGetUserById(UserFilterType filter, List<string> ids);
         Task<bool> LmsCheckCredentials(string bbUiD, string bbPass);
@@ -49,6 +55,5 @@ namespace Ecat.Dal
     public interface ICommonRepo
     {
         string GetMetadata<T>() where T : EcatCtx, new();
-        Task<CategoryVO[]> GetCategoryList();
     }
 }

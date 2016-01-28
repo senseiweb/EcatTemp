@@ -1,9 +1,5 @@
-﻿import IDataCtx from 'core/service/data/context'
-import ICommon from 'core/service/common'
-import ILocal from 'core/service/data/local'
-import IDialog from 'core/service/dialog'
-import IStateProvider from "core/provider/stateProvider"
-import * as AppVar from 'appVars'
+﻿import ICommon from 'core/service/common'
+import IDataCtx from "core/service/data/context";
 
 enum PageTypeEnum {
     Facilitator,
@@ -14,52 +10,54 @@ enum PageTypeEnum {
 
 export default class EcUserProfile {
     static controllerId = 'app.user.profile';
-    static $inject = ['$scope', ICommon.serviceId, IDataCtx.serivceId, ILocal.serviceId, IDialog.serviceId, IStateProvider.providerId]; 
+    static $inject = ['$scope',ICommon.serviceId, IDataCtx.serviceId]; 
 
     aboutMeText: string;
     aboutMeForm: angular.IFormController;
-    affiliationList = this.local.milAffil;
+    affiliationList = this.dCtx.local.milAffil;
     basicInfoForm: angular.IFormController;
-    componentList = this.local.milComponent;
+    componentList = this.dCtx.local.milComponent;
     editing_aboutMeForm = false;
     editing_basicInfoForm = false;
     editing_studentInfoForm = false;
-    gender = AppVar.EcMapGender;
+    editing_externalUserForm = false;
+    externalUserForm: angular.IFormController;
+    gender = this.c.appVar.EcMapGender;
     inflight = false;
     isLtiRole = false;
     isSaving = false;
-    logWarning = this.common.logger.getLogFn(EcUserProfile.controllerId, AppVar.EcMapAlertType.warning);
-    logSuccess = this.common.logger.getLogFn(EcUserProfile.controllerId, AppVar.EcMapAlertType.success);
+    logWarning = this.c.logWarning('User Profile');
+    logSuccess = this.c.logSuccess('User Profile');
     nonAllowList = {};
     pageTypeEnum = PageTypeEnum;
     page = this.pageTypeEnum.External;
-    payGradeList = this.local.milPaygradeList;
-    payGradeEnum = AppVar.EcMapPaygrade;
+    payGradeList = this.dCtx.local.milPaygradeList;
+    payGradeEnum = this.c.appVar.EcMapPaygrade;
     showExternal = false;
     showStudent = false;
     showFacilitator = false;
     studentInfoForm: angular.IFormController;
     user: ecat.entity.IPerson;
-    userRoles = AppVar.EcMapInstituteRole;
+    userRoles = this.c.appVar.EcMapInstituteRole;
 
-    constructor($scope: angular.IScope, private common: ICommon, private dataCtx: IDataCtx, private local: ILocal, private dialog: IDialog, private stateMgr: IStateProvider) {
+    constructor(private $scope, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Profile Loaded');
-        this.user = dataCtx.user.persona;
+        this.user = dCtx.user.persona;
 
         this.getProfile();
 
         switch (this.user.mpInstituteRole) {
-            case AppVar.EcMapInstituteRole.student:
+            case c.appVar.EcMapInstituteRole.student:
                 this.isLtiRole = true;
                 this.showStudent = true;
                 this.page = PageTypeEnum.Student;
                 break;
-            case AppVar.EcMapInstituteRole.facilitator:
+            case c.appVar.EcMapInstituteRole.facilitator:
                 this.isLtiRole = true;
                 this.showFacilitator = true;
                 this.page = PageTypeEnum.Facilitator;
                 break;
-            case AppVar.EcMapInstituteRole.external:
+            case c.appVar.EcMapInstituteRole.external:
                 this.isLtiRole = false;
                 this.showExternal = true;
                 this.page = PageTypeEnum.External;
@@ -70,17 +68,17 @@ export default class EcUserProfile {
                 break;
         }
 
-        $scope.$on('$stateChangeStart', (event, toState: angular.ui.IState) => {
-            const parent = toState.parent as angular.ui.IState;
+        this.$scope.$on('$stateChangeStart', (event, toState: angular.ui.IState) => {
+            const parentName = toState.parent as angular.ui.IState;
 
-            if (!this.user.isRegistrationComplete && parent.name !== stateMgr.core.redirect.name ) {
+            if (!this.user.isRegistrationComplete && parentName !== c.stateMgr.core.redirect.name ) {
                 event.preventDefault();
-                dialog.swal('Registration Error', 'You muse complete your profile, before using the app', 'error');
+                c.swal('Registration Error', 'You muse complete your profile, before using the app', 'error');
             }
         });
 
-        $scope.$on(common.coreCfg.coreEvents.saveChangesEvent, (data: any) => {
-                this.inflight = data.inflight;
+        this.$scope.$on(c.coreCfg.coreEvents.saveChangesEvent, (event: angular.IAngularEvent, data: Array<any>) => {
+                this.inflight = data[0].inflight;
         });
     }
 
@@ -90,12 +88,12 @@ export default class EcUserProfile {
             return null;
         }
 
-        this.dialog.warningConfirmAlert('Wait a minute...', 'You have unsaved changes,  are you sure you would like to disregard all changes?', 'Yes-Abort Changes')
+        this.c.dialog.warningConfirmAlert('Wait a minute...', 'You have unsaved changes,  are you sure you would like to disregard all changes?', 'Yes-Abort Changes')
             .then(() => {
                 this.user.entityAspect.rejectChanges();
                 this[formName]['$setPristine()'];
                 this[`editing_${formName}`] = false;
-                this.dialog.swal('Done!', 'Just like new again', 'success');
+                this.c.swal('Done!', 'Just like new again', 'success');
 
                 if (this.showStudent) {
                     this.user.student.entityAspect.rejectChanges();
@@ -117,13 +115,13 @@ export default class EcUserProfile {
 
         if (formName === 'aboutMeForm') {
             switch (this.user.mpInstituteRole) {
-                case AppVar.EcMapInstituteRole.student:
+                case this.c.appVar.EcMapInstituteRole.student:
                     this.user.student.bio = this.aboutMeText;
                     break;
-                case AppVar.EcMapInstituteRole.facilitator:
+                case this.c.appVar.EcMapInstituteRole.facilitator:
                     this.user.facilitator.bio = this.aboutMeText;
                     break;
-                case AppVar.EcMapInstituteRole.external:
+                case this.c.appVar.EcMapInstituteRole.external:
                     this.user.external.bio = this.aboutMeText;
                     break;
                 default:
@@ -132,7 +130,7 @@ export default class EcUserProfile {
         }
    
         if (this[formName]['$valid']) {
-            this.dataCtx.user.saveUserChanges()
+            this.dCtx.user.saveUserChanges()
                 .then(() => {
                     this.logSuccess('Your changes were successfully saved!', null, true);
                     this[`editing_${formName}`] = false;
@@ -144,7 +142,7 @@ export default class EcUserProfile {
     }
 
     updatePayGradeList(): void {
-        const userWPaygrade = this.local.updatePayGradeList(this.user);
+        const userWPaygrade = this.dCtx.local.updatePayGradeList(this.user);
         
         if (userWPaygrade) {
             this.user = userWPaygrade.user;
@@ -154,24 +152,24 @@ export default class EcUserProfile {
 
     private getProfile(): void {
         const self = this;
-        this.dataCtx.user.getUserProfile()
+        this.dCtx.user.getUserProfile()
             .then(getProfileResponse)
             .catch(getProfileError);
 
         function getProfileResponse(profile: any) {
             let userType = '';
             switch (self.user.mpInstituteRole) {
-                case AppVar.EcMapInstituteRole.student:
+                case self.c.appVar.EcMapInstituteRole.student:
                     userType = 'student';
                     break;
-                case AppVar.EcMapInstituteRole.facilitator:
+                case self.c.appVar.EcMapInstituteRole.facilitator:
                     userType = 'facilitator';
                     break;
-                case AppVar.EcMapInstituteRole.external:
+                case self.c.appVar.EcMapInstituteRole.external:
                     userType = 'external';
                     break;
                 default:
-                    userType = 'unknown';
+                    userType = 'external';
                     break;
             }
             self.user[userType] = profile;

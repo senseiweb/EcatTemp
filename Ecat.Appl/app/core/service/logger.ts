@@ -1,5 +1,5 @@
 ﻿import IGrowl from 'core/service/plugin/growl'
-import {EcMapAlertType as AlertType, EcMapAnimationsEnum as AnimType} from 'appVars'
+import * as appVar from "appVars"
 import moment from "moment"
 
 export default class EcLoggerService {
@@ -7,20 +7,19 @@ export default class EcLoggerService {
     static $inject = ['$log', IGrowl.serviceId];
     eventList: Array<ecat.SigEvent> = [];
 
-
     constructor(private $log: angular.ILogService, private growl: IGrowl) { }
         
-    getLogFn = (moduleId: string, alert: AlertType) => {
+    getLogFn = (moduleId: string, alert: appVar.EcMapAlertType) => {
         const logFuncName = alert || null;
         switch (logFuncName) {
 
-            case AlertType.success:
+            case appVar.EcMapAlertType.success:
                 return (msg: string, data: any, showLog) => this.logSucces(msg, data, moduleId, (showLog === undefined) ? true : showLog); 
-            case AlertType.warning:
+            case appVar.EcMapAlertType.warning:
                 return (msg: string, data: any, showLog) => this.logWarn(msg, data, moduleId, (showLog === undefined) ? true : showLog);  
-            case AlertType.danger:
+            case appVar.EcMapAlertType.danger:
                 return (msg: string, data: any, showLog) => this.logError(msg, data, moduleId, (showLog === undefined) ? true : showLog);     
-            case AlertType.info:
+            case appVar.EcMapAlertType.info:
                 return (msg: string, data: any, showLog) => this.logInfo(msg, data, moduleId, (showLog === undefined) ? true : showLog);
             default:
                 return (msg: string, data: any, showLog) => this.log(msg, data, moduleId, (showLog === undefined) ? true : showLog);
@@ -29,17 +28,17 @@ export default class EcLoggerService {
 
     log = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, null, source, showLog, null);
 
-    logWarn = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, AlertType.warning, source, showLog);
+    logWarn = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, appVar.EcMapAlertType.warning, source, showLog);
 
-    logSucces = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, AlertType.success, source, showLog);
+    logSucces = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, appVar.EcMapAlertType.success, source, showLog);
 
-    logError = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, AlertType.danger, source, showLog);
+    logError = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, appVar.EcMapAlertType.danger, source, showLog);
 
-    logInfo = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, AlertType.info, source, showLog);
+    logInfo = (message: string, data: any, source: string, showLog: boolean) => this.logIt(message, data, appVar.EcMapAlertType.info, source, showLog);
     
-    private logIt(message: string, data: any, logType: AlertType, source?: string, showLog?: boolean, bugId?: any) {
+    private logIt(message: string, data: any, logType: appVar.EcMapAlertType, source?: string, showLog?: boolean, bugId?: any) {
 
-        const write = (logType === AlertType.danger) ? this.$log.error : this.$log.log;
+        const write = (logType === appVar.EcMapAlertType.danger) ? this.$log.error : this.$log.log;
 
         source = source ? `[${source}]` : '[No Source]';
 
@@ -56,8 +55,8 @@ export default class EcLoggerService {
             placement: { from: 'bottom', align: 'right' },
             type: logType as string,
             animate: {
-                enter: AnimType.fadeInRight,
-                exit: AnimType.fadeOutRight
+                enter: appVar.EcMapAnimationsEnum.fadeInRight,
+                exit: appVar.EcMapAnimationsEnum.fadeOutRight
             }
         };
 
@@ -65,28 +64,28 @@ export default class EcLoggerService {
             let eventType: string;
    
             switch (logType) {
-                case AlertType.danger:
+                case appVar.EcMapAlertType.danger:
                     options.icon = `zmdi-alert-circle-o`;
                     settings.placement.from = 'top';
                     settings.placement.align = 'right';
-                    settings.animate.enter = AnimType.bounceInRight;
-                    settings.animate.exit = AnimType.bounceOutRight;
+                    settings.animate.enter = appVar.EcMapAnimationsEnum.bounceInRight;
+                    settings.animate.exit = appVar.EcMapAnimationsEnum.bounceOutRight;
                     settings.allow_dismiss = true;
                     settings.type = 'pastel-danger';
                     settings.delay = 10000;
                     eventType = 'Error';
                     break;
-                case AlertType.info:
+                case appVar.EcMapAlertType.info:
                     options.icon = `zmdi-info-alert`;
                     settings.type = 'pastel-info';
                     eventType = 'Informational';
                     break;
-                case AlertType.warning:
+                case appVar.EcMapAlertType.warning:
                     options.icon = `zmdi-triangle-up`;
                     settings.type = 'pastel-warning';
                     eventType = 'Warning';
                     break;
-                case AlertType.success:
+                case appVar.EcMapAlertType.success:
                     options.icon = `zmdi-assignment-check`;
                     settings.type = 'pastel-success';
                     eventType = 'Success';

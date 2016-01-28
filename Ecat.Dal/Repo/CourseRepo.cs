@@ -17,6 +17,32 @@ namespace Ecat.Dal
         static readonly ConcurrentDictionary<string, DateTime> LastGroupUpdateDict = new ConcurrentDictionary<string, DateTime>();
         static readonly ConcurrentDictionary<EpmeSchool, DateTime> LastCourseUpdateDict = new ConcurrentDictionary<EpmeSchool, DateTime>();
 
+        public async Task<CategoryVO[]> GetCategoryList()
+        {
+            // 0 = GET_ALL_COURSE_CATEGORY, 1 = GET_ALL_ORG_CATEGORY, 2 = GET_CATEGORY_BY_ID, 3= GET_CATEGORY_BY_PARENT_ID
+            var client = await _ws.GetCourseClient();
+            var cf = new CategoryFilter
+            {
+
+                filterTypeSpecified = true,
+                filterType = 0,
+            };
+
+            var result = await client.getCategoriesAsync(cf);
+
+            var categoryList = result.@return;
+            if (categoryList.Length == 0)
+            {
+                return categoryList;
+            }
+
+            var parentCategory =
+               categoryList.FirstOrDefault(
+                    cat => string.Equals(cat.title, "bcee", StringComparison.InvariantCultureIgnoreCase));
+
+            return parentCategory != null ? categoryList.Where(cat => cat.parentId == parentCategory.id).ToArray() : categoryList;
+        }
+
         public async Task<List<CourseMembershipVO>> GetCourseMembersById(string bbCourseId, bool forceUpdate = false)
         {
             DateTime lastUpdate;

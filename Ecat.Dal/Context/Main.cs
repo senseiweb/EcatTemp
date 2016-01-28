@@ -5,9 +5,11 @@ using System.Data.Entity.Infrastructure.Interception;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Ecat.Models;
 
 namespace Ecat.Dal.Context
@@ -44,6 +46,8 @@ namespace Ecat.Dal.Context
         /// <param name="mb">The builder that defines the model for the context being created. </param>
         protected override void OnModelCreating(DbModelBuilder mb)
         {
+            Database.Log = s => Debug.WriteLine(s);
+
             mb.Conventions.Remove<PluralizingTableNameConvention>();
 
             mb.Properties<string>().Configure(s => s.HasMaxLength(250));
@@ -111,47 +115,65 @@ namespace Ecat.Dal.Context
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
         }
+
+        protected override void Seed(EcatCtx ctx)
+        {
+            var seed = new Seed();
+
+            if (!seed.DoSeed)
+            {
+                return;
+            }
+
+            if (!Debugger.IsAttached) return;
+
+            Debugger.Launch();
+
+            try
+            {
+                SaveChanges(seed.PlantSeed(ctx));
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+
+                Debug.WriteLine(ex);
+                throw;
+            }
+        }
+
+        private static void SaveChanges(DbContext context)
+        {
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var sb = new StringBuilder();
+
+                foreach (var failure in ex.EntityValidationErrors)
+                {
+                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                    foreach (var error in failure.ValidationErrors)
+                    {
+                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                        sb.AppendLine();
+                    }
+                }
+
+                throw new DbEntityValidationException("Entity Validation Failed - errors follow:\n" + sb.ToString(), ex);
+                // Add the original exception as the innerException
+            }
+        }
     }
 
-    public class NLogCommandInterceptor : IDbCommandInterceptor
-    {
-
-        public void NonQueryExecuting(
-            DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
-        {
-            Debug.WriteLine(command.CommandText);
-        }
-
-        public void NonQueryExecuted(
-            DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
-        {
-            Debug.WriteLine(command.CommandText);
-        }
-
-        public void ReaderExecuting(
-            DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext)
-        {
-            Debug.WriteLine(command.CommandText);
-        }
-
-        public void ReaderExecuted(
-            DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext)
-        {
-            Debug.WriteLine(command.CommandText);
-        }
-
-        public void ScalarExecuting(
-            DbCommand command, DbCommandInterceptionContext<object> interceptionContext)
-        {
-            Debug.WriteLine(command.CommandText);
-        }
-
-        public void ScalarExecuted(
-            DbCommand command, DbCommandInterceptionContext<object> interceptionContext)
-        {
-            Debug.WriteLine(command.CommandText);
-        }
-
-      
-    }
 }

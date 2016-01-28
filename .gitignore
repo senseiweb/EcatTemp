@@ -2,7 +2,8 @@ Ecat.Appl/**/*.js
 Ecat.Appl/Template/**
 !Ecat.Appl/Scripts/vendor/**/*.js
 !Ecat.Appl/Scripts/config/**/*.js
-
+Ecat.Dal/Context/Seed.cs
+Ecat.Dal/Migrations/**
 bower
 bower_components
 published

@@ -26,6 +26,11 @@ declare module 'systemCfg' {
 
 declare module ecat {
 
+    interface IEcRootScope extends angular.IRootScopeService {
+        $state: angular.ui.IStateService;
+        stateMgr: any;
+    }    
+
     interface ICoreCfg {
         errorPrefix?: string;
         coreEvents: IGlobalEvents;
@@ -90,6 +95,7 @@ declare module ecat {
     interface IEcatParams extends angular.ui.IStateParamsService {
         ltiModId: string;
         uId: string;
+        mode: string;
     }
 
     interface IUserLogStatus {

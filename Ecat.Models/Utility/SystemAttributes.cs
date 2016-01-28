@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Web;
+using System.Web.Http;
 
 namespace Ecat.Models
 {
