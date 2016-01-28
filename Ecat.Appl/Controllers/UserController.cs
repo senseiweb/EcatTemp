@@ -55,7 +55,7 @@ namespace Ecat.Appl.Controllers
         [AllowAnonymous]
         public async Task<bool> CheckUserEmail(string email)
         {
-            return await _userLogic.CheckUniqueEmail(email);
+                return await _userLogic.CheckUniqueEmail(email);
         }
 
         [HttpPost]
