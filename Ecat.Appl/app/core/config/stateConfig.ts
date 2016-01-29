@@ -1,6 +1,6 @@
 ﻿import IEcStateProvider from 'core/provider/stateProvider'
-import AdminStates from "core/config/states/admin"
-import CoreStates from "core/config/states/core"
+import AdminStates from "admin/config/statesAdmin"
+import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
 
 export default class EcCoreStateConfig {

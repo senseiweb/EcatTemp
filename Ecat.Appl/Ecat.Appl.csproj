@@ -226,7 +226,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\admin\academy\academy.html" />
-    <Content Include="app\admin\academy\addEdit.html" />
     <Content Include="app\core\global\login.html" />
     <Content Include="app\core\global\main.html" />
     <Content Include="app\core\global\tmpls\error.html" />
@@ -642,13 +641,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\admin\config\entityExternsions\" />
+    <Folder Include="app\admin\service\" />
     <Folder Include="app\hq\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\admin\academy\academy.ts" />
-    <TypeScriptCompile Include="app\admin\academy\addEdit.ts" />
     <TypeScriptCompile Include="app\admin\admin.ts" />
-    <TypeScriptCompile Include="app\admin\service\adminData.ts" />
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appVars.ts" />
     <TypeScriptCompile Include="app\core\config\stateConfig.ts" />
