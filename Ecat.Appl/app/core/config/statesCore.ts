@@ -17,7 +17,6 @@ export default class EcCoreStates {
             }
 
             deferred.reject(error);
-            return deferred.promise;
         }
 
         if (dCtx.user.token.validatity() === c.appVar.TokenStatus.Expired) {
@@ -29,27 +28,10 @@ export default class EcCoreStates {
             }
 
             deferred.reject(error);
-            return deferred.promise;
-        } 
+        } else {
+            deferred.resolve(true);
+        }
 
-        //if (!dataCtx.user.persona.isRegistrationComplete) {
-
-        //    if ($state.includes(this.profile.name)) {
-        //        deferred.resolve();
-        //        return deferred.promise;
-        //    }
-
-        //    error = {
-        //        message: 'You must complete your profile before using the rest of application.',
-        //        errorCode: AppVar.SysErrorType.RegNotComplete,
-        //        redirectTo: this.profile.name
-        //    }
-
-        //    deferred.reject(error);
-        //    return deferred.promise;
-        //} 
-
-        deferred.resolve();
         return deferred.promise;
     }
 

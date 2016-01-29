@@ -640,7 +640,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\admin\config\" />
+    <Folder Include="app\admin\config\entityExternsions\" />
+    <Folder Include="app\admin\service\" />
+    <Folder Include="app\hq\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\admin\academy\academy.ts" />
@@ -648,8 +650,8 @@
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appVars.ts" />
     <TypeScriptCompile Include="app\core\config\stateConfig.ts" />
-    <TypeScriptCompile Include="app\core\config\states\admin.ts" />
-    <TypeScriptCompile Include="app\core\config\states\core.ts" />
+    <TypeScriptCompile Include="app\admin\config\statesAdmin.ts" />
+    <TypeScriptCompile Include="app\core\config\statesCore.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
     <TypeScriptCompile Include="app\core\config\coreConfig.ts" />
     <TypeScriptCompile Include="app\core\directives\avatar.ts" />

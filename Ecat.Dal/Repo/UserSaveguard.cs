@@ -117,7 +117,7 @@ namespace Ecat.Dal
 
             foreach (var auditableEntity in saveMap.Where(map => typeof(IAuditable).IsAssignableFrom(map.Key)).SelectMany(auditableItem => auditableItem.Value.Select(entityInfo => entityInfo.Entity).OfType<IAuditable>()))
             {
-                auditableEntity.ModifiedById = _loggedInPerson?.ModifiedById ?? 0;
+                auditableEntity.ModifiedById = _loggedInPerson?.ModifiedById;
                 auditableEntity.ModifiedDate = DateTime.Now;
             }
 

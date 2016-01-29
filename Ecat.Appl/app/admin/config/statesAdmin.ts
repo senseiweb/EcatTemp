@@ -1,4 +1,4 @@
-﻿import CoreStates from "core/config/states/core"
+﻿import CoreStates from "core/config/statesCore"
 import IEcAdminModule from "admin/admin"
 import * as AppVar from "appVars"
 import IDataCtx from 'core/service/data/context'
@@ -10,6 +10,19 @@ export default class EcAdminStates {
 
     constructor() {
         this.core = new CoreStates();
+    }
+
+    private isAuthorized = (manager: boolean, isLoggedIn: boolean, common:ICommon, dataCtx: IDataCtx, authorizedRoles: Array<string>): angular.IPromise<any> => {
+        const deferred = common.$q.defer();
+
+        if (!manager || !isLoggedIn) {
+            deferred.reject('missing dependencies');
+        }
+        if (!dataCtx.user.isAuthorized(authorizedRoles)) {
+            deferred.reject('missing dependencies');
+        };
+        deferred.resolve();
+        return deferred.promise;
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
@@ -34,7 +47,7 @@ export default class EcAdminStates {
                 isAuthorized: (userRole: string) => authorizedRoles.some(role => userRole === role)
             },
             resolve: {
-                authorized: [IDataCtx.serviceId, (dataCtx: IDataCtx) => dataCtx.user.isAuthorized(authorizedRoles)],
+                authorized: ['manager', 'isLoggedIn', ICommon.serviceId, IDataCtx.serviceId, (manager, isLoggedIn, common, dataCtx) => this.isAuthorized(manager, isLoggedIn, common, dataCtx, authorizedRoles)],
                 moduleInit: ['$ocLazyLoad', this.loadModule]
             }
         };
