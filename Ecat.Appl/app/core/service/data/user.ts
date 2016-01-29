@@ -7,17 +7,21 @@ import * as IPersonExt from "core/config/entityExtension/person"
 export default class EcUserRepo extends IUtilityRepo
 {
     static serviceId = 'data.user';
-    static $inject = ['$http', ICommon.serviceId, IEntityFactory.serviceId,'userStatic'];
+    static $inject = ['$injector', '$http', 'userStatic'];
+
     activated = false;
     private entityExtCfgs: Array<ecat.entity.IEntityExtension> = [IPersonExt.personConfig];
-    isLoaded = this.areItemsLoaded;
-    logSuccess = this.c.logSuccess('User Data Service');
-    logWarn = this.c.logWarning('User Data Service');
-    manager: breeze.EntityManager;
+    private isLoaded = this.areItemsLoaded;
+    private logSuccess = this.c.logSuccess('User Data Service');
+    private logWarn = this.c.logWarning('User Data Service');
+    private manager: breeze.EntityManager;
     persona: ecat.entity.IPerson;
     private query: breeze.EntityQuery;
     private qf = (error) => this.queryFailed('User Data Service', error);
-    rname: ecat.IAllApiResources;
+    rname: ecat.IApiResources = {
+        
+    };
+
     token = {
         userEmail: '',
         password: '',
@@ -35,18 +39,15 @@ export default class EcUserRepo extends IUtilityRepo
             return IAppVar.TokenStatus.Valid;
         }
     };
+
     userPriKey: number;
 
+    constructor(inj: angular.auto.IInjectorService, private $http: angular.IHttpService, private userStatic: ecat.entity.ILoginToken) {
+        super(inj);
 
-    constructor(private $http: angular.IHttpService,
-        private c: ICommon, emFactory: IEntityFactory,
-        private userStatic: ecat.entity.ILoginToken) {
-
-        super(c);
-
-        this.manager = emFactory.getNewManager(c.appVar.EcMapApiResource.user, this.entityExtCfgs);
+        this.manager = this.getManager(this.c.appVar.EcMapApiResource.user, this.entityExtCfgs);
         this.query = new breeze.EntityQuery();
-        this.rname = c.resourceNames;
+        this.rname = this.c.resourceNames;
         if (userStatic) {
             this.token.auth = userStatic.authToken;
             this.token.expire = new Date(userStatic.tokenExpire as any);

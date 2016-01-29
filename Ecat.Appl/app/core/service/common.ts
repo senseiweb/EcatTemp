@@ -60,6 +60,7 @@ export default class EcCommon
             }
         }
     }
+
     swal = swal;
     tokenEndpoint: string;
 
@@ -78,7 +79,6 @@ export default class EcCommon
         this.appEndpoint = `${this.serverEnvironment}/breeze/`;
         this.tokenEndpoint = `${this.serverEnvironment}/token`;
     }
-
 
     broadcast(event: string,...args): void {
         this.$rootScope.$broadcast(event, args);

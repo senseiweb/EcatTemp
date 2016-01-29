@@ -1,15 +1,28 @@
 ﻿import 'breezeSaveError'
 import ICommon from "core/service/common"
+import IEmFactory from "core/service/data/emFactory"
+import * as AppVars from "appVars"
 
 export default class EcUtilityRepoServices {
-    saveInProgress = false;
+
+    appVars = AppVars;
     areItemsLoaded = {
         userProfile: false,
         userToken: false,
         user: false
     }
+    c: ICommon;
+    emf: IEmFactory;
+    saveInProgress = false;
     
-    constructor(private _c: ICommon) { }
+    constructor(private inj: angular.auto.IInjectorService) {
+        this.c = inj.get(ICommon.serviceId) as ICommon;
+        this.emf = inj.get(IEmFactory.serviceId) as IEmFactory;
+    }
+    
+    getManager = (resourceId: AppVars.EcMapApiResource, exts: Array<ecat.entity.IEntityExtension>): breeze.EntityManager => {
+        return this.emf.getNewManager(resourceId, exts);
+    }
 
     queryLocal = (manager: breeze.EntityManager, resource: string, ordering?: string, predicate?: breeze.Predicate): breeze.Entity | breeze.Entity[]=> {
         const query = new breeze.EntityQuery();
@@ -22,40 +35,40 @@ export default class EcUtilityRepoServices {
 
     queryFailed = (errorPrefix: string, error: any) => {
         const msg = `${errorPrefix} Error querying data: ${error ? (error.message || error.statusText) : 'Unknown Reason'}`;
-        this._c.logger.logError(msg, error, 'Query Result', false);
-        return this._c.$q.reject(error);
+        this.c.logger.logError(msg, error, 'Query Result', false);
+        return this.c.$q.reject(error);
     }
 
     saveChanges = (manager: breeze.EntityManager): breeze.promises.IPromise<breeze.SaveResult | angular.IPromise<void>> => {
         //TODO: Add a check for token still valid before change
         if (!manager.hasChanges()) {
-            return this._c.$q.reject('Nothing to save!');
+            return this.c.$q.reject('Nothing to save!');
         }
 
         if (this.saveInProgress) {
-            return this._c.$q.reject('Sorry, already in a save operation...Please wait');
+            return this.c.$q.reject('Sorry, already in a save operation...Please wait');
         }
 
-        this._c.broadcast(this._c.coreCfg.coreEvents.saveChangesEvent, { inflight: true });
+        this.c.broadcast(this.c.coreCfg.coreEvents.saveChangesEvent, { inflight: true });
         this.saveInProgress = true;
         return manager.saveChanges()
             .then((result: breeze.SaveResult) => {
-                this._c.logger.logInfo('Save Results', result, 'Core Saving', false);
+                this.c.logger.logInfo('Save Results', result, 'Core Saving', false);
                 return result;
             })
             .catch(this.saveFailed)
             .finally(() => {
                 this.saveInProgress = false;
-                this._c.broadcast(this._c.coreCfg.coreEvents.saveChangesEvent, { inflight: false });
+                this.c.broadcast(this.c.coreCfg.coreEvents.saveChangesEvent, { inflight: false });
             });
     }
 
     private saveFailed = (error): angular.IPromise<any> => {
         var msg = `[Saved Failed] ${breeze.saveErrorMessageService.getErrorMessage(error)}`;
-        this._c.logger.logError(msg, error, 'Save Error', false);
+        this.c.logger.logError(msg, error, 'Save Error', false);
         error.msg = msg;
 
-        return this._c.$q.reject(error);
+        return this.c.$q.reject(error);
     }
 }
 

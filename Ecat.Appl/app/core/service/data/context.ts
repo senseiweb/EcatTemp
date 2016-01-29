@@ -23,9 +23,9 @@ export default class EcDataContext {
                 }
             });
         });
-
     }
-    repoNames = [AppVars.EcMapApiResource.user, 'local', ISysAdminData.serviceId];
+
+    repoNames = [AppVars.EcMapApiResource.user, 'local', AppVars.EcMapApiResource.sa];
     user: IUserRepo;
     local: ILocal;
     sa: ISysAdminData;
