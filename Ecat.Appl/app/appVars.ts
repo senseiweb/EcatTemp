@@ -68,7 +68,7 @@ export class EcMapApiResource
     static user = 'user';
     static student = 'student';
     static instructor = 'instructor';
-    static admin = 'admin';
+    static sa = 'sysAdmin';
     static courseAdmin = 'courseAdmin';
 }
 
@@ -78,6 +78,15 @@ export class EcMapAlertType {
     static success = 'success';
     static warning = 'warning';
     static default = 'inverse';
+}
+
+export class EcMapEdLevel {
+    static cla = 'Chief Leadership Academy';
+    static sncoa = 'Senior NCO Academy';
+    static ncoa = 'NCO Academy';
+    static als = 'Airman Leadership';
+    static epmeic = 'EPMEIC';
+    static none = 'None';
 }
 
 export class EcMapInstituteRole
@@ -137,6 +146,14 @@ export class EcMapEntityType {
     static ecInventory = 'EcInventory';
     static kcResult = 'KcResult';
 
+}
+
+export class SweetAlertTypes {
+    static success = 'success';
+    static warn = 'warning';
+    static err = 'error';
+    static info = 'info';
+    static input = 'input';
 }
 
 export enum Keycode {
