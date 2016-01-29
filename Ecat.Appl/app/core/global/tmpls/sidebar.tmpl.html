@@ -20,7 +20,7 @@
                 <a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
             </li>
             <li>
-                <a href=""><i class="zmdi zmdi-time-restore" ng-click="main.logout()"></i> Logout</a>
+                <a href="javascript:void(0)" ng-click="main.logout()"><i class="zmdi zmdi-time-restore"></i> Logout</a>
             </li>
         </ul>
     </div>
@@ -35,6 +35,23 @@
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-widgets"></i>
                 System Admin
+            </a>
+            <ul>
+                <li>
+                    <a ui-sref-active="active" ui-sref="{{stateMgr.admin.academy.name}}" data-ng-click="main.sidebarStat($event)">Academy</a>
+                </li>
+                <li>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.core." data-ng-click="main.sidebarStat($event)">Courses</a>
+                </li>
+                <li>
+                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.core." data-ng-click="main.sidebarStat($event)">Widgets</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes('admin') }" ng-if="main.hqAuthorized()">
+            <a href="" toggle-submenu>
+                <i class="zmdi zmdi-widgets"></i>
+                Headquaters
             </a>
             <ul>
                 <li>
