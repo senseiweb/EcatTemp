@@ -1,5 +1,6 @@
 ﻿import IEcStateProvider from 'core/provider/stateProvider'
 import AdminStates from "admin/config/statesAdmin"
+import StudentStates from "student/config/statesStudent"
 import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
 
@@ -8,6 +9,7 @@ export default class EcCoreStateConfig {
     private $state: angular.ui.IStateService;
     private coreStates: CoreStates;
     private adminStates: AdminStates;
+    private studentStates: StudentStates;
 
     constructor($locProvider: angular.ILocationProvider,
         $stateProvider: angular.ui.IStateProvider,
@@ -17,6 +19,7 @@ export default class EcCoreStateConfig {
 
         this.coreStates = new CoreStates();
         this.adminStates = new AdminStates();
+        this.studentStates = new StudentStates();
 
         $locProvider.html5Mode(true);
         
@@ -87,6 +90,20 @@ export default class EcCoreStateConfig {
         });
 
         statMgr.admin = admin as AdminStates;
+
+        const student = {};
+        const studentStateList = Object.keys(StudentStates.prototype);
+
+        studentStateList.forEach((studentStateKey) => {
+            if (typeof this.adminStates[studentStateKey] !== 'object') {
+                return null;
+            }
+            student[studentStateKey] = this.adminStates[studentStateKey];
+            $stateProvider.state(this.studentStates[studentStateKey]);
+        });
+
+        statMgr.student = student as StudentStates;
+        
     }
 }
     

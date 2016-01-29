@@ -244,6 +244,7 @@
     <Content Include="app\core\userViews\tmpls\profile.facilitator.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.main.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.student.tmpl.html" />
+    <Content Include="app\student\assessments\assessments.html" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\lg.svg" />
@@ -643,6 +644,7 @@
     <Folder Include="app\admin\config\entityExternsions\" />
     <Folder Include="app\admin\service\" />
     <Folder Include="app\hq\" />
+    <Folder Include="app\student\service\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\admin\academy\academy.ts" />
@@ -682,6 +684,9 @@
     <TypeScriptCompile Include="app\core\service\requestAuthenicator.ts" />
     <TypeScriptCompile Include="app\core\userViews\dashboard.ts" />
     <TypeScriptCompile Include="app\core\userViews\profile.ts" />
+    <TypeScriptCompile Include="app\student\student.ts" />
+    <TypeScriptCompile Include="app\student\assessments\assessments.ts" />
+    <TypeScriptCompile Include="app\student\config\statesStudent.ts" />
     <TypeScriptCompile Include="gulpfile.ts" />
     <TypeScriptCompile Include="Scripts\Enums.ts">
       <DependentUpon>TypeLite.Net4.tt</DependentUpon>

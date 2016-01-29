@@ -22,6 +22,7 @@ import dashboardCntrl from 'core/userViews/dashboard'
 import profileCntrl from 'core/userViews/profile'
 import loginCntrl from 'core/global/login'
 import adminAcademy from "admin/academy/academy"
+import studentAssessments from 'student/assessments/assessments'
 
 //Import Module directives
 import ecToggleSb from 'core/directives/toggleSidebar'
@@ -74,6 +75,7 @@ export default class AppStart {
             .controller(profileCntrl.controllerId, profileCntrl)
             .controller(loginCntrl.controllerId, loginCntrl)
             .controller(adminAcademy.controllerId, adminAcademy)
+            .controller(studentAssessments.controllerId, studentAssessments)
             .directive(ecFgLine.directiveId, () => new ecFgLine())
             .directive(ecFrmCntrl.directiveId, () => new ecFrmCntrl())
             .directive(ecToggleSb.directiveId, () => new ecToggleSb())
