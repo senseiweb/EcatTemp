@@ -1,5 +1,5 @@
 ﻿import CoreStates from "core/config/statesCore"
-import IEcAdminModule from "admin/admin"
+import IEcStudentModule from "student/student"
 import * as AppVar from "appVars"
 import IDataCtx from 'core/service/data/context'
 import ICommon from "core/service/common"
@@ -36,7 +36,7 @@ export default class EcStudentStates {
     }
 
     get main(): angular.ui.IState {
-        const authorizedRoles = [AppVar.EcMapInstituteRole.student];
+        const authorizedRoles = [AppVar.EcMapInstituteRole.external, AppVar.EcMapInstituteRole.student];
         return {
             name: `${this.core.main.name}.student`,
             parent: this.core.main.name,

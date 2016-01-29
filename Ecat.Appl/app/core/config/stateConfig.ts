@@ -95,10 +95,10 @@ export default class EcCoreStateConfig {
         const studentStateList = Object.keys(StudentStates.prototype);
 
         studentStateList.forEach((studentStateKey) => {
-            if (typeof this.adminStates[studentStateKey] !== 'object') {
+            if (typeof this.studentStates[studentStateKey] !== 'object') {
                 return null;
             }
-            student[studentStateKey] = this.adminStates[studentStateKey];
+            student[studentStateKey] = this.studentStates[studentStateKey];
             $stateProvider.state(this.studentStates[studentStateKey]);
         });
 
