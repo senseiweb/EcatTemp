@@ -66,7 +66,7 @@
             </dl>
         </div>
 
-        <form data-ng-submit="profile.saveForm('basicInfoForm')" name="profile.basicInfoForm" class="pmbb-edit form-horizontal" ng-if="profile.editing_basicInfoForm" role="form">
+        <form data-ng-submit="profile.saveForm('basicInfoForm')" name="profile.basicInfoForm" class="pmbb-edit form-horizontal" ng-if="profile.editing_basicInfoForm" role="form" novalidate>
             <div class="form-group p-t-10">
                 <label for="lastName" class="control-label col-md-2">Last Name</label>
                 <div class="col-md-10" ng-class="{'has-success': profile.isLtiRole, 'has-error': profile.basicInfoForm.lastname.$touched && profile.basicInfoForm.lastname.$invalid}">

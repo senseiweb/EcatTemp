@@ -1,6 +1,5 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import ICommon from 'core/service/common'
-import ICoreStates from "core/config/states/core"
 import * as IAppVar from "appVars"
 import IEntityFactory from 'core/service/data/emFactory'
 import * as IPersonExt from "core/config/entityExtension/person"
@@ -158,19 +157,19 @@ export default class EcUserRepo extends IUtilityRepo
     }
 
     isAuthorized(authorizedRoles: Array<string>): angular.IPromise<any> {
-        const isAuthorized = authorizedRoles.some((role) => this.persona.mpInstituteRole === role);
         const deferred = this.c.$q.defer();
-        const coreStates = new ICoreStates;
+
+        const isAuthorized = authorizedRoles.some((role) => this.persona.mpInstituteRole === role);
         if (!isAuthorized) {
             const routingError: ecat.IRoutingError = {
                 errorCode: this.c.appVar.SysErrorType.NotAuthorized,
                 message: 'You do not have the appropriate authorization level to access that resources',
-                redirectTo: coreStates.dashboard.name
+                redirectTo: this.c.stateMgr.core.dashboard.name
             }
             deferred.reject(routingError);
+        } else {
+            deferred.resolve(true);
         }
-
-        deferred.resolve();
 
         return deferred.promise;
     }
@@ -184,6 +183,9 @@ export default class EcUserRepo extends IUtilityRepo
             .then(() => {
                 if (this.userStatic) {
                     this.createUserToken();
+                    return true;
+                } else {
+                    return false;
                 }
             })
             .catch(this.qf);
