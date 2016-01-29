@@ -11,6 +11,16 @@ namespace Ecat.Models
               None = "None";
     }
 
+    public static class EcMapELevel
+    {
+        public const string Cla = "Chief Leadership Academy",
+              Sncoa = "Senior NCO Academy",
+              Ncoa = "NCO Academy",
+              Als = "Airman Leadership",
+              Epmeic = "EPMEIC",
+              None = "None";
+    }
+
     public static class EcMapInstituteRole
     {
         public const string HqAdmin = "BCEE_01_HQ",

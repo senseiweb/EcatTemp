@@ -1,6 +1,7 @@
 ﻿import IEntityFactory from 'core/service/data/emFactory'
 import IUserRepo from 'core/service/data/user'
 import ILocal from 'core/service/data/local'
+import ISysAdminData from "admin/service/adminData"
 import * as AppVars from "appVars"
 
 export default class EcDataContext {
@@ -24,9 +25,10 @@ export default class EcDataContext {
         });
 
     }
-    repoNames = [AppVars.EcMapApiResource.user, 'local'];
+    repoNames = [AppVars.EcMapApiResource.user, 'local', ISysAdminData.serviceId];
     user: IUserRepo;
     local: ILocal;
+    sa: ISysAdminData;
 }
 
 

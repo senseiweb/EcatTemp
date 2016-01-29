@@ -165,14 +165,4 @@ namespace Ecat.Models
         LessThan
     }
 
-    public enum EdCategoary
-    {
-        Clc,
-        Epmeic,
-        Afsncoa,
-        Ncoa,
-        Keesler,
-        Tyndall,
-        Sheppard
-    }
 }
