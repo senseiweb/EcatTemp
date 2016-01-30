@@ -20,7 +20,6 @@ export default class EcEmFactory {
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
         const serviceName = this.common.appEndpoint + apiResourceName;
         const metaDataStore = this.createMetadataStore(clientExtensions);
-        //this.registerResourceTypes(metaDataStore, apiResourceName);
         return new breeze.EntityManager({
             serviceName: serviceName,
             metadataStore: metaDataStore
@@ -38,15 +37,16 @@ export default class EcEmFactory {
         return metadataStore;
     }
 
-    registerResourceTypes(metadataStore: breeze.MetadataStore, apiResourceName: appVar.EcMapApiResource) {
-        const apiResources = this.common.resourceNames[apiResourceName as string];
+    registerResourceTypes(metadataStore: breeze.MetadataStore, resourceToMap: ecat.IApiResources) {
 
-        for (let resourceEntity in apiResources) {
-            if (apiResources.hasOwnProperty(resourceEntity)) {
-                const selectedResource = apiResources[resourceEntity];
-                if (typeof selectedResource !== 'string') {
-                    const resource = selectedResource as ecat.IApiResource;
-                    metadataStore.setEntityTypeForResourceName(resource.resourceName, resource.entityType);
+        for (let resourceEntity in resourceToMap) {
+
+            if (resourceToMap.hasOwnProperty(resourceEntity)) {
+
+                const selectedResource = resourceToMap[resourceEntity];
+
+                if (selectedResource.returnedEntityType !== this.common.appVar.EcMapEntityType.unk) {
+                    metadataStore.setEntityTypeForResourceName(selectedResource.resourceName, selectedResource.returnedEntityType);
                 }
             }
         }

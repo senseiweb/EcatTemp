@@ -18,7 +18,7 @@ namespace Ecat.Dal.Context
     {
         public EcatCtx() : base("EcatSqlServer")
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EcatCtx>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EcatCtx,MainConfig>());
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
 
@@ -26,8 +26,10 @@ namespace Ecat.Dal.Context
 
         public EcatCtx(string connectionString) : base(connectionString)
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EcatCtx>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EcatCtx, MainConfig>());
+
         }
+
 
         /// <summary>
         /// This method is called when the model for a derived context has been initialized, but
@@ -118,20 +120,21 @@ namespace Ecat.Dal.Context
 
         protected override void Seed(EcatCtx ctx)
         {
-            var seed = new Seed();
+            var seed = new PlantSeed();
 
             if (!seed.DoSeed)
             {
                 return;
             }
 
-            if (!Debugger.IsAttached) return;
-
-            Debugger.Launch();
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
 
             try
             {
-                SaveChanges(seed.PlantSeed(ctx));
+                SaveChanges(seed.Plant(ctx));
             }
             catch (DbEntityValidationException ex)
             {

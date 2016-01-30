@@ -13,8 +13,8 @@ import 'textNg'
 import 'templates'
 
 //Import Module Configuration
-import stateCfg from 'core/config/stateConfig'
-import coreCfg from 'core/config/coreConfig'
+import stateCfg from 'core/config/cfgState'
+import coreCfg from 'core/config/cfgCore'
 
 //Import Module Controllers
 import mainCntrl from 'core/global/main' 

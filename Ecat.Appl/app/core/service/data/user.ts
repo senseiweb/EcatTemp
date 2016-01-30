@@ -1,34 +1,45 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import ICommon from 'core/service/common'
-import * as IAppVar from "appVars"
-import IEntityFactory from 'core/service/data/emFactory'
+import IDataCtx from "core/service/data/context"
+import IEmFactory from 'core/service/data/emFactory'
 import * as IPersonExt from "core/config/entityExtension/person"
+import * as IAppVar from "appVars"
+
+interface UserApiResources extends ecat.IApiResources {
+    checkEmail: ecat.IApiResource;
+    login: ecat.IApiResource;
+    profile: ecat.IApiResource;
+}
 
 export default class EcUserRepo extends IUtilityRepo
 {
     static serviceId = 'data.user';
-    static $inject = ['$injector', '$http', 'userStatic'];
+    static $inject = ['$http', ICommon.serviceId, IEmFactory.serviceId, IDataCtx.serviceId, 'userStatic'];
 
-    activated = false;
-    private entityExtCfgs: Array<ecat.entity.IEntityExtension> = [IPersonExt.personConfig];
-    private isLoaded = this.areItemsLoaded;
-    private logSuccess = this.c.logSuccess('User Data Service');
-    private logWarn = this.c.logWarning('User Data Service');
-    private manager: breeze.EntityManager;
-    persona: ecat.entity.IPerson;
-    private query: breeze.EntityQuery;
-    private qf = (error) => this.queryFailed('User Data Service', error);
-    rname: ecat.IApiResources = {
-        
+    private apiResources: UserApiResources = {
+        checkEmail: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.unk,
+            resourceName: 'CheckUserEmail'
+        },
+        login: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.person,
+            resourceName: 'Login'
+        },
+        profile: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.unk,
+            resourceName: 'Profiles'
+        }
     };
-
-    token = {
+    isLoaded = this.dCtx.areItemsLoaded;
+    persona: ecat.entity.IPerson;
+    private resource = this.apiResources;
+    token: ecat.ILocalToken = {
         userEmail: '',
         password: '',
         auth: '',
         warning: new Date(),
         expire: new Date(),
-        validatity(): IAppVar.TokenStatus {
+        validity(): IAppVar.TokenStatus {
             if (!this.auth || !this.expire) {
                 return IAppVar.TokenStatus.Missing;
             }
@@ -40,14 +51,9 @@ export default class EcUserRepo extends IUtilityRepo
         }
     };
 
-    userPriKey: number;
-
-    constructor(inj: angular.auto.IInjectorService, private $http: angular.IHttpService, private userStatic: ecat.entity.ILoginToken) {
-        super(inj);
-
-        this.manager = this.getManager(this.c.appVar.EcMapApiResource.user, this.entityExtCfgs);
-        this.query = new breeze.EntityQuery();
-        this.rname = this.c.resourceNames;
+    constructor(private $http: angular.IHttpService,c: ICommon, emf, dCtx, public userStatic: ecat.entity.ILoginToken) {
+        super(c, emf, dCtx, 'User Data Service', c.appVar.EcMapApiResource.user, [IPersonExt.personConfig]);
+       
         if (userStatic) {
             this.token.auth = userStatic.authToken;
             this.token.expire = new Date(userStatic.tokenExpire as any);
@@ -108,7 +114,7 @@ export default class EcUserRepo extends IUtilityRepo
     emailIsUnique(email: string): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
         const requestCfg: angular.IRequestConfig = {
             method: 'get',
-            url: `${this.c.appEndpoint + this.rname.user.endPointName}/${this.rname.user.checkEmail.resourceName}`,
+            url: `${this.c.appEndpoint + this.endPoint}/${this.resource.checkEmail.resourceName}`,
             params: { email: email }
         }
 
@@ -118,23 +124,23 @@ export default class EcUserRepo extends IUtilityRepo
 
         return this.$http(requestCfg)
             .then(emailIsUniqueResponse)
-            .catch(this.qf);
+            .catch(this.queryFailed);
     }
 
     getUserProfile(): breeze.promises.IPromise<any> {
         const self = this;
+        const res = this.resource.profile.resourceName;
 
-        const resource = this.rname.user.profile.resourceName;
         if (this.isLoaded.userProfile) {
             const pred = new breeze.Predicate('personId', breeze.FilterQueryOp.Equals, this.persona.personId);
-            return this.c.$q.when(this.queryLocal(this.manager, resource, null, pred));
+            return this.c.$q.when(this.queryLocal(res, null, pred));
         }
 
-        return this.query.from(resource)
+        return this.query.from(res)
             .using(this.manager)
             .execute()
             .then(getUserProfileResponse)
-            .catch(this.qf);
+            .catch(this.queryFailed);
 
         function getUserProfileResponse(userProfileResult: breeze.QueryResult) {
             const userProfile = userProfileResult.results[0];
@@ -175,13 +181,11 @@ export default class EcUserRepo extends IUtilityRepo
         return deferred.promise;
     }
 
-    loadManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-        if (!this.manager.metadataStore.isEmpty()) {
-            return this.c.$q.when(true);
-        }
+    loadUserManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
 
-        return this.manager.fetchMetadata()
+        return this.loadManager(this.apiResources)
             .then(() => {
+                this.registerTypes(this.apiResources);
                 if (this.userStatic) {
                     this.createUserToken();
                     return true;
@@ -189,15 +193,15 @@ export default class EcUserRepo extends IUtilityRepo
                     return false;
                 }
             })
-            .catch(this.qf);
+            .catch(this.queryFailed);
     }
 
     loginUser(userEmail: string, password: string, saveLogin: boolean): breeze.promises.IPromise<ecat.entity.IPerson | angular.IPromise<void>> {
-        if (this.token && userEmail === this.token.userEmail && password === this.token.password && this.token.validatity() === this.c.appVar.TokenStatus.Valid) {
+        if (this.token && userEmail === this.token.userEmail && password === this.token.password && this.token.validity() === this.c.appVar.TokenStatus.Valid) {
             return this.c.$q.resolve(this.persona);
         }
 
-        this.logoutUser();
+        this.dCtx.logoutUser();
         
         const self = this;
         const requestCfg: angular.IRequestConfig = {
@@ -222,7 +226,7 @@ export default class EcUserRepo extends IUtilityRepo
 
         return this.$http(requestCfg)
             .then(loginUserResponse)
-            .catch(this.qf);
+            .catch(this.queryFailed);
 
         function loginUserResponse(result: angular.IHttpPromiseCallbackArg<any>) {
             const token = JSON.parse(result.data.loginToken) as ecat.entity.ILoginToken;
@@ -255,21 +259,7 @@ export default class EcUserRepo extends IUtilityRepo
         }     
     };
 
-    logoutUser(): void {
-        this.persona = null;
-        this.manager.clear();
-        this.token.auth = null;
-        this.token.warning = null;
-        this.token.expire = null;
-        this.token.userEmail = null;
-        this.token.password = null;
-        this.userStatic = null;
-        localStorage.removeItem('ECAT:TOKEN');
-        sessionStorage.removeItem('ECAT:TOKEN');
-        this.areItemsLoaded.userToken = false;
-    }
-
-    saveUserChanges(): breeze.promises.IPromise<breeze.SaveResult> { return this.saveChanges(this.manager); }  
+    saveUserChanges(): breeze.promises.IPromise<breeze.SaveResult> { return this.saveChanges(); }  
 }
 
 

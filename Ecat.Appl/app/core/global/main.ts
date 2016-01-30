@@ -16,9 +16,19 @@ export default class EcAppMain {
 
     logout(): void {
         const self = this;
+        let hasChangesPrompt: string;
+        const changes = this.dCtx.unsavedChanges()
+            .map((changeObj) => ` ${changeObj.name}`)
+            .toString();
+
+        if (changes) {
+            hasChangesPrompt = `You unsaved changees in the following modules ==> ${changes}\n Are you sure you would like to logout? [All changes will be lost]`;
+        }
+
+        const standardPrompt = 'Are you sure you would like to logout?';
         const alertSettings: SweetAlert.Settings = {
             title: 'Confirmation',
-            text: 'Are you sure you would like to logout?',
+            text: hasChangesPrompt || standardPrompt,
             type: 'warning',
             confirmButtonText: 'Logout',
             closeOnConfirm: true,
@@ -30,7 +40,7 @@ export default class EcAppMain {
             if (!confirmed) {
                 return;
             }
-            self.dCtx.user.logoutUser();
+            self.dCtx.logoutUser();
             self.c.$state.go(self.c.stateMgr.core.login.name, { mode: 'logout' });
         }
 

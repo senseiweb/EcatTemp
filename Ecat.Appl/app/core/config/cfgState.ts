@@ -6,20 +6,18 @@ import * as AppVar from "appVars"
 export default class EcCoreStateConfig {
     static $inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', `${IEcStateProvider.providerId}Provider`, 'userStatic'];
     private $state: angular.ui.IStateService;
-    private coreStates: CoreStates;
-    private adminStates: AdminStates;
 
     constructor($locProvider: angular.ILocationProvider,
-        $stateProvider: angular.ui.IStateProvider,
+        private $stateProvider: angular.ui.IStateProvider,
         $urlProvider: angular.ui.IUrlRouterProvider,
-        statMgr: IEcStateProvider,
+        private statMgr: IEcStateProvider,
         userStatic?: ecat.entity.ILoginToken) {
 
-        this.coreStates = new CoreStates();
-        this.adminStates = new AdminStates();
-
         $locProvider.html5Mode(true);
-        
+
+        this.loadStates(Object.keys(CoreStates.prototype), new CoreStates() as any, 'core');
+        this.loadStates(Object.keys(AdminStates.prototype), new AdminStates() as any, 'admin');
+
         $urlProvider.otherwise(() => {
             const self = this;
             const regEx = /\.(\w+)$/;
@@ -39,7 +37,7 @@ export default class EcCoreStateConfig {
                         parentId = state.parent as string;
                     }
 
-                    state = self.coreStates[parentId as string];
+                    state = self.statMgr.core[parentId as string];
                 } while (state !== undefined && state !== null)
 
                 return urlRoute;
@@ -47,46 +45,32 @@ export default class EcCoreStateConfig {
 
             if (userStatic === null) {
 
-                return calculateUrl(this.coreStates.login);
+                return calculateUrl(this.statMgr.core.login);
             }
 
             if (userStatic.person.isRegistrationComplete) {
-                return calculateUrl(this.coreStates.dashboard);
+                return calculateUrl(this.statMgr.core.dashboard);
             }
 
             if (!userStatic.person.isRegistrationComplete) {
-                return calculateUrl(this.coreStates.profile);
+                return calculateUrl(this.statMgr.core.profile);
             }
 
-            return calculateUrl(this.coreStates.dashboard);
+            return calculateUrl(this.statMgr.core.dashboard);
         });
+    }
 
-        const core = {};
-        const coreStateList = Object.keys(CoreStates.prototype);
-
-        coreStateList.forEach((coreStateKey) => {
-            if (typeof this.coreStates[coreStateKey] !== 'object') {
-                return null;
+    private loadStates = (statesNames: Array<string>, statesToLoad: ecat.IEcStateObject , stateHolder: string): void => {
+        statesNames.forEach((state) => {
+            if (angular.isObject(statesToLoad[state])) {
+                this.$stateProvider.state(statesToLoad[state]);
+                if (!angular.isObject(this.statMgr[stateHolder])) {
+                    this.statMgr[stateHolder] = {};
+                }
+                this.statMgr[stateHolder][state] = statesToLoad[state];
             }
-            core[coreStateKey] = this.coreStates[coreStateKey];
-            $stateProvider.state(this.coreStates[coreStateKey]);
-
+          
         });
-
-        statMgr.core = core as CoreStates;
-
-        const admin = {};
-        const adminStateList = Object.keys(AdminStates.prototype);
-
-        adminStateList.forEach((adminStateKey) => {
-            if (typeof this.adminStates[adminStateKey] !== 'object') {
-                return null;
-            }
-            admin[adminStateKey] = this.adminStates[adminStateKey];
-            $stateProvider.state(this.adminStates[adminStateKey]);
-        });
-
-        statMgr.admin = admin as AdminStates;
     }
 }
     

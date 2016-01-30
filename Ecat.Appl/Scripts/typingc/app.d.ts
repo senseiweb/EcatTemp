@@ -26,6 +26,15 @@ declare module 'systemCfg' {
 
 declare module ecat {
 
+    interface ILocalToken {
+        userEmail: string;
+        password: string;
+        auth: string;
+        warning: Date;
+        expire: Date;
+        validity(): number;
+    }
+
     interface IEcRootScope extends angular.IRootScopeService {
         $state: angular.ui.IStateService;
         stateMgr: any;
@@ -46,6 +55,10 @@ declare module ecat {
     interface IGlobalEvents
     {
         saveChangesEvent?: string;
+    }
+
+    interface IEcStateObject {
+        [name: string]: angular.ui.IState;
     }
 
     interface IRoutingError {
@@ -83,7 +96,7 @@ declare module ecat {
    
     export interface IApiResource {
         resourceName: string;
-        entityType: string;
+        returnedEntityType: string;
     }
 
  

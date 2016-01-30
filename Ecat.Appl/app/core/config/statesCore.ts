@@ -7,7 +7,7 @@ export default class EcCoreStates {
         const deferred = c.$q.defer();
         let error: ecat.IRoutingError;
 
-        if (dCtx.user.token.validatity() === c.appVar.TokenStatus.Missing) {
+        if (dCtx.user.token.validity() === c.appVar.TokenStatus.Missing) {
 
             error = {
                 message: 'Authentication Error: No user token',
@@ -19,7 +19,7 @@ export default class EcCoreStates {
             deferred.reject(error);
         }
 
-        if (dCtx.user.token.validatity() === c.appVar.TokenStatus.Expired) {
+        if (dCtx.user.token.validity() === c.appVar.TokenStatus.Expired) {
             error = {
                 message: 'Authentication Error: Token Invalid ',
                 errorCode: c.appVar.SysErrorType.AuthNoToken,
@@ -35,8 +35,8 @@ export default class EcCoreStates {
         return deferred.promise;
     }
 
-    private loadManager = (dataCtx) => {
-        return dataCtx.user.loadManager();
+    private loadManager = (dataCtx: IDataCtx) => {
+        return dataCtx.user.loadUserManager();
     }
 
     private appController(c: ICommon) {

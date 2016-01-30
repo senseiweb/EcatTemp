@@ -1,5 +1,4 @@
 ﻿import CoreStates from "core/config/statesCore"
-import IEcAdminModule from "admin/admin"
 import * as AppVar from "appVars"
 import IDataCtx from 'core/service/data/context'
 import ICommon from "core/service/common"

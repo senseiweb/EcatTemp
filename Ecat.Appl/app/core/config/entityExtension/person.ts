@@ -10,13 +10,6 @@ export class PersonInitializer
               const imgDirectory = '/wwwroot/content/img/avatars/';
               person.defaultAvatarLocation = `${imgDirectory}default.png`;
         }
-
-        //this.initProperties.forEach((property) => {
-        //    if (person[property] === 'Unknown') {
-        //        person[property] = null;
-        //    }
-        //});
-        
     }
 }
 
@@ -89,6 +82,6 @@ export class PersonClientExtended implements ecat.entity.PersonClientExtensions
 
 export var personConfig: ecat.entity.IEntityExtension = {
     entityName: AppVar.EcMapEntityType.person,
-    ctorFunc: this.PersonClientExtended,
+    ctorFunc: PersonClientExtended,
     initFunc: (personEntity: ecat.entity.IPerson) => new PersonInitializer(personEntity)
 }
