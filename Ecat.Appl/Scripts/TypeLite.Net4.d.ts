@@ -10,7 +10,7 @@
 declare module Ecat.Models {
 	interface EcPerson {
 		personId: number;
-		isEnabled: boolean;
+		isActived: boolean;
 		bbUserId: string;
 		bbUserName: string;
 		lastName: string;
@@ -91,8 +91,8 @@ declare module Ecat.Models {
 	interface EcAcademy {
 		id: number;
 		name: string;
+		base: string;
 		mpEducationLevel: string;
-		epmeSchool: Ecat.Models.EpmeSchool;
 		bbCategoryId: string;
 		courses: Ecat.Models.EcCourse[];
 	}
@@ -255,6 +255,12 @@ declare module Ecat.Models {
 		numberCorrect: number;
 		score: number;
 		instrument: Ecat.Models.KcInstrument;
+	}
+	interface AcademyCategory {
+		id: string;
+		bbCatId: string;
+		bbCatName: string;
+		relatedCoursesCount: number;
 	}
 	interface LoginToken {
 		personId: number;

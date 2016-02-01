@@ -4,28 +4,41 @@ import IDataCtx from 'core/service/data/context'
 import ICommon from "core/service/common"
 
 export default class EcAdminStates {
-    private core: CoreStates;
     private isAdminLoaded = false;
 
-    constructor() {
-        this.core = new CoreStates();
-    }
+    main: angular.ui.IState;
+    academy: angular.ui.IState;
+    
+    constructor(coreMain: angular.ui.IState, coreDash: angular.ui.IState) {
 
-    private isAuthorized = (manager: boolean, isLoggedIn: boolean, common:ICommon, dataCtx: IDataCtx, authorizedRoles: Array<string>): angular.IPromise<any> => {
-        const deferred = common.$q.defer();
-
-        if (!manager || !isLoggedIn) {
-            deferred.reject('missing dependencies');
+        this.main = {
+            name: `${coreMain.name}.admin`,
+            parent: coreMain.name,
+            url: '/admin',
+            abstract: true,
+            template: '<div ui-view></div>',
+            data: {
+                authorized: [AppVar.EcMapInstituteRole.hqAdmin]
+            },
+            resolve: {
+                moduleInit: ['$ocLazyLoad', this.loadModule],
+                adminManager: ['userManager', IDataCtx.serviceId, ICommon.serviceId, (um, d, c) => this.loadAdminManager(um, d, c, coreDash)]
+            }
         }
-        if (!dataCtx.user.isAuthorized(authorizedRoles)) {
-            deferred.reject('missing dependencies');
-        };
-        deferred.resolve();
-        return deferred.promise;
+
+        this.academy = {
+            name: `${this.main.name}.academy`,
+            parent: this.main.name,
+            url: '/academy',
+            templateUrl: 'wwwroot/app/admin/academy/academy.html',
+            controller: 'app.admin.academy as acad',
+            resolve: {
+                moduleLoad: ['moduleInit', 'adminManager', (moduleInit) => moduleInit]
+            }
+        }
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-
         return this.isAdminLoaded ? this.isAdminLoaded : System.import('app/admin/admin.js').then((adminModClass: any) => {
             const adminClass = new adminModClass.default();
             $ocLl.load(adminClass.adminModule)
@@ -34,35 +47,30 @@ export default class EcAdminStates {
         });
     }
 
-    get main(): angular.ui.IState {
-        const authorizedRoles = [AppVar.EcMapInstituteRole.hqAdmin];
-        return {
-            name: `${this.core.main.name}.admin`,
-            parent: this.core.main.name,
-            url: '/admin',
-            abstract: true,
-            template: '<div ui-view></div>',
-            data: {
-                isAuthorized: (userRole: string) => authorizedRoles.some(role => userRole === role)
-            },
-            resolve: {
-                authorized: ['manager', 'isLoggedIn', ICommon.serviceId, IDataCtx.serviceId, (manager, isLoggedIn, common, dataCtx) => this.isAuthorized(manager, isLoggedIn, common, dataCtx, authorizedRoles)],
-                moduleInit: ['$ocLazyLoad', this.loadModule]
-            }
-        };
-    }
+    private loadAdminManager = (hasUserManager, dataCtx: IDataCtx, common: ICommon, coreDash): angular.IPromise<any> => {
 
-    get academy(): angular.ui.IState {
-        return {
-            name: `${this.main.name}.academy`,
-            parent: this.main.name,
-            url: '/academy',
-            templateUrl: 'wwwroot/app/admin/academy/academy.html',
-            controller: 'app.admin.academy as acad',
-            resolve: {
-                moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
+        if (!hasUserManager) {
+            const userMagrError: ecat.IRoutingError = {
+                errorCode: AppVar.SysErrorType.MetadataFailure,
+                message: 'Cannot load the user metadata!',
+                redirectTo: coreDash.name
             }
-        };
+            return common.$q.all([dataCtx.user.loadUserManager(), dataCtx.sysAdmin.loadAdminManager()])
+                .then(() => true)
+                .catch(() => userMagrError);
+        }
+
+        const error: ecat.IRoutingError = {
+            errorCode: AppVar.SysErrorType.MetadataFailure,
+            message: 'Cannot load the admin metadata!',
+            redirectTo: coreDash.name
+        }
+
+        return dataCtx.sysAdmin
+            .loadAdminManager()
+            .then(() => true)
+            .catch(() => error);
+
     }
 
 }

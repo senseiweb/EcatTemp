@@ -2,26 +2,20 @@
 import IUserData from 'core/service/data/user'
 import ILocal from 'core/service/data/local'
 import ISysAdminData from "admin/service/adminData"
+import ICommon from "core/service/common"
 import * as AppVars from "appVars"
 
 export default class EcDataContext {
     static serviceId = 'data.context';
-    static $inject = [IEntityFactory.serviceId];
+    static $inject = ['$rootScope', ICommon.serviceId,IEntityFactory.serviceId];
 
-    areItemsLoaded = {
-        userToken: false,
-        userProfile: false,
-        user: false,
-    }
-
-    loadedManagers: Array<{module: string, mgr: breeze.EntityManager}> = [];
+    private loadedManagers: Array<{module: string, mgr: breeze.EntityManager}> = [];
     local: ILocal;
-    repoNames = [AppVars.EcMapApiResource.user.toLowerCase(), 'local', AppVars.EcMapApiResource.sa.toLowerCase()];
-    queryer: breeze.EntityQuery;
-    sa: ISysAdminData;
+    private repoNames = [this.fixUpResourceName(AppVars.EcMapApiResource.user), 'local', this.fixUpResourceName(AppVars.EcMapApiResource.sa)];
+    sysAdmin: ISysAdminData;
     user: IUserData;
 
-    constructor(emFactory: IEntityFactory) {
+    constructor($rs: angular.IRootScopeService, private c: ICommon, emFactory: IEntityFactory) {
         this.repoNames.forEach((name: string) => {
             Object.defineProperty(this, name, {
                 configurable: true,
@@ -37,7 +31,10 @@ export default class EcDataContext {
             });
         });
 
-        this.queryer = new breeze.EntityQuery();
+        $rs.$on(c.coreCfg.coreEvents.managerLoaded, (event: angular.IAngularEvent, data: Array<any>) => {
+            this.loadedManagers.push(data[0].data);
+            event.preventDefault();
+        });
     }
 
     private clearManagers(): void {
@@ -46,6 +43,11 @@ export default class EcDataContext {
         });
     }
     
+    private fixUpResourceName(name: string): string {
+        const firstChar = name.substr(0, 1).toLowerCase();
+        return firstChar + name.substr(1);
+    }
+
     unsavedChanges(): Array<{ name: string, hasChanges: boolean }> {
         const changesStatus: Array<{ name: string, hasChanges: boolean }> = [];
         this.loadedManagers.forEach((holder) => {

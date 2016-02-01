@@ -14,28 +14,40 @@ export interface ILocalResource {
 export default class EcUtilityRepoServices {
 
     protected appVars = AppVars;
-    protected logSuccess = this.c.logSuccess(this.loggerId);
-    protected logInfo = this.c.logInfo(this.loggerId);
-    protected logWarn = this.c.logWarning(this.loggerId);
+    protected dCtx: IDataCtx;
+    protected c: ICommon;
+    protected emf: IEmFactory;
+    protected logSuccess: (msg: string, data: any, showLog: boolean) => void;
+    protected logInfo: (msg: string, data: any, showLog: boolean) => void;
+    protected logWarn: (msg: string, data: any, showLog: boolean) => void;
     protected manager: breeze.EntityManager;
     protected saveInProgress = false;
     protected query: breeze.EntityQuery;
 
-    constructor(protected c: ICommon, protected emf: IEmFactory, protected dCtx: IDataCtx, private loggerId: string, protected endPoint: string, protected entityExtCfgs : Array<ecat.entity.IEntityExtension>) {
-        this.query = dCtx.queryer;
+    constructor(inj: angular.auto.IInjectorService,
+        private loggerId: string,
+        protected endPoint: string,
+        protected entityExtCfgs: Array<ecat.entity.IEntityExtension>) {
+
+        const dCtx = inj.get(IDataCtx.serviceId) as IDataCtx;
+        const c = inj.get(ICommon.serviceId) as ICommon;
+        const emf = inj.get(IEmFactory.serviceId) as IEmFactory;
+        this.query = new breeze.EntityQuery();
+        this.c = c;
+        this.dCtx = dCtx;
+        this.logSuccess = this.c.logSuccess(this.loggerId);
+        this.logInfo = this.c.logInfo(this.loggerId);
+        this.logWarn = this.c.logWarning(this.loggerId);
+        this.emf = emf;
         this.getManager(emf);
-        dCtx.loadedManagers.push({ module: this.endPoint, mgr: this.manager });
     }
     
     private getManager = (factory: IEmFactory): void => {
         this.manager = factory.getNewManager(this.endPoint, this.entityExtCfgs);
+        this.c.broadcast(this.c.coreCfg.coreEvents.managerLoaded, { data: { module: this.endPoint, mgr: this.manager }});
     }
 
     protected loadManager(apiResources: ecat.IApiResources): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-        if (!this.manager.metadataStore.isEmpty()) {
-            return this.c.$q.when(true);
-        }
-
         return this.manager.fetchMetadata()
             .then(() => {
                 this.registerTypes(apiResources);

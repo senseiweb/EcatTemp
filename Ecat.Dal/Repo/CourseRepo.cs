@@ -40,7 +40,24 @@ namespace Ecat.Dal
                categoryList.FirstOrDefault(
                     cat => string.Equals(cat.title, "bcee", StringComparison.InvariantCultureIgnoreCase));
 
-            return parentCategory != null ? categoryList.Where(cat => cat.parentId == parentCategory.id).ToArray() : categoryList;
+
+            var categories = new List<CategoryVO> {parentCategory};
+
+            List<CategoryVO> children;
+
+            do
+            {
+                children = new List<CategoryVO>();
+                categories.ForEach(parentCat =>
+                {
+                    children.AddRange(categoryList.Where(childCat => childCat.parentId == parentCat.id && !categories.Contains(childCat)).ToList());
+                });
+                categories.AddRange(children);
+
+            } while (children.Count != 0);
+
+
+            return categoryList.ToArray();
         }
 
         public async Task<List<CourseMembershipVO>> GetCourseMembersById(string bbCourseId, bool forceUpdate = false)

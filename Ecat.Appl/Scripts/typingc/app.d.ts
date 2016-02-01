@@ -55,6 +55,7 @@ declare module ecat {
     interface IGlobalEvents
     {
         saveChangesEvent?: string;
+        managerLoaded?: string;
     }
 
     interface IEcStateObject {

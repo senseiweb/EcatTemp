@@ -7,10 +7,15 @@ declare module ecat.entity
         prettyInstituteRole: string;
         saluatation: string;
     }
-  interface IEntityExtension {
+
+    interface IEntityExtension {
         entityName: string;
         ctorFunc: Function;
         initFunc: (entity: breeze.Entity) => void;
+    }
+
+    interface IAcademy extends breeze.Entity, Ecat.Models.EcAcademy {
+        
     }
 
     interface IPerson extends breeze.Entity, Ecat.Models.EcPerson, PersonClientExtensions

@@ -6,7 +6,6 @@ import * as AppVar from "appVars"
 export default class EcCoreStateConfig {
     static $inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', `${IEcStateProvider.providerId}Provider`, 'userStatic'];
     private $state: angular.ui.IStateService;
-
     constructor($locProvider: angular.ILocationProvider,
         private $stateProvider: angular.ui.IStateProvider,
         $urlProvider: angular.ui.IUrlRouterProvider,
@@ -15,8 +14,11 @@ export default class EcCoreStateConfig {
 
         $locProvider.html5Mode(true);
 
-        this.loadStates(Object.keys(CoreStates.prototype), new CoreStates() as any, 'core');
-        this.loadStates(Object.keys(AdminStates.prototype), new AdminStates() as any, 'admin');
+        const core = new CoreStates();
+        this.loadStates(Object.keys(core), core as any, 'core');
+
+        const admin = new AdminStates(core.main, core.dashboard);
+        this.loadStates(Object.keys(admin), admin as any, 'admin');
 
         $urlProvider.otherwise(() => {
             const self = this;
@@ -60,7 +62,7 @@ export default class EcCoreStateConfig {
         });
     }
 
-    private loadStates = (statesNames: Array<string>, statesToLoad: ecat.IEcStateObject , stateHolder: string): void => {
+    private loadStates = (statesNames: Array<string>, statesToLoad: ecat.IEcStateObject, stateHolder: string): void => {
         statesNames.forEach((state) => {
             if (angular.isObject(statesToLoad[state])) {
                 this.$stateProvider.state(statesToLoad[state]);
