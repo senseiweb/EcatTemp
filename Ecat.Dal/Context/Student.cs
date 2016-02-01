@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using Ecat.Models;
 
 namespace Ecat.Dal.Context
 {
@@ -22,6 +25,22 @@ namespace Ecat.Dal.Context
         /// <param name="mb">The builder that defines the model for the context being created. </param>
         protected override void OnModelCreating(DbModelBuilder mb)
         {
+            mb.Conventions.Remove<PluralizingTableNameConvention>();
+
+            mb.Properties<string>().Configure(s => s.HasMaxLength(250));
+
+            mb.Properties<DateTime>()
+                .Configure(c => c.HasColumnType("datetime2"));
+
+            mb.Properties()
+                .Where(p => p.Name.StartsWith("Mp"))
+                .Configure(x => x.HasColumnName(x.ClrPropertyInfo.Name.Substring(2)));
+
+            mb.Types()
+                .Where(type => type.Name.StartsWith("Ec"))
+                .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
+
+            base.OnModelCreating(mb);
 
         }
     }

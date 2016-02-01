@@ -43,4 +43,10 @@ namespace Ecat.Dal
 
     }
 
+    public interface IStudentLogic
+    {
+        EcPerson User { get; set; }
+        Task<EcCourseMember[]> GetMembershipsAndAssessments();
+    }
+
 }

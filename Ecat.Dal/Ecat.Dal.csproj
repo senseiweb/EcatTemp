@@ -513,10 +513,6 @@
     <Compile Include="Context\Student.cs" />
     <Compile Include="Context\Testing.cs" />
     <Compile Include="Context\User.cs" />
-    <Compile Include="Migrations\201601302108130_Init.cs" />
-    <Compile Include="Migrations\201601302108130_Init.Designer.cs">
-      <DependentUpon>201601302108130_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\AuthServer.cs" />
     <Compile Include="Provider\BbUserCheckWrapper.cs" />
@@ -527,6 +523,8 @@
     <Compile Include="Provider\Interface.Logic.cs" />
     <Compile Include="Provider\SqlServerTypeLoader.cs" />
     <Compile Include="Provider\WsSecurityBehavior.cs" />
+    <Compile Include="Repo\StudentSaveguard.cs" />
+    <Compile Include="Repo\StudentRepo.cs" />
     <Compile Include="Repo\CommonRepo.cs" />
     <Compile Include="Repo\CourseRepo.cs" />
     <Compile Include="Repo\SysAdminRepo.cs" />
@@ -568,11 +566,8 @@
     <WCFMetadataStorage Include="Service References\BbWs.CourseMember\" />
     <WCFMetadataStorage Include="Service References\BbWs.Course\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601302108130_Init.resx">
-      <DependentUpon>201601302108130_Init.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

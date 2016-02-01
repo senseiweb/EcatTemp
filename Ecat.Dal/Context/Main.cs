@@ -120,7 +120,7 @@ namespace Ecat.Dal.Context
 
         protected override void Seed(EcatCtx ctx)
         {
-            var seed = new PlantSeed();
+            var seed = new Seed();
 
             if (!seed.DoSeed)
             {
@@ -134,7 +134,7 @@ namespace Ecat.Dal.Context
 
             try
             {
-                SaveChanges(seed.Plant(ctx));
+                SaveChanges(seed.PlantSeed(ctx));
             }
             catch (DbEntityValidationException ex)
             {

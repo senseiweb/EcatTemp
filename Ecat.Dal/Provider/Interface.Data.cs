@@ -53,6 +53,20 @@ namespace Ecat.Dal
           EcFacilitator instructorProfileInfo = null);
     }
 
+    public interface IStudentRepo
+    {
+        IQueryable<EcCourseMember> GetCourses { get; }
+        //IQueryable<EcGroupMember> GetGroups { get; }
+        //IQueryable<SpAssessResult> GetSpResults { get; }
+        //IQueryable<SpAssessResponse> GetSpResponses { get; }
+        //IQueryable<SpStratResult> GetStratResults { get; }
+        //IQueryable<SpStratResponse> GetStratResponses { get; }
+        //IQueryable<SpComment> GetComments { get; }
+        //IQueryable<SpInstrument> GetInstrument { get; }
+
+        IQueryable<EcGroupMember> GetGroupsAndAssessments { get; }
+    }
+
     public interface ICommonRepo
     {
         string GetMetadata<T>() where T : EcatCtx, new();
