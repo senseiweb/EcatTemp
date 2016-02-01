@@ -20,10 +20,14 @@ export default class EcEmFactory {
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
         const serviceName = this.common.appEndpoint + apiResourceName;
         const metaDataStore = this.createMetadataStore(clientExtensions);
-        return new breeze.EntityManager({
+        const mgr =  new breeze.EntityManager({
             serviceName: serviceName,
             metadataStore: metaDataStore
         });
+        mgr.fetchMetadata().then(() => {
+            this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
+        });
+        return mgr;
     }
 
     //#region Internal Api

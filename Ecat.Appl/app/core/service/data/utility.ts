@@ -43,7 +43,9 @@ export default class EcUtilityRepoServices {
     }
     
     private getManager = (factory: IEmFactory): void => {
-        this.manager = factory.getNewManager(this.endPoint, this.entityExtCfgs);
+        factory.getNewManager(this.endPoint, this.entityExtCfgs).then((mgr: breeze.EntityManager) => {
+            this.manager = mgr;
+        });
         this.c.broadcast(this.c.coreCfg.coreEvents.managerLoaded, { data: { module: this.endPoint, mgr: this.manager }});
     }
 

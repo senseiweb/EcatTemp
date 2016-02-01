@@ -178,7 +178,7 @@ export default class EcUserRepo extends IUtilityRepo
 
     loadUserManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
 
-        if (!this.manager.metadataStore.isEmpty()) {
+        if (true) {
             return this.c.$q.when(true);
         }
 

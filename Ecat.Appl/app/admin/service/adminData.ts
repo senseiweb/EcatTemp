@@ -82,6 +82,10 @@ export default class EcSysAdminDataService extends IUtilityRepo {
     }
 
     loadAdminManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
+        if (!this.manager.metadataStore.isEmpty()) {
+            return this.c.$q.when(true);
+        }
+        
         return this.loadManager(this.apiResources)
             .then(() => {
                 this.registerTypes(this.apiResources);
