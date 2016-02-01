@@ -11,14 +11,19 @@ namespace Ecat.Bal
     public class SysAdminLogic : ISysAdminLogic
     {
         private readonly ICourseRepo _courseRepo;
-        private readonly ISaRepo _saRepo;
+        private readonly ISysAdminRepo _saRepo;
 
         public EcPerson User { get; set; }
 
-        public SysAdminLogic(ICourseRepo courseRepo, ISaRepo saRepo)
+        public SysAdminLogic(ICourseRepo courseRepo, ISysAdminRepo saRepo)
         {
             _courseRepo = courseRepo;
             _saRepo = saRepo;
+        }
+
+        public IQueryable<EcAcademy> GetAcademies()
+        {
+            return _saRepo.GetAcademies();
         }
 
         public async Task<List<AcademyCategory>> GetAcademyCategory()

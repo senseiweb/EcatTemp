@@ -227,6 +227,7 @@
   <ItemGroup>
     <Content Include="app\admin\academy\academy.html" />
     <Content Include="app\admin\academy\addEdit.html" />
+    <Content Include="app\core\global\appGlobal.html" />
     <Content Include="app\core\global\login.html" />
     <Content Include="app\core\global\main.html" />
     <Content Include="app\core\global\tmpls\error.html" />
@@ -449,7 +450,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
-    <Compile Include="Controllers\SAdminController.cs" />
+    <Compile Include="Controllers\SysAdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AuthAttribute.cs" />
@@ -667,6 +668,7 @@
     <TypeScriptCompile Include="app\core\directives\toggleSidebar.ts" />
     <TypeScriptCompile Include="app\core\directives\toggleSubMenu.ts" />
     <TypeScriptCompile Include="app\core\directives\userEmailValidator.ts" />
+    <TypeScriptCompile Include="app\core\global\appGlobal.ts" />
     <TypeScriptCompile Include="app\core\global\login.ts" />
     <TypeScriptCompile Include="app\core\global\main.ts" />
     <TypeScriptCompile Include="app\core\provider\coreCfgProvider.ts" />

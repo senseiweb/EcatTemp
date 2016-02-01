@@ -11,6 +11,7 @@ export default class EcSysAdminAcademy{
         controllerAs: 'acadAe',
         bindToController: true,
         keyboard: false,
+        backdrop: 'static',
         templateUrl: 'wwwroot/app/admin/academy/addEdit.html'
     };
     newAcademyForm: angular.IFormController;
@@ -18,6 +19,7 @@ export default class EcSysAdminAcademy{
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon) {
         console.log('Admin Academy Loaded');
+
     }
 
     addAcademy(): void {
@@ -33,6 +35,10 @@ export default class EcSysAdminAcademy{
         function academyError() {
             
         }
+    }
+
+    getCategories(): void {
+        
     }
 
     saveAcademy(): void {

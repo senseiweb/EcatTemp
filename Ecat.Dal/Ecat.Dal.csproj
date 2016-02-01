@@ -529,6 +529,7 @@
     <Compile Include="Provider\WsSecurityBehavior.cs" />
     <Compile Include="Repo\CommonRepo.cs" />
     <Compile Include="Repo\CourseRepo.cs" />
+    <Compile Include="Repo\SysAdminRepo.cs" />
     <Compile Include="Repo\UserRepo.cs" />
     <Compile Include="Repo\UserSaveguard.cs" />
     <Compile Include="Service References\BbWs.BbUser\Reference.cs">

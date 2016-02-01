@@ -14,7 +14,7 @@ interface UserApiResources extends ecat.IApiResources {
 export default class EcUserRepo extends IUtilityRepo
 {
     static serviceId = 'data.user';
-    static $inject = ['$http', ICommon.serviceId, IEmFactory.serviceId, IDataCtx.serviceId, 'userStatic'];
+    static $inject = ['$http','$injector', 'userStatic'];
 
     private apiResources: UserApiResources = {
         checkEmail: {
@@ -30,7 +30,7 @@ export default class EcUserRepo extends IUtilityRepo
             resourceName: 'Profiles'
         }
     };
-    isLoaded = this.dCtx.areItemsLoaded;
+    isLoaded = this.c.areItemsLoaded;
     persona: ecat.entity.IPerson;
     private resource = this.apiResources;
     token: ecat.ILocalToken = {
@@ -51,14 +51,9 @@ export default class EcUserRepo extends IUtilityRepo
         }
     };
 
-    constructor(private $http: angular.IHttpService,c: ICommon, emf, dCtx, public userStatic: ecat.entity.ILoginToken) {
-        super(c, emf, dCtx, 'User Data Service', c.appVar.EcMapApiResource.user, [IPersonExt.personConfig]);
+    constructor(private $http: angular.IHttpService, inj, public userStatic: ecat.entity.ILoginToken) {
+        super(inj,'User Data Service', IAppVar.EcMapApiResource.user, [IPersonExt.personConfig]);
        
-        if (userStatic) {
-            this.token.auth = userStatic.authToken;
-            this.token.expire = new Date(userStatic.tokenExpire as any);
-            this.token.warning = new Date(userStatic.tokenExpireWarning as any);
-        }
     }
 
     createUserLocal(addSecurity: boolean): ecat.entity.IPerson {
@@ -182,6 +177,10 @@ export default class EcUserRepo extends IUtilityRepo
     }
 
     loadUserManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
+
+        if (!this.manager.metadataStore.isEmpty()) {
+            return this.c.$q.when(true);
+        }
 
         return this.loadManager(this.apiResources)
             .then(() => {

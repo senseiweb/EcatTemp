@@ -33,6 +33,7 @@ namespace Ecat.Dal
     {
         EcPerson User { get; set; }
         Task<List<AcademyCategory>> GetAcademyCategory();
+        IQueryable<EcAcademy> GetAcademies();
         SaveResult BzSave(JObject saveBundle);
     }
 

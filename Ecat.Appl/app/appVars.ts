@@ -183,6 +183,7 @@ export enum SysErrorType {
     AuthNoToken,
     AuthExpired,
     NotAuthorized,
-    RegNotComplete
+    RegNotComplete,
+    MetadataFailure
 }
 

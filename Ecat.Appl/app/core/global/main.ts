@@ -6,12 +6,9 @@ export default class EcAppMain {
     static $inject = [ICommon.serviceId, IDataCtx.serviceId];
 
     sidebarToggle = { left: false, right: false };
-    user = this.dCtx.user.persona;
-
-    constructor(private c: ICommon, private dCtx: IDataCtx) { }
-
-    adminAuthorized(): boolean {
-        return this.c.stateMgr.admin.main.data.isAuthorized(this.user.mpInstituteRole);
+    user: ecat.entity.IPerson
+    constructor(private c: ICommon, private dCtx: IDataCtx) {
+        this.user = dCtx.user.persona;
     }
 
     logout(): void {
@@ -36,6 +33,7 @@ export default class EcAppMain {
             allowOutsideClick: true,
             showCancelButton: true
         }
+
         function afterConfirmClose(confirmed: boolean) {
             if (!confirmed) {
                 return;
@@ -45,6 +43,12 @@ export default class EcAppMain {
         }
 
         this.c.swal(alertSettings, afterConfirmClose);
+    }
+
+    authorizeMenu(state: angular.ui.IState): boolean {
+        const authorizedStateRoles = state.data.authorized;
+        const user = this.dCtx.user.persona;
+        return user && angular.isArray(authorizedStateRoles) && authorizedStateRoles.some(role => role === user.mpInstituteRole);
     }
 
     sidebarStat(event: JQueryEventObject): void {

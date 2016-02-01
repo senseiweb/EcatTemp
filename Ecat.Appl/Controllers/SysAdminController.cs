@@ -19,12 +19,12 @@ namespace Ecat.Appl.Controllers
 {
     [BreezeController]
     [EcatRolesAuthorized(Is = new [] {EcRoles.SysAdmin })]
-    public class SAdminController : EcatApiController
+    public class SysAdminController : EcatApiController
     {
         private readonly ISysAdminLogic _saLogic;
         private readonly ICommonRepo _commonRepo;
 
-        public SAdminController(ISysAdminLogic saLogic, ICommonRepo commonRepo)
+        public SysAdminController(ISysAdminLogic saLogic, ICommonRepo commonRepo)
         {
             _saLogic = saLogic;
             _commonRepo = commonRepo;
@@ -36,22 +36,27 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public string Metadata()
         {
             return _commonRepo.GetMetadata<EcatCtx>();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public SaveResult SaveChanges(JObject saveBundle)
         {
             return _saLogic.BzSave(saveBundle);
         }
 
+        [HttpGet]
         public async Task<List<AcademyCategory>> AcademyCategories()
         {
             return await _saLogic.GetAcademyCategory();
+        }
+    
+        [HttpGet]
+        public IQueryable<EcAcademy> Academies()
+        {
+          return  _saLogic.GetAcademies();
         }
     }
 }

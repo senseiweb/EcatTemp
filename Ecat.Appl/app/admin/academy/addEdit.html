@@ -5,8 +5,8 @@
 <div class="modal-body">
     <form name="acadAe.nf" class="form-horizontal" novalidate role="form">
         <div class="form-group">
-            <label for="name" class="control-label col-md-2">Name</label>
-            <div class="col-md-10" ng-class="{'has-success': acadAe.nf.name.$valid, 'has-error': acadAe.nf.name.$touched && acadAe.nf.name.$invalid}">
+            <label for="name" class="control-label col-md-3">Name</label>
+            <div class="col-md-9" ng-class="{'has-success': acadAe.nf.name.$valid, 'has-error': acadAe.nf.name.$touched && acadAe.nf.name.$invalid}">
                 <div class="fg-line">
                     <input type="text"
                            name="name"
@@ -21,8 +21,8 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="name" class="control-label col-md-2">Base</label>
-            <div class="col-md-10" ng-class="{'has-success': acadAe.nf.base.$valid, 'has-error': acadAe.nf.base.$touched && acadAe.nf.base.$invalid}">
+            <label for="name" class="control-label col-md-3">Base</label>
+            <div class="col-md-9" ng-class="{'has-success': acadAe.nf.base.$valid, 'has-error': acadAe.nf.base.$touched && acadAe.nf.base.$invalid}">
                 <div class="fg-line">
                     <input type="text"
                            name="base"
@@ -38,9 +38,9 @@
         </div>
 
         <div class="form-group">
-            <label for="edlevel" class="control-label col-md-2">Educational Level
+            <label for="edlevel" class="control-label col-md-3">Educational Level
             </label>
-            <div class="col-md-10" ng-class="{'has-success': acadAdd.nf.edlevel.$valid, 'has-error': acadAdd.nf.edlevel.$touched && acadAdd.nf.edlevel.$invalid}">
+            <div class="col-md-9" ng-class="{'has-success': acadAdd.nf.edlevel.$valid, 'has-error': acadAdd.nf.edlevel.$touched && acadAdd.nf.edlevel.$invalid}">
                 <div class="fg-line">
                     <select ng-model="acadAe.academy.mpEducationLevel"
                             name="edlevel"
@@ -56,10 +56,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="bbcat" class="control-label col-md-2">
+            <label for="bbcat" class="control-label col-md-3">
                Bb Categories
             </label>
-            <div class="col-md-10" ng-class="{'has-success': acadAdd.nf.edlevel.$valid, 'has-error': acadAdd.nf.edlevel.$touched && acadAdd.nf.edlevel.$invalid}">
+            <div class="col-md-9" ng-class="{'has-success': acadAdd.nf.edlevel.$valid, 'has-error': acadAdd.nf.edlevel.$touched && acadAdd.nf.edlevel.$invalid}">
                 <div class="preloader pl-xs" ng-if="acadAe.isLoadingCats">
                     <svg class="pl-circular" viewBox="25 25 50 50">
                         <circle class="plc-path" cx="50" cy="50" r="20" />
@@ -79,6 +79,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="acadAe.ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="acadAe.cancel()">Cancel</button>
 </div>

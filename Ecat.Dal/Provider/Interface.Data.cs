@@ -34,9 +34,10 @@ namespace Ecat.Dal
         Task<CategoryVO[]> GetCategoryList();
     }
 
-    public interface ISaRepo
+    public interface ISysAdminRepo
     {
         SaveResult BzSave(JObject saveBundle, EcPerson user);
+        IQueryable<EcAcademy> GetAcademies();
     }
 
     public interface IUserRepo

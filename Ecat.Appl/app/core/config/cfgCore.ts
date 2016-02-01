@@ -5,7 +5,8 @@ export default class EcCoreConfig {
     static $inject = ['$httpProvider', '$ocLazyLoadProvider', `${ICoreCfg.providerId}Provider`, '$provide'];
 
     private globalEvents = {
-        saveChangesEventId: 'global.data.saveChanges'
+        saveChangesEventId: 'global.data.saveChanges',
+        managerLoadedId: 'global.data.mangerLoaded'
     }
 
     constructor($httpProvider: angular.IHttpProvider,
@@ -37,6 +38,7 @@ export default class EcCoreConfig {
         $httpProvider.interceptors.push(IAuthService.serviceId);
 
         coreCfg.coreEvents.saveChangesEvent = this.globalEvents.saveChangesEventId;
+        coreCfg.coreEvents.managerLoaded = this.globalEvents.managerLoadedId;
     }
 }
 

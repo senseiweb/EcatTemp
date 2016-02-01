@@ -31,7 +31,7 @@
                 Home
             </a>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': $state.includes('admin') }" ng-if="main.adminAuthorized()">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.admin.main.name}})}" ng-if="main.authorizeMenu(stateMgr.admin.main)">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-widgets"></i>
                 System Admin

@@ -90,6 +90,8 @@ namespace Ecat.Appl
             kernel.Bind<EcatCtx>().ToSelf();
             kernel.Bind<EFContextProvider<UserCtx>>().ToSelf();
             kernel.Bind<IUserRepo>().To<UserRepo>();
+            kernel.Bind<ISysAdminLogic>().To<SysAdminLogic>();
+            kernel.Bind<ISysAdminRepo>().To<SysAdminRepo>();
             kernel.Bind<IUserLogic>().To<UserLogic>();
 
             //var defaultFilterProviders = config.Services.GetServices(typeof(IFilterProvider)).Cast<IFilterProvider>();

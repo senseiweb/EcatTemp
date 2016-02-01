@@ -3,8 +3,6 @@ import locatlDs from "core/service/data/local";
 
 export class PersonInitializer
 {
-    initProperties = ['mpMilAffiliation', 'mpGender', 'mpMilPaygrade', 'mpMilComponent'];
-
     constructor(person: ecat.entity.IPerson) {
         if (person.avatarLocation === null) {
               const imgDirectory = '/wwwroot/content/img/avatars/';
