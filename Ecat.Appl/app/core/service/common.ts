@@ -31,35 +31,7 @@ export default class EcCommon
     logWarning = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.warning);
     logInfo = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.info);
     moment = moment;
-    resourceNames: ecat.IAllApiResources = {
-        user: {
-            endPointName: 'User',
-            checkEmail: {
-                resourceName: 'CheckUserEmail',
-                entityType: AppVars.EcMapEntityType.unk
-            },
-            regUser: {
-                resourceName: 'PreRegister',
-                entityType: AppVars.EcMapEntityType.loginTk
-            },
-            fetch: {
-                resourceName: 'Fetch',
-                entityType: AppVars.EcMapEntityType.loginTk
-            },
-            login: {
-                resourceName: 'Login',
-                entityType: AppVars.EcMapEntityType.person
-            }, 
-            resetPin: {
-                resourceName: 'ResetPin',
-                entityType: AppVars.EcMapEntityType.loginTk
-            },
-            profile: {
-                resourceName: 'Profiles',
-                entityType: AppVars.EcMapEntityType.unk
-            }
-        }
-    }
+    
     swal = swal;
     tokenEndpoint: string;
 
@@ -78,7 +50,6 @@ export default class EcCommon
         this.appEndpoint = `${this.serverEnvironment}/breeze/`;
         this.tokenEndpoint = `${this.serverEnvironment}/token`;
     }
-
 
     broadcast(event: string,...args): void {
         this.$rootScope.$broadcast(event, args);

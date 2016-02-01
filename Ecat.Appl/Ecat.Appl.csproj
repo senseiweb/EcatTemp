@@ -651,11 +651,11 @@
     <TypeScriptCompile Include="app\admin\admin.ts" />
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appVars.ts" />
-    <TypeScriptCompile Include="app\core\config\stateConfig.ts" />
+    <TypeScriptCompile Include="app\core\config\cfgState.ts" />
     <TypeScriptCompile Include="app\admin\config\statesAdmin.ts" />
     <TypeScriptCompile Include="app\core\config\statesCore.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
-    <TypeScriptCompile Include="app\core\config\coreConfig.ts" />
+    <TypeScriptCompile Include="app\core\config\cfgCore.ts" />
     <TypeScriptCompile Include="app\core\directives\avatar.ts" />
     <TypeScriptCompile Include="app\core\directives\btnWaves.ts" />
     <TypeScriptCompile Include="app\core\directives\compareTo.ts" />

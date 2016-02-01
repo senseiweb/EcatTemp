@@ -26,6 +26,15 @@ declare module 'systemCfg' {
 
 declare module ecat {
 
+    interface ILocalToken {
+        userEmail: string;
+        password: string;
+        auth: string;
+        warning: Date;
+        expire: Date;
+        validity(): number;
+    }
+
     interface IEcRootScope extends angular.IRootScopeService {
         $state: angular.ui.IStateService;
         stateMgr: any;
@@ -48,6 +57,10 @@ declare module ecat {
         saveChangesEvent?: string;
     }
 
+    interface IEcStateObject {
+        [name: string]: angular.ui.IState;
+    }
+
     interface IRoutingError {
         message: string;
         errorCode: number;
@@ -62,29 +75,28 @@ declare module ecat {
         source: string;    
     }
 
-    interface IAllApiResources {
-        user: IUserApiResources,
-        facilitator?: IFacilitatorApiResources,
+    interface IApiResources {
+        [name: string]: IApiResource;
     }
 
-    interface IUserApiResources {
-        endPointName?: string;
-        regUser: IApiResource;
-        login: IApiResource;
-        resetPin: IApiResource;
-        fetch: IApiResource;
-        profile: IApiResource;
-        checkEmail: IApiResource;
-    }
+    //interface IUserApiResources {
+    //    endPointName?: string;
+    //    regUser: IApiResource;
+    //    login: IApiResource;
+    //    resetPin: IApiResource;
+    //    fetch: IApiResource;
+    //    profile: IApiResource;
+    //    checkEmail: IApiResource;
+    //}
 
-    interface IFacilitatorApiResources {
-        endPointName?: string;
-    }
+    //interface IFacilitatorApiResources {
+    //    endPointName?: string;
+    //}
 
    
     export interface IApiResource {
         resourceName: string;
-        entityType: string;
+        returnedEntityType: string;
     }
 
  

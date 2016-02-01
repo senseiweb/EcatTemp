@@ -186,6 +186,17 @@ export default class EcLocalDataService
 
     constructor() {  }
 
+    get edLevels(): Array<string> {
+        const edlevels = [];
+        const lclEdLevel = AppVars.EcMapEdLevel;
+        for (let edl in lclEdLevel) {
+            if (lclEdLevel.hasOwnProperty(edl)) {
+                edlevels.push(lclEdLevel[edl]);
+            }
+        }
+        return edlevels;
+    }
+
     get milAffil(): Array<{prop: string, value: string}> {
         const affilArray = [];
         const affiliations  = AppVars.EcMapAffiliation;

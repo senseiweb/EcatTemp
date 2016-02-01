@@ -5,7 +5,7 @@
     Student
 }
 
-export enum TokenStatus {
+export const enum TokenStatus {
     Missing,
     Expired,
     Valid
@@ -65,11 +65,11 @@ export class EcMapPaygrade {
 
 export class EcMapApiResource
 {
-    static user = 'user';
-    static student = 'student';
-    static instructor = 'instructor';
-    static sa = 'sysAdmin';
-    static courseAdmin = 'courseAdmin';
+    static user = 'User';
+    static student = 'Student';
+    static facilitator = 'Facilitator';
+    static sa = 'SysAdmin';
+    static courseAdmin = 'CourseAdmin';
 }
 
 export class EcMapAlertType {
