@@ -14,6 +14,7 @@ export interface ILocalResource {
 export default class EcUtilityRepoServices {
 
     protected appVars = AppVars;
+    protected apiResources: any;
     protected dCtx: IDataCtx;
     protected c: ICommon;
     protected emf: IEmFactory;
@@ -21,6 +22,7 @@ export default class EcUtilityRepoServices {
     protected logInfo: (msg: string, data: any, showLog: boolean) => void;
     protected logWarn: (msg: string, data: any, showLog: boolean) => void;
     protected manager: breeze.EntityManager;
+    mgrLoaded = false;
     protected saveInProgress = false;
     protected query: breeze.EntityQuery;
 
@@ -35,18 +37,30 @@ export default class EcUtilityRepoServices {
         this.query = new breeze.EntityQuery();
         this.c = c;
         this.dCtx = dCtx;
+        this.emf = emf;
+        this.mgrLoaded = false;
         this.logSuccess = this.c.logSuccess(this.loggerId);
         this.logInfo = this.c.logInfo(this.loggerId);
         this.logWarn = this.c.logWarning(this.loggerId);
-        this.emf = emf;
         this.getManager(emf);
     }
     
+    addResources(apiResources): void {
+        this.apiResources = apiResources;
+    }
+
     private getManager = (factory: IEmFactory): void => {
-        factory.getNewManager(this.endPoint, this.entityExtCfgs).then((mgr: breeze.EntityManager) => {
-            this.manager = mgr;
+
+        this.manager = factory.getNewManager(this.endPoint, this.entityExtCfgs);
+
+        this.c.broadcast(this.c.coreCfg.coreEvents.addManager, { data: { module: this.endPoint, mgr: this.manager } });
+
+        this.c.$rootScope.$on(this.c.coreCfg.coreEvents.managerLoaded, (event, data) => {
+            if (data[0].mgrName === this.endPoint) {
+                this.mgrLoaded = true;
+                this.registerTypes(this.apiResources);
+            }
         });
-        this.c.broadcast(this.c.coreCfg.coreEvents.managerLoaded, { data: { module: this.endPoint, mgr: this.manager }});
     }
 
     protected loadManager(apiResources: ecat.IApiResources): breeze.promises.IPromise<boolean | angular.IPromise<void>> {

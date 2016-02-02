@@ -1,4 +1,6 @@
 ﻿import IEcStateProvider from 'core/provider/stateProvider'
+import ICommon from "core/service/common"
+import IDataCtx from "core/service/data/context"
 import AdminStates from "admin/config/statesAdmin"
 import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
@@ -64,12 +66,17 @@ export default class EcCoreStateConfig {
 
     private loadStates = (statesNames: Array<string>, statesToLoad: ecat.IEcStateObject, stateHolder: string): void => {
         statesNames.forEach((state) => {
-            if (angular.isObject(statesToLoad[state])) {
-                this.$stateProvider.state(statesToLoad[state]);
+            const stateToLoad = statesToLoad[state];
+            if (angular.isObject(stateToLoad)) {
+            //    if (stateToLoad.name.indexOf('redirect') < 0) {
+            //        const checkTokenResolve = { tokenValid: [IDataCtx.serviceId,ICommon.serviceId,(dCtx: IDataCtx, c: ICommon) => c.checkValidToken()]}
+            //        stateToLoad.resolve = angular.extend({}, checkTokenResolve, stateToLoad.resolve);
+            //    }
+                this.$stateProvider.state(stateToLoad);
                 if (!angular.isObject(this.statMgr[stateHolder])) {
                     this.statMgr[stateHolder] = {};
                 }
-                this.statMgr[stateHolder][state] = statesToLoad[state];
+                this.statMgr[stateHolder][state] = stateToLoad;
             }
           
         });

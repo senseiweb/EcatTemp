@@ -16,7 +16,7 @@ export default class EcUserRepo extends IUtilityRepo
     static serviceId = 'data.user';
     static $inject = ['$http','$injector', 'userStatic'];
 
-    private apiResources: UserApiResources = {
+    private userApiResources: UserApiResources = {
         checkEmail: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
             resourceName: 'CheckUserEmail'
@@ -32,7 +32,7 @@ export default class EcUserRepo extends IUtilityRepo
     };
     isLoaded = this.c.areItemsLoaded;
     persona: ecat.entity.IPerson;
-    private resource = this.apiResources;
+    private res = this.apiResources;
     token: ecat.ILocalToken = {
         userEmail: '',
         password: '',
@@ -52,33 +52,51 @@ export default class EcUserRepo extends IUtilityRepo
     };
 
     constructor(private $http: angular.IHttpService, inj, public userStatic: ecat.entity.ILoginToken) {
-        super(inj,'User Data Service', IAppVar.EcMapApiResource.user, [IPersonExt.personConfig]);
-       
+        super(inj, 'User Data Service', IAppVar.EcMapApiResource.user, [IPersonExt.personConfig]);
+        super.addResources(this.userApiResources);
+        this.createUserToken();
     }
 
-    createUserLocal(addSecurity: boolean): ecat.entity.IPerson {
+    createUserLocal(addSecurity: boolean): breeze.promises.IPromise<ecat.entity.IPerson | angular.IPromise<void>> {
 
-         const newPerson = {
-             isRegistrationComplete: false,
-             mpInstituteRole: this.c.appVar.EcMapInstituteRole.external
-         };
+        const self = this;
 
-         const user = this.manager.createEntity(this.c.appVar.EcMapEntityType.person, newPerson) as ecat.entity.IPerson;
+        if (!this.mgrLoaded) {
+            return this.loadManager(this.apiResources)
+                .then(createUserLcl)
+                .catch(this.queryFailed);
+        }
 
-         user.mpMilAffiliation = this.c.appVar.EcMapAffiliation.unk;
-         user.mpMilComponent = this.c.appVar.EcMapComponent.unk;
-         user.mpMilPaygrade = this.c.appVar.EcMapPaygrade.unk;
-         user.mpGender = this.c.appVar.EcMapGender.unk;
+        return this.c.$q.when(createUserLcl());
 
-         if (addSecurity) {
-             user.security = this.manager.createEntity(this.c.appVar.EcMapEntityType.security, { personId: user.personId }) as ecat.entity.ISecurity;
-         }
+        function createUserLcl(): ecat.entity.IPerson {
+            const newPerson = {
+                isRegistrationComplete: false,
+                mpInstituteRole: this.c.appVar.EcMapInstituteRole.external
+            };
 
-         return user;
+            const user = self.manager.createEntity(this.c.appVar.EcMapEntityType.person, newPerson) as ecat.entity.IPerson;
+
+            user.mpMilAffiliation = self.c.appVar.EcMapAffiliation.unk;
+            user.mpMilComponent = self.c.appVar.EcMapComponent.unk;
+            user.mpMilPaygrade = self.c.appVar.EcMapPaygrade.unk;
+            user.mpGender = self.c.appVar.EcMapGender.unk;
+
+            if (addSecurity) {
+                user.security = self.manager.createEntity(self.c.appVar.EcMapEntityType.security, { personId: user.personId }) as ecat.entity.ISecurity;
+            }
+
+            return user;
+        }
+       
     }
 
     createUserToken(): ecat.entity.ILoginToken {
         let security: ecat.entity.ISecurity = null;
+
+        if (this.isLoaded.userToken || !this.mgrLoaded) {
+            return null;
+        }
 
         if (this.userStatic.person.security) {
             security = this.manager.createEntity(this.c.appVar.EcMapEntityType.security, this.userStatic.person.security, breeze.EntityState.Unchanged) as ecat.entity.ISecurity;
@@ -109,7 +127,7 @@ export default class EcUserRepo extends IUtilityRepo
     emailIsUnique(email: string): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
         const requestCfg: angular.IRequestConfig = {
             method: 'get',
-            url: `${this.c.appEndpoint + this.endPoint}/${this.resource.checkEmail.resourceName}`,
+            url: `${this.c.appEndpoint + this.endPoint}/${this.res.checkEmail.resourceName}`,
             params: { email: email }
         }
 
@@ -124,7 +142,7 @@ export default class EcUserRepo extends IUtilityRepo
 
     getUserProfile(): breeze.promises.IPromise<any> {
         const self = this;
-        const res = this.resource.profile.resourceName;
+        const res = this.res.profile.resourceName;
 
         if (this.isLoaded.userProfile) {
             const pred = new breeze.Predicate('personId', breeze.FilterQueryOp.Equals, this.persona.personId);
@@ -176,25 +194,6 @@ export default class EcUserRepo extends IUtilityRepo
         return deferred.promise;
     }
 
-    loadUserManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-
-        if (true) {
-            return this.c.$q.when(true);
-        }
-
-        return this.loadManager(this.apiResources)
-            .then(() => {
-                this.registerTypes(this.apiResources);
-                if (this.userStatic) {
-                    this.createUserToken();
-                    return true;
-                } else {
-                    return false;
-                }
-            })
-            .catch(this.queryFailed);
-    }
-
     loginUser(userEmail: string, password: string, saveLogin: boolean): breeze.promises.IPromise<ecat.entity.IPerson | angular.IPromise<void>> {
         if (this.token && userEmail === this.token.userEmail && password === this.token.password && this.token.validity() === this.c.appVar.TokenStatus.Valid) {
             return this.c.$q.resolve(this.persona);
@@ -205,7 +204,7 @@ export default class EcUserRepo extends IUtilityRepo
         const self = this;
         const requestCfg: angular.IRequestConfig = {
             method: 'POST',
-            url: `${this.c.serverEnvironment}/token`,
+            url: `${this.c.serverEnvironment}/token:ignore`,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             data: {
                 username: userEmail,

@@ -14,7 +14,7 @@ export default class EcSysAdminDataService extends IUtilityRepo {
     static serviceId = 'data.sysAdmin';
     static $inject = ['$injector'];
     
-    private apiResources: ISysAdminApiResouces = {
+    private sysAdminApiResources: ISysAdminApiResouces = {
         acad: {
             resourceName: 'Academies',
             returnedEntityType: appVar.EcMapEntityType.academy
@@ -29,7 +29,7 @@ export default class EcSysAdminDataService extends IUtilityRepo {
 
     constructor(inj) {
         super(inj, 'System Admin DataService', appVar.EcMapApiResource.sa, []);
-        this.loadManager(this.apiResources);
+        super.addResources(this.sysAdminApiResources);
     }
 
     createAcademyLocal(): ecat.entity.IAcademy {
@@ -70,7 +70,7 @@ export default class EcSysAdminDataService extends IUtilityRepo {
             return this.c.$q.when(this.academyCategoryList);
         }
 
-        return this.query.from(this.apiResources.acadCat.resourceName)
+        return this.query.from(this.sysAdminApiResources.acadCat.resourceName)
             .using(this.manager)
             .execute()
             .then(categoryListRepsonse)
@@ -79,17 +79,5 @@ export default class EcSysAdminDataService extends IUtilityRepo {
             function categoryListRepsonse(data: breeze.QueryResult) {
                 self.academyCategoryList = data.results as any;
             }
-    }
-
-    loadAdminManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-        if (!this.manager.metadataStore.isEmpty()) {
-            return this.c.$q.when(true);
-        }
-        
-        return this.loadManager(this.apiResources)
-            .then(() => {
-                this.registerTypes(this.apiResources);
-            })
-            .catch(this.queryFailed);
     }
 }

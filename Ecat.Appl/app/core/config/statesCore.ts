@@ -3,21 +3,12 @@ import IDataCtx from "core/service/data/context"
 
 export default class EcCoreStates {
 
-    private loadUserManager = (dataCtx: IDataCtx, common: ICommon) => {
-        return dataCtx.user.loadUserManager().then((isLoaded: boolean) =>
-            common.checkValidToken(dataCtx.user.token.validity(), isLoaded)
-        );
-    }
-
     app: angular.ui.IState = {
         name: 'app',
         url: '/app',
         abstract: true,
         templateUrl: 'wwwroot/app/core/global/appGlobal.html',
         controller: 'app.global as app',
-        resolve: {
-            userManager: [IDataCtx.serviceId,ICommon.serviceId,this.loadUserManager]
-        }
     }
 
     main: angular.ui.IState = {
@@ -26,12 +17,7 @@ export default class EcCoreStates {
         url: '/main',
         templateUrl: 'wwwroot/app/core/global/main.html',
         controller: 'app.global.main as main',
-        resolve: {
-            userManager: ['userManager', (userManager) => userManager]
-        },
-        data: {
-            validateToken: true
-        }
+        resolve: { tokenValid: [IDataCtx.serviceId, ICommon.serviceId, (dCtx: IDataCtx, c: ICommon) => c.checkValidToken()] }
     }
 
     dashboard: angular.ui.IState = {
@@ -39,10 +25,7 @@ export default class EcCoreStates {
         parent: this.main.name,
         url: '/dashboard',
         templateUrl: 'wwwroot/app/core/userViews/dashboard.html',
-        controller: 'app.user.dashboard as dashboard',
-        resolve: {
-            userManager: ['userManager', (userManager) => userManager]
-        }
+        controller: 'app.user.dashboard as dashboard'
     }
 
     profile: angular.ui.IState = {
@@ -50,10 +33,7 @@ export default class EcCoreStates {
         parent: this.main.name,
         url: '/profile',
         templateUrl: 'wwwroot/app/core/userViews/profile.html',
-        controller: 'app.user.profile as profile',
-        resolve: {
-            userManager: ['userManager', (userManager) => userManager]
-        }
+        controller: 'app.user.profile as profile'
     }
 
     redirect: angular.ui.IState = {
@@ -61,10 +41,7 @@ export default class EcCoreStates {
         parent: this.app.name,
         url: '/redirect',
         abstract: true,
-        template: '<div ui-view></div>',
-        resolve: {
-            userManager: ['userManager', (userManager) => userManager]
-        }
+        template: '<div ui-view></div>'
     }
 
     error: angular.ui.IState = {

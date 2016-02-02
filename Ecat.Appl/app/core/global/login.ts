@@ -28,7 +28,7 @@ export default class EcGlobalLogin {
         this.mode = c.$stateParams.mode;
         const reminder = localStorage.getItem('ECAT:RME');
         this.rememberMe = !!reminder;
-
+        this.user = dCtx.user.persona;
         if (this.rememberMe) {
             this.userEmail = reminder;
         }
@@ -46,8 +46,9 @@ export default class EcGlobalLogin {
             if (this.user) {
                 return null;
             }
-            const user = this.dCtx.user.createUserLocal(true);
-            this.user = user;
+            this.dCtx.user.createUserLocal(true).then((user: ecat.entity.IPerson) => {
+                this.user = user;
+            });
             this.userEmail = null;
             this.userPassword = null;
             break;

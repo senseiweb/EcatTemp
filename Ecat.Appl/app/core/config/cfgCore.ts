@@ -6,7 +6,9 @@ export default class EcCoreConfig {
 
     private globalEvents = {
         saveChangesEventId: 'global.data.saveChanges',
-        managerLoadedId: 'global.data.mangerLoaded'
+        managerCreatedId: 'global.data.mangerCreated',
+        managerLoadedId: 'global.data.managerLoaded',
+        addManagerId: 'global.data.addManager'
     }
 
     constructor($httpProvider: angular.IHttpProvider,
@@ -38,7 +40,9 @@ export default class EcCoreConfig {
         $httpProvider.interceptors.push(IAuthService.serviceId);
 
         coreCfg.coreEvents.saveChangesEvent = this.globalEvents.saveChangesEventId;
+        coreCfg.coreEvents.managerCreated = this.globalEvents.managerCreatedId;
         coreCfg.coreEvents.managerLoaded = this.globalEvents.managerLoadedId;
+        coreCfg.coreEvents.addManager = this.globalEvents.addManagerId;
     }
 }
 

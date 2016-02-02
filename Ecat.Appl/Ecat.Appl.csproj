@@ -424,6 +424,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TypeLite.Net4.d.ts</LastGenOutput>
     </Content>
+    <Content Include="Scripts\vendor\angular-loading-bar\Gruntfile.js" />
+    <Content Include="Scripts\vendor\angular-loading-bar\index.js" />
+    <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.css" />
+    <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.js" />
     <Content Include="wwwroot\index.html" />
     <Content Include="Scripts\Manager.ttinclude" />
     <None Include="Properties\PublishProfiles\tofolder.pubxml">
@@ -634,6 +638,12 @@
     <Content Include="Scripts\vendor\fileinput\fileinput.less" />
     <Content Include="Scripts\vendor\weather-icons\weather-font.less" />
     <Content Include="Scripts\vendor\weather-icons\weather-icons.less" />
+    <Content Include="Scripts\vendor\angular-loading-bar\.bower.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\bower.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\CHANGELOG.md" />
+    <Content Include="Scripts\vendor\angular-loading-bar\LICENSE" />
+    <Content Include="Scripts\vendor\angular-loading-bar\package.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -56,6 +56,8 @@ declare module ecat {
     {
         saveChangesEvent?: string;
         managerLoaded?: string;
+        managerCreated?: string;
+        addManager?: string;
     }
 
     interface IEcStateObject {

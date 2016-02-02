@@ -24,9 +24,17 @@ export default class EcEmFactory {
             serviceName: serviceName,
             metadataStore: metaDataStore
         });
-        mgr.fetchMetadata().then(() => {
-            this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
-        });
+        mgr.fetchMetadata()
+            .then(() => {
+                this.common.broadcast(this.common.coreCfg.coreEvents.managerLoaded,
+                    { loaded: true, mgrName: apiResourceName });
+                this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
+            })
+            .catch((error) => {
+                
+                this.common.logger.logError(`${apiResourceName}} Manager could not be loaded. This is a critical error.\nPlease attempt reload the application`, error, 'EM-Factory', true);
+                this.common.$state.go(this.common.stateMgr.core.error.name);
+            });
         return mgr;
     }
 
