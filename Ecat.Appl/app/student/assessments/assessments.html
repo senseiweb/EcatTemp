@@ -1,30 +1,38 @@
 ﻿<div class="container animated fadeInRight">
     <div class="block-header">
         <h2>Bob Anderson's Assessment Center</h2>
+
+
+        <ul class="actions m-t-20 hidden-xs">
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-sort"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="">ILE 16-3</a>
+                    </li>
+                    <li>
+                        <a href="">ILE 16-2</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
     <div class="card" id="assessments-main">
         <div class="listview lv-bordered lv-lg">
             <div class="lv-header-alt clearfix">
-                
+
+                <div class="btn-group">
+                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Left'">Assessments</label>
+                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'Right'">Results</label>
+                </div>
+
                 <ul class="lv-actions actions">
 
-                    <li class="dropdown" uib-dropdown>
-                        <a href="" uib-dropdown-toggle>
-                            <i class="zmdi zmdi-sort"></i>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                <a href="">ILE 16-3</a>
-                            </li>
-                            <li>
-                                <a href="">ILE 16-2</a>
-                            </li>
-                        </ul>
-                    </li>
                     <li>
-                        <a href="">
+                        <a href=""> 
                             <i class="zmdi zmdi-info"></i>
                         </a>
                     </li>
@@ -56,127 +64,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
-
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default" ng-click="assessAe.addAssessment()">View</button>
-                                            <button type="button" class="btn btn-default" ng-click="open('edit')">Edit</button>
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
-
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default">View</button>
-                                            <button type="button" class="btn btn-default">Edit</button>
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
-
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default">View</button>
-                                            <button type="button" class="btn btn-default">Edit</button>
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
-
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default">View</button>
-                                            <button type="button" class="btn btn-default">Edit</button>
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
-
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default">View</button>
-                                            <button type="button" class="btn btn-default">Edit</button>
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                </tr>
 
                                 <tr>
                                     <td>Jason Silvers</td>
                                     <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
+                                        <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
 
                                     </td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default">View</button>
-                                            <button type="button" class="btn btn-default">Edit</button>
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
+                                        <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
 
                                     </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default">View</button>
-                                            <button type="button" class="btn btn-default">Edit</button>
-                                        </div>
-                                    </td>
                                     <td>3</td>
                                 </tr>
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <i class="tm-icon zmdi zmdi-comments"></i>
-                                        <i class="tmn-counts">3</i>
 
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default">View</button>
-                                            <button type="button" class="btn btn-default">Edit</button>
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                </tr>
+
                                 </tbody>
                             </table>
 

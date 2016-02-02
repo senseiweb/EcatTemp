@@ -5,7 +5,7 @@ import IAssessmentAe from 'student/assessments/addEdit'
 
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
-    static $inject = ['$uiModal', ICommon.serviceId, IDataCtx.serviceId]; 
+    static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId]; 
 
     aeModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IAssessmentAe.controllerId,
@@ -13,7 +13,7 @@ export default class EcStudentAssessments {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: 'wwwroot/app/student/assessment/addEdit.html'
+        templateUrl: 'wwwroot/app/student/assessments/addEdit.html'
 
     };
 

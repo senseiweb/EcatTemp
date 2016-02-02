@@ -32,7 +32,7 @@ export default class EcStudentStates {
             parent: this.main.name,
             url: '/assessment',
             templateUrl: 'wwwroot/app/student/assessments/assessments.html',
-            controller: 'app.student.assessment as assessment',
+            controller: 'app.student.assessment as assess',
             resolve: {
                 moduleLoad: ['moduleInit', 'studentManager', (moduleInit) => moduleInit]
             }
