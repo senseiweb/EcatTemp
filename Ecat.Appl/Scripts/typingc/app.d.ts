@@ -38,6 +38,7 @@ declare module ecat {
     interface IEcRootScope extends angular.IRootScopeService {
         $state: angular.ui.IStateService;
         stateMgr: any;
+        startUpComplete: boolean;
     }    
 
     interface ICoreCfg {

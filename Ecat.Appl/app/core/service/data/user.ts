@@ -32,7 +32,6 @@ export default class EcUserRepo extends IUtilityRepo
     };
     isLoaded = this.c.areItemsLoaded;
     persona: ecat.entity.IPerson;
-    private res = this.apiResources;
     token: ecat.ILocalToken = {
         userEmail: '',
         password: '',
@@ -94,7 +93,7 @@ export default class EcUserRepo extends IUtilityRepo
     createUserToken(): ecat.entity.ILoginToken {
         let security: ecat.entity.ISecurity = null;
 
-        if (this.isLoaded.userToken || !this.mgrLoaded) {
+        if (this.isLoaded.userToken || !this.mgrLoaded || !this.userStatic) {
             return null;
         }
 
@@ -127,7 +126,7 @@ export default class EcUserRepo extends IUtilityRepo
     emailIsUnique(email: string): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
         const requestCfg: angular.IRequestConfig = {
             method: 'get',
-            url: `${this.c.appEndpoint + this.endPoint}/${this.res.checkEmail.resourceName}`,
+            url: `${this.c.appEndpoint + this.endPoint}/${this.userApiResources.checkEmail.resourceName}`,
             params: { email: email }
         }
 
@@ -142,7 +141,7 @@ export default class EcUserRepo extends IUtilityRepo
 
     getUserProfile(): breeze.promises.IPromise<any> {
         const self = this;
-        const res = this.res.profile.resourceName;
+        const res = this.userApiResources.profile.resourceName;
 
         if (this.isLoaded.userProfile) {
             const pred = new breeze.Predicate('personId', breeze.FilterQueryOp.Equals, this.persona.personId);
@@ -154,7 +153,7 @@ export default class EcUserRepo extends IUtilityRepo
             .execute()
             .then(getUserProfileResponse)
             .catch(this.queryFailed);
-
+            
         function getUserProfileResponse(userProfileResult: breeze.QueryResult) {
             const userProfile = userProfileResult.results[0];
             if (userProfile) {
@@ -204,7 +203,7 @@ export default class EcUserRepo extends IUtilityRepo
         const self = this;
         const requestCfg: angular.IRequestConfig = {
             method: 'POST',
-            url: `${this.c.serverEnvironment}/token:ignore`,
+            url: `${this.c.serverEnvironment}/token`,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             data: {
                 username: userEmail,

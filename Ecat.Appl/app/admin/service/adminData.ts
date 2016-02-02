@@ -58,8 +58,9 @@ export default class EcSysAdminDataService extends IUtilityRepo {
                     logger('Retrieved academy list from remote store', data.results, false);
                     return data.results as Array<ecat.entity.IAcademy>;
                 }
-
+                
                 logger('The query succeeded, but no items where retrieved', data, false);
+                return data.results as Array<ecat.entity.IAcademy>;
             }
     }
 
