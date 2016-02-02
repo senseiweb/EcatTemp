@@ -1,6 +1,7 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from "core/service/data/context";
 import IAssessmentAe from 'student/assessments/addEdit'
+import IComment from "student/assessments/comment"
 
 
 export default class EcStudentAssessments {
@@ -14,6 +15,16 @@ export default class EcStudentAssessments {
         keyboard: false,
         backdrop: 'static',
         templateUrl: 'wwwroot/app/student/assessments/addEdit.html'
+
+    };
+
+    commentModalOptions: angular.ui.bootstrap.IModalSettings = {
+        controller: IComment.controllerId,
+        controllerAs: 'comment',
+        bindToController: true,
+        keyboard: false,
+        backdrop: 'static',
+        templateUrl: 'wwwroot/app/student/assessments/comment.html'
 
     };
 
@@ -35,6 +46,23 @@ export default class EcStudentAssessments {
 
         function assessmentError() {
             
+
+        }
+
+    }
+
+    addComment(): void {
+        this.uiModal.open(this.commentModalOptions)
+            .result
+            .then(commentSaved)
+            .catch(commentError);
+
+        function commentSaved() {
+
+        }
+
+        function commentError() {
+
 
         }
 

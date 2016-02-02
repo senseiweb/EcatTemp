@@ -2,18 +2,17 @@
     <div class="block-header">
         <h2>Bob Anderson's Assessment Center</h2>
 
-
-        <ul class="actions m-t-20 hidden-xs">
+        <ul class="actions">
             <li class="dropdown" uib-dropdown>
                 <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-sort"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li>
-                        <a href="">ILE 16-3</a>
+                        <a href="javascript:void(0)">ILE 16-3</a>
                     </li>
                     <li>
-                        <a href="">ILE 16-2</a>
+                        <a href="javascript:void(0)">ILE 16-2</a>
                     </li>
                 </ul>
             </li>
@@ -22,20 +21,31 @@
 
     <div class="card" id="assessments-main">
         <div class="listview lv-bordered lv-lg">
-            <div class="lv-header-alt clearfix">
+            <div class="lv-header-alt clearfix p-b-5" >
 
                 <div class="btn-group">
-                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Left'">Assessments</label>
-                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'Right'">Results</label>
+                    <button type="button" class="btn btn-primary">Assessments</button>
+                    <button type="button" class="btn btn-default">Results</button>
                 </div>
 
                 <ul class="lv-actions actions">
 
-                    <li>
-                        <a href=""> 
-                            <i class="zmdi zmdi-info"></i>
-                        </a>
+                    <li class="dropdown" uib-dropdown>
+
+                        <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>Group 1</button>
+
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a href="">Group 2</a>
+                            </li>
+                            <li>
+                                <a href="">Group 3</a>
+                            </li>
+                        </ul>
                     </li>
+
+                    
+
                     <li class="dropdown" uib-dropdown>
                         <a href="" uib-dropdown-toggle>
                             <i class="zmdi zmdi-more-vert"></i>
@@ -51,44 +61,69 @@
             </div>
 
             <div class="lv-body">
-                <uib-tabset jusitifed="true" class="p-l-30">
-                    <uib-tab heading="Group1">
+
+                <div class="row">
+                    <div class="col-md-12 p-t-20">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover tableCenterAlign">
                                 <thead>
-                                <tr>
-                                    <th>Student</th>
-                                    <th>Comments</th>
-                                    <th>Assessments</th>
-                                    <th>Strat</th>
-                                </tr>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Comments</th>
+                                        <th>Assessments</th>
+                                        <th>Strat</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
 
-                                <tr>
-                                    <td>Jason Silvers</td>
-                                    <td>
-                                        <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
+                                    <tr class="tableBottomBorder">
+                                        <td>Jason Silvers</td>
+                                        <td>
+                                            <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
 
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
 
-                                    </td>
-                                    <td>3</td>
-                                </tr>
+                                        </td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Everybody Else</td>
+                                        <td>
+                                            <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
+
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
+
+                                        </td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Everybody Else</td>
+                                        <td>
+                                            <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
+
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
+
+                                        </td>
+                                        <td>3</td>
+                                    </tr>
+
 
 
                                 </tbody>
                             </table>
 
                         </div>
+                    </div>
+                </div>
 
-                    </uib-tab>
-                    <uib-tab heading="Group2">Group 2</uib-tab>
-                    <uib-tab heading="Group3">Group 3</uib-tab>
 
-                </uib-tabset>
+                
 
             </div>
 
