@@ -1,32 +1,45 @@
 ﻿import CoreStates from "core/config/statesCore"
-import IEcStudentModule from "student/student"
 import * as AppVar from "appVars"
 import IDataCtx from 'core/service/data/context'
 import ICommon from "core/service/common"
 
 export default class EcStudentStates {
-    private core: CoreStates;
+  
     private isStudentLoaded = false;
 
-    constructor() {
-        this.core = new CoreStates();
-    }
+    main: angular.ui.IState;
+    assessment: angular.ui.IState;
 
-    private isAuthorized = (manager: boolean, isLoggedIn: boolean, common:ICommon, dataCtx: IDataCtx, authorizedRoles: Array<string>): angular.IPromise<any> => {
-        const deferred = common.$q.defer();
+    constructor(coreMain: angular.ui.IState, coreDash: angular.ui.IState) {
+        this.main = {
+            name: `${coreMain.name}.student`,
+            parent: coreMain.name,
+            url: '/student',
+            abstract: true,
+            template: '<div ui-view></div>',
+            data: {
+                authorized: [AppVar.EcMapInstituteRole.student, AppVar.EcMapInstituteRole.external]
+            },
+            resolve: {
+                moduleInit: ['$ocLazyLoad', this.loadModule],
+                studentManager: ['userManager', IDataCtx.serviceId, ICommon.serviceId, (um, d, c) => this.loadStudentManager(um, d, c, coreDash)]
+            }
 
-        if (!manager || !isLoggedIn) {
-            deferred.reject('missing dependencies');
         }
-        if (!dataCtx.user.isAuthorized(authorizedRoles)) {
-            deferred.reject('missing dependencies');
-        };
-        deferred.resolve();
-        return deferred.promise;
+
+        this.assessment = {
+            name: `${this.main.name}.assessment`,
+            parent: this.main.name,
+            url: '/assessment',
+            templateUrl: 'wwwroot/app/student/assessments/assessments.html',
+            controller: 'app.student.assessment as assessment',
+            resolve: {
+                moduleLoad: ['moduleInit', 'studentManager', (moduleInit) => moduleInit]
+            }
+        }
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-
         return this.isStudentLoaded ? this.isStudentLoaded : System.import('app/student/student.js').then((studentModClass: any) => {
             const studentClass = new studentModClass.default();
             $ocLl.load(studentClass.studentModule)
@@ -35,35 +48,34 @@ export default class EcStudentStates {
         });
     }
 
-    get main(): angular.ui.IState {
-        const authorizedRoles = [AppVar.EcMapInstituteRole.external, AppVar.EcMapInstituteRole.student];
-        return {
-            name: `${this.core.main.name}.student`,
-            parent: this.core.main.name,
-            url: '/student',
-            abstract: true,
-            template: '<div ui-view></div>',
-            data: {
-                isAuthorized: (userRole: string) => authorizedRoles.some(role => userRole === role)
-            },
-            resolve: {
-                authorized: ['manager', 'isLoggedIn', ICommon.serviceId, IDataCtx.serviceId, (manager, isLoggedIn, common, dataCtx) => this.isAuthorized(manager, isLoggedIn, common, dataCtx, authorizedRoles)],
-                moduleInit: ['$ocLazyLoad', this.loadModule]
-            }
-        };
-    }
+    private loadStudentManager = (hasUserManager, dataCtx: IDataCtx, common: ICommon, coreDash): angular.IPromise<any> => {
 
-    get assessments(): angular.ui.IState {
-        return {
-            name: `${this.main.name}.assessments`,
-            parent: this.main.name,
-            url: '/student',
-            templateUrl: 'wwwroot/app/student/assessments/assessments.html',
-            controller: 'app.student.assessments as stu',
-            resolve: {
-                moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
+        if (!hasUserManager) {
+            const userMagrError: ecat.IRoutingError = {
+                errorCode: AppVar.SysErrorType.MetadataFailure,
+                message: 'Cannot load the user metadata!',
+                redirectTo: coreDash.name
             }
-        };
-    }
+            return common.$q.all([dataCtx.user.loadUserManager(), dataCtx.student.loadStudentManager()])
+                .then(() => true)
+                .catch(() => userMagrError);
+        }
 
+        const error: ecat.IRoutingError = {
+            errorCode: AppVar.SysErrorType.MetadataFailure,
+            message: 'Cannot load the student metadata!',
+            redirectTo: coreDash.name
+        }
+
+        return dataCtx.student
+            .loadStudentManager()
+            .then(() => true)
+            .catch(() => error);
+
+    }
+       
 }
+
+
+   
+

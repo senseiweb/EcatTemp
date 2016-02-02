@@ -15,6 +15,7 @@ export default class EcCommon
     areItemsLoaded = {
         userManager: false,
         adminManager: false,
+        studentManager: false,
         academy: false,
         userToken: false,
         userProfile: false,
@@ -96,8 +97,9 @@ export default class EcCommon
                             type: 'error',
                             closeOnConfirm: true
                         }
-                        return swal(tkError, () => 
-                        this.$state.go(error.redirectTo, toParams[0]));
+                   
+                        this.$state.go(error.redirectTo.name, toParams[0]);
+               
                     break;
 
                 case AppVars.SysErrorType.RegNotComplete:

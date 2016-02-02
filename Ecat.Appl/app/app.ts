@@ -49,6 +49,7 @@ import coreCfgProvider from 'core/provider/coreCfgProvider'
 import dataCtx from 'core/service/data/context'
 import emFactory from 'core/service/data/emFactory'
 import userRepo from 'core/service/data/user'
+import studentRepo from 'student/service/studentData'
 import adminRepo from "admin/service/adminData"
 import growl from 'core/service/plugin/growl'
 import common from "core/service/common"
@@ -120,6 +121,7 @@ export default class AppStart {
             .service(emFactory.serviceId, emFactory)
             .service(userRepo.serviceId, userRepo)
             .service(adminRepo.serviceId, adminRepo)
+            .service(studentRepo.serviceId, studentRepo)
             .service(growl.serviceId, growl)
             .service(common.serviceId, common)
             .service(logger.serviceId, logger)

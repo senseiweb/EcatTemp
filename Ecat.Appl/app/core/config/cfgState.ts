@@ -1,5 +1,6 @@
 ﻿import IEcStateProvider from 'core/provider/stateProvider'
 import AdminStates from "admin/config/statesAdmin"
+import StudentStates from "student/config/statesStudent"
 import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
 
@@ -19,6 +20,9 @@ export default class EcCoreStateConfig {
 
         const admin = new AdminStates(core.main, core.dashboard);
         this.loadStates(Object.keys(admin), admin as any, 'admin');
+
+        const student = new StudentStates(core.main, core.dashboard);
+        this.loadStates(Object.keys(student), student as any, 'student');
 
         $urlProvider.otherwise(() => {
             const self = this;

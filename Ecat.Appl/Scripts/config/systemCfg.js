@@ -1,7 +1,7 @@
 ﻿var config = {
     "baseURL": 'wwwroot/',
     "map": {
-        "jquery": 'scripts/vendor/bower/jquery/dist/jquery.js',
+        "jquery": 'scripts/vendor/bower/jquery/dist/jquery.min.js',
         "angular": 'scripts/vendor/bower/angular/angular.js',
         "animate": 'scripts/vendor/bower/angular-animate/angular-animate.min.js',
         "ocLazyLoad": 'scripts/vendor/bower/oclazyload/dist/ocLazyLoad.js',
@@ -65,6 +65,10 @@
         "breeze": {
             "format": 'global',
             "deps": ['angular']
+        },
+        "breezeSaveError": {
+            "format": 'global',
+            "deps": ['breeze']
         },
         "breezeNg": {
             "format": 'global',
