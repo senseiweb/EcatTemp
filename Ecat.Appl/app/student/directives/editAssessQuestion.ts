@@ -11,5 +11,4 @@ export default class EcEditAssessQuestion implements angular.IDirective {
         inputMask: '='
     }
 
-    controller = 
 }

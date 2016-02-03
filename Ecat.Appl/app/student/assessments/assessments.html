@@ -21,8 +21,9 @@
         <div class="listview lv-bordered lv-lg">
             <div class="lv-header-alt clearfix p-b-5" >
 
-                <div class="btn-group">
+                <div class="btn-group clearfix m-l-5">
                     <button type="button" class="btn btn-primary" ng-click="assess.view=0">Assessments</button>
+                    <button type="button" class="btn btn-danger" ng-click="assess.view=2">Stratify Group</button>
                     <button type="button" class="btn btn-default" ng-click="assess.view=1">Results</button>
                 </div>
 
@@ -71,12 +72,6 @@
                     </div>
                 </div>
 
-            </div>
-
-            <div class="row">
-                <div class="col-md-12 p-t-20">
-                    <button class="btn btn-block btn-lg btn-danger waves-effect" ng-click="assess.view=2">Stratify Group</button>
-                </div>
             </div>
 
         </div>
