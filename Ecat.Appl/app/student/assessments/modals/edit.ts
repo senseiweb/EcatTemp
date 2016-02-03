@@ -16,4 +16,9 @@ export default class EcStudentAssessmentAddForm {
     ok(): void {
         
     }
+
+    alert(): void {
+
+        alert('Failure');
+    }
 }
