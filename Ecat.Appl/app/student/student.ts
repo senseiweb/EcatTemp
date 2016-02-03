@@ -1,4 +1,4 @@
-﻿import ng = require('angular')
+import ng = require('angular')
 import 'ngTable'
 import assessments from 'student/assessments/assessments'
 

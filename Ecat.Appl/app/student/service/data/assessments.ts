@@ -2,7 +2,8 @@
 import * as AppVar from 'appVars'
 
 interface StudentApiResources extends ecat.IApiResources {
-    getAssessments: ecat.IApiResource;
+    getCourses: ecat.IApiResource,
+    getAllGroupData: ecat.IApiResource
 }
 
 export default class EcStudentRepo extends IUtilityRepo
@@ -11,9 +12,13 @@ export default class EcStudentRepo extends IUtilityRepo
     static $inject = ['$injector'];
 
     private apiResources: StudentApiResources = {
-        getAssessments: {
+        getCourses: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'GetMembershipsAndAssessments'
+            resourceName: 'GetCourses'
+        },
+        getAllGroupData: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.unk,
+            resourceName: 'GetAllGroupData'
         }
     };
 
@@ -25,24 +30,42 @@ export default class EcStudentRepo extends IUtilityRepo
         this.loadManager(this.apiResources);
     }
 
-    getMembershipsAndAssessments(): breeze.promises.IPromise<any> {
+    getCourses(): breeze.promises.IPromise<any> {
         const self = this;
-        const res = this.apiResources.getAssessments.resourceName;
+        const res = this.apiResources.getCourses.resourceName;
         const logger = this.logInfo;
 
         return this.query.from(res)
             .using(this.manager)
             .execute()
-            .then(getAssessmentsResponse)
+            .then(getCoursesResponse)
             .catch(this.queryFailed);
 
-        function getAssessmentsResponse(retData: breeze.QueryResult) {
-            if (retData) {
-                self.isLoaded.studentAssessment = true;
-                logger('Got Assessment Data', retData.results, false);
+        function getCoursesResponse(retData: breeze.QueryResult) {
+            if (retData.results.length > 0) {
+                logger('Got course memberships', retData.results, false);
                 return retData.results as ecat.entity.ICourseMember[];
             }
+        }
+    }
 
+    getAllGroupData(courseMem: Ecat.Models.EcCourseMember): breeze.promises.IPromise<any> {
+        const self = this;
+        const res = this.apiResources.getAllGroupData.resourceName;
+        const logger = this.logInfo;
+
+        return this.query.from(res)
+            .using(this.manager)
+            .execute()
+            .then(getGroupDataResponse)
+            .catch(this.queryFailed);
+
+        function getGroupDataResponse(retData: breeze.QueryResult) {
+            if (retData.results.length > 0) {
+                self.isLoaded.studentAssessment = true;
+                logger('Got group and assessment data', retData.results, false);
+                return retData.results as ecat.entity.IGroupMember[];
+            }
         }
     }
 

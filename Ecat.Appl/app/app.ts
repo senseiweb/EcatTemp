@@ -1,6 +1,6 @@
-﻿//#region Import Required Modules
 import ng = require('angular')
 import swal from "sweetalert"
+//Required Modules
 import 'animate'
 import 'ocLazyLoad'
 import 'uiRouter'
@@ -11,25 +11,21 @@ import 'ngMessage'
 import 'uiBootstrap'
 import 'textNg'
 import 'templates'
-import moment from 'moment'
-//#endregion 
 
-//#region Import Module Configuration
+//Import Module Configuration
 import stateCfg from 'core/config/cfgState'
 import coreCfg from 'core/config/cfgCore'
-//#endregion
 
-//#region Import Module Controllers
+//Import Module Controllers
 import mainCntrl from 'core/global/main' 
 import dashboardCntrl from 'core/userViews/dashboard'
 import profileCntrl from 'core/userViews/profile'
 import loginCntrl from 'core/global/login'
 import adminAcademy from "admin/academy/academy"
 import studentAssessments from 'student/assessments/assessments'
-import appCntrl from "core/global/appGlobal"
-//#endregion
+import appCntrl from 'core/global/appGlobal'
 
-//#region Import Module directives
+//Import Module directives
 import ecToggleSb from 'core/directives/toggleSidebar'
 import ecToggleSub from 'core/directives/toggleSubMenu'
 import  * as ecMalihuScrollDirective from 'core/directives/malihuScroll'
@@ -40,29 +36,27 @@ import tabError from 'core/directives/tabError'
 import iMask from 'core/directives/inputMask'
 import compareTo from 'core/directives/compareTo'
 import emailValidator from 'core/directives/userEmailValidator'
-//#endregion 
 
-//#region Import Module Services/Factory/Providers
+//Import Module Services/Factory/Providers
 import stateProvider from 'core/provider/stateProvider'
 import ecMalihuScrollService from 'core/service/plugin/malihuScroll'
 import coreCfgProvider from 'core/provider/coreCfgProvider'
 import dataCtx from 'core/service/data/context'
 import emFactory from 'core/service/data/emFactory'
 import userRepo from 'core/service/data/user'
-import adminRepo from "admin/service/adminData"
 import growl from 'core/service/plugin/growl'
 import common from "core/service/common"
 import logger from 'core/service/logger'
 import dialogService from 'core/service/dialog'
 import localDs from 'core/service/data/local'
 import authService from 'core/service/requestAuthenicator'
-import * as AppVar from 'appVars'
-//#endregion
+import stuAssessRepo from 'student/service/data/assessments'
+
+import * as Enum from 'appVars'
+import moment from 'moment'
 
 export default class AppStart {
     constructor() {
-
-            //#region Angular Module Declaration & Dependencies
         ng.module('appEcat',
             [
                 'ui.router',
@@ -75,17 +69,9 @@ export default class AppStart {
                 'textAngular',
                 'templates'
             ])
-
-            //#endregion
-
-            //#region Configuration
             .config(stateCfg)
             .config(coreCfg)
-            //#endregion
-
             .constant('userStatic', this.setUserStatic())
-
-            //#region Controllers
             .controller(appCntrl.controllerId, appCntrl)
             .controller(mainCntrl.controllerId, mainCntrl)
             .controller(dashboardCntrl.controllerId, dashboardCntrl)
@@ -93,9 +79,6 @@ export default class AppStart {
             .controller(loginCntrl.controllerId, loginCntrl)
             .controller(adminAcademy.controllerId, adminAcademy)
             .controller(studentAssessments.controllerId, studentAssessments)
-            //#endregion
-
-            //#region Directives
             .directive(ecFgLine.directiveId, () => new ecFgLine())
             .directive(ecFrmCntrl.directiveId, () => new ecFrmCntrl())
             .directive(ecToggleSb.directiveId, () => new ecToggleSb())
@@ -106,35 +89,27 @@ export default class AppStart {
             .directive(iMask.directiveId, () => new iMask)
             .directive(emailValidator.directiveId, ['$q', dataCtx.serviceId, ($q, dataCtx) => new emailValidator($q, dataCtx)])
             .directive(ecMalihuScrollDirective.EcOverFlowMalihuScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', stateProvider.providerId, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowMalihuScroll(nss, $state, stateMgr)])
-            //#endregion
-
-            //#region Providers
             .provider(stateProvider.providerId, stateProvider)
             .provider(coreCfgProvider.providerId, coreCfgProvider)
-            //#endregion
-
-            //#region Services
             .service(ecMalihuScrollService.serviceId, ecMalihuScrollService)
             .service(authService.serviceId,authService)
             .service(dataCtx.serviceId, dataCtx)
             .service(emFactory.serviceId, emFactory)
             .service(userRepo.serviceId, userRepo)
-            .service(adminRepo.serviceId, adminRepo)
             .service(growl.serviceId, growl)
             .service(common.serviceId, common)
             .service(logger.serviceId, logger)
             .service(localDs.serviceId, localDs)
             .service(dialogService.serviceId, dialogService)
-            //#endregion
-            
-            .run([common.serviceId,'breeze', (common: common) => common.appStartup()]);
-            
+            .service(stuAssessRepo.serviceId, stuAssessRepo)
+            .run(['$rootScope','$state','breeze', this.stateChangeError]);
+
         this.ngShell = ng;
     }   
 
     ngShell: angular.IAngularStatic;
 
-    setUserStatic = (): ecat.entity.ILoginToken => {
+    private setUserStatic = (): ecat.entity.ILoginToken => {
         let existingUserToken = window.sessionStorage.getItem('ECAT:TOKEN') || window.localStorage.getItem('ECAT:TOKEN');
 
         if (!existingUserToken) {
@@ -153,13 +128,14 @@ export default class AppStart {
         const expire = loginToken.tokenExpire as any;
 
         if (new Date(expire) < new Date()) {
-            const newToken = angular.element('#user-token').data('usertstring');
+            existingUserToken = angular.element('#user-token').data('usertstring');
 
-            if (newToken && newToken !== '@ViewBag.User') {
-                window.sessionStorage.setItem('ECAT:TOKEN', JSON.stringify(newToken));
+            if (existingUserToken && existingUserToken !== '@ViewBag.User') {
+                window.sessionStorage.setItem('ECAT:TOKEN', JSON.stringify(existingUserToken));
+                loginToken = existingUserToken;
+            } else {
+                loginToken = existingUserToken ? existingUserToken : null;
             }
-
-            loginToken = newToken || loginToken;
         } 
 
         angular.element('#user-token').removeAttr('data-user-string');
@@ -167,4 +143,50 @@ export default class AppStart {
         return loginToken ;
     }
 
+    private stateChangeError = ($rootScope: angular.IRootScopeService, $state: angular.ui.IStateService, dialog:dialogService, ...params: any[]) => {
+        $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, routeError) => {
+
+            if (typeof routeError === 'object') {
+
+                const error = routeError as ecat.IRoutingError;
+                event.preventDefault();
+
+                switch (error.errorCode) {
+                    case Enum.SysErrorType.AuthNoToken:
+                    case Enum.SysErrorType.AuthExpired:
+                        console.log(error.message);
+                        return $state.go(error.redirectTo, params[0]);
+
+                    case Enum.SysErrorType.RegNotComplete:
+                        const regError: SweetAlert.Settings = {
+                            title: 'Registration Error',
+                            text: error.message,
+                            type: 'error',
+                            closeOnConfirm: true
+                        }
+                        swal(regError, () => {
+                            $state.go(error.redirectTo);
+                        });
+
+                    case Enum.SysErrorType.NotAuthorized:
+                        const alertSetting: SweetAlert.Settings = {
+                            title: 'Authorization Error',
+                            text: error.message,
+                            type: 'error',
+                            closeOnConfirm: true
+                        }
+                        swal(alertSetting, () => {
+                            $state.go(error.redirectTo);
+                        });
+
+                    default:
+                        console.log(error.message);
+                }
+
+            } else {
+                console.log('Routing Error Occured', routeError);
+            }
+        });
+        
+    }
 }

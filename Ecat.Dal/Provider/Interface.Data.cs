@@ -55,16 +55,14 @@ namespace Ecat.Dal
 
     public interface IStudentRepo
     {
-        IQueryable<EcCourseMember> GetCourses { get; }
-        //IQueryable<EcGroupMember> GetGroups { get; }
-        //IQueryable<SpAssessResult> GetSpResults { get; }
-        //IQueryable<SpAssessResponse> GetSpResponses { get; }
-        //IQueryable<SpStratResult> GetStratResults { get; }
-        //IQueryable<SpStratResponse> GetStratResponses { get; }
-        //IQueryable<SpComment> GetComments { get; }
-        //IQueryable<SpInstrument> GetInstrument { get; }
+        Task<List<EcCourseMember>> GetCourseMems(int personId);
+        Task<List<EcGroupMember>> GetAllGroupData(int courseMemId);
 
-        IQueryable<EcGroupMember> GetGroupsAndAssessments { get; }
+        SaveResult BzSave(JObject saveBundle, EcPerson user);
+        //Task<bool> SaveAssessment(SpAssessResponse spAssess);
+        //Task<bool> SaveStrat(SpStratResponse spStrat);
+        //Task<bool> SaveComment(SpComment spComment);
+        void PrepareSaveGuards(EcPerson person);
     }
 
     public interface ICommonRepo

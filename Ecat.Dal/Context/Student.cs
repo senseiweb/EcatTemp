@@ -8,6 +8,11 @@ namespace Ecat.Dal.Context
     public class StudentCtx : EcatCtx
     {
 
+        public StudentCtx()
+        {
+            Database.SetInitializer<StudentCtx>(null);
+        }
+
         /// <summary>
         /// This method is called when the model for a derived context has been initialized, but
         ///             before the model has been locked down and used to initialize the context.  The default
@@ -39,6 +44,17 @@ namespace Ecat.Dal.Context
             mb.Types()
                 .Where(type => type.Name.StartsWith("Ec"))
                 .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
+
+            mb.Entity<LoginToken>().HasKey(token => token.PersonId);
+
+            mb.Ignore<EcAcademy>();
+            mb.Ignore<CogInstrument>();
+            mb.Ignore<CogInventory>();
+            mb.Ignore<CogResponse>();
+            mb.Ignore<CogResult>();
+            mb.Ignore<EcStudent>();
+            mb.Ignore<EcFacilitator>();
+            mb.Ignore<EcExternal>();
 
             base.OnModelCreating(mb);
 

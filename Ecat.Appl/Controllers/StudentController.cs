@@ -45,9 +45,21 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public async Task<object> GetMembershipsAndAssessments()
+        public async Task<object> GetCourses()
         {
-            return await _studentLogic.GetMembershipsAndAssessments();
+            return await _studentLogic.GetCourses();
+        }
+
+        [HttpGet]
+        public async Task<object> GetAllGroupData(EcCourseMember selectedCourse)
+        {
+            return await _studentLogic.GetAllGroupData(selectedCourse);
+        }
+
+        [HttpPost]
+        public SaveResult SaveChanges(JObject saveBundle)
+        {
+            return _studentLogic.BzSave(saveBundle);
         }
     }    
 }

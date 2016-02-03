@@ -16,6 +16,7 @@ export default class EcCommon
         userManager: false,
         adminManager: false,
         academy: false,
+        studentAssessment: false,
         userToken: false,
         userProfile: false,
         user: false,
@@ -96,7 +97,7 @@ export default class EcCommon
                             type: 'error',
                             closeOnConfirm: true
                         }
-                        return swal(tkError, () => 
+                        swal(tkError, () => 
                         this.$state.go(error.redirectTo, toParams[0]));
                     break;
 
