@@ -14,6 +14,7 @@ export default class EcSysAdminAcademy{
         backdrop: 'static',
         templateUrl: 'wwwroot/app/admin/academy/addEdit.html'
     };
+
     newAcademyForm: angular.IFormController;
 
 

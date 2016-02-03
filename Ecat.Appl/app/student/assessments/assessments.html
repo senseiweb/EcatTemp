@@ -1,6 +1,6 @@
 ﻿<div class="container animated fadeInRight">
     <div class="block-header">
-        <h2>Bob Anderson's Assessment Center</h2>
+        <h2>{{assess.fullName}} Assessment Center</h2>
 
         <ul class="actions">
             <li class="dropdown" uib-dropdown>
@@ -8,12 +8,10 @@
                     <i class="zmdi zmdi-sort"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li>
-                        <a href="javascript:void(0)">ILE 16-3</a>
+                    <li ng-repeat="course in assess.courses track by $index">
+                        <a href="javascript:void(0)">{{course}}</a>
                     </li>
-                    <li>
-                        <a href="javascript:void(0)">ILE 16-2</a>
-                    </li>
+
                 </ul>
             </li>
         </ul>
@@ -24,8 +22,8 @@
             <div class="lv-header-alt clearfix p-b-5" >
 
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary">Assessments</button>
-                    <button type="button" class="btn btn-default">Results</button>
+                    <button type="button" class="btn btn-primary" ng-click="assess.view=0">Assessments</button>
+                    <button type="button" class="btn btn-default" ng-click="assess.view=1">Results</button>
                 </div>
 
                 <ul class="lv-actions actions">
@@ -60,71 +58,16 @@
                 </ul>
             </div>
 
-            <div class="lv-body">
-
-                <div class="row">
-                    <div class="col-md-12 p-t-20">
-                        <div class="table-responsive">
-                            <table class="table table-hover tableCenterAlign">
-                                <thead>
-                                    <tr>
-                                        <th>Student</th>
-                                        <th>Comments</th>
-                                        <th>Assessments</th>
-                                        <th>Strat</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <tr class="tableBottomBorder">
-                                        <td>Jason Silvers</td>
-                                        <td>
-                                            <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
-
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
-
-                                        </td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Everybody Else</td>
-                                        <td>
-                                            <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
-
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
-
-                                        </td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Everybody Else</td>
-                                        <td>
-                                            <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
-
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-link" ng-click="assess.addAssessment()">View/Edit</button>
-
-                                        </td>
-                                        <td>3</td>
-                                    </tr>
-
-
-
-                                </tbody>
-                            </table>
-
-                        </div>
+            <div class="lv-body" ng-init="assess.view=0">
+                <div ng-switch="assess.view">
+                    <div ng-switch-when="0">
+                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.assessments.tmpl.html'"></div>
+                    </div>
+                    <div ng-switch-when="1">
+                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.results.tmpl.html'"></div>
                     </div>
                 </div>
-
-
                 
-
             </div>
 
         </div>
