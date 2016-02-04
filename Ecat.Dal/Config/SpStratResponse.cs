@@ -28,6 +28,15 @@ namespace Ecat.Dal.Config
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                 new IndexAnnotation(new IndexAttribute("IX_UniqueStratResponse", 2) { IsUnique = true }));
 
+            //Add index for unique combination of assessor's GroupMemberId and StratPosition
+            Property(p => p.Assessor.Id)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                new IndexAnnotation(new IndexAttribute("IX_AssessorUniqueStratsInGroup", 1) { IsUnique = true }));
+
+            Property(p => p.StratPosition)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                new IndexAnnotation(new IndexAttribute("IX_AssessorUniqueStratsInGroup", 2) { IsUnique = true }));
+
             HasRequired(p => p.ModifiedBy)
             .WithMany()
             .HasForeignKey(p => p.ModifiedById);

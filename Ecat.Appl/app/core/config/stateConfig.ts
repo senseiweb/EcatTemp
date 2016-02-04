@@ -1,4 +1,4 @@
-﻿import IEcStateProvider from 'core/provider/stateProvider'
+import IEcStateProvider from 'core/provider/stateProvider'
 import AdminStates from "admin/config/statesAdmin"
 import StudentStates from "student/config/statesStudent"
 import CoreStates from "core/config/statesCore"
@@ -93,7 +93,6 @@ export default class EcCoreStateConfig {
 
         const student = {};
         const studentStateList = Object.keys(StudentStates.prototype);
-
         studentStateList.forEach((studentStateKey) => {
             if (typeof this.studentStates[studentStateKey] !== 'object') {
                 return null;
@@ -103,7 +102,6 @@ export default class EcCoreStateConfig {
         });
 
         statMgr.student = student as StudentStates;
-        
     }
 }
     

@@ -32,6 +32,8 @@ declare module ecat.entity
 
     interface ICourseMember extends breeze.Entity, Ecat.Models.EcCourseMember{ }
 
+    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember { }
+
     interface IStudent extends breeze.Entity, Ecat.Models.EcStudent { }
 
     interface IFacilitator extends breeze.Entity, Ecat.Models.EcFacilitator { }

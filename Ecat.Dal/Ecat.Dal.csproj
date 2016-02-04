@@ -523,6 +523,8 @@
     <Compile Include="Provider\Interface.Logic.cs" />
     <Compile Include="Provider\SqlServerTypeLoader.cs" />
     <Compile Include="Provider\WsSecurityBehavior.cs" />
+    <Compile Include="Repo\StudentSaveguard.cs" />
+    <Compile Include="Repo\StudentRepo.cs" />
     <Compile Include="Repo\CommonRepo.cs" />
     <Compile Include="Repo\CourseRepo.cs" />
     <Compile Include="Repo\SysAdminRepo.cs" />

@@ -53,6 +53,18 @@ namespace Ecat.Dal
           EcFacilitator instructorProfileInfo = null);
     }
 
+    public interface IStudentRepo
+    {
+        Task<List<EcCourseMember>> GetCourseMems(int personId);
+        Task<List<EcGroupMember>> GetAllGroupData(int courseMemId);
+
+        SaveResult BzSave(JObject saveBundle, EcPerson user);
+        //Task<bool> SaveAssessment(SpAssessResponse spAssess);
+        //Task<bool> SaveStrat(SpStratResponse spStrat);
+        //Task<bool> SaveComment(SpComment spComment);
+        void PrepareSaveGuards(EcPerson person);
+    }
+
     public interface ICommonRepo
     {
         string GetMetadata<T>() where T : EcatCtx, new();

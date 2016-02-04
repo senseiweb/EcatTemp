@@ -10,7 +10,7 @@ namespace Ecat.Models
         public int RelatedInventoryId { get; set; }
         public int? AssessResultId { get; set; }
 
-        public int MpSpItemResponse { get; set; }
+        public string MpSpItemResponse { get; set; }
         public float ItemResponseScore { get; set; }
         public int ScoreModelVersion { get; set; }
 

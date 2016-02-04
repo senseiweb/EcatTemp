@@ -76,6 +76,27 @@ namespace Ecat.Models
              Unk = "Unknown";
     }
 
+    public static class EcSpStatus
+    {
+        public const string und = "Undefined",
+            open = "Open",
+            underReview = "Under Review",
+            published = "Published",
+            arch = "Archive";
+    }
+
+    public static class EcSpItemResponse
+    {
+        public const string
+            IeAlways = "Ineffective Always",
+            IeUsually = "Ineffective Usually",
+            NotDisp = "Not Displayed",
+            EffUsually = "Effective Usually",
+            EffAlways = "Effective Always",
+            HeUsually = "Highly Effective Usually",
+            HeAlways = "Highly Effective Always";
+    }
+
     public static class EcMapToken
     {
         public static string[] TokenMethods => new[] {
