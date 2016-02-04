@@ -127,11 +127,12 @@
     <Compile Include="User\External.cs" />
     <Compile Include="User\Security.cs" />
     <Compile Include="User\Student.cs" />
-    <Compile Include="User\PersonValidation.cs" />
+    <Compile Include="Utility\Validators\PersonValidation.cs" />
     <Compile Include="Utility\SystemAttributes.cs" />
     <Compile Include="Utility\SystemEnum.cs" />
     <Compile Include="Utility\SystemInterface.cs" />
     <Compile Include="Utility\SystemMappedProperties.cs" />
+    <Compile Include="Utility\Validators\SpAssessResponseValidator.cs" />
     <Compile Include="xUnitTestModels\Person_Test.cs" />
   </ItemGroup>
   <ItemGroup>

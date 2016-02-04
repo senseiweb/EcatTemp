@@ -85,6 +85,18 @@ namespace Ecat.Models
             arch = "Archive";
     }
 
+    public static class EcSpItemResponse
+    {
+        public const string
+            IeAlways = "Ineffective Always",
+            IeUsually = "Ineffective Usually",
+            NotDisp = "Not Displayed",
+            EffUsually = "Effective Usually",
+            EffAlways = "Effective Always",
+            HeUsually = "Highly Effective Usually",
+            HeAlways = "Highly Effective Always";
+    }
+
     public static class EcMapToken
     {
         public static string[] TokenMethods => new[] {
