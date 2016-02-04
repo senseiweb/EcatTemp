@@ -15,7 +15,7 @@ export default class EcSysAdminAcademy{
         backdrop: 'static',
         templateUrl: 'wwwroot/app/admin/academy/addEdit.html'
     };
-
+    
     logSuccess = this.c.logSuccess('SysAdmin Acadmey');
     logWarn = this.c.logWarning('SysAdmin Acadmey');
     logError = this.c.logError('SysAdmin Acadmey');

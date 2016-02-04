@@ -1,0 +1,83 @@
+﻿<div class="modal-header">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="profile-pic">
+                <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
+            </div>
+
+        </div>
+
+        <div class="col-md-8">
+            <h4 class="text-center thingHeader">Assessment for Jane Doe</h4>
+        </div>
+    </div>
+
+    <hr />
+
+</div>
+<div class="modal-body">
+
+    <div class="p-b-10 m-b-5" ng-repeat="question in assessEdit.questions track by $index">
+
+        <div class="row" ng-if="!showQuestion1" ng-mouseover="rowShow1=true" ng-mouseleave="rowShow1=false">
+            <div class="col-md-1">
+                <button class="btn btn-default waves-effect" ng-if="rowShow1" ng-click="$parent.$parent.showQuestion1 = !$parent.$parent.showQuestion1">
+                    <i class="zmdi zmdi-more-vert"></i>
+                </button>
+            </div>
+
+            <div class="col-md-11">
+                <p class="lead f-13">
+                    <strong>Always Highly Effective @ </strong> {{question}}
+                </p>
+            </div>
+        </div>
+
+        <div class="row p-b-20" ng-if="showQuestion1">
+            <div class="col-md-1">
+                <ul class="lv-actions actions">
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="">Displayed</a>
+                            </li>
+                            <li>
+                                <a href="">Not Displayed</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="col-md-6  p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-primary">Ineffective</button>
+                        <button type="button" class="btn btn-default">Effective</button>
+                        <button type="button" class="btn btn-default">Highty Effective</button>
+                    </div>
+                </div>
+                <div class="col-md-3 p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-primary">Frequently</button>
+                        <button type="button" class="btn btn-default">Always</button>
+                    </div>
+                </div>
+                <div class="col-md-2 p-l-30">
+                    <button class="btn btn-default waves-effect" ng-click="$parent.showQuestion1 = !$parent.showQuestion1" style="padding: 3px; padding-top: 1px; padding-bottom: 1px; margin-top: 4px;">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="assessEdit.ok()">OK</button>
+    <button class="btn btn-link" type="button" ng-click="assessEdit.cancel()">Cancel</button>
+</div>

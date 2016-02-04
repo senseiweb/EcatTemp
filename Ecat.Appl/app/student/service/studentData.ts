@@ -6,8 +6,7 @@ interface StudentApiResources extends ecat.IApiResources {
     getAllGroupData: ecat.IApiResource
 }
 
-export default class EcStudentRepo extends IUtilityRepo
-{
+export default class EcStudentRepo extends IUtilityRepo {
     static serviceId = 'data.student';
     static $inject = ['$injector'];
 
@@ -62,7 +61,7 @@ export default class EcStudentRepo extends IUtilityRepo
 
         function getGroupDataResponse(retData: breeze.QueryResult) {
             if (retData.results.length > 0) {
-                self.isLoaded.studentAssessment = true;
+                //self.isLoaded.studentAssessment = true;
                 logger('Got group and assessment data', retData.results, false);
                 return retData.results as ecat.entity.IGroupMember[];
             }

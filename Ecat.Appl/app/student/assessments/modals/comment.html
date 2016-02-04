@@ -1,0 +1,61 @@
+﻿<div class="modal-header">
+    <h4 class="thinHeader">Add/Edit Comment</h4>
+</div>
+
+
+
+<div class="modal-body ">
+    <form name="comment.nf" class="form-horizontal" novalidate role="form">
+        <div class="form-group">
+            <label for="to" class="control-label col-md-1">To:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text"
+                           name="to"
+                           id="to"
+                           ng-model="commentAe.toFullName"
+                           class="form-control fg-input"
+                           disabled/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profile-pic">
+                    <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="from" class="control-label col-md-1">From:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <select ng-model="commentAe.isAnnonymous"
+                            name="gender"
+                            required
+                            class="form-control input-lg fg-input">
+                        <option selected value="false">Bob Anderson</option>
+                        <option value="true">Annonymous</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profile-pic">
+                    <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fg-line">
+                <div class="col-md-12">
+                    <div text-angular ng-model="profile.aboutMeText" class="pmbb-edit"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <!-- TODO: Add Comment Type field -->
+    <button class="btn btn-danger" type="button" ng-click="assessEdit.delete()">Delete</button>
+    <button class="btn btn-link" type="button" ng-click="commentAe.ok()">OK</button>
+    <button class="btn btn-link" type="button" ng-click="commentAe.cancel()">Cancel</button>
+</div>

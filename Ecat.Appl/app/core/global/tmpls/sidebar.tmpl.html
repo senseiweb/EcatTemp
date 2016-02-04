@@ -120,9 +120,7 @@
                 Student
             </a>
             <ul>
-                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.student.assessments.name}}" ng-click="main.sidebarStat($event)">Assessments</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="user-interface.ui-bootstrap" data-ng-click="mactrl.sidebarStat($event)">UI Bootstrap Test</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="user-interface.colors" data-ng-click="mactrl.sidebarStat($event)">Colors</a></li>
+                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.student.assessment.name}}" ng-click="main.sidebarStat($event)">Assessments</a></li>
             </ul>
         </li>
         <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('charts') }">

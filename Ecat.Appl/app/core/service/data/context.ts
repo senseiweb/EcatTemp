@@ -2,7 +2,7 @@
 import IUserData from 'core/service/data/user'
 import ILocal from 'core/service/data/local'
 import ISysAdminData from "admin/service/adminData"
-import IStudent from "student/service/data/assessments"
+import IStudentData from "student/service/studentData"
 import ICommon from "core/service/common"
 import * as AppVars from "appVars"
 
@@ -14,7 +14,7 @@ export default class EcDataContext {
     local: ILocal;
     private repoNames = [this.fixUpResourceName(AppVars.EcMapApiResource.user), 'local', this.fixUpResourceName(AppVars.EcMapApiResource.sa), this.fixUpResourceName(AppVars.EcMapApiResource.student)];
     sysAdmin: ISysAdminData;
-    student: IStudent;
+    student: IStudentData;
     user: IUserData;
 
     constructor($rs: angular.IRootScopeService, private c: ICommon, emFactory: IEntityFactory) {

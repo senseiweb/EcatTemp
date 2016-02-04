@@ -1,16 +1,16 @@
-import CoreStates from "core/config/statesCore"
+﻿import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
 import IDataCtx from 'core/service/data/context'
 import ICommon from "core/service/common"
 
 export default class EcStudentStates {
+  
     private isStudentLoaded = false;
 
     main: angular.ui.IState;
-    assessments: angular.ui.IState;
+    assessment: angular.ui.IState;
 
     constructor(coreMain: angular.ui.IState, coreDash: angular.ui.IState) {
-
         this.main = {
             name: `${coreMain.name}.student`,
             parent: coreMain.name,
@@ -24,22 +24,22 @@ export default class EcStudentStates {
                 moduleInit: ['$ocLazyLoad', this.loadModule],
                 studentManager: ['userManager', IDataCtx.serviceId, ICommon.serviceId, (um, d, c) => this.loadStudentManager(um, d, c, coreDash)]
             }
-        };
 
-        this.assessments = {
-            name: `${this.main.name}.assessments`,
+        }
+
+        this.assessment = {
+            name: `${this.main.name}.assessment`,
             parent: this.main.name,
-            url: '/student',
+            url: '/assessment',
             templateUrl: 'wwwroot/app/student/assessments/assessments.html',
-            controller: 'app.student.assessments as stu',
+            controller: 'app.student.assessment as assess',
             resolve: {
                 moduleLoad: ['moduleInit', 'studentManager', (moduleInit) => moduleInit]
             }
-        };
+        }
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-
         return this.isStudentLoaded ? this.isStudentLoaded : System.import('app/student/student.js').then((studentModClass: any) => {
             const studentClass = new studentModClass.default();
             $ocLl.load(studentClass.studentModule)
@@ -49,7 +49,7 @@ export default class EcStudentStates {
     }
 
     private loadStudentManager = (hasUserManager, dataCtx: IDataCtx, common: ICommon, coreDash): angular.IPromise<any> => {
-        
+
         if (!hasUserManager) {
             const userMagrError: ecat.IRoutingError = {
                 errorCode: AppVar.SysErrorType.MetadataFailure,
@@ -73,4 +73,9 @@ export default class EcStudentStates {
             .catch(() => error);
 
     }
+       
 }
+
+
+   
+
