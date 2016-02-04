@@ -1,4 +1,4 @@
-﻿declare var mCustomScroll: any;
+declare var mCustomScroll: any;
 declare var Waves: any;
 declare var systemCfg: any;
 
@@ -96,6 +96,10 @@ declare module ecat {
     //interface IFacilitatorApiResources {
     //    endPointName?: string;
     //}
+
+    interface IStudentApiResources {
+        endPointName?: string;
+    }
 
    
     export interface IApiResource {

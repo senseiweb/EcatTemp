@@ -127,7 +127,8 @@
                 "provider": 'app/core/provider',
                 "service": 'app/core/service',
                 "global": 'app/core/global',
-                "admin": 'app/admin'
+                "admin": 'app/admin',
+                "student": 'app/student'
             }
         }
     }

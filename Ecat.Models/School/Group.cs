@@ -15,7 +15,7 @@ namespace Ecat.Models
         public string BbGroupId { get; set; }
         public string DefaultName { get; set; }
         public float MaxStrat { get; set; }
-        public int MpSpStatus { get; set; }
+        public string MpSpStatus { get; set; }
         public bool IsHomeGroup { get; set; }
 
         public EcCourse Course { get; set; }

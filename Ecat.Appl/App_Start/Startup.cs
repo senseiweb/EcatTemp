@@ -93,6 +93,8 @@ namespace Ecat.Appl
             kernel.Bind<ISysAdminLogic>().To<SysAdminLogic>();
             kernel.Bind<ISysAdminRepo>().To<SysAdminRepo>();
             kernel.Bind<IUserLogic>().To<UserLogic>();
+            kernel.Bind<IStudentLogic>().To<StudentLogic>();
+            kernel.Bind<IStudentRepo>().To<StudentRepo>();
 
             //var defaultFilterProviders = config.Services.GetServices(typeof(IFilterProvider)).Cast<IFilterProvider>();
             //config.Services.Clear(typeof(IFilterProvider));

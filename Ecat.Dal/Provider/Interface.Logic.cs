@@ -43,4 +43,12 @@ namespace Ecat.Dal
 
     }
 
+    public interface IStudentLogic
+    {
+        EcPerson User { get; set; }
+        Task<List<EcCourseMember>> GetCourses();
+        Task<List<EcGroupMember>> GetAllGroupData(EcCourseMember courseMem);
+        SaveResult BzSave(JObject saveBundle);
+    }
+
 }
