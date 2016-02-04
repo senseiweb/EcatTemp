@@ -1,5 +1,4 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
-import IMockRepo from "core/service/data/mock"
 import * as AppVar from 'appVars'
 
 interface StudentApiResources extends ecat.IApiResources {

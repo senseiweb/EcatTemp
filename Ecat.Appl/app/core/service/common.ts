@@ -13,9 +13,6 @@ export default class EcCommon
     static $inject = ['$injector','$q', '$rootScope', '$state', '$stateParams', ILogger.serviceId, ICoreCfg.providerId, IDialog.serviceId, IStateMgr.providerId, 'userStatic'];
 
     areItemsLoaded = {
-        userManager: false,
-        adminManager: false,
-        studentManager: false,
         academy: false,
         userToken: false,
         userProfile: false,
@@ -42,7 +39,7 @@ export default class EcCommon
     logWarning = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.warning);
     logInfo = (controllerId: string) => this.logger.getLogFn(controllerId, AppVars.EcMapAlertType.info);
     moment = moment;
-    
+    private workingRouterError = false;
     swal = swal;
     tokenEndpoint: string;
 
@@ -68,7 +65,7 @@ export default class EcCommon
 
         this.$rootScope.$on('$stateChangeSuccess', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: any, from: angular.ui.IState, fromParams: any) => {
 
-            const dCtx = this.inj.get(IDataCtx.serviceId) as IDataCtx;
+            const dCtx = this.inj.get('data.context') as IDataCtx;
 
             if (!to.data || (!angular.isArray(to.data.authorized) && !angular.isDefined(to.data.validateToken))) {
                 return true;
@@ -97,9 +94,11 @@ export default class EcCommon
                             type: 'error',
                             closeOnConfirm: true
                         }
-                   
-                        this.$state.go(error.redirectTo.name, toParams[0]);
-               
+                    swal(tkError, () => {
+                            this.$state.go(error.redirectTo)
+
+                        }
+                    );
                     break;
 
                 case AppVars.SysErrorType.RegNotComplete:
@@ -156,16 +155,34 @@ export default class EcCommon
         }
     }
 
-    checkValidToken(tokenStatus: AppVars.TokenStatus, isLoaded: boolean): angular.IPromise<boolean> | angular.IPromise<void>  {
+    checkValidToken(existDefer?: angular.IDeferred<Object>): angular.IPromise<boolean> | angular.IPromise<void> {
 
-        const deferred = this.$q.defer();
+        const deferred = existDefer ? existDefer : this.$q.defer();
 
-        if (tokenStatus === AppVars.TokenStatus.Valid || this.areItemsLoaded.userManager) {
+        const dCtx = this.inj.get('data.context') as IDataCtx;
+
+        if (!dCtx.user.mgrLoaded) {
+            const off = this.$rootScope.$on(this.coreCfg.coreEvents.managerLoaded, (event, data) => {
+                if (data[0].loaded && data[0].mgrName === 'User') {
+                    off();
+                    dCtx.user.createUserToken();
+                    this.checkValidToken(deferred);
+                }
+            });
+            return deferred.promise;
+        }
+
+        const tokenStatus = dCtx.user.token.validity();
+
+        if (tokenStatus === AppVars.TokenStatus.Valid) {
             deferred.resolve(true);
             return deferred.promise;
         }
 
-        this.areItemsLoaded.userManager = isLoaded;
+        if (this.workingRouterError) {
+            deferred.reject("Working an error");
+            return deferred.promise;
+        }
 
         const error: ecat.IRoutingError = {
             errorCode: AppVars.SysErrorType.Undefined,
@@ -179,7 +196,7 @@ export default class EcCommon
             error.redirectTo = this.stateMgr.core.login;
             error.message = 'You authenication token has expired.';
             error.params = { mode: 'lock' };
-            
+            this.workingRouterError = true;
             deferred.reject(error);
         }
 
@@ -188,7 +205,7 @@ export default class EcCommon
             error.redirectTo = this.stateMgr.core.login;
             error.message = 'You authenication token was not found. Please login.';
             error.params = { mode: 'login' };
-
+            this.workingRouterError = true;
             deferred.reject(error);
         }
 

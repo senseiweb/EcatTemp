@@ -4,6 +4,7 @@ import ILocal from 'core/service/data/local'
 import ISysAdminData from "admin/service/adminData"
 import IStudentData from "student/service/studentData"
 import ICommon from "core/service/common"
+import IMock from "core/service/data/mock"
 import * as AppVars from "appVars"
 
 export default class EcDataContext {
@@ -12,7 +13,12 @@ export default class EcDataContext {
 
     private loadedManagers: Array<{module: string, mgr: breeze.EntityManager}> = [];
     local: ILocal;
-    private repoNames = [this.fixUpResourceName(AppVars.EcMapApiResource.user), 'local', this.fixUpResourceName(AppVars.EcMapApiResource.sa), this.fixUpResourceName(AppVars.EcMapApiResource.student)];
+    private repoNames = ['local',
+        this.fixUpResourceName(AppVars.EcMapApiResource.mock),
+        this.fixUpResourceName(AppVars.EcMapApiResource.user),
+        this.fixUpResourceName(AppVars.EcMapApiResource.sa),
+        this.fixUpResourceName(AppVars.EcMapApiResource.student)
+    ];
     sysAdmin: ISysAdminData;
     student: IStudentData;
     user: IUserData;

@@ -66,6 +66,7 @@ export class EcMapPaygrade {
 export class EcMapApiResource
 {
     static user = 'User';
+    static mock = 'Mock';
     static student = 'Student';
     static facilitator = 'Facilitator';
     static sa = 'SysAdmin';
@@ -156,12 +157,17 @@ export class SweetAlertTypes {
     static input = 'input';
 }
 
+export const enum AuthHeaderType {
+    CourseMember,
+    Facilitator
+}
+
 export enum Keycode {
     Enter = 13,
     Escape = 27,
     A = 65,
     B = 66,
-    c = 67,
+    C = 67,
     D = 68,
     E = 69,
     F = 70
