@@ -1,13 +1,14 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
 import IAssessmentAdd from 'student/assessments/modals/add'
-import IAssessmentEdit from "student/assessments/modals/edit"
-import IComment from "student/assessments/modals/comment"
+import IAssessmentEdit from 'student/assessments/modals/edit'
+import IComment from 'student/assessments/modals/comment'
 //import {EcMapGender as gender} from "appVars"
 
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
+    stratInputVis;
 
     addModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IAssessmentAdd.controllerId,
@@ -44,18 +45,14 @@ export default class EcStudentAssessments {
 
     courses: Array<string>;
 
-    fullName = "Unknown";
+    fullName = 'Unknown';
 
-    groupMembers: Array<ecat.entity.IPerson>;
+    groupMembers: Array<{}>;
 
-    //dummyStudent: ecat.entity.IPerson = {
-    //    lastName: "Silvers",
-    //    firstName: "Jason",
-
-          
-    //};
 
     user: ecat.entity.IPerson;
+
+    questions: Array<{}>;
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
@@ -65,13 +62,49 @@ export default class EcStudentAssessments {
     activate(): void {
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
-        this.courses = ["ILE 16-1", "ILE 16-2", "ILE 16-3"];
+        this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
 
         this.groupMembers = [
             {
+                id: 1,
+                name: 'Jason Silvers'
+                
+
                 
             } 
-        ] as Array<ecat.entity.IPerson>;
+        ];
+
+        this.questions = [
+        {
+            id: 1,
+            question: 'controlled emotions and impulses while adapting to changing circumstances',
+            assessAvg: 'Always Highly Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 2,
+            question: 'Did awesome things at the expense of others',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 3,
+            question: 'Was load and obnoxious',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 4,
+            question: 'Encouraged others to participate',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 5,
+            question: 'Contributed to the group in a positive way',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }
+        ];
+
+        this.stratInputVis = false;
+
     }
 
     addAssessment(): void {
@@ -123,5 +156,9 @@ export default class EcStudentAssessments {
 
         }
 
+    }
+
+    get viewStrat(): boolean {
+        return true;
     }
 }

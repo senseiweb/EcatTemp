@@ -6,7 +6,7 @@ export default class EcStudentAssessmentAddForm {
 
     nf: angular.IFormController;
 
-    questions: Array<string>;
+    questions: Array<{}>;
 
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
@@ -17,11 +17,23 @@ export default class EcStudentAssessmentAddForm {
 
         
         this.questions = [
-            "controlled emotions and impulses while adapting to changing circumstances",
-            "Did awesome things at the expense of others",
-            "Was load and obnoxious",
-            "Encouraged others to participate",
-            "Contributed to the group in a positive way"
+        {
+            id: 1,
+            question:
+                "controlled emotions and impulses while adapting to changing circumstances"
+        }, {
+            id: 2,
+            question: "Did awesome things at the expense of others"
+        }, {
+            id: 3,
+            question: "Was load and obnoxious"
+        }, {
+            id: 4,
+            question: "Encouraged others to participate"
+        }, {
+                id: 5,
+                question: "Contributed to the group in a positive way"
+            }
         ];
 
 

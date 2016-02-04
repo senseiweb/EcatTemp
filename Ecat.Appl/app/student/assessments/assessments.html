@@ -23,7 +23,7 @@
 
                 <div class="btn-group clearfix m-l-5">
                     <button type="button" class="btn btn-primary" ng-click="assess.view=0">Assessments</button>
-                    <button type="button" class="btn btn-danger" ng-click="assess.view=2">Stratify Group</button>
+                    <button type="button" class="btn btn-danger" ng-click="assess.stratInputVis = !assess.stratInputVis">Stratify Group</button>
                     <button type="button" class="btn btn-default" ng-click="assess.view=1">Results</button>
                 </div>
 
@@ -67,11 +67,12 @@
                     <div ng-switch-when="1">
                         <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.results.tmpl.html'"></div>
                     </div>
-                    <div ng-switch-when="2">
-                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.strat.tmpl.html'"></div>
-                    </div>
                 </div>
 
+            </div>
+
+            <div ng-if="assess.stratInputVis" class="lv-footer">
+                <button type="button" class="btn btn-primary">Save</button>
             </div>
 
         </div>
