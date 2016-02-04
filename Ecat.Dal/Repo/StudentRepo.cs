@@ -29,7 +29,10 @@ namespace Ecat.Dal
             //Get all CourseMember entries for this user where they are a student
             List<EcCourseMember> courses = await _serverCtx.CourseMembers
                 .Include(cm => cm.Course)
-                .Where(cm => cm.PersonId == personId && cm.MpCourseRole == EcRoles.Student.ToString())
+                //TODO: Fix this MpCourseRole thing... should be able to get it from Enums? Not sure
+                //is EcMapInstituteRole what I need? It's not the institute role though
+                //Add a systemMappedProperty in the same way as EcSpStatus and EcSpItemResponse?
+                .Where(cm => cm.PersonId == personId && cm.MpCourseRole == "Student")//Enum.GetName(typeof(EcRoles), EcRoles.Student))
                 .ToListAsync();
 
             return courses;
@@ -77,7 +80,7 @@ namespace Ecat.Dal
         {
             if (user == null)
             {
-                //TODO:
+                //TODO: ?
                 return null;
             }
 

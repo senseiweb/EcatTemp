@@ -16,7 +16,7 @@ export default class EcStudentAssessments {
     getMembershipsAndAssessments(): void {
         const self = this;
 
-        this.dCtx.student.getMembershipsAndAssessments()
+        this.dCtx.student.getCourses()
             //.then((retData: ecat.entity.ICourseMember[]) => { this.courseMems = retData; })
             .then(getMemAndAssessResp)
             .catch((retData: any) => { this.common.logger.logWarn("Getting coursemems didn't work", retData, 'EcStudentAssessments', false);});
