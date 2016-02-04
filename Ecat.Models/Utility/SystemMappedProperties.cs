@@ -86,23 +86,23 @@ namespace Ecat.Models
 
     public static class EcSpStatus
     {
-        public const string und = "Undefined",
-            open = "Open",
-            underReview = "Under Review",
-            published = "Published",
-            arch = "Archive";
+        public const string Und = "Udr",
+            Open = "Open",
+            UnderReview = "Under Review",
+            Published = "Published",
+            Arch = "ArchiveE";
     }
 
     public static class EcSpItemResponse
     {
         public const string
-            IeAlways = "Ineffective Always",
-            IeUsually = "Ineffective Usually",
-            NotDisp = "Not Displayed",
-            EffUsually = "Effective Usually",
-            EffAlways = "Effective Always",
-            HeUsually = "Highly Effective Usually",
-            HeAlways = "Highly Effective Always";
+            Iea = "IEA",
+            Ieu = "IEU",
+            Nd = "ND",
+            Eu = "EU",
+            Ea = "EA",
+            Heu = "HEU",
+            Hea = "HEA";
     }
 
     public static class EcMapToken

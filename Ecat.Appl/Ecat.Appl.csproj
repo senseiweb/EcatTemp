@@ -706,6 +706,10 @@
     <TypeScriptCompile Include="app\student\assessments\modals\edit.ts" />
     <TypeScriptCompile Include="app\student\assessments\modals\comment.ts" />
     <TypeScriptCompile Include="app\student\assessments\modals\add.ts" />
+    <TypeScriptCompile Include="app\student\config\cfgStudent.ts" />
+    <TypeScriptCompile Include="app\student\provider\studCfgProvider.ts" />
+    <TypeScriptCompile Include="app\student\service\studentRequestAuth.ts" />
+    <TypeScriptCompile Include="app\student\student.ts" />
     <TypeScriptCompile Include="app\student\assessments\assessments.ts" />
     <TypeScriptCompile Include="app\student\config\statesStudent.ts" />
     <TypeScriptCompile Include="app\student\directives\editAssessQuestion.ts" />

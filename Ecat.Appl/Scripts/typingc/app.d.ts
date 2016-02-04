@@ -61,6 +61,10 @@ declare module ecat {
         addManager?: string;
     }
 
+    interface IStudEvents {
+
+    }
+
     interface IEcStateObject {
         [name: string]: angular.ui.IState;
     }

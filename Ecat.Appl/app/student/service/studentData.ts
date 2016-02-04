@@ -3,14 +3,14 @@ import * as AppVar from 'appVars'
 
 interface StudentApiResources extends ecat.IApiResources {
     getCourses: ecat.IApiResource,
-    getAllGroupData: ecat.IApiResource
+    getAllGroupData: ecat.IApiResource;
 }
 
 export default class EcStudentRepo extends IUtilityRepo {
     static serviceId = 'data.student';
     static $inject = ['$injector'];
 
-    private apiResources: StudentApiResources = {
+    private studentApiResources: StudentApiResources = {
         getCourses: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
             resourceName: 'GetCourses'

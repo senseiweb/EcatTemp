@@ -89,6 +89,7 @@ export default class EcStudentAssessments {
 
         }
 
+
     }
 
     editAssessment(): void {
@@ -102,8 +103,7 @@ export default class EcStudentAssessments {
         }
 
         function assessmentError() {
-
-
+            
         }
 
     }

@@ -57,7 +57,7 @@ namespace Ecat.Bal
                 gm.AssessorStratResponse = gm.AssessorStratResponse.Where(resp => !resp.IsDeleted).ToList();
                 gm.AuthorOfComments = gm.AuthorOfComments.Where(aoc => !aoc.IsDeleted).ToList();
 
-                if (gm.Group.MpSpStatus != EcSpStatus.published)
+                if (gm.Group.MpSpStatus != EcSpStatus.Published)
                 {
                     gm.AssessResults = null;
                     gm.StratResults = null;

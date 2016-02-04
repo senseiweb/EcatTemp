@@ -29,7 +29,7 @@ namespace Ecat.Dal.Config
                 new IndexAnnotation(new IndexAttribute("IX_UniqueStratResponse", 2) { IsUnique = true }));
 
             //Add index for unique combination of assessor's GroupMemberId and StratPosition
-            Property(p => p.Assessor.Id)
+            Property(p => p.AssessorId)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                 new IndexAnnotation(new IndexAttribute("IX_AssessorUniqueStratsInGroup", 1) { IsUnique = true }));
 
