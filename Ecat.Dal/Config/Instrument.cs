@@ -7,6 +7,9 @@ namespace Ecat.Dal.Config
     {
         public ConfigSpInstrument()
         {
+            Property(p => p.InstructorInstructions).IsMaxLength();
+            Property(p => p.SelfInstructions).IsMaxLength();
+            Property(p => p.PeerInstructions).IsMaxLength();
             HasRequired(p => p.ModifiedBy)
                 .WithMany()
                 .HasForeignKey(p => p.ModifiedById)
@@ -18,6 +21,8 @@ namespace Ecat.Dal.Config
     {
         public ConfigKcInstrument()
         {
+            Property(p => p.Instructions).IsMaxLength();
+
             HasRequired(p => p.ModifiedBy)
                 .WithMany()
                 .HasForeignKey(p => p.ModifiedById)
@@ -29,6 +34,7 @@ namespace Ecat.Dal.Config
     {
         public ConfigCogInstrument()
         {
+            Property(p => p.CogInstructions).IsMaxLength();
             HasRequired(p => p.ModifiedBy)
                 .WithMany()
                 .HasForeignKey(p => p.ModifiedById)

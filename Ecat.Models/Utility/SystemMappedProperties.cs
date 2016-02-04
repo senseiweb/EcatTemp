@@ -11,6 +11,14 @@ namespace Ecat.Models
               None = "None";
     }
 
+    public static class EcMapCourseRole
+    {
+        public const string Student = "Student",
+            Facilitator = "Facilitator",
+            CrseAdmin = "Course Admin",
+            SysAdmin = "System Admin";
+    }
+
     public static class EcMapELevel
     {
         public const string Cla = "Chief Leadership Academy",
