@@ -2,7 +2,7 @@
 import IDataCtx from "core/service/data/context"
 
 export default class EcAuthenicator {
-    static serviceId = 'data.authenicator';
+    static serviceId = 'data.core.authenicator';
     static $inject = ['$injector'];
 
     constructor(private $injector: angular.auto.IInjectorService) { }

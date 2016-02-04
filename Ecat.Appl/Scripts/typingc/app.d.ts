@@ -38,6 +38,7 @@ declare module ecat {
     interface IEcRootScope extends angular.IRootScopeService {
         $state: angular.ui.IStateService;
         stateMgr: any;
+        startUpComplete: boolean;
     }    
 
     interface ICoreCfg {
@@ -56,6 +57,12 @@ declare module ecat {
     {
         saveChangesEvent?: string;
         managerLoaded?: string;
+        managerCreated?: string;
+        addManager?: string;
+    }
+
+    interface IStudEvents {
+
     }
 
     interface IEcStateObject {
@@ -100,7 +107,10 @@ declare module ecat {
 
    
     export interface IApiResource {
-        resourceName: string;
+        resource: {
+            name: string;
+            isLoaded: boolean;
+        };
         returnedEntityType: string;
     }
 

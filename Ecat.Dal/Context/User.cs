@@ -31,7 +31,7 @@ namespace Ecat.Dal.Context
         {
             mb.Conventions.Remove<PluralizingTableNameConvention>();
 
-            mb.Properties<string>().Configure(s => s.HasMaxLength(250));
+            mb.Properties<string>().Configure(s => s.HasMaxLength(500));
 
             mb.Properties<DateTime>()
                 .Configure(c => c.HasColumnType("datetime2"));

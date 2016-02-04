@@ -1,4 +1,4 @@
-﻿import IAuthService from "core/service/requestAuthenicator"
+﻿import IAuthService from "student/service/studentRequestAuth"
 import ICoreCfg from "core/provider/coreCfgProvider"
 
 export default class EcCoreConfig {
@@ -23,19 +23,19 @@ export default class EcCoreConfig {
         });
 
         $provide.decorator('taOptions', [
-                '$delegate', '$timeout', (taOptions, $timeout) => {
-                    taOptions.toolbar = [
-                        ['p', 'quote', 'bold', 'italics', 'underline', 'ul', 'ol', 'clear'],
-                        ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent'],
-                        ['insertLink', 'charcount']
-                    ];
+            '$delegate', '$timeout', (taOptions, $timeout) => {
+                taOptions.toolbar = [
+                    ['p', 'quote', 'bold', 'italics', 'underline', 'ul', 'ol', 'clear'],
+                    ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent'],
+                    ['insertLink', 'charcount']
+                ];
 
-                    taOptions.setup.textEditorSetup = ($element) => {
-                        $timeout($element.trigger('focus'));
-                    }
-                    return taOptions;
+                taOptions.setup.textEditorSetup = ($element) => {
+                    $timeout($element.trigger('focus'));
                 }
-            ]);
+                return taOptions;
+            }
+        ]);
 
         $httpProvider.interceptors.push(IAuthService.serviceId);
 

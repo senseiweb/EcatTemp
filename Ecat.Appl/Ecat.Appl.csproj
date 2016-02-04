@@ -431,6 +431,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TypeLite.Net4.d.ts</LastGenOutput>
     </Content>
+    <Content Include="Scripts\vendor\angular-loading-bar\Gruntfile.js" />
+    <Content Include="Scripts\vendor\angular-loading-bar\index.js" />
+    <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.css" />
+    <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.js" />
     <Content Include="wwwroot\index.html" />
     <Content Include="Scripts\Manager.ttinclude" />
     <None Include="Properties\PublishProfiles\tofolder.pubxml">
@@ -458,6 +462,7 @@
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\MockController.cs" />
     <Compile Include="Controllers\SysAdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -642,6 +647,12 @@
     <Content Include="Scripts\vendor\fileinput\fileinput.less" />
     <Content Include="Scripts\vendor\weather-icons\weather-font.less" />
     <Content Include="Scripts\vendor\weather-icons\weather-icons.less" />
+    <Content Include="Scripts\vendor\angular-loading-bar\.bower.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\bower.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\CHANGELOG.md" />
+    <Content Include="Scripts\vendor\angular-loading-bar\LICENSE" />
+    <Content Include="Scripts\vendor\angular-loading-bar\package.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -697,6 +708,10 @@
     <TypeScriptCompile Include="app\student\assessments\modals\edit.ts" />
     <TypeScriptCompile Include="app\student\assessments\modals\comment.ts" />
     <TypeScriptCompile Include="app\student\assessments\modals\add.ts" />
+    <TypeScriptCompile Include="app\student\config\cfgStudent.ts" />
+    <TypeScriptCompile Include="app\student\provider\studCfgProvider.ts" />
+    <TypeScriptCompile Include="app\core\service\data\mock.ts" />
+    <TypeScriptCompile Include="app\student\service\studentRequestAuth.ts" />
     <TypeScriptCompile Include="app\student\assessments\assessments.ts" />
     <TypeScriptCompile Include="app\student\config\statesStudent.ts" />
     <TypeScriptCompile Include="app\student\directives\editAssessQuestion.ts" />

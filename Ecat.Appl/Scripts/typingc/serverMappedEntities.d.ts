@@ -40,5 +40,10 @@ declare module ecat.entity
 
     interface IExternal extends breeze.Entity, Ecat.Models.EcExternal { }
 
-    interface ISecurity extends  breeze.Entity, Ecat.Models.EcSecurity {}
+    interface ISecurity extends breeze.Entity, Ecat.Models.EcSecurity { }
+
+    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember { }
+
+    interface ICourseMember extends breeze.Entity, Ecat.Models.EcCourseMember { }
+   
 }

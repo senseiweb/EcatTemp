@@ -64,6 +64,7 @@ export default class EcUserProfile {
                 break;
             default:
                 this.isLtiRole = false;
+                this.showExternal = true;
                 this.page = PageTypeEnum.Connections;
                 break;
         }
@@ -167,6 +168,7 @@ export default class EcUserProfile {
                     break;
                 case self.c.appVar.EcMapInstituteRole.external:
                     userType = 'external';
+                    self.showExternal = true;                 
                     break;
                 default:
                     userType = 'external';

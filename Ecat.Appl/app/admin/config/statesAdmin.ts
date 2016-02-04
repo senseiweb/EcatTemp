@@ -21,8 +21,7 @@ export default class EcAdminStates {
                 authorized: [AppVar.EcMapInstituteRole.hqAdmin]
             },
             resolve: {
-                moduleInit: ['$ocLazyLoad', this.loadModule],
-                adminManager: ['userManager', IDataCtx.serviceId, ICommon.serviceId, (um, d, c) => this.loadAdminManager(um, d, c, coreDash)]
+                moduleInit: ['$ocLazyLoad', this.loadModule]
             }
         }
 
@@ -33,7 +32,7 @@ export default class EcAdminStates {
             templateUrl: 'wwwroot/app/admin/academy/academy.html',
             controller: 'app.admin.academy as acad',
             resolve: {
-                moduleLoad: ['moduleInit', 'adminManager', (moduleInit) => moduleInit]
+                moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
             }
         }
     }
@@ -46,31 +45,4 @@ export default class EcAdminStates {
                 .catch(() => this.isAdminLoaded = false);
         });
     }
-
-    private loadAdminManager = (hasUserManager, dataCtx: IDataCtx, common: ICommon, coreDash): angular.IPromise<any> => {
-
-        if (!hasUserManager) {
-            const userMagrError: ecat.IRoutingError = {
-                errorCode: AppVar.SysErrorType.MetadataFailure,
-                message: 'Cannot load the user metadata!',
-                redirectTo: coreDash.name
-            }
-            return common.$q.all([dataCtx.user.loadUserManager(), dataCtx.sysAdmin.loadAdminManager()])
-                .then(() => true)
-                .catch(() => userMagrError);
-        }
-
-        const error: ecat.IRoutingError = {
-            errorCode: AppVar.SysErrorType.MetadataFailure,
-            message: 'Cannot load the admin metadata!',
-            redirectTo: coreDash.name
-        }
-
-        return dataCtx.sysAdmin
-            .loadAdminManager()
-            .then(() => true)
-            .catch(() => error);
-
-    }
-
 }

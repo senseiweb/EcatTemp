@@ -1,28 +1,34 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
+import IMockRepo from "core/service/data/mock"
 import * as AppVar from 'appVars'
 
 interface StudentApiResources extends ecat.IApiResources {
     getCourses: ecat.IApiResource,
-    getAllGroupData: ecat.IApiResource
+    getAllGroupData: ecat.IApiResource;
 }
 
 export default class EcStudentRepo extends IUtilityRepo {
     static serviceId = 'data.student';
     static $inject = ['$injector'];
 
-    private apiResources: StudentApiResources = {
+    activated = false;
+    activeCourse: ecat.entity.ICourseMember;
+    private studentApiResources: StudentApiResources = {
         getCourses: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'GetCourses'
+            resource: {
+                name: 'GetCourses',
+                isLoaded: false
+            }
         },
         getAllGroupData: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'GetAllGroupData'
+            resource: {
+                name: 'GetAllGroupData',
+                isLoaded: false
+            }
         }
     };
-
-    activated = false;
-    isLoaded = this.c.areItemsLoaded;
 
     constructor(inj) {
         super(inj, 'Student Data Service', AppVar.EcMapApiResource.student, []);

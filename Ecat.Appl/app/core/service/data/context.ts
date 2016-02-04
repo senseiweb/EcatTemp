@@ -4,6 +4,7 @@ import ILocal from 'core/service/data/local'
 import ISysAdminData from "admin/service/adminData"
 import IStudentData from "student/service/studentData"
 import ICommon from "core/service/common"
+import IMock from "core/service/data/mock"
 import * as AppVars from "appVars"
 
 export default class EcDataContext {
@@ -12,10 +13,16 @@ export default class EcDataContext {
 
     private loadedManagers: Array<{module: string, mgr: breeze.EntityManager}> = [];
     local: ILocal;
-    private repoNames = [this.fixUpResourceName(AppVars.EcMapApiResource.user), 'local', this.fixUpResourceName(AppVars.EcMapApiResource.sa), this.fixUpResourceName(AppVars.EcMapApiResource.student)];
+    private repoNames = ['local',
+        this.fixUpResourceName(AppVars.EcMapApiResource.mock),
+        this.fixUpResourceName(AppVars.EcMapApiResource.user),
+        this.fixUpResourceName(AppVars.EcMapApiResource.sa),
+        this.fixUpResourceName(AppVars.EcMapApiResource.student)
+    ];
     sysAdmin: ISysAdminData;
     student: IStudentData;
     user: IUserData;
+    mock: IMock;
 
     constructor($rs: angular.IRootScopeService, private c: ICommon, emFactory: IEntityFactory) {
         this.repoNames.forEach((name: string) => {
@@ -33,8 +40,8 @@ export default class EcDataContext {
             });
         });
 
-        $rs.$on(c.coreCfg.coreEvents.managerLoaded, (event: angular.IAngularEvent, data: Array<any>) => {
-            this.loadedManagers.push(data[0].data);
+        $rs.$on(c.coreCfg.coreEvents.addManager, (event: angular.IAngularEvent, data: Array<any>) => {
+            this.loadedManagers.push({ module: data[0].data.module, mgr: data[0].data.mgr });
             event.preventDefault();
         });
     }
@@ -70,7 +77,8 @@ export default class EcDataContext {
         this.user.userStatic = null;
         localStorage.removeItem('ECAT:TOKEN');
         sessionStorage.removeItem('ECAT:TOKEN');
-        this.user.isLoaded.userToken = false;
+        this.user.isLoggedIn = false
+        this.user.userApiResources.userToken.resource.isLoaded = false;
     }
 
 }

@@ -22,7 +22,6 @@ export default class EcStudentStates {
             },
             resolve: {
                 moduleInit: ['$ocLazyLoad', this.loadModule],
-                studentManager: ['userManager', IDataCtx.serviceId, ICommon.serviceId, (um, d, c) => this.loadStudentManager(um, d, c, coreDash)]
             }
 
         }
@@ -34,7 +33,7 @@ export default class EcStudentStates {
             templateUrl: 'wwwroot/app/student/assessments/assessments.html',
             controller: 'app.student.assessment as assess',
             resolve: {
-                moduleLoad: ['moduleInit', 'studentManager', (moduleInit) => moduleInit]
+                moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
             }
         }
     }
@@ -47,33 +46,6 @@ export default class EcStudentStates {
                 .catch(() => this.isStudentLoaded = false);
         });
     }
-
-    private loadStudentManager = (hasUserManager, dataCtx: IDataCtx, common: ICommon, coreDash): angular.IPromise<any> => {
-
-        if (!hasUserManager) {
-            const userMagrError: ecat.IRoutingError = {
-                errorCode: AppVar.SysErrorType.MetadataFailure,
-                message: 'Cannot load the user metadata!',
-                redirectTo: coreDash.name
-            }
-            return common.$q.all([dataCtx.user.loadUserManager(), dataCtx.student.loadStudentManager()])
-                .then(() => true)
-                .catch(() => userMagrError);
-        }
-
-        const error: ecat.IRoutingError = {
-            errorCode: AppVar.SysErrorType.MetadataFailure,
-            message: 'Cannot load the student metadata!',
-            redirectTo: coreDash.name
-        }
-
-        return dataCtx.student
-            .loadStudentManager()
-            .then(() => true)
-            .catch(() => error);
-
-    }
-       
 }
 
 

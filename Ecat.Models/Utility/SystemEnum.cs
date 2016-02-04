@@ -19,6 +19,13 @@ namespace Ecat.Models
         AllWg = Wg1 | Wg2 | Wg3 | Wg4
     }
 
+    public enum AuthHeaderType
+    {
+        Undefined = 0,
+        CourseMember,
+        Facilitator
+    }
+
     public enum EcRoles
     {
         Unknown = 0,

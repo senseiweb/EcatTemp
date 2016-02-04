@@ -16,6 +16,7 @@ export default class EcAppCntrl {
 
         common.$rootScope.$state = common.$state;
         common.$rootScope.stateMgr = common.stateMgr;
+        common.$rootScope.startUpComplete = true;
     }    
 
   

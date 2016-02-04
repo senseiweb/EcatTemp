@@ -27,6 +27,10 @@ namespace Ecat.Dal.Config
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                     new IndexAnnotation(new IndexAttribute("IX_UniqueSpResponse", 2) { IsUnique = true }));
 
+            Property(p => p.RelatedInventoryId)
+               .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                   new IndexAnnotation(new IndexAttribute("IX_UniqueSpResponse", 3) { IsUnique = true }));
+
             HasRequired(p => p.ModifiedBy)
               .WithMany()
               .HasForeignKey(p => p.ModifiedById)

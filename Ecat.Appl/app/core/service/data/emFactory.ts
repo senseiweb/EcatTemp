@@ -20,10 +20,22 @@ export default class EcEmFactory {
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
         const serviceName = this.common.appEndpoint + apiResourceName;
         const metaDataStore = this.createMetadataStore(clientExtensions);
-        return new breeze.EntityManager({
+        const mgr =  new breeze.EntityManager({
             serviceName: serviceName,
             metadataStore: metaDataStore
         });
+        mgr.fetchMetadata()
+            .then(() => {
+                this.common.broadcast(this.common.coreCfg.coreEvents.managerLoaded,
+                    { loaded: true, mgrName: apiResourceName });
+                this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
+            })
+            .catch((error) => {
+                
+                this.common.logger.logError(`${apiResourceName}} Manager could not be loaded. This is a critical error.\nPlease attempt reload the application`, error, 'EM-Factory', true);
+                this.common.$state.go(this.common.stateMgr.core.error.name);
+            });
+        return mgr;
     }
 
     //#region Internal Api
@@ -46,7 +58,7 @@ export default class EcEmFactory {
                 const selectedResource = resourceToMap[resourceEntity];
 
                 if (selectedResource.returnedEntityType !== this.common.appVar.EcMapEntityType.unk) {
-                    metadataStore.setEntityTypeForResourceName(selectedResource.resourceName, selectedResource.returnedEntityType);
+                    metadataStore.setEntityTypeForResourceName(selectedResource.resource.name, selectedResource.returnedEntityType);
                 }
             }
         }

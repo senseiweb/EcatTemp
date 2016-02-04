@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-<html  ng-class="{'login-content': $state.includes(stateMgr.core.redirect.name)}" lang="en">
+<html  ng-class="{'login-content': $state.includes(stateMgr.core.redirect.name) && !$state.includes(stateMgr.core.error.name)}" lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,8 +12,8 @@
     <script src="wwwroot/scripts/config/systemCfg.js"></script>
     <link rel="stylesheet" href="wwwroot/content/styles/ecat.css" type="text/css" />
 </head>
-<body ng-class="{'four-zero-content': $state.includes(stateMgr.core.error.name), 'login-content': $state.includes(stateMgr.core.redirect.name)}">
-
+<body ng-class="{'four-zero-content': $state.includes(stateMgr.core.error.name), 'login-content': $state.includes(stateMgr.core.redirect.name) && !$state.includes(stateMgr.core.error.name)}">
+    <h1 style="text-align: center" ng-if="!startUpComplete">Please Wait! ECAT Application is starting up...</h1>
     <!-- Older IE warning message -->
     <!--[if lt IE 9]>
         <div class="ie-warning">

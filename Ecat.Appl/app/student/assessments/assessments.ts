@@ -64,6 +64,8 @@ export default class EcStudentAssessments {
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
         this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
 
+        this.dCtx.mock.getCourses().then((courses) => console.log(courses));
+
         this.groupMembers = [
             {
                 id: 1,
@@ -122,6 +124,7 @@ export default class EcStudentAssessments {
 
         }
 
+
     }
 
     editAssessment(): void {
@@ -135,8 +138,7 @@ export default class EcStudentAssessments {
         }
 
         function assessmentError() {
-
-
+            
         }
 
     }

@@ -18,7 +18,7 @@ namespace Ecat.Models
         public int PersonId { get; set; }
 
         [UserSg("IsActive", UserRoleType.Admin)]
-        public bool IsActived { get; set; }
+        public bool IsActive { get; set; }
 
         [JsonIgnore]
         [UserSg("BbUserId", UserRoleType.Admin)]

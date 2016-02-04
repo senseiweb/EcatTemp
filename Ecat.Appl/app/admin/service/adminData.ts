@@ -14,13 +14,19 @@ export default class EcSysAdminDataService extends IUtilityRepo {
     static serviceId = 'data.sysAdmin';
     static $inject = ['$injector'];
     
-    private apiResources: ISysAdminApiResouces = {
+    private sysAdminApiResources: ISysAdminApiResouces = {
         acad: {
-            resourceName: 'Academies',
+            resource: {
+                name: 'Academies',
+                isLoaded: false
+            },
             returnedEntityType: appVar.EcMapEntityType.academy
         },
         acadCat: {
-            resourceName: 'AcademyCategories',
+            resource: {
+                name: 'AcademyCategories',
+                isLoaded: false
+            },
             returnedEntityType: appVar.EcMapEntityType.unk
         }
     };
@@ -29,7 +35,7 @@ export default class EcSysAdminDataService extends IUtilityRepo {
 
     constructor(inj) {
         super(inj, 'System Admin DataService', appVar.EcMapApiResource.sa, []);
-        this.loadManager(this.apiResources);
+        super.addResources(this.sysAdminApiResources);
     }
 
     createAcademyLocal(): ecat.entity.IAcademy {
@@ -37,16 +43,16 @@ export default class EcSysAdminDataService extends IUtilityRepo {
     }
 
     getAcademies(): breeze.promises.IPromise<Array<ecat.entity.IAcademy> | angular.IPromise<any>> {
-        const res = this.apiResources.acad.resourceName;
+        const res = this.sysAdminApiResources.acad.resource;
         const common = this.c;
         const logger = this.logInfo;
 
-        if (this.c.areItemsLoaded.academy) {
-            const academies = this.queryLocal(res) as Array<ecat.entity.IAcademy>;
+        if (res.isLoaded) {
+            const academies = this.queryLocal(res.name) as Array<ecat.entity.IAcademy>;
             return this.c.$q.when(academies);
         }
 
-        return this.query.from(res)
+        return this.query.from(res.name)
             .using(this.manager)
             .execute()
             .then(getAcademiesResponse)
@@ -54,12 +60,13 @@ export default class EcSysAdminDataService extends IUtilityRepo {
 
             function getAcademiesResponse(data: breeze.QueryResult): Array<ecat.entity.IAcademy> {
                 if (data.results.length > 0) {
-                    common.areItemsLoaded.academy = true;
+                    res.isLoaded = true;
                     logger('Retrieved academy list from remote store', data.results, false);
                     return data.results as Array<ecat.entity.IAcademy>;
                 }
-
+                
                 logger('The query succeeded, but no items where retrieved', data, false);
+                return data.results as Array<ecat.entity.IAcademy>;
             }
     }
 
@@ -70,7 +77,7 @@ export default class EcSysAdminDataService extends IUtilityRepo {
             return this.c.$q.when(this.academyCategoryList);
         }
 
-        return this.query.from(this.apiResources.acadCat.resourceName)
+        return this.query.from(this.sysAdminApiResources.acadCat.resource.name)
             .using(this.manager)
             .execute()
             .then(categoryListRepsonse)
@@ -79,13 +86,5 @@ export default class EcSysAdminDataService extends IUtilityRepo {
             function categoryListRepsonse(data: breeze.QueryResult) {
                 self.academyCategoryList = data.results as any;
             }
-    }
-
-    loadAdminManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-        return this.loadManager(this.apiResources)
-            .then(() => {
-                this.registerTypes(this.apiResources);
-            })
-            .catch(this.queryFailed);
     }
 }
