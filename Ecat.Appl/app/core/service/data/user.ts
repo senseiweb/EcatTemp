@@ -5,10 +5,11 @@ import IEmFactory from 'core/service/data/emFactory'
 import * as IPersonExt from "core/config/entityExtension/person"
 import * as IAppVar from "appVars"
 
-interface UserApiResources extends ecat.IApiResources {
+export interface IUserApiResources extends ecat.IApiResources {
     checkEmail: ecat.IApiResource;
     login: ecat.IApiResource;
     profile: ecat.IApiResource;
+    userToken: ecat.IApiResource;
 }
 
 export default class EcUserRepo extends IUtilityRepo
@@ -16,21 +17,37 @@ export default class EcUserRepo extends IUtilityRepo
     static serviceId = 'data.user';
     static $inject = ['$http','$injector', 'userStatic'];
 
-    private userApiResources: UserApiResources = {
+    isLoggedIn = false;
+    userApiResources: IUserApiResources = {
         checkEmail: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'CheckUserEmail'
+            resource: {
+                name: 'CheckUserEmail',
+                isLoaded: false
+            }
         },
         login: {
             returnedEntityType: this.c.appVar.EcMapEntityType.person,
-            resourceName: 'Login'
+            resource: {
+                name: 'Login',
+                isLoaded: false
+            }
         },
         profile: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'Profiles'
+            resource: {
+                name: 'Profiles',
+                isLoaded: false
+            }
+        },
+        userToken: {
+            resource: {
+                name: 'Token',
+                isLoaded: false
+            },
+            returnedEntityType: this.c.appVar.EcMapEntityType.unk
         }
     };
-    isLoaded = this.c.areItemsLoaded;
     persona: ecat.entity.IPerson;
     token: ecat.ILocalToken = {
         userEmail: '',
@@ -92,8 +109,8 @@ export default class EcUserRepo extends IUtilityRepo
 
     createUserToken(): ecat.entity.ILoginToken {
         let security: ecat.entity.ISecurity = null;
-
-        if (this.isLoaded.userToken || !this.mgrLoaded || !this.userStatic) {
+        const resource = this.userApiResources.userToken.resource;
+        if (resource.isLoaded || !this.mgrLoaded || !this.userStatic) {
             return null;
         }
 
@@ -126,7 +143,7 @@ export default class EcUserRepo extends IUtilityRepo
     emailIsUnique(email: string): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
         const requestCfg: angular.IRequestConfig = {
             method: 'get',
-            url: `${this.c.appEndpoint + this.endPoint}/${this.userApiResources.checkEmail.resourceName}`,
+            url: `${this.c.appEndpoint + this.endPoint}/${this.userApiResources.checkEmail.resource.name}`,
             params: { email: email }
         }
 
@@ -141,14 +158,14 @@ export default class EcUserRepo extends IUtilityRepo
 
     getUserProfile(): breeze.promises.IPromise<any> {
         const self = this;
-        const res = this.userApiResources.profile.resourceName;
+        const res = this.userApiResources.profile.resource;
 
-        if (this.isLoaded.userProfile) {
+        if (res.isLoaded) {
             const pred = new breeze.Predicate('personId', breeze.FilterQueryOp.Equals, this.persona.personId);
-            return this.c.$q.when(this.queryLocal(res, null, pred));
+            return this.c.$q.when(this.queryLocal(res.name, null, pred));
         }
 
-        return this.query.from(res)
+        return this.query.from(res.name)
             .using(this.manager)
             .execute()
             .then(getUserProfileResponse)
@@ -250,8 +267,8 @@ export default class EcUserRepo extends IUtilityRepo
                 localStorage.removeItem('ECAT:RME');
             }
 
-            self.isLoaded.userToken = true;
-            self.isLoaded.user = true;
+            self.userApiResources.userToken.resource.isLoaded = true;
+            self.isLoggedIn = true;
             return user;
         }     
     };

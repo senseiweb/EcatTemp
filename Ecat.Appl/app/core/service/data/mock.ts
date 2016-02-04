@@ -1,78 +1,94 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import * as AppVar from 'appVars'
 
-interface StudentApiResources extends ecat.IApiResources {
-    getCourses: ecat.IApiResource,
-    getAllGroupData: ecat.IApiResource;
+
+interface IMockApiResource extends ecat.IApiResources {
+    getStudCrse: ecat.IApiResource;
+    getStudAssess: ecat.IApiResource;
 }
 
-export default class EcStudentRepo extends IUtilityRepo {
-    static serviceId = 'data.student';
+export default class EcMockData extends IUtilityRepo {
+    static serviceId = 'data.mock';
     static $inject = ['$injector'];
 
     activated = false;
     activeCourse: ecat.entity.ICourseMember;
-    isLoaded = this.c.areItemsLoaded;
-    private studentApiResources: StudentApiResources = {
-        getCourses: {
-            returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'GetCourses'
+    private mockApiResources: IMockApiResource = {
+        getStudCrse: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.crseMember,
+            resource: {
+                name: 'GetStudentCourses',
+                isLoaded: false
+            }
         },
-        getAllGroupData: {
-            returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'GetAllGroupData'
+        getStudAssess: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.grpMember,
+            resource: {
+                name: 'GetStudentAssessment',
+                isLoaded: false  
+            }
         }
     };
 
     constructor(inj) {
-        super(inj, 'Student Data Service', AppVar.EcMapApiResource.student, []);
-        this.loadManager(this.apiResources);
+        super(inj, 'Mock Data Service', AppVar.EcMapApiResource.mock, []);
+        this.loadManager(this.mockApiResources);
     }
 
-    getCourses(): breeze.promises.IPromise<any> {
+    getCourses(): breeze.promises.IPromise<Array<ecat.entity.ICourseMember> | angular.IPromise<void>> {
         const self = this;
-        const res = this.apiResources.getCourses.resourceName;
-        const logger = this.logInfo;
+        const resource = this.mockApiResources.getStudCrse.resource;
 
-        return this.query.from(res)
+        if (resource.isLoaded) {
+            return this.c.$q.when(this.queryLocal(resource.name) as  Array<ecat.entity.ICourseMember>);
+        }
+
+        return this.query.from(resource.name)
+            .withParameters({ studentId: this.dCtx.user.persona.personId })
             .using(this.manager)
             .execute()
-            .then(getCoursesResponse)
+            .then(getCourseSuccess)
             .catch(this.queryFailed);
 
-        function getCoursesResponse(retData: breeze.QueryResult) {
-            if (retData.results.length > 0) {
-                logger('Got course memberships', retData.results, false);
-                return retData.results as ecat.entity.ICourseMember[];
+        function getCourseSuccess(data: breeze.QueryResult): Array<ecat.entity.ICourseMember> {
+            if (data.results.length === 0) {
+                return null;
             }
+
+            const courseMember = data.results as Array<ecat.entity.ICourseMember>;
+            resource.isLoaded = true;
+            self.activeCourse = courseMember[0];
+            self.getStudAssessment();
+            return courseMember;
         }
     }
 
-    getAllGroupData(courseMem: Ecat.Models.EcCourseMember): breeze.promises.IPromise<any> {
+    getStudAssessment(): breeze.promises.IPromise<Array<ecat.entity.IGroupMember> | angular.IPromise<void>> {
         const self = this;
-        const res = this.apiResources.getAllGroupData.resourceName;
-        const logger = this.logInfo;
+        const resource = this.mockApiResources.getStudAssess.resource;
 
-        return this.query.from(res)
+        if (resource.isLoaded) {
+            return this.c.$q.when(this.queryLocal(resource.name) as Array<ecat.entity.IGroupMember>);
+        }
+
+        return this.query.from(resource.name)
+            .withParameters({ courseMemberId: this.activeCourse.id})
             .using(this.manager)
             .execute()
-            .then(getGroupDataResponse)
+            .then(getStudAsessSuccess)
             .catch(this.queryFailed);
 
-        function getGroupDataResponse(retData: breeze.QueryResult) {
-            if (retData.results.length > 0) {
-                //self.isLoaded.studentAssessment = true;
-                logger('Got group and assessment data', retData.results, false);
-                return retData.results as ecat.entity.IGroupMember[];
+        function getStudAsessSuccess(data: breeze.QueryResult): Array<ecat.entity.IGroupMember> {
+            if (data.results.length === 0) {
+                return null;
             }
+            const groupMembers = data.results as Array<ecat.entity.IGroupMember>;
+            resource.isLoaded = true;
+            console.log(groupMembers);
+            return groupMembers;
         }
     }
 
-    loadStudentManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-        return this.loadManager(this.apiResources)
-            .then(() => {
-                this.registerTypes(this.apiResources);
-            })
-            .catch(this.queryFailed);
-    }
+    
+    
 }

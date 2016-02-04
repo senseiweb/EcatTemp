@@ -22,6 +22,7 @@ export default class EcDataContext {
     sysAdmin: ISysAdminData;
     student: IStudentData;
     user: IUserData;
+    mock: IMock;
 
     constructor($rs: angular.IRootScopeService, private c: ICommon, emFactory: IEntityFactory) {
         this.repoNames.forEach((name: string) => {
@@ -76,7 +77,8 @@ export default class EcDataContext {
         this.user.userStatic = null;
         localStorage.removeItem('ECAT:TOKEN');
         sessionStorage.removeItem('ECAT:TOKEN');
-        this.user.isLoaded.userToken = false;
+        this.user.isLoggedIn = false
+        this.user.userApiResources.userToken.resource.isLoaded = false;
     }
 
 }

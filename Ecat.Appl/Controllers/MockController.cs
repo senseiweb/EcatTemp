@@ -9,6 +9,8 @@ using Breeze.WebApi2;
 using Ecat.Dal;
 using Ecat.Dal.Context;
 using System.Data.Entity;
+using System.Runtime.InteropServices;
+using Ecat.Models;
 
 namespace Ecat.Appl.Controllers
 {
@@ -26,28 +28,21 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public string GetStudentMockMetadata()
+        public string Metadata()
         {
             return _repo.GetMetadata<StudentCtx>();
         }
 
         [HttpGet]
-        public IQueryable GetStudentCourses(int studentId)
+        public IQueryable<EcCourseMember> GetStudentCourses(int studentId)
         {
             return _ctx.CourseMembers.Where(crseMem => crseMem.PersonId == studentId).Include(c => c.Course);
         }
 
         [HttpGet]
-        public IQueryable GetStudentAssessment(int courseMemberId)
+        public IQueryable<EcPerson> GetStudentAssessmen(int courseMemberId)
         {
-            return
-                _ctx.CourseMembers
-                    .Include(c => c.Groups)
-                    .Include(g => g.Groups.Select(m => m.Group.Members))
-                    .Include(c => c.Groups.SelectMany(d => d.AssessorSpResponses))
-                    .Include(c => c.Groups.SelectMany(d => d.AuthorOfComments))
-                    .Include(c => c.Groups.SelectMany(d => d.AssessorStratResponse))
-                    .Where(c => c.Id == courseMemberId);
+            return null;
         }
 
     }

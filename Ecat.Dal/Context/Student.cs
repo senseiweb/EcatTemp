@@ -32,19 +32,9 @@ namespace Ecat.Dal.Context
         {
             mb.Conventions.Remove<PluralizingTableNameConvention>();
 
-            mb.Properties<string>().Configure(s => s.HasMaxLength(250));
-
             mb.Properties<DateTime>()
                 .Configure(c => c.HasColumnType("datetime2"));
-
-            mb.Properties()
-                .Where(p => p.Name.StartsWith("Mp"))
-                .Configure(x => x.HasColumnName(x.ClrPropertyInfo.Name.Substring(2)));
-
-            mb.Types()
-                .Where(type => type.Name.StartsWith("Ec"))
-                .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
-
+      
             mb.Entity<LoginToken>().HasKey(token => token.PersonId);
 
             mb.Ignore<EcAcademy>();
@@ -52,9 +42,6 @@ namespace Ecat.Dal.Context
             mb.Ignore<CogInventory>();
             mb.Ignore<CogResponse>();
             mb.Ignore<CogResult>();
-            mb.Ignore<EcStudent>();
-            mb.Ignore<EcFacilitator>();
-            mb.Ignore<EcExternal>();
 
             base.OnModelCreating(mb);
 

@@ -57,6 +57,7 @@ import logger from 'core/service/logger'
 import dialogService from 'core/service/dialog'
 import localDs from 'core/service/data/local'
 import authService from 'core/service/requestAuthenicator'
+import mockRepo from "core/service/data/mock"
 import * as AppVar from 'appVars'
 //#endregion
 
@@ -127,6 +128,7 @@ export default class AppStart {
             .service(logger.serviceId, logger)
             .service(localDs.serviceId, localDs)
             .service(dialogService.serviceId, dialogService)
+            .service(mockRepo.serviceId, mockRepo)
             //#endregion
             
             .run([common.serviceId,'breeze', (common: common) => common.appStartup()]);

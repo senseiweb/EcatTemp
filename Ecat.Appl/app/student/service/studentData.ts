@@ -13,15 +13,20 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     activated = false;
     activeCourse: ecat.entity.ICourseMember;
-    isLoaded = this.c.areItemsLoaded;
     private studentApiResources: StudentApiResources = {
         getCourses: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'GetCourses'
+            resource: {
+                name: 'GetCourses',
+                isLoaded: false
+            }
         },
         getAllGroupData: {
             returnedEntityType: this.c.appVar.EcMapEntityType.unk,
-            resourceName: 'GetAllGroupData'
+            resource: {
+                name: 'GetAllGroupData',
+                isLoaded: false
+            }
         }
     };
 

@@ -58,7 +58,7 @@ export default class EcEmFactory {
                 const selectedResource = resourceToMap[resourceEntity];
 
                 if (selectedResource.returnedEntityType !== this.common.appVar.EcMapEntityType.unk) {
-                    metadataStore.setEntityTypeForResourceName(selectedResource.resourceName, selectedResource.returnedEntityType);
+                    metadataStore.setEntityTypeForResourceName(selectedResource.resource.name, selectedResource.returnedEntityType);
                 }
             }
         }

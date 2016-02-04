@@ -12,13 +12,6 @@ export default class EcCommon
     static serviceId = 'core.common';
     static $inject = ['$injector','$q', '$rootScope', '$state', '$stateParams', ILogger.serviceId, ICoreCfg.providerId, IDialog.serviceId, IStateMgr.providerId, 'userStatic'];
 
-    areItemsLoaded = {
-        academy: false,
-        userToken: false,
-        userProfile: false,
-        user: false,
-    }
-
     appEndpoint: string;
     appVar = AppVars;
     keycodes =  {

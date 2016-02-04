@@ -8,7 +8,6 @@ namespace Ecat.Models
         public int Id { get; set; }
         public int GroupId { get; set; }
         public int MemberId { get; set; }
-
         public EcGroup Group { get; set; }
         public EcCourseMember Member { get; set; }
 
