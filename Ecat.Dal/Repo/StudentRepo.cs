@@ -29,10 +29,8 @@ namespace Ecat.Dal
             //Get all CourseMember entries for this user where they are a student
             List<EcCourseMember> courses = await _serverCtx.CourseMembers
                 .Include(cm => cm.Course)
-                //TODO: Fix this MpCourseRole thing... should be able to get it from Enums? Not sure
-                //is EcMapInstituteRole what I need? It's not the institute role though
-                //Add a systemMappedProperty in the same way as EcSpStatus and EcSpItemResponse?
-                .Where(cm => cm.PersonId == personId && cm.MpCourseRole == "Student")//Enum.GetName(typeof(EcRoles), EcRoles.Student))
+                .Where(cm => cm.PersonId == personId && cm.MpCourseRole == EcMapCourseRole.Student)
+                .OrderByDescending(cm => cm.Course.StartDate)
                 .ToListAsync();
 
             return courses;
@@ -40,11 +38,10 @@ namespace Ecat.Dal
 
         public async Task<List<EcGroupMember>> GetAllGroupData(int courseMemId)
         {
-            //Get all GroupMember entires and all the extra stuff for that group...
+            //Get all GroupMember entires for this user and course and all the extra stuff for that group...
             //for this user using the given CourseMemberId (unique for a Course and Person combo)
             //unless the GroupMemeber is flagged as deleted
             List<EcGroupMember> groupMems = await _serverCtx.GroupMembers
-                .Include(gm => gm.Member)
                 .Include(gm => gm.Group)
                 .Include(gm => gm.Group.Members)
                 .Include(gm => gm.Group.SpInstrument)
@@ -52,9 +49,10 @@ namespace Ecat.Dal
                 .Include(gm => gm.AssessorSpResponses)
                 .Include(gm => gm.AssessorStratResponse)
                 .Include(gm => gm.AuthorOfComments)
+                .Include(gm => gm.RecipientOfComments)
                 .Include(gm => gm.AssessResults)
-                .Include(gm => gm.StratResults)
-                .Where(gm => gm.Member.Id == courseMemId && !gm.IsDeleted)
+                .Where(gm => gm.MemberId == courseMemId && !gm.IsDeleted)
+                .OrderByDescending(gm => gm.Group.GroupNumber)
                 .ToListAsync();
 
             return groupMems;

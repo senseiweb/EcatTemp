@@ -20,40 +20,12 @@ namespace Ecat.Dal
     {
         private readonly EcatCtx _serverCtx;
         private readonly EcPerson _loggedInPerson;
-        //private readonly StudentRepo _stuRepo;
         private SaveMap _saveMapRef;
-        //TODO: create studentSgAttr?
-        //private static readonly Dictionary<string, List<UserRoleType>> _userSgAttr;
 
-        //TODO: Change this to actually be relevant? Remove it? Don't seem to need it...
-        //static StudentSaveguard()
-        //{
-        //    _userSgAttr = new Dictionary<string, List<UserRoleType>>();
-
-        //    var properties = typeof(EcPerson).GetProperties();
-
-        //    foreach (var propertyInfo in properties)
-        //    {
-        //        var attrs = propertyInfo.GetCustomAttributes(true);
-
-        //        foreach (var attr in attrs)
-        //        {
-        //            var userSgAttribute = attr as UserSgAttribute;
-
-        //            if (userSgAttribute == null) continue;
-
-        //            var propName = userSgAttribute.Name;
-        //            var allowTypes = userSgAttribute.Allowed.ToList();
-
-        //            _userSgAttr.Add(propName, allowTypes);
-        //        }
-        //    }
-        //}
-
-        public StudentSaveguard(EcatCtx serverCtx, EcPerson person)//, StudentRepo stuRepo)
+        public StudentSaveguard(EcatCtx serverCtx, EcPerson person)
         {
-            //_stuRepo = stuRepo;
             _serverCtx = serverCtx;
+            //TODO: Is a check on the InstRole right? Or check the CourseRole later?
             if (person.PersonId == 0 || person.MpInstituteRole != EcMapInstituteRole.Student)
             {
                 //TODO: ?
@@ -116,17 +88,25 @@ namespace Ecat.Dal
 
         private List<EntityInfo> ProcessSpAssessResponse(List<EntityInfo> spAssessEntityInfos, List<EcGroupMember> groupMembershipsList)
         {
+            IEnumerable<EFEntityError> errors = null; 
+
             //Check for deletion attempts
             var deleteAttempts = spAssessEntityInfos
                 .Where(info => info.EntityState == EntityState.Deleted).ToList();
-            spAssessEntityInfos = spAssessEntityInfos.Except(deleteAttempts).ToList();
-            if (!spAssessEntityInfos.Any())
+            
+            if (deleteAttempts.Any())
             {
-                var errors = deleteAttempts.Select(info => new EFEntityError(info, "Unauthorized Action", "Students cannot delete Assessment Responses.", null));
-                throw new EntityErrorsException(errors);
+                spAssessEntityInfos = spAssessEntityInfos.Except(deleteAttempts).ToList();
+
+                errors = errors.Concat(deleteAttempts.Select(info => new EFEntityError(info, "Unauthorized Action", "Students cannot delete Assessment Responses.", null)));
+
+                if (!spAssessEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //Check for the assessor not being the logged in user
+            //Check for responses where the assessor is not the logged in user
             var notLoggedInPerson = spAssessEntityInfos
                 .Select(info =>
                 {
@@ -141,21 +121,26 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spAssessEntityInfos = spAssessEntityInfos.Except(notLoggedInPerson).ToList();
-            if (!spAssessEntityInfos.Any())
+            if (notLoggedInPerson.Any())
             {
-                var errors = notLoggedInPerson.Select(info => new EFEntityError(info, "Unauthorized Action", "Assessor is not the logged in user.", null));
-                throw new EntityErrorsException(errors);
+                spAssessEntityInfos = spAssessEntityInfos.Except(notLoggedInPerson).ToList();
+
+                errors = errors.Concat(notLoggedInPerson.Select(info => new EFEntityError(info, "Unauthorized Action", "Assessor is not the logged in user.", null)));
+
+                if (!spAssessEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //Check that the assessor and assessee are in the same group
+            //Check for responses where the assessor and assessee are in different groups
             var assessorAssesseeDiffGroups = spAssessEntityInfos
                 .Select(info =>
                 {
                     var responseEntity = info.Entity as SpAssessResponse;
                     Contract.Assert(responseEntity != null);
 
-                    if (responseEntity.Assessor.GroupId != responseEntity.Assessee.GroupId)
+                    if (responseEntity.Assessor.GroupId == responseEntity.Assessee.GroupId)
                     {
                         return null;
                     }
@@ -163,14 +148,19 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spAssessEntityInfos = spAssessEntityInfos.Except(assessorAssesseeDiffGroups).ToList();
-            if (!spAssessEntityInfos.Any())
+            if (assessorAssesseeDiffGroups.Any())
             {
-                var errors = assessorAssesseeDiffGroups.ToList().Select(info => new EFEntityError(info, "Unauthorized Action", "Assessor and Assessee are in different groups.", null));
-                throw new EntityErrorsException(errors);
+                spAssessEntityInfos = spAssessEntityInfos.Except(assessorAssesseeDiffGroups).ToList();
+
+                errors = errors.Concat(assessorAssesseeDiffGroups.Select(info => new EFEntityError(info, "Unauthorized Action", "Assessor and Assessee are in different groups.", null)));
+
+                if (!spAssessEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //Check that the response is a valid response
+            //Check for responses that have an invalid response
             var incorretItemResponse = spAssessEntityInfos
                 .Select(info =>
                 {
@@ -179,7 +169,7 @@ namespace Ecat.Dal
 
                     var vc = new ValidationContext(info.Entity);
 
-                    if (!Validator.TryValidateObject(info.Entity, vc, null, true))
+                    if (Validator.TryValidateObject(info.Entity, vc, null, true))
                     {
                         return null;
                     }
@@ -187,14 +177,19 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spAssessEntityInfos = spAssessEntityInfos.Except(incorretItemResponse).ToList();
-            if (!spAssessEntityInfos.Any())
+            if (incorretItemResponse.Any())
             {
-                var errors = incorretItemResponse.ToList().Select(info => new EFEntityError(info, "Invalid Data", "Invalid assessment item response.", null));
-                throw new EntityErrorsException(errors);
+                spAssessEntityInfos = spAssessEntityInfos.Except(incorretItemResponse).ToList();
+
+                errors = errors.Concat(incorretItemResponse.Select(info => new EFEntityError(info, "Invalid Data", "Invalid assessment item response.", null)));
+
+                if (!spAssessEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //Check that the inventory on the response is a valid inventory for this group
+            //Check for responses that have an inventory that is not a valid inventory for this group
             var invalidInventoryForGroup = spAssessEntityInfos
                 .Select(info =>
                 {
@@ -202,7 +197,7 @@ namespace Ecat.Dal
                     Contract.Assert(responseEntity != null);
 
                     //TODO: I don't think this is actually going to work... I won't have that deep inside the responseEntity
-                    if (!responseEntity.RelatedInventory.Instrument.AssignedGroups.Contains(responseEntity.Assessor.Group))
+                    if (responseEntity.RelatedInventory.Instrument.AssignedGroups.Contains(responseEntity.Assessor.Group))
                     {
                         return null;
                     }
@@ -210,11 +205,16 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spAssessEntityInfos = spAssessEntityInfos.Except(invalidInventoryForGroup).ToList();
-            if (!spAssessEntityInfos.Any())
+            if (invalidInventoryForGroup.Any())
             {
-                var errors = invalidInventoryForGroup.ToList().Select(info => new EFEntityError(info, "Invalid Data", "Assessment's inventory is not the same as the group's instrument", null));
-                throw new EntityErrorsException(errors);
+                spAssessEntityInfos = spAssessEntityInfos.Except(invalidInventoryForGroup).ToList();
+
+                errors = errors.Concat(invalidInventoryForGroup.Select(info => new EFEntityError(info, "Invalid Data", "Assessment Response's inventory is not part of group's instrument.", null)));
+
+                if (!spAssessEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
             //    if (instrumentList == null || instrument == null || instrumentList.Find(i => i.Id == instrument.Id) == null)
@@ -239,17 +239,25 @@ namespace Ecat.Dal
 
         private List<EntityInfo> ProcessSpStratResponse(List<EntityInfo> spStratEntityInfos, List<EcGroupMember> groupMembershipsList)
         {
+            IEnumerable<EFEntityError> errors = null;
+
             //Check for delete attempts
             var deletionAttempts = spStratEntityInfos
                 .Where(info => info.EntityState == EntityState.Deleted);
-            spStratEntityInfos = spStratEntityInfos.Except(deletionAttempts).ToList();
-            if (!spStratEntityInfos.Any())
+            
+            if (deletionAttempts.Any())
             {
-                var errors = deletionAttempts.Select(info => new EFEntityError(info, "Unauthorized Action", "Students cannot delete Strat Responses.", null));
-                throw new EntityErrorsException(errors);
+                spStratEntityInfos = spStratEntityInfos.Except(deletionAttempts).ToList();
+
+                errors = errors.Concat(deletionAttempts.Select(info => new EFEntityError(info, "Unauthorized Action", "Students cannot delete Strat Responses.", null)));
+
+                if (!spStratEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //Check for the stratter not being the logged in user
+            //Check for responses where the stratter is not the logged in user
             var notLoggedInPerson = spStratEntityInfos
                 .Select(info =>
                 {
@@ -264,21 +272,26 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spStratEntityInfos = spStratEntityInfos.Except(notLoggedInPerson).ToList();
-            if (!spStratEntityInfos.Any())
+            if (notLoggedInPerson.Any())
             {
-                var errors = notLoggedInPerson.Select(info => new EFEntityError(info, "Unauthorized Action", "Stratter is not the logged in user.", null));
-                throw new EntityErrorsException(errors);
+                spStratEntityInfos = spStratEntityInfos.Except(notLoggedInPerson).ToList();
+
+                errors = errors.Concat(notLoggedInPerson.Select(info => new EFEntityError(info, "Unauthorized Action", "Stratter is not the logged in user.", null)));
+
+                if (!spStratEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //Check that the stratter and the strattee are in the same group
+            //Check for responses where the stratter and the strattee are in different groups
             var stratterStratteeDiffGroups = spStratEntityInfos
                 .Select(info =>
                 {
                     var responseEntity = info.Entity as SpStratResponse;
                     Contract.Assert(responseEntity != null);
 
-                    if (responseEntity.Assessor.GroupId != responseEntity.Assessee.GroupId)
+                    if (responseEntity.Assessor.GroupId == responseEntity.Assessee.GroupId)
                     {
                         return null;
                     }
@@ -286,11 +299,16 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spStratEntityInfos = spStratEntityInfos.Except(stratterStratteeDiffGroups).ToList();
-            if (!spStratEntityInfos.Any())
+            if (stratterStratteeDiffGroups.Any())
             {
-                var errors = stratterStratteeDiffGroups.ToList().Select(info => new EFEntityError(info, "Unauthorized Action", "Stratter and Strattee are in different groups.", null));
-                throw new EntityErrorsException(errors);
+                spStratEntityInfos = spStratEntityInfos.Except(stratterStratteeDiffGroups).ToList();
+
+                errors = errors.Concat(stratterStratteeDiffGroups.Select(info => new EFEntityError(info, "Unauthorized Action", "Stratter and Strattee are in different groups.", null)));
+
+                if (!spStratEntityInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
             //TODO: Check that the stratter doesn't have multiple strattees at the same position
@@ -302,7 +320,8 @@ namespace Ecat.Dal
 
         private List<EntityInfo> ProcessSpComment(List<EntityInfo> spCommentInfos, List<EcGroupMember> groupMembershipsList)
         {
-            //Check for the commenter not being the logged in user
+            IEnumerable<EFEntityError> errors = null;
+            //Check for responses where the commenter is not the logged in user
             var notLoggedInPerson = spCommentInfos
                 .Select(info =>
                 {
@@ -317,21 +336,26 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spCommentInfos = spCommentInfos.Except(notLoggedInPerson).ToList();
-            if (!spCommentInfos.Any())
+            if (notLoggedInPerson.Any())
             {
-                var errors = notLoggedInPerson.Select(info => new EFEntityError(info, "Unauthorized Action", "Author is not the logged in user.", null));
-                throw new EntityErrorsException(errors);
+                spCommentInfos = spCommentInfos.Except(notLoggedInPerson).ToList();
+
+                errors = errors.Concat(notLoggedInPerson.Select(info => new EFEntityError(info, "Unauthorized Action", "Author is not the logged in user.", null)));
+
+                if (!spCommentInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //Check that the commenter and the commentee are in the same group
+            //Check for comments where the commenter and the commentee are in different groups
             var commenterCommenteeDiffGroups = spCommentInfos
                 .Select(info =>
                 {
                     var responseEntity = info.Entity as SpComment;
                     Contract.Assert(responseEntity != null);
 
-                    if (responseEntity.Author.GroupId != responseEntity.Recipient.GroupId)
+                    if (responseEntity.Author.GroupId == responseEntity.Recipient.GroupId)
                     {
                         return null;
                     }
@@ -339,14 +363,19 @@ namespace Ecat.Dal
                     return info;
                 });
 
-            spCommentInfos = spCommentInfos.Except(commenterCommenteeDiffGroups).ToList();
-            if (!spCommentInfos.Any())
+            if (commenterCommenteeDiffGroups.Any())
             {
-                var errors = commenterCommenteeDiffGroups.ToList().Select(info => new EFEntityError(info, "Unauthorized Action", "Author and Recipient are in different groups.", null));
-                throw new EntityErrorsException(errors);
+                spCommentInfos = spCommentInfos.Except(commenterCommenteeDiffGroups).ToList();
+
+                errors = errors.Concat(commenterCommenteeDiffGroups.Select(info => new EFEntityError(info, "Unauthorized Action", "Author and Recipient are in different groups.", null)));
+
+                if (!spCommentInfos.Any())
+                {
+                    throw new EntityErrorsException(errors);
+                }
             }
 
-            //TODO: Check that the comment type is one of the allowed types
+            //TODO: Check for comments where the comment type is not one of the allowed types
             //SpCommenttype Enum has them, field in db is a string
 
             return spCommentInfos;

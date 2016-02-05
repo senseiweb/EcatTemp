@@ -43,11 +43,13 @@ export default class EcStudentAssessments {
 
     };
 
-    courses: Array<string>;
+    courses: Array<string> = [];
 
     fullName = 'Unknown';
 
-    groupMembers: Array<{}>;
+    groupMembers: Array<{}> = [];
+
+    courseEnrollments: ecat.entity.ICourseMember[] = [];
 
 
     user: ecat.entity.IPerson;
@@ -62,48 +64,59 @@ export default class EcStudentAssessments {
     activate(): void {
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
-        this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
+        //this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
+        const self = this;
 
-        this.dCtx.mock.getCourses().then((courses) => console.log(courses));
+        this.dCtx.student.getCourses().then(recCourseList);
 
-        this.groupMembers = [
+        function recCourseList(retData: ecat.entity.ICourseMember[]) {
+            if (self.dCtx.student.activeCourse === null || self.dCtx.student.activeCourse === undefined)
             {
-                id: 1,
-                name: 'Jason Silvers'
-                
-
-                
-            } 
-        ];
-
-        this.questions = [
-        {
-            id: 1,
-            question: 'controlled emotions and impulses while adapting to changing circumstances',
-            assessAvg: 'Always Highly Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 2,
-            question: 'Did awesome things at the expense of others',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 3,
-            question: 'Was load and obnoxious',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 4,
-            question: 'Encouraged others to participate',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 5,
-            question: 'Contributed to the group in a positive way',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
+                self.dCtx.student.activeCourse = retData[0];
+                self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
+            }
+            self.courseEnrollments = retData;
+            self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
         }
-        ];
+
+        //this.groupMembers = [
+        //    {
+        //        id: 1,
+        //        name: 'Jason Silvers'
+                
+
+                
+        //    } 
+        //];
+
+        //this.questions = [
+        //{
+        //    id: 1,
+        //    question: 'controlled emotions and impulses while adapting to changing circumstances',
+        //    assessAvg: 'Always Highly Effective',
+        //    counts: 'IE: 4   E: 4   HE: 5'
+        //}, {
+        //    id: 2,
+        //    question: 'Did awesome things at the expense of others',
+        //    assessAvg: 'Frequently Effective',
+        //    counts: 'IE: 4   E: 4   HE: 5'
+        //}, {
+        //    id: 3,
+        //    question: 'Was load and obnoxious',
+        //    assessAvg: 'Frequently Effective',
+        //    counts: 'IE: 4   E: 4   HE: 5'
+        //}, {
+        //    id: 4,
+        //    question: 'Encouraged others to participate',
+        //    assessAvg: 'Frequently Effective',
+        //    counts: 'IE: 4   E: 4   HE: 5'
+        //}, {
+        //    id: 5,
+        //    question: 'Contributed to the group in a positive way',
+        //    assessAvg: 'Frequently Effective',
+        //    counts: 'IE: 4   E: 4   HE: 5'
+        //}
+        //];
 
         this.stratInputVis = false;
 

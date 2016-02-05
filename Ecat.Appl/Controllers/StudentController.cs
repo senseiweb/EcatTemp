@@ -51,9 +51,12 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public async Task<object> GetAllGroupData(EcCourseMember selectedCourse)
+        public async Task<object> GetAllGroupData()
         {
-            return await _studentLogic.GetAllGroupData(selectedCourse);
+            var selectedCourse = Request.Headers.GetValues("X-ECAT-PVT-AUTH").ToString();
+            int selCourseId;
+            int.TryParse(selectedCourse, out selCourseId);
+            return await _studentLogic.GetAllGroupData(selCourseId);
         }
 
         [HttpPost]
