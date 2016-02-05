@@ -66,16 +66,6 @@ export default class EcStudentAssessments {
 
         this.dCtx.mock.getCourses().then((courses) => console.log(courses));
 
-        this.groupMembers = [
-            {
-                id: 1,
-                name: 'Jason Silvers'
-                
-
-                
-            } 
-        ];
-
         this.questions = [
         {
             id: 1,
