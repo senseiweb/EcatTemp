@@ -2,20 +2,17 @@
 
 namespace Ecat.Models
 {
-    public class SpComment : ISoftDelete, IAuditable
+     //TODO: Check on save check if recipientId has comment if !isDeleted reject save, isDelete allows save operation 
+    public class FacSpComment
     {
         public int Id { get; set; }
-        public int AuthorId { get; set; }
         public int RecipientId { get; set; }
-        public int FacFlaggedById { get; set; }
-        public string MpCommentType { get; set; }
+        public int AssignedGroupId { get; set; }
         public string CommentText { get; set; }
-        public string MpCommentFlagFac { get; set; }
-        public string MpCommentFlagAuthor { get; set; }
         public string MpCommentFlagRecipient { get; set; }
 
-        public EcGroupMember Author { get; set; }
         public EcGroupMember Recipient { get; set; }
+        public EcGroup AssignedGroup { get; set; }
 
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }

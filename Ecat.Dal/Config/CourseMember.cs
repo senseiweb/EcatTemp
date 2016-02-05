@@ -27,7 +27,7 @@ namespace Ecat.Dal.Config
                 .WillCascadeOnDelete(false);
 
             HasRequired(p => p.Course)
-                .WithMany(p => p.Members)
+                .WithMany(p => p.CourseMembers)
                 .WillCascadeOnDelete(false);
         }
     }

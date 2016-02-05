@@ -11,6 +11,19 @@ namespace Ecat.Models
               None = "None";
     }
 
+    public static class EcMapCommentType
+    {
+        public const string Signed = "Signed",
+            Anon = "Anonymous";
+    }
+
+    public static class EcMapCommentFlag
+    {
+        public const string Pos = "Postiive",
+            Neg = "Negative",
+            Neut = "Netural";
+    }
+
     public static class EcMapCourseRole
     {
         public const string Student = "Student",
@@ -37,6 +50,15 @@ namespace Ecat.Models
             Facilitator = "BCEE_04_Facilitator",
             Student = "BCEE_05_Student",
             External = "BCEE_06_External";
+    }
+
+    public static class EcMapAssessResult
+    {
+        public const string He = "Highly Effective",
+            Aae = "Above Avg Effective",
+            Ae = "Average Effective",
+            Bae = "Below Avg Effective",
+            Ie = "Ineffective";
     }
 
     public static class EcMapAffiliation

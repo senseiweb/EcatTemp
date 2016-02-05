@@ -34,15 +34,24 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public IQueryable<EcCourseMember> GetStudentCourses(int studentId)
+        public List<EcCourseMember> GetStudentCourses(int studentId)
         {
-            return _ctx.CourseMembers.Where(crseMem => crseMem.PersonId == studentId).Include(c => c.Course);
+            return _ctx.CourseMembers.Where(crseMem => crseMem.PersonId == studentId).Include(c => c.Course).ToList();
         }
 
         [HttpGet]
-        public IQueryable<EcPerson> GetStudentAssessmen(int courseMemberId)
+        public IQueryable<EcGroupMember> GetStudentAssessment(int courseEnrollId)
         {
-            return null;
+            return _ctx.GroupMembers
+                .Where(gm => gm.CourseEnrollmentId == courseEnrollId && !gm.IsDeleted)
+                .Include(gm => gm.Person)
+                .Include(gm => gm.Group.SpInstrument)
+                .Include(gm => gm.Group.SpInstrument.Inventories)
+                .Include(gm => gm.AssessorSpResponses)
+                .Include(gm => gm.AuthorOfComments)
+                .Include(gm => gm.AssessorStratResponse)
+                .Include(gm => gm.GroupPeers.Where(gp => !gp.IsDeleted))
+                .Include(gm => gm.GroupPeers.Select(p => p.Person.Student));
         }
 
     }

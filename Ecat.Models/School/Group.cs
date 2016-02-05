@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecat.Models
 {
-    public class EcGroup
+    public class EcGroup : IAuditable
     {
         public int Id { get; set; }
         public int? SpInstrumentId { get; set; }
@@ -19,7 +19,10 @@ namespace Ecat.Models
         public bool IsHomeGroup { get; set; }
 
         public EcCourse Course { get; set; }
-        public ICollection<EcGroupMember> Members { get; set; }
+        public ICollection<FacSpAssessResponse> FacSpReponses { get; set; }
+        public ICollection<FacSpStratResponse> FacStratResponses { get; set; }
+        public ICollection<FacSpComment> FacSpComments { get; set; }
+        public ICollection<EcGroupMember> GroupMembers { get; set; }
         public SpInstrument SpInstrument { get; set; }
         public KcInstrument KcInstrument { get; set; }
     }

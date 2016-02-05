@@ -7,9 +7,7 @@ namespace Ecat.Dal.Config
     {
         public ConfigSpInventory()
         {
-            Property(p => p.InstructorBehavior).HasMaxLength(6000);
-            Property(p => p.PeerBehavior).HasMaxLength(6000);
-            Property(p => p.SelfBehavior).HasMaxLength(6000);
+            Property(p => p.Behavior).HasMaxLength(6000);
             HasRequired(p => p.ModifiedBy)
               .WithMany()
               .HasForeignKey(p => p.ModifiedById)

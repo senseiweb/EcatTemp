@@ -107,6 +107,9 @@
     <Compile Include="Eval.KnowCheck\KcInventory.cs" />
     <Compile Include="Eval.KnowCheck\KcResponse.cs" />
     <Compile Include="Eval.KnowCheck\KcResult.cs" />
+    <Compile Include="Eval.SelfPeer\FacSpAssessResponse.cs" />
+    <Compile Include="Eval.SelfPeer\FacSpComment.cs" />
+    <Compile Include="Eval.SelfPeer\FacSpStratResponse.cs" />
     <Compile Include="Eval.SelfPeer\SpAssessResponse.cs" />
     <Compile Include="Eval.SelfPeer\SpAssessResult.cs" />
     <Compile Include="Eval.SelfPeer\SpComments.cs" />

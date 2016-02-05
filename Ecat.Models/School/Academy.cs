@@ -7,7 +7,7 @@ namespace Ecat.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Base { get; set; }
-        public string MpEducationLevel { get; set; }
+        public string MpEdLevel { get; set; }
         public string BbCategoryId { get; set; }
         public ICollection<EcCourse> Courses { get; set; }
     }

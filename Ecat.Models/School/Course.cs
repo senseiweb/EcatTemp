@@ -15,7 +15,7 @@ namespace Ecat.Models
         public DateTime GradDate { get; set; }
 
         public EcAcademy Academy { get; set; }
-        public ICollection<EcCourseMember> Members { get; set; }
+        public ICollection<EcCourseMember> CourseMembers { get; set; }
         public ICollection<EcGroup> Groups { get; set; }
     }
 }

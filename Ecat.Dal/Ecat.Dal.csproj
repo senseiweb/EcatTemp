@@ -498,6 +498,7 @@
     <Compile Include="Config\CogResponse.cs" />
     <Compile Include="Config\Course.cs" />
     <Compile Include="Config\CourseMember.cs" />
+    <Compile Include="Config\FacSpStratResponse.cs" />
     <Compile Include="Config\Group.cs" />
     <Compile Include="Config\GroupMember.cs" />
     <Compile Include="Config\GroupTypeInstrument.cs" />

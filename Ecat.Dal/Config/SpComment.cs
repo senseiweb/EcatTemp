@@ -19,14 +19,6 @@ namespace Ecat.Dal.Config
                .HasForeignKey(p => p.RecipientId)
                .WillCascadeOnDelete(false);
 
-            Property(p => p.AuthorId)
-              .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                  new IndexAnnotation(new IndexAttribute("IX_UniqueSpComment", 1) { IsUnique = true }));
-
-            Property(p => p.RecipientId)
-                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(new IndexAttribute("IX_UniqueSpComment", 2) { IsUnique = true }));
-
             HasRequired(p => p.ModifiedBy)
               .WithMany()
               .HasForeignKey(p => p.ModifiedById);

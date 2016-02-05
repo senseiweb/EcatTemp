@@ -143,7 +143,7 @@ namespace Ecat.Tests
             {
                 Id = 1245,
                 GroupId = 56,
-                MemberId = 14
+                CourseEnrollmentId = 14
             };
 
             var ctx = new EcatCtx();

@@ -90,7 +90,7 @@ namespace Ecat.Dal
 
             //Grab the logged in user's list of group memberships for use in all the Process methods
             List<EcGroupMember> groupMembershipsList = _serverCtx.GroupMembers
-                    .Where(gm => gm.Member.PersonId == _loggedInPerson.PersonId).ToList();
+                    .Where(gm => gm.CourseEnrollment.PersonId == _loggedInPerson.PersonId).ToList();
 
             if (spAssessResponseEntityKey != null)
             {

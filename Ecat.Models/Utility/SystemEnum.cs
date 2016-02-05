@@ -93,23 +93,6 @@ namespace Ecat.Models
         Archive
     }
 
-    public enum SpCommentType
-    {
-        Undefined = 0,
-        Signed,
-        Anonymous,
-        Instructor
-    }
-
-    public enum SpCommentFlag
-    {
-        Undefined = 0,
-        InstrBad,
-        InstrGood,
-        StudBad,
-        StudGood
-    }
-
     public enum SpResultCode
     {
         Undefined = 0,

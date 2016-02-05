@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Ecat.Models
 {
+    /// <summary>
+    /// Save Rules to consider: If !isDisplayed, ensure that isScored is set to false;
+    /// </summary>
     public class SpInventory : IAuditable, IInventory<SpInstrument>
     {
         public int Id { get; set; }
@@ -11,13 +14,12 @@ namespace Ecat.Models
         public int DisplayOrder { get; set; }
         public bool IsScored { get; set; }
         public bool IsDisplayed { get; set; }
-        public string SelfBehavior { get; set; }
-        public string PeerBehavior { get; set; }
-        public string InstructorBehavior { get; set; }
+        public string Behavior { get; set; }
         public DateTime ModifiedDate { get; set; }
 
         public EcPerson ModifiedBy { get; set; }
         public SpInstrument Instrument { get; set; }
-        public ICollection<SpAssessResponse> Responses { get; set; }
+        public ICollection<SpAssessResponse> GrpMemberResponses { get; set; }
+        public ICollection<FacSpAssessResponse> FacResponses { get; set; }
     }
 }

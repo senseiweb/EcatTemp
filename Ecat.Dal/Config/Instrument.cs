@@ -7,7 +7,8 @@ namespace Ecat.Dal.Config
     {
         public ConfigSpInstrument()
         {
-            Property(p => p.InstructorInstructions).IsMaxLength();
+            Ignore(p => p.GroupTypeList);
+            Property(p => p.FacilitatorInstructions).IsMaxLength();
             Property(p => p.SelfInstructions).IsMaxLength();
             Property(p => p.PeerInstructions).IsMaxLength();
             HasRequired(p => p.ModifiedBy)

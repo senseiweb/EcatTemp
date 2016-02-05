@@ -12,8 +12,8 @@ namespace Ecat.Models
 
         public EcCourse Course { get; set; }
         public EcPerson Person { get; set; }
-        public ICollection<EcGroupMember> Groups { get; set; }
-
+        public ICollection<EcGroupMember> GroupEnrollments { get; set; }
+        
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }
         public DateTime? DeletedDate { get; set; }

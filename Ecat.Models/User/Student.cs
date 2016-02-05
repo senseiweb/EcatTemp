@@ -17,5 +17,6 @@ namespace Ecat.Models
         public string Bio { get; set; }
 
         public EcPerson Person { get; set; }
+        public ICollection<EcCourseMember> CourseEnrollments { get; set; }
     }
 }

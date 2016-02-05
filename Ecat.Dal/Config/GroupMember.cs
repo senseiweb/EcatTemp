@@ -14,7 +14,7 @@ namespace Ecat.Dal.Config
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                     new IndexAnnotation(new IndexAttribute("IX_UniqueGroupMember", 1) { IsUnique = true }));
 
-            Property(p => p.MemberId)
+            Property(p => p.CourseEnrollmentId)
                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                    new IndexAnnotation(new IndexAttribute("IX_UniqueGroupMember", 2) { IsUnique = true }));
 
@@ -28,10 +28,20 @@ namespace Ecat.Dal.Config
                 .HasForeignKey(p => p.DeletedById)
                 .WillCascadeOnDelete(false);
 
-            HasRequired(p => p.Member)
-                .WithMany(p => p.Groups)
-                .HasForeignKey(p => p.MemberId)
+            HasRequired(p => p.CourseEnrollment)
+                .WithMany(p => p.GroupEnrollments)
+                .HasForeignKey(p => p.CourseEnrollmentId)
                 .WillCascadeOnDelete(false);
+
+            HasRequired(p => p.Person)
+                .WithMany()
+                .HasForeignKey(p => p.PersonId)
+                .WillCascadeOnDelete(false);
+
+            HasMany(p => p.GroupPeers)
+               .WithRequired()
+               .HasForeignKey(p => p.GroupId)
+               .WillCascadeOnDelete(false);
         }
     }
 }

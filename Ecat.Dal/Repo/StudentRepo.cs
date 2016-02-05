@@ -44,18 +44,18 @@ namespace Ecat.Dal
             //for this user using the given CourseMemberId (unique for a Course and Person combo)
             //unless the GroupMemeber is flagged as deleted
             List<EcGroupMember> groupMems = await _serverCtx.GroupMembers
-                .Include(gm => gm.Member)
-                .Include(gm => gm.Group)
-                .Include(gm => gm.Group.Members)
-                .Include(gm => gm.Group.SpInstrument)
-                .Include(gm => gm.Group.SpInstrument.Inventories)
-                .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.AssessorStratResponse)
-                .Include(gm => gm.AuthorOfComments)
-                .Include(gm => gm.AssessResults)
-                .Include(gm => gm.StratResults)
-                .Where(gm => gm.Member.Id == courseMemId && !gm.IsDeleted)
-                .ToListAsync();
+            //    .Include(gm => gm.Member)
+            //    .Include(gm => gm.Group)
+            //    .Include(gm => gm.Group.Members)
+            //    .Include(gm => gm.Group.SpInstrument)
+            //    .Include(gm => gm.Group.SpInstrument.Inventories)
+            //    .Include(gm => gm.AssessorSpResponses)
+            //    .Include(gm => gm.AssessorStratResponse)
+            //    .Include(gm => gm.AuthorOfComments)
+            //    .Include(gm => gm.AssessResults)
+            //    .Include(gm => gm.StratResults)
+                .Where(gm => gm.CourseEnrollmentId == courseMemId && !gm.IsDeleted)
+               .ToListAsync();
 
             return groupMems;
         }
