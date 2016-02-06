@@ -101,17 +101,8 @@
             </a>
             <ul>
                 <li>
-                    <a ui-sref-active="active" ui-sref="form.basic-form-elements" ng-click="mactrl.sidebarStat($event)">Basic Form Elements</a>
-                </li>
-                <li>
-                    <a ui-sref-active="active" ui-sref="form.form-components" ng-click="mactrl.sidebarStat($event)">Form Components</a>
-                </li>
-                <li>
-                    <a ui-sref-active="active" ui-sref="form.form-examples" ng-click="mactrl.sidebarStat($event)">Form Examples</a>
-                </li>
-                <li>
-                    <a ui-sref-active="active" ui-sref="form.form-validations" ng-click="mactrl.sidebarStat($event)">Form Validation</a>
-                </li>
+                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.facilitator.groups.name}}" ng-click="mactrl.sidebarStat($event)">Groups</a>
+                </li>             
             </ul>
         </li>
         <li class="sub-menu" ng-class="{ 'active toggled': mactrl.$state.includes('user-interface') }">

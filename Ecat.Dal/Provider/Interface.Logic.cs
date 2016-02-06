@@ -47,7 +47,7 @@ namespace Ecat.Dal
     {
         EcPerson User { get; set; }
         Task<List<EcCourseMember>> GetCourses();
-        Task<List<EcGroupMember>> GetAllGroupData(EcCourseMember courseMem);
+        Task<List<EcGroupMember>> GetAllGroupData(int courseMemId);
         SaveResult BzSave(JObject saveBundle);
     }
 

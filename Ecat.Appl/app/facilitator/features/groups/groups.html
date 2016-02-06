@@ -1,0 +1,97 @@
+﻿<div class="container animated fadeInRight">
+    <div class="block-header">
+        <h2>{{groups.fullName}} Groups Center</h2>
+
+        <ul class="actions">
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-sort"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-repeat="course in assess.courses track by $index">
+                        <a href="javascript:void(0)">{{course}}</a>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card" id="groups-main">
+        <div class="listview lv-bordered lv-lg">
+            <div class="lv-header-alt clearfix p-b-5">
+
+                <div class="btn-group clearfix m-l-5">
+                    <button type="button" class="btn btn-primary" ng-click="assess.view=0; assess.stratInputVis = false">Assessments</button>
+                    <button type="button" class="btn btn-danger" ng-click="assess.stratInputVis = !assess.stratInputVis">Stratify Group</button>
+
+                    <div class="btn-group dropdown" uib-dropdown>                 
+                        <button class="btn btn-link dropdown-toggle btn-icon-text waves-effect" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-menu"></i>Results
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                            <li>
+                                <a href="javascript:void(0)" ng-click="assess.view=1">Assessment</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" ng-click="assess.view=2">Comments</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <ul class="lv-actions actions">
+
+                    <li class="dropdown" uib-dropdown>
+
+                        <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>Group 1</button>
+
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a href="">Group 2</a>
+                            </li>
+                            <li>
+                                <a href="">Group 3</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="">Refresh Data</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lv-body" ng-init="assess.view=0">
+                <div ng-switch="assess.view">
+                    <div ng-switch-when="0">
+                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.assessments.tmpl.html'"></div>
+                    </div>
+                    <div ng-switch-when="1">
+                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.results.tmpl.html'"></div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.comments.tmpl.html'"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-if="assess.stratInputVis" class="lv-footer">
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>

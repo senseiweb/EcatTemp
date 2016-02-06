@@ -1,6 +1,7 @@
 ﻿import CoreStates from "core/config/statesCore"
 import AdminStates from "admin/config/statesAdmin"
 import StudentStates from "student/config/statesStudent"
+import FacilitatorStates from "facilitator/config/statesFac"
 
 export default class EcStateProvider {
     static providerId = 'ecStateCfg';
@@ -11,7 +12,8 @@ export default class EcStateProvider {
                 {
                     core: this.core,
                     admin: this.admin,
-                    student: this.student
+                    student: this.student,
+                    facilitator: this.facilitator
                 });
         }
 
@@ -19,5 +21,5 @@ export default class EcStateProvider {
     core: CoreStates;
     admin: AdminStates;
     student: StudentStates;
-
+    facilitator: FacilitatorStates;
 }

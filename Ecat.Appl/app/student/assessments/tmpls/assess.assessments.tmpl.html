@@ -8,8 +8,8 @@
                         <th style="padding-left: 22px;">Assessments</th>
                         <th>Strat</th>
                         <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
-                        <th ng-if="assess.stratInputVis">Composite Ranking</th>
                         <th ng-if="assess.stratInputVis">Strat Position</th>
+                        <th ng-if="assess.stratInputVis">Composite Ranking</th>
 
                     </tr>
                 </thead>
@@ -26,27 +26,9 @@
                         <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
 
                     </td>
-                    <td ng-if="assess.stratInputVis"><table>
-                        <tr>
-                            <td>E: 4</td>
-                            <td>AE: 4</td>
-                            <td>HE: 2</td>
-                        </tr>
-                    </table></td>
+
                     <td ng-if="assess.stratInputVis">
                         <input class="form-control" type="text" style="width: 20px">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Everybody Else</td>
-                    <td>
-                        <button class="btn btn-link" ng-click="assess.editAssessment()">Edit</button>
-
-                    </td>
-                    <td>3</td>
-                    <td ng-if="!assess.stratInputVis">
-                        <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
-
                     </td>
                     <td ng-if="assess.stratInputVis">
                         <table>
@@ -57,58 +39,8 @@
                             </tr>
                         </table>
                     </td>
-                    <td ng-if="assess.stratInputVis">
-                        <input class="form-control" type="text" style="width: 20px">
-                    </td>
                 </tr>
-                <tr>
-                    <td>Everybody Else</td>
-                    <td>
-                        <button class="btn btn-link" ng-click="assess.editAssessment()">Edit</button>
-
-                    </td>
-                    <td>3</td>
-                    <td ng-if="!assess.stratInputVis">
-                        <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
-
-                    </td>
-                    <td ng-if="assess.stratInputVis">
-                        <table>
-                            <tr>
-                                <td>E: 4</td>
-                                <td>AE: 4</td>
-                                <td>HE: 2</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td ng-if="assess.stratInputVis">
-                        <input class="form-control" type="text" style="width: 20px">
-                    </td>
-                </tr>
-                    <tr>
-                        <td>Everybody Else</td>
-                        <td>
-                            <button class="btn btn-link" ng-click="assess.editAssessment()">Add</button>
-
-                        </td>
-                        <td>3</td>
-                        <td ng-if="!assess.stratInputVis">
-                            <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
-
-                        </td>
-                        <td ng-if="assess.stratInputVis">
-                            <table>
-                                <tr>
-                                    <td>E: 4</td>
-                                    <td>AE: 4</td>
-                                    <td>HE: 2</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td ng-if="assess.stratInputVis">
-                            <input class="form-control" type="text" style="width: 20px">
-                        </td>
-                    </tr>
+                
                 </tbody>
             </table>
 

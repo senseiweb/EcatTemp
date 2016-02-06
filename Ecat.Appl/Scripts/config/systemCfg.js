@@ -132,7 +132,8 @@
                 "service": 'app/core/service',
                 "global": 'app/core/global',
                 "admin": 'app/admin',
-                "student": 'app/student'
+                "student": 'app/student',
+                "facilitator": 'app/facilitator'
             }
         }
     }

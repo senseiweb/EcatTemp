@@ -3,6 +3,7 @@ import ICommon from "core/service/common"
 import IDataCtx from "core/service/data/context"
 import AdminStates from "admin/config/statesAdmin"
 import StudentStates from "student/config/statesStudent"
+import FacilitatorStates from "facilitator/config/statesFac"
 import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
 
@@ -25,6 +26,11 @@ export default class EcCoreStateConfig {
 
         const student = new StudentStates(core.main, core.dashboard);
         this.loadStates(Object.keys(student), student as any, 'student');
+
+        const facilitator = new FacilitatorStates(core.main, core.dashboard);
+        this.loadStates(Object.keys(facilitator), facilitator as any, 'facilitator');
+
+
 
         $urlProvider.otherwise(() => {
             const self = this;

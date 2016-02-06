@@ -65,6 +65,9 @@ declare module ecat {
 
     }
 
+    interface IFacilitatorEvents {
+    }
+
     interface IEcStateObject {
         [name: string]: angular.ui.IState;
     }

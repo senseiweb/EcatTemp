@@ -34,21 +34,25 @@ namespace Ecat.Bal
             return await _studentRepo.GetCourseMems(User.PersonId);
         }
 
-        public async Task<List<EcGroupMember>> GetAllGroupData(EcCourseMember courseMem)
+        public async Task<List<EcGroupMember>> GetAllGroupData(int courseMemId)
         {
             //Double check the given CourseMember is this user as a student
-            //TODO: Fix MpCourseRole check EcRoles.Student.ToString() will give me "5"...
-            //see StudentRepo TODO on the same issue
-            if (courseMem.PersonId != User.PersonId || courseMem.MpCourseRole != EcRoles.Student.ToString())
+            //if (courseMem.PersonId != User.PersonId || courseMem.MpCourseRole != EcMapCourseRole.Student)
+            //{
+            //    return null;
+            //}
+            //TODO: Should I bother with this check?
+            List<EcCourseMember> courseMems = await _studentRepo.GetCourseMems(User.PersonId);
+            if (courseMems.Find(cm => cm.Id == courseMemId) == null)
             {
-                return null;
+                throw new UnauthorizedAccessException("User is not a student on this course.");
             }
 
-            List<EcGroupMember> groupMems = await _studentRepo.GetAllGroupData(courseMem.Id);
+            List<EcGroupMember> groupMems = await _studentRepo.GetAllGroupData(courseMemId);
 
             //Go through the returned GroupMembers and remove:
-            //-GroupMembers (on the group), AssessorSpResponses, AssessorStratResponses, and AuthorOfComment flagged as deleted
-            //-AssessResults and StratResults if the Group status isn't Published
+            //-GroupMembers (on the group), AssessorSpResponses, AssessorStratResponses, AuthorOfComment, and RecipientOfComments flagged as deleted
+            //-AssessResults and RecipientOfComments if the Group status isn't Published
             //then return the filtered GroupMember object to the list
             groupMems = groupMems.Select(gm => 
             {
@@ -56,11 +60,12 @@ namespace Ecat.Bal
                 gm.AssessorSpResponses = gm.AssessorSpResponses.Where(resp => !resp.IsDeleted).ToList();
                 gm.AssessorStratResponse = gm.AssessorStratResponse.Where(resp => !resp.IsDeleted).ToList();
                 gm.AuthorOfComments = gm.AuthorOfComments.Where(aoc => !aoc.IsDeleted).ToList();
+                gm.RecipientOfComments = gm.RecipientOfComments.Where(roc => !roc.IsDeleted).ToList();
 
                 if (gm.Group.MpSpStatus != EcSpStatus.Published)
                 {
                     gm.AssessResults = null;
-                    gm.StratResults = null;
+                    gm.RecipientOfComments = null;
                 }
 
                 return gm;  

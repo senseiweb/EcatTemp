@@ -43,11 +43,13 @@ export default class EcStudentAssessments {
 
     };
 
-    courses: Array<string>;
+    courses: Array<string> = [];
 
     fullName = 'Unknown';
 
-    groupMembers: Array<{}>;
+    groupMembers: Array<{}> = [];
+
+    courseEnrollments: ecat.entity.ICourseMember[] = [];
 
 
     user: ecat.entity.IPerson;
@@ -62,9 +64,21 @@ export default class EcStudentAssessments {
     activate(): void {
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
-        this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
+        //this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
+        const self = this;
 
-        this.dCtx.mock.getCourses().then((courses) => console.log(courses));
+        this.dCtx.student.getCourses().then(recCourseList);
+
+        function recCourseList(retData: ecat.entity.ICourseMember[]) {
+            if (self.dCtx.student.activeCourse === null || self.dCtx.student.activeCourse === undefined)
+            {
+                self.dCtx.student.activeCourse = retData[0];
+                self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
+            }
+            self.courseEnrollments = retData;
+            self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
+        }
+
 
         this.questions = [
         {

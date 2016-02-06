@@ -26,6 +26,7 @@ import profileCntrl from 'core/userViews/profile'
 import loginCntrl from 'core/global/login'
 import adminAcademy from "admin/academy/academy"
 import studentAssessments from 'student/assessments/assessments'
+import facilitatorGroups from "facilitator/features/groups/groups"
 import appCntrl from "core/global/appGlobal"
 //#endregion
 
@@ -50,6 +51,7 @@ import dataCtx from 'core/service/data/context'
 import emFactory from 'core/service/data/emFactory'
 import userRepo from 'core/service/data/user'
 import studentRepo from 'student/service/studentData'
+import facilitatorRepo from "facilitator/service/facilitatorData"
 import adminRepo from "admin/service/adminData"
 import growl from 'core/service/plugin/growl'
 import common from "core/service/common"
@@ -95,6 +97,7 @@ export default class AppStart {
             .controller(loginCntrl.controllerId, loginCntrl)
             .controller(adminAcademy.controllerId, adminAcademy)
             .controller(studentAssessments.controllerId, studentAssessments)
+            .controller(facilitatorGroups.controllerId, facilitatorGroups)
             //#endregion
 
             //#region Directives
@@ -123,6 +126,7 @@ export default class AppStart {
             .service(userRepo.serviceId, userRepo)
             .service(adminRepo.serviceId, adminRepo)
             .service(studentRepo.serviceId, studentRepo)
+            .service(facilitatorRepo.serviceId, facilitatorRepo)
             .service(growl.serviceId, growl)
             .service(common.serviceId, common)
             .service(logger.serviceId, logger)
