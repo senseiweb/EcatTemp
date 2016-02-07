@@ -40,10 +40,6 @@ namespace Ecat.Dal.Config
             HasRequired(p => p.ModifiedBy)
             .WithMany()
             .HasForeignKey(p => p.ModifiedById);
-
-            HasOptional(p => p.DeletedBy)
-                .WithMany()
-                .HasForeignKey(p => p.DeletedById);
         }
     }
 }

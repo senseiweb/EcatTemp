@@ -53,8 +53,7 @@ namespace Ecat.Bal
             groupMems = groupMems.Select(gm => 
             {
                 gm.Group.GroupMembers =  gm.Group.GroupMembers.Where(member => !member.IsDeleted).ToList();
-                gm.AssessorSpResponses = gm.AssessorSpResponses.Where(resp => !resp.IsDeleted).ToList();
-                gm.AssessorStratResponse = gm.AssessorStratResponse.Where(resp => !resp.IsDeleted).ToList();
+
                 gm.AuthorOfComments = gm.AuthorOfComments.Where(aoc => !aoc.IsDeleted).ToList();
 
                 if (gm.Group.MpSpStatus != EcSpStatus.Published)

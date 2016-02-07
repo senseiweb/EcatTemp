@@ -2,6 +2,7 @@
 import * as AppVar from "appVars"
 import IDataCtx from 'core/service/data/context'
 import ICommon from "core/service/common"
+import IStudentModule from "student/student"
 
 export default class EcStudentStates {
   
@@ -10,7 +11,7 @@ export default class EcStudentStates {
     main: angular.ui.IState;
     assessment: angular.ui.IState;
 
-    constructor(coreMain: angular.ui.IState, coreDash: angular.ui.IState) {
+    constructor(coreMain: angular.ui.IState) {
         this.main = {
             name: `${coreMain.name}.student`,
             parent: coreMain.name,
@@ -21,7 +22,7 @@ export default class EcStudentStates {
                 authorized: [AppVar.EcMapInstituteRole.student, AppVar.EcMapInstituteRole.external]
             },
             resolve: {
-                moduleInit: ['$ocLazyLoad', this.loadModule],
+                moduleInit: ['$ocLazyLoad', this.loadModule]
             }
 
         }
@@ -39,12 +40,13 @@ export default class EcStudentStates {
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-        return this.isStudentLoaded ? this.isStudentLoaded : System.import('app/student/student.js').then((studentModClass: any) => {
-            const studentClass = new studentModClass.default();
-            $ocLl.load(studentClass.studentModule)
-                .then(() => this.isStudentLoaded = true)
-                .catch(() => this.isStudentLoaded = false);
-        });
+        return this.isStudentLoaded ? this.isStudentLoaded : System.import('app/student/student.js')
+            .then((studentModClass: any) => {
+                studentModClass.default.load();
+                $ocLl.load(studentModClass)
+                    .then(() => this.isStudentLoaded = true)
+                    .catch(() => this.isStudentLoaded = false);
+            });
     }
 }
 

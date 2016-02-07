@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Ecat.Models
@@ -25,5 +26,9 @@ namespace Ecat.Models
         public ICollection<EcGroupMember> GroupMembers { get; set; }
         public SpInstrument SpInstrument { get; set; }
         public KcInstrument KcInstrument { get; set; }
+
+        public int? ModifiedById { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public EcPerson ModifiedBy { get; set; }
     }
 }

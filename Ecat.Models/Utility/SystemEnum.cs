@@ -3,20 +3,13 @@
 namespace Ecat.Models
 {
     [Flags]
-    public enum AssessTarget
+    public enum CtxType
     {
         None = 0,
-        Als = 1,
-        Ncoa = 2,
-        Sncoa = 4,
-        Clc = 8,
-        Epmeic = 16,
-        Wg1 = 32,
-        Wg2 = 64,
-        Wg3 = 128,
-        Wg4 = 256,
-        AllEdLevel = Als | Ncoa | Sncoa |  Clc | Epmeic,
-        AllWg = Wg1 | Wg2 | Wg3 | Wg4
+        StudCtx = 1,
+        InstrCtx = 2,
+        UserCtx = 4,
+        All = StudCtx | InstrCtx | UserCtx
     }
 
     public enum AuthHeaderType
@@ -56,32 +49,12 @@ namespace Ecat.Models
         External
     }
 
-    public enum EcGenderType
-    {
-        Unknown = 0,
-        Male,
-        Female,
-        Other
-    }
-
     public enum EcRoleType
     {
         Undefined = 0,
         Course,
         Institute,
         Ecat
-    }
-
-    public enum SpResponseEnum
-    {
-        Undefined = 0,
-        IeAlways,
-        IeUsually,
-        NotDisplayed,
-        EffUsually,
-        EffAlways,
-        HeUsually,
-        HeAlways
     }
 
     public enum GroupInstrPublishStatus

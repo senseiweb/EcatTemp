@@ -19,7 +19,7 @@ using Ecat.Models;
 
 namespace Ecat.Appl.Utilities
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class EcatRolesAuthorizedAttribute : AuthorizationFilterAttribute
     {
         public EcRoles[] Is { get; set; }

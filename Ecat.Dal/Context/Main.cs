@@ -9,6 +9,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using Ecat.Models;
 
@@ -74,39 +75,70 @@ namespace Ecat.Dal.Context
                 mb.Configurations.Add((dynamic) configurationInstance);
             }
 
+            var assembly = Assembly.Load("Ecat.Models");
+
+            foreach (var method in from type in assembly.ExportedTypes
+                let ctxVisAttr = type.GetCustomAttribute<ContextVisibility>()
+                where type.IsClass && ctxVisAttr != null
+                let method = mb.GetType().GetMethod("Entity")
+                select method.MakeGenericMethod(type))
+            {
+                method.Invoke(mb, null);
+            }
+
             base.OnModelCreating(mb);
+        }
 
-          }
-
-        public virtual DbSet<EcAcademy> Academies { get; set; }
-        public virtual DbSet<EcCourse> Courses { get; set; }
-        public virtual DbSet<EcGroup> Groups { get; set; }
-        public virtual DbSet<EcCourseMember> CourseMembers { get; set; }
-        public virtual DbSet<EcGroupMember> GroupMembers { get; set; }
-        public virtual DbSet<SpInstrument> SpInstruments { get; set; }
-        public virtual DbSet<KcInstrument> KcInstruments { get; set; }
-        public virtual DbSet<CogInstrument> CogInstruments { get; set; }
-
+        #region Eval.SelfPeer
         public virtual DbSet<SpInventory> SpInventories { get; set; }
-        public virtual DbSet<KcInventory> KcInventories { get; set; }
-        public virtual DbSet<CogInventory> CogInventories { get; set; }
-
-        public virtual DbSet<CogResponse> CognitiveResponses { get; set; }
-        public virtual DbSet<CogResult> CognitiveResults { get; set; }
-        public virtual DbSet<KcResponse> KnowCheckResponses { get; set; }
-        public virtual DbSet<KcResult> KnowCheckResults { get; set; }
+        public virtual DbSet<SpInstrument> SpInstruments { get; set; }
+        public virtual DbSet<SpStratResponse> StratResponses { get; set; }
+        public virtual DbSet<SpStratResult> StratResults { get; set; }
         public virtual DbSet<SpAssessResponse> SpAssessResponses { get; set; }
         public virtual DbSet<SpAssessResult> SpAssessResults { get; set; }
         public virtual DbSet<SpComment> SpComments { get; set; }
-        public virtual DbSet<SpStratResponse> StratResponses { get; set; }
-        public virtual DbSet<SpStratResult> StratResults { get; set; }
-        public virtual DbSet<EcPerson> Persons { get; set; }
-        public virtual DbSet<EcSecurity> Securities { get; set; }
+        public virtual DbSet<FacSpAssessResponse> FacSpAssessResponses { get; set; }
+        public virtual DbSet<FacSpComment> FacSpComments { get; set; }
+        public virtual DbSet<FacSpStratResponse> FacSpStratResponses { get; set; }
+        #endregion
 
+        #region User
+        public virtual DbSet<EcPerson> People { get; set; }
         public virtual DbSet<EcStudent> Students { get; set; }
-        public virtual DbSet<EcFacilitator> Facilitators { get; set; }
         public virtual DbSet<EcExternal> Externals { get; set; }
+        public virtual DbSet<EcFacilitator> Facilitators { get; set; }
+        public virtual DbSet<EcUserNotify> Notifications { get; set; }
+        public virtual DbSet<EcSecurity> Securities { get; set; }
+        #endregion
 
+        #region School
+        public virtual DbSet<EcAcademy> Academies { get; set; }
+        public virtual DbSet<EcCourse> Courses { get; set; }
+        public virtual DbSet<EcGroup> Groups { get; set; }
+        #endregion
+
+        #region External
+
+        #endregion
+
+        #region Eval.KnowCheck
+        public virtual DbSet<KcInstrument> KcInstruments { get; set; }
+        public virtual DbSet<KcInventory> KcInventories { get; set; }
+        public virtual DbSet<KcResponse> KnowCheckResponses { get; set; }
+        public virtual DbSet<KcResult> KnowCheckResults { get; set; }
+        #endregion
+
+        #region Eval.Cognitive
+        public virtual DbSet<CogInstrument> CogInstruments { get; set; }
+        public virtual DbSet<CogInventory> CogInventories { get; set; }
+        public virtual DbSet<CogResponse> CogResponses { get; set; }
+        public virtual DbSet<CogResult> CogResults { get; set; }
+        #endregion
+
+        #region Common
+        public virtual DbSet<EcCourseMember> CourseMembers { get; set; }
+        public virtual DbSet<EcGroupMember>GroupMembers { get; set; }
+        #endregion
     }
 
     internal sealed class MainConfig : DbMigrationsConfiguration<EcatCtx>

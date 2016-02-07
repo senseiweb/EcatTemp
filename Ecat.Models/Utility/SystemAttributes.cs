@@ -15,4 +15,14 @@ namespace Ecat.Models
             Allowed = allowed;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class , AllowMultiple = true)]
+    public class ContextVisibility : Attribute
+    {
+        public CtxType[] To { get; private set; }
+        public ContextVisibility(CtxType[] ctxType )
+        {
+            To = ctxType;
+        }
+    }
 }

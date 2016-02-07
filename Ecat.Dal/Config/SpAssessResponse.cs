@@ -36,13 +36,9 @@ namespace Ecat.Dal.Config
               .HasForeignKey(p => p.ModifiedById)
               .WillCascadeOnDelete(false);
 
-            HasOptional(p => p.DeletedBy)
-                .WithMany()
-                .HasForeignKey(p => p.DeletedById)
-                .WillCascadeOnDelete(false);
 
             HasRequired(p => p.RelatedInventory)
-                .WithMany(p => p.Responses)
+                .WithMany(p => p.GrpMemberResponses)
                 .WillCascadeOnDelete(false);
         }
     }

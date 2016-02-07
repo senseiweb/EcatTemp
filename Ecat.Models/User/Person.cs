@@ -12,6 +12,7 @@ namespace Ecat.Models
     /// </remarks>
     /// </summary>
     /// 
+    [ContextVisibility(new [] {CtxType.All})]
     [PersonMappedPropValid]
     public class EcPerson : IAuditable
     {

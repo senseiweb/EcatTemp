@@ -10,7 +10,7 @@
 declare module Ecat.Models {
 	interface EcPerson {
 		personId: number;
-		isActived: boolean;
+		isActive: boolean;
 		bbUserId: string;
 		bbUserName: string;
 		lastName: string;
@@ -43,24 +43,7 @@ declare module Ecat.Models {
 		unitFirstSergeantEmail: string;
 		bio: string;
 		person: Ecat.Models.EcPerson;
-	}
-	interface EcFacilitator {
-		personId: number;
-		bio: string;
-		person: Ecat.Models.EcPerson;
-	}
-	interface EcExternal {
-		personId: number;
-		homeStation: string;
-		bio: string;
-		person: Ecat.Models.EcPerson;
-	}
-	interface EcSecurity {
-		personId: number;
-		passwordHash: string;
-		tempPassword: string;
-		passwordExpire: Date;
-		person: Ecat.Models.EcPerson;
+		courseEnrollments: Ecat.Models.EcCourseMember[];
 	}
 	interface EcCourseMember {
 		id: number;
@@ -69,7 +52,7 @@ declare module Ecat.Models {
 		mpCourseRole: string;
 		course: Ecat.Models.EcCourse;
 		person: Ecat.Models.EcPerson;
-		groups: Ecat.Models.EcGroupMember[];
+		groupEnrollments: Ecat.Models.EcGroupMember[];
 		isDeleted: boolean;
 		deletedById: number;
 		deletedDate: Date;
@@ -85,14 +68,14 @@ declare module Ecat.Models {
 		startDate: Date;
 		gradDate: Date;
 		academy: Ecat.Models.EcAcademy;
-		members: Ecat.Models.EcCourseMember[];
+		courseMembers: Ecat.Models.EcCourseMember[];
 		groups: Ecat.Models.EcGroup[];
 	}
 	interface EcAcademy {
 		id: number;
 		name: string;
 		base: string;
-		mpEducationLevel: string;
+		mpEdLevel: string;
 		bbCategoryId: string;
 		courses: Ecat.Models.EcCourse[];
 	}
@@ -107,19 +90,49 @@ declare module Ecat.Models {
 		bbGroupId: string;
 		defaultName: string;
 		maxStrat: number;
-		mpSpStatus: number;
+		mpSpStatus: string;
 		isHomeGroup: boolean;
 		course: Ecat.Models.EcCourse;
-		members: Ecat.Models.EcGroupMember[];
+		facSpReponses: Ecat.Models.FacSpAssessResponse[];
+		facStratResponses: Ecat.Models.FacSpStratResponse[];
+		facSpComments: Ecat.Models.FacSpComment[];
+		groupMembers: Ecat.Models.EcGroupMember[];
 		spInstrument: Ecat.Models.SpInstrument;
 		kcInstrument: Ecat.Models.KcInstrument;
+		modifiedById: number;
+		modifiedDate: Date;
+		modifiedBy: Ecat.Models.EcPerson;
+	}
+	interface FacSpAssessResponse {
+		id: number;
+		assesseeId: number;
+		relatedInventoryId: number;
+		assessResultId: number;
+		assignedGroupId: number;
+		mpSpItemResponse: string;
+		itemResponseScore: number;
+		scoreModelVersion: number;
+		assignedGroup: Ecat.Models.EcGroup;
+		assessee: Ecat.Models.EcGroupMember;
+		relatedInventory: Ecat.Models.SpInventory;
+		assessResult: Ecat.Models.SpAssessResult;
+		isDeleted: boolean;
+		deletedById: number;
+		deletedDate: Date;
+		deletedBy: Ecat.Models.EcPerson;
+		modifiedById: number;
+		modifiedDate: Date;
+		modifiedBy: Ecat.Models.EcPerson;
 	}
 	interface EcGroupMember {
 		id: number;
 		groupId: number;
-		memberId: number;
+		courseEnrollmentId: number;
+		personId: number;
 		group: Ecat.Models.EcGroup;
-		member: Ecat.Models.EcCourseMember;
+		courseEnrollment: Ecat.Models.EcCourseMember;
+		person: Ecat.Models.EcPerson;
+		groupPeers: Ecat.Models.EcGroupMember[];
 		assessorSpResponses: Ecat.Models.SpAssessResponse[];
 		assesseeSpResponses: Ecat.Models.SpAssessResponse[];
 		authorOfComments: Ecat.Models.SpComment[];
@@ -142,17 +155,13 @@ declare module Ecat.Models {
 		assesseeId: number;
 		relatedInventoryId: number;
 		assessResultId: number;
-		mpSpItemResponse: number;
+		mpSpItemResponse: string;
 		itemResponseScore: number;
 		scoreModelVersion: number;
 		assessor: Ecat.Models.EcGroupMember;
 		assessee: Ecat.Models.EcGroupMember;
 		relatedInventory: Ecat.Models.SpInventory;
 		assessResult: Ecat.Models.SpAssessResult;
-		isDeleted: boolean;
-		deletedById: number;
-		deletedDate: Date;
-		deletedBy: Ecat.Models.EcPerson;
 		modifiedById: number;
 		modifiedDate: Date;
 		modifiedBy: Ecat.Models.EcPerson;
@@ -164,26 +173,28 @@ declare module Ecat.Models {
 		displayOrder: number;
 		isScored: boolean;
 		isDisplayed: boolean;
-		selfBehavior: string;
-		peerBehavior: string;
-		instructorBehavior: string;
+		behavior: string;
 		modifiedDate: Date;
 		modifiedBy: Ecat.Models.EcPerson;
 		instrument: Ecat.Models.SpInstrument;
-		responses: Ecat.Models.SpAssessResponse[];
+		grpMemberResponses: Ecat.Models.SpAssessResponse[];
+		facResponses: Ecat.Models.FacSpAssessResponse[];
 	}
 	interface SpInstrument {
 		id: number;
 		modifiedById: number;
+		mpEdLevel: string;
+		groupType: string;
 		isActive: boolean;
 		version: string;
 		selfInstructions: string;
 		peerInstructions: string;
-		instructorInstructions: string;
+		facilitatorInstructions: string;
 		modifiedDate: Date;
 		modifiedBy: Ecat.Models.EcPerson;
 		inventories: Ecat.Models.SpInventory[];
 		assignedGroups: Ecat.Models.EcGroup[];
+		groupTypeList: string[];
 	}
 	interface SpAssessResult {
 		id: number;
@@ -192,24 +203,28 @@ declare module Ecat.Models {
 		mpAssessResult: string;
 		assessResultScore: number;
 		scoreModelVersion: number;
-		responseCount: number;
 		grpMember: Ecat.Models.EcGroupMember;
 		spInstrument: Ecat.Models.SpInstrument;
+		sourceResponses: Ecat.Models.SpAssessResponse[];
+		sourceFacResponses: Ecat.Models.FacSpAssessResponse[];
 	}
 	interface SpComment {
 		id: number;
 		authorId: number;
 		recipientId: number;
+		facFlaggedById: number;
 		mpCommentType: string;
 		commentText: string;
-		mpInstructorFlag: string;
-		mpRecipientFlag: string;
+		mpCommentFlagFac: string;
+		mpCommentFlagAuthor: string;
+		mpCommentFlagRecipient: string;
 		author: Ecat.Models.EcGroupMember;
 		recipient: Ecat.Models.EcGroupMember;
 		isDeleted: boolean;
 		deletedById: number;
 		deletedDate: Date;
 		deletedBy: Ecat.Models.EcPerson;
+		facFlaggedBy: Ecat.Models.EcPerson;
 		modifiedById: number;
 		modifiedDate: Date;
 		modifiedBy: Ecat.Models.EcPerson;
@@ -219,12 +234,10 @@ declare module Ecat.Models {
 		assessorId: number;
 		assesseeId: number;
 		stratPosition: number;
+		stratResultId: number;
 		assessor: Ecat.Models.EcGroupMember;
 		assessee: Ecat.Models.EcGroupMember;
-		isDeleted: boolean;
-		deletedById: number;
-		deletedDate: Date;
-		deletedBy: Ecat.Models.EcPerson;
+		stratResult: Ecat.Models.SpStratResult;
 		modifiedById: number;
 		modifiedDate: Date;
 		modifiedBy: Ecat.Models.EcPerson;
@@ -232,11 +245,44 @@ declare module Ecat.Models {
 	interface SpStratResult {
 		id: number;
 		grpMemberId: number;
+		fac: number;
 		scoreModelVersion: number;
-		stratPosition: number;
+		originalStratPosition: number;
+		finalStratPosition: number;
 		stratScore: number;
-		voteCount: number;
 		grpMember: Ecat.Models.EcGroupMember;
+		facStratResponse: Ecat.Models.FacSpStratResponse;
+		sourceResponses: Ecat.Models.SpStratResponse[];
+	}
+	interface FacSpStratResponse {
+		id: number;
+		assesseeId: number;
+		stratPosition: number;
+		stratResultId: number;
+		assignedGroupId: number;
+		assessee: Ecat.Models.EcGroupMember;
+		stratResult: Ecat.Models.SpStratResult;
+		assignedGroup: Ecat.Models.EcGroup;
+		modifiedById: number;
+		modifiedDate: Date;
+		modifiedBy: Ecat.Models.EcPerson;
+	}
+	interface FacSpComment {
+		id: number;
+		recipientId: number;
+		assignedGroupId: number;
+		commentText: string;
+		mpCommentFlagRecipient: string;
+		recipient: Ecat.Models.EcGroupMember;
+		assignedGroup: Ecat.Models.EcGroup;
+		isDeleted: boolean;
+		deletedById: number;
+		deletedDate: Date;
+		deletedBy: Ecat.Models.EcPerson;
+		facFlaggedBy: Ecat.Models.EcPerson;
+		modifiedById: number;
+		modifiedDate: Date;
+		modifiedBy: Ecat.Models.EcPerson;
 	}
 	interface KcInstrument {
 		id: number;
@@ -255,6 +301,24 @@ declare module Ecat.Models {
 		numberCorrect: number;
 		score: number;
 		instrument: Ecat.Models.KcInstrument;
+	}
+	interface EcFacilitator {
+		personId: number;
+		bio: string;
+		person: Ecat.Models.EcPerson;
+	}
+	interface EcExternal {
+		personId: number;
+		homeStation: string;
+		bio: string;
+		person: Ecat.Models.EcPerson;
+	}
+	interface EcSecurity {
+		personId: number;
+		passwordHash: string;
+		tempPassword: string;
+		passwordExpire: Date;
+		person: Ecat.Models.EcPerson;
 	}
 	interface AcademyCategory {
 		id: string;

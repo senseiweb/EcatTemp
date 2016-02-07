@@ -176,11 +176,11 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="TypeLite, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8cd4b9c9ac23d744, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeLite.1.5.2\lib\net4\TypeLite.dll</HintPath>
+      <HintPath>..\packages\TypeLite.1.6.0\lib\net4\TypeLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TypeLite.Net4, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8cd4b9c9ac23d744, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeLite.1.5.2\lib\net4\TypeLite.Net4.dll</HintPath>
+      <HintPath>..\packages\TypeLite.1.6.0\lib\net4\TypeLite.Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebActivator, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -225,8 +225,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\admin\academy\academy.html" />
-    <Content Include="app\admin\academy\addEdit.html" />
+    <Content Include="app\admin\features\academy\academy.html" />
+    <Content Include="app\admin\features\academy\addEdit.html" />
     <Content Include="app\core\global\appGlobal.html" />
     <Content Include="app\core\global\login.html" />
     <Content Include="app\core\global\main.html" />
@@ -246,13 +246,13 @@
     <Content Include="app\core\userViews\tmpls\profile.facilitator.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.main.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.student.tmpl.html" />
-    <Content Include="app\student\assessments\modals\edit.html" />
-    <Content Include="app\student\assessments\modals\comment.html" />
-    <Content Include="app\student\assessments\modals\add.html" />
-    <Content Include="app\student\assessments\assessments.html" />
-    <Content Include="app\student\assessments\tmpls\assess.assessments.tmpl.html" />
-    <Content Include="app\student\assessments\tmpls\assess.strat.tmpl.html" />
-    <Content Include="app\student\assessments\tmpls\assess.results.tmpl.html" />
+    <Content Include="app\student\features\assessments\modals\edit.html" />
+    <Content Include="app\student\features\assessments\modals\comment.html" />
+    <Content Include="app\student\features\assessments\modals\add.html" />
+    <Content Include="app\student\features\assessments\assessments.html" />
+    <Content Include="app\student\features\assessments\tmpls\assess.assessments.tmpl.html" />
+    <Content Include="app\student\features\assessments\tmpls\assess.strat.tmpl.html" />
+    <Content Include="app\student\features\assessments\tmpls\assess.results.tmpl.html" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\lg.svg" />
@@ -426,7 +426,6 @@
     <Content Include="Content\img\widgets\preview.jpg" />
     <Content Include="Content\styles\ecat.css" />
     <Content Include="Scripts\config\systemCfg.js" />
-    <Content Include="Scripts\config\systemDev.js" />
     <Content Include="Scripts\TypeLite.Net4.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TypeLite.Net4.d.ts</LastGenOutput>
@@ -661,11 +660,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\admin\config\entityExternsions\" />
-    <Folder Include="app\hq\" />
+    <Folder Include="app\facilitator\features\" />
+    <Folder Include="app\facilitator\service\" />
+    <Folder Include="app\hq\service\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\admin\academy\academy.ts" />
-    <TypeScriptCompile Include="app\admin\academy\addEdit.ts" />
+    <TypeScriptCompile Include="app\admin\features\academy\academy.ts" />
+    <TypeScriptCompile Include="app\admin\features\academy\addEdit.ts" />
     <TypeScriptCompile Include="app\admin\admin.ts" />
     <TypeScriptCompile Include="app\admin\service\adminData.ts" />
     <TypeScriptCompile Include="app\app.ts" />
@@ -675,6 +676,7 @@
     <TypeScriptCompile Include="app\core\config\statesCore.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
     <TypeScriptCompile Include="app\core\config\cfgCore.ts" />
+    <TypeScriptCompile Include="app\core\core.ts" />
     <TypeScriptCompile Include="app\core\directives\avatar.ts" />
     <TypeScriptCompile Include="app\core\directives\btnWaves.ts" />
     <TypeScriptCompile Include="app\core\directives\compareTo.ts" />
@@ -704,14 +706,17 @@
     <TypeScriptCompile Include="app\core\service\requestAuthenicator.ts" />
     <TypeScriptCompile Include="app\core\userViews\dashboard.ts" />
     <TypeScriptCompile Include="app\core\userViews\profile.ts" />
-    <TypeScriptCompile Include="app\student\assessments\modals\edit.ts" />
-    <TypeScriptCompile Include="app\student\assessments\modals\comment.ts" />
-    <TypeScriptCompile Include="app\student\assessments\modals\add.ts" />
+    <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
+    <TypeScriptCompile Include="app\facilitator\facilitator.ts" />
+    <TypeScriptCompile Include="app\hq\hq.ts" />
+    <TypeScriptCompile Include="app\student\features\assessments\modals\edit.ts" />
+    <TypeScriptCompile Include="app\student\features\assessments\modals\comment.ts" />
+    <TypeScriptCompile Include="app\student\features\assessments\modals\add.ts" />
     <TypeScriptCompile Include="app\student\config\cfgStudent.ts" />
     <TypeScriptCompile Include="app\student\provider\studCfgProvider.ts" />
     <TypeScriptCompile Include="app\core\service\data\mock.ts" />
     <TypeScriptCompile Include="app\student\service\studentRequestAuth.ts" />
-    <TypeScriptCompile Include="app\student\assessments\assessments.ts" />
+    <TypeScriptCompile Include="app\student\features\assessments\assessments.ts" />
     <TypeScriptCompile Include="app\student\config\statesStudent.ts" />
     <TypeScriptCompile Include="app\student\directives\editAssessQuestion.ts" />
     <TypeScriptCompile Include="app\student\service\studentData.ts" />

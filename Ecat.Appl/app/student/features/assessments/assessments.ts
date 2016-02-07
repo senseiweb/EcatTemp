@@ -1,8 +1,8 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
-import IAssessmentAdd from 'student/assessments/modals/add'
-import IAssessmentEdit from "student/assessments/modals/edit"
-import IComment from "student/assessments/modals/comment"
+import IAssessmentAdd from 'student/features/assessments/modals/add'
+import IAssessmentEdit from "student/features/assessments/modals/edit"
+import IComment from "student/features/assessments/modals/comment"
 //import {EcMapGender as gender} from "appVars"
 
 export default class EcStudentAssessments {
@@ -28,7 +28,6 @@ export default class EcStudentAssessments {
         templateUrl: 'wwwroot/app/student/assessments/modals/edit.html'
 
     };
-
 
     assessmentForm: angular.IFormController;
 

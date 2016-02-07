@@ -1,4 +1,4 @@
-﻿import assessments from 'student/assessments/assessments'
+﻿import assessments from 'student/features/assessments/assessments'
 
 interface IInputMaskScope extends angular.IScope {
     editAssessQuestion: any;

@@ -120,6 +120,10 @@
     <Compile Include="Eval\Instrument.cs" />
     <Compile Include="Eval\Inventory.cs" />
     <Compile Include="External\Group.cs" />
+    <Compile Include="Headquarter\ActionItems.cs" />
+    <Compile Include="Headquarter\Decision.cs" />
+    <Compile Include="Headquarter\Discussion.cs" />
+    <Compile Include="Headquarter\Meeting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="School\Academy.cs" />
     <Compile Include="School\Course.cs" />

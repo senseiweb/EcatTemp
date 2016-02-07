@@ -1,6 +1,6 @@
 ﻿import ICommon from "core/service/common"
 import IDataCtx from "core/service/data/context"
-import IAcademyAe from "admin/academy/addEdit"
+import IAcademyAe from "admin/features/academy/addEdit"
 
 export default class EcSysAdminAcademy{
     static controllerId = 'app.admin.academy';

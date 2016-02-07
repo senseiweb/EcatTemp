@@ -44,12 +44,13 @@ namespace Ecat.Models
 
     public static class EcMapInstituteRole
     {
-        public const string HqAdmin = "BCEE_01_HQ",
-            Designer = "BCEE_02_Designer",
-            CourseAdmin = "BCEE_03_CourseAdmin",
-            Facilitator = "BCEE_04_Facilitator",
-            Student = "BCEE_05_Student",
-            External = "BCEE_06_External";
+        public const string HqAdmin = "ECAT_01_HQ",
+            Designer = "ECAT_02_Designer",
+            CourseAdmin = "ECAT_03_CourseAdmin",
+            Facilitator = "ECAT_04_Facilitator",
+            Student = "ECAT_05_Student",
+            External = "ECAT_06_External",
+            RefOnly = "ECAT_07_RefOnly";
     }
 
     public static class EcMapAssessResult
