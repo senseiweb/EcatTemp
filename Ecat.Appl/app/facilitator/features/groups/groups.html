@@ -22,22 +22,11 @@
             <div class="lv-header-alt clearfix p-b-5">
 
                 <div class="btn-group clearfix m-l-5">
-                    <button type="button" class="btn btn-primary" ng-click="assess.view=0; assess.stratInputVis = false">Assessments</button>
-                    <button type="button" class="btn btn-danger" ng-click="assess.stratInputVis = !assess.stratInputVis">Stratify Group</button>
-
-                    <div class="btn-group dropdown" uib-dropdown>                 
-                        <button class="btn btn-link dropdown-toggle btn-icon-text waves-effect" uib-dropdown-toggle>
-                            <i class="zmdi zmdi-menu"></i>Results
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                            <li>
-                                <a href="javascript:void(0)" ng-click="assess.view=1">Assessment</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" ng-click="assess.view=2">Comments</a>
-                            </li>
-                        </ul>
-                    </div>
+                    
+                    <button type="button" class="btn btn-primary" ng-if="group.isPublishing" ng-click="">Comments</button>
+                    <button type="button" class="btn btn-primary" ng-if="group.results" ng-click="group.view=0; group.results=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Groups</button>
+                    <button type="button" class="btn btn-warning" ng-if="group.isPublishing" ng-click="">Stratify</button>
+                    <button type="button" class="btn btn-danger" ng-if="group.isPublishing" ng-click="">Publish</button>
 
                 </div>
 
@@ -73,16 +62,16 @@
                 </ul>
             </div>
 
-            <div class="lv-body" ng-init="assess.view=0">
-                <div ng-switch="assess.view">
+            <div class="lv-body" ng-init="group.view=0">
+                <div ng-switch="group.view">
                     <div ng-switch-when="0">
-                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.assessments.tmpl.html'"></div>
+                        <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.tmpl.html'"></div>
                     </div>
                     <div ng-switch-when="1">
-                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.results.tmpl.html'"></div>
+                        <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.results.tmpl.html'"></div>
                     </div>
                     <div ng-switch-when="2">
-                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.comments.tmpl.html'"></div>
+                        <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.capstoneresults.tmpl.html'"></div>
                     </div>
                 </div>
 

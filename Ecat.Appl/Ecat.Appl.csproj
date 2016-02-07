@@ -247,6 +247,7 @@
     <Content Include="app\core\userViews\tmpls\profile.main.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.student.tmpl.html" />
     <Content Include="app\facilitator\features\groups\groups.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.tmpl.html" />
     <Content Include="app\student\assessments\modals\edit.html" />
     <Content Include="app\student\assessments\modals\comment.html" />
     <Content Include="app\student\assessments\modals\add.html" />
