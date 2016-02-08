@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Designer.Core.Interface;
+using Ecat.Shared.Core;
 
 namespace Ecat.Designer.Core.Interface
 {

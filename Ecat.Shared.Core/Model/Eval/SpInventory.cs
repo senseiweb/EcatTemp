@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Ecat.Designer.Core.Interface;
 using Ecat.Shared.Core;
 using Ecat.Shared.Core.Model;
+using Ecat.Shared.Core.Model.Eval;
 
 namespace Ecat.Designer.Core.Model
 {

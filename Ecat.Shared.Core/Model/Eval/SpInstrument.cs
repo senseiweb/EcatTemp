@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ecat.Designer.Core.Interface;
-using Ecat.Shared.Core.Model;
+using Ecat.Designer.Core.Model;
 
-namespace Ecat.Designer.Core.Model { 
+namespace Ecat.Shared.Core.Model.Eval { 
 
     public class SpInstrument : IInstrument
     {

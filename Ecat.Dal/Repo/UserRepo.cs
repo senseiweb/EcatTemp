@@ -77,9 +77,9 @@ namespace Ecat.Dal
             return await _wsUser.HasValidateCredentials(bbUiD, bbPass);
         }
 
-        public IQueryable<EcPerson> GetUser => _serverCtx.Persons.AsQueryable();
+        public IQueryable<EcPerson> GetUser => _serverCtx.People.AsQueryable();
 
-        public IQueryable<EcPerson> GetUserWithSecurity => _serverCtx.Persons.Include(u => u.Security).AsQueryable();
+        public IQueryable<EcPerson> GetUserWithSecurity => _serverCtx.People.Include(u => u.Security).AsQueryable();
 
         public async Task<object> GetUserProfile(EcPerson user)
         {
@@ -108,7 +108,7 @@ namespace Ecat.Dal
                 return await _serverCtx.SaveChangesAsync() > 0;
             }
 
-            _serverCtx.Persons.Add(person);
+            _serverCtx.People.Add(person);
 
             if (studentProfileInfo != null)
             {

@@ -40,10 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Interface\IStudentAuditable.cs" />
     <Compile Include="Model\RefOnly\StudInGroup.cs" />
-    <Compile Include="Model\RefOnly\StudSpInventory.cs" />
     <Compile Include="Model\SpAssessResponse.cs" />
     <Compile Include="Model\SpAssessResult.cs" />
     <Compile Include="Model\SpComment.cs" />

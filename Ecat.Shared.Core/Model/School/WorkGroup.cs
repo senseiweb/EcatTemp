@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Ecat.Shared.Core.Model.Eval;
 
 namespace Ecat.Shared.Core.Model
 {
     public class WorkGroup  {
         public int Id { get; set; }
-        public int? AssignedSpInstrId { get; set; }
-        public int? AssignedKcInstrId { get; set; }
+        public int AssignedSpInstrId { get; set; }
+        public int AssignedKcInstrId { get; set; }
         public int CourseId { get; set; }
         public string MpCategory { get; set; }
         public string GroupNumber { get; set; }
@@ -21,12 +22,12 @@ namespace Ecat.Shared.Core.Model
         //public ICollection<FacSpAssessResponse> FacSpReponses { get; set; }
         //public ICollection<FacSpStratResponse> FacStratResponses { get; set; }
         //public ICollection<FacSpComment> FacSpComments { get; set; }
-        public ICollection<EcGroupMember> GroupMembers { get; set; }
+        public ICollection<MemberInGroup> GroupMembers { get; set; }
+
         public SpInstrument SpInstrument { get; set; }
-        public KcInstrument KcInstrument { get; set; }
+        //public KcInstrument KcInstrument { get; set; }
 
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public EcPerson ModifiedBy { get; set; }
-    }
+   }
 }

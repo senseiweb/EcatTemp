@@ -83,7 +83,7 @@ namespace Ecat.Appl.Controllers
                 self.MpMilAffiliation = EcMapAffiliation.Unk;
                 self.MpMilComponent = EcMapComponent.Unk;
                 self.MpMilPaygrade = EcMapPaygrade.Unk;
-                self.MpGender = EcGenderType.Unknown.ToString();
+                self.MpGender = EcMapGender.Unk;
                 self.IsRegistrationComplete = false;
             }
 

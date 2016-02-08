@@ -58,7 +58,7 @@
       <Project>{A97AF889-5772-44E6-ACC1-C12D06BC4296}</Project>
       <Name>Ecat.Shared.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.StudentOps.Core\Ecat.Student.Core.csproj">
+    <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">
       <Project>{A2A10AD6-98C5-428B-8FD5-F414D4DC1FC1}</Project>
       <Name>Ecat.Student.Core</Name>
     </ProjectReference>

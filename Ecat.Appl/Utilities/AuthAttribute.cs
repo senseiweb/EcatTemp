@@ -67,7 +67,7 @@ namespace Ecat.Appl.Utilities
 
             using (var ctx = new EcatCtx())
             {
-                user = await ctx.Persons.FindAsync(token, parsedUid);
+                user = await ctx.People.FindAsync(token, parsedUid);
             }
 
             if (user == null)

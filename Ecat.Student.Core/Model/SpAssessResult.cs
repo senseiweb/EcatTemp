@@ -1,4 +1,5 @@
 ﻿using Ecat.Designer.Core.Model;
+using Ecat.Shared.Core.Model.Eval;
 using Ecat.Student.Core.Model.RefOnly;
 
 namespace Ecat.Student.Core.Model

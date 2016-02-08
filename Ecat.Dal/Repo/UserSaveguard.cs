@@ -173,7 +173,7 @@ namespace Ecat.Dal
             var entityInfo = personEntityInfos.Single();
             var self = entityInfo.Entity as EcPerson;
 
-            var existingUser = _serverCtx.Persons.Count(user => user.Email == self.Email);
+            var existingUser = _serverCtx.People.Count(user => user.Email == self.Email);
 
             if (existingUser > 0)
             {
@@ -274,7 +274,7 @@ namespace Ecat.Dal
                     }
                     else
                     {
-                        var user = _serverCtx.Persons.Find(profileEntity.PersonId);
+                        var user = _serverCtx.People.Find(profileEntity.PersonId);
                         user.IsRegistrationComplete = Validator.TryValidateObject(info.Entity, vc, null, true);
                     }
                 }

@@ -44,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IInstrument.cs" />
+    <Compile Include="Interface\IInventory.cs" />
+    <Compile Include="Model\Eval\SpInstrument.cs" />
+    <Compile Include="Model\Eval\SpInventory.cs" />
     <Compile Include="Model\School\Academy.cs" />
     <Compile Include="Model\School\Course.cs" />
     <Compile Include="Model\School\CourseMember.cs" />
