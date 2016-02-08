@@ -2,9 +2,9 @@
 using Ecat.Designer.Core.Model;
 using Ecat.Shared.Core;
 using Ecat.Shared.Core.Model;
-using Ecat.Student.Core.Model.RefOnly;
+using Ecat.Student.Data.Model.RefOnly;
 
-namespace Ecat.Student.Core.Model
+namespace Ecat.Student.Data.Model
 {
     public class SpAssessResponse : IAuditable
     {
@@ -17,8 +17,8 @@ namespace Ecat.Student.Core.Model
         public string MpItemResponse { get; set; }
         public float ItemModelScore { get; set; }   
         public SpInventory InventoryItem { get; set; }
-        public StudInGroup Assessor { get; set; } 
-        public StudInGroup Assessee { get; set; }
+        public MemberInGroup Assessor { get; set; } 
+        public MemberInGroup Assessee { get; set; }
 
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }

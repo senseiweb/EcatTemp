@@ -1,10 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Ecat.Shared.Core;
-using Ecat.Student.Core.Model;
+using Ecat.Student.Data.Model;
 
-namespace Ecat.Student.Data.Config
+namespace Ecat.Shared.DbManager.Configs
 {
     internal class ConfigSpAssessResponse : EntityTypeConfiguration<SpAssessResponse>
     {
@@ -24,7 +29,7 @@ namespace Ecat.Student.Data.Config
 
             HasRequired(p => p.InventoryItem)
                 .WithMany()
-                .HasForeignKey(p=> p.InventoryItemId)
+                .HasForeignKey(p => p.InventoryItemId)
                 .WillCascadeOnDelete(false);
 
             Property(p => p.AssessorId)

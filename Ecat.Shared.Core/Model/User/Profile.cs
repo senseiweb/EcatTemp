@@ -8,7 +8,7 @@ namespace Ecat.Shared.Core.Model
 {
     public abstract class Profile
     {
-        public int Id { get; set; }
+        public int PersonId { get; set; }
         public string Bio { get; set; }
 
     }

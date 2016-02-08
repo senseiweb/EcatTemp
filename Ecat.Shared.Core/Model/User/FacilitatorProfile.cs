@@ -8,5 +8,7 @@ namespace Ecat.Shared.Core.Model
 {
     public class Facilitator: Profile
     {
+        public Person Person { get; set; }
+
     }
 }

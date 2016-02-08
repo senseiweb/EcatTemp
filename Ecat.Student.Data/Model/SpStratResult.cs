@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Ecat.Shared.Core;
 using Ecat.Shared.Core.Model;
 
-namespace Ecat.Student.Core.Model
+namespace Ecat.Student.Data.Model
 {
-    public class SpStratResult
+    public class SpStratResult : IAuditable
     {
         public int Id { get; set; }
         public int GrpMemberId { get; set; }
@@ -18,5 +16,8 @@ namespace Ecat.Student.Core.Model
 
         public Person GrpMember { get; set; }
         public ICollection<SpStratResponse> SourceResponses { get; set; }
+
+        public int? ModifiedById { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

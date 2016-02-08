@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecat.Student.Data", "Ecat.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecat.Student.Test", "Ecat.Student.Test\Ecat.Student.Test.csproj", "{6ED1A1D3-2682-4CFF-89C9-8A533DACBAD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecat.Shared.DbManager", "Ecat.Shared.DbManager\Ecat.Shared.DbManager.csproj", "{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{6ED1A1D3-2682-4CFF-89C9-8A533DACBAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ED1A1D3-2682-4CFF-89C9-8A533DACBAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ED1A1D3-2682-4CFF-89C9-8A533DACBAD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,5 +109,6 @@ Global
 		{A2A10AD6-98C5-428B-8FD5-F414D4DC1FC1} = {3828640F-CD29-4857-9E77-9A3507D58086}
 		{1650E839-98D9-4A41-8A9D-3EA1E13DE350} = {3828640F-CD29-4857-9E77-9A3507D58086}
 		{6ED1A1D3-2682-4CFF-89C9-8A533DACBAD2} = {3828640F-CD29-4857-9E77-9A3507D58086}
+		{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070} = {0A64F2B7-3C00-482F-833E-022750CEDFE4}
 	EndGlobalSection
 EndGlobal

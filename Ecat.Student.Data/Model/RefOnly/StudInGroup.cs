@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Ecat.Shared.Core.Model;
 
-namespace Ecat.Student.Core.Model.RefOnly
+namespace Ecat.Student.Data.Model.RefOnly
 {
     public class StudInGroup
     {

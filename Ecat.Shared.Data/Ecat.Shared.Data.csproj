@@ -57,6 +57,12 @@
   <ItemGroup>
     <Content Include="Ecat Load Tables.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
+      <Project>{1bdca966-e353-47fc-88c4-7c5a53faf125}</Project>
+      <Name>Ecat.Shared.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

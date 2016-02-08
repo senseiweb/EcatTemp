@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecat.Shared.Core.Model
+namespace Ecat.Student.Core.Business
 {
-    public class Student : Profile
+    public class SpAssessment
     {
-        public Person Person { get; set; }
+         
     }
 }

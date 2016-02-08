@@ -46,11 +46,12 @@
   <ItemGroup>
     <Compile Include="Interface\IInstrument.cs" />
     <Compile Include="Interface\IInventory.cs" />
+    <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Model\Eval\SpInstrument.cs" />
     <Compile Include="Model\Eval\SpInventory.cs" />
     <Compile Include="Model\School\Academy.cs" />
     <Compile Include="Model\School\Course.cs" />
-    <Compile Include="Model\School\CourseMember.cs" />
+    <Compile Include="Model\School\MemberInCourse.cs" />
     <Compile Include="Model\School\MemberInGroup.cs" />
     <Compile Include="Model\User\ExternalProfile.cs" />
     <Compile Include="Model\User\FacilitatorProfile.cs" />
@@ -63,9 +64,7 @@
     <Compile Include="Utilities\Interfaces.cs" />
     <Compile Include="Utilities\MpStrings.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\ValueTypes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

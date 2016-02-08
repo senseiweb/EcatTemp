@@ -49,8 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\SpAssessResponse.cs" />
-    <Compile Include="Context.cs" />
+    <Compile Include="Interface\IStudentRepo.cs" />
+    <Compile Include="Interface\IStudOpsContext.cs" />
+    <Compile Include="Model\RefOnly\StudInGroup.cs" />
+    <Compile Include="Model\SpAssessResponse.cs" />
+    <Compile Include="Model\SpAssessResult.cs" />
+    <Compile Include="Model\SpComment.cs" />
+    <Compile Include="Model\SpStratResponse.cs" />
+    <Compile Include="Model\SpStratResult.cs" />
+    <Compile Include="Context\StudentCtx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,16 +69,14 @@
       <Project>{A97AF889-5772-44E6-ACC1-C12D06BC4296}</Project>
       <Name>Ecat.Shared.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">
-      <Project>{A2A10AD6-98C5-428B-8FD5-F414D4DC1FC1}</Project>
-      <Name>Ecat.Student.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Context\Config\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

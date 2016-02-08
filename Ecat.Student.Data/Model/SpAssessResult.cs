@@ -1,8 +1,8 @@
-﻿using Ecat.Designer.Core.Model;
+﻿using Ecat.Shared.Core.Model;
 using Ecat.Shared.Core.Model.Eval;
-using Ecat.Student.Core.Model.RefOnly;
+using Ecat.Student.Data.Model.RefOnly;
 
-namespace Ecat.Student.Core.Model
+namespace Ecat.Student.Data.Model
 {
     public class SpAssessResult
     {
@@ -12,7 +12,7 @@ namespace Ecat.Student.Core.Model
         public string MpSpResult { get; set; }
         public string MpSpResultScore { get; set; }
 
-        public StudInGroup ResultFor { get; set; }
+        public MemberInGroup ResultFor { get; set; }
         public SpInstrument AssignedInstrument { get; set; }
     }
 }

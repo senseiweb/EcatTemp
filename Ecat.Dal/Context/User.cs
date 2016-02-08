@@ -46,24 +46,24 @@ namespace Ecat.Dal.Context
                 .Where(type => type.Name.StartsWith("Ec"))
                 .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
 
-            var props = GetType().GetProperties()
-                .Where(p => p.GetMethod.IsVirtual)
-                .Select(p => p.PropertyType)
-                .Where(p =>
-                {
-                    var attr = p.GetCustomAttributes<ContextVisibility>().SingleOrDefault();
-                    var ctxTypes = attr?.To;
-                    return (attr != null && Array.Exists(ctxTypes, element => element == CtxType.UserCtx);
-                });
+            //var props = GetType().GetProperties()
+            //    .Where(p => p.GetMethod.IsVirtual)
+            //    .Select(p => p.PropertyType)
+            //    .Where(p =>
+            //    {
+            //        var attr = p.GetCustomAttributes<ContextVisibility>().SingleOrDefault();
+            //        var ctxTypes = attr?.To;
+            //        return (attr != null && Array.Exists(ctxTypes, element => element == CtxType.UserCtx);
+            //    });
 
-            foreach (var prop in props)
-            {
-                var type = prop.GenericTypeArguments[0];
-                var ignoreMethod = typeof (MainConfig)
-                    .MakeGenericType(type)
-                    .GetMethod("Ignore")
-                    .MakeGenericMethod(prop);
-            }
+            //foreach (var prop in props)
+            //{
+            //    var type = prop.GenericTypeArguments[0];
+            //    var ignoreMethod = typeof (MainConfig)
+            //        .MakeGenericType(type)
+            //        .GetMethod("Ignore")
+            //        .MakeGenericMethod(prop);
+            //}
             mb.Entity<LoginToken>().HasKey(token => token.PersonId);
 
             mb.Ignore<EcAcademy>();

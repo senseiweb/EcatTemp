@@ -12,8 +12,9 @@ namespace Ecat.Shared.Core
 
     public static class MpTableNames
     {
-        public const string SpAssessResp = "SpStudResponse",    
+        public const string SpAssessResp = "SpStudResponse",
             SpAssessResult = "SpStudResult",
-            GrpMember = "GroupMember";
+            GrpMember = "GroupMember",
+            Person = "Person";
     }
 }

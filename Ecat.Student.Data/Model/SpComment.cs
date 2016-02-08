@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ecat.Shared.Core;
-using Ecat.Student.Core.Model.RefOnly;
+using Ecat.Shared.Core.Model;
+using Ecat.Student.Data.Model.RefOnly;
 
-namespace Ecat.Student.Core.Model
+namespace Ecat.Student.Data.Model
 {
     public class SpComment : ISoftDelete, IAuditable
     {
@@ -20,8 +17,8 @@ namespace Ecat.Student.Core.Model
         public string MpCommentFlagAuthor { get; set; }
         public string MpCommentFlagRecipient { get; set; }
 
-        public StudInGroup Author { get; set; }
-        public StudInGroup Recipient { get; set; }
+        public MemberInGroup Author { get; set; }
+        public MemberInGroup Recipient { get; set; }
 
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }

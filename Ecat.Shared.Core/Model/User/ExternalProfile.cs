@@ -8,5 +8,7 @@ namespace Ecat.Shared.Core.Model
 {
     public class External : Profile
     {
+        public Person Person { get; set; }
+
     }
 }

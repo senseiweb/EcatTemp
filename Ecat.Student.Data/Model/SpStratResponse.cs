@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ecat.Shared.Core;
-using Ecat.Student.Core.Model.RefOnly;
+using Ecat.Shared.Core.Model;
+using Ecat.Student.Data.Model.RefOnly;
 
-namespace Ecat.Student.Core.Model
+namespace Ecat.Student.Data.Model
 {
     public class SpStratResponse : IAuditable
     {
@@ -16,8 +13,8 @@ namespace Ecat.Student.Core.Model
         public int StratPosition { get; set; }
         public int? StratResultId { get; set; }
 
-        public StudInGroup Assessor { get; set; }
-        public StudInGroup Assessee { get; set; }
+        public MemberInGroup Assessor { get; set; }
+        public MemberInGroup Assessee { get; set; }
         public SpStratResult StratResult { get; set; }
 
         public int? ModifiedById { get; set; }
