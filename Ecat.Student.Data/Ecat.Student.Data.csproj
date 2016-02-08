@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
+      <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
+      <Name>Ecat.Shared.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Data\Ecat.Shared.Data.csproj">
       <Project>{A97AF889-5772-44E6-ACC1-C12D06BC4296}</Project>
       <Name>Ecat.Shared.Data</Name>
