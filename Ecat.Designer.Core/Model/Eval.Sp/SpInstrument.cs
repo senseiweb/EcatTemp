@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Ecat.Designer.Core.Interface;
+using Ecat.Shared.Core.Model;
 
-namespace Ecat.Models
-{
-    public class SpInstrument: IInstrument
+namespace Ecat.Designer.Core.Model { 
+
+    public class SpInstrument : IInstrument
     {
         public int Id { get; set; }
         public int? ModifiedById { get; set; }
@@ -17,10 +22,8 @@ namespace Ecat.Models
         public string FacilitatorInstructions { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public EcPerson ModifiedBy { get; set; }
-        public ICollection<SpInventory> Inventories { get; set; }
-        public ICollection<EcGroup> AssignedGroups { get; set; }
+        public ICollection<SpInventory> InventoryCollection { get; set; }
+        public ICollection<WorkGroup> AssignedGroups { get; set; }
         public ICollection<string> GroupTypeList => GroupType?.Split('|');
-
     }
 }
