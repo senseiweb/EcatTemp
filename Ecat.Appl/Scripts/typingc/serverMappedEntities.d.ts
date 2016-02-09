@@ -8,6 +8,21 @@ declare module ecat.entity
         saluatation: string;
     }
 
+    interface GroupMemberClientExtensions {
+        spStatus: {
+            selfAssessComplete: boolean,
+            peersAssessed: number,
+            hEGiven: number,
+            eGiven: number,
+            iEGiven: number,
+            nDGiven: number,
+        }
+    }
+
+    interface GroupClientExtensions {
+        groupSpComplete: boolean;
+    }
+
     interface IEntityExtension {
         entityName: string;
         ctorFunc: Function;
@@ -32,7 +47,7 @@ declare module ecat.entity
 
     interface ICourseMember extends breeze.Entity, Ecat.Models.EcCourseMember{ }
 
-    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember { }
+    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember, GroupMemberClientExtensions { }
 
     interface IStudent extends breeze.Entity, Ecat.Models.EcStudent { }
 
@@ -42,7 +57,7 @@ declare module ecat.entity
 
     interface ISecurity extends breeze.Entity, Ecat.Models.EcSecurity { }
 
-    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember { }
+    interface IGroup extends breeze.Entity, Ecat.Models.EcGroup, GroupClientExtensions { }
 
     interface ICourseMember extends breeze.Entity, Ecat.Models.EcCourseMember { }
    

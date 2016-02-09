@@ -1,0 +1,35 @@
+﻿<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">{{group.name}} Assessment Status</h4>
+    </div>
+    <hr />
+</div>
+
+<div>
+    <table class="table table-hover tableCenterAlign">
+        <thead>
+            <tr>Student</tr>
+            <tr>Self Assessment</tr>
+            <tr>Peer Assessments</tr>
+            <tr>Strats</tr>
+            <tr># of Comments</tr>
+            <tr>Response Aggregates</tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="student in students | orderby: 'name'">
+                <td>{{student.name}}</td>
+                <td ng-if="!student.selfComplete">Incomplete</td>
+                <td ng-if="student.selfComplete">Complete</td>
+                <td ng-if="!student.peerComplete === peersTotal">{{student.peersComplete}}/{{peersTotal}}</td>
+                <td ng-if="student.peerComplete === peersTotal">Complete</td>
+                <td ng-if="!student.stratComplete === peersTotal">{{student.stratComplete}}/{{peersTotal}}</td>
+                <td>{{student.comments}}</td>
+                <td>HE: {{student.hEGiven}} E: {{student.eGiven}} IE: {{student.iEGiven}} ND: {{student.nDGiven}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="viewStatus.close())">Close</button>
+</div>

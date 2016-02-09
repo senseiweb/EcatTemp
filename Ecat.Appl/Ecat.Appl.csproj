@@ -247,6 +247,7 @@
     <Content Include="app\core\userViews\tmpls\profile.main.tmpl.html" />
     <Content Include="app\core\userViews\tmpls\profile.student.tmpl.html" />
     <Content Include="app\facilitator\features\groups\groups.html" />
+    <Content Include="app\facilitator\features\groups\modals\status.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.tmpl.html" />
     <Content Include="app\student\assessments\modals\edit.html" />
     <Content Include="app\student\assessments\modals\comment.html" />
@@ -680,6 +681,8 @@
     <TypeScriptCompile Include="app\appVars.ts" />
     <TypeScriptCompile Include="app\core\config\cfgState.ts" />
     <TypeScriptCompile Include="app\admin\config\statesAdmin.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\group.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\groupMember.ts" />
     <TypeScriptCompile Include="app\core\config\statesCore.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
     <TypeScriptCompile Include="app\core\config\cfgCore.ts" />
@@ -716,6 +719,7 @@
     <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
     <TypeScriptCompile Include="app\facilitator\features\groups\groups.ts" />
     <TypeScriptCompile Include="app\facilitator\facilitator.ts" />
+    <TypeScriptCompile Include="app\facilitator\features\groups\modals\status.ts" />
     <TypeScriptCompile Include="app\facilitator\provider\facCfgProvider.ts" />
     <TypeScriptCompile Include="app\facilitator\service\facilitatorData.ts" />
     <TypeScriptCompile Include="app\student\assessments\modals\edit.ts" />
