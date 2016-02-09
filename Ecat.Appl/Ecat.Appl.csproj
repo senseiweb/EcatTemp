@@ -247,6 +247,12 @@
     <Content Include="app\core\features\userViews\tmpls\profile.main.tmpl.html" />
     <Content Include="app\core\features\userViews\tmpls\profile.student.tmpl.html" />
     <Content Include="app\facilitator\features\groups\groups.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.strat.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.comments.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.capstoneresults.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.assess.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.tmpl.html" />
     <Content Include="app\core\features\assessView\modals\edit.html" />
     <Content Include="app\student\assessments\modals\comment.html" />
