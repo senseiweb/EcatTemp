@@ -1,85 +1,81 @@
-﻿<div class="row">
-    <div class="col-md-12">
-        <div class="text-center">
-            <h3 class="lead">Comments</h3>
-        </div>
-    </div>
-</div>
-
-<div class="card m-b-0" style="min-height: 450px" id="messages-main">
+﻿<div class="card m-b-0" style="min-height: 450px" id="messages-main">
 
     <div class="ms-menu" data-ng-class="{ 'toggled': mactrl.lvMenuStat }">
 
-        <div class="listview lv-user">
+        <div class="ms-block">
+            <div class="dropdown" uib-dropdown="" style="">
+                <a class="btn btn-primary btn-block dropdown-toggle waves-effect" href="" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">flag <i class="caret m-l-5"></i></a>
+
+                <ul class="dropdown-menu dm-icon w-100">
+                    <li><a href=""><i class="zmdi zmdi-email"></i> Messages</a></li>
+                    <li><a href=""><i class="zmdi zmdi-account"></i> Contacts</a></li>
+                    <li><a href=""><i class="zmdi zmdi-format-list-bulleted"> </i>Todo Lists</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="listview lv-user ecat-messages">
 
             <div class="lv-item media">
-                <div class="lv-avatar bgm-red pull-left">aw</div>
+                <div class="lv-avatar pull-left">aw</div>
                 <div class="media-body">
                     <div class="lv-title">Ann Watkinson</div>
-                    <div class="lv-small c-red">Negative</div>
                 </div>
             </div>
 
             <div class="lv-item media">
-                <div class="lv-avatar bgm-orange pull-left">m</div>
+                <div class="lv-avatar pull-left">mw</div>
                 <div class="media-body">
                     <div class="lv-title">Marse Walter</div>
-                    <div class="lv-small text-muted">Neutral</div>
                 </div>
             </div>
 
-            <div class="lv-item media bgm-blue active">
-                <div class="lv-avatar bgm-cyan pull-left">s</div>
+            <div class="lv-item media active">
+                <div class="lv-avatar pull-left">sh</div>
                 <div class="media-body">
                     <div class="lv-title">Shark Henry</div>
-                    <div class="lv-small c-green">Positive</div>
                 </div>
             </div>
 
             <div class="lv-item media">
-                <div class="lv-avatar bgm-purple pull-left">p</div>
+                <div class="lv-avatar pull-left">pv</div>
                 <div class="media-body">
                     <div class="lv-title">Paul Van Dack</div>
-                    <div class="lv-small text-muted">Neutral</div>
                 </div>
             </div>
 
         </div>
 
     </div>
-    <div class="ms-menu p-r-100">
+    <div class="ms-menu" style="left: 240px; width: 200px">
 
         <div class="listview lv-user">
 
             <div class="lv-item media">
-                <div class="lv-avatar bgm-red pull-left">aw</div>
                 <div class="media-body">
                     <div class="lv-title">Ann Watkinson</div>
-                    <div class="lv-small c-red">Negative</div>
+                    <div class="lv-small">Negative</div>
                 </div>
             </div>
 
             <div class="lv-item media">
-                <div class="lv-avatar bgm-orange pull-left">m</div>
                 <div class="media-body">
                     <div class="lv-title">Marse Walter</div>
-                    <div class="lv-small text-muted">Neutral</div>
+                    <div class="lv-small">Neutral</div>
                 </div>
             </div>
 
-            <div class="lv-item media bgm-blue active">
-                <div class="lv-avatar bgm-cyan pull-left">s</div>
+            <div class="lv-item media active">
                 <div class="media-body">
                     <div class="lv-title">Shark Henry</div>
-                    <div class="lv-small c-green">Positive</div>
+                    <div class="lv-small">Positive</div>
                 </div>
             </div>
 
             <div class="lv-item media">
-                <div class="lv-avatar bgm-purple pull-left">p</div>
                 <div class="media-body">
                     <div class="lv-title">Paul Van Dack</div>
-                    <div class="lv-small text-muted">Neutral</div>
+                    <div class="lv-small">Neutral</div>
                 </div>
             </div>
 
@@ -88,9 +84,9 @@
     </div>
 
     <div class="ms-body">
-        <div class="listview lv-message">
+        <div class="listview lv-message" style="margin-left: 200px">
 
-            <div class="lv-body">
+            <div class="lv-body" >
                 <div class="lv-item media">
                     <div class="media-body f-14">
 

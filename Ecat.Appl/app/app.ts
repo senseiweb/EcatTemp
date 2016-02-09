@@ -30,6 +30,7 @@ import facilitatorGroups from "facilitator/features/groups/groups"
 import appCntrl from "core/global/appGlobal"
 import assessAdd from "core/features/assessView/modals/add"
 import assessEdit from "core/features/assessView/modals/edit"
+import commentAe from "core/features/assessView/modals/comment"
 //#endregion
 
 //#region Import Module directives
@@ -102,6 +103,7 @@ export default class AppStart {
             .controller(facilitatorGroups.controllerId, facilitatorGroups)
             .controller(assessAdd.controllerId, assessAdd)
             .controller(assessEdit.controllerId, assessEdit)
+            .controller(commentAe.controllerId, commentAe)
             //#endregion
 
             //#region Directives

@@ -148,9 +148,30 @@ body {
 		line-height: 29px;
 
 	}
-}
 
+	#messages-main .ms-menu .ecat-messages {
+		.lv-item {
+			.lv-avatar {
+				background-color: @m-blue;
+			}
+			&.active{
+			background: @m-blue; 
 
+			.lv-avatar {
+				background-color: #fff;
+				color: @m-blue;
+			}
+
+			.lv-title {
+				color: #fff;
+			}
+		
+	   }
+	}
+
+	}
+
+ }
 
 .ta-toolbar {
 	background-color: #F0F0F0;

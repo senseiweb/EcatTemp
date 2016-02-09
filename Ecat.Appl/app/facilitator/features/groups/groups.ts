@@ -1,43 +1,49 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
+import IAssessmentAdd from 'core/features/assessView/modals/add'
+import IAssessmentEdit from 'core/features/assessView/modals/edit'
+import ICommentAe from 'core/features/assessView/modals/comment'
+
 
 export default class EcInstructorGroups {
     static controllerId = 'app.facilitator.features.groups';
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
     stratInputVis;
 
-    //addModalOptions: angular.ui.bootstrap.IModalSettings = {
-    //    controller: IAssessmentAdd.controllerId,
-    //    controllerAs: 'assessAdd',
-    //    bindToController: true,
-    //    keyboard: false,
-    //    backdrop: 'static',
-    //    templateUrl: 'wwwroot/app/student/assessments/modals/add.html'
+    addModalOptions: angular.ui.bootstrap.IModalSettings = {
+        controller: IAssessmentAdd.controllerId,
+        controllerAs: 'assessAdd',
+        bindToController: true,
+        keyboard: false,
+        backdrop: 'static',
+        resolve: { mode: () => 'facilitator' },
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/add.html'
 
-    //};
+    };
 
-    //editModalOptions: angular.ui.bootstrap.IModalSettings = {
-    //    controller: IAssessmentEdit.controllerId,
-    //    controllerAs: 'assessEdit',
-    //    bindToController: true,
-    //    keyboard: false,
-    //    backdrop: 'static',
-    //    templateUrl: 'wwwroot/app/student/assessments/modals/edit.html'
+    editModalOptions: angular.ui.bootstrap.IModalSettings = {
+        controller: IAssessmentEdit.controllerId,
+        controllerAs: 'assessEdit',
+        bindToController: true,
+        keyboard: false,
+        backdrop: 'static',
+        resolve: { mode: () => 'facilitator' },
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/edit.html'
 
-    //};
+    };
 
 
-    //assessmentForm: angular.IFormController;
+    assessmentForm: angular.IFormController;
 
-    //commentModalOptions: angular.ui.bootstrap.IModalSettings = {
-    //    controller: IComment.controllerId,
-    //    controllerAs: 'commentAe',
-    //    bindToController: true,
-    //    keyboard: false,
-    //    backdrop: 'static',
-    //    templateUrl: 'wwwroot/app/student/assessments/modals/comment.html'
+    commentModalOptions: angular.ui.bootstrap.IModalSettings = {
+        controller: ICommentAe.controllerId,
+        controllerAs: 'commentAe',
+        bindToController: true,
+        keyboard: false,
+        backdrop: 'static',
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/comment.html'
 
-    //};
+    };
 
     groups: Array<{}>;
 
@@ -78,56 +84,56 @@ export default class EcInstructorGroups {
 
     }
 
-    //addAssessment(): void {
-    //    this.uiModal.open(this.addModalOptions)
-    //        .result
-    //        .then(assessmentSaved)
-    //        .catch(assessmentError);
+    addAssessment(): void {
+        this.uiModal.open(this.addModalOptions)
+            .result
+            .then(assessmentSaved)
+            .catch(assessmentError);
 
-    //    function assessmentSaved() {
+        function assessmentSaved() {
             
-    //    }
+        }
 
-    //    function assessmentError() {
+        function assessmentError() {
             
 
-    //    }
+        }
 
 
-    //}
+    }
 
-    //editAssessment(): void {
-    //    this.uiModal.open(this.editModalOptions)
-    //        .result
-    //        .then(assessmentSaved)
-    //        .catch(assessmentError);
+    editAssessment(): void {
+        this.uiModal.open(this.editModalOptions)
+            .result
+            .then(assessmentSaved)
+            .catch(assessmentError);
 
-    //    function assessmentSaved() {
+        function assessmentSaved() {
 
-    //    }
+        }
 
-    //    function assessmentError() {
+        function assessmentError() {
             
-    //    }
+        }
 
-    //}
+    }
 
-    //addComment(): void {
-    //    this.uiModal.open(this.commentModalOptions)
-    //        .result
-    //        .then(commentSaved)
-    //        .catch(commentError);
+    addComment(): void {
+        this.uiModal.open(this.commentModalOptions)
+            .result
+            .then(commentSaved)
+            .catch(commentError);
 
-    //    function commentSaved() {
+        function commentSaved() {
 
-    //    }
+        }
 
-    //    function commentError() {
+        function commentError() {
 
 
-    //    }
+        }
 
-    //}
+    }
 
 
 }
