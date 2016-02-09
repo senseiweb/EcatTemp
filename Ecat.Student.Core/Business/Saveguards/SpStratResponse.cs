@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ecat.Student.Core.Business.Saveguards
 {
-    public class SpStratResponse
+    public class GuardSpStratResponse
     {
     }
 }

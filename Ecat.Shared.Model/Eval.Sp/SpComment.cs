@@ -1,9 +1,7 @@
 ﻿using System;
 using Ecat.Shared.Core;
-using Ecat.Shared.Core.Model;
-using Ecat.Student.Data.Model.RefOnly;
 
-namespace Ecat.Student.Data.Model
+namespace Ecat.Shared.Model
 {
     public class SpComment : ISoftDelete, IAuditable
     {

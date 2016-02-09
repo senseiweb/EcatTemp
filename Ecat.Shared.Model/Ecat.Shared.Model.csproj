@@ -7,8 +7,8 @@
     <ProjectGuid>{A97AF889-5772-44E6-ACC1-C12D06BC4296}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ecat.Shared.Data</RootNamespace>
-    <AssemblyName>Ecat.Shared.Data</AssemblyName>
+    <RootNamespace>Ecat.Shared.Model</RootNamespace>
+    <AssemblyName>Ecat.Shared.Model</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,17 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseContext.cs" />
+    <Compile Include="Eval.Sp\SpAssessResponse.cs" />
+    <Compile Include="Eval.Sp\SpAssessResult.cs" />
+    <Compile Include="Eval.Sp\SpComment.cs" />
+    <Compile Include="Eval.Sp\SpInstrument.cs" />
+    <Compile Include="Eval.Sp\SpInventory.cs" />
+    <Compile Include="Eval.Sp\SpStratResponse.cs" />
+    <Compile Include="Eval.Sp\SpStratResult.cs" />
+    <Compile Include="School\Academy.cs" />
+    <Compile Include="School\Course.cs" />
+    <Compile Include="School\MemberInCourse.cs" />
+    <Compile Include="School\MemberInGroup.cs" />
+    <Compile Include="School\WorkGroup.cs" />
+    <Compile Include="User\ExternalProfile.cs" />
+    <Compile Include="User\FacilitatorProfile.cs" />
+    <Compile Include="User\Person.cs" />
+    <Compile Include="User\Profile.cs" />
+    <Compile Include="User\Security.cs" />
+    <Compile Include="User\StudentProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Ecat Load Tables.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">

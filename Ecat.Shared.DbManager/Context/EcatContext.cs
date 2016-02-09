@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Ecat.Shared.Core.Model;
-using Ecat.Student.Core.Interface;
-using Ecat.Student.Data.Interface;
-using Ecat.Student.Data.Model;
-using Ecat.Student.Data.Model.RefOnly;
+using Ecat.Shared.;
 
-namespace Ecat.Shared.DbManager
+namespace Ecat.Shared.DbManager.Context
 {
-    public class LordOfTheContext : DbContext, IStudOpsContext
+    public class EcatContext : DbContext
     {
-        public LordOfTheContext() : base("EcatSqlServer")
+        public EcatContext() : base("EcatSqlServer")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<LordOfTheContext, RuleThemAllConfig>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EcatContext, RuleThemAllConfig>());
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
         }
@@ -31,7 +24,6 @@ namespace Ecat.Shared.DbManager
 
             mb.Conventions.Remove<PluralizingTableNameConvention>();
 
-            mb.Ignore<StudInGroup>();
 
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
              .Where(type => type.IsClass && type.Namespace == "Ecat.Shared.DbManager.Configs");
@@ -61,7 +53,7 @@ namespace Ecat.Shared.DbManager
 
     }
 
-    internal sealed class RuleThemAllConfig : DbMigrationsConfiguration<LordOfTheContext>
+    internal sealed class RuleThemAllConfig : DbMigrationsConfiguration<EcatContext>
     {
         public RuleThemAllConfig()
         {

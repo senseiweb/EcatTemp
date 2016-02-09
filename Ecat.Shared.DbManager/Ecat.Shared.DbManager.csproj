@@ -49,12 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\BaseContext.cs" />
     <Compile Include="Configs\Person.cs" />
     <Compile Include="Configs\SpAssessResponse.cs" />
     <Compile Include="Configs\SpAssessResult.cs" />
     <Compile Include="Configs\SpComments.cs" />
     <Compile Include="Configs\SpStratResponse.cs" />
-    <Compile Include="LordOfTheContext.cs" />
+    <Compile Include="Context\EcatContext.cs" />
     <Compile Include="Migrations\201602082154020_Init.cs" />
     <Compile Include="Migrations\201602082154020_Init.Designer.cs">
       <DependentUpon>201602082154020_Init.cs</DependentUpon>
@@ -70,20 +71,18 @@
       <Project>{1bdca966-e353-47fc-88c4-7c5a53faf125}</Project>
       <Name>Ecat.Shared.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.Shared.Data\Ecat.Shared.Data.csproj">
-      <Project>{a97af889-5772-44e6-acc1-c12d06bc4296}</Project>
-      <Name>Ecat.Shared.Data</Name>
+    <ProjectReference Include="..\Ecat.Shared.Model\Ecat.Shared.Model.csproj">
+      <Project>{A97AF889-5772-44E6-ACC1-C12D06BC4296}</Project>
+      <Name>Ecat.Shared.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">
       <Project>{a2a10ad6-98c5-428b-8fd5-f414d4dc1fc1}</Project>
       <Name>Ecat.Student.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.Student.Data\Ecat.Student.Data.csproj">
-      <Project>{1650E839-98D9-4A41-8A9D-3EA1E13DE350}</Project>
-      <Name>Ecat.Student.Data</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Ecat Load Tables.sql" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602082154020_Init.resx">
       <DependentUpon>201602082154020_Init.cs</DependentUpon>

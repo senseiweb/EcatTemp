@@ -53,22 +53,17 @@
     <Compile Include="Business\Saveguards\SpComment.cs" />
     <Compile Include="Business\Saveguards\SpStratResponse.cs" />
     <Compile Include="Business\SpAssessment.cs" />
+    <Compile Include="Data\StudentCtx.cs" />
     <Compile Include="Interface\IStudAssessBl.cs" />
+    <Compile Include="Interface\IStudentRepo.cs" />
+    <Compile Include="Interface\IStudOpsContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repo\StudentRepo.cs" />
+    <Compile Include="Interface\Repo\StudentRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
       <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
       <Name>Ecat.Shared.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ecat.Shared.Data\Ecat.Shared.Data.csproj">
-      <Project>{a97af889-5772-44e6-acc1-c12d06bc4296}</Project>
-      <Name>Ecat.Shared.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ecat.Student.Data\Ecat.Student.Data.csproj">
-      <Project>{1650e839-98d9-4a41-8a9d-3ea1e13de350}</Project>
-      <Name>Ecat.Student.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

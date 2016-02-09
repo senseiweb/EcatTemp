@@ -4,8 +4,8 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ecat.Shared.Core.Model;
-using Ecat.Student.Data.Model;
+using Ecat.Shared.Data.Model;
+using Person = Ecat.Shared.Core.Model.Person;
 
 namespace Ecat.Student.Core.Interface
 {

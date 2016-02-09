@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ecat.Shared.Core;
-using Ecat.Shared.Core.Model;
-using Ecat.Shared.Core.Model.Eval;
 
-namespace Ecat.Designer.Core.Model
+namespace Ecat.Shared.Model
 {
     /// <summary>
     /// Save Rules to consider: If !isDisplayed, ensure that isScored is set to false;

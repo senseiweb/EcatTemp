@@ -4,11 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Ecat.Shared.Data.Model;
 using Ecat.Student.Core.Interface;
 using Ecat.Student.Data;
-using Ecat.Student.Data.Context;
 using Ecat.Student.Data.Interface;
-using Ecat.Student.Data.Model;
 
 namespace Ecat.Student.Core.Repo
 {

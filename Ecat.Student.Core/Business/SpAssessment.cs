@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ecat.Student.Core.Business
 {
-    public class SpAssessment
+    public class GuardSpAssessment
     {
          
     }

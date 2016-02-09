@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ecat.Shared.Core;
-using Ecat.Shared.Core.Model;
 
-namespace Ecat.Student.Data.Model
+namespace Ecat.Shared.Model
 {
     public class SpStratResult : IAuditable
     {

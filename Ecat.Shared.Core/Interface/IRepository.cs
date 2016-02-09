@@ -9,7 +9,7 @@ namespace Ecat.Shared.Core
 {
     public interface IEntityRepository<T>
     {
-        string GetMetadata<U>(): where U Data;
+        string GetMetadata<TContext>() where TContext: new();
         IQueryable<T> All { get; }
         IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProps);
         T FindById(int id);

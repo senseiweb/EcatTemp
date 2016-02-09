@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core;
-using Ecat.Student.Data.Model;
+using Ecat.Shared.Model;
 
 namespace Ecat.Shared.DbManager.Configs
 {

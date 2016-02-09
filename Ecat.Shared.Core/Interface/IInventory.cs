@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ecat.Designer.Core.Interface;
-using Ecat.Shared.Core;
-
-namespace Ecat.Designer.Core.Interface
+﻿namespace Ecat.Shared.Core
 {
     public interface IInventory<T> where T : IInstrument
     {

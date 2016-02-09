@@ -1,8 +1,7 @@
-namespace Ecat.Shared.DbManager
+using System.Data.Entity.Migrations;
+
+namespace Ecat.Shared.DbManager.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class Init : DbMigration
     {
         public override void Up()

@@ -1,9 +1,7 @@
 ﻿using System;
 using Ecat.Shared.Core;
-using Ecat.Shared.Core.Model;
-using Ecat.Student.Data.Model.RefOnly;
 
-namespace Ecat.Student.Data.Model
+namespace Ecat.Shared.Model
 {
     public class SpStratResponse : IAuditable
     {
@@ -13,8 +11,8 @@ namespace Ecat.Student.Data.Model
         public int StratPosition { get; set; }
         public int? StratResultId { get; set; }
 
-        public MemberInGroup Assessor { get; set; }
-        public MemberInGroup Assessee { get; set; }
+        public Core.Model.MemberInGroup Assessor { get; set; }
+        public Core.Model.MemberInGroup Assessee { get; set; }
         public SpStratResult StratResult { get; set; }
 
         public int? ModifiedById { get; set; }
