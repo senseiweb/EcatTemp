@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using Ecat.Shared.Core.Config;
 
 namespace Ecat.Shared.Core
 {
@@ -9,8 +8,12 @@ namespace Ecat.Shared.Core
         {
             Database.SetInitializer<TContext>(null);
         }
-        
-        protected EcatBaseContext(): base("EcatSqlServer") { }
+
+        protected EcatBaseContext() : base("EcatSqlServer")
+        {
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
+        }
 
         protected override void OnModelCreating(DbModelBuilder mb)
         {

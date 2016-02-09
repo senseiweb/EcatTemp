@@ -33,11 +33,6 @@ namespace Ecat.Appl.Controllers
             _studentLogic.User = person;
         }
 
-        //protected override void Initialize(HttpControllerContext controllerContext)
-        //{
-        //    base.Initialize(controllerContext);
-        //}
-
         [HttpGet]
         public string Metadata()
         {

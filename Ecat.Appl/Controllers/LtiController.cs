@@ -32,7 +32,6 @@ namespace Ecat.Appl.Controllers
             return "Pong";
         }
 
-    
         [HttpPost]
         public async Task<ActionResult> Secure()
         {

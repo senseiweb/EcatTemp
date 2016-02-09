@@ -25,9 +25,8 @@ namespace Ecat.Shared.DbManager.Context
 
             mb.Conventions.Remove<PluralizingTableNameConvention>();
 
-
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
-             .Where(type => type.IsClass && type.Namespace == "Ecat.Shared.DbManager.Configs");
+             .Where(type => type.IsClass && type.Namespace == "Ecat.Shared.DbManager.Config");
 
             foreach (var configurationInstance in typesToRegister.Select(Activator.CreateInstance))
             {
@@ -43,7 +42,6 @@ namespace Ecat.Shared.DbManager.Context
 
         #region ModelOwner: Common
         public IDbSet<AcademyCategory> AcademyCategories { get; set; }
-        public IDbSet<WorkGroup> Workgroups { get; set; }
         #endregion
 
         #region ModelOwner: Deisgner

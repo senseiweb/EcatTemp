@@ -461,6 +461,7 @@
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
     <Compile Include="Controllers\MockController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SysAdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,7 +3,7 @@ using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 using Ecat.Shared.Model;
 
-namespace Ecat.Shared.Core.Config
+namespace Ecat.Shared.DbManager.Config
 {
     public class ConfigPerson : EntityTypeConfiguration<Person>
     {

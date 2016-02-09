@@ -49,6 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Person.cs" />
+    <Compile Include="Config\SpAssessResponse.cs" />
+    <Compile Include="Config\SpAssessResult.cs" />
+    <Compile Include="Config\SpComments.cs" />
+    <Compile Include="Config\SpStratResponse.cs" />
     <Compile Include="Context\EcatContext.cs" />
     <Compile Include="Migrations\201602082154020_Init.cs" />
     <Compile Include="Migrations\201602082154020_Init.Designer.cs">

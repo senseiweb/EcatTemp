@@ -54,11 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseContext.cs" />
-    <Compile Include="Config\Person.cs" />
-    <Compile Include="Config\SpAssessResponse.cs" />
-    <Compile Include="Config\SpAssessResult.cs" />
-    <Compile Include="Config\SpComments.cs" />
-    <Compile Include="Config\SpStratResponse.cs" />
     <Compile Include="Interface\IInstrument.cs" />
     <Compile Include="Interface\IInventory.cs" />
     <Compile Include="Interface\IRepository.cs" />

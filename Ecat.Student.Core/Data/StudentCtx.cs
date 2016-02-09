@@ -1,6 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Reflection;
 using Ecat.Shared.Core;
-using Ecat.Shared.Core.Config;
 using Ecat.Shared.Model;
 using Microsoft.Owin.Security.Provider;
 
@@ -11,7 +14,26 @@ namespace Ecat.Student.Core.Data
         protected override void OnModelCreating(DbModelBuilder mb)
         {
             mb.Entity<MemberInGroup>()
-                .ToTable(MpTableNames.Person);
+                .ToTable(MpTableNames.GrpMember);
+
+            mb.Ignore(new List<Type>
+            {
+                typeof (External),
+                typeof (Facilitator),
+                typeof (External),
+                typeof (Security)
+            });
+
+            mb.Entity<Shared.Model.Student>()
+                .HasKey(p => p.PersonId)
+                .HasRequired(p => p.Person)
+                .WithOptional(p => p.Student);
+
+            mb.Entity<Person>()
+                .Ignore(p => p.BbUserId)
+                .Ignore(p => p.IsActive)
+                .Ignore(p => p.ModifiedById)
+                .Ignore(p => p.MpInstituteRole);
 
             mb.Entity<SpInventory>()
                 .Ignore(p => p.IsScored)
@@ -32,9 +54,6 @@ namespace Ecat.Student.Core.Data
             mb.Entity<Course>()
                 .Ignore(p => p.BbCourseId)
                 .Ignore(p => p.Academy);
-
-            mb.Ignore<MemberInCourse>();
-            mb.Configurations.Add(new ConfigPerson());
 
             base.OnModelCreating(mb);
         }
