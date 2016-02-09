@@ -49,12 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\BaseContext.cs" />
-    <Compile Include="Configs\Person.cs" />
-    <Compile Include="Configs\SpAssessResponse.cs" />
-    <Compile Include="Configs\SpAssessResult.cs" />
-    <Compile Include="Configs\SpComments.cs" />
-    <Compile Include="Configs\SpStratResponse.cs" />
     <Compile Include="Context\EcatContext.cs" />
     <Compile Include="Migrations\201602082154020_Init.cs" />
     <Compile Include="Migrations\201602082154020_Init.Designer.cs">
@@ -72,7 +66,7 @@
       <Name>Ecat.Shared.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Model\Ecat.Shared.Model.csproj">
-      <Project>{A97AF889-5772-44E6-ACC1-C12D06BC4296}</Project>
+      <Project>{D7906F63-E656-4B40-9DCB-800819EFF9FF}</Project>
       <Name>Ecat.Shared.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">

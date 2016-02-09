@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Ecat.Models.External
+﻿namespace Ecat.Shared.Model
 {
     public class EcExternalGroup
     {
@@ -12,6 +7,6 @@ namespace Ecat.Models.External
         public string Base { get; set; }
         public string Unit { get; set; }
 
-        public EcPerson Facilitator { get; set; }
+        public Person Facilitator { get; set; }
     }
 }

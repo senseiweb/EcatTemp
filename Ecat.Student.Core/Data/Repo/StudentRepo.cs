@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Ecat.Shared.Data.Model;
+using Ecat.Shared.Model;
 using Ecat.Student.Core.Interface;
-using Ecat.Student.Data;
-using Ecat.Student.Data.Interface;
 
-namespace Ecat.Student.Core.Repo
+namespace Ecat.Student.Core.Data
 {
     public class StudentRepo : IStudRepo
     {
@@ -18,6 +13,11 @@ namespace Ecat.Student.Core.Repo
         public StudentRepo(IStudRepo repo)
         {
             _repo = repo;
+        }
+
+        public string GetMetadata<TContext>() where TContext : new()
+        {
+            throw new NotImplementedException();
         }
 
         public IQueryable<SpAssessResponse> All { get; }

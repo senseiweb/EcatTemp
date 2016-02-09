@@ -1,7 +1,7 @@
 ﻿using Ecat.Shared.Core;
-using Ecat.Shared.Data.Model;
+using Ecat.Shared.Model;
 
-namespace Ecat.Student.Data.Interface
+namespace Ecat.Student.Core.Interface
 {
     public interface IStudRepo : IEntityRepository<SpAssessResponse>
     {

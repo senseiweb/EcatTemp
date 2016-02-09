@@ -1,6 +1,7 @@
 ﻿using System;
+using Ecat.Shared.Core;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
     public class FacSpStratResponse: IAuditable
     {
@@ -10,12 +11,11 @@ namespace Ecat.Models
         public int? StratResultId { get; set; }
         public int AssignedGroupId { get; set; }
 
-        public EcGroupMember Assessee { get; set; }
+        public MemberInGroup Assessee { get; set; }
         public SpStratResult StratResult { get; set; }
-        public EcGroup AssignedGroup { get; set; }
+        public WorkGroup AssignedGroup { get; set; }
 
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public EcPerson ModifiedBy { get; set; }
     }
 }

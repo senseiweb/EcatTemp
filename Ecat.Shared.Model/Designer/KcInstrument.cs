@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
     public class KcInstrument: IInstrument
     {
@@ -14,9 +14,8 @@ namespace Ecat.Models
         public DateTime ModifiedDate { get; set; }
 
         public ICollection<KcResult> Results { get; set; }
-        public ICollection<EcGroup> AssignedGroups { get; set; }
+        public ICollection<WorkGroup> AssignedGroups { get; set; }
 
-        public EcPerson ModifiedBy { get; set; }
 
     }
 }

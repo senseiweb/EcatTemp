@@ -1,6 +1,7 @@
 ﻿using System;
+using Ecat.Shared.Core;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
     public class CogResponse : ISoftDelete
     {
@@ -11,6 +12,5 @@ namespace Ecat.Models
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public EcPerson DeletedBy { get; set; }
     }
 }

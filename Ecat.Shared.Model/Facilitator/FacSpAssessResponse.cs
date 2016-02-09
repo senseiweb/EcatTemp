@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
     public class FacSpAssessResponse
     {
@@ -14,18 +14,16 @@ namespace Ecat.Models
         public float ItemResponseScore { get; set; }
         public int ScoreModelVersion { get; set; }
 
-        public EcGroup AssignedGroup { get; set;  }
-        public EcGroupMember Assessee { get; set; }
+        public WorkGroup AssignedGroup { get; set;  }
+        public MemberInGroup Assessee { get; set; }
         public SpInventory RelatedInventory { get; set; }
         public SpAssessResult AssessResult { get; set; }
 
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public EcPerson DeletedBy { get; set; }
 
         public int ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public EcPerson ModifiedBy { get; set; }
     }
 }

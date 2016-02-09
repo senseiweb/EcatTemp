@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ecat.Shared.Core;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
     public class KcInventory : IInventory<KcInstrument>, IAuditable
     {
@@ -16,7 +17,6 @@ namespace Ecat.Models
         public float ItemWeight { get; set; }
         public string Answer { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public EcPerson ModifiedBy { get; set; }
 
         public KcInstrument Instrument { get; set; }
         public ICollection<KcResponse> Responses { get; set; }

@@ -1,19 +1,12 @@
 ﻿using System.Data.Entity;
-using Ecat.Designer.Core.Model;
 using Ecat.Shared.Core;
-using Ecat.Shared.Core.Model.Eval;
-using Ecat.Shared.Data;
-using Ecat.Shared.Data.Model;
-using Ecat.Student.Data.Interface;
+using Ecat.Shared.Core.Config;
+using Ecat.Shared.Model;
 using Microsoft.Owin.Security.Provider;
-using Course = Ecat.Shared.Core.Model.Course;
-using MemberInCourse = Ecat.Shared.Core.Model.MemberInCourse;
-using MemberInGroup = Ecat.Shared.Core.Model.MemberInGroup;
-using WorkGroup = Ecat.Shared.Core.Model.WorkGroup;
 
 namespace Ecat.Student.Core.Data
 {
-    public class StudContext: BaseContext<StudContext>, IStudOpsContext
+    public class StudContext: EcatBaseContext<StudContext>
     {
         protected override void OnModelCreating(DbModelBuilder mb)
         {
@@ -41,6 +34,7 @@ namespace Ecat.Student.Core.Data
                 .Ignore(p => p.Academy);
 
             mb.Ignore<MemberInCourse>();
+            mb.Configurations.Add(new ConfigPerson());
 
             base.OnModelCreating(mb);
         }

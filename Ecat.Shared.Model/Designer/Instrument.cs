@@ -1,4 +1,6 @@
-﻿namespace Ecat.Models
+﻿using Ecat.Shared.Core;
+
+namespace Ecat.Shared.Model
 {
     public interface IInstrument: IAuditable
     {

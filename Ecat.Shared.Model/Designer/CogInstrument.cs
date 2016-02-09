@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
     public class CogInstrument: IInstrument
     {
@@ -12,7 +12,6 @@ namespace Ecat.Models
         public string CogInstructions { get; set; }
         public string MpCogInstrumentType { get; set; }
         public string CogResultRange { get; set; }
-        public EcPerson ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
     }
 }

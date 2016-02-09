@@ -1,4 +1,4 @@
-﻿namespace Ecat.Models
+﻿namespace Ecat.Shared.Model
 {
     public class KcResult
     {

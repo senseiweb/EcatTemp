@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A97AF889-5772-44E6-ACC1-C12D06BC4296}</ProjectGuid>
+    <ProjectGuid>{D7906F63-E656-4B40-9DCB-800819EFF9FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ecat.Shared.Model</RootNamespace>
@@ -33,6 +33,10 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -60,7 +64,7 @@
     <Compile Include="Facilitator\FacSpAssessResponse.cs" />
     <Compile Include="Facilitator\FacSpComment.cs" />
     <Compile Include="Facilitator\FacSpStratResponse.cs" />
-    <Compile Include="Headquarters\MeetingTaker\ActionItems.cs" />
+    <Compile Include="Headquarters\MeetingTaker\ActionItem.cs" />
     <Compile Include="Headquarters\MeetingTaker\Decision.cs" />
     <Compile Include="Headquarters\MeetingTaker\Discussion.cs" />
     <Compile Include="Headquarters\MeetingTaker\Meeting.cs" />
@@ -85,15 +89,12 @@
     <Compile Include="User\Security.cs" />
     <Compile Include="User\StudentProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Interfaces.cs" />
+    <Compile Include="Utilities\MpStrings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
-      <Project>{1bdca966-e353-47fc-88c4-7c5a53faf125}</Project>
-      <Name>Ecat.Shared.Core</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin\" />

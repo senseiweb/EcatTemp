@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
      //TODO: Check on save check if recipientId has comment if !isDeleted reject save, isDelete allows save operation 
     public class FacSpComment
@@ -11,16 +11,14 @@ namespace Ecat.Models
         public string CommentText { get; set; }
         public string MpCommentFlagRecipient { get; set; }
 
-        public EcGroupMember Recipient { get; set; }
-        public EcGroup AssignedGroup { get; set; }
+        public MemberInGroup Recipient { get; set; }
+        public WorkGroup AssignedGroup { get; set; }
 
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public EcPerson DeletedBy { get; set; }
-        public EcPerson FacFlaggedBy { get; set; }
+        public Person FacFlaggedBy { get; set; }
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public EcPerson ModifiedBy { get; set; }
     }
 }

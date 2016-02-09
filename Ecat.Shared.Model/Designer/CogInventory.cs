@@ -1,6 +1,7 @@
 ﻿using System;
+using Ecat.Shared.Core;
 
-namespace Ecat.Models
+namespace Ecat.Shared.Model
 {
     public class CogInventory : IInventory<CogInstrument>, IAuditable
     {
@@ -17,6 +18,6 @@ namespace Ecat.Models
         public DateTime ModifiedDate { get; set; }
 
         public CogInstrument Instrument { get; set; }
-        public EcPerson ModifiedBy { get; set; }
+        public Person ModifiedBy { get; set; }
     }
 }

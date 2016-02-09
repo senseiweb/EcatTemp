@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Ecat.Models
+﻿namespace Ecat.Shared.Model
 {
     public class AcademyCategory
     {
