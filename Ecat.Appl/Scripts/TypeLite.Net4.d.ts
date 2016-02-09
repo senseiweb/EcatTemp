@@ -10,7 +10,7 @@
 declare module Ecat.Models {
 	interface EcPerson {
 		personId: number;
-		isActived: boolean;
+		isActive: boolean;
 		bbUserId: string;
 		bbUserName: string;
 		lastName: string;
@@ -107,7 +107,7 @@ declare module Ecat.Models {
 		bbGroupId: string;
 		defaultName: string;
 		maxStrat: number;
-		mpSpStatus: number;
+		mpSpStatus: string;
 		isHomeGroup: boolean;
 		course: Ecat.Models.EcCourse;
 		members: Ecat.Models.EcGroupMember[];
@@ -142,7 +142,7 @@ declare module Ecat.Models {
 		assesseeId: number;
 		relatedInventoryId: number;
 		assessResultId: number;
-		mpSpItemResponse: number;
+		mpSpItemResponse: string;
 		itemResponseScore: number;
 		scoreModelVersion: number;
 		assessor: Ecat.Models.EcGroupMember;

@@ -45,5 +45,26 @@ namespace Ecat.Appl.Controllers
             return null;
         }
 
+        [HttpGet]
+        public IQueryable<EcCourseMember> GetFacilitatorCourses(int facId)
+        {
+            return _ctx.CourseMembers.Where(cm => cm.PersonId == facId).Include(cm => cm.Course);
+        }
+
+        [HttpGet]
+        public IQueryable<EcGroup> GetFacilitatorGroups(int courseMemId)
+        {
+            return _ctx.Groups.Where(g => g.CourseId == courseMemId);
+        }
+
+        [HttpGet]
+        public IQueryable<EcGroupMember> GetFacilitatorGroupDetails(int groupId)
+        {
+            return _ctx.GroupMembers.Where(gm => gm.GroupId == groupId)
+                .Include(gm => gm.AssessorSpResponses)
+                .Include(gm => gm.AssessorStratResponse)
+                .Include(gm => gm.AuthorOfComments);
+        }
+
     }
 }

@@ -63,6 +63,16 @@ export class EcMapPaygrade {
     static unk = 'Unknown';
 }
 
+export class EcSpItemResponse {
+    static Iea = "IEA";
+    static Ieu = "IEU";
+    static Nd = "ND";
+    static Eu = "EU";
+    static Ea = "EA";
+    static Heu = "HEU";
+    static Hea = "HEA";
+}
+
 export class EcMapApiResource
 {
     static user = 'User';
