@@ -1,7 +1,7 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import IMockRepo from "core/service/data/mock"
 import * as IGroupMemberExt from "core/config/entityExtension/groupMember"
-import * as IGroupExt from "core/config/entityExtension/group"
+//import * as IGroupExt from "core/config/entityExtension/group"
 import * as AppVar from 'appVars'
 
 interface FaciliatorApiResources extends ecat.IApiResources {
@@ -33,7 +33,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     };
 
     constructor(inj) {
-        super(inj, 'Facilitator Data Service', AppVar.EcMapApiResource.facilitator, [IGroupMemberExt.groupMemberConfig, IGroupExt.groupConfig]);
+        super(inj, 'Facilitator Data Service', AppVar.EcMapApiResource.facilitator, [IGroupMemberExt.groupMemberConfig]);//, IGroupExt.groupConfig]);
         this.loadManager(this.facilitatorApiResources);
     }
 
