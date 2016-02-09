@@ -8,7 +8,7 @@
                     <i class="zmdi zmdi-sort"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li ng-repeat="course in assess.courses track by $index">
+                    <li ng-repeat="course in groups.courses track by $index">
                         <a href="javascript:void(0)">{{course}}</a>
                     </li>
 
@@ -21,14 +21,16 @@
         <div class="listview lv-bordered lv-lg">
             <div class="lv-header-alt clearfix p-b-5">
 
-                <div class="btn-group clearfix m-l-5">
-                    
-                    <button type="button" class="btn btn-primary" ng-if="group.isPublishing" ng-click="">Comments</button>
-                    <button type="button" class="btn btn-primary" ng-if="group.results" ng-click="group.view=0; group.results=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Groups</button>
-                    <button type="button" class="btn btn-warning" ng-if="group.isPublishing" ng-click="">Stratify</button>
-                    <button type="button" class="btn btn-danger" ng-if="group.isPublishing" ng-click="">Publish</button>
+                <div class="btn-group clearfix m-r-25">
+
+                    <button type="button" class="btn btn-primary btn-icon-text" ng-if="groups.isPublishing" ng-click="groups.publishView=0"><i class="zmdi zmdi-check"></i>Comments</button>
+                    <button type="button" class="btn btn-primary" ng-if="groups.back" ng-click="groups.view=0; groups.back=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Groups</button>
+                    <button type="button" class="btn bgm-default" ng-if="groups.isPublishing" ng-click="groups.publishView=1">Stratify</button>
+                    <button type="button" class="btn bgm-default" ng-if="groups.isPublishing" ng-click="groups.publishView=2">Publish</button>
 
                 </div>
+
+                <button type="button" class="btn btn-danger" ng-if="groups.isPublishing" ng-click="">Cancel Publication</button>
 
                 <ul class="lv-actions actions">
 
@@ -62,22 +64,28 @@
                 </ul>
             </div>
 
-            <div class="lv-body" ng-init="group.view=0">
-                <div ng-switch="group.view">
+            <div class="lv-body" ng-init="groups.view=0">
+                <div ng-switch="groups.view">
                     <div ng-switch-when="0">
                         <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.tmpl.html'"></div>
                     </div>
                     <div ng-switch-when="1">
-                        <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.results.tmpl.html'"></div>
+                        <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.assess.tmpl.html'"></div>
                     </div>
                     <div ng-switch-when="2">
+                        <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.publish.tmpl.html'"></div>
+                    </div>
+                    <div ng-switch-when="3">
+                        <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.results.tmpl.html'"></div>
+                    </div>
+                    <div ng-switch-when="4">
                         <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.capstoneresults.tmpl.html'"></div>
                     </div>
                 </div>
 
             </div>
 
-            <div ng-if="assess.stratInputVis" class="lv-footer">
+            <div ng-if="groups.isPublishing" class="p-t-30 p-b-30 text-center">
                 <button type="button" class="btn btn-primary">Save</button>
             </div>
 

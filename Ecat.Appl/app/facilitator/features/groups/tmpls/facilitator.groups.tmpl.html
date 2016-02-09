@@ -4,7 +4,7 @@
             <table class="table table-hover table-vmiddle">
                 <thead>
                 <tr>
-                    <th class="header">Group</th>
+                    <th class="header">Flight</th>
                     <th class="header">Group Type</th>
                     <th class="header">Status</th>
                     <th class="header"></th>
@@ -28,11 +28,11 @@
 
                 </tr>
                 </thead>
-                <tr>
-                    <td>BC1-Flight01</td>
+                <tr ng-repeat="group in groups.groups track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
+                    <td>{{group.flight}}</td>
                     <td>BC1</td>
                     <td>Incomplete</td>
-                    <td>
+                    <td style="width: 475px">
                         <!--<div class="lv-actions actions dropdown" uib-dropdown>
                             <a href uib-dropdown-toggle class="dropdown-toggle">
                                 <i class="zmdi zmdi-more-vert"></i>
@@ -55,11 +55,13 @@
                         </div>-->
 
 
-                        <button type="button" class="btn btn-primary waves-effect">View Status</button>
-                        <button type="button" ng-click="group.isPublishing = true" class="btn btn-primary waves-effect">Publish</button>
+                        <button ng-if="group.isVisible" type="button" class="btn btn-link btn-sm waves-effect">View Status</button>
+                        <button ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true" type="button" class="btn btn-link btn-sm waves-effect">Assess Group</button>
+                        <button ng-if="group.isVisible" ng-click="groups.view=2; groups.isPublishing = true;" type="button" class="btn btn-link btn-sm waves-effect">Publish</button>
 
                     </td>
                 </tr>
+
                 <tr>
                     <td>BC4-Flight01</td>
                     <td>BC4</td>
@@ -87,8 +89,8 @@
                         </div>-->
 
 
-                        <button type="button" ng-click="group.view=1; group.results=true" class="btn btn-primary waves-effect">Group Results</button>
-                        <button type="button" ng-click="group.view=2" class="btn btn-primary waves-effect">Capstone Results</button>
+                        <button type="button" ng-click="groups.view=3; groups.back=true" class="btn btn-primary waves-effect">Group Results</button>
+                        <button type="button" ng-click="groups.view=4; groups.back=true" class="btn btn-primary waves-effect">Capstone Results</button>
 
                     </td>
                 </tr>

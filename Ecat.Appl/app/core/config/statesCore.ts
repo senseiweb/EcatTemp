@@ -24,7 +24,7 @@ export default class EcCoreStates {
         name: `${this.main.name}.dashboard`,
         parent: this.main.name,
         url: '/dashboard',
-        templateUrl: 'wwwroot/app/core/userViews/dashboard.html',
+        templateUrl: 'wwwroot/app/core/features/userViews/dashboard.html',
         controller: 'app.user.dashboard as dashboard'
     }
 
@@ -32,7 +32,7 @@ export default class EcCoreStates {
         name: `${this.main.name}.profile`,
         parent: this.main.name,
         url: '/profile',
-        templateUrl: 'wwwroot/app/core/userViews/profile.html',
+        templateUrl: 'wwwroot/app/core/features/userViews/profile.html',
         controller: 'app.user.profile as profile'
     }
 

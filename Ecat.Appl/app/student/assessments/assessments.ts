@@ -1,7 +1,7 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
-import IAssessmentAdd from 'student/assessments/modals/add'
-import IAssessmentEdit from 'student/assessments/modals/edit'
+import IAssessmentAdd from 'core/features/assessView/modals/add'
+import IAssessmentEdit from 'core/features/assessView/modals/edit'
 import IComment from 'student/assessments/modals/comment'
 //import {EcMapGender as gender} from "appVars"
 
@@ -16,7 +16,8 @@ export default class EcStudentAssessments {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: 'wwwroot/app/student/assessments/modals/add.html'
+        resolve: {mode: () => 'student'},
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/add.html'
 
     };
 
@@ -26,7 +27,8 @@ export default class EcStudentAssessments {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: 'wwwroot/app/student/assessments/modals/edit.html'
+        resolve: { mode: () => 'student' },
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/edit.html'
 
     };
 

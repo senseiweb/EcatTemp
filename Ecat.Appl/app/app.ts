@@ -21,13 +21,15 @@ import coreCfg from 'core/config/cfgCore'
 
 //#region Import Module Controllers
 import mainCntrl from 'core/global/main' 
-import dashboardCntrl from 'core/userViews/dashboard'
-import profileCntrl from 'core/userViews/profile'
+import dashboardCntrl from 'core/features/userViews/dashboard'
+import profileCntrl from 'core/features/userViews/profile'
 import loginCntrl from 'core/global/login'
 import adminAcademy from "admin/academy/academy"
 import studentAssessments from 'student/assessments/assessments'
 import facilitatorGroups from "facilitator/features/groups/groups"
 import appCntrl from "core/global/appGlobal"
+import assessAdd from "core/features/assessView/modals/add"
+import assessEdit from "core/features/assessView/modals/edit"
 //#endregion
 
 //#region Import Module directives
@@ -98,6 +100,8 @@ export default class AppStart {
             .controller(adminAcademy.controllerId, adminAcademy)
             .controller(studentAssessments.controllerId, studentAssessments)
             .controller(facilitatorGroups.controllerId, facilitatorGroups)
+            .controller(assessAdd.controllerId, assessAdd)
+            .controller(assessEdit.controllerId, assessEdit)
             //#endregion
 
             //#region Directives

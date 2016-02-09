@@ -39,6 +39,8 @@ export default class EcInstructorGroups {
 
     //};
 
+    groups: Array<{}>;
+
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Facilitator Groups Loaded');
@@ -46,7 +48,33 @@ export default class EcInstructorGroups {
     }
 
     activate(): void {
-       
+        this.groups = [
+            {
+                id: 1,
+                flight: 'flight 1'
+            }, {
+                id: 2,
+                flight: 'flight 2'
+            }, {
+                id: 3,
+                flight: 'flight 3'
+            }, {
+                id: 4,
+                flight: 'flight 4'
+            }, {
+                id: 5,
+                flight: 'flight 5'
+            }, {
+                id: 6,
+                flight: 'flight 6'
+            }, {
+                id: 7,
+                flight: 'flight 7'
+            }, {
+                id: 8,
+                flight: 'flight 8'
+            },
+        ];
 
     }
 

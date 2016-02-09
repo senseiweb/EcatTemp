@@ -2,11 +2,12 @@
 
 export default class EcStudentAssessmentAddForm {
     static controllerId = 'app.student.assessment.formAdd';
-    static $inject = ['$uibModalInstance',IDataCtx.serviceId];
+    static $inject = ['$uibModalInstance', IDataCtx.serviceId, 'mode'];
 
     nf: angular.IFormController;
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, mode: string) {
+        console.log(mode)
     }
 
     cancel(): void {
