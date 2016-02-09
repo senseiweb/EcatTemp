@@ -6,7 +6,7 @@ using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ecat.Shared.Core.Model;
+using Ecat.Shared.Model;
 
 namespace Ecat.Shared.DbManager.Configs
 {

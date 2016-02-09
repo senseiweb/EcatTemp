@@ -45,13 +45,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Eval.Sp\SpAssessResponse.cs" />
-    <Compile Include="Eval.Sp\SpAssessResult.cs" />
-    <Compile Include="Eval.Sp\SpComment.cs" />
-    <Compile Include="Eval.Sp\SpInstrument.cs" />
-    <Compile Include="Eval.Sp\SpInventory.cs" />
-    <Compile Include="Eval.Sp\SpStratResponse.cs" />
-    <Compile Include="Eval.Sp\SpStratResult.cs" />
+    <Compile Include="Cog\CogResponse.cs" />
+    <Compile Include="Cog\CogResult.cs" />
+    <Compile Include="Common\AcademyCategory.cs" />
+    <Compile Include="Common\Group.cs" />
+    <Compile Include="Common\LoginMetadata.cs" />
+    <Compile Include="Common\Server.UserToken.cs" />
+    <Compile Include="Designer\CogInstrument.cs" />
+    <Compile Include="Designer\CogInventory.cs" />
+    <Compile Include="Designer\Instrument.cs" />
+    <Compile Include="Designer\Inventory.cs" />
+    <Compile Include="Designer\KcInstrument.cs" />
+    <Compile Include="Designer\KcInventory.cs" />
+    <Compile Include="Facilitator\FacSpAssessResponse.cs" />
+    <Compile Include="Facilitator\FacSpComment.cs" />
+    <Compile Include="Facilitator\FacSpStratResponse.cs" />
+    <Compile Include="Headquarters\MeetingTaker\ActionItems.cs" />
+    <Compile Include="Headquarters\MeetingTaker\Decision.cs" />
+    <Compile Include="Headquarters\MeetingTaker\Discussion.cs" />
+    <Compile Include="Headquarters\MeetingTaker\Meeting.cs" />
+    <Compile Include="Student\KcResponse.cs" />
+    <Compile Include="Student\KcResult.cs" />
+    <Compile Include="Student\SpAssessResponse.cs" />
+    <Compile Include="Student\SpAssessResult.cs" />
+    <Compile Include="Student\SpComment.cs" />
+    <Compile Include="Designer\SpInstrument.cs" />
+    <Compile Include="Designer\SpInventory.cs" />
+    <Compile Include="Student\SpStratResponse.cs" />
+    <Compile Include="Student\SpStratResult.cs" />
     <Compile Include="School\Academy.cs" />
     <Compile Include="School\Course.cs" />
     <Compile Include="School\MemberInCourse.cs" />
@@ -73,6 +94,9 @@
       <Project>{1bdca966-e353-47fc-88c4-7c5a53faf125}</Project>
       <Name>Ecat.Shared.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Admin\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

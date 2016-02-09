@@ -1,8 +1,11 @@
 ﻿using System.Data.Entity;
+using Ecat.Designer.Core.Model;
 using Ecat.Shared.Core;
+using Ecat.Shared.Core.Model.Eval;
 using Ecat.Shared.Data;
 using Ecat.Shared.Data.Model;
 using Ecat.Student.Data.Interface;
+using Microsoft.Owin.Security.Provider;
 using Course = Ecat.Shared.Core.Model.Course;
 using MemberInCourse = Ecat.Shared.Core.Model.MemberInCourse;
 using MemberInGroup = Ecat.Shared.Core.Model.MemberInGroup;

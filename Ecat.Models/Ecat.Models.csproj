@@ -140,7 +140,6 @@
     <Compile Include="Utility\SystemInterface.cs" />
     <Compile Include="Utility\SystemMappedProperties.cs" />
     <Compile Include="Utility\Validators\SpAssessResponseValidator.cs" />
-    <Compile Include="xUnitTestModels\Person_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

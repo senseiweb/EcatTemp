@@ -5,7 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Ecat.Shared.;
+using Ecat.Shared.Model;
 
 namespace Ecat.Shared.DbManager.Context
 {
@@ -36,7 +36,7 @@ namespace Ecat.Shared.DbManager.Context
         }
 
         public IDbSet<Person> People { get; set; }
-        public IDbSet<Core.Model.Student> Students { get; set; }
+        public IDbSet<Model.Student> Students { get; set; }
         public IDbSet<External> Externals { get; set; }
         public IDbSet<Facilitator> Facilitators { get; set; }
         public IDbSet<Security> Securities { get; set; }

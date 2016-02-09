@@ -4,7 +4,6 @@ using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ecat.Shared.Data.Model;
 
 namespace Ecat.Shared.DbManager.Configs
 {

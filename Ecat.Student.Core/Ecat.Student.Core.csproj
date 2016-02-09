@@ -38,6 +38,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -49,16 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\Saveguards\SpAssessResponse.cs" />
-    <Compile Include="Business\Saveguards\SpComment.cs" />
-    <Compile Include="Business\Saveguards\SpStratResponse.cs" />
+    <Compile Include="Business\Saveguards\GuardSpAssessResponse.cs" />
+    <Compile Include="Business\Saveguards\GuardSpComment.cs" />
+    <Compile Include="Business\Saveguards\GuardSpStratResponse.cs" />
     <Compile Include="Business\SpAssessment.cs" />
     <Compile Include="Data\StudentCtx.cs" />
     <Compile Include="Interface\IStudAssessBl.cs" />
     <Compile Include="Interface\IStudentRepo.cs" />
-    <Compile Include="Interface\IStudOpsContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interface\Repo\StudentRepo.cs" />
+    <Compile Include="Data\Repo\StudentRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
