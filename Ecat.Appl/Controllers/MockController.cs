@@ -6,11 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using Breeze.ContextProvider;
 using Breeze.WebApi2;
-using Ecat.Dal;
-using Ecat.Dal.Context;
 using System.Data.Entity;
 using System.Runtime.InteropServices;
-using Ecat.Models;
 
 namespace Ecat.Appl.Controllers
 {

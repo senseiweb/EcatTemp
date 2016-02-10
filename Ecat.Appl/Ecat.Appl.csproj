@@ -756,18 +756,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ecat.Bal\Ecat.Bal.csproj">
-      <Project>{ad03ad25-c9c2-4b6b-be07-1d2737ff6674}</Project>
-      <Name>Ecat.Bal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ecat.Dal\Ecat.Dal.csproj">
-      <Project>{0cc1ba3e-2684-46e3-987a-e3db5d27e71b}</Project>
-      <Name>Ecat.Dal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ecat.Models\Ecat.Models.csproj">
-      <Project>{f5484bf1-0bc7-4ae9-8062-da80bf53ca94}</Project>
-      <Name>Ecat.Models</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.DbManager\Ecat.Shared.DbManager.csproj">
       <Project>{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}</Project>
       <Name>Ecat.Shared.DbManager</Name>

@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using Ecat.Models;
 using Ecat.Shared.Model;
 
 namespace Ecat.Appl.Controllers

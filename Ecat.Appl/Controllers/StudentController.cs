@@ -5,59 +5,54 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Breeze.ContextProvider;
 using Breeze.WebApi2;
+using Ecat.Dal;
+using Ecat.Dal.Context;
+using Ecat.Models;
 using Newtonsoft.Json.Linq;
+using System.Net.Http.Formatting;
+using Ecat.Bal;
 using Ecat.Appl.Utilities;
-using Ecat.Shared.Model;
-using Ecat.Student.Core.Interface;
 
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    //[EcatRolesAuthorized(Is = new[] { EcRoles.Student, EcRoles.External})]
+    [EcatRolesAuthorized(Is = new[] { EcRoles.Student, EcRoles.External})]
     public class StudentController : EcatApiController
     {
-        private readonly IStudLogic _studLogic;
+        private readonly IStudentRepo _studentRepo;
 
-        public StudentController(IStudLogic studLogic)
+        public StudentController(IStudentRepo studentRepo)
         {
-            _studLogic = studLogic;
+            _studentRepo = studentRepo;
         }
 
-        internal override void SetUser(Person person, MemberInCourse crseMember = null)
+        internal override void SetUser(EcPerson person)
         {
-            _studLogic.CurrentStudent = person;
-            _studLogic.CurrentCrsMem = crseMember;
-
+            _studentRepo = person;
         }
 
         [HttpGet]
         public string Metadata()
         {
-            return _studLogic.GetMetadata;
+            return _commonRepo.GetMetadata<EcatCtx>();
         }
 
         [HttpGet]
-        public async Task<object> GetCoursesWithInitalGroups()
+        public async Task<object> GetCourses()
         {
-            throw new NotImplementedException();    
+            return await _studentLogic.GetCourses();
         }
 
         [HttpGet]
-        public async Task<object> GetGroupForActiveCourse()
+        public async Task<object> GetAllGroupData(EcCourseMember selectedCourse)
         {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet]
-        public async Task<object> GetAllGroupData()
-        {
-            throw new NotImplementedException();
+            return await _studentLogic.GetAllGroupData(selectedCourse);
         }
 
         [HttpPost]
         public SaveResult SaveChanges(JObject saveBundle)
         {
-            throw new NotImplementedException();
+            return _studentLogic.BzSave(saveBundle);
         }
     }    
 }

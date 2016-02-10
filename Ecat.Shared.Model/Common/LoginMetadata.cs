@@ -8,7 +8,7 @@ namespace Ecat.Shared.Model
         public int PersonId { get; set;  }
         public string AuthToken { get; set; }
         [JsonIgnore]
-        public EcRoles Role { get; set; }
+        public RoleMap Role { get; set; }
         public DateTime TokenExpireWarning { get; set; }
         public DateTime TokenExpire { get; set; }
         public Person Person { get; set; }

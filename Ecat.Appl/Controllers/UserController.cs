@@ -12,8 +12,6 @@ using Breeze.WebApi2;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
 using Ecat.Appl.Utilities;
-using Ecat.Dal.Context;
-using Ecat.Models;
 using Ecat.Shared.Model;
 using Ecat.Users.Core;
 
