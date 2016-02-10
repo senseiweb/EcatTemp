@@ -8,10 +8,10 @@ using Ecat.Shared.Model;
 
 namespace Ecat.Student.Core.Interface
 {
-    public interface IStudAssessBl
+    public interface IStudLogic
     {
-        Person LoggedInStudent { get; set; }
-        string GetStudentMetadata { get; }
-        Task<IList<SpAssessResponse>> GetStudentSpResponses();
+        Person CurrentStudent { get; set; }
+        MemberInCourse CurrentCrsMem { get; set; }
+        string GetMetadata { get; }
     }
 }

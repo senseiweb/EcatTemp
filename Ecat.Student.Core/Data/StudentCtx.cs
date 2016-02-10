@@ -24,6 +24,10 @@ namespace Ecat.Student.Core.Data
                 typeof (Security)
             });
 
+            //mb.Types().Configure(p => p.Ignore("IsDeleted"));
+            mb.Types().Configure(p => p.Ignore("DeletedById"));
+            mb.Types().Configure(p => p.Ignore("DeletedDate"));
+
             mb.Entity<Shared.Model.Student>()
                 .HasKey(p => p.PersonId)
                 .HasRequired(p => p.Person)
@@ -55,10 +59,13 @@ namespace Ecat.Student.Core.Data
                 .Ignore(p => p.BbCourseId)
                 .Ignore(p => p.Academy);
 
+
+
             base.OnModelCreating(mb);
         }
 
         public IDbSet<MemberInGroup> MemberInGroups { get; set; }
+        public IDbSet<MemberInGroup> MemberInCourses { get; set; }
         public IDbSet<SpAssessResponse> SpAssessResponses { get; set; }
         public IDbSet<SpAssessResult> SpAssessResults { get; set; }
         public IDbSet<SpComment> SpComments { get; set; }

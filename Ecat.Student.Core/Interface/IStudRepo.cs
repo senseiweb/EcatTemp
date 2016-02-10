@@ -3,8 +3,8 @@ using Ecat.Shared.Model;
 
 namespace Ecat.Student.Core.Interface
 {
-    public interface IStudRepo : IEntityRepository<SpAssessResponse>
+    public interface IStudRepo
     {
-        
+        string GetMetadata { get; }
     }
 }

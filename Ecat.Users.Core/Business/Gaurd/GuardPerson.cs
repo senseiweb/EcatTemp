@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecat.Student.Core.Business.Saveguards
+namespace Ecat.Users.Core.Business.Gaurd
 {
-    public class GuardSpStratResponse
+    public class GuardPerson
     {
     }
 }

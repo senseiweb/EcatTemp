@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Breeze.ContextProvider, Version=1.5.0.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Breeze.Server.ContextProvider.1.5.4\lib\Breeze.ContextProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Breeze.ContextProvider.EF6, Version=1.5.0.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Breeze.Server.ContextProvider.EF6.1.5.4\lib\Breeze.ContextProvider.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -40,6 +48,10 @@
     </Reference>
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -52,15 +64,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\Saveguards\GuardSpAssessResponse.cs" />
-    <Compile Include="Business\Saveguards\GuardSpComment.cs" />
-    <Compile Include="Business\Saveguards\GuardSpStratResponse.cs" />
+    <Compile Include="Business\Guard\GuardSpAssessResponse.cs" />
+    <Compile Include="Business\Guard\GuardSpComment.cs" />
+    <Compile Include="Business\Guard\GuardSpStratResponse.cs" />
     <Compile Include="Business\SpAssessment.cs" />
+    <Compile Include="Business\StudLogic.cs" />
     <Compile Include="Data\StudentCtx.cs" />
-    <Compile Include="Interface\IStudAssessBl.cs" />
-    <Compile Include="Interface\IStudentRepo.cs" />
+    <Compile Include="Interface\IStudAssessLogic.cs" />
+    <Compile Include="Interface\IStudLogic.cs" />
+    <Compile Include="Interface\IStudRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Repo\StudentRepo.cs" />
+    <Compile Include="Data\Repo\StudRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
@@ -73,7 +87,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

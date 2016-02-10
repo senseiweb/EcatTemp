@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecat.Student.Core.Business.Saveguards
+namespace Ecat.Users.Test
 {
-    public class GuardSpComment
+    public class Class1
     {
     }
 }

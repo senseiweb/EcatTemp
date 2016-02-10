@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecat.Student.Core.Business.Saveguards
+namespace Ecat.Users.Core
 {
-    public static class GuardSpAssessResponse
+    public interface IUserRepo
     {
-
+        string GetMetadata { get;  }
     }
 }

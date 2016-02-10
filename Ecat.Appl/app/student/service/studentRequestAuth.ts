@@ -22,7 +22,7 @@ export default class EcAuthenicator {
            return c.$q.reject('Access to resource forbidden without an active course selected');
         }
 
-        rqCfg.headers['X-ECAT-PVT-AUTH'] = `${c.appVar.AuthHeaderType.CourseMember}: ${crseMemId}`;
+        rqCfg.headers['X-ECAT-PVT-AUTH'] = `${c.appVar.AuthHeaderType.CourseMember}:${crseMemId}`;
 
         return c.$q.resolve(rqCfg);
     }

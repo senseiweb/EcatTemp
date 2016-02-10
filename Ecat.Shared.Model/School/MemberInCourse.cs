@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Ecat.Shared.Core;
+using Newtonsoft.Json;
 
 namespace Ecat.Shared.Model
 {
@@ -15,9 +16,13 @@ namespace Ecat.Shared.Model
         public Person Person { get; set; }
         public ICollection<MemberInGroup> StudGroupEnrollments { get; set; }
 
+        [JsonIgnore]
         public bool IsDeleted { get; set; }
+
+        [JsonIgnore]
         public int? DeletedById { get; set; }
+
+        [JsonIgnore]
         public DateTime? DeletedDate { get; set; }
-        public Person DeletedBy { get; set; }
     }
 }

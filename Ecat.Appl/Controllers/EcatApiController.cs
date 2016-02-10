@@ -7,15 +7,16 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Ecat.Models;
+using Ecat.Shared.Model;
 
 namespace Ecat.Appl.Controllers
 {
 
     public abstract class EcatApiController : ApiController
     {
-        public EcPerson EcUser { get; set; }
+        public Person Person { get; set; }
 
-        internal abstract void SetUser(EcPerson person);
+        internal abstract void SetUser(Person person, MemberInCourse courseMember);
 
         [HttpGet]
         [AllowAnonymous]

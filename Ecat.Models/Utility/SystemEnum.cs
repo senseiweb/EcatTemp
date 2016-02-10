@@ -12,24 +12,7 @@ namespace Ecat.Models
         All = StudCtx | InstrCtx | UserCtx
     }
 
-    public enum AuthHeaderType
-    {
-        Undefined = 0,
-        CourseMember,
-        Facilitator
-    }
-
-    public enum EcRoles
-    {
-        Unknown = 0,
-        SysAdmin,
-        Designer,
-        CrseAdmin,
-        Facilitator,
-        Student,
-        External
-    }
-
+   
     public enum EpmeSchool
     {
         Bcee,

@@ -768,6 +768,22 @@
       <Project>{f5484bf1-0bc7-4ae9-8062-da80bf53ca94}</Project>
       <Name>Ecat.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecat.Shared.DbManager\Ecat.Shared.DbManager.csproj">
+      <Project>{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}</Project>
+      <Name>Ecat.Shared.DbManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecat.Shared.Model\Ecat.Shared.Model.csproj">
+      <Project>{D7906F63-E656-4B40-9DCB-800819EFF9FF}</Project>
+      <Name>Ecat.Shared.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">
+      <Project>{A2A10AD6-98C5-428B-8FD5-F414D4DC1FC1}</Project>
+      <Name>Ecat.Student.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecat.Users.Core\Ecat.Users.Core.csproj">
+      <Project>{a522515a-0b79-473b-a021-79674362500b}</Project>
+      <Name>Ecat.Users.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

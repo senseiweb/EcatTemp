@@ -8,17 +8,14 @@ using System.Web.Http;
 using Breeze.ContextProvider;
 using Breeze.WebApi2;
 using Ecat.Appl.Utilities;
-using Ecat.Bal;
-using Ecat.Dal;
-using Ecat.Dal.Context;
-using Ecat.Models;
+using Ecat.Shared.Model;
 using LtiLibrary.Core.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    [EcatRolesAuthorized(Is = new [] {EcRoles.SysAdmin })]
+    [EcatRolesAuthorized(Is = new [] {RoleMap.SysAdmin})]
     public class SysAdminController : EcatApiController
     {
         private readonly ISysAdminLogic _saLogic;
@@ -30,9 +27,9 @@ namespace Ecat.Appl.Controllers
             _commonRepo = commonRepo;
         }
 
-        internal override void SetUser(EcPerson person)
+        internal override void SetUser(Person person)
         {
-            _saLogic.User = person;
+            _saLogic. = person;
         }
 
         [HttpGet]
