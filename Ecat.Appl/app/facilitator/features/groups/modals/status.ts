@@ -7,17 +7,19 @@ export default class EcFacViewStatusModal {
 
     nf: angular.IFormController;
 
-    group: ecat.entity.IGroup;
+    //group: ecat.entity.IGroup;
+    groupname: string;
     groupMembers: ecat.entity.IGroupMember[] = [];
     //students = [];
     peersTotal: number;
 
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private selectedGroup: ecat.entity.IGroup) {
-        this.group = selectedGroup;
-        this.peersTotal = this.group.members.length - 1;
+        //this.group = selectedGroup;
+        this.groupname = "BC1-Flight01";
+        this.peersTotal = 9;//this.group.members.length - 1;
         const self = this;
 
-        this.dCtx.mock.getFacGroupDetails().then(recGroupDetails);
+        //this.dCtx.mock.getFacGroupDetails().then(recGroupDetails);
 
         function recGroupDetails(data: Array<ecat.entity.IGroupMember>) {
             self.groupMembers = data;

@@ -55,7 +55,7 @@
                         </div>-->
 
 
-                        <button ng-if="group.isVisible" type="button" class="btn btn-link btn-sm waves-effect">View Status</button>
+                        <button ng-if="group.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.viewStatus()">View Status</button>
                         <button ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true" type="button" class="btn btn-link btn-sm waves-effect">Assess Group</button>
                         <button ng-if="group.isVisible" ng-click="groups.view=2; groups.isPublishing = true;" type="button" class="btn btn-link btn-sm waves-effect">Publish</button>
 

@@ -1,10 +1,13 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
+import IViewStatus from 'facilitator/features/groups/modals/status';
 
 export default class EcInstructorGroups {
     static controllerId = 'app.facilitator.features.groups';
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
     stratInputVis;
+
+    //selectedGroup: ecat.entity.IGroup;
 
     //addModalOptions: angular.ui.bootstrap.IModalSettings = {
     //    controller: IAssessmentAdd.controllerId,
@@ -38,6 +41,17 @@ export default class EcInstructorGroups {
     //    templateUrl: 'wwwroot/app/student/assessments/modals/comment.html'
 
     //};
+
+    statusModalOptions: angular.ui.bootstrap.IModalSettings = {
+        controller: IViewStatus.controllerId,
+        controllerAs: 'viewStatus',
+        bindToController: true,
+        keyboard: false,
+        backdrop: 'static',
+        templateUrl: 'wwwroot/app/facilitator/features/groups/modals/status.html',
+        size: 'lg',
+        //resolve: { selectedGroup: () => this.selectedGroup }
+    }
 
     groups: Array<{}>;
 
@@ -76,6 +90,10 @@ export default class EcInstructorGroups {
             },
         ];
 
+    }
+
+    viewStatus(): void {
+        this.uiModal.open(this.statusModalOptions);
     }
 
     //addAssessment(): void {

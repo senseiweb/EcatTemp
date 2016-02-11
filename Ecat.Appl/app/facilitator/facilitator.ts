@@ -6,6 +6,7 @@ import groups from "facilitator/features/groups/groups"
 //import editAssess from "student/assessments/modals/edit"
 import facilitatorCfgProvider from 'facilitator/provider/facCfgProvider'
 import facilitatorConfig from 'facilitator/config/cfgFac'
+import viewStatus from "facilitator/features/groups/modals/status"
 
 
 export default class EcFacilitatorModule {
@@ -15,6 +16,7 @@ export default class EcFacilitatorModule {
         this.facilitatorModule = ng.module(EcFacilitatorModule.moduleId, ['ngTable'])
             .config(facilitatorConfig)
             .provider(facilitatorCfgProvider.providerId, facilitatorCfgProvider)
-            .controller(groups.controllerId, groups);
+            .controller(groups.controllerId, groups)
+            .controller(viewStatus.controllerId, viewStatus);
     }
 }

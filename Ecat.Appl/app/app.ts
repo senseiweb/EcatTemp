@@ -27,6 +27,7 @@ import loginCntrl from 'core/global/login'
 import adminAcademy from "admin/academy/academy"
 import studentAssessments from 'student/assessments/assessments'
 import facilitatorGroups from "facilitator/features/groups/groups"
+import viewStatus from "facilitator/features/groups/modals/status"
 import appCntrl from "core/global/appGlobal"
 import assessAdd from "core/features/assessView/modals/add"
 import assessEdit from "core/features/assessView/modals/edit"
@@ -102,6 +103,7 @@ export default class AppStart {
             .controller(facilitatorGroups.controllerId, facilitatorGroups)
             .controller(assessAdd.controllerId, assessAdd)
             .controller(assessEdit.controllerId, assessEdit)
+            .controller(viewStatus.controllerId, viewStatus)
             //#endregion
 
             //#region Directives
