@@ -4,10 +4,14 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Breeze.ContextProvider;
 using Ecat.Shared.Model;
+using Newtonsoft.Json.Linq;
 
 namespace Ecat.Users.Core.Business
 {
+    using SaveMap = Dictionary<Type, List<EntityInfo>>;
+
     public class UserLogic : IUserLogic
     {
         private readonly IUserRepo _repo;
@@ -21,7 +25,10 @@ namespace Ecat.Users.Core.Business
             _repo = repo;
         }
 
-        public 
+        public SaveResult ClientSave(JObject saveBundle)
+        {
+            return _repo.ClientSaveChanges(saveBundle);
+        }
 
 
     }

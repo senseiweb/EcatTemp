@@ -46,6 +46,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="LtiLibrary.Core, Version=1.5.5621.20039, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LtiLibrary.Core.1.5.4\lib\net45\LtiLibrary.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\ClientSaveLogic.cs" />
     <Compile Include="Business\Gaurd\GuardPerson.cs" />
     <Compile Include="Business\LoginLogic.cs" />
     <Compile Include="Business\UserLogic.cs" />

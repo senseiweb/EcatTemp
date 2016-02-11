@@ -756,6 +756,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
+      <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
+      <Name>Ecat.Shared.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.DbManager\Ecat.Shared.DbManager.csproj">
       <Project>{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}</Project>
       <Name>Ecat.Shared.DbManager</Name>

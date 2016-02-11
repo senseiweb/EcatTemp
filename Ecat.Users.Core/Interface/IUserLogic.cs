@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Breeze.ContextProvider;
 using Ecat.Shared.Model;
+using LtiLibrary.Core.Lti1;
+using Newtonsoft.Json.Linq;
 
 namespace Ecat.Users.Core
 {
     public interface IUserLogic
     {
-        string GetMetadata { get; }
+        SaveResult ClientSave(JObject saveBundle);
         Person CurrentUser { get; set; }
+        string GetMetadata { get; }
+        Task<object> GetProfile();
+        Task<string> ProcessLtiUser(ILtiRequest parsedRequest);
+        Task<bool> UniqueEmailCheck(string email);
     }
 }

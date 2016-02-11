@@ -23,4 +23,13 @@ namespace Ecat.Shared.Model
         Student,
         External
     }
+
+    public enum GuardType
+    {
+        UserGuard,
+        StudentGuard,
+        FacilitatorGuard,
+        CrseAdminGuard,
+        SysAdminGuard
+    }
 }

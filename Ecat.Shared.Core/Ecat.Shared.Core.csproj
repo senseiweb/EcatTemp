@@ -58,6 +58,7 @@
     <Compile Include="Interface\IInventory.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ValidEmailChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Shared.Model\Ecat.Shared.Model.csproj">

@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
+using Ecat.Shared.Model;
+using Ecat.Users.Core.Business;
+using Newtonsoft.Json.Linq;
 
 namespace Ecat.Users.Core
 {
@@ -20,9 +25,16 @@ namespace Ecat.Users.Core
             _efCtx = efCtx;
         }
 
-        public IQueryable FindUser(int id)
+        public async Task<Person> FindUser(int id)
         {
-            return _userCtx
+            return await ((DbSet<Person>) _userCtx.People).FindAsync();
+        }
+
+        public SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser)
+        {
+            var beforeSaveDelegate = new ClientSaveLogic(saveBundle, loggedInUser);
+            _efCtx.BeforeSaveEntitiesDelegate += beforeSaveDelegate;
+            return _efCtx.SaveChanges(saveBundle);
         }
     }
 }

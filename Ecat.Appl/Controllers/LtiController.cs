@@ -41,7 +41,7 @@ namespace Ecat.Appl.Controllers
             }
             catch
             {
-                ViewBag.Uid = 0;
+                ViewBag.User = "Error";
                 return View();
             }
 
@@ -49,6 +49,7 @@ namespace Ecat.Appl.Controllers
 
             ltiRequest.ParseRequest(Request);
 
+            //TODO: Implement this a security measure!
             //var expectedOauthSignature = Request.GenerateOAuthSignature(LtiSecret);
 
             //if (!expectedOauthSignature.Equals(ltiRequest.Signature))
@@ -56,6 +57,10 @@ namespace Ecat.Appl.Controllers
             //    ViewBag.Error = "Unauthorized Signature of Data Call";
             //    return View("Error");
             //};
+
+            ViewBag.User = await _userLogic.ProcessLtiUser(ltiRequest);
+
+            return View();
 
             var self = await _userLogic.GetPerson(0, ltiRequest.LisPersonEmailPrimary);
 

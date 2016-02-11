@@ -12,6 +12,7 @@ using Breeze.WebApi2;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
 using Ecat.Appl.Utilities;
+using Ecat.Shared.Core.Providers;
 using Ecat.Shared.Model;
 using Ecat.Users.Core;
 
@@ -44,27 +45,21 @@ namespace Ecat.Appl.Controllers
         [AllowAnonymous]
         public SaveResult SaveChanges(JObject saveBundle)
         {
-            return _userLogic.SaveClientUser(saveBundle);
+            return _userLogic.ClientSave(saveBundle);
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<bool> CheckUserEmail(string email)
         {
-                return await _userLogic.CheckUniqueEmail(email);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<LoginToken> Login(string userName, string userPin)
-        {
-            return await _userLogic.LoginUser(userName, userPin);
+            var emailChecker = new ValidEmailChecker();
+            return !emailChecker.IsValidEmail(email) && await _userLogic.UniqueEmailCheck(email);
         }
 
         [HttpGet]
         public async Task<object> Profiles()
         {
-            return await _userLogic.GetUserProfile();
+            return await _userLogic.GetProfile();
         }
 
      }
