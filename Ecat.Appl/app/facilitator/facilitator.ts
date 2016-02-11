@@ -1,9 +1,6 @@
 import ng = require('angular')
 import 'ngTable'
 import groups from "facilitator/features/groups/groups"
-//import addAssess from "student/assessments/modals/add"
-//import addComment from "student/assessments/modals/comment"
-//import editAssess from "student/assessments/modals/edit"
 import facilitatorCfgProvider from 'facilitator/provider/facCfgProvider'
 import facilitatorConfig from 'facilitator/config/cfgFac'
 import viewStatus from "facilitator/features/groups/modals/status"

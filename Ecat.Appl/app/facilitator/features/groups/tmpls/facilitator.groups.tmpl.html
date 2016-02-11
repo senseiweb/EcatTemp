@@ -4,6 +4,7 @@
             <table class="table table-hover table-vmiddle">
                 <thead>
                 <tr>
+                    <th class="header">Name</th>
                     <th class="header">Flight</th>
                     <th class="header">Group Type</th>
                     <th class="header">Status</th>
@@ -33,27 +34,6 @@
                     <td>BC1</td>
                     <td>Incomplete</td>
                     <td style="width: 475px">
-                        <!--<div class="lv-actions actions dropdown" uib-dropdown>
-                            <a href uib-dropdown-toggle class="dropdown-toggle">
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a href>Status</a>
-                                </li>
-                                <li>
-                                    <a href>Publish</a>
-                                </li>
-                                <li>
-                                    <a href>Group Results</a>
-                                </li>
-                                <li>
-                                    <a href>Capstone Results</a>
-                                </li>
-                            </ul>
-
-                        </div>-->
-
 
                         <button ng-if="group.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.viewStatus()">View Status</button>
                         <button ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true" type="button" class="btn btn-link btn-sm waves-effect">Assess Group</button>
@@ -67,28 +47,6 @@
                     <td>BC4</td>
                     <td>Complete</td>
                     <td>
-                        <!--<div class="lv-actions actions dropdown" uib-dropdown>
-                            <a href uib-dropdown-toggle class="dropdown-toggle">
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a href>Status</a>
-                                </li>
-                                <li>
-                                    <a href>Publish</a>
-                                </li>
-                                <li>
-                                    <a href>Group Results</a>
-                                </li>
-                                <li>
-                                    <a href>Capstone Results</a>
-                                </li>
-                            </ul>
-
-                        </div>-->
-
-
                         <button type="button" ng-click="groups.view=3; groups.back=true" class="btn btn-primary waves-effect">Group Results</button>
                         <button type="button" ng-click="groups.view=4; groups.back=true" class="btn btn-primary waves-effect">Capstone Results</button>
 

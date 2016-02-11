@@ -2,7 +2,7 @@
 import IDataCtx from 'core/service/data/context';
 import IAssessmentAdd from 'core/features/assessView/modals/add'
 import IAssessmentEdit from 'core/features/assessView/modals/edit'
-import IComment from 'student/assessments/modals/comment'
+import ICommentAe from 'core/features/assessView/modals/comment'
 //import {EcMapGender as gender} from "appVars"
 
 export default class EcStudentAssessments {
@@ -36,12 +36,12 @@ export default class EcStudentAssessments {
     assessmentForm: angular.IFormController;
 
     commentModalOptions: angular.ui.bootstrap.IModalSettings = {
-        controller: IComment.controllerId,
+        controller: ICommentAe.controllerId,
         controllerAs: 'commentAe',
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: 'wwwroot/app/student/assessments/modals/comment.html'
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/comment.html'
 
     };
 

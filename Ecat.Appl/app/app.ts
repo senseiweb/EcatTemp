@@ -1,4 +1,4 @@
-﻿//#region Import Required Modules
+//#region Import Required Modules
 import ng = require('angular')
 import swal from "sweetalert"
 import 'animate'
@@ -31,6 +31,7 @@ import viewStatus from "facilitator/features/groups/modals/status"
 import appCntrl from "core/global/appGlobal"
 import assessAdd from "core/features/assessView/modals/add"
 import assessEdit from "core/features/assessView/modals/edit"
+import commentAe from "core/features/assessView/modals/comment"
 //#endregion
 
 //#region Import Module directives
@@ -104,6 +105,7 @@ export default class AppStart {
             .controller(assessAdd.controllerId, assessAdd)
             .controller(assessEdit.controllerId, assessEdit)
             .controller(viewStatus.controllerId, viewStatus)
+            .controller(commentAe.controllerId, commentAe)
             //#endregion
 
             //#region Directives
