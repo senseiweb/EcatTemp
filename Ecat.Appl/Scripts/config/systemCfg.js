@@ -133,7 +133,8 @@
                 "global": 'app/core/global',
                 "admin": 'app/admin',
                 "student": 'app/student',
-                "facilitator": 'app/facilitator'
+                "facilitator": 'app/facilitator',
+                "courseAdmin": 'app/courseAdmin'
             }
         }
     }

@@ -88,10 +88,8 @@
         <li class="sub-menu" data-ng-class="{ 'active toggled': main.$state.includes('tables') }">
             <a href="" toggle-submenu><i class="zmdi zmdi zmdi-view-list"></i> Course Admin</a>
             <ul>
-                <li><a ui-sref-active="active" data-ui-sref="tables.tables" ng-click="mactrl.sidebarStat($event)">Tables</a></li>
-                <li>
-                    <a ui-sref-active="active" data-ui-sref="tables.data-table" ng-click="mactrl.sidebarStat($event)">Data Tables</a>
-                </li>
+                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.courseAdmin.courses.name}}" ng-click="main.sidebarStat($event)">Courses</a></li>
+                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.courseAdmin.groups.name}}" ng-click="main.sidebarStat($event)">Groups</a></li>
             </ul>
         </li>
         <li class="sub-menu" ng-class="{ 'active toggled': mactrl.$state.includes('form') }">

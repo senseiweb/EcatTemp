@@ -32,6 +32,8 @@ import appCntrl from "core/global/appGlobal"
 import assessAdd from "core/features/assessView/modals/add"
 import assessEdit from "core/features/assessView/modals/edit"
 import commentAe from "core/features/assessView/modals/comment"
+import courseAdminCourses from "courseAdmin/features/courses/courses"
+import courseAdminGroups from "courseAdmin/features/groups/groups"
 //#endregion
 
 //#region Import Module directives
@@ -57,6 +59,7 @@ import userRepo from 'core/service/data/user'
 import studentRepo from 'student/service/studentData'
 import facilitatorRepo from "facilitator/service/facilitatorData"
 import adminRepo from "admin/service/adminData"
+import courseAdminRepo from "courseAdmin/service/courseAdminData"
 import growl from 'core/service/plugin/growl'
 import common from "core/service/common"
 import logger from 'core/service/logger'
@@ -106,6 +109,8 @@ export default class AppStart {
             .controller(assessEdit.controllerId, assessEdit)
             .controller(viewStatus.controllerId, viewStatus)
             .controller(commentAe.controllerId, commentAe)
+            .controller(courseAdminCourses.controllerId, courseAdminCourses)
+            .controller(courseAdminGroups.controllerId, courseAdminGroups)
             //#endregion
 
             //#region Directives
@@ -135,6 +140,7 @@ export default class AppStart {
             .service(adminRepo.serviceId, adminRepo)
             .service(studentRepo.serviceId, studentRepo)
             .service(facilitatorRepo.serviceId, facilitatorRepo)
+            .service(courseAdminRepo.serviceId, courseAdminRepo)
             .service(growl.serviceId, growl)
             .service(common.serviceId, common)
             .service(logger.serviceId, logger)

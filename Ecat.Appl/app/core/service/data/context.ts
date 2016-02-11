@@ -3,6 +3,7 @@ import IUserData from 'core/service/data/user'
 import ILocal from 'core/service/data/local'
 import ISysAdminData from "admin/service/adminData"
 import IStudentData from "student/service/studentData"
+import ICourseAdminData from "courseAdmin/service/courseAdminData"
 import ICommon from "core/service/common"
 import IMock from "core/service/data/mock"
 import * as AppVars from "appVars"
@@ -17,12 +18,14 @@ export default class EcDataContext {
         this.fixUpResourceName(AppVars.EcMapApiResource.mock),
         this.fixUpResourceName(AppVars.EcMapApiResource.user),
         this.fixUpResourceName(AppVars.EcMapApiResource.sa),
-        this.fixUpResourceName(AppVars.EcMapApiResource.student)
+        this.fixUpResourceName(AppVars.EcMapApiResource.student),
+        this.fixUpResourceName(AppVars.EcMapApiResource.courseAdmin)
     ];
     sysAdmin: ISysAdminData;
     student: IStudentData;
     user: IUserData;
     mock: IMock;
+    courseAdmin: ICourseAdminData;
 
     constructor($rs: angular.IRootScopeService, private c: ICommon, emFactory: IEntityFactory) {
         this.repoNames.forEach((name: string) => {

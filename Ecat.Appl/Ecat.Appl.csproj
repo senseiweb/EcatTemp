@@ -246,6 +246,12 @@
     <Content Include="app\core\features\userViews\tmpls\profile.facilitator.tmpl.html" />
     <Content Include="app\core\features\userViews\tmpls\profile.main.tmpl.html" />
     <Content Include="app\core\features\userViews\tmpls\profile.student.tmpl.html" />
+    <Content Include="app\courseAdmin\features\courses\courses.html" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.enrollments.facs.tmpl.html" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.enrollments.studs.tmpl.html" />
+    <Content Include="app\courseAdmin\features\groups\groups.html" />
+    <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.enrollments.tmpl.html" />
+    <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.tmpl.html" />
     <Content Include="app\facilitator\features\groups\groups.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.strat.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.comments.tmpl.html" />
@@ -449,6 +455,7 @@
     <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.js" />
     <Content Include="wwwroot\index.html" />
     <Content Include="Scripts\Manager.ttinclude" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.tmpl.html" />
     <None Include="Properties\PublishProfiles\tofolder.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -471,6 +478,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\CourseAdminController.cs" />
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -723,6 +731,13 @@
     <TypeScriptCompile Include="app\core\service\requestAuthenicator.ts" />
     <TypeScriptCompile Include="app\core\features\userViews\dashboard.ts" />
     <TypeScriptCompile Include="app\core\features\userViews\profile.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\config\cfgcourseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\config\statesCourseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\courseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\features\courses\courses.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\features\groups\groups.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\provider\courseAdminCfgProvider.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\service\courseAdminData.ts" />
     <TypeScriptCompile Include="app\facilitator\config\cfgFac.ts" />
     <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
     <TypeScriptCompile Include="app\facilitator\features\groups\groups.ts" />
