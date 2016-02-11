@@ -46,6 +46,8 @@ export default class EcInstructorGroups {
     };
 
     groups: Array<{}>;
+    results: Array<{}>;
+    questions: Array<{}>;
 
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
@@ -54,6 +56,36 @@ export default class EcInstructorGroups {
     }
 
     activate(): void {
+
+        this.questions = [
+            {
+                id: 1,
+                question: 'controlled emotions and impulses while adapting to changing circumstances',
+                assessAvg: 'Always Highly Effective',
+                counts: 'IE: 4   E: 4   HE: 5'
+            }, {
+                id: 2,
+                question: 'Did awesome things at the expense of others',
+                assessAvg: 'Frequently Effective',
+                counts: 'IE: 4   E: 4   HE: 5'
+            }, {
+                id: 3,
+                question: 'Was load and obnoxious',
+                assessAvg: 'Frequently Effective',
+                counts: 'IE: 4   E: 4   HE: 5'
+            }, {
+                id: 4,
+                question: 'Encouraged others to participate',
+                assessAvg: 'Frequently Effective',
+                counts: 'IE: 4   E: 4   HE: 5'
+            }, {
+                id: 5,
+                question: 'Contributed to the group in a positive way',
+                assessAvg: 'Frequently Effective',
+                counts: 'IE: 4   E: 4   HE: 5'
+            }
+        ];
+
         this.groups = [
             {
                 id: 1,
@@ -79,7 +111,35 @@ export default class EcInstructorGroups {
             }, {
                 id: 8,
                 flight: 'flight 8'
-            },
+            }
+        ];
+
+        this.results = [
+            {
+                student: 'Bob Anderson',
+                self: 'Always Highly Effective',
+                peer: 'Usually Effective',
+                inst: 'Sometimes Effective',
+                strat: '1'
+            }, {
+                student: 'jane Doe',
+                self: 'Always Highly Effective',
+                peer: 'Usually Effective',
+                inst: 'Sometimes Effective',
+                strat: '2'
+            }, {
+                student: 'Bob Anderson',
+                self: 'Always Highly Effective',
+                peer: 'Usually Effective',
+                inst: 'Sometimes Effective',
+                strat: '3'
+            }, {
+                student: 'Bob Anderson',
+                self: 'Always Highly Effective',
+                peer: 'Usually Effective',
+                inst: 'Sometimes Effective',
+                strat: '4'
+            }
         ];
 
     }
