@@ -60,7 +60,7 @@ namespace Ecat.Models
         [UserSg("IsRegistrationComplete", UserRoleType.Admin)]
         public bool IsRegistrationComplete { get; set; }
 
-        [UserSg("MpInstituteRole", UserRoleType.Admin)]
+        [UserSg("MpInstituteRoleId", UserRoleType.Admin)]
         public string MpInstituteRole { get; set; }
 
         public virtual EcStudent Student { get; set; }

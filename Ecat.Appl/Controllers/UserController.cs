@@ -29,7 +29,7 @@ namespace Ecat.Appl.Controllers
             _userLogic = userLogic;
         }
 
-        internal override void SetUser(Person person, MemberInCourse crseMem)
+        internal override void SetVariables(Person person, MemberInCourse crseMem)
         {
             _userLogic.CurrentUser = person;
         }

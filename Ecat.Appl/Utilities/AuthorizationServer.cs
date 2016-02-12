@@ -79,7 +79,7 @@ namespace Ecat.Appl.Utilities
             var person = await _userLogic.LoginUser(context.UserName, context.Password);
 
 
-            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            var identity = UserAuthToken.GetClaimId;
 
             identity.AddClaim(new Claim(ClaimTypes.PrimarySid, person.PersonId.ToString()));
 

@@ -1,9 +1,9 @@
 ﻿namespace Ecat.Shared.Model
 {
-    [SaveGuard(new[] { GuardType.UserGuard })]
+    [UserGuard]
     public class Facilitator: Profile
     {
         public Person Person { get; set; }
-
+        public bool IsCourseAdmin { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Ecat.Student.Core.Business
 {
     public class StudLogic : IStudLogic
     {
-        public Person CurrentStudent { get; set; }
+        public Person Student { get; set; }
         public MemberInCourse CurrentCrsMem { get; set; }
         private readonly IStudRepo _repo;
 

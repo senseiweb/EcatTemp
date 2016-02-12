@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Breeze.ContextProvider.EF6;
 using Ecat.Appl;
+using Ecat.Appl.Utilities;
 using Ecat.Student.Core.Data;
 using Ecat.Users.Core;
 using Ecat.Users.Core.Business;
@@ -71,10 +72,10 @@ namespace Ecat.Appl
 
         public void ConfigureOauth(IAppBuilder app, IKernel kernel)
         {
-            AuthServerOptions.OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
+            AuthServerOptions.OabOptions = new OAuthBearerAuthenticationOptions();
             var serverOptions = new AuthServerOptions(kernel.Get<IUserLogic>());
-            app.UseOAuthAuthorizationServer(serverOptions.GetOptions());
-            app.UseOAuthBearerAuthentication(AuthServerOptions.OAuthBearerOptions);
+            app.UseOAuthAuthorizationServer(serverOptions.OauthOptions);
+            app.UseOAuthBearerAuthentication(AuthServerOptions.OabOptions);
         }
 
         private static StandardKernel CreateKernel()

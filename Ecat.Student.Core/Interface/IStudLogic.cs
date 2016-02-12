@@ -12,9 +12,13 @@ namespace Ecat.Student.Core.Interface
 {
     public interface IStudLogic
     {
-        Person CurrentStudent { get; set; }
-        MemberInCourse CurrentCrsMem { get; set; }
+        Person Student { get; set; }
+        MemberInCourse CrsMem { get; set; }
+        MemberInGroup GrpMem { get; set; }
         SaveResult ClientSave(JObject saveBundle);
+        Task<IEnumerable<Course>> GetCrsesWithLastGrpMem();
+        Task<IEnumerable<WorkGroup>> GetGroupsAndMemForCourse();
+        Task<IEnumerable<MemberInGroup>> GetPeersForGrp();
         string GetMetadata { get; }
     }
 }

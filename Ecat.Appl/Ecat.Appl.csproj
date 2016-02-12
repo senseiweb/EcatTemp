@@ -460,9 +460,8 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
-    <Compile Include="Controllers\MockController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
-    <Compile Include="Controllers\SysAdminController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AuthAttribute.cs" />
@@ -757,6 +756,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ecat.Admin.Core\Ecat.Admin.Core.csproj">
+      <Project>{a5301b78-3fc4-4625-a992-70e525b858c6}</Project>
+      <Name>Ecat.Admin.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
       <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
       <Name>Ecat.Shared.Core</Name>

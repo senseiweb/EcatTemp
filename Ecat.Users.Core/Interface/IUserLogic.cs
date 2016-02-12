@@ -17,7 +17,7 @@ namespace Ecat.Users.Core
         string GetMetadata { get; }
         Task<object> GetProfile();
         Task<Person> LoginUser(string userName, string password);
-        Task<string> ProcessLtiUser(ILtiRequest parsedRequest);
+        Task<Person> ProcessLtiUser(ILtiRequest parsedRequest);
         Task<bool> UniqueEmailCheck(string email);
     }
 }

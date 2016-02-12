@@ -43,10 +43,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ecat.Models\Ecat.Models.csproj">
-      <Project>{F5484BF1-0BC7-4AE9-8062-DA80BF53CA94}</Project>
-      <Name>Ecat.Models</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
       <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
       <Name>Ecat.Shared.Core</Name>

@@ -15,7 +15,9 @@ namespace Ecat.Appl.Controllers
     {
         public Person Person { get; set; }
 
-        internal abstract void SetUser(Person person, MemberInCourse courseMember);
+        internal abstract void SetVariables(Person person,
+            MemberInCourse courseMember = null,
+            MemberInGroup groupMember = null);
 
         [HttpGet]
         [AllowAnonymous]

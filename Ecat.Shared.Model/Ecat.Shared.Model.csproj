@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\SpScoringModel.cs" />
     <Compile Include="Cog\CogResponse.cs" />
     <Compile Include="Cog\CogResult.cs" />
     <Compile Include="Common\AcademyCategory.cs" />

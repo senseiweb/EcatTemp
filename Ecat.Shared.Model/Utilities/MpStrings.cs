@@ -13,7 +13,7 @@
     }
 
 
-    public static class MpInstituteRole
+    public static class MpInstituteRoleId
     {
         public const string HqAdmin = "ECAT_01_HQ",
             Designer = "ECAT_02_Designer",
@@ -21,7 +21,19 @@
             Facilitator = "ECAT_04_Facilitator",
             Student = "ECAT_05_Student",
             External = "ECAT_06_External",
-            RefOnly = "ECAT_07_RefOnly";
+            RefOnly = "ECAT_07_RefOnly",
+            Undefined = "Undefined";
+    }
+
+    public static class MpInstituteRoleName
+    {
+        public const string HqAdmin = "BCEE: ECAT 01 HQ",
+            Designer = "BCEE: ECAT 02 Designer",
+            CourseAdmin = "BCEE: ECAT 03 Course Admin",
+            Facilitator = "BCEE: ECAT 04 Facilitator",
+            Student = "BCEE: ECAT 05 Student",
+            External = "BCEE: ECAT 06 External",
+            RefOnly = "BCEE: ECAT 07 Reference Only";
     }
 
 
@@ -31,22 +43,46 @@
         {
             switch (instituteRole)
             {
-                case MpInstituteRole.HqAdmin:
+                case MpInstituteRoleId.HqAdmin:
                     return RoleMap.SysAdmin;
-                case MpInstituteRole.Designer:
+                case MpInstituteRoleId.Designer:
                     return RoleMap.Designer;
-                case MpInstituteRole.CourseAdmin:
+                case MpInstituteRoleId.CourseAdmin:
                     return RoleMap.Facilitator;
-                case MpInstituteRole.Facilitator:
+                case MpInstituteRoleId.Facilitator:
                     return RoleMap.Facilitator;
-                case MpInstituteRole.Student:
+                case MpInstituteRoleId.Student:
                     return RoleMap.Student;
-                case MpInstituteRole.External:
+                case MpInstituteRoleId.External:
                     return RoleMap.External;
-                case MpInstituteRole.RefOnly:
+                case MpInstituteRoleId.RefOnly:
                     return RoleMap.RefOnly;
                 default:
                     return RoleMap.Unknown;
+            }
+        }
+
+        public static string RoleNameToId(string roleName)
+        {
+            switch (roleName)
+            {
+              case MpInstituteRoleName.HqAdmin:
+                    return MpInstituteRoleId.HqAdmin;
+                case MpInstituteRoleName.CourseAdmin:
+                    return MpInstituteRoleId.CourseAdmin;
+                case MpInstituteRoleName.Designer:
+                    return MpInstituteRoleId.Designer;
+                case MpInstituteRoleName.Facilitator:
+                    return MpInstituteRoleId.Facilitator;
+                case MpInstituteRoleName.Student:
+                    return MpInstituteRoleId.Student;
+                case MpInstituteRoleName.External:
+                    return MpInstituteRoleId.External;
+                case MpInstituteRoleName.RefOnly:
+                    return MpInstituteRoleName.RefOnly;
+               
+                default:
+                 return MpInstituteRoleId.Undefined;
             }
         }
     }

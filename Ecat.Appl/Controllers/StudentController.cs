@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -14,43 +15,47 @@ using Ecat.Student.Core.Interface;
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    [EcatRolesAuthorized(Is = new[] { RoleMap.Student, RoleMap.External})]
+    [EcatRolesAuthorized(Is = new[] { RoleMap.Student})]
     public class StudentController : EcatApiController
     {
-        private readonly IStudRepo _studentRepo;
+        private readonly IStudLogic _studLogic;
 
-        public StudentController(IStudentRepo studentRepo)
+        public StudentController(IStudLogic studLogic)
         {
-            _studentRepo = studentRepo;
+            _studLogic = studLogic;
         }
 
-        internal override void SetUser(Person person, MemberInCourse crseMember)
+        internal override void SetVariables(Person person, 
+            MemberInCourse crseMember = null, 
+            MemberInGroup  grpMember = null)
         {
-            _studentRepo = person;
+            _studLogic.Student = person;
+            _studLogic.CrsMem = crseMember;
+            _studLogic.GrpMem = grpMember;
         }
 
         [HttpGet]
         public string Metadata()
         {
-            return _commonRepo.GetMetadata();
+            return _studLogic.GetMetadata;
         }
 
         [HttpGet]
-        public async Task<object> GetCourses()
+        public async Task<IEnumerable<Course>> GetInitalCourses()
         {
-            return await _studentLogic.GetCourses();
+            return await _studLogic.GetCrsesWithLastGrpMem();
         }
 
         [HttpGet]
-        public async Task<object> GetAllGroupData(EcCourseMember selectedCourse)
+        public async Task<IEnumerable<WorkGroup>> GetCourseGrpMembers()
         {
-            return await _studentLogic.GetAllGroupData(selectedCourse);
+            return await _studLogic.GetGroupsAndMemForCourse();
         }
 
         [HttpPost]
         public SaveResult SaveChanges(JObject saveBundle)
         {
-            return _studentLogic.BzSave(saveBundle);
+            return _studLogic.ClientSave(saveBundle);
         }
     }    
 }

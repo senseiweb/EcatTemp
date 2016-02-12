@@ -1,5 +1,6 @@
 ﻿namespace Ecat.Shared.Model
 {
+    [UserGuard]
     public class Security
     {
         public int PersonId { get; set; }

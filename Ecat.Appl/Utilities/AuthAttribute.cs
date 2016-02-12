@@ -15,8 +15,6 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ecat.Appl.Controllers;
-using Ecat.Dal.Context;
-using Ecat.Models;
 using Ecat.Shared.DbManager.Context;
 using Ecat.Shared.Model;
 
@@ -78,15 +76,25 @@ namespace Ecat.Appl.Utilities
             headers = headers.ToList();
 
             var crseMemId = 0;
+            var grpMemId = 0;
 
             if (headers.Any())
             {
                 AuthHeaderType authType;
                 var authHeader = headers.First().Split(':');
                 Enum.TryParse(authHeader[0], out authType);
-                if (authType != AuthHeaderType.Undefined)
+                if (authType == AuthHeaderType.CourseMember)
                 {
                     var hasCrseMemId = int.TryParse(authHeader[1], out crseMemId);
+                    if (!hasCrseMemId)
+                    {
+                        actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Attempted to authorize as course member but the request is malformed!");
+                    }
+                }
+
+                if (authType == AuthHeaderType.GroupMember)
+                {
+                    var hasCrseMemId = int.TryParse(authHeader[1], out grpMemId);
                     if (!hasCrseMemId)
                     {
                         actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Attempted to authorize as course member but the request is malformed!");
@@ -96,8 +104,9 @@ namespace Ecat.Appl.Utilities
             #endregion
 
             Person user;
-            var courseMember = default(MemberInCourse); 
-             
+            var courseMember = default(MemberInCourse);
+            var groupMember = default(MemberInGroup);
+
             using (var ctx = new EcatContext())
             {
                 user = await ((DbSet<Person>)ctx.People).FindAsync(token, parsedUid);
@@ -105,6 +114,11 @@ namespace Ecat.Appl.Utilities
                 if (crseMemId != 0)
                 {
                     courseMember = await ((DbSet<MemberInCourse>)ctx.MemberInCourses).FindAsync(token, crseMemId);
+                }
+
+                if (grpMemId != 0)
+                {
+                    groupMember = await ((DbSet<MemberInGroup>)ctx.MemberInGroups).FindAsync(token, grpMemId);
                 }
             }
 
@@ -118,7 +132,7 @@ namespace Ecat.Appl.Utilities
 
             Contract.Assert(controller != null);
 
-            controller.SetUser(user, courseMember);
+            controller.SetVariables(user, courseMember, groupMember);
         }
 
         private static bool SkipAuthorization(HttpActionContext actionContext)

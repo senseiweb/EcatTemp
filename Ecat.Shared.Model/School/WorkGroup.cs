@@ -8,6 +8,7 @@ namespace Ecat.Shared.Model
         public int AssignedSpInstrId { get; set; }
         public int AssignedKcInstrId { get; set; }
         public int CourseId { get; set; }
+        public int I { get; set; }
         public string MpCategory { get; set; }
         public string GroupNumber { get; set; }
         public string CustomName { get; set; }

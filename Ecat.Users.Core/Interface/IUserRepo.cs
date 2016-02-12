@@ -16,6 +16,6 @@ namespace Ecat.Users.Core
         Task<Person> FindUser(int id);
         string GetMetadata { get;  }
         Task<Person> GetSecurityUserByEmail(string email);
-
+        Task<int> SaveUserChanges(Person person);
     }
 }
