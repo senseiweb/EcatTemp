@@ -4,6 +4,7 @@ import IViewStatus from 'facilitator/features/groups/modals/status';
 import IAssessmentAdd from 'core/features/assessView/modals/add'
 import IAssessmentEdit from 'core/features/assessView/modals/edit'
 import ICommentAe from 'core/features/assessView/modals/comment'
+import ICSD from "facilitator/features/groups/modals/capstonestudentdetail"
 
 export default class EcInstructorGroups {
     static controllerId = 'app.facilitator.features.groups';
@@ -51,9 +52,21 @@ export default class EcInstructorGroups {
         keyboard: false,
         backdrop: 'static',
         templateUrl: 'wwwroot/app/facilitator/features/groups/modals/status.html',
-        size: 'lg',
+        size: 'lg'
         //resolve: { selectedGroup: () => this.selectedGroup }
     }
+
+    capstoneStudentDetailModalOptions: angular.ui.bootstrap.IModalSettings = {
+        controller: ICSD.controllerId,
+        controllerAs: 'csd',
+        bindToController: true,
+        keyboard: false,
+        backdrop: 'static',
+        templateUrl: 'wwwroot/app/facilitator/features/groups/modals/capstonestudentdetail.html',
+        size: 'lg'
+        //resolve: { selectedGroup: () => this.selectedGroup }
+    }
+
 
     groups: Array<{}>;
     results: Array<{}>;
@@ -157,6 +170,11 @@ export default class EcInstructorGroups {
     viewStatus(): void {
         this.uiModal.open(this.statusModalOptions);
     }
+
+    viewCapstoneStudentDetails(): void {
+        this.uiModal.open(this.capstoneStudentDetailModalOptions)
+    }
+
 
     addAssessment(): void {
         this.uiModal.open(this.addModalOptions)

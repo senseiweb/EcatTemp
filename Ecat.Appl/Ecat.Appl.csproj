@@ -252,6 +252,8 @@
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.capstoneresults.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.assess.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.behaviorlist.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.grouplist.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.tmpl.html" />
     <Content Include="app\facilitator\features\groups\modals\status.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.tmpl.html" />
