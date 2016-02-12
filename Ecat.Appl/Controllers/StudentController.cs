@@ -5,28 +5,26 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Breeze.ContextProvider;
 using Breeze.WebApi2;
-using Ecat.Dal;
-using Ecat.Dal.Context;
-using Ecat.Models;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
-using Ecat.Bal;
 using Ecat.Appl.Utilities;
+using Ecat.Shared.Model;
+using Ecat.Student.Core.Interface;
 
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    [EcatRolesAuthorized(Is = new[] { EcRoles.Student, EcRoles.External})]
+    [EcatRolesAuthorized(Is = new[] { RoleMap.Student, RoleMap.External})]
     public class StudentController : EcatApiController
     {
-        private readonly IStudentRepo _studentRepo;
+        private readonly IStudRepo _studentRepo;
 
         public StudentController(IStudentRepo studentRepo)
         {
             _studentRepo = studentRepo;
         }
 
-        internal override void SetUser(EcPerson person)
+        internal override void SetUser(Person person, MemberInCourse crseMember)
         {
             _studentRepo = person;
         }
@@ -34,7 +32,7 @@ namespace Ecat.Appl.Controllers
         [HttpGet]
         public string Metadata()
         {
-            return _commonRepo.GetMetadata<EcatCtx>();
+            return _commonRepo.GetMetadata();
         }
 
         [HttpGet]

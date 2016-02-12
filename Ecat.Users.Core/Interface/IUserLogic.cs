@@ -16,6 +16,7 @@ namespace Ecat.Users.Core
         Person CurrentUser { get; set; }
         string GetMetadata { get; }
         Task<object> GetProfile();
+        Task<Person> LoginUser(string userName, string password);
         Task<string> ProcessLtiUser(ILtiRequest parsedRequest);
         Task<bool> UniqueEmailCheck(string email);
     }

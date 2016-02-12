@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ecat.Shared.Model
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class SaveGuardAttribute : Attribute
-    {
-        public GuardType[] Guardians { get; private set; }
-        public SaveGuardAttribute(GuardType[] guardians)
-        {
-            Guardians = guardians;
-        }
-    }
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class SaveGuardAttribute : Attribute{}
+
+    public class UserGuardAttribute: SaveGuardAttribute {};
 }
 

@@ -65,8 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\ClientSaveLogic.cs" />
-    <Compile Include="Business\Gaurd\GuardPerson.cs" />
+    <Compile Include="Business\GuardUser.cs" />
     <Compile Include="Business\LoginLogic.cs" />
     <Compile Include="Business\UserLogic.cs" />
     <Compile Include="Data\Repo\UserRepo.cs" />

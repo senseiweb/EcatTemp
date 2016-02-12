@@ -25,15 +25,27 @@ namespace Ecat.Users.Core
             _efCtx = efCtx;
         }
 
+        public async Task<int> CountEmails(string email)
+        {
+            return await _userCtx.People.CountAsync(user => user.Email == email);
+        }
+
         public async Task<Person> FindUser(int id)
         {
             return await ((DbSet<Person>) _userCtx.People).FindAsync();
         }
 
+        public async Task<Person> GetSecurityUserByEmail(string email)
+        {
+            return await _userCtx.People
+                .Include(s => s.Security)
+                .SingleOrDefaultAsync(person => person.Email == email);
+        }
+
         public SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser)
         {
-            var beforeSaveDelegate = new ClientSaveLogic(saveBundle, loggedInUser);
-            _efCtx.BeforeSaveEntitiesDelegate += beforeSaveDelegate;
+            var userGuard = new GuardUser(loggedInUser);
+            _efCtx.BeforeSaveEntitiesDelegate += userGuard.BeforeSaveEntities;
             return _efCtx.SaveChanges(saveBundle);
         }
     }

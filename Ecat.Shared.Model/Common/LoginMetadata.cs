@@ -6,7 +6,6 @@ namespace Ecat.Shared.Model
     public class LoginToken
     {
         public int PersonId { get; set;  }
-        public string AuthToken { get; set; }
         [JsonIgnore]
         public RoleMap Role { get; set; }
         public DateTime TokenExpireWarning { get; set; }

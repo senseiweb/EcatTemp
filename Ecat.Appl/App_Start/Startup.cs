@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Breeze.ContextProvider.EF6;
 using Ecat.Appl;
+using Ecat.Student.Core.Data;
+using Ecat.Users.Core;
+using Ecat.Users.Core.Business;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
@@ -80,19 +83,8 @@ namespace Ecat.Appl
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
 
             kernel.Load(Assembly.GetExecutingAssembly());
-            kernel.Bind<IBbWrapper>().To<BbWsWrapper>();
-            kernel.Bind<ICommonRepo>().To<CommonRepo>();
-            kernel.Bind<ICourseRepo>().To<CourseRepo>();
-            kernel.Bind<IBbUserCheckWrapper>().To<BbUserCheckWrapper>();
-            kernel.Bind<EcatCtx>().ToSelf();
-            kernel.Bind<EFContextProvider<UserCtx>>().ToSelf();
-            kernel.Bind<IUserRepo>().To<UserRepo>();
-            kernel.Bind<ISysAdminLogic>().To<SysAdminLogic>();
-            kernel.Bind<ISysAdminRepo>().To<SysAdminRepo>();
-            kernel.Bind<IUserLogic>().To<UserLogic>();
-            kernel.Bind<IStudentLogic>().To<StudentLogic>();
-            kernel.Bind<IStudentRepo>().To<StudentRepo>();
-
+            //kernel.Bind<IBbWrapper>().To<BbWsWrapper>();
+           
             //var defaultFilterProviders = config.Services.GetServices(typeof(IFilterProvider)).Cast<IFilterProvider>();
             //config.Services.Clear(typeof(IFilterProvider));
             //kernel.Bind<DefaultFilterProviders>().ToConstant(new DefaultFilterProviders(defaultFilterProviders));

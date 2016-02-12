@@ -4,7 +4,15 @@ using Newtonsoft.Json;
 
 namespace Ecat.Shared.Model
 {
-    [SaveGuard(new []{GuardType.UserGuard})]
+    /// <summary>
+    /// Represent the main user object for Ecat
+    /// </summary>
+    /// <remarks>
+    /// Note! After making changes to any the property name's be sure to update user saveguard with the array of element LTI user are not allowed to changes such as Last, First name as these are controlled by the LMS.
+    /// </remarks>
+    /// <see cref="GuardUser.BeforeSaveEntities"/>
+    
+    [UserGuard]
     public class Person
     {
         public int PersonId { get; set; }

@@ -12,7 +12,10 @@ namespace Ecat.Users.Core
     public interface IUserRepo
     {
         SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser);
+        Task<int> CountEmails(string email);
         Task<Person> FindUser(int id);
         string GetMetadata { get;  }
+        Task<Person> GetSecurityUserByEmail(string email);
+
     }
 }

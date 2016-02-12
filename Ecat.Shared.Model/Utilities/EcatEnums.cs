@@ -21,7 +21,8 @@ namespace Ecat.Shared.Model
         CrseAdmin,
         Facilitator,
         Student,
-        External
+        External,
+        RefOnly
     }
 
     public enum GuardType
@@ -32,4 +33,5 @@ namespace Ecat.Shared.Model
         CrseAdminGuard,
         SysAdminGuard
     }
+
 }

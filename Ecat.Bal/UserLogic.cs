@@ -80,38 +80,12 @@ namespace Ecat.Bal
         {
             var identity = new ClaimsIdentity(AuthServerOptions.OAuthBearerOptions.AuthenticationType);
 
-            EcRoles roleClaim;
+           
 
-            switch (token.Person.MpInstituteRole)
-            {
-                case EcMapInstituteRole.HqAdmin:
-                    roleClaim = EcRoles.SysAdmin;
-                    break;
-                case EcMapInstituteRole.Designer:
-                    roleClaim = EcRoles.Designer;
-                    break;
-                case EcMapInstituteRole.CourseAdmin:
-                    roleClaim = EcRoles.CrseAdmin;
-                    break;
-                case EcMapInstituteRole.Facilitator:
-                    roleClaim = EcRoles.Facilitator;
-                    break;
-                case EcMapInstituteRole.Student:
-                    roleClaim = EcRoles.Student;
-                    break;
-                case EcMapInstituteRole.External:
-                    roleClaim = EcRoles.External;
-                    break;
-                default:
-                    roleClaim = EcRoles.Unknown;
-                    break;
-            }
-
-            token.Role = roleClaim;
 
             if (!secureIt) return token;
 
-            identity.AddClaim(new Claim(ClaimTypes.Role, roleClaim.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.Role, ""));
             identity.AddClaim(new Claim(ClaimTypes.PrimarySid, token.Person.PersonId.ToString()));
             var warning = DateTime.Now.Add(TimeSpan.FromMinutes(55));
             var expire = DateTime.Now.Add(TimeSpan.FromMinutes(60));

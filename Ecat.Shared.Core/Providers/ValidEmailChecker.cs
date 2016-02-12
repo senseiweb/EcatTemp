@@ -10,7 +10,7 @@ namespace Ecat.Shared.Core.Providers
 {
     public class ValidEmailChecker
     {
-        bool _invalid = false;
+        private bool _invalid;
 
         public bool IsValidEmail(string strIn)
         {
