@@ -5,8 +5,14 @@ export default class EcCourseAdminGroups {
     static controllerId = 'app.courseAdmin.features.groups';
     static $inject = [ICommon.serviceId, IDataCtx.serviceId];
 
-    groups: ecat.entity.IGroup[] = [];
-    groupMembers: ecat.entity.IGroupMember[] = [];
+    //courses: ecat.entity.ICourse[] = [];
+    //selectedCourse: ecat.entity.ICourse;
+    //groups: ecat.entity.IGroup[] = [];
+    //groupMembers: ecat.entity.IGroupMember[] = [];
+    courses;
+    selectedCourse;
+    group;
+    groupMembers;
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Course Admin Groups Loaded');

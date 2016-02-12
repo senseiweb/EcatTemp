@@ -28,18 +28,16 @@
                         </th>
                     </tr>
                 </thead>
-                <!--<tr ng-repeat="course in courses.courses track by courses.id" ng-mouseover="course.isVisible = true" ng-mouseleave="course.isVisible = false" style="height: 50px">
-                    <td>{{course.Name}}</td>
-                    <td>Course Number</td>
-                    <td>1/1/2016</td>
-                    <td>3/1/2016</td>
-                    <td style="width: 475px">
+                <tr ng-repeat="group in groups.groups track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
+                    <td>{{group.DefaultName}}</td>
+                    <td>{{group.MpCategory}}</td>
+                    <td>{{group.MpSpStatus}}</td>
+                    <td>Instructor Name</td>
+                    <td style="width: 350px">
+                        <button type="button" ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true; groups.enrollments=true" class="btn btn-link waves-effect">View Enrollments</button>
 
-                        <button ng-if="group.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="courses.view=1; courses.back=true">View Enrollments</button>
-                        <button ng-if="group.isVisible" class="btn btn-link btn-sm waves-effect">View Groups</button>
-                        <button ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true" type="button" class="btn btn-link btn-sm waves-effect">View Groups</button>
                     </td>
-                </tr>-->
+                </tr>
 
                 <tr ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
                     <td>Flight 01</td>
@@ -48,7 +46,6 @@
                     <td>Instructor, Name</td>
                     <td style="width: 350px">
                         <button type="button" ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true; groups.enrollments=true" class="btn btn-link waves-effect">View Enrollments</button>
-                        <!--<button type="button" ng-if="group.isVisible" class="btn btn-link waves-effect">View Status</button>-->
                     </td>
                 </tr>
                 <tr ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">

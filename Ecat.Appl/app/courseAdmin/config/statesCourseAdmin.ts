@@ -30,7 +30,7 @@ export default class EcCourseAdminStates {
         this.courses = {
             name: `${this.main.name}.courses`,
             parent: this.main.name,
-            url: '/courseAdmin/courses',
+            url: '/courses',
             templateUrl: 'wwwroot/app/courseAdmin/features/courses/courses.html',
             controller: 'app.courseAdmin.features.courses as courses',
             resolve: {
@@ -41,7 +41,7 @@ export default class EcCourseAdminStates {
         this.groups = {
             name: `${this.main.name}.groups`,
             parent: this.main.name,
-            url: '/courseAdmin/groups',
+            url: '/groups',
             templateUrl: 'wwwroot/app/courseAdmin/features/groups/groups.html',
             controller: 'app.courseAdmin.features.groups as groups',
             resolve: {
