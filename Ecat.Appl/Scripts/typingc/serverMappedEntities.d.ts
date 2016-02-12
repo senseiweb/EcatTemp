@@ -60,5 +60,9 @@ declare module ecat.entity
     interface IGroup extends breeze.Entity, Ecat.Models.EcGroup { }//, GroupClientExtensions { }
 
     interface ICourse extends breeze.Entity, Ecat.Models.EcCourse { }
+
+    interface IInstrument extends breeze.Entity, Ecat.Models.SpInstrument { }
+
+    interface IInventory extends breeze.Entity, Ecat.Models.SpInventory { }
    
 }

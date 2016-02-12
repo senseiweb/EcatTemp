@@ -134,7 +134,8 @@
                 "admin": 'app/admin',
                 "student": 'app/student',
                 "facilitator": 'app/facilitator',
-                "courseAdmin": 'app/courseAdmin'
+                "courseAdmin": 'app/courseAdmin',
+                "designer": 'app/designer'
             }
         }
     }

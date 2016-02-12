@@ -252,6 +252,10 @@
     <Content Include="app\courseAdmin\features\groups\groups.html" />
     <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.enrollments.tmpl.html" />
     <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.tmpl.html" />
+    <Content Include="app\designer\features\instruments\instruments.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.details.tmpl.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.inventories.tmpl.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.tmpl.html" />
     <Content Include="app\facilitator\features\groups\groups.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.strat.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.comments.tmpl.html" />
@@ -738,6 +742,12 @@
     <TypeScriptCompile Include="app\courseAdmin\features\groups\groups.ts" />
     <TypeScriptCompile Include="app\courseAdmin\provider\courseAdminCfgProvider.ts" />
     <TypeScriptCompile Include="app\courseAdmin\service\courseAdminData.ts" />
+    <TypeScriptCompile Include="app\designer\config\cfgDesigner.ts" />
+    <TypeScriptCompile Include="app\designer\config\statesDesigner.ts" />
+    <TypeScriptCompile Include="app\designer\designer.ts" />
+    <TypeScriptCompile Include="app\designer\features\instruments\instruments.ts" />
+    <TypeScriptCompile Include="app\designer\provider\designerCfgProvider.ts" />
+    <TypeScriptCompile Include="app\designer\service\designerData.ts" />
     <TypeScriptCompile Include="app\facilitator\config\cfgFac.ts" />
     <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
     <TypeScriptCompile Include="app\facilitator\features\groups\groups.ts" />

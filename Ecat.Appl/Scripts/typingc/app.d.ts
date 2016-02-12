@@ -72,6 +72,10 @@ declare module ecat {
 
     }
 
+    interface IDesignerEvents {
+
+    }
+
     interface IEcStateObject {
         [name: string]: angular.ui.IState;
     }
