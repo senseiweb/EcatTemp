@@ -3,13 +3,12 @@ using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 using Ecat.Shared.Model;
 
-namespace Ecat.Shared.Core.Config
+namespace Ecat.Shared.DbManager.Config
 {
     internal class ConfigSpAssessResponse : EntityTypeConfiguration<SpAssessResponse>
     {
         public ConfigSpAssessResponse()
         {
-            ToTable(MpTableNames.SpAssessResp);
 
             HasRequired(p => p.Assessor)
                 .WithMany(p => p.AssessorSpResponses)

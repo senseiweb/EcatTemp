@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 using Ecat.Shared.Model;
 
-namespace Ecat.Shared.Core.Config
+namespace Ecat.Shared.DbManager.Config
 {
     public class ConfigSpAssessResult : EntityTypeConfiguration<SpAssessResult>
     {

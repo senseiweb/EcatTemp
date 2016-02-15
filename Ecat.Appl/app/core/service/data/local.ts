@@ -236,7 +236,7 @@ export default class EcLocalDataService
 
         const milPayGrade = this.milPaygradeGraft;
 
-        if (!user || !user.mpMilAffiliation) {
+        if (!user || !user.mpAffiliation) {
 
             for (let grade in milPayGrade) {
 
@@ -253,11 +253,11 @@ export default class EcLocalDataService
             }
             return { user: user, paygradelist: payGradeList };
         } else {
-            user.mpMilComponent = user.mpMilAffiliation === AppVars.EcMapAffiliation.none  ? AppVars.EcMapComponent.none: user.mpMilComponent;
+            user.mpComponent = user.mpAffiliation === AppVars.EcMapAffiliation.none  ? AppVars.EcMapComponent.none: user.mpComponent;
 
-            user.mpMilPaygrade = user.mpMilAffiliation === AppVars.EcMapAffiliation.none ? this.milPaygradeGraft.civ.designator : user.mpMilPaygrade;
+            user.mpPaygrade = user.mpAffiliation === AppVars.EcMapAffiliation.none ? this.milPaygradeGraft.civ.designator : user.mpPaygrade;
 
-            const selectedAffiliation = user.mpMilAffiliation === AppVars.EcMapAffiliation.uscg ? AppVars.EcMapAffiliation.usn : user.mpMilAffiliation === AppVars.EcMapAffiliation.none ? this.milPaygradeGraft.civ.designator : user.mpMilAffiliation;
+            const selectedAffiliation = user.mpAffiliation === AppVars.EcMapAffiliation.uscg ? AppVars.EcMapAffiliation.usn : user.mpAffiliation === AppVars.EcMapAffiliation.none ? this.milPaygradeGraft.civ.designator : user.mpAffiliation;
 
             const affilList = AppVars.EcMapAffiliation;
 

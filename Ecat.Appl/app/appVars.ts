@@ -131,22 +131,22 @@ export class EcMapAnimationsEnum {
 
 export class EcMapEntityType {
     static unk = 'Unknown';
-    static person = 'EcPerson';
-    static security = 'EcSecurity';
+    static person = 'Person';
+    static security = 'Security';
     static loginTk = 'LoginToken';
-    static facProfile = 'EcInstructor';
-    static studProfile = 'EcStudent';
-    static externalProfile = 'EcExternal';
-    static course = 'EcCourse';
-    static academy = 'EcAcademy';
-    static group = 'EcGroup';
-    static grpMember = 'EcGroupMember';
-    static crseMember ='EcCourseMember';
+    static facProfile = 'Faciliatator';
+    static studProfile = 'Student';
+    static externalProfile = 'External';
+    static course = 'Course';
+    static academy = 'Academy';
+    static group = 'WorkGroup';
+    static grpMember = 'MemberInGroup';
+    static crseMember ='MemberInCourse';
     static spInstr = 'SpInstrument';
     static kcInstr = 'KcInstrument';
-    static ecInstr = 'EcInstrument';
+    static ecInstr = 'Instrument';
     static spComment = 'SpComment';
-    static ecInventory = 'EcInventory';
+    static ecInventory = 'Inventory';
     static kcResult = 'KcResult';
 
 }

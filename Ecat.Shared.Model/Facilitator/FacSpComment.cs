@@ -17,7 +17,7 @@ namespace Ecat.Shared.Model
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }
         public DateTime? DeletedDate { get; set; }
-        public Person FacFlaggedBy { get; set; }
+
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
     }

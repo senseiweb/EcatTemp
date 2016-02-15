@@ -10,11 +10,12 @@ namespace Ecat.Shared.Model
     {
         public int Id { get; set; }
         public int InstrumentId { get; set; }
-        public int? ModifiedById { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsScored { get; set; }
         public bool IsDisplayed { get; set; }
         public string Behavior { get; set; }
+
+        public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
 
         public SpInstrument Instrument { get; set; }

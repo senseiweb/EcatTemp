@@ -13,7 +13,8 @@ namespace Ecat.Shared.Model
         public int FinalStratPosition { get; set; }
         public float StratScore { get; set; }
 
-        public Person GrpMember { get; set; }
+        public MemberInGroup GrpMember { get; set; }
+        public FacSpStratResponse FacStrat { get; set; }
         public ICollection<SpStratResponse> SourceResponses { get; set; }
 
         public int? ModifiedById { get; set; }

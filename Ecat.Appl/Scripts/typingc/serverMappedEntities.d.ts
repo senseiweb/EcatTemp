@@ -14,36 +14,31 @@ declare module ecat.entity
         initFunc: (entity: breeze.Entity) => void;
     }
 
-    interface IAcademy extends breeze.Entity, Ecat.Models.EcAcademy {
+    interface IAcademy extends breeze.Entity, Ecat.Shared.Model.Academy {
         
     }
 
-    interface IPerson extends breeze.Entity, Ecat.Models.EcPerson, PersonClientExtensions
+    interface IPerson extends breeze.Entity, Ecat.Shared.Model.Person, PersonClientExtensions
     {
         student: IStudent;
         facilitator: IFacilitator;
         external: IExternal;
     }
 
-    interface ILoginToken extends breeze.Entity, Ecat.Models.LoginToken
+    interface ILoginToken extends breeze.Entity, Ecat.Shared.Model.LoginToken
     {
         person: IPerson;
     }
 
-    interface ICourseMember extends breeze.Entity, Ecat.Models.EcCourseMember{ }
+    interface ICourseMember extends breeze.Entity, Ecat.Shared.Model.MemberInCourse{ }
 
-    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember { }
+    interface IGroupMember extends breeze.Entity, Ecat.Shared.Model.MemberInGroup { }
 
-    interface IStudent extends breeze.Entity, Ecat.Models.EcStudent { }
+    interface IStudent extends breeze.Entity, Ecat.Shared.Model.Student { }
 
-    interface IFacilitator extends breeze.Entity, Ecat.Models.EcFacilitator { }
+    interface IFacilitator extends breeze.Entity, Ecat.Shared.Model.Facilitator { }
 
-    interface IExternal extends breeze.Entity, Ecat.Models.EcExternal { }
+    interface IExternal extends breeze.Entity, Ecat.Shared.Model.External { }
 
-    interface ISecurity extends breeze.Entity, Ecat.Models.EcSecurity { }
-
-    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember { }
-
-    interface ICourseMember extends breeze.Entity, Ecat.Models.EcCourseMember { }
-   
+    interface ISecurity extends breeze.Entity, Ecat.Shared.Model.Security { }
 }

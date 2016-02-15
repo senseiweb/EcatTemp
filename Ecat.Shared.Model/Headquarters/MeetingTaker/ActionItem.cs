@@ -1,6 +1,5 @@
 ﻿using System;
 using Ecat.Shared.Core;
-using Ecat.Shared.Model.MeetingTaker;
 
 namespace Ecat.Shared.Model
 {

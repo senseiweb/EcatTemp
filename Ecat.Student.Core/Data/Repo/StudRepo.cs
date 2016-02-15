@@ -8,12 +8,12 @@ using Ecat.Student.Core.Interface;
 
 namespace Ecat.Student.Core.Data
 {
-    public class StudentRepo : IStudRepo
+    public class StudRepo : IStudRepo
     {
-        private readonly StudContext _ctx;
-        private readonly EFContextProvider<StudContext> _efCtx;
+        private readonly StudCtx _ctx;
+        private readonly EFContextProvider<StudCtx> _efCtx;
 
-        public StudentRepo(EFContextProvider<StudContext> efCtx, StudContext ctx )
+        public StudRepo(EFContextProvider<StudCtx> efCtx, StudCtx ctx )
         {
             _efCtx = efCtx;
             _ctx = ctx;
@@ -23,8 +23,7 @@ namespace Ecat.Student.Core.Data
 
         public IQueryable<MemberInCourse> GetCrseMembershipWithCourse(int crseMemId)
         {
-            return _ctx.MemberInCourses
-                .Where()
+            return null;
         }
 
         public IQueryable<MemberInGroup> GetGrpMembershipsWithGroups(int crseMemId)

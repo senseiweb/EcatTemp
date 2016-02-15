@@ -9,12 +9,12 @@ using Microsoft.Owin.Security.Provider;
 
 namespace Ecat.Student.Core.Data
 {
-    public class StudContext: EcatBaseContext<StudContext>
+    public class StudCtx: EcatBaseContext<StudCtx>
     {
         protected override void OnModelCreating(DbModelBuilder mb)
         {
             mb.Entity<MemberInGroup>()
-                .ToTable(MpTableNames.GrpMember);
+                .ToTable("MemberInGroup");
 
             mb.Ignore(new List<Type>
             {
@@ -45,8 +45,6 @@ namespace Ecat.Student.Core.Data
                 .Ignore(p => p.ModifiedDate);
 
             mb.Entity<SpInstrument>()
-               .Ignore(p => p.MpEdLevel)
-               .Ignore(p => p.ScoreModelVersion)
                .Ignore(p => p.Version)
                .Ignore(p => p.FacilitatorInstructions)
                .Ignore(p => p.ModifiedById)
@@ -56,8 +54,7 @@ namespace Ecat.Student.Core.Data
                 .Ignore(p => p.MaxStrat);
 
             mb.Entity<Course>()
-                .Ignore(p => p.BbCourseId)
-                .Ignore(p => p.Academy);
+                .Ignore(p => p.BbCourseId);
 
 
 

@@ -5,7 +5,6 @@ export default class EcAdminAcademyAddForm {
     static $inject = ['$uibModalInstance',IDataCtx.serviceId];
 
     academy: ecat.entity.IAcademy;
-    bbCatList: Array<Ecat.Models.AcademyCategory> = [];
     isLoadingCats = false;
     nf: angular.IFormController;
 
@@ -22,7 +21,6 @@ export default class EcAdminAcademyAddForm {
         this.isLoadingCats = true;
         this.dCtx.sysAdmin.getCategoryList()
             .then((catList) => {
-                this.bbCatList = catList as any;
             }).finally(() => {
                 this.isLoadingCats = false;
             });

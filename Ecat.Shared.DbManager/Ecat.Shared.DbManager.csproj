@@ -49,16 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\AssessMap.cs" />
+    <Compile Include="Config\Meeting.cs" />
+    <Compile Include="Config\ConfigFacSpComment.cs" />
+    <Compile Include="Config\Course.cs" />
+    <Compile Include="Config\Instrument.cs" />
+    <Compile Include="Config\Inventory.cs" />
+    <Compile Include="Config\MeetingAttendee.cs" />
+    <Compile Include="Config\MemberInCourse.cs" />
+    <Compile Include="Config\MemberInGroup.cs" />
     <Compile Include="Config\Person.cs" />
     <Compile Include="Config\SpAssessResponse.cs" />
     <Compile Include="Config\SpAssessResult.cs" />
     <Compile Include="Config\SpComments.cs" />
     <Compile Include="Config\SpStratResponse.cs" />
+    <Compile Include="Config\SpStratResult.cs" />
+    <Compile Include="Config\WorkGroup.cs" />
     <Compile Include="Context\EcatContext.cs" />
-    <Compile Include="Migrations\201602082154020_Init.cs" />
-    <Compile Include="Migrations\201602082154020_Init.Designer.cs">
-      <DependentUpon>201602082154020_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,18 +81,12 @@
       <Project>{D7906F63-E656-4B40-9DCB-800819EFF9FF}</Project>
       <Name>Ecat.Shared.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">
-      <Project>{a2a10ad6-98c5-428b-8fd5-f414d4dc1fc1}</Project>
-      <Name>Ecat.Student.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ecat Load Tables.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602082154020_Init.resx">
-      <DependentUpon>201602082154020_Init.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

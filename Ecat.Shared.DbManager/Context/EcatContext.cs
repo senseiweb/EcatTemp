@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Ecat.Shared.Model;
-using Ecat.Shared.Model.MeetingTaker;
 
 namespace Ecat.Shared.DbManager.Context
 {
@@ -25,6 +24,23 @@ namespace Ecat.Shared.DbManager.Context
 
             mb.Conventions.Remove<PluralizingTableNameConvention>();
 
+            mb.Properties<string>().Configure(s => s.HasMaxLength(50));
+
+            mb.Properties()
+           .Where(p => p.Name.StartsWith("Mp") || p.Name.StartsWith("En"))
+           .Configure(x => x.HasColumnName(x.ClrPropertyInfo.Name.Substring(2)));
+
+            mb.Types()
+                .Where(type => type.Name.StartsWith("Ec"))
+                .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
+
+            mb.Ignore<Academy>();
+
+            mb.Ignore<AcademyCategory>();
+
+            mb.Properties<DateTime>()
+                .Configure(c => c.HasColumnType("datetime2"));
+
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
              .Where(type => type.IsClass && type.Namespace == "Ecat.Shared.DbManager.Config");
 
@@ -32,7 +48,6 @@ namespace Ecat.Shared.DbManager.Context
             {
                 mb.Configurations.Add((dynamic)configurationInstance);
             }
-            base.OnModelCreating(mb);
         }
 
         #region ModelOwner: Cog
@@ -45,6 +60,8 @@ namespace Ecat.Shared.DbManager.Context
         #endregion
 
         #region ModelOwner: Deisgner
+        public IDbSet<AssessMap> AssessMaps { get; set; }
+        public IDbSet<SpAssessMap> SpAssessMaps { get; set; }
         public IDbSet<CogInstrument> CogInstruments { get; set; }
         public IDbSet<CogInventory> CogInventories { get; set; }
         public IDbSet<KcInstrument> KcInstruments { get; set; }
@@ -72,7 +89,6 @@ namespace Ecat.Shared.DbManager.Context
         public IDbSet<MemberInCourse> MemberInCourses { get; set; }
         public IDbSet<Course> Courses { get; set; }
         public IDbSet<MemberInGroup> MemberInGroups { get; set; }
-        public IDbSet<Academy> Academies { get; set; }
         public IDbSet<WorkGroup> WorkGroups { get; set; }
         #endregion
 

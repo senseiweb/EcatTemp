@@ -1,4 +1,4 @@
-﻿namespace Ecat.Shared.Model.MeetingTaker
+﻿namespace Ecat.Shared.Model
 {
     public class Discussion
     {

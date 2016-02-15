@@ -39,6 +39,7 @@ namespace Ecat.Shared.Model
         SysAdminGuard
     }
 
+    [Flags]
     public enum EdLevel
     {
         None = 0,
@@ -49,21 +50,31 @@ namespace Ecat.Shared.Model
         Instructor = 1 << 5
     }
 
+    [Flags]
+    public enum GroupType
+    {
+        None = 0,
+        Bc1 = 1 << 1,
+        Bc2 = 1 << 2,
+        Bc3 = 1 << 3,
+        Bc4 = 1 << 4
+    }
+
     //HACK: Think of a better in case more schools are needed!
     public enum AcademyBase
     {
         None = 0,
-        Gunter = 1 << 1,
-        Keesler = 1 << 2,
-        Lackland = 1 << 3,
-        Peterson = 1 << 4,
-        Tyndall = 1 << 5,
-        Sheppard = 1 << 6,
-        McGheeTyson = 1 << 7,
-        Elmendorf = 1 << 8 ,
-        Hickam = 1 << 9,
-        Kadena = 1 << 10,
-        Kisling = 1 << 11,
+        Gunter,
+        Keesler,
+        Lackland,
+        Peterson,
+        Tyndall,
+        Sheppard,
+        McGheeTyson,
+        Elmendorf,
+        Hickam,
+        Kadena,
+        Kisling
     }
 
 }

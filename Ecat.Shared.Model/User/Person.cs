@@ -38,6 +38,7 @@ namespace Ecat.Shared.Model
         public virtual Student Student { get; set; }
         public virtual Facilitator Facilitator { get; set; }
         public virtual External External { get; set; }
+        public virtual HqStaff HqStaff { get; set; }
         public virtual Security Security { get; set; }
 
 

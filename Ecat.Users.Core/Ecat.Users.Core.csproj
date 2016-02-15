@@ -83,6 +83,10 @@
       <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
       <Name>Ecat.Shared.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecat.Shared.DbManager\Ecat.Shared.DbManager.csproj">
+      <Project>{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}</Project>
+      <Name>Ecat.Shared.DbManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Model\Ecat.Shared.Model.csproj">
       <Project>{D7906F63-E656-4B40-9DCB-800819EFF9FF}</Project>
       <Name>Ecat.Shared.Model</Name>

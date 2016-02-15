@@ -25,6 +25,13 @@ namespace Ecat.Users.Core
             _efCtx = efCtx;
         }
 
+        public SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser)
+        {
+            var userGuard = new GuardUser(loggedInUser);
+            _efCtx.BeforeSaveEntitiesDelegate += userGuard.BeforeSaveEntities;
+            return _efCtx.SaveChanges(saveBundle);
+        }
+
         public async Task<int> CountEmails(string email)
         {
             return await _userCtx.People.CountAsync(user => user.Email == email);
@@ -35,6 +42,11 @@ namespace Ecat.Users.Core
             return await ((DbSet<Person>) _userCtx.People).FindAsync();
         }
 
+        public async Task<List<Profile>> GetProfiles(int personId)
+        {
+            return await _userCtx.Profiles.Where(p => p.PersonId == personId).ToListAsync();
+        }
+
         public async Task<Person> GetSecurityUserByEmail(string email)
         {
             return await _userCtx.People
@@ -42,11 +54,9 @@ namespace Ecat.Users.Core
                 .SingleOrDefaultAsync(person => person.Email == email);
         }
 
-        public SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser)
+        public Task<int> SaveUserChanges(Person person)
         {
-            var userGuard = new GuardUser(loggedInUser);
-            _efCtx.BeforeSaveEntitiesDelegate += userGuard.BeforeSaveEntities;
-            return _efCtx.SaveChanges(saveBundle);
+            throw new NotImplementedException();
         }
     }
 }

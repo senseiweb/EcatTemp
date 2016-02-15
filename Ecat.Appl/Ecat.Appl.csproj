@@ -466,6 +466,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AuthAttribute.cs" />
     <Compile Include="Utilities\AuthorizationServer.cs" />
+    <Compile Include="Utilities\AuthService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -757,7 +758,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Admin.Core\Ecat.Admin.Core.csproj">
-      <Project>{a5301b78-3fc4-4625-a992-70e525b858c6}</Project>
+      <Project>{A5301B78-3FC4-4625-A992-70E525B858C6}</Project>
       <Name>Ecat.Admin.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">

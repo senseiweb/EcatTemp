@@ -54,7 +54,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
     }
 
-    getAllGroupData(courseMem: Ecat.Models.EcCourseMember): breeze.promises.IPromise<any> {
+    getAllGroupData(courseMem: Ecat.Shared.Model.MemberInCourse): breeze.promises.IPromise<any> {
         const self = this;
         const res = this.apiResources.getAllGroupData.resourceName;
         const logger = this.logInfo;

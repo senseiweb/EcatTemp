@@ -4,13 +4,13 @@
     {
     }
 
-    public static class MpTableNames
-    {
-        public const string SpAssessResp = "SpStudResponse",
-            SpAssessResult = "SpStudResult",
-            GrpMember = "GroupMember",
-            Person = "Person";
-    }
+    //public static class MpTableNames
+    //{
+    //    public const string SpAssessResp = "SpStudResponse",
+    //        SpAssessResult = "SpStudResult",
+    //        GrpMember = "GroupMember",
+    //        Person = "Person";
+    //}
 
 
     public static class MpInstituteRoleId

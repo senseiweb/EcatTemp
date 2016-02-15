@@ -6,7 +6,6 @@ namespace Ecat.Shared.Model
     public class CogInventory : IInventory<CogInstrument>, IAuditable
     {
         public int Id { get; set; }
-        public int? ModifiedById { get; set; }
         public int InstrumentId { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsScored { get; set; }
@@ -15,9 +14,10 @@ namespace Ecat.Shared.Model
         public string InnovativeDescription { get; set; }
         public string ItemDescription { get; set; }
         public bool IsReversed { get; set; }
-        public DateTime ModifiedDate { get; set; }
 
         public CogInstrument Instrument { get; set; }
-        public Person ModifiedBy { get; set; }
+        public int? ModifiedById { get; set; }
+        public DateTime ModifiedDate { get; set; }
+
     }
 }

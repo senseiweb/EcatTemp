@@ -17,7 +17,7 @@ namespace Ecat.Users.Core.Business
         private readonly IUserRepo _repo;
         private LoginLogic _loginLogic;
 
-        public Person CurrentUser { get; set; }
+        public Person User { get; set; }
 
         public string GetMetadata => _repo.GetMetadata;
 
@@ -26,9 +26,9 @@ namespace Ecat.Users.Core.Business
             _repo = repo;
         }
 
-        public Task<object> GetProfile()
+        public async Task<object> GetProfile()
         {
-
+            return await _repo.GetProfiles(User.PersonId);
         }
 
         public Task<Person> LoginUser(string userName, string password)
@@ -37,7 +37,7 @@ namespace Ecat.Users.Core.Business
             return _loginLogic.LoginUser(userName, password);
         }
 
-        public Task<string> ProcessLtiUser(ILtiRequest parsedRequest)
+        public Task<Person> ProcessLtiUser(ILtiRequest parsedRequest)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +50,7 @@ namespace Ecat.Users.Core.Business
 
         public SaveResult ClientSave(JObject saveBundle)
         {
-            return _repo.ClientSaveChanges(saveBundle);
+            return _repo.ClientSaveChanges(saveBundle, User);
         }
 
     }

@@ -13,7 +13,7 @@ namespace Ecat.Users.Core
     public interface IUserLogic
     {
         SaveResult ClientSave(JObject saveBundle);
-        Person CurrentUser { get; set; }
+        Person User { get; set; }
         string GetMetadata { get; }
         Task<object> GetProfile();
         Task<Person> LoginUser(string userName, string password);

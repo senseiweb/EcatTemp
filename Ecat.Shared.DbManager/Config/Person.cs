@@ -26,8 +26,7 @@ namespace Ecat.Shared.DbManager.Config
             HasOptional(p => p.Security).WithRequired(p => p.Person);
             HasOptional(p => p.External).WithRequired(p => p.Person);
             HasOptional(p => p.Facilitator).WithRequired(p => p.Person);
-            Property(p => p.BbUserId)
-                .HasMaxLength(20);
+            HasOptional(p => p.HqStaff).WithRequired(p => p.Person);
         }
     }
 
@@ -36,6 +35,8 @@ namespace Ecat.Shared.DbManager.Config
         public ConfigPersonProfile()
         {
             HasKey(p => p.PersonId);
+            Property(p => p.Bio)
+                .HasMaxLength(6000);
         }
     }
 
@@ -44,6 +45,8 @@ namespace Ecat.Shared.DbManager.Config
         public ConfigPersonSecurity()
         {
             HasKey(p => p.PersonId);
+            Property(p => p.PasswordHash)
+                .HasMaxLength(400);
 
         }
     }

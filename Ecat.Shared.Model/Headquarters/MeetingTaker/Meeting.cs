@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ecat.Shared.Model.MeetingTaker;
+using Ecat.Shared.Model;
 
 namespace Ecat.Shared.Model
 {
@@ -13,7 +13,7 @@ namespace Ecat.Shared.Model
         public string Purpose { get; set; }
 
         public DateTime MeetingDate { get; set; }
-        public ICollection<Person> Attendees { get; set; }
+        public ICollection<MeetingAttendee> Attendees { get; set; }
         public ICollection<ActionItem> ActionItemses { get; set; }
         public ICollection<Decision> Decisions { get; set; }
     }

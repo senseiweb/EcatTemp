@@ -33,7 +33,6 @@ export default class EcCoreStateConfig {
 
             function calculateUrl(state: angular.ui.IState): string {
                 if (!state) {
-                    console.log(urlRoute);
                     return urlRoute;
                 }
                 urlRoute = state.url + urlRoute;
@@ -51,19 +50,23 @@ export default class EcCoreStateConfig {
             }
 
             if (userStatic === null) {
-
-                return calculateUrl(this.statMgr.core.login);
+               calculateUrl(this.statMgr.core.login);
+                return urlRoute;
             }
 
-            if (userStatic.person.isRegistrationComplete) {
-                return calculateUrl(this.statMgr.core.dashboard);
+            if (userStatic.person.registrationComplete) {
+                calculateUrl(this.statMgr.core.dashboard);
+                return urlRoute;
+
             }
 
-            if (!userStatic.person.isRegistrationComplete) {
-                return calculateUrl(this.statMgr.core.profile);
+            if (!userStatic.person.registrationComplete) {
+                calculateUrl(this.statMgr.core.profile);
+                return urlRoute;
             }
 
-            return calculateUrl(this.statMgr.core.dashboard);
+            calculateUrl(this.statMgr.core.dashboard);
+            return urlRoute;
         });
     }
 

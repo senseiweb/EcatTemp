@@ -14,9 +14,9 @@ export class PersonInitializer
 export class PersonClientExtended implements ecat.entity.PersonClientExtensions
 {
     private mpInstituteRole: string;
-    private mpMilPaygrade: string;
-    private mpMilComponent: string;
-    private mpMilAffiliation: string;
+    private mpPaygrade: string;
+    private mpComponent: string;
+    private mpAffiliation: string;
 
     defaultAvatarLocation: string;
     verifyPassword: string;
@@ -24,19 +24,19 @@ export class PersonClientExtended implements ecat.entity.PersonClientExtensions
     get saluatation(): string {
         const paygradeList = locatlDs;
 
-        if (!this.mpMilPaygrade) {
+        if (!this.mpPaygrade) {
             return null;
         } 
 
-        if (this.mpMilPaygrade === AppVar.EcMapPaygrade.civ) {
+        if (this.mpPaygrade === AppVar.EcMapPaygrade.civ) {
             return 'Civ';
         }
 
-        if (this.mpMilPaygrade === AppVar.EcMapPaygrade.fn) {
+        if (this.mpPaygrade === AppVar.EcMapPaygrade.fn) {
             return 'FN';
         }
 
-        if (!this.mpMilPaygrade || !this.mpInstituteRole || !this.mpMilComponent) {
+        if (!this.mpPaygrade || !this.mpInstituteRole || !this.mpComponent) {
             return null;
         } 
 
@@ -45,8 +45,8 @@ export class PersonClientExtended implements ecat.entity.PersonClientExtensions
                 return null;
             }
 
-            if (paygrade.designator === this.mpMilComponent) {
-                switch (this.mpMilAffiliation) {
+            if (paygrade.designator === this.mpComponent) {
+                switch (this.mpAffiliation) {
                 case AppVar.EcMapAffiliation.usa:
                         return paygrade.designator.usa.rankShortName;
                 case AppVar.EcMapAffiliation.usaf:

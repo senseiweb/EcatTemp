@@ -56,7 +56,7 @@ namespace Ecat.Dal.Config
         public ConfigPersonInstructorProfile()
         {
             HasRequired(p => p.Person).WithOptional(p => p.Facilitator);
-            Property(p => p.Bio).HasMaxLength(6000);
+            Property(p => p.Bio).HasMaxLength(10000);
             HasKey(p => p.PersonId);
             Property(p => p.PersonId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }

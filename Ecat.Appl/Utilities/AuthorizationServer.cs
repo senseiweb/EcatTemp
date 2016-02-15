@@ -48,7 +48,8 @@ namespace Ecat.Appl.Utilities
             AuthenticationType = OAuthDefaults.AuthenticationType, 
             AuthenticationMode =  AuthenticationMode.Active,
             TokenEndpointPath = new PathString("/ecat-token"),
-            AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60)
+            AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
+            Provider = _provider
         };
     }
 
@@ -73,7 +74,7 @@ namespace Ecat.Appl.Utilities
 
             if (context.UserName == null || context.Password == null)
             {
-                context.SetError("invalid_grant", "Inappropiate credentials were preseted");
+                context.SetError("invalid_grant", "Null credentials were preseted");
                 return;
             }
             var person = await _userLogic.LoginUser(context.UserName, context.Password);
@@ -88,7 +89,9 @@ namespace Ecat.Appl.Utilities
             _loginToken = new LoginToken
             {
                 TokenExpire = DateTime.Now.Add(TimeSpan.FromMinutes(60)),
-                TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromMinutes(55))
+                TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromMinutes(55)),
+                Person = person,
+                PersonId = person.PersonId
             };
             context.Validated(identity);
         }

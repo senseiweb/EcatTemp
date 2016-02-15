@@ -5,10 +5,9 @@ namespace Ecat.Shared.Model
 {
     public class WorkGroup  {
         public int Id { get; set; }
-        public int AssignedSpInstrId { get; set; }
-        public int AssignedKcInstrId { get; set; }
+        public int? AssignedSpInstrId { get; set; }
+        public int? AssignedKcInstrId { get; set; }
         public int CourseId { get; set; }
-        public int I { get; set; }
         public string MpCategory { get; set; }
         public string GroupNumber { get; set; }
         public string CustomName { get; set; }
@@ -19,9 +18,9 @@ namespace Ecat.Shared.Model
         public bool IsPrimary { get; set; }
 
         public Course Course { get; set; }
-        //public ICollection<FacSpAssessResponse> FacSpReponses { get; set; }
-        //public ICollection<FacSpStratResponse> FacStratResponses { get; set; }
-        //public ICollection<FacSpComment> FacSpComments { get; set; }
+        public ICollection<FacSpAssessResponse> FacSpReponses { get; set; }
+        public ICollection<FacSpStratResponse> FacStratResponses { get; set; }
+        public ICollection<FacSpComment> FacSpComments { get; set; }
         public ICollection<MemberInGroup> GroupMembers { get; set; }
 
         public SpInstrument SpInstrument { get; set; }

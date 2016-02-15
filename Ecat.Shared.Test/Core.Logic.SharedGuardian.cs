@@ -31,5 +31,23 @@ namespace Ecat.Shared.Test
             #region Assert
             #endregion
         }
+
+        [Fact]
+        public void Should_MarkDeletableItems_When_MapHasDeletedItems()
+        {
+            #region Arrange
+            var sut = new SharedGuardian();
+            var efCtx = new EFContextProvider<EcatContext>();
+            var entity = new Person();
+            var infos = efCtx.CreateEntityInfo(entity);
+            var infoList = new List<EntityInfo> { infos };
+            #endregion
+        }
+
+        [Fact]
+        public void Should_RemoveDeletableItems_When_MapHasNonDeletableItems()
+        {
+            
+        }
     }
 }
