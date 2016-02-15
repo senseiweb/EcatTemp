@@ -172,7 +172,7 @@ export default class EcInstructorGroups {
     }
 
     viewCapstoneStudentDetails(): void {
-        this.uiModal.open(this.capstoneStudentDetailModalOptions)
+        this.uiModal.open(this.capstoneStudentDetailModalOptions);
     }
 
 
