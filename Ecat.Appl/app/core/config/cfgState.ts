@@ -4,6 +4,8 @@ import IDataCtx from "core/service/data/context"
 import AdminStates from "admin/config/statesAdmin"
 import StudentStates from "student/config/statesStudent"
 import FacilitatorStates from "facilitator/config/statesFac"
+import CourseAdminStates from "courseAdmin/config/statesCourseAdmin"
+import DesignerStates from "designer/config/statesDesigner"
 import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
 
@@ -30,7 +32,11 @@ export default class EcCoreStateConfig {
         const facilitator = new FacilitatorStates(core.main, core.dashboard);
         this.loadStates(Object.keys(facilitator), facilitator as any, 'facilitator');
 
+        const courseAdmin = new CourseAdminStates(core.main, core.dashboard);
+        this.loadStates(Object.keys(courseAdmin), courseAdmin as any, 'courseAdmin');
 
+        const designer = new DesignerStates(core.main, core.dashboard);
+        this.loadStates(Object.keys(designer), designer as any, 'designer');
 
         $urlProvider.otherwise(() => {
             const self = this;

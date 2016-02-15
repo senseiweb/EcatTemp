@@ -1,0 +1,59 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="text-center">
+            <!--<h4 class="lead" ng-if="instruments.selectedInstrument!=null">{{instruments.selectedInstrument.MpEducationLevel}}-{{instruments.selectedInstrument.MpGroupType}}-v{{instruments.selectedInstrument.Version}}</h4>-->
+            <!--<h4 class="lead" ng-if="instruments.selectedInstrument==null">New Assessment</h4>-->
+            <h4 class="lead">NCOA-BC1-v1</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover table-vmiddle">
+                <tr>
+                    <td>Education Level</td>
+                    <td>
+                        <div class="col-md-6  p-l-5 p-r-5 p-t-4">
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default">SNOCA</button>
+                                <button type="button" class="btn btn-primary">NCOA</button>
+                                <button type="button" class="btn btn-default">ALS</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Group Types</td>
+                    <td>
+                        <div class="col-md-6  p-l-5 p-r-5 p-t-4">
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-primary">BC1</button>
+                                <button type="button" class="btn btn-default">BC2</button>
+                                <button type="button" class="btn btn-default">BC3</button>
+                                <button type="button" class="btn btn-default">BC4</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Version</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Self Instructions</td>
+                    <td><button type="button" class="btn btn-link waves-effect" ng-click="instruments.addEditInstructions()">View/Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Peer Instructions</td>
+                    <td><button type="button" class="btn btn-link waves-effect" ng-click="instruments.addEditInstructions()">View/Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Instructor Instructions</td>
+                    <td><button type="button" class="btn btn-link waves-effect" ng-click="instruments.addEditInstructions()">Add</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

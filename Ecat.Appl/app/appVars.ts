@@ -81,6 +81,7 @@ export class EcMapApiResource
     static facilitator = 'Facilitator';
     static sa = 'SysAdmin';
     static courseAdmin = 'CourseAdmin';
+    static designer = 'Designer';
 }
 
 export class EcMapAlertType {

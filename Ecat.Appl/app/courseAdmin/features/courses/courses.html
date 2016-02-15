@@ -1,0 +1,47 @@
+﻿<div class="container animated fadeInRight">
+    <div class="block-header">
+        <h2>{{courses.academy.Name}} Courses Center</h2>
+    </div>
+
+    <div class="card" id="courses-main">
+        <div class="listview lv-bordered lv-lg">
+            <div class="lv-header-alt clearfix p-b-5">
+
+                <div class="btn-group clearfix m-r-25">
+                    <button type="button" class="btn btn-primary" ng-if="courses.back" ng-click="courses.view=0; courses.back=false; courses.enrollments=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Courses</button>
+                    <button type="button" class="btn btn-warning" ng-if="courses.enrollments" ng-click="courses.view=1">Instructors</button>
+                    <button type="button" class="btn btn-warning" ng-if="courses.enrollments" ng-click="courses.view=2">Students</button>
+                    <button type="button" class="btn btn-primary" ng-if="!courses.enrollments" ng-click="courses.pollCourses()">Poll Bb Courses</button>
+                    <button type="button" class="btn btn-primary" ng-if="courses.enrollments" ng-click="courses.pollEnrollments()">Poll Bb Enrollments</button>
+                </div>
+
+                <ul class="lv-actions actions">
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="">Refresh Data</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lv-body" ng-init="courses.view=0">
+                <div ng-switch="courses.view">
+                    <div ng-switch-when="0">
+                        <div ng-include="'wwwroot/app/courseAdmin/features/courses/tmpls/courseAdmin.courses.tmpl.html'"></div>
+                    </div>
+                    <div ng-switch-when="1">
+                        <div ng-include="'wwwroot/app/courseAdmin/features/courses/tmpls/courseAdmin.courses.enrollments.facs.tmpl.html'"></div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div ng-include="'wwwroot/app/courseAdmin/features/courses/tmpls/courseAdmin.courses.enrollments.studs.tmpl.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
