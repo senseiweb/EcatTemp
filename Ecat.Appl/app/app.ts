@@ -35,6 +35,7 @@ import commentAe from "core/features/assessView/modals/comment"
 import courseAdminCourses from "courseAdmin/features/courses/courses"
 import courseAdminGroups from "courseAdmin/features/groups/groups"
 import designerInstruments from "designer/features/instruments/instruments"
+import addEditInstructions from "designer/features/instruments/modals/instructions"
 //#endregion
 
 //#region Import Module directives
@@ -114,6 +115,7 @@ export default class AppStart {
             .controller(courseAdminCourses.controllerId, courseAdminCourses)
             .controller(courseAdminGroups.controllerId, courseAdminGroups)
             .controller(designerInstruments.controllerId, designerInstruments)
+            .controller(addEditInstructions.controllerId, addEditInstructions)
             //#endregion
 
             //#region Directives

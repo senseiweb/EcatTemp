@@ -10,7 +10,8 @@
                     <button type="button" class="btn btn-primary" ng-if="instruments.back" ng-click="instruments.view=0; instruments.back=false; instruments.details=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Assessments</button>
                     <button type="button" class="btn btn-warning" ng-if="instruments.details" ng-click="instruments.view=1">Assessment</button>
                     <button type="button" class="btn btn-warning" ng-if="instruments.details" ng-click="instruments.view=2">Behaviors</button>
-                    <button type="button" class="btn btn-primary" ng-click="">Create New</button>
+                    <button type="button" class="btn btn-primary" ng-if="instruments.view==0" ng-click="">New Assessment</button>
+                    <button type="button" class="btn btn-primary" ng-if="instruments.view==2" ng-click="">New Behavior</button>
                 </div>
 
                 <ul class="lv-actions actions">

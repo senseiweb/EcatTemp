@@ -1,27 +1,58 @@
 ﻿<div class="row">
+    <div class="col-md-12">
+        <div class="text-center">
+            <!--<h4 class="lead" ng-if="instruments.selectedInstrument!=null">{{instruments.selectedInstrument.MpEducationLevel}}-{{instruments.selectedInstrument.MpGroupType}}-v{{instruments.selectedInstrument.Version}}</h4>-->
+            <!--<h4 class="lead" ng-if="instruments.selectedInstrument==null">New Assessment</h4>-->
+            <h4 class="lead">NCOA-BC1-v1</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12 p-t-20">
         <div class="table-responsive">
             <table class="table table-hover table-vmiddle">
-                <thead>
-                    <tr>
-                        <th class="header">Education Lvl</th>
-                        <th class="header">Group Types</th>
-                        <th class="header">Version</th>
-                        <th class="header"></th>
-                    </tr>
-                </thead>
-                <tr ng-repeat="instrument in instruments.instruments track by instrument.id" ng-mouseover="instrument.isVisible = true" ng-mouseleave="instrument.isVisible = false" style="height: 50px">
-                    <td>{{instrument.MpEducationLevel}}</td>
-                    <td>{{instrument.MpGroupType}}</td>
-                    <td>{{instrument.Version}} <a ng-if="{instrument.Used}" class="zmdi zmdi-lock-outline"></a></td>
-                    <td style="width: 350px">
-                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.enrollments=true" class="btn btn-link waves-effect">View/Edit</button>
-                        <button type="button" ng-if="instrument.isVisible" ng-click="" class="btn btn-link waves-effect">Clone</button>
+                <tr>
+                    <td>Education Level</td>
+                    <td>
+                        <div class="col-md-6  p-l-5 p-r-5 p-t-4">
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-default">SNOCA</button>
+                                <button type="button" class="btn btn-primary">NCOA</button>
+                                <button type="button" class="btn btn-default">ALS</button>
+                            </div>
+                        </div>
                     </td>
                 </tr>
-
+                <tr>
+                    <td>Group Types</td>
+                    <td>
+                        <div class="col-md-6  p-l-5 p-r-5 p-t-4">
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-primary">BC1</button>
+                                <button type="button" class="btn btn-default">BC2</button>
+                                <button type="button" class="btn btn-default">BC3</button>
+                                <button type="button" class="btn btn-default">BC4</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Version</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Self Instructions</td>
+                    <td><button type="button" class="btn btn-link waves-effect" ng-click="instruments.addEditInstructions()">View/Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Peer Instructions</td>
+                    <td><button type="button" class="btn btn-link waves-effect" ng-click="instruments.addEditInstructions()">View/Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Instructor Instructions</td>
+                    <td><button type="button" class="btn btn-link waves-effect" ng-click="instruments.addEditInstructions()">Add</button></td>
+                </tr>
             </table>
-
         </div>
     </div>
 </div>
