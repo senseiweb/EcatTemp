@@ -23,10 +23,10 @@ export default class EcCoreStateConfig {
         const core = new CoreStates();
         this.loadStates(Object.keys(core), core as any, 'core');
 
-        const admin = new AdminStates(core.main, core.dashboard);
+        const admin = new AdminStates(core.main);
         this.loadStates(Object.keys(admin), admin as any, 'admin');
 
-        const student = new StudentStates(core.main, core.dashboard);
+        const student = new StudentStates(core.main);
         this.loadStates(Object.keys(student), student as any, 'student');
 
         const facilitator = new FacilitatorStates(core.main, core.dashboard);
@@ -40,43 +40,45 @@ export default class EcCoreStateConfig {
 
         $urlProvider.otherwise(() => {
             const self = this;
+            let urlRoute = '';
             const regEx = /\.(\w+)$/;
 
-            function calculateUrl(state: angular.ui.IState) {
-                let urlRoute = '';
+            function calculateUrl(state: angular.ui.IState): string {
+                if (!state) {
+                    return urlRoute;
+                }
+                urlRoute = state.url + urlRoute;
+                
+                const parentNameHasDot = regEx.exec(state.parent as string);
+                let parentPropName: string;
 
-                do {
-                    urlRoute = state.url + urlRoute;
+                if (parentNameHasDot) {
+                    parentPropName = parentNameHasDot[1];
+                } else {
+                    parentPropName = state.parent as string;
+                }
 
-                    const parentMatch = regEx.exec(state.parent as string);
-                    let parentId: string; 
-
-                    if (parentMatch) {
-                        parentId = parentMatch[0].substring(1);
-                    } else {
-                        parentId = state.parent as string;
-                    }
-
-                    state = self.statMgr.core[parentId as string];
-                } while (state !== undefined && state !== null)
-
-                return urlRoute;
+                calculateUrl(self.statMgr.core[parentPropName]);
             }
 
             if (userStatic === null) {
-
-                return calculateUrl(this.statMgr.core.login);
+               calculateUrl(this.statMgr.core.login);
+                return urlRoute;
             }
 
-            if (userStatic.person.isRegistrationComplete) {
-                return calculateUrl(this.statMgr.core.dashboard);
+            if (userStatic.person.registrationComplete) {
+                calculateUrl(this.statMgr.core.dashboard);
+                return urlRoute;
+
             }
 
-            if (!userStatic.person.isRegistrationComplete) {
-                return calculateUrl(this.statMgr.core.profile);
+            if (!userStatic.person.registrationComplete) {
+                calculateUrl(this.statMgr.core.profile);
+                return urlRoute;
             }
 
-            return calculateUrl(this.statMgr.core.dashboard);
+            calculateUrl(this.statMgr.core.dashboard);
+            return urlRoute;
         });
     }
 
@@ -84,10 +86,6 @@ export default class EcCoreStateConfig {
         statesNames.forEach((state) => {
             const stateToLoad = statesToLoad[state];
             if (angular.isObject(stateToLoad)) {
-            //    if (stateToLoad.name.indexOf('redirect') < 0) {
-            //        const checkTokenResolve = { tokenValid: [IDataCtx.serviceId,ICommon.serviceId,(dCtx: IDataCtx, c: ICommon) => c.checkValidToken()]}
-            //        stateToLoad.resolve = angular.extend({}, checkTokenResolve, stateToLoad.resolve);
-            //    }
                 this.$stateProvider.state(stateToLoad);
                 if (!angular.isObject(this.statMgr[stateHolder])) {
                     this.statMgr[stateHolder] = {};

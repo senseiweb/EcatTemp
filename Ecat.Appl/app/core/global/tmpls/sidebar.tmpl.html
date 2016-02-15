@@ -88,22 +88,25 @@
         <li class="sub-menu" data-ng-class="{ 'active toggled': main.$state.includes('tables') }">
             <a href="" toggle-submenu><i class="zmdi zmdi zmdi-view-list"></i> Course Admin</a>
             <ul>
+
                 <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.courseAdmin.courses.name}}" ng-click="main.sidebarStat($event)">Courses</a></li>
                 <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.courseAdmin.groups.name}}" ng-click="main.sidebarStat($event)">Groups</a></li>
+
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{ 'active toggled': mactrl.$state.includes('form') }">
+        <li class="sub-menu" ng-class="{ 'active toggled': $state.includes({{stateMgr.fac.main.name}}) }">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-collection-text"></i> 
-                Instructor
+                Facilitator
             </a>
             <ul>
                 <li>
                     <a data-ui-sref-active="active" ui-sref="{{stateMgr.facilitator.groups.name}}" ng-click="mactrl.sidebarStat($event)">Groups</a>
                 </li>             
+
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{ 'active toggled': mactrl.$state.includes('user-interface') }">
+        <li class="sub-menu" ng-class="{ 'active toggled': main.$state.includes({{stateMgr.student.main.name}}) }">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-swap-alt"></i>
                 Student
@@ -112,14 +115,14 @@
                 <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.student.assessment.name}}" ng-click="main.sidebarStat($event)">Assessments</a></li>
             </ul>
         </li>
-        <li class="sub-menu" data-ng-class="{ 'active toggled': mactrl.$state.includes('charts') }">
+        <li class="sub-menu" data-ng-class="{ 'active toggled': main.$state.includes('charts') }">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-trending-up"></i>
                 Cognitive Assessment
             </a>
             <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="charts.flot-charts" data-ng-click="mactrl.sidebarStat($event)">Flot Charts</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="charts.other-charts" data-ng-click="mactrl.sidebarStat($event)">Other Charts</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="charts.flot-charts" data-ng-click="main.sidebarStat($event)">Flot Charts</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="charts.other-charts" data-ng-click="main.sidebarStat($event)">Other Charts</a></li>
             </ul>
         </li>
         <li class="sub-menu" data-ng-class="{'active toggled': main.$state.includes('photo-gallery') }">
@@ -128,8 +131,8 @@
                 Group Assessment
             </a>
             <ul>
-                <li><a data-ui-sref-active="active" data-ui-sref="photo-gallery.photos" data-ng-click="mactrl.sidebarStat($event)">Default</a></li>
-                <li><a data-ui-sref-active="active" data-ui-sref="photo-gallery.timeline" data-ng-click="mactrl.sidebarStat($event)">Timeline</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="photo-gallery.photos" data-ng-click="main.sidebarStat($event)">Default</a></li>
+                <li><a data-ui-sref-active="active" data-ui-sref="photo-gallery.timeline" data-ng-click="main.sidebarStat($event)">Timeline</a></li>
             </ul>
         </li>
     </ul>

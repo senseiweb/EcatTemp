@@ -9,7 +9,7 @@ export default class EcAdminStates {
     main: angular.ui.IState;
     academy: angular.ui.IState;
     
-    constructor(coreMain: angular.ui.IState, coreDash: angular.ui.IState) {
+    constructor(coreMain: angular.ui.IState) {
 
         this.main = {
             name: `${coreMain.name}.admin`,
@@ -39,8 +39,8 @@ export default class EcAdminStates {
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
         return this.isAdminLoaded ? this.isAdminLoaded : System.import('app/admin/admin.js').then((adminModClass: any) => {
-            const adminClass = new adminModClass.default();
-            $ocLl.load(adminClass.adminModule)
+            adminModClass.default().load();
+            $ocLl.load(adminModClass.default().moduleId)
                 .then(() => this.isAdminLoaded = true)
                 .catch(() => this.isAdminLoaded = false);
         });

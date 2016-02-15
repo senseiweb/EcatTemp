@@ -1,4 +1,5 @@
-﻿var config = {
+﻿
+var config = {
     "baseURL": 'wwwroot/',
     "map": {
         "jquery": 'scripts/vendor/bower/jquery/dist/jquery.min.js',
@@ -135,7 +136,9 @@
                 "student": 'app/student',
                 "facilitator": 'app/facilitator',
                 "courseAdmin": 'app/courseAdmin',
-                "designer": 'app/designer'
+                "designer": 'app/designer',
+                "hq": 'app/hq'
+
             }
         }
     }
@@ -148,9 +151,9 @@
         // RequireJS
     } else if (window.System !== undefined) {
         System.config(config);
-        System.import('app/app.js').then(function (angularMod) {
-            new angularMod.default();
-             angular.bootstrap(document.querySelector('html'), ['appEcat'], {strictD: true});
+        System.import('app/app.js').then(function (ecatApp) {
+            ecatApp.default.load();
+            angular.bootstrap(document.querySelector('html'), ['app.ecat'], {strictD: true});
         });
         // <script>
     } else {

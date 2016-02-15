@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Ecat.Dal;
-using Ecat.Models;
+using Ecat.Appl.Utilities;
+using Ecat.Shared.Model;
+using Ecat.Users.Core;
 using LtiLibrary.AspNet.Extensions;
 using LtiLibrary.Core.Lti1;
 using Newtonsoft.Json;
@@ -32,7 +34,6 @@ namespace Ecat.Appl.Controllers
             return "Pong";
         }
 
-    
         [HttpPost]
         public async Task<ActionResult> Secure()
         {
@@ -42,7 +43,7 @@ namespace Ecat.Appl.Controllers
             }
             catch
             {
-                ViewBag.Uid = 0;
+                ViewBag.User = "Error";
                 return View();
             }
 
@@ -50,6 +51,7 @@ namespace Ecat.Appl.Controllers
 
             ltiRequest.ParseRequest(Request);
 
+            //TODO: Implement this a security measure!
             //var expectedOauthSignature = Request.GenerateOAuthSignature(LtiSecret);
 
             //if (!expectedOauthSignature.Equals(ltiRequest.Signature))
@@ -58,68 +60,28 @@ namespace Ecat.Appl.Controllers
             //    return View("Error");
             //};
 
-            var self = await _userLogic.GetPerson(0, ltiRequest.LisPersonEmailPrimary);
+            var user = await _userLogic.ProcessLtiUser(ltiRequest);
 
-            self = await UpdateSelf(self, ltiRequest);
             var loginToken = new LoginToken
             {
-                PersonId = self.PersonId,
-                Person = self
+                PersonId = user.PersonId,
+                Person = user
             };
 
-            var loginTk = _userLogic.GetUserSecurityToken(loginToken, true);
+            var identity =  UserAuthToken.GetClaimId;
+
+            identity.AddClaim(new Claim(ClaimTypes.PrimarySid, user.PersonId.ToString()));
+
+            identity.AddClaim(new Claim(ClaimTypes.Role, MpTransform.InstituteRoleToEnum(user.MpInstituteRole).ToString()));
+
+            loginToken.TokenExpire = DateTime.Now.Add(TimeSpan.FromMinutes(60));
+            loginToken.TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromMinutes(55));
+            loginToken.AuthToken = UserAuthToken.GetAuthToken(identity);
+            
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            ViewBag.User = JsonConvert.SerializeObject(loginTk, settings);
+            ViewBag.User = JsonConvert.SerializeObject(loginToken, settings);
 
             return View();
-        }
-
-        private async Task<EcPerson> UpdateSelf(EcPerson self, ILtiRequest request)
-        {
-            var newGuy = self.PersonId == 0;
-
-            if (newGuy)
-            {
-                self.MpMilAffiliation = EcMapAffiliation.Unk;
-                self.MpMilComponent = EcMapComponent.Unk;
-                self.MpMilPaygrade = EcMapPaygrade.Unk;
-                self.MpGender = EcGenderType.Unknown.ToString();
-                self.IsRegistrationComplete = false;
-            }
-
-            self.Email = request.LisPersonEmailPrimary;
-            self.LastName = request.LisPersonNameFamily;
-            self.FirstName = request.LisPersonNameGiven;
-            self.BbUserId = request.UserId;
-            self.ModifiedDate = DateTime.Now;
-
-            var userVo = await _userLogic.GetBbPerson(self.BbUserId);
-
-            if (userVo != null)
-            {
-                self.MpInstituteRole = _userLogic.DecipherInstituteRole(userVo.insRoles);
-                self.BbUserName = userVo.name;
-            }
-            else
-            {
-                self.MpInstituteRole = EcMapInstituteRole.External;
-            }
-
-            if (!newGuy)
-            {
-                self.ModifiedById = self.PersonId;
-            }
-
-            if (await _userLogic.SaveChangesSuccess(self) && !newGuy) return self;
-
-            self.ModifiedById = self.PersonId;
-
-            if (await _userLogic.SaveChangesSuccess(self))
-            {
-                return self;
-            }
-
-            throw new DBConcurrencyException("Save changes method failed");
         }
 
     }

@@ -1,13 +1,14 @@
-﻿import ng = require('angular')
+﻿import angular = require('angular')
 import 'ngTable'
-import academy from "admin/academy/academy"
-import acadFormAdd from "admin/academy/addEdit"
+import academy from "admin/features/academy/academy"
+import acadFormAdd from "admin/features/academy/addEdit"
 
 export default class EcAdminModule {
     static moduleId = 'sysAmdin';
-    adminModule: angular.IModule;
+    static load = () => new EcAdminModule();
+
     constructor() {
-       this.adminModule = ng.module(EcAdminModule.moduleId, ['ngTable'])
+       angular.module(EcAdminModule.moduleId, ['ngTable'])
            .controller(academy.controllerId, academy)
            .controller(acadFormAdd.controllerId, acadFormAdd);
     }

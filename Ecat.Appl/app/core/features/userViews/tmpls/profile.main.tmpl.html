@@ -58,11 +58,11 @@
             </dl>
             <dl class="dl-horizontal">
                 <dt>Affiliation</dt>
-                <dd>{{profile.user.mpMilAffiliation}}</dd>
+                <dd>{{profile.user.mpAffiliation}}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>Military Component</dt>
-                <dd>{{profile.user.mpMilComponent}}</dd>
+                <dd>{{profile.user.mpComponent}}</dd>
             </dl>
         </div>
 
@@ -156,7 +156,7 @@
                 <label for="milaffil" class="control-label col-md-2 ">Military Affiliation</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.milaffil.$touched && profile.basicInfoForm.milaffil.$invalid}">
                     <div class="fg-line">
-                        <select ng-model="profile.user.mpMilAffiliation"
+                        <select ng-model="profile.user.mpAffiliation"
                                 name="milaffil"
                                 ng-change="profile.updatePayGradeList()"
                                 required
@@ -173,9 +173,9 @@
                 <label for="milcomponent" class="control-label col-md-2">Military Component</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.milcomponent.$touched && profile.basicInfoForm.milcomponent.$invalid}">
                     <div class="fg-line">
-                        <select ng-model="profile.user.mpMilComponent"
+                        <select ng-model="profile.user.mpComponent"
                                 name="milcomponent"
-                                ng-disabled="profile.user.mpMilAffiliation === profile.local.milAffil.none || profile.user.mpMilAffiliation === profile.local.milAffil.unk"
+                                ng-disabled="profile.user.mpAffiliation === profile.local.milAffil.none || profile.user.mpAffiliation === profile.local.milAffil.unk"
                                 required
                                 class="form-control input-lg fg-input"
                                 ng-options="comp.value as comp.value for comp in profile.componentList | filter:{value: '!Unknown'}">
@@ -190,7 +190,7 @@
                 <label for="paygrade" class="control-label col-md-2">PayGrade</label>
                 <div class="col-md-10" ng-class="{'has-error': profile.basicInfoForm.paygrade.$touched && profile.basicInfoForm.paygrade.$invalid}">
                     <div class="fg-line">
-                        <select  ng-model="profile.user.mpMilPaygrade"
+                        <select  ng-model="profile.user.mpPaygrade"
                                 name="paygrade"
                                 required
                                 class="form-control input-lg fg-input"

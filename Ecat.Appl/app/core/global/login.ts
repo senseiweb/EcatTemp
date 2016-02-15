@@ -68,7 +68,7 @@ export default class EcGlobalLogin {
         const self = this;
         this.badAccount = false;
         function logInSuccess(loginUser: ecat.entity.IPerson): void {
-            if (loginUser.isRegistrationComplete) {
+            if (loginUser.registrationComplete) {
                 self.c.$state.go(self.c.stateMgr.core.dashboard.name);
             } else {
                 self.c.$state.go(self.c.stateMgr.core.profile.name);

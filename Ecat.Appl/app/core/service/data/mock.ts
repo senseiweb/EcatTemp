@@ -98,7 +98,7 @@ export default class EcMockData extends IUtilityRepo {
         }
 
         return this.query.from(resource.name)
-            .withParameters({ courseMemberId: this.activeCourse.id})
+            .withParameters({ courseEnrollId: this.activeCourse.id})
             .using(this.manager)
             .execute()
             .then(getStudAsessSuccess)

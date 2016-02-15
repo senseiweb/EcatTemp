@@ -72,7 +72,7 @@ export default class EcUserProfile {
         this.$scope.$on('$stateChangeStart', (event, toState: angular.ui.IState) => {
             const parentName = toState.parent as angular.ui.IState;
 
-            if (!this.user.isRegistrationComplete && parentName !== c.stateMgr.core.redirect.name ) {
+            if (!this.user.registrationComplete && parentName !== c.stateMgr.core.redirect.name ) {
                 event.preventDefault();
                 c.swal('Registration Error', 'You muse complete your profile, before using the app', 'error');
             }

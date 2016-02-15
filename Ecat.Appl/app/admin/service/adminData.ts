@@ -30,7 +30,7 @@ export default class EcSysAdminDataService extends IUtilityRepo {
             returnedEntityType: appVar.EcMapEntityType.unk
         }
     };
-    private academyCategoryList: Array<Ecat.Models.AcademyCategory> = [];
+    private academyCategoryList: Array<Ecat.Shared.Model.AcademyCategory> = [];
     private isLoaded;
 
     constructor(inj) {
@@ -70,7 +70,7 @@ export default class EcSysAdminDataService extends IUtilityRepo {
             }
     }
 
-    getCategoryList(): breeze.promises.IPromise<Array<Ecat.Models.AcademyCategory> | angular.IPromise<any>> {
+    getCategoryList(): breeze.promises.IPromise<Array<Ecat.Shared.Model.AcademyCategory> | angular.IPromise<any>> {
         const self = this;
 
         if (this.academyCategoryList.length > 0) {

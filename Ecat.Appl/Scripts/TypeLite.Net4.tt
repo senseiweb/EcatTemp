@@ -2,11 +2,11 @@
 <#@ assembly name="$(TargetDir)TypeLite.dll" #>
 <#@ assembly name="$(TargetDir)TypeLite.Net4.dll" #>
 <#@ assembly name="$(TargetDir)$(TargetFileName)" #>
-<#@ assembly name="$(TargetDir)Ecat.Models.dll" #>
+<#@ assembly name="$(TargetDir)Ecat.Shared.Model.dll" #>
 
 <#@ import namespace="TypeLite" #> 
 <#@ import namespace="TypeLite.Net4" #> 
-<#@ import namespace="Ecat.Models" #> 
+<#@ import namespace="Ecat.Shared.Model" #> 
 <#@ output extension=".d.ts" #>
 
  <#@include file="Manager.ttinclude"#>
@@ -15,7 +15,7 @@
 <# var ts = TypeScript.Definitions()
 		.WithMemberFormatter((identifier) => Char.ToLower(identifier.Name[0]) + identifier.Name.Substring(1))
         .WithReference("Enums.ts")
-        .For<EcPerson>()
+        .For<Person>()
 		.For<AcademyCategory>()
 		.For<LoginToken>();
 #>

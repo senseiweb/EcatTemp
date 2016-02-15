@@ -9,13 +9,12 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Breeze.ContextProvider;
 using Breeze.WebApi2;
-using Ecat.Dal;
-using Ecat.Dal.Context;
-using Ecat.Models;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
 using Ecat.Appl.Utilities;
-using Ecat.Bal;
+using Ecat.Shared.Core.Providers;
+using Ecat.Shared.Model;
+using Ecat.Users.Core;
 
 namespace Ecat.Appl.Controllers
 {
@@ -23,16 +22,14 @@ namespace Ecat.Appl.Controllers
     [EcatRolesAuthorized]
     public class UserController : EcatApiController
     {
-        private readonly ICommonRepo _commonRepo;
         private readonly IUserLogic _userLogic;
 
-        public UserController(ICommonRepo common, IUserLogic userLogic) 
+        public UserController(IUserLogic userLogic) 
         {
-            _commonRepo = common;
             _userLogic = userLogic;
         }
 
-        internal override void SetUser(EcPerson person)
+        internal override void SetVariables(Person person, MemberInCourse crseMem = null, MemberInGroup grpMem = null)
         {
             _userLogic.User = person;
         }
@@ -41,57 +38,28 @@ namespace Ecat.Appl.Controllers
         [AllowAnonymous]
         public string Metadata()
         {
-            return _commonRepo.GetMetadata<UserCtx>();
+            return _userLogic.GetMetadata;
         }
 
         [HttpPost]
         [AllowAnonymous]
         public SaveResult SaveChanges(JObject saveBundle)
         {
-            return _userLogic.SaveClientUser(saveBundle);
+            return _userLogic.ClientSave(saveBundle);
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<bool> CheckUserEmail(string email)
         {
-                return await _userLogic.CheckUniqueEmail(email);
-        }
-
-        [HttpPost]
-        public async Task<IHttpActionResult> ChangePassword(FormDataCollection form)
-        {
-            
-            var oldPassword = form["Old"];
-            var newPassword = form["New"];
-
-            var success = await _userLogic.ChangePasswordSuccess(oldPassword, newPassword);
-
-            if (success)
-            {
-                return Ok("Change Processed");
-            }
-            return BadRequest("Unabe to Process changes!");
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<LoginToken> Login(string userName, string userPin)
-        {
-            return await _userLogic.LoginUser(userName, userPin);
+            var emailChecker = new ValidEmailChecker();
+            return !emailChecker.IsValidEmail(email) && await _userLogic.UniqueEmailCheck(email);
         }
 
         [HttpGet]
         public async Task<object> Profiles()
         {
-            return await _userLogic.GetUserProfile();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<EcPerson> ResetPin(string bbUserId, string bbUserPass, string newUserPin)
-        {
-            return await _userLogic.ResetPin(bbUserId, bbUserPass, newUserPin);
+            return await _userLogic.GetProfile();
         }
 
      }

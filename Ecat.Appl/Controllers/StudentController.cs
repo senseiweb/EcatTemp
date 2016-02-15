@@ -1,68 +1,62 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Breeze.ContextProvider;
 using Breeze.WebApi2;
-using Ecat.Dal;
-using Ecat.Dal.Context;
-using Ecat.Models;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
-using Ecat.Bal;
 using Ecat.Appl.Utilities;
+using Ecat.Shared.Model;
+using Ecat.Student.Core.Interface;
 
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    [EcatRolesAuthorized(Is = new[] { EcRoles.Student, EcRoles.External})]
+    [EcatRolesAuthorized(Is = new[] { RoleMap.Student})]
     public class StudentController : EcatApiController
     {
-        private readonly ICommonRepo _commonRepo;
-        private readonly IStudentLogic _studentLogic;
+        private readonly IStudLogic _studLogic;
 
-        public StudentController(ICommonRepo common, IStudentLogic studentLogic)
+        public StudentController(IStudLogic studLogic)
         {
-            _commonRepo = common;
-            _studentLogic = studentLogic;
+            _studLogic = studLogic;
         }
 
-        internal override void SetUser(EcPerson person)
+        internal override void SetVariables(Person person, 
+            MemberInCourse crseMember = null, 
+            MemberInGroup  grpMember = null)
         {
-            _studentLogic.User = person;
+            _studLogic.Student = person;
+            _studLogic.CrsMem = crseMember;
+            _studLogic.GrpMem = grpMember;
         }
-
-        //protected override void Initialize(HttpControllerContext controllerContext)
-        //{
-        //    base.Initialize(controllerContext);
-        //}
 
         [HttpGet]
         public string Metadata()
         {
-            return _commonRepo.GetMetadata<EcatCtx>();
+            return _studLogic.GetMetadata;
         }
 
         [HttpGet]
-        public async Task<object> GetCourses()
+        public async Task<IEnumerable<Course>> GetInitalCourses()
         {
-            return await _studentLogic.GetCourses();
+            return await _studLogic.GetCrsesWithLastGrpMem();
         }
 
         [HttpGet]
-        public async Task<object> GetAllGroupData()
+        public async Task<IEnumerable<WorkGroup>> GetCourseGrpMembers()
         {
-            var selectedCourse = Request.Headers.GetValues("X-ECAT-PVT-AUTH").ToString();
-            int selCourseId;
-            int.TryParse(selectedCourse, out selCourseId);
-            return await _studentLogic.GetAllGroupData(selCourseId);
+            return await _studLogic.GetGroupsAndMemForCourse();
+
         }
 
         [HttpPost]
         public SaveResult SaveChanges(JObject saveBundle)
         {
-            return _studentLogic.BzSave(saveBundle);
+            return _studLogic.ClientSave(saveBundle);
         }
     }    
 }

@@ -51,7 +51,7 @@ export default class EcCommon
         this.serverEnvironment = environment || `${window.location.protocol}//${window.location.host}`;
 
         this.appEndpoint = `${this.serverEnvironment}/breeze/`;
-        this.tokenEndpoint = `${this.serverEnvironment}/token`;
+        this.tokenEndpoint = `${this.serverEnvironment}/ecat-token`;
     }
 
     appStartup(): void {

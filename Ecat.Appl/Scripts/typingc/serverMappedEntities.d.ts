@@ -29,40 +29,33 @@ declare module ecat.entity
         initFunc: (entity: breeze.Entity) => void;
     }
 
-    interface IAcademy extends breeze.Entity, Ecat.Models.EcAcademy {
+    interface IAcademy extends breeze.Entity, Ecat.Shared.Model.Academy {
         
     }
 
-    interface IPerson extends breeze.Entity, Ecat.Models.EcPerson, PersonClientExtensions
+    interface IPerson extends breeze.Entity, Ecat.Shared.Model.Person, PersonClientExtensions
     {
         student: IStudent;
         facilitator: IFacilitator;
         external: IExternal;
     }
 
-    interface ILoginToken extends breeze.Entity, Ecat.Models.LoginToken
+    interface ILoginToken extends breeze.Entity, Ecat.Shared.Model.LoginToken
     {
         person: IPerson;
     }
 
-    interface ICourseMember extends breeze.Entity, Ecat.Models.EcCourseMember{ }
+    interface ICourseMember extends breeze.Entity, Ecat.Shared.Model.MemberInCourse{ }
 
-    interface IGroupMember extends breeze.Entity, Ecat.Models.EcGroupMember, GroupMemberClientExtensions { }
 
-    interface IStudent extends breeze.Entity, Ecat.Models.EcStudent { }
+    interface IGroupMember extends breeze.Entity, Ecat.Shared.Model.MemberInGroup { }
 
-    interface IFacilitator extends breeze.Entity, Ecat.Models.EcFacilitator { }
+    interface IStudent extends breeze.Entity, Ecat.Shared.Model.Student { }
 
-    interface IExternal extends breeze.Entity, Ecat.Models.EcExternal { }
+    interface IFacilitator extends breeze.Entity, Ecat.Shared.Model.Facilitator { }
 
-    interface ISecurity extends breeze.Entity, Ecat.Models.EcSecurity { }
+    interface IExternal extends breeze.Entity, Ecat.Shared.Model.External { }
+    
+    interface ISecurity extends breeze.Entity, Ecat.Shared.Model.Security { }
 
-    interface IGroup extends breeze.Entity, Ecat.Models.EcGroup { }//, GroupClientExtensions { }
-
-    interface ICourse extends breeze.Entity, Ecat.Models.EcCourse { }
-
-    interface IInstrument extends breeze.Entity, Ecat.Models.SpInstrument { }
-
-    interface IInventory extends breeze.Entity, Ecat.Models.SpInventory { }
-   
 }

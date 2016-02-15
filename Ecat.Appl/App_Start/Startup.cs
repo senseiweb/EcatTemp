@@ -7,16 +7,22 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Breeze.ContextProvider.EF6;
 using Ecat.Appl;
-using Ecat.Bal;
-using Ecat.Dal;
-using Ecat.Dal.Context;
+using Ecat.Appl.Utilities;
+using Ecat.Shared.DbManager.Context;
+using Ecat.Student.Core.Business;
+using Ecat.Student.Core.Data;
+using Ecat.Student.Core.Interface;
+using Ecat.Users.Core;
+using Ecat.Users.Core.Business;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Ninject;
+using Ninject.Web.Common;
 using Ninject.Web.Mvc;
 using Ninject.Web.Common.OwinHost;
+using Ninject.Web.Mvc.FilterBindingSyntax;
 using Ninject.Web.WebApi.OwinHost;
 using Owin;
 using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
@@ -71,10 +77,10 @@ namespace Ecat.Appl
 
         public void ConfigureOauth(IAppBuilder app, IKernel kernel)
         {
-            AuthServerOptions.OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
+            AuthServerOptions.OabOptions = new OAuthBearerAuthenticationOptions();
             var serverOptions = new AuthServerOptions(kernel.Get<IUserLogic>());
-            app.UseOAuthAuthorizationServer(serverOptions.GetOptions());
-            app.UseOAuthBearerAuthentication(AuthServerOptions.OAuthBearerOptions);
+            app.UseOAuthAuthorizationServer(serverOptions.OauthOptions);
+            app.UseOAuthBearerAuthentication(AuthServerOptions.OabOptions);
         }
 
         private static StandardKernel CreateKernel()
@@ -83,18 +89,50 @@ namespace Ecat.Appl
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
 
             kernel.Load(Assembly.GetExecutingAssembly());
-            kernel.Bind<IBbWrapper>().To<BbWsWrapper>();
-            kernel.Bind<ICommonRepo>().To<CommonRepo>();
-            kernel.Bind<ICourseRepo>().To<CourseRepo>();
-            kernel.Bind<IBbUserCheckWrapper>().To<BbUserCheckWrapper>();
-            kernel.Bind<EcatCtx>().ToSelf();
-            kernel.Bind<EFContextProvider<UserCtx>>().ToSelf();
-            kernel.Bind<IUserRepo>().To<UserRepo>();
-            kernel.Bind<ISysAdminLogic>().To<SysAdminLogic>();
-            kernel.Bind<ISysAdminRepo>().To<SysAdminRepo>();
-            kernel.Bind<IUserLogic>().To<UserLogic>();
-            kernel.Bind<IStudentLogic>().To<StudentLogic>();
-            kernel.Bind<IStudentRepo>().To<StudentRepo>();
+
+            kernel.BindFilter<EcatAuthService>(FilterScope.Controller, null)
+                .WhenControllerHas<EcatRolesAuthorizedAttribute>()
+                .InRequestScope();
+
+            kernel.Bind<IUserLogic>()
+                .To<UserLogic>()
+                .InRequestScope();
+
+            kernel.Bind<IUserRepo>()
+                .To<UserRepo>()
+                .InRequestScope();
+
+            kernel.Bind<IStudLogic>()
+                .To<StudLogic>()
+                .InRequestScope(); 
+
+            kernel.Bind<IStudRepo>()
+                .To<StudRepo>()
+                .InRequestScope();
+
+            kernel.Bind<EcatContext>()
+                .ToSelf()
+                .InRequestScope();
+
+            kernel.Bind<EFContextProvider<EcatContext>>()
+                .ToSelf()
+                .InRequestScope();
+
+            kernel.Bind<UserCtx>()
+                .ToSelf()
+                .InRequestScope();
+
+            kernel.Bind<EFContextProvider<UserCtx>>()
+                .ToSelf()
+                .InRequestScope();
+
+            kernel.Bind<StudCtx>()
+                .ToSelf()
+                .InRequestScope();
+
+            kernel.Bind<EFContextProvider<StudCtx>>()
+                .ToSelf()
+                .InRequestScope();
 
             //var defaultFilterProviders = config.Services.GetServices(typeof(IFilterProvider)).Cast<IFilterProvider>();
             //config.Services.Clear(typeof(IFilterProvider));

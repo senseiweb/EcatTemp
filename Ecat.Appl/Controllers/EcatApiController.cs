@@ -6,16 +6,18 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using Ecat.Models;
+using Ecat.Shared.Model;
 
 namespace Ecat.Appl.Controllers
 {
 
     public abstract class EcatApiController : ApiController
     {
-        public EcPerson EcUser { get; set; }
+        public Person Person { get; set; }
 
-        internal abstract void SetUser(EcPerson person);
+        internal abstract void SetVariables(Person person,
+            MemberInCourse courseMember = null,
+            MemberInGroup groupMember = null);
 
         [HttpGet]
         [AllowAnonymous]

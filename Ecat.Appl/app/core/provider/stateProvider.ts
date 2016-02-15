@@ -5,6 +5,7 @@ import FacilitatorStates from "facilitator/config/statesFac"
 import CourseAdminStates from "courseAdmin/config/statesCourseAdmin"
 import DesignerStates from "designer/config/statesDesigner"
 
+
 export default class EcStateProvider {
     static providerId = 'ecStateCfg';
 
@@ -28,4 +29,5 @@ export default class EcStateProvider {
     facilitator: FacilitatorStates;
     courseAdmin: CourseAdminStates;
     designer: DesignerStates;
+
 }

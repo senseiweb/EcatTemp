@@ -87,15 +87,15 @@ export default class EcUserRepo extends IUtilityRepo
 
         function createUserLcl(): ecat.entity.IPerson {
             const newPerson = {
-                isRegistrationComplete: false,
+                registrationComplete: false,
                 mpInstituteRole: this.c.appVar.EcMapInstituteRole.external
             };
 
             const user = self.manager.createEntity(this.c.appVar.EcMapEntityType.person, newPerson) as ecat.entity.IPerson;
 
-            user.mpMilAffiliation = self.c.appVar.EcMapAffiliation.unk;
-            user.mpMilComponent = self.c.appVar.EcMapComponent.unk;
-            user.mpMilPaygrade = self.c.appVar.EcMapPaygrade.unk;
+            user.mpAffiliation = self.c.appVar.EcMapAffiliation.unk;
+            user.mpComponent = self.c.appVar.EcMapComponent.unk;
+            user.mpPaygrade = self.c.appVar.EcMapPaygrade.unk;
             user.mpGender = self.c.appVar.EcMapGender.unk;
 
             if (addSecurity) {
@@ -220,7 +220,7 @@ export default class EcUserRepo extends IUtilityRepo
         const self = this;
         const requestCfg: angular.IRequestConfig = {
             method: 'POST',
-            url: `${this.c.serverEnvironment}/token`,
+            url: `${this.c.tokenEndpoint}`,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             data: {
                 username: userEmail,

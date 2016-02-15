@@ -17,7 +17,10 @@ export default class EcCoreStates {
         url: '/main',
         templateUrl: 'wwwroot/app/core/global/main.html',
         controller: 'app.global.main as main',
-        resolve: { tokenValid: [IDataCtx.serviceId, ICommon.serviceId, (dCtx: IDataCtx, c: ICommon) => c.checkValidToken()] }
+        resolve: {
+            tokenValid: [IDataCtx.serviceId, ICommon.serviceId, (dCtx: IDataCtx, c: ICommon) =>
+                c.checkValidToken()]
+        }
     }
 
     dashboard: angular.ui.IState = {
