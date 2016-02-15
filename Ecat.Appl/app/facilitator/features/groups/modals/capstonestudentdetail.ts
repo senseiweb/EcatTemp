@@ -13,7 +13,7 @@ export default class EcFacViewStatusModal {
     //students = [];
     peersTotal: number;
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private selectedGroup: ecat.entity.IGroup) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private selectedGroup: ecat.entity.IWorkGroup) {
         //this.group = selectedGroup;
         this.groupname = "BC1-Flight01";
         this.peersTotal = 9;//this.group.members.length - 1;

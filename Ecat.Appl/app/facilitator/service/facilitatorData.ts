@@ -33,7 +33,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     };
 
     constructor(inj) {
-        super(inj, 'Facilitator Data Service', AppVar.EcMapApiResource.facilitator, [IGroupMemberExt.groupMemberConfig]);//, IGroupExt.groupConfig]);
+        super(inj, 'Facilitator Data Service', AppVar.EcMapApiResource.facilitator, []);//, IGroupExt.groupConfig]);
         this.loadManager(this.facilitatorApiResources);
     }
 

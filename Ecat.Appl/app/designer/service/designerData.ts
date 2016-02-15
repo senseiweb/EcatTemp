@@ -12,7 +12,7 @@ export default class EcDesignerRepo extends IUtilityRepo {
     static $inject = ['$injector'];
 
     activated = false;
-    selectedInstrument: ecat.entity.IInstrument;
+    selectedInstrument: ecat.entity.ISpInstrument;
 
     private DesignerApiResources: DesignerApiResources = {
         getInstruments: {
@@ -51,7 +51,7 @@ export default class EcDesignerRepo extends IUtilityRepo {
             if (retData.results.length > 0) {
                 logger('Got instruments', retData.results, false);
                 self.DesignerApiResources.getInstruments.resource.isLoaded = true;
-                return retData.results as ecat.entity.IInstrument[];
+                return retData.results as ecat.entity.ISpInstrument[];
             }
         }
     }
@@ -71,7 +71,7 @@ export default class EcDesignerRepo extends IUtilityRepo {
             if (retData.results.length > 0) {
                 logger('Got inventories', retData.results, false);
                 self.DesignerApiResources.getInventories.resource.isLoaded = true;
-                return retData.results as ecat.entity.IInventory[];
+                return retData.results as ecat.entity.ISpInventory[];
             }
         }
     }

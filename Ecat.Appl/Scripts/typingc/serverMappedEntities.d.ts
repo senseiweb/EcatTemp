@@ -8,16 +8,16 @@ declare module ecat.entity
         saluatation: string;
     }
 
-    interface GroupMemberClientExtensions {
-        spStatus: {
-            selfAssessComplete: boolean,
-            peersAssessed: number,
-            hEGiven: number,
-            eGiven: number,
-            iEGiven: number,
-            nDGiven: number,
-        }
-    }
+    //interface GroupMemberClientExtensions {
+    //    spStatus: {
+    //        selfAssessComplete: boolean,
+    //        peersAssessed: number,
+    //        hEGiven: number,
+    //        eGiven: number,
+    //        iEGiven: number,
+    //        nDGiven: number,
+    //    }
+    //}
 
     interface GroupClientExtensions {
         groupSpComplete: boolean;
@@ -45,8 +45,15 @@ declare module ecat.entity
         person: IPerson;
     }
 
+    interface ISpInstrument extends breeze.Entity, Ecat.Shared.Model.SpInstrument { }
+
+    interface ISpInventory extends breeze.Entity, Ecat.Shared.Model.SpInventory { }
+
     interface ICourseMember extends breeze.Entity, Ecat.Shared.Model.MemberInCourse{ }
 
+    interface IWorkGroup extends breeze.Entity, Ecat.Shared.Model.WorkGroup { }
+
+    interface ICourse extends breeze.Entity, Ecat.Shared.Model.Course {}
 
     interface IGroupMember extends breeze.Entity, Ecat.Shared.Model.MemberInGroup { }
 

@@ -6,7 +6,7 @@ export default class EcDesignerInstruments {
     static controllerId = 'app.designer.features.instruments';
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
 
-    instruments: ecat.entity.IInstrument[];
+    instruments: ecat.entity.ISpInstrument[];
 
     instructionsModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IInstructionsModal.controllerId,

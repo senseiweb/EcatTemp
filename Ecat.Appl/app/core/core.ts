@@ -9,8 +9,8 @@ import coreCfg from 'core/config/cfgCore'
 
 //#region Import Module Controllers
 import mainCntrl from 'core/global/main'
-import dashboardCntrl from 'core/userViews/dashboard'
-import profileCntrl from 'core/userViews/profile'
+import dashboardCntrl from 'core/features/userViews/dashboard'
+import profileCntrl from 'core/features/userViews/profile'
 import loginCntrl from 'core/global/login'
 import appCntrl from "core/global/appGlobal"
 //#endregion

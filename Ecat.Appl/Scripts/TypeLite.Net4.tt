@@ -1,4 +1,5 @@
-﻿<#@ template debug="false" hostspecific="True" language="C#" #>
+﻿
+<#@ template debug="false" hostspecific="True" language="C#" #>
 <#@ assembly name="$(TargetDir)TypeLite.dll" #>
 <#@ assembly name="$(TargetDir)TypeLite.Net4.dll" #>
 <#@ assembly name="$(TargetDir)$(TargetFileName)" #>

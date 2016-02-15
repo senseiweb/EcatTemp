@@ -280,7 +280,6 @@
     <Content Include="app\student\features\assessments\tmpls\assess.assessments.tmpl.html" />
     <Content Include="app\student\features\assessments\tmpls\assess.strat.tmpl.html" />
     <Content Include="app\student\features\assessments\tmpls\assess.results.tmpl.html" />
-
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\lg.svg" />
@@ -491,12 +490,7 @@
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
-<<<<<<< HEAD
-    <Compile Include="Controllers\MockController.cs" />
-    <Compile Include="Controllers\SysAdminController.cs" />
-=======
     <Compile Include="Controllers\AdminController.cs" />
->>>>>>> feature/AdminModule
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AuthAttribute.cs" />
@@ -697,16 +691,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\admin\config\entityExternsions\" />
-<<<<<<< HEAD
-    <Folder Include="app\facilitator\directives\" />
-    <Folder Include="app\hq\" />
-    <Folder Include="app\student\assessments\modals\" />
-    <Folder Include="app\student\directives\" />
-=======
-    <Folder Include="app\facilitator\features\" />
-    <Folder Include="app\facilitator\service\" />
     <Folder Include="app\hq\service\" />
->>>>>>> feature/AdminModule
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app\admin\features\academy\academy.ts" />
@@ -751,7 +736,6 @@
     <TypeScriptCompile Include="app\core\service\plugin\growl.ts" />
     <TypeScriptCompile Include="app\core\service\plugin\malihuScroll.ts" />
     <TypeScriptCompile Include="app\core\service\requestAuthenicator.ts" />
-<<<<<<< HEAD
     <TypeScriptCompile Include="app\core\features\userViews\dashboard.ts" />
     <TypeScriptCompile Include="app\core\features\userViews\profile.ts" />
     <TypeScriptCompile Include="app\courseAdmin\config\cfgcourseAdmin.ts" />
@@ -778,16 +762,6 @@
     <TypeScriptCompile Include="app\core\features\assessView\modals\edit.ts" />
     <TypeScriptCompile Include="app\core\features\assessView\modals\comment.ts" />
     <TypeScriptCompile Include="app\core\features\assessView\modals\add.ts" />
-=======
-    <TypeScriptCompile Include="app\core\userViews\dashboard.ts" />
-    <TypeScriptCompile Include="app\core\userViews\profile.ts" />
-    <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
-    <TypeScriptCompile Include="app\facilitator\facilitator.ts" />
-    <TypeScriptCompile Include="app\hq\hq.ts" />
-    <TypeScriptCompile Include="app\student\features\assessments\modals\edit.ts" />
-    <TypeScriptCompile Include="app\student\features\assessments\modals\comment.ts" />
-    <TypeScriptCompile Include="app\student\features\assessments\modals\add.ts" />
->>>>>>> feature/AdminModule
     <TypeScriptCompile Include="app\student\config\cfgStudent.ts" />
     <TypeScriptCompile Include="app\student\provider\studCfgProvider.ts" />
     <TypeScriptCompile Include="app\core\service\data\mock.ts" />

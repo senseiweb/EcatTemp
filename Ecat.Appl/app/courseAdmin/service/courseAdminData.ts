@@ -73,7 +73,7 @@ export default class EcCourseAdminRepo extends IUtilityRepo {
             if (retData.results.length > 0) {
                 logger('Got groups', retData.results, false);
                 self.CourseAdminApiResources.getGroups.resource.isLoaded = true;
-                return retData.results as ecat.entity.IGroup[];
+                return retData.results as ecat.entity.IWorkGroup[];
             }
         }
     }

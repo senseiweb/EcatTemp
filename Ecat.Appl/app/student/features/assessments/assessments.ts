@@ -1,14 +1,9 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
-<<<<<<< HEAD:Ecat.Appl/app/student/assessments/assessments.ts
 import IAssessmentAdd from 'core/features/assessView/modals/add'
 import IAssessmentEdit from 'core/features/assessView/modals/edit'
 import ICommentAe from 'core/features/assessView/modals/comment'
-=======
-import IAssessmentAdd from 'student/features/assessments/modals/add'
-import IAssessmentEdit from "student/features/assessments/modals/edit"
-import IComment from "student/features/assessments/modals/comment"
->>>>>>> feature/AdminModule:Ecat.Appl/app/student/features/assessments/assessments.ts
+
 //import {EcMapGender as gender} from "appVars"
 
 export default class EcStudentAssessments {
@@ -80,7 +75,7 @@ export default class EcStudentAssessments {
             if (self.dCtx.student.activeCourse === null || self.dCtx.student.activeCourse === undefined)
             {
                 self.dCtx.student.activeCourse = retData[0];
-                self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
+                //self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
             }
             self.courseEnrollments = retData;
             self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));

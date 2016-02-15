@@ -16,7 +16,7 @@ export default class EcMockData extends IUtilityRepo {
 
     activated = false;
     activeCourse: ecat.entity.ICourseMember;
-    selectedGroup: ecat.entity.IGroup;
+    selectedGroup: ecat.entity.IWorkGroup;
 
     private mockApiResources: IMockApiResource = {
         getStudCrse: {
@@ -140,12 +140,12 @@ export default class EcMockData extends IUtilityRepo {
         }
     }
 
-    getFacGroups(): breeze.promises.IPromise<Array<ecat.entity.IGroup> | angular.IPromise<void>> {
+    getFacGroups(): breeze.promises.IPromise<Array<ecat.entity.IWorkGroup> | angular.IPromise<void>> {
         const self = this;
         const resource = this.mockApiResources.getFacGroups.resource;
 
         if (resource.isLoaded) {
-            return this.c.$q.when(this.queryLocal(resource.name) as Array<ecat.entity.IGroup>);
+            return this.c.$q.when(this.queryLocal(resource.name) as Array<ecat.entity.IWorkGroup>);
         }
 
         return this.query.from(resource.name)
@@ -155,10 +155,10 @@ export default class EcMockData extends IUtilityRepo {
             .then(getFacGroupsSuccess)
             .catch(this.queryFailed);
 
-        function getFacGroupsSuccess(data: breeze.QueryResult): Array<ecat.entity.IGroup> {
+        function getFacGroupsSuccess(data: breeze.QueryResult): Array<ecat.entity.IWorkGroup> {
             if (data.results.length === 0) { return null; }
 
-            const groups = data.results as Array<ecat.entity.IGroup>;
+            const groups = data.results as Array<ecat.entity.IWorkGroup>;
             resource.isLoaded = true;
             console.log(groups);
             return groups;
