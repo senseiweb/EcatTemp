@@ -19,11 +19,11 @@
                     </tr>
                     <tr table-filters>
                         <th class="filter">
-                            <input type="text" />
+                            <input type="text" ng-model="filterName"/>
                         </th>
                     </tr>
                 </thead>
-                <tr ng-repeat="student in courses.students track by students.id" style="height: 50px">
+                <tr ng-repeat="student in courses.students | filter:{LastName: filterName} | orderBy:['LastName','FirstName'] track by student.id" style="height: 50px">
                     <td>{{student.LastName}}, {{student.firstName}}</td>
                     <td>{{student.rank}}</td>
                     <td>{{student.affiliation}}</td>

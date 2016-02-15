@@ -1,4 +1,4 @@
-﻿import ICommon from 'core/service/common'
+import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
 import IInstructionsModal from "designer/features/instruments/modals/instructions"
 
@@ -7,6 +7,14 @@ export default class EcDesignerInstruments {
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
 
     instruments: ecat.entity.ISpInstrument[];
+    selectedInstrument: Ecat.Models.SpInstrument;
+    checkGroupType = {
+        BC1: false,
+        BC2: false,
+        BC3: false,
+        BC4: false
+    }
+    radioEduLevel: string;
 
     instructionsModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IInstructionsModal.controllerId,
@@ -16,7 +24,6 @@ export default class EcDesignerInstruments {
         backdrop: 'static',
         templateUrl: 'wwwroot/app/designer/features/instruments/modals/instructions.html',
         size: 'lg',
-        //resolve: { }
     };
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
@@ -25,10 +32,57 @@ export default class EcDesignerInstruments {
     }
 
     activate(): void {
+        
+    }
+
+    select(instrument: any): void {//Ecat.Models.SpInstrument): void {
+        //this.selectedInstrument = instrument;
+        //this.radioEduLevel = this.selectedInstrument.MpEducationLevel;
+        //this.checkGroupType = this.selectedInstrument.groupTypes;
+        this.radioEduLevel = 'NCOA';
+        this.checkGroupType.BC1 = true;
+    }
+
+    clone(cloneInstrument: Ecat.Models.SpInstrument): void {
+        
+    }
+
+    newAssessment(): void {
 
     }
 
-    addEditInstructions(): void {
+    newBehavior(): void {
+
+    }
+
+    addEditInstructions(type: string): void {
+        switch (type) {
+            case 'Self':
+                var instructions = 'Self instructions';
+                this.instructionsModalOptions.resolve = {
+                    passType: () => type,
+                    passInstructions: () => instructions
+                    //passInstructions: () => this.selectedInstrument.selfInstructions
+                }
+                break;
+            case 'Peer':
+                var instructions = 'Peer instructions';
+                this.instructionsModalOptions.resolve = {
+                    passType: () => type,
+                    passInstructions: () => instructions
+                    //passInstructions: () => this.selectedInstrument.peerInstructions
+                }
+                break;
+            case 'Instructor':
+                var instructions: string = null;
+                this.instructionsModalOptions.resolve = {
+                    passType: () => type,
+                    passInstructions: () => instructions
+                    //passInstructions: () => this.selectedInstrument.instructorInstructions
+                }
+                break;
+        }
+
         this.uiModal.open(this.instructionsModalOptions)
             .result
             .then(instructionsChanged)
@@ -42,9 +96,4 @@ export default class EcDesignerInstruments {
 
         }
     }
-
-    //goToGroups(course: ecat.entity.ICourse) {
-    //    this.dCtx.courseAdmin.selectedCourse = course;
-    //}
-
 }

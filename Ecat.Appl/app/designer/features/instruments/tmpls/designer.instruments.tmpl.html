@@ -4,39 +4,39 @@
             <table class="table table-hover table-vmiddle">
                 <thead>
                     <tr>
-                        <th class="header">Education Lvl</th>
+                        <th class="header">Education Level</th>
                         <th class="header">Group Types</th>
                         <th class="header">Version</th>
                         <th class="header"></th>
                     </tr>
                     <tr table-filters>
                         <th class="filter">
-                            <select class="form-control">
-                                <option value="Select an Option">Education Lvl</option>
-                                <option value="Option 1">NCOA</option>
-                                <option value="Option 2">SNCOA</option>
-                                <option value="Option 3">ALS</option>
+                            <select class="form-control" ng-model="filterEduLevel">
+                                <option value="">Education Level</option>
+                                <option value="SNCOA">SNCOA</option>
+                                <option value="NCOA">NCOA</option>
+                                <option value="ALS">ALS</option>
 
                             </select>
                         </th>
                         <th class="filter">
-                            <select class="form-control">
-                                <option value="Select an Option">Group Type</option>
-                                <option value="Option 1">BC1</option>
-                                <option value="Option 2">BC2</option>
-                                <option value="Option 3">BC3</option>
-                                <option value="Option 4">BC4</option>
+                            <select class="form-control" ng-model="filterGroupType">
+                                <option value="">Group Type</option>
+                                <option value="BC1">BC1</option>
+                                <option value="BC2">BC2</option>
+                                <option value="BC3">BC3</option>
+                                <option value="BC4">BC4</option>
                             </select>
                         </th>
                     </tr>
                 </thead>
-                <tr ng-repeat="instrument in instruments.instruments track by instrument.id" ng-mouseover="instrument.isVisible = true" ng-mouseleave="instrument.isVisible = false" style="height: 50px">
+                <tr ng-repeat="instrument in instruments.instruments | filter:{MpEducationLevel: filterEduLevel, MpGroupType: filterGroupType} | orderBy:['MpEducationLevel','MpGroupType','Version'] track by instrument.id" ng-mouseover="instrument.isVisible = true" ng-mouseleave="instrument.isVisible = false" style="height: 50px">
                     <td>{{instrument.MpEducationLevel}}</td>
                     <td>{{instrument.MpGroupType}}</td>
                     <td>{{instrument.Version}} <a ng-if="{instrument.Used}" class="zmdi zmdi-lock-outline"></a></td>
                     <td style="width: 350px">
-                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true" class="btn btn-link waves-effect">View/Edit</button>
-                        <button type="button" ng-if="instrument.isVisible" ng-click="" class="btn btn-link waves-effect">Clone</button>
+                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true; instruments.select(instrument)" class="btn btn-link waves-effect">View/Edit</button>
+                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.clone(instrument)" class="btn btn-link waves-effect">Clone</button>
                     </td>
                 </tr>
 
@@ -45,7 +45,7 @@
                     <td>BC1 BC4</td>
                     <td>1 <a class="zmdi zmdi-lock-outline"></a></td>
                     <td style="width: 350px">
-                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true" class="btn btn-link waves-effect">View/Edit</button>
+                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true; instruments.select(instrument)" class="btn btn-link waves-effect">View/Edit</button>
                         <button type="button" ng-if="instrument.isVisible" ng-click="" class="btn btn-link waves-effect">Clone</button>
                     </td>
                 </tr>
@@ -54,7 +54,7 @@
                     <td>BC2</td>
                     <td>1 <a class="zmdi zmdi-lock-outline"></a></td>
                     <td style="width: 350px">
-                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true" class="btn btn-link waves-effect">View/Edit</button>
+                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true; instruments.select(instrument)" class="btn btn-link waves-effect">View/Edit</button>
                         <button type="button" ng-if="instrument.isVisible" ng-click="" class="btn btn-link waves-effect">Clone</button>
                     </td>
                 </tr>
@@ -63,7 +63,7 @@
                     <td>BC3</td>
                     <td>1</td>
                     <td style="width: 350px">
-                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true" class="btn btn-link waves-effect">View/Edit</button>
+                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true; instruments.select(instrument)" class="btn btn-link waves-effect">View/Edit</button>
                         <button type="button" ng-if="instrument.isVisible" ng-click="" class="btn btn-link waves-effect">Clone</button>
                     </td>
                 </tr>
