@@ -1,9 +1,9 @@
 ﻿
-
  
  
  
 
+ 
 
 /// <reference path="Enums.ts" />
 
@@ -29,6 +29,7 @@ declare module Ecat.Shared.Model {
 		external: Ecat.Shared.Model.External;
 		hqStaff: Ecat.Shared.Model.HqStaff;
 		security: Ecat.Shared.Model.Security;
+		profile: Ecat.Shared.Model.Profile;
 		modifiedById: number;
 		modifiedDate: Date;
 	}

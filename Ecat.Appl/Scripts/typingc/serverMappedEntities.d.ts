@@ -65,4 +65,5 @@ declare module ecat.entity
     
     interface ISecurity extends breeze.Entity, Ecat.Shared.Model.Security { }
 
+    interface IProfile extends  breeze.Entity, Ecat.Shared.Model.Profile {}
 }

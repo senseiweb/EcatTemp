@@ -8,10 +8,10 @@ import studAuth from "student/service/studentRequestAuth"
 import studConfig from "student/config/cfgStudent"
 
 export default class EcStudentModule {
-    static moduleId = 'app.student';
+    moduleId = 'app.student';
     static load = () => new EcStudentModule();
     constructor() {
-        angular.module(EcStudentModule.moduleId)
+        angular.module(this.moduleId, [])
             .config(studConfig)
             .provider(studCfgProvider.providerId, studCfgProvider)
             .controller(assessments.controllerId, assessments)

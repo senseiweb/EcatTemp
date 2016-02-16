@@ -2,6 +2,8 @@
 import IDataCtx from "core/service/data/context";
 
 enum PageTypeEnum {
+    Main,
+    HqStaff,
     Facilitator,
     Student,
     External,
@@ -35,6 +37,7 @@ export default class EcUserProfile {
     payGradeEnum = this.c.appVar.EcMapPaygrade;
     showExternal = false;
     showStudent = false;
+    showHq = false;
     showFacilitator = false;
     studentInfoForm: angular.IFormController;
     user: ecat.entity.IPerson;
@@ -47,24 +50,11 @@ export default class EcUserProfile {
         this.getProfile();
 
         switch (this.user.mpInstituteRole) {
-            case c.appVar.EcMapInstituteRole.student:
+            case c.appVar.EcMapInstituteRole.student || c.appVar.EcMapInstituteRole.facilitator:
                 this.isLtiRole = true;
-                this.showStudent = true;
-                this.page = PageTypeEnum.Student;
-                break;
-            case c.appVar.EcMapInstituteRole.facilitator:
-                this.isLtiRole = true;
-                this.showFacilitator = true;
-                this.page = PageTypeEnum.Facilitator;
-                break;
-            case c.appVar.EcMapInstituteRole.external:
-                this.isLtiRole = false;
-                this.showExternal = true;
-                this.page = PageTypeEnum.External;
                 break;
             default:
                 this.isLtiRole = false;
-                this.showExternal = true;
                 this.page = PageTypeEnum.Connections;
                 break;
         }
@@ -157,25 +147,12 @@ export default class EcUserProfile {
             .then(getProfileResponse)
             .catch(getProfileError);
 
-        function getProfileResponse(profile: any) {
-            let userType = '';
-            switch (self.user.mpInstituteRole) {
-                case self.c.appVar.EcMapInstituteRole.student:
-                    userType = 'student';
-                    break;
-                case self.c.appVar.EcMapInstituteRole.facilitator:
-                    userType = 'facilitator';
-                    break;
-                case self.c.appVar.EcMapInstituteRole.external:
-                    userType = 'external';
-                    self.showExternal = true;                 
-                    break;
-                default:
-                    userType = 'external';
-                    break;
-            }
-            self.user[userType] = profile;
-            self.aboutMeText = self.user[userType]['bio'];
+        function getProfileResponse() {
+            self.showStudent = !!self.user.student;
+            self.showFacilitator = !!self.user.facilitator;
+            self.showExternal = !!self.user.external;
+            self.showHq = !!self.user.hqStaff;
+            self.aboutMeText = self.user.profile.bio;
         }
 
         function getProfileError(error: any) {

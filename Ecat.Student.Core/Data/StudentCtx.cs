@@ -21,12 +21,16 @@ namespace Ecat.Student.Core.Data
                 typeof (External),
                 typeof (Facilitator),
                 typeof (External),
-                typeof (Security)
+                typeof (Security),
+                typeof (HqStaff),
+                typeof (FacSpStratResponse),
+                typeof (FacSpComment),
+                typeof (FacSpAssessResponse)
             });
 
             //mb.Types().Configure(p => p.Ignore("IsDeleted"));
-            mb.Types().Configure(p => p.Ignore("DeletedById"));
-            mb.Types().Configure(p => p.Ignore("DeletedDate"));
+            //mb.Types().Configure(p => p.Ignore("DeletedById"));
+            //mb.Types().Configure(p => p.Ignore("DeletedDate"));
 
             mb.Entity<Shared.Model.Student>()
                 .HasKey(p => p.PersonId)
@@ -56,13 +60,11 @@ namespace Ecat.Student.Core.Data
             mb.Entity<Course>()
                 .Ignore(p => p.BbCourseId);
 
-
-
             base.OnModelCreating(mb);
         }
 
         public IDbSet<MemberInGroup> MemberInGroups { get; set; }
-        public IDbSet<MemberInGroup> MemberInCourses { get; set; }
+        public IDbSet<MemberInCourse> MemberInCourses { get; set; }
         public IDbSet<SpAssessResponse> SpAssessResponses { get; set; }
         public IDbSet<SpAssessResult> SpAssessResults { get; set; }
         public IDbSet<SpComment> SpComments { get; set; }

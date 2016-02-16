@@ -156,13 +156,13 @@ export default class EcUserRepo extends IUtilityRepo
             .catch(this.queryFailed);
     }
 
-    getUserProfile(): breeze.promises.IPromise<any> {
+    getUserProfile(): breeze.promises.IPromise<Array<ecat.entity.IProfile> | angular.IPromise<void>> {
         const self = this;
         const res = this.userApiResources.profile.resource;
 
         if (res.isLoaded) {
             const pred = new breeze.Predicate('personId', breeze.FilterQueryOp.Equals, this.persona.personId);
-            return this.c.$q.when(this.queryLocal(res.name, null, pred));
+            return this.c.$q.when(this.queryLocal(res.name, null, pred) as Array<ecat.entity.IProfile> ) ;
         }
 
         return this.query.from(res.name)
@@ -172,23 +172,27 @@ export default class EcUserRepo extends IUtilityRepo
             .catch(this.queryFailed);
             
         function getUserProfileResponse(userProfileResult: breeze.QueryResult) {
-            const userProfile = userProfileResult.results[0];
-            if (userProfile) {
-                return userProfile;
-            }
-
+            const userProfiles = userProfileResult.results as Array<ecat.entity.IProfile>;
+         
             const profile = { personId: self.persona.personId }
+            let profileEntity: ecat.entity.IProfile;
+            const profiles = [];
 
             switch (self.persona.mpInstituteRole) {
                 case self.c.appVar.EcMapInstituteRole.student:
-                    return self.manager.createEntity(self.c.appVar.EcMapEntityType.studProfile, profile);
+                    profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.studProfile, profile) as ecat.entity.IProfile;
+                    break;
                 case self.c.appVar.EcMapInstituteRole.facilitator:
-                    return self.manager.createEntity(self.c.appVar.EcMapEntityType.facProfile, profile);
+                    profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.facProfile, profile) as ecat.entity.IProfile;
+                    break;
                 case self.c.appVar.EcMapInstituteRole.external:
-                    return self.manager.createEntity(self.c.appVar.EcMapEntityType.externalProfile, profile);
+                    profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.externalProfile, profile) as ecat.entity.IProfile;
+                    break;
                 default:
-                    return null;
+                    profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.externalProfile, profile) as ecat.entity.IProfile;
             }
+
+            profiles.push(profileEntity);
         }
     }
 
