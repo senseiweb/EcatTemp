@@ -1,0 +1,85 @@
+﻿<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">{{viewStatus.groupname}} Assessment Status</h4>
+    </div>
+    <hr />
+</div>
+
+
+<table class="table table-hover tableCenterAlign">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Self</th>
+            <th>Peer</th>
+            <th>Strats</th>
+            <th>Comments</th>
+            <th>Response Aggregates</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>MSgt Longname, Testlongname</td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td>0</td>
+            <td>HE:5 E:10 IE:3 ND:4</td>
+        </tr>
+        <tr>
+            <td>MSgt Doe, John</td>
+            <td class="error">Incomplete</td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td class="error">7/10</td>
+            <td>3</td>
+            <td>HE:5 E:10 IE:3 ND:4</td>
+        </tr>
+        <tr>
+            <td>MSgt Doe, John</td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td class="error">7/9</td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td>3</td>
+            <td>HE:5 E:10 IE:3 ND:4</td>
+        </tr>
+        <tr>
+            <td>MSgt Doe, John</td>
+            <td class="error">Incomplete</td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td>3</td>
+            <td>HE:5 E:10 IE:3 ND:4</td>
+        </tr>
+        <tr>
+            <td>MSgt Doe, John</td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td>3</td>
+            <td>HE:5 E:10 IE:3 ND:4</td>
+        </tr>
+        <tr>
+            <td>MSgt Doe, John</td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td><i class="zmdi zmdi-check"></i></td>
+            <td class="error">3/10</td>
+            <td>3</td>
+            <td>HE:5 E:10 IE:3 ND:4</td>
+        </tr>
+        <!--<tr ng-repeat="student in groupMembers | orderby: 'id'">
+            <td>{{student.id}}</td>
+            <td ng-if="!student.spStatus.selfAssessComplete">Incomplete</td>
+            <td ng-if="student.spStatus.selfAssessComplete">Complete</td>
+            <td ng-if="!student.spStatus.peersAssessed === peersTotal">{{student.peersComplete}}/{{peersTotal}}</td>
+            <td ng-if="student.spStratResponses.length === peersTotal">Complete</td>
+            <td ng-if="!student.spStratResponses.length === peersTotal">{{student.spStratResponses.length}}/{{peersTotal}}</td>
+            <td>{{student.authorOfComments.length}}</td>
+            <td>HE: {{student.spStatus.hEGiven}} E: {{student.spStatus.eGiven}} IE: {{student.spStatus.iEGiven}} ND: {{student.spStatus.nDGiven}}</td>
+        </tr>-->
+    </tbody>
+</table>
+
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="viewStatus.close()">Close</button>
+</div>

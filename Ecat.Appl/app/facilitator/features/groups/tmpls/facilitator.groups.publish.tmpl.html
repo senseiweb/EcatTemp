@@ -1,0 +1,14 @@
+﻿<div class="lv-body" ng-init="groups.publishView=0">
+    <div ng-switch="groups.publishView">
+        <div ng-switch-when="0">
+            <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.publish.comments.tmpl.html'"></div>
+        </div>
+        <div ng-switch-when="1">
+            <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.publish.strat.tmpl.html'"></div>
+        </div>
+        <div ng-switch-when="2">
+            <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.publish.final.tmpl.html'"></div>
+        </div>
+    </div>
+
+</div>

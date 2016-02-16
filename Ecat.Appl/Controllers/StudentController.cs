@@ -50,6 +50,7 @@ namespace Ecat.Appl.Controllers
         public async Task<IEnumerable<WorkGroup>> GetCourseGrpMembers()
         {
             return await _studLogic.GetGroupsAndMemForCourse();
+
         }
 
         [HttpPost]

@@ -15,14 +15,14 @@ export default class EcStudentRepo extends IUtilityRepo {
     activeCourse: ecat.entity.ICourseMember;
     private studentApiResources: StudentApiResources = {
         getCourses: {
-            returnedEntityType: this.c.appVar.EcMapEntityType.unk,
+            returnedEntityType: this.c.appVar.EcMapEntityType.crseMember,
             resource: {
                 name: 'GetCourses',
                 isLoaded: false
             }
         },
         getAllGroupData: {
-            returnedEntityType: this.c.appVar.EcMapEntityType.unk,
+            returnedEntityType: this.c.appVar.EcMapEntityType.grpMember,
             resource: {
                 name: 'GetAllGroupData',
                 isLoaded: false
@@ -32,12 +32,12 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     constructor(inj) {
         super(inj, 'Student Data Service', AppVar.EcMapApiResource.student, []);
-        this.loadManager(this.apiResources);
+        this.loadManager(this.studentApiResources);
     }
 
     getCourses(): breeze.promises.IPromise<any> {
         const self = this;
-        const res = this.apiResources.getCourses.resourceName;
+        const res = this.studentApiResources.getCourses.resource.name;
         const logger = this.logInfo;
 
         return this.query.from(res)
@@ -49,14 +49,16 @@ export default class EcStudentRepo extends IUtilityRepo {
         function getCoursesResponse(retData: breeze.QueryResult) {
             if (retData.results.length > 0) {
                 logger('Got course memberships', retData.results, false);
+                self.studentApiResources.getCourses.resource.isLoaded = true;
                 return retData.results as ecat.entity.ICourseMember[];
             }
         }
     }
 
     getAllGroupData(courseMem: Ecat.Shared.Model.MemberInCourse): breeze.promises.IPromise<any> {
+
         const self = this;
-        const res = this.apiResources.getAllGroupData.resourceName;
+        const res = this.studentApiResources.getAllGroupData.resource.name;
         const logger = this.logInfo;
 
         return this.query.from(res)
@@ -67,17 +69,17 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         function getGroupDataResponse(retData: breeze.QueryResult) {
             if (retData.results.length > 0) {
-                //self.isLoaded.studentAssessment = true;
                 logger('Got group and assessment data', retData.results, false);
+                self.studentApiResources.getAllGroupData.resource.isLoaded = true;
                 return retData.results as ecat.entity.IGroupMember[];
             }
         }
     }
 
     loadStudentManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-        return this.loadManager(this.apiResources)
+        return this.loadManager(this.studentApiResources)
             .then(() => {
-                this.registerTypes(this.apiResources);
+                this.registerTypes(this.studentApiResources);
             })
             .catch(this.queryFailed);
     }

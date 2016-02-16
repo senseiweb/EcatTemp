@@ -1,6 +1,6 @@
 ﻿<div class="container animated fadeInRight">
     <div class="block-header">
-        <h2>{{assess.fullName}} Assessment Center</h2>
+        <h2>{{assess.fullName}} Assessment Center - <i class="zmdi zmdi-circle-o"></i> Incomplete </h2>
 
         <ul class="actions">
             <li class="dropdown" uib-dropdown>
@@ -19,12 +19,26 @@
 
     <div class="card" id="assessments-main">
         <div class="listview lv-bordered lv-lg">
-            <div class="lv-header-alt clearfix p-b-5" >
+            <div class="lv-header-alt clearfix p-b-5">
 
                 <div class="btn-group clearfix m-l-5">
-                    <button type="button" class="btn btn-primary" ng-click="assess.view=0">Assessments</button>
-                    <button type="button" class="btn btn-danger" ng-click="assess.view=2">Stratify Group</button>
-                    <button type="button" class="btn btn-default" ng-click="assess.view=1">Results</button>
+                    <button type="button" class="btn btn-primary" ng-click="assess.view=0; assess.stratInputVis = false">Assessments</button>
+                    <button type="button" class="btn btn-danger" ng-click="assess.stratInputVis = !assess.stratInputVis">Stratify Group</button>
+
+                    <div class="btn-group dropdown" uib-dropdown>                 
+                        <button class="btn btn-link dropdown-toggle btn-icon-text waves-effect" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-menu"></i>Results
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                            <li>
+                                <a href="javascript:void(0)" ng-click="assess.view=1">Assessment</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" ng-click="assess.view=2">Comments</a>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
 
                 <ul class="lv-actions actions">
@@ -43,7 +57,7 @@
                         </ul>
                     </li>
 
-                    
+
 
                     <li class="dropdown" uib-dropdown>
                         <a href="" uib-dropdown-toggle>
@@ -68,10 +82,14 @@
                         <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.results.tmpl.html'"></div>
                     </div>
                     <div ng-switch-when="2">
-                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.strat.tmpl.html'"></div>
+                        <div ng-include="'wwwroot/app/student/assessments/tmpls/assess.comments.tmpl.html'"></div>
                     </div>
                 </div>
 
+            </div>
+
+            <div ng-if="assess.stratInputVis" class="lv-footer">
+                <button type="button" class="btn btn-primary">Save</button>
             </div>
 
         </div>

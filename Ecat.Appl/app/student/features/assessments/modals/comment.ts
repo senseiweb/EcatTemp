@@ -12,7 +12,7 @@ export default class EcStudentAssessmentAddCommentForm {
     cancel(): void {
         this.$mi.dismiss('canceled');
     }
-
+    
     ok(): void {
         
     }

@@ -1,13 +1,15 @@
 ﻿import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
-import IAssessmentAdd from 'student/features/assessments/modals/add'
-import IAssessmentEdit from "student/features/assessments/modals/edit"
-import IComment from "student/features/assessments/modals/comment"
+import IAssessmentAdd from 'core/features/assessView/modals/add'
+import IAssessmentEdit from 'core/features/assessView/modals/edit'
+import ICommentAe from 'core/features/assessView/modals/comment'
+
 //import {EcMapGender as gender} from "appVars"
 
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
+    stratInputVis;
 
     addModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IAssessmentAdd.controllerId,
@@ -15,7 +17,8 @@ export default class EcStudentAssessments {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: 'wwwroot/app/student/assessments/modals/add.html'
+        resolve: {mode: () => 'student'},
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/add.html'
 
     };
 
@@ -25,36 +28,35 @@ export default class EcStudentAssessments {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: 'wwwroot/app/student/assessments/modals/edit.html'
+        resolve: { mode: () => 'student' },
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/edit.html'
 
     };
 
     assessmentForm: angular.IFormController;
 
     commentModalOptions: angular.ui.bootstrap.IModalSettings = {
-        controller: IComment.controllerId,
+        controller: ICommentAe.controllerId,
         controllerAs: 'commentAe',
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: 'wwwroot/app/student/assessments/modals/comment.html'
+        templateUrl: 'wwwroot/app/core/features/assessView/modals/comment.html'
 
     };
 
-    courses: Array<string>;
+    courses: Array<string> = [];
 
-    fullName = "Unknown";
+    fullName = 'Unknown';
 
-    groupMembers: Array<ecat.entity.IPerson>;
+    groupMembers: Array<{}> = [];
 
-    //dummyStudent: ecat.entity.IPerson = {
-    //    lastName: "Silvers",
-    //    firstName: "Jason",
+    courseEnrollments: ecat.entity.ICourseMember[] = [];
 
-          
-    //};
 
     user: ecat.entity.IPerson;
+
+    questions: Array<{}>;
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
@@ -64,15 +66,53 @@ export default class EcStudentAssessments {
     activate(): void {
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
-        this.courses = ["ILE 16-1", "ILE 16-2", "ILE 16-3"];
+        //this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
+        const self = this;
 
-        this.dCtx.mock.getCourses().then((courses) => console.log(courses));
+        this.dCtx.student.getCourses().then(recCourseList);
 
-        this.groupMembers = [
+        function recCourseList(retData: ecat.entity.ICourseMember[]) {
+            if (self.dCtx.student.activeCourse === null || self.dCtx.student.activeCourse === undefined)
             {
-                
-            } 
-        ] as Array<ecat.entity.IPerson>;
+                self.dCtx.student.activeCourse = retData[0];
+                //self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
+            }
+            self.courseEnrollments = retData;
+            self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
+        }
+
+
+        this.questions = [
+        {
+            id: 1,
+            question: 'controlled emotions and impulses while adapting to changing circumstances',
+            assessAvg: 'Always Highly Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 2,
+            question: 'Did awesome things at the expense of others',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 3,
+            question: 'Was load and obnoxious',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 4,
+            question: 'Encouraged others to participate',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }, {
+            id: 5,
+            question: 'Contributed to the group in a positive way',
+            assessAvg: 'Frequently Effective',
+            counts: 'IE: 4   E: 4   HE: 5'
+        }
+        ];
+
+        this.stratInputVis = false;
+
     }
 
     addAssessment(): void {
@@ -124,5 +164,9 @@ export default class EcStudentAssessments {
 
         }
 
+    }
+
+    get viewStrat(): boolean {
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-﻿//#region Import Required Modules
+//#region Import Required Modules
 import angular = require('angular')
 import swal from "sweetalert"
 import 'animate'

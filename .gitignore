@@ -2,8 +2,10 @@ Ecat.Appl/**/*.js
 Ecat.Appl/Template/**
 !Ecat.Appl/Scripts/vendor/**/*.js
 !Ecat.Appl/Scripts/config/**/*.js
-Ecat.Dal/Context/Seed.cs
-Ecat.Dal/Migrations/**
+
+Ecat.Shared.DbManager/Migrations/**
+Ecat.Appl/Scripts/TypeLite.Net4.d.ts
+Ecat.Appl/Scripts/Enums.ts
 bower
 bower_components
 published

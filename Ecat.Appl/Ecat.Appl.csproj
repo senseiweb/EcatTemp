@@ -239,13 +239,40 @@
     <Content Include="app\core\global\tmpls\login.register.tmpl.html" />
     <Content Include="app\core\global\tmpls\sidebar.tmpl.html" />
     <Content Include="app\core\global\tmpls\tabset.tmpl.override.html" />
-    <Content Include="app\core\userViews\dashboard.html" />
-    <Content Include="app\core\userViews\profile.html" />
-    <Content Include="app\core\userViews\tmpls\profile.connection.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.external.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.facilitator.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.main.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.student.tmpl.html" />
+    <Content Include="app\core\features\userViews\dashboard.html" />
+    <Content Include="app\core\features\userViews\profile.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.connection.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.external.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.facilitator.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.main.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.student.tmpl.html" />
+    <Content Include="app\courseAdmin\features\courses\courses.html" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.enrollments.facs.tmpl.html" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.enrollments.studs.tmpl.html" />
+    <Content Include="app\courseAdmin\features\groups\groups.html" />
+    <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.enrollments.tmpl.html" />
+    <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.tmpl.html" />
+    <Content Include="app\designer\features\instruments\instruments.html" />
+    <Content Include="app\designer\features\instruments\modals\instructions.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.details.tmpl.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.inventories.tmpl.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\groups.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.strat.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.comments.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.capstoneresults.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.assess.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.behaviorlist.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.grouplist.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\modals\status.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.tmpl.html" />
+    <Content Include="app\core\features\assessView\modals\edit.html" />
+    <Content Include="app\core\features\assessView\modals\comment.html" />
+    <Content Include="app\core\features\assessView\modals\add.html" />
+    <Content Include="app\core\features\assessView\tmpls\assess.assessments.ack.html" />
+    <Content Include="app\core\features\assessView\tmpls\assess.assessments.add.html" />
     <Content Include="app\student\features\assessments\modals\edit.html" />
     <Content Include="app\student\features\assessments\modals\comment.html" />
     <Content Include="app\student\features\assessments\modals\add.html" />
@@ -436,6 +463,7 @@
     <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.js" />
     <Content Include="wwwroot\index.html" />
     <Content Include="Scripts\Manager.ttinclude" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.tmpl.html" />
     <None Include="Properties\PublishProfiles\tofolder.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -458,6 +486,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\CourseAdminController.cs" />
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -662,8 +691,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\admin\config\entityExternsions\" />
-    <Folder Include="app\facilitator\features\" />
-    <Folder Include="app\facilitator\service\" />
     <Folder Include="app\hq\service\" />
   </ItemGroup>
   <ItemGroup>
@@ -675,6 +702,8 @@
     <TypeScriptCompile Include="app\appVars.ts" />
     <TypeScriptCompile Include="app\core\config\cfgState.ts" />
     <TypeScriptCompile Include="app\admin\config\statesAdmin.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\group.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\groupMember.ts" />
     <TypeScriptCompile Include="app\core\config\statesCore.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
     <TypeScriptCompile Include="app\core\config\cfgCore.ts" />
@@ -684,6 +713,7 @@
     <TypeScriptCompile Include="app\core\directives\compareTo.ts" />
     <TypeScriptCompile Include="app\core\directives\fgLine.ts" />
     <TypeScriptCompile Include="app\core\directives\frmControl.ts" />
+    <TypeScriptCompile Include="app\core\directives\assessmentAdd.ts" />
     <TypeScriptCompile Include="app\core\directives\inputMask.ts" />
     <TypeScriptCompile Include="app\core\directives\malihuScroll.ts" />
     <TypeScriptCompile Include="app\core\directives\tabError.ts" />
@@ -706,21 +736,38 @@
     <TypeScriptCompile Include="app\core\service\plugin\growl.ts" />
     <TypeScriptCompile Include="app\core\service\plugin\malihuScroll.ts" />
     <TypeScriptCompile Include="app\core\service\requestAuthenicator.ts" />
-    <TypeScriptCompile Include="app\core\userViews\dashboard.ts" />
-    <TypeScriptCompile Include="app\core\userViews\profile.ts" />
+    <TypeScriptCompile Include="app\core\features\userViews\dashboard.ts" />
+    <TypeScriptCompile Include="app\core\features\userViews\profile.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\config\cfgcourseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\config\statesCourseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\courseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\features\courses\courses.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\features\groups\groups.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\provider\courseAdminCfgProvider.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\service\courseAdminData.ts" />
+    <TypeScriptCompile Include="app\designer\config\cfgDesigner.ts" />
+    <TypeScriptCompile Include="app\designer\config\statesDesigner.ts" />
+    <TypeScriptCompile Include="app\designer\designer.ts" />
+    <TypeScriptCompile Include="app\designer\features\instruments\instruments.ts" />
+    <TypeScriptCompile Include="app\designer\features\instruments\modals\instructions.ts" />
+    <TypeScriptCompile Include="app\designer\provider\designerCfgProvider.ts" />
+    <TypeScriptCompile Include="app\designer\service\designerData.ts" />
+    <TypeScriptCompile Include="app\facilitator\config\cfgFac.ts" />
     <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
+    <TypeScriptCompile Include="app\facilitator\features\groups\groups.ts" />
     <TypeScriptCompile Include="app\facilitator\facilitator.ts" />
-    <TypeScriptCompile Include="app\hq\hq.ts" />
-    <TypeScriptCompile Include="app\student\features\assessments\modals\edit.ts" />
-    <TypeScriptCompile Include="app\student\features\assessments\modals\comment.ts" />
-    <TypeScriptCompile Include="app\student\features\assessments\modals\add.ts" />
+    <TypeScriptCompile Include="app\facilitator\features\groups\modals\status.ts" />
+    <TypeScriptCompile Include="app\facilitator\provider\facCfgProvider.ts" />
+    <TypeScriptCompile Include="app\facilitator\service\facilitatorData.ts" />
+    <TypeScriptCompile Include="app\core\features\assessView\modals\edit.ts" />
+    <TypeScriptCompile Include="app\core\features\assessView\modals\comment.ts" />
+    <TypeScriptCompile Include="app\core\features\assessView\modals\add.ts" />
     <TypeScriptCompile Include="app\student\config\cfgStudent.ts" />
     <TypeScriptCompile Include="app\student\provider\studCfgProvider.ts" />
     <TypeScriptCompile Include="app\core\service\data\mock.ts" />
     <TypeScriptCompile Include="app\student\service\studentRequestAuth.ts" />
     <TypeScriptCompile Include="app\student\features\assessments\assessments.ts" />
     <TypeScriptCompile Include="app\student\config\statesStudent.ts" />
-    <TypeScriptCompile Include="app\student\directives\editAssessQuestion.ts" />
     <TypeScriptCompile Include="app\student\service\studentData.ts" />
     <TypeScriptCompile Include="app\student\student.ts" />
     <TypeScriptCompile Include="gulpfile.ts" />

@@ -4,7 +4,7 @@ import addAssess from "student/features/assessments/modals/add"
 import addComment from "student/features/assessments/modals/comment"
 import editAssess from "student/features/assessments/modals/edit"
 import studCfgProvider from "student/provider/studCfgProvider"
-import studAuth from "student/service/studentRequestAuth"
+import studAuth from "student/service/studentRequestAuth" 
 import studConfig from "student/config/cfgStudent"
 
 export default class EcStudentModule {

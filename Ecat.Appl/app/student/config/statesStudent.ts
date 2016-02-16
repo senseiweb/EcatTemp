@@ -10,6 +10,7 @@ export default class EcStudentStates {
 
     main: angular.ui.IState;
     assessment: angular.ui.IState;
+    assess: angular.ui.IState;
 
     constructor(coreMain: angular.ui.IState) {
         this.main = {
@@ -37,6 +38,7 @@ export default class EcStudentStates {
                 moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
             }
         }
+
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {

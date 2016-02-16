@@ -121,6 +121,11 @@ body {
 		vertical-align: middle;
 	}
 
+    .table tbody tr > td.error {
+        color: red;
+        background-color: transparent;
+    }
+
 	.ta-editor.ta-html, .ta-scroll-window.form-control {
 		min-height: 150px;
 		height: 150px;
@@ -142,13 +147,52 @@ body {
 		padding-top: 4px !important;
 	}
 	
-	.fixAnimate.ng-animate.row { transition:0s none;
-	   -webkit-transition:0s none;
-	   animation: 0s none;
-	   -webkit-animation: 0s none; }
-}
+	.pagination > li > a, .pagination > li > span {
+		width: 30px;
+		height: 30px;
+		line-height: 29px;
 
+	}
 
+	#messages-main .ms-menu .ecat-messages {
+		.lv-item {
+			.lv-avatar {
+				background-color: @m-blue;
+			}
+			&.active{
+			background: @m-blue; 
+
+			.lv-avatar {
+				background-color: #fff;
+				color: @m-blue;
+			}
+
+			.lv-title {
+				color: #fff;
+			}
+
+			
+		
+			}
+		}
+
+		.media-body {
+			.zmdi-check {
+				font-size: 1.5em;
+			}
+		}
+	}	
+
+		.ecat-submessages {
+			.media-body {
+				.zmdi-check {
+					font-size: 1.5em;
+				}
+			}
+		}
+	
+	
+ }
 
 .ta-toolbar {
 	background-color: #F0F0F0;
