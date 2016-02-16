@@ -14,11 +14,12 @@
 <# var manager = Manager.Create(Host, GenerationEnvironment); #>
 
 <# var ts = TypeScript.Definitions()
-		.WithMemberFormatter((identifier) => Char.ToLower(identifier.Name[0]) + identifier.Name.Substring(1))
-        .WithReference("Enums.ts")
-        .For<Person>()
-		.For<AcademyCategory>()
-		.For<LoginToken>();
+    .WithMemberFormatter((identifier) => Char.ToLower(identifier.Name[0]) + identifier.Name.Substring(1))
+    .WithReference("Enums.ts")
+    .For<Person>()
+	.For<Academy>()
+	.For<AcademyCategory>()
+    .For<LoginToken>();
 #>
 
 <#= ts.Generate(TsGeneratorOutput.Properties) #>
