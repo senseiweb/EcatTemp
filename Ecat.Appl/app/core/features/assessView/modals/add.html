@@ -1,0 +1,42 @@
+﻿<div class="modal-header p-b-5">
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="profile-pic">
+                <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
+            </div>
+
+        </div>
+
+        <div class="col-md-8">
+            <h4 class="text-center thingHeader">Assessment for Jane Doe</h4>
+        </div>
+
+        <div class="col-md-2">
+            <p class="text-right m-0 m-t-10">ILE 1-1</p>
+        </div>
+    </div>
+
+    <hr/>
+
+</div>
+<div class="modal-body" ng-init="assessAdd.view=0">
+    <div ng-switch="assessAdd.view">
+        <div ng-switch-when="0">
+            <div ng-include="'wwwroot/app/core/features/assessView/tmpls/assess.assessments.ack.html'"></div>
+        </div>
+        <div ng-switch-when="1">
+            <div ng-include="'wwwroot/app/core/features/assessView/tmpls/assess.assessments.add.html'"></div>
+        </div>
+    </div>
+
+</div>
+<div ng-if="assessAdd.AckAccep" class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="assessAdd.ok()">OK</button>
+    <button class="btn btn-link" type="button" ng-click="assessAdd.cancel()">Cancel</button>
+</div>
+
+<div ng-if="!assessAdd.AckAccep" class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="assessAdd.AckAccep=true; assessAdd.view=1">I Agree</button>
+    <button class="btn btn-link" type="button" ng-click="assessAdd.cancel()">Cancel</button>
+</div>

@@ -5,7 +5,7 @@
     Student
 }
 
-export enum TokenStatus {
+export const enum TokenStatus {
     Missing,
     Expired,
     Valid
@@ -63,13 +63,25 @@ export class EcMapPaygrade {
     static unk = 'Unknown';
 }
 
+export class EcSpItemResponse {
+    static Iea = "IEA";
+    static Ieu = "IEU";
+    static Nd = "ND";
+    static Eu = "EU";
+    static Ea = "EA";
+    static Heu = "HEU";
+    static Hea = "HEA";
+}
+
 export class EcMapApiResource
 {
-    static user = 'user';
-    static student = 'student';
-    static instructor = 'instructor';
-    static sa = 'sysAdmin';
-    static courseAdmin = 'courseAdmin';
+    static user = 'User';
+    static mock = 'Mock';
+    static student = 'Student';
+    static facilitator = 'Facilitator';
+    static sa = 'SysAdmin';
+    static courseAdmin = 'CourseAdmin';
+    static designer = 'Designer';
 }
 
 export class EcMapAlertType {
@@ -130,20 +142,22 @@ export class EcMapAnimationsEnum {
 
 export class EcMapEntityType {
     static unk = 'Unknown';
-    static person = 'EcPerson';
-    static security = 'EcSecurity';
+    static person = 'Person';
+    static security = 'Security';
     static loginTk = 'LoginToken';
-    static facProfile = 'EcInstructor';
-    static studProfile = 'EcStudent';
-    static externalProfile = 'EcExternal';
-    static course = 'EcCourse';
-    static academy = 'EcAcademy';
-    static group = 'EcGroup';
+    static facProfile = 'Faciliatator';
+    static studProfile = 'Student';
+    static externalProfile = 'External';
+    static course = 'Course';
+    static academy = 'Academy';
+    static group = 'WorkGroup';
+    static grpMember = 'MemberInGroup';
+    static crseMember ='MemberInCourse';
     static spInstr = 'SpInstrument';
     static kcInstr = 'KcInstrument';
-    static ecInstr = 'EcInstrument';
+    static ecInstr = 'Instrument';
     static spComment = 'SpComment';
-    static ecInventory = 'EcInventory';
+    static ecInventory = 'Inventory';
     static kcResult = 'KcResult';
 
 }
@@ -156,12 +170,17 @@ export class SweetAlertTypes {
     static input = 'input';
 }
 
+export const enum AuthHeaderType {
+    CourseMember,
+    Facilitator
+}
+
 export enum Keycode {
     Enter = 13,
     Escape = 27,
     A = 65,
     B = 66,
-    c = 67,
+    C = 67,
     D = 68,
     E = 69,
     F = 70
@@ -183,6 +202,7 @@ export enum SysErrorType {
     AuthNoToken,
     AuthExpired,
     NotAuthorized,
-    RegNotComplete
+    RegNotComplete,
+    MetadataFailure
 }
 

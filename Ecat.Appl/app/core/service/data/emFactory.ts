@@ -20,11 +20,22 @@ export default class EcEmFactory {
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
         const serviceName = this.common.appEndpoint + apiResourceName;
         const metaDataStore = this.createMetadataStore(clientExtensions);
-        //this.registerResourceTypes(metaDataStore, apiResourceName);
-        return new breeze.EntityManager({
+        const mgr =  new breeze.EntityManager({
             serviceName: serviceName,
             metadataStore: metaDataStore
         });
+        mgr.fetchMetadata()
+            .then(() => {
+                this.common.broadcast(this.common.coreCfg.coreEvents.managerLoaded,
+                    { loaded: true, mgrName: apiResourceName });
+                this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
+            })
+            .catch((error) => {
+                
+                this.common.logger.logError(`${apiResourceName}} Manager could not be loaded. This is a critical error.\nPlease attempt reload the application`, error, 'EM-Factory', true);
+                this.common.$state.go(this.common.stateMgr.core.error.name);
+            });
+        return mgr;
     }
 
     //#region Internal Api
@@ -38,15 +49,16 @@ export default class EcEmFactory {
         return metadataStore;
     }
 
-    registerResourceTypes(metadataStore: breeze.MetadataStore, apiResourceName: appVar.EcMapApiResource) {
-        const apiResources = this.common.resourceNames[apiResourceName as string];
+    registerResourceTypes(metadataStore: breeze.MetadataStore, resourceToMap: ecat.IApiResources) {
 
-        for (let resourceEntity in apiResources) {
-            if (apiResources.hasOwnProperty(resourceEntity)) {
-                const selectedResource = apiResources[resourceEntity];
-                if (typeof selectedResource !== 'string') {
-                    const resource = selectedResource as ecat.IApiResource;
-                    metadataStore.setEntityTypeForResourceName(resource.resourceName, resource.entityType);
+        for (let resourceEntity in resourceToMap) {
+
+            if (resourceToMap.hasOwnProperty(resourceEntity)) {
+
+                const selectedResource = resourceToMap[resourceEntity];
+
+                if (selectedResource.returnedEntityType !== this.common.appVar.EcMapEntityType.unk) {
+                    metadataStore.setEntityTypeForResourceName(selectedResource.resource.name, selectedResource.returnedEntityType);
                 }
             }
         }

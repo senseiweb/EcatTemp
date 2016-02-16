@@ -90,10 +90,15 @@ angular.module('cfp.loadingBarInterceptor', ['cfp.loadingBar'])
 
 
       return {
-        'request': function(config) {
+          'request': function (config) {
+              var regEx = /(:ignore)$/g;
+              var isIgnored = regEx.test(config.url);
+              if (isIgnored) {
+                  config.url = config.url.replace(/(:ignore)$/g, '');
+              }
           // Check to make sure this request hasn't already been cached and that
           // the requester didn't explicitly ask us to ignore this request:
-          if (!config.ignoreLoadingBar && !isCached(config)) {
+          if (!config.ignoreLoadingBar && !isIgnored && !isCached(config)) {
             $rootScope.$broadcast('cfpLoadingBar:loading', {url: config.url});
             if (reqsTotal === 0) {
               startTimeout = $timeout(function() {
@@ -106,7 +111,7 @@ angular.module('cfp.loadingBarInterceptor', ['cfp.loadingBar'])
           return config;
         },
 
-        'response': function(response) {
+          'response': function (response) {
           if (!response || !response.config) {
             $log.error('Broken interceptor detected: Config object not supplied in response:\n https://github.com/chieffancypants/angular-loading-bar/pull/50');
             return response;

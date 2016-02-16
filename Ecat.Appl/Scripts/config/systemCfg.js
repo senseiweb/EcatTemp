@@ -1,7 +1,8 @@
-﻿var config = {
+﻿
+var config = {
     "baseURL": 'wwwroot/',
     "map": {
-        "jquery": 'scripts/vendor/bower/jquery/dist/jquery.js',
+        "jquery": 'scripts/vendor/bower/jquery/dist/jquery.min.js',
         "angular": 'scripts/vendor/bower/angular/angular.js',
         "animate": 'scripts/vendor/bower/angular-animate/angular-animate.min.js',
         "ocLazyLoad": 'scripts/vendor/bower/oclazyload/dist/ocLazyLoad.js',
@@ -66,6 +67,10 @@
             "format": 'global',
             "deps": ['angular']
         },
+        "breezeSaveError": {
+            "format": 'global',
+            "deps": ['breeze']
+        },
         "breezeNg": {
             "format": 'global',
             "deps": ['breeze']
@@ -127,7 +132,13 @@
                 "provider": 'app/core/provider',
                 "service": 'app/core/service',
                 "global": 'app/core/global',
-                "admin": 'app/admin'
+                "admin": 'app/admin',
+                "student": 'app/student',
+                "facilitator": 'app/facilitator',
+                "courseAdmin": 'app/courseAdmin',
+                "designer": 'app/designer',
+                "hq": 'app/hq'
+
             }
         }
     }
@@ -140,9 +151,9 @@
         // RequireJS
     } else if (window.System !== undefined) {
         System.config(config);
-        System.import('app/app.js').then(function (angularMod) {
-            new angularMod.default();
-             angular.bootstrap(document.querySelector('html'), ['appEcat'], {strictD: true});
+        System.import('app/app.js').then(function (ecatApp) {
+            ecatApp.default.load();
+            angular.bootstrap(document.querySelector('html'), ['app.ecat'], {strictD: true});
         });
         // <script>
     } else {

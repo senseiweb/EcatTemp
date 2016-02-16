@@ -176,11 +176,11 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="TypeLite, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8cd4b9c9ac23d744, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeLite.1.5.2\lib\net4\TypeLite.dll</HintPath>
+      <HintPath>..\packages\TypeLite.1.6.0\lib\net4\TypeLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TypeLite.Net4, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8cd4b9c9ac23d744, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeLite.1.5.2\lib\net4\TypeLite.Net4.dll</HintPath>
+      <HintPath>..\packages\TypeLite.1.6.0\lib\net4\TypeLite.Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebActivator, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -225,7 +225,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\admin\academy\academy.html" />
+    <Content Include="app\admin\features\academy\academy.html" />
+    <Content Include="app\admin\features\academy\addEdit.html" />
+    <Content Include="app\core\global\appGlobal.html" />
     <Content Include="app\core\global\login.html" />
     <Content Include="app\core\global\main.html" />
     <Content Include="app\core\global\tmpls\error.html" />
@@ -237,13 +239,47 @@
     <Content Include="app\core\global\tmpls\login.register.tmpl.html" />
     <Content Include="app\core\global\tmpls\sidebar.tmpl.html" />
     <Content Include="app\core\global\tmpls\tabset.tmpl.override.html" />
-    <Content Include="app\core\userViews\dashboard.html" />
-    <Content Include="app\core\userViews\profile.html" />
-    <Content Include="app\core\userViews\tmpls\profile.connection.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.external.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.facilitator.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.main.tmpl.html" />
-    <Content Include="app\core\userViews\tmpls\profile.student.tmpl.html" />
+    <Content Include="app\core\features\userViews\dashboard.html" />
+    <Content Include="app\core\features\userViews\profile.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.connection.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.external.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.facilitator.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.main.tmpl.html" />
+    <Content Include="app\core\features\userViews\tmpls\profile.student.tmpl.html" />
+    <Content Include="app\courseAdmin\features\courses\courses.html" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.enrollments.facs.tmpl.html" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.enrollments.studs.tmpl.html" />
+    <Content Include="app\courseAdmin\features\groups\groups.html" />
+    <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.enrollments.tmpl.html" />
+    <Content Include="app\courseAdmin\features\groups\tmpls\courseAdmin.groups.tmpl.html" />
+    <Content Include="app\designer\features\instruments\instruments.html" />
+    <Content Include="app\designer\features\instruments\modals\instructions.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.details.tmpl.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.inventories.tmpl.html" />
+    <Content Include="app\designer\features\instruments\tmpls\designer.instruments.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\groups.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.strat.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.comments.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.capstoneresults.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.assess.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.behaviorlist.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.grouplist.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.results.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\modals\status.html" />
+    <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.tmpl.html" />
+    <Content Include="app\core\features\assessView\modals\edit.html" />
+    <Content Include="app\core\features\assessView\modals\comment.html" />
+    <Content Include="app\core\features\assessView\modals\add.html" />
+    <Content Include="app\core\features\assessView\tmpls\assess.assessments.ack.html" />
+    <Content Include="app\core\features\assessView\tmpls\assess.assessments.add.html" />
+    <Content Include="app\student\features\assessments\modals\edit.html" />
+    <Content Include="app\student\features\assessments\modals\comment.html" />
+    <Content Include="app\student\features\assessments\modals\add.html" />
+    <Content Include="app\student\features\assessments\assessments.html" />
+    <Content Include="app\student\features\assessments\tmpls\assess.assessments.tmpl.html" />
+    <Content Include="app\student\features\assessments\tmpls\assess.strat.tmpl.html" />
+    <Content Include="app\student\features\assessments\tmpls\assess.results.tmpl.html" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\lg.svg" />
@@ -417,13 +453,17 @@
     <Content Include="Content\img\widgets\preview.jpg" />
     <Content Include="Content\styles\ecat.css" />
     <Content Include="Scripts\config\systemCfg.js" />
-    <Content Include="Scripts\config\systemDev.js" />
     <Content Include="Scripts\TypeLite.Net4.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TypeLite.Net4.d.ts</LastGenOutput>
     </Content>
+    <Content Include="Scripts\vendor\angular-loading-bar\Gruntfile.js" />
+    <Content Include="Scripts\vendor\angular-loading-bar\index.js" />
+    <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.css" />
+    <Content Include="Scripts\vendor\angular-loading-bar\src\loading-bar.js" />
     <Content Include="wwwroot\index.html" />
     <Content Include="Scripts\Manager.ttinclude" />
+    <Content Include="app\courseAdmin\features\courses\tmpls\courseAdmin.courses.tmpl.html" />
     <None Include="Properties\PublishProfiles\tofolder.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -446,12 +486,16 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\CourseAdminController.cs" />
     <Compile Include="Controllers\EcatApiController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
-    <Compile Include="Controllers\SAdminController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AuthAttribute.cs" />
+    <Compile Include="Utilities\AuthorizationServer.cs" />
+    <Compile Include="Utilities\AuthService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -632,6 +676,12 @@
     <Content Include="Scripts\vendor\fileinput\fileinput.less" />
     <Content Include="Scripts\vendor\weather-icons\weather-font.less" />
     <Content Include="Scripts\vendor\weather-icons\weather-icons.less" />
+    <Content Include="Scripts\vendor\angular-loading-bar\.bower.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\bower.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\CHANGELOG.md" />
+    <Content Include="Scripts\vendor\angular-loading-bar\LICENSE" />
+    <Content Include="Scripts\vendor\angular-loading-bar\package.json" />
+    <Content Include="Scripts\vendor\angular-loading-bar\README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -641,30 +691,36 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\admin\config\entityExternsions\" />
-    <Folder Include="app\admin\service\" />
-    <Folder Include="app\hq\" />
+    <Folder Include="app\hq\service\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\admin\academy\academy.ts" />
+    <TypeScriptCompile Include="app\admin\features\academy\academy.ts" />
+    <TypeScriptCompile Include="app\admin\features\academy\addEdit.ts" />
     <TypeScriptCompile Include="app\admin\admin.ts" />
+    <TypeScriptCompile Include="app\admin\service\adminData.ts" />
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appVars.ts" />
-    <TypeScriptCompile Include="app\core\config\stateConfig.ts" />
+    <TypeScriptCompile Include="app\core\config\cfgState.ts" />
     <TypeScriptCompile Include="app\admin\config\statesAdmin.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\group.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\groupMember.ts" />
     <TypeScriptCompile Include="app\core\config\statesCore.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
-    <TypeScriptCompile Include="app\core\config\coreConfig.ts" />
+    <TypeScriptCompile Include="app\core\config\cfgCore.ts" />
+    <TypeScriptCompile Include="app\core\core.ts" />
     <TypeScriptCompile Include="app\core\directives\avatar.ts" />
     <TypeScriptCompile Include="app\core\directives\btnWaves.ts" />
     <TypeScriptCompile Include="app\core\directives\compareTo.ts" />
     <TypeScriptCompile Include="app\core\directives\fgLine.ts" />
     <TypeScriptCompile Include="app\core\directives\frmControl.ts" />
+    <TypeScriptCompile Include="app\core\directives\assessmentAdd.ts" />
     <TypeScriptCompile Include="app\core\directives\inputMask.ts" />
     <TypeScriptCompile Include="app\core\directives\malihuScroll.ts" />
     <TypeScriptCompile Include="app\core\directives\tabError.ts" />
     <TypeScriptCompile Include="app\core\directives\toggleSidebar.ts" />
     <TypeScriptCompile Include="app\core\directives\toggleSubMenu.ts" />
     <TypeScriptCompile Include="app\core\directives\userEmailValidator.ts" />
+    <TypeScriptCompile Include="app\core\global\appGlobal.ts" />
     <TypeScriptCompile Include="app\core\global\login.ts" />
     <TypeScriptCompile Include="app\core\global\main.ts" />
     <TypeScriptCompile Include="app\core\provider\coreCfgProvider.ts" />
@@ -680,8 +736,40 @@
     <TypeScriptCompile Include="app\core\service\plugin\growl.ts" />
     <TypeScriptCompile Include="app\core\service\plugin\malihuScroll.ts" />
     <TypeScriptCompile Include="app\core\service\requestAuthenicator.ts" />
-    <TypeScriptCompile Include="app\core\userViews\dashboard.ts" />
-    <TypeScriptCompile Include="app\core\userViews\profile.ts" />
+    <TypeScriptCompile Include="app\core\features\userViews\dashboard.ts" />
+    <TypeScriptCompile Include="app\core\features\userViews\profile.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\config\cfgcourseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\config\statesCourseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\courseAdmin.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\features\courses\courses.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\features\groups\groups.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\provider\courseAdminCfgProvider.ts" />
+    <TypeScriptCompile Include="app\courseAdmin\service\courseAdminData.ts" />
+    <TypeScriptCompile Include="app\designer\config\cfgDesigner.ts" />
+    <TypeScriptCompile Include="app\designer\config\statesDesigner.ts" />
+    <TypeScriptCompile Include="app\designer\designer.ts" />
+    <TypeScriptCompile Include="app\designer\features\instruments\instruments.ts" />
+    <TypeScriptCompile Include="app\designer\features\instruments\modals\instructions.ts" />
+    <TypeScriptCompile Include="app\designer\provider\designerCfgProvider.ts" />
+    <TypeScriptCompile Include="app\designer\service\designerData.ts" />
+    <TypeScriptCompile Include="app\facilitator\config\cfgFac.ts" />
+    <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
+    <TypeScriptCompile Include="app\facilitator\features\groups\groups.ts" />
+    <TypeScriptCompile Include="app\facilitator\facilitator.ts" />
+    <TypeScriptCompile Include="app\facilitator\features\groups\modals\status.ts" />
+    <TypeScriptCompile Include="app\facilitator\provider\facCfgProvider.ts" />
+    <TypeScriptCompile Include="app\facilitator\service\facilitatorData.ts" />
+    <TypeScriptCompile Include="app\core\features\assessView\modals\edit.ts" />
+    <TypeScriptCompile Include="app\core\features\assessView\modals\comment.ts" />
+    <TypeScriptCompile Include="app\core\features\assessView\modals\add.ts" />
+    <TypeScriptCompile Include="app\student\config\cfgStudent.ts" />
+    <TypeScriptCompile Include="app\student\provider\studCfgProvider.ts" />
+    <TypeScriptCompile Include="app\core\service\data\mock.ts" />
+    <TypeScriptCompile Include="app\student\service\studentRequestAuth.ts" />
+    <TypeScriptCompile Include="app\student\features\assessments\assessments.ts" />
+    <TypeScriptCompile Include="app\student\config\statesStudent.ts" />
+    <TypeScriptCompile Include="app\student\service\studentData.ts" />
+    <TypeScriptCompile Include="app\student\student.ts" />
     <TypeScriptCompile Include="gulpfile.ts" />
     <TypeScriptCompile Include="Scripts\Enums.ts">
       <DependentUpon>TypeLite.Net4.tt</DependentUpon>
@@ -716,17 +804,29 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ecat.Bal\Ecat.Bal.csproj">
-      <Project>{ad03ad25-c9c2-4b6b-be07-1d2737ff6674}</Project>
-      <Name>Ecat.Bal</Name>
+    <ProjectReference Include="..\Ecat.Admin.Core\Ecat.Admin.Core.csproj">
+      <Project>{A5301B78-3FC4-4625-A992-70E525B858C6}</Project>
+      <Name>Ecat.Admin.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.Dal\Ecat.Dal.csproj">
-      <Project>{0cc1ba3e-2684-46e3-987a-e3db5d27e71b}</Project>
-      <Name>Ecat.Dal</Name>
+    <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
+      <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
+      <Name>Ecat.Shared.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.Models\Ecat.Models.csproj">
-      <Project>{f5484bf1-0bc7-4ae9-8062-da80bf53ca94}</Project>
-      <Name>Ecat.Models</Name>
+    <ProjectReference Include="..\Ecat.Shared.DbManager\Ecat.Shared.DbManager.csproj">
+      <Project>{E3C8DEE3-5202-4BCD-AFCA-73FCFFA36070}</Project>
+      <Name>Ecat.Shared.DbManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecat.Shared.Model\Ecat.Shared.Model.csproj">
+      <Project>{D7906F63-E656-4B40-9DCB-800819EFF9FF}</Project>
+      <Name>Ecat.Shared.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">
+      <Project>{A2A10AD6-98C5-428B-8FD5-F414D4DC1FC1}</Project>
+      <Name>Ecat.Student.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecat.Users.Core\Ecat.Users.Core.csproj">
+      <Project>{a522515a-0b79-473b-a021-79674362500b}</Project>
+      <Name>Ecat.Users.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -1,4 +1,4 @@
-﻿declare var mCustomScroll: any;
+declare var mCustomScroll: any;
 declare var Waves: any;
 declare var systemCfg: any;
 
@@ -26,9 +26,19 @@ declare module 'systemCfg' {
 
 declare module ecat {
 
+    interface ILocalToken {
+        userEmail: string;
+        password: string;
+        auth: string;
+        warning: Date;
+        expire: Date;
+        validity(): number;
+    }
+
     interface IEcRootScope extends angular.IRootScopeService {
         $state: angular.ui.IStateService;
         stateMgr: any;
+        startUpComplete: boolean;
     }    
 
     interface ICoreCfg {
@@ -46,6 +56,28 @@ declare module ecat {
     interface IGlobalEvents
     {
         saveChangesEvent?: string;
+        managerLoaded?: string;
+        managerCreated?: string;
+        addManager?: string;
+    }
+
+    interface IStudEvents {
+
+    }
+
+    interface IFacilitatorEvents {
+    }
+
+    interface ICourseAdminEvents {
+
+    }
+
+    interface IDesignerEvents {
+
+    }
+
+    interface IEcStateObject {
+        [name: string]: angular.ui.IState;
     }
 
     interface IRoutingError {
@@ -62,29 +94,35 @@ declare module ecat {
         source: string;    
     }
 
-    interface IAllApiResources {
-        user: IUserApiResources,
-        facilitator?: IFacilitatorApiResources,
+    interface IApiResources {
+        [name: string]: IApiResource;
     }
 
-    interface IUserApiResources {
-        endPointName?: string;
-        regUser: IApiResource;
-        login: IApiResource;
-        resetPin: IApiResource;
-        fetch: IApiResource;
-        profile: IApiResource;
-        checkEmail: IApiResource;
-    }
+    //interface IUserApiResources {
+    //    endPointName?: string;
+    //    regUser: IApiResource;
+    //    login: IApiResource;
+    //    resetPin: IApiResource;
+    //    fetch: IApiResource;
+    //    profile: IApiResource;
+    //    checkEmail: IApiResource;
+    //}
 
-    interface IFacilitatorApiResources {
+    //interface IFacilitatorApiResources {
+    //    endPointName?: string;
+    //}
+
+    interface IStudentApiResources {
         endPointName?: string;
     }
 
    
     export interface IApiResource {
-        resourceName: string;
-        entityType: string;
+        resource: {
+            name: string;
+            isLoaded: boolean;
+        };
+        returnedEntityType: string;
     }
 
  
