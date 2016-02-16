@@ -9,10 +9,9 @@ export default class EcCourseAdminGroups {
     //selectedCourse: ecat.entity.ICourse;
     //groups: ecat.entity.IGroup[] = [];
     //groupMembers: ecat.entity.IGroupMember[] = [];
-    courses;
-    selectedCourse;
-    group;
-    groupMembers;
+    courses: ecat.entity.ICourse[] = [];
+    selectedCourse: ecat.entity.ICourse;
+    groups: Ecat.Shared.Model.WorkGroup[] = [];
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Course Admin Groups Loaded');

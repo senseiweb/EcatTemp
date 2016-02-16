@@ -1,10 +1,41 @@
 ﻿<div class="modal-header">
     <div>
-        <h4 class="text-center thingHeader">{{viewStatus.groupname}} Student Capstone Details</h4>
+        <h4 class="text-center thingHeader">{{csd.student.FirstName}} {{csd.student.LastName}} Student Capstone Details</h4>
     </div>
     <hr />
 </div>
 
+<div class="modal-body">
+    <div class="col-md-6  p-l-5 p-r-5 p-t-4">
+        <div class="btn-group btn-group-sm">
+            <label class="btn btn-default" ng-class="{'btn-primary': csd.radioResponseType=='Assessor'}" ng-model="csd.radioResponseType" uib-btn-radio="'Assessor'">Assessor</label>
+            <label class="btn btn-default" ng-class="{'btn-primary': csd.radioResponseType=='Assessee'}" ng-model="csd.radioResponseType" uib-btn-radio="'Assessee'">Assessee</label>
+        </div>
+    </div>
+    <uib-tabset justified="true">
+        <uib-tab ng-repeat="groupEnroll in csd.student.groupPersonas | orderyBy groupNumber" heading="{groupEnroll.group.groupNumber}">
+            <table class="table table-hover table-vmiddle">
+                <thead>
+                    <tr>
+                        <th class="header">Student</th>
+                        <th class="header">Strat</th>
+                        <th class="header">Assessment</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.LastName track by peer.id" ng-if="csd.radioResponseType='Assessee'">
+                    <td>{{peer.student.person.LastName}}, {{peer.student.person.FirstName}}</td>
+                    <td>{{(groupEnroll.assesseeStratResponse | filter:{assessorId:peer.id})[0].stratPosition}}</td>
+                    <td>{{(peer.spAssessResult | filter:{resultFor:groupEnroll.id})[0].mpSpResult}}</td>
+                </tr>
+                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.LastName track by peer.id" ng-if="csd.radioResponseType='Assessor'">
+                    <td>{{peer.student.person.LastName}}, {{peer.student.person.FirstName}}</td>
+                    <td>{{(groupEnroll.assessorStratResponse | filter:{assesseeId:peer.id})[0].stratPosition}}</td>
+                    <td>{{(groupEnroll.spAssessResult | filter:{resultFor:peer.id})[0].mpSpResult}}</td>
+                </tr>
+            </table>
+        </uib-tab>
+    </uib-tabset>
+</div>
 
 
 

@@ -258,6 +258,7 @@
     <Content Include="app\designer\features\instruments\tmpls\designer.instruments.inventories.tmpl.html" />
     <Content Include="app\designer\features\instruments\tmpls\designer.instruments.tmpl.html" />
     <Content Include="app\facilitator\features\groups\groups.html" />
+    <Content Include="app\facilitator\features\groups\modals\capstonestudentdetail.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.strat.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.comments.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.capstoneresults.tmpl.html" />
@@ -756,6 +757,7 @@
     <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
     <TypeScriptCompile Include="app\facilitator\features\groups\groups.ts" />
     <TypeScriptCompile Include="app\facilitator\facilitator.ts" />
+    <TypeScriptCompile Include="app\facilitator\features\groups\modals\capstonestudentdetail.ts" />
     <TypeScriptCompile Include="app\facilitator\features\groups\modals\status.ts" />
     <TypeScriptCompile Include="app\facilitator\provider\facCfgProvider.ts" />
     <TypeScriptCompile Include="app\facilitator\service\facilitatorData.ts" />

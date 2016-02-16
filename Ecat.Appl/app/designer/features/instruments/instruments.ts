@@ -7,7 +7,7 @@ export default class EcDesignerInstruments {
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
 
     instruments: ecat.entity.ISpInstrument[];
-    selectedInstrument: Ecat.Models.SpInstrument;
+    //selectedInstrument: Ecat.Models.EcInstrument;
     checkGroupType = {
         BC1: false,
         BC2: false,
@@ -43,7 +43,7 @@ export default class EcDesignerInstruments {
         this.checkGroupType.BC1 = true;
     }
 
-    clone(cloneInstrument: Ecat.Models.SpInstrument): void {
+    clone(cloneInstrument: any): void {
         
     }
 

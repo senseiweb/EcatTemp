@@ -1,80 +1,33 @@
 ﻿import IDataCtx from "core/service/data/context"
 import * as AppVar from "appVars"
 
+//interface IAssesseeData {
+//    assessor: Ecat.Shared.Model.MemberInGroup;
+//    spResponses: Ecat.Shared.Model.SpAssessResponse[];
+//    spOverall: number;
+//    strat: Ecat.Shared.Model.SpStratResponse;
+//}
+
+//interface IAssessorData {
+//    assessee: Ecat.Shared.Model.MemberInGroup;
+//    spResponses: Ecat.Shared.Model.SpAssessResponse[];
+//    spOverall: number;
+//    strat: Ecat.Shared.Model.SpStratResponse;
+//}
+
 export default class EcFacViewStatusModal {
     static controllerId = 'app.facilitator.features.groups.capstonestudentdetails';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId];
+    static $inject = ['$uibModalInstance', IDataCtx.serviceId, 'selectedStudent'];
 
     nf: angular.IFormController;
 
-    //group: ecat.entity.IGroup;
-    groupname: string;
-    groupMembers: ecat.entity.IGroupMember[] = [];
-    //students = [];
-    peersTotal: number;
+    student: ecat.entity.IStudent;
+    radioResponseType: string;
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private selectedGroup: ecat.entity.IWorkGroup) {
-        //this.group = selectedGroup;
-        this.groupname = "BC1-Flight01";
-        this.peersTotal = 9;//this.group.members.length - 1;
-        const self = this;
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private selectedStudent: ecat.entity.IStudent) {
+        this.student = selectedStudent;
+        this.radioResponseType = 'Assessee';
 
-        //this.dCtx.mock.getFacGroupDetails().then(recGroupDetails);
-
-        function recGroupDetails(data: Array<ecat.entity.IGroupMember>) {
-            self.groupMembers = data;
-        }
-        //this.group.members.forEach(m => {
-        //    var name = m.member.person.lastName + ', ' + m.member.person.firstName;
-        //    var selfComplete = false;
-        //    var peerComplete = 0;
-        //    var hEGiven = 0;
-        //    var eGiven = 0;
-        //    var iEGiven = 0;
-        //    var nDGiven = 0;
-
-        //    m.assessorSpResponses.forEach(resp => {
-        //        if (resp.assesseeId === resp.assessorId) {
-        //            selfComplete = true;
-        //        } else {
-        //            peerComplete += 1;
-        //        }
-        //        if (resp.mpSpItemResponse === AppVar.EcSpItemResponse.Heu
-        //            || resp.mpSpItemResponse === AppVar.EcSpItemResponse.Hea) {
-        //            hEGiven += 1
-        //        } else if (resp.mpSpItemResponse === AppVar.EcSpItemResponse.Eu
-        //            || resp.mpSpItemResponse === AppVar.EcSpItemResponse.Ea) {
-        //            eGiven += 1
-        //        } else if (resp.mpSpItemResponse === AppVar.EcSpItemResponse.Iea
-        //            || resp.mpSpItemResponse === AppVar.EcSpItemResponse.Ieu) {
-        //            iEGiven += 1
-        //        } else if (resp.mpSpItemResponse === AppVar.EcSpItemResponse.Nd) {
-        //            nDGiven += 1
-        //        }
-        //    });
-
-        //    if (m.assessorStratResponse.length === this.peersTotal + 1) {
-        //        var stratComplete = this.peersTotal
-        //    } else {
-        //        var stratComplete = m.assessorStratResponse.length;
-        //    }
-
-        //    var comments = m.authorOfComments.length;
-
-        //    var student = {
-        //        name: name,
-        //        selfComplete: selfComplete,
-        //        peerComplete: peerComplete,
-        //        hEGiven: hEGiven,
-        //        eGiven: eGiven,
-        //        iEGiven: iEGiven,
-        //        nDGiven: nDGiven,
-        //        stratComplete: stratComplete,
-        //        comments: comments
-        //    };
-
-        //    this.students.push(student);
-        //});
     }
 
     close(): void {

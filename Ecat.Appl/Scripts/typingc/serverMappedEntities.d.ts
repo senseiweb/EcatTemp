@@ -29,7 +29,7 @@ declare module ecat.entity
         initFunc: (entity: breeze.Entity) => void;
     }
 
-    interface IAcademy extends breeze.Entity, Ecat.Shared.Model.Academy {
+    interface IAcademy extends breeze.Entity, Ecat.Shared.Model.AcademyCategory {
         
     }
 
