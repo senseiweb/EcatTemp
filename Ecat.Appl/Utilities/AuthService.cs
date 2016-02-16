@@ -13,6 +13,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ecat.Appl.Controllers;
+using Ecat.Shared.Core;
 using Ecat.Shared.DbManager.Context;
 using Ecat.Shared.Model;
 
@@ -24,9 +25,9 @@ namespace Ecat.Appl.Utilities
 
         private readonly EcatContext _ctx;
 
-        public EcatAuthService(EcatContext ctx)
+        public EcatAuthService()
         {
-            _ctx = ctx;
+            _ctx = new EcatContext();
         }
 
         private static bool SkipAuthorization(HttpAuthenticationContext httpContext)

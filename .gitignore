@@ -4,7 +4,7 @@ Ecat.Appl/Template/**
 !Ecat.Appl/Scripts/config/**/*.js
 
 Ecat.Shared.DbManager/Migrations/**
-Ecat.Appl/Scripts/TypeLite.Net4.d.ts
+
 Ecat.Appl/Scripts/Enums.ts
 bower
 bower_components

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Ecat.Shared.Core.Providers;
+using Ecat.Shared.DbManager.Context;
 using Ecat.Shared.Model;
 using Ecat.Users.Core;
+using Ecat.Users.Core.Business;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
@@ -36,9 +40,9 @@ namespace Ecat.Appl.Utilities
 
         private readonly IOAuthAuthorizationServerProvider _provider;
 
-        public AuthServerOptions(IUserLogic userLogic)
+        public AuthServerOptions()
         {
-            _provider =new AuthorizationServer(userLogic);
+            _provider = new AuthorizationServer();
         }
 
         public OAuthAuthorizationServerOptions OauthOptions => new OAuthAuthorizationServerOptions
@@ -56,11 +60,11 @@ namespace Ecat.Appl.Utilities
     public class AuthorizationServer : OAuthAuthorizationServerProvider
     {
         private LoginToken _loginToken;
-        private readonly IUserLogic _userLogic;
+        private readonly UserCtx _ctx;
 
-        public AuthorizationServer(IUserLogic userLogic)
+        public AuthorizationServer()
         {
-            _userLogic = userLogic;
+            _ctx = new UserCtx();
         }
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -77,8 +81,15 @@ namespace Ecat.Appl.Utilities
                 context.SetError("invalid_grant", "Null credentials were preseted");
                 return;
             }
-            var person = await _userLogic.LoginUser(context.UserName, context.Password);
 
+            var person = await _ctx.People.Include(user => user.Security).SingleAsync(user => user.Email == context.UserName);
+
+            var hasValidPassword = PasswordHash.ValidatePassword(context.Password, person.Security.PasswordHash);
+
+            if (!hasValidPassword)
+            {
+                throw new UnauthorizedAccessException("Invalid Username/Password Combination");
+            }
 
             var identity = UserAuthToken.GetClaimId;
 

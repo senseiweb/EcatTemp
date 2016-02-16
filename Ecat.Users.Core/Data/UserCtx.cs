@@ -22,10 +22,13 @@ namespace Ecat.Users.Core
             mb.Configurations.Add(new ConfigPerson());
             mb.Configurations.Add(new ConfigPersonProfile());
             mb.Configurations.Add(new ConfigPersonSecurity());
+
+            mb.Entity<LoginToken>().HasKey(p => p.PersonId);
+
             mb.Ignore<MeetingAttendee>();
             mb.Ignore<MemberInGroup>();
             mb.Ignore<MemberInCourse>();
-
+            
             base.OnModelCreating(mb);
         }
 
@@ -35,5 +38,6 @@ namespace Ecat.Users.Core
         public IDbSet<Facilitator> Facilitators { get; set; }
         public IDbSet<External> Externals { get; set; }
         public IDbSet<Security> Securities { get; set; }
+        public IDbSet<LoginToken> LoginTokens { get; set;  } 
     }
 }

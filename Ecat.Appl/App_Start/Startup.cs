@@ -78,14 +78,15 @@ namespace Ecat.Appl
         public void ConfigureOauth(IAppBuilder app, IKernel kernel)
         {
             AuthServerOptions.OabOptions = new OAuthBearerAuthenticationOptions();
-            var serverOptions = new AuthServerOptions(kernel.Get<IUserLogic>());
+            var serverOptions = new AuthServerOptions();
             app.UseOAuthAuthorizationServer(serverOptions.OauthOptions);
             app.UseOAuthBearerAuthentication(AuthServerOptions.OabOptions);
         }
 
-        private static StandardKernel CreateKernel()
+        private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
+
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
 
             kernel.Load(Assembly.GetExecutingAssembly());
@@ -133,14 +134,6 @@ namespace Ecat.Appl
             kernel.Bind<EFContextProvider<StudCtx>>()
                 .ToSelf()
                 .InRequestScope();
-
-            //var defaultFilterProviders = config.Services.GetServices(typeof(IFilterProvider)).Cast<IFilterProvider>();
-            //config.Services.Clear(typeof(IFilterProvider));
-            //kernel.Bind<DefaultFilterProviders>().ToConstant(new DefaultFilterProviders(defaultFilterProviders));
-
-            //var modelValidatorProviders = config.Services.GetServices(typeof(ModelValidatorProvider)).Cast<ModelValidatorProvider>();
-            //config.Services.Clear(typeof(ModelValidatorProvider));
-            //kernel.Bind<DefaultModelValidatorProviders>().ToConstant(new DefaultModelValidatorProviders(modelValidatorProviders));
 
             return kernel;
         }

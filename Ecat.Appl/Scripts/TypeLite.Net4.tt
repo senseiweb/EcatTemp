@@ -17,8 +17,8 @@
     .WithMemberFormatter((identifier) => Char.ToLower(identifier.Name[0]) + identifier.Name.Substring(1))
     .WithReference("Enums.ts")
     .For<Person>()
-	.For<Academy>()
-	.For<AcademyCategory>()
+    .For<Academy>()
+    .For<AcademyCategory>()
     .For<LoginToken>();
 #>
 
