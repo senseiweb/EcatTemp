@@ -24,10 +24,12 @@ namespace Ecat.Appl.Utilities
         public bool AllowMultiple { get; }
 
         private readonly EcatContext _ctx;
+        private readonly RoleMap[] _authRoles;
 
-        public EcatAuthService()
+        public EcatAuthService(EcatContext ctx, RoleMap[] roles)
         {
-            _ctx = new EcatContext();
+            _ctx = ctx;
+            _authRoles = roles;
         }
 
         private static bool SkipAuthorization(HttpAuthenticationContext httpContext)
@@ -61,7 +63,7 @@ namespace Ecat.Appl.Utilities
             if (parsedUid == 0)
             {
                 httpContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized,
-                    "Unable to locte user from Authorization Filter");
+                    "Unable to locate user from Authorization Filter");
             }
 
             #endregion
@@ -75,19 +77,10 @@ namespace Ecat.Appl.Utilities
             {
                 Enum.TryParse(stringRoleClaim, out roleClaim);
             }
-
-            var attribute = httpContext.ActionContext
-                .ControllerContext
-                .GetType()
-                .GetCustomAttributes(typeof (EcatRolesAuthorizedAttribute), false)
-                .Single();
-
-            var roleAttribute = attribute as EcatRolesAuthorizedAttribute;
-            var isRoles = roleAttribute?.Is;
-          
-            if (isRoles != null && !isRoles.Contains(roleClaim))
+ 
+            if (_authRoles != null && !_authRoles.Contains(roleClaim))
             {
-                httpContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Unathorized access");
+                httpContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Unauthorized access");
             }
 
             #endregion
@@ -149,7 +142,7 @@ namespace Ecat.Appl.Utilities
             if (user == null)
             {
                 httpContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized,
-                    "Unable to locte user from Authorization Filter using data store");
+                    "Unable to locate user from Authorization Filter using data store");
             }
 
             var controller = httpContext.ActionContext.ControllerContext.Controller as EcatApiController;
@@ -162,7 +155,7 @@ namespace Ecat.Appl.Utilities
 
         public Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
     }
 }

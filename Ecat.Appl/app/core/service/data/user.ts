@@ -104,7 +104,6 @@ export default class EcUserRepo extends IUtilityRepo
 
             return user;
         }
-       
     }
 
     createUserToken(): ecat.entity.ILoginToken {
@@ -176,23 +175,38 @@ export default class EcUserRepo extends IUtilityRepo
          
             const profile = { personId: self.persona.personId }
             let profileEntity: ecat.entity.IProfile;
-            const profiles = [];
+            const userRole = self.persona.mpInstituteRole;
+            const roles = self.c.appVar.EcMapInstituteRole;
 
-            switch (self.persona.mpInstituteRole) {
-                case self.c.appVar.EcMapInstituteRole.student:
-                    profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.studProfile, profile) as ecat.entity.IProfile;
+            switch (userRole) {
+                case roles.student:
+                    if (!self.persona.student) {
+                      profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.studProfile, profile) as ecat.entity.IProfile;
+                    }
                     break;
-                case self.c.appVar.EcMapInstituteRole.facilitator:
+                case roles.facilitator:
+                if (!self.persona.facilitator) {
                     profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.facProfile, profile) as ecat.entity.IProfile;
+                }
+                break;
+                case roles.hqAdmin:
+                    if (!self.persona.hqStaff) {
+                        profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.hqStaffProfile, profile) as ecat.entity.IProfile;
+                    }
                     break;
                 case self.c.appVar.EcMapInstituteRole.external:
-                    profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.externalProfile, profile) as ecat.entity.IProfile;
+                    if (!self.persona.external) {
+                        profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.externalProfile, profile) as ecat.entity.IProfile;
+                    }
                     break;
                 default:
-                    profileEntity = self.manager.createEntity(self.c.appVar.EcMapEntityType.externalProfile, profile) as ecat.entity.IProfile;
+                    profileEntity = null;
             }
 
-            profiles.push(profileEntity);
+            if (profileEntity) {
+                userProfiles.push(profileEntity);
+            }
+            return userProfiles;
         }
     }
 

@@ -23,9 +23,11 @@ using Ninject.Web.Common;
 using Ninject.Web.Mvc;
 using Ninject.Web.Common.OwinHost;
 using Ninject.Web.Mvc.FilterBindingSyntax;
+using Ninject.Web.WebApi.FilterBindingSyntax;
 using Ninject.Web.WebApi.OwinHost;
 using Owin;
 using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
+using FilterScope = System.Web.Http.Filters.FilterScope;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -91,9 +93,9 @@ namespace Ecat.Appl
 
             kernel.Load(Assembly.GetExecutingAssembly());
 
-            kernel.BindFilter<EcatAuthService>(FilterScope.Controller, null)
-                .WhenControllerHas<EcatRolesAuthorizedAttribute>()
-                .InRequestScope();
+            kernel.BindHttpFilter<EcatAuthService>(FilterScope.Controller)
+                .WhenControllerHas<EcatRolesAuthorized>()
+                .WithConstructorArgumentFromControllerAttribute<EcatRolesAuthorized>("roles", attribute => attribute.Is);
 
             kernel.Bind<IUserLogic>()
                 .To<UserLogic>()

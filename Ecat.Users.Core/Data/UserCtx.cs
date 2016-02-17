@@ -28,7 +28,11 @@ namespace Ecat.Users.Core
             mb.Ignore<MeetingAttendee>();
             mb.Ignore<MemberInGroup>();
             mb.Ignore<MemberInCourse>();
-            
+
+            mb.Entity<Person>()
+                .HasOptional(p => p.Profile)
+                .WithRequired();
+
             base.OnModelCreating(mb);
         }
 

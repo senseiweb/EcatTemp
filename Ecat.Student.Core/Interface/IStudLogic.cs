@@ -16,7 +16,7 @@ namespace Ecat.Student.Core.Interface
         MemberInCourse CrsMem { get; set; }
         MemberInGroup GrpMem { get; set; }
         SaveResult ClientSave(JObject saveBundle);
-        Task<IEnumerable<Course>> GetCrsesWithLastGrpMem();
+        Task<List<MemberInCourse>> GetCrsesWithLastestGrpMem();
         Task<IEnumerable<WorkGroup>> GetGroupsAndMemForCourse();
         Task<IEnumerable<MemberInGroup>> GetPeersForGrp();
         string GetMetadata { get; }

@@ -49,7 +49,9 @@ declare module ecat.entity
 
     interface ISpInventory extends breeze.Entity, Ecat.Shared.Model.SpInventory { }
 
-    interface ICourseMember extends breeze.Entity, Ecat.Shared.Model.MemberInCourse{ }
+    interface ICourseMember extends breeze.Entity, Ecat.Shared.Model.MemberInCourse {
+        course: ICourse;
+    }
 
     interface IWorkGroup extends breeze.Entity, Ecat.Shared.Model.WorkGroup { }
 

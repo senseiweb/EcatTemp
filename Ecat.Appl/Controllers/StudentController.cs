@@ -41,9 +41,9 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Course>> GetInitalCourses()
+        public async Task<List<MemberInCourse>> GetInitalCourses()
         {
-            return await _studLogic.GetCrsesWithLastGrpMem();
+            return await _studLogic.GetCrsesWithLastestGrpMem();
         }
 
         [HttpGet]

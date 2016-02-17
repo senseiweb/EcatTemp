@@ -21,18 +21,14 @@ namespace Ecat.Student.Core.Data
 
         public string GetMetadata => _efCtx.Metadata();
 
-        public IQueryable<MemberInCourse> GetCrseMembershipWithCourse(int crseMemId)
+        public IQueryable<MemberInCourse> GetCrseMembership(int crseMemId)
         {
-            return null;
+            return _ctx.MemberInCourses.Where(crseMem => crseMem.Id == crseMemId);
         }
 
-        public IQueryable<MemberInGroup> GetGrpMembershipsWithGroups(int crseMemId)
+        public IQueryable<MemberInGroup> GetGrpMemberships(int grpMemberId)
         {
-            return _ctx.MemberInGroups
-                .Where(gm => gm.CourseEnrollmentId == crseMemId)
-                .Include(gm => gm.Group);
+            return _ctx.MemberInGroups.Where(gm => gm.Id == grpMemberId);
         }
-
-       
     }
 }

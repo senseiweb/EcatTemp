@@ -2,9 +2,10 @@
 import IMockRepo from "core/service/data/mock"
 import * as AppVar from 'appVars'
 
-interface StudentApiResources extends ecat.IApiResources {
-    getCourses: ecat.IApiResource,
-    getAllGroupData: ecat.IApiResource;
+interface IStudentApiResources extends ecat.IApiResources {
+    initCourses: ecat.IApiResource;
+    getCourse: ecat.IApiResource;
+    getGroup: ecat.IApiResource;
 }
 
 export default class EcStudentRepo extends IUtilityRepo {
@@ -13,19 +14,30 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     activated = false;
     activeCourse: ecat.entity.ICourseMember;
-    private studentApiResources: StudentApiResources = {
-        getCourses: {
+    private studentApiResources: IStudentApiResources = {
+        initCourses: {
             returnedEntityType: this.c.appVar.EcMapEntityType.crseMember,
             resource: {
                 name: 'GetCourses',
                 isLoaded: false
             }
         },
-        getAllGroupData: {
+        getCourse: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.crseMember,
+            resource: {
+                name: 'GetCourses',
+                isLoaded: {
+                    course: {} as any
+                }
+            }
+        },
+        getGroup: {
             returnedEntityType: this.c.appVar.EcMapEntityType.grpMember,
             resource: {
                 name: 'GetAllGroupData',
-                isLoaded: false
+                isLoaded: {
+                    group: {} as any
+                }
             }
         }
     };
@@ -33,6 +45,36 @@ export default class EcStudentRepo extends IUtilityRepo {
     constructor(inj) {
         super(inj, 'Student Data Service', AppVar.EcMapApiResource.student, []);
         this.loadManager(this.studentApiResources);
+    }
+
+    initCourses(forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.ICourse> | angular.IPromise<void>> {
+        const api = this.studentApiResources;
+        const self = this;
+        let courses: Array<ecat.entity.ICourse> = [];
+
+        if (api.initCourses.resource.isLoaded && !forceRefresh) {
+            const courseMems = this.queryLocal(api.initCourses.resource.name) as Array<ecat.entity.ICourseMember>;
+            courses = courseMems.map(cm => cm.course);
+            this.logSuccess('Courses loaded from local cache', courses, false);
+
+            return this.c.$q.when(courses);
+        }
+
+        return this.query.from(api.initCourses.resource.name)
+            .using(this.manager)
+            .execute()
+            .then(initCoursesReponse)
+            .catch(this.queryFailed);
+
+            function initCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.ICourse> {
+                const crseMems = data.results as Array<ecat.entity.ICourseMember>;
+                crseMems.forEach(crseMem => {
+                    courses.push(crseMem.course);
+                    api.getCourse.resource.isLoaded[crseMem.courseId] = true;
+                });
+                self.logSuccess('Courses loaded from remote store', courses, false);
+                return courses;
+            }
     }
 
     getCourses(): breeze.promises.IPromise<any> {

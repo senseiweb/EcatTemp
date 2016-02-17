@@ -21,7 +21,7 @@ using Ecat.Shared.Model;
 namespace Ecat.Appl.Utilities
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class EcatRolesAuthorizedAttribute : AuthorizationFilterAttribute
+    public class EcatRolesAuthorized : AuthorizationFilterAttribute
     {
         public RoleMap[] Is { get; set; }
     }

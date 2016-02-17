@@ -40,7 +40,7 @@ namespace Ecat.Shared.Model
         public virtual External External { get; set; }
         public virtual HqStaff HqStaff { get; set; }
         public virtual Security Security { get; set; }
-
+        public virtual Profile Profile { get; set; }
         [JsonIgnore]
         public int? ModifiedById { get; set; }
         [JsonIgnore]

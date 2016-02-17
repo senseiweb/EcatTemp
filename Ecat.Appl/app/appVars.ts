@@ -146,6 +146,7 @@ export class EcMapEntityType {
     static security = 'Security';
     static loginTk = 'LoginToken';
     static facProfile = 'Faciliatator';
+    static hqStaffProfile = 'HqStaff';
     static studProfile = 'Student';
     static externalProfile = 'External';
     static course = 'Course';
