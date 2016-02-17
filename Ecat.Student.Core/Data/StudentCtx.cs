@@ -20,6 +20,7 @@ namespace Ecat.Student.Core.Data
             {
                 typeof (External),
                 typeof (Facilitator),
+                typeof (Profile),
                 typeof (External),
                 typeof (Security),
                 typeof (HqStaff),

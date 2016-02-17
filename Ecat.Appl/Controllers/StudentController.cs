@@ -15,7 +15,7 @@ using Ecat.Student.Core.Interface;
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    [EcatRolesAuthorized(Is = new[] { RoleMap.Student})]
+    [/*EcatRolesAuthorized*/(Is = new[] { RoleMap.Student})]
     public class StudentController : EcatApiController
     {
         private readonly IStudLogic _studLogic;
@@ -25,13 +25,9 @@ namespace Ecat.Appl.Controllers
             _studLogic = studLogic;
         }
 
-        internal override void SetVariables(Person person, 
-            MemberInCourse crseMember = null, 
-            MemberInGroup  grpMember = null)
+        internal override void SetVariables(Person person)
         {
             _studLogic.Student = person;
-            _studLogic.CrsMem = crseMember;
-            _studLogic.GrpMem = grpMember;
         }
 
         [HttpGet]
@@ -47,9 +43,16 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<WorkGroup>> GetCourseGrpMembers()
+        public async Task<MemberInCourse> GetCrseGrpMembers(int crseMemId)
         {
-            return await _studLogic.GetGroupsAndMemForCourse();
+            return await _studLogic.GetCrseMemById(crseMemId);
+
+        }
+
+        [HttpGet]
+        public async Task<MemberInGroup> GetGrpMember(int grpMemId)
+        {
+            return await _studLogic.GetGrpMemById(grpMemId);
 
         }
 

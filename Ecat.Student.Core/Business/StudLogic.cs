@@ -15,8 +15,6 @@ namespace Ecat.Student.Core.Business
     {
         private readonly IStudRepo _repo;
         public Person Student { get; set; }
-        public MemberInCourse CrsMem { get; set; }
-        public MemberInGroup GrpMem { get; set; }
 
         public StudLogic(IStudRepo repo)
         {
@@ -30,9 +28,8 @@ namespace Ecat.Student.Core.Business
 
         public async Task<List<MemberInCourse>> GetCrsesWithLastestGrpMem()
         {
-           var courseMems = await _repo.GetCrseMembership(Student.PersonId)
-                .OrderByDescending(crseMem => crseMem.Course.StartDate)
-                .Include(c => c.Course)
+           var courseMems = await _repo.GetCrseMembership
+                .Where(cm => cm.PersonId == Student.PersonId)
                 .ToListAsync();
 
             if (!courseMems.Any())
@@ -42,13 +39,8 @@ namespace Ecat.Student.Core.Business
 
             var latestCrseMem = courseMems.First();
 
-            var lastGroupMem = await _repo.GetGrpMemberships(latestCrseMem.Id)
-                .OrderByDescending(grpMem => grpMem.Group.MpCategory)
-                .Include(g => g.Group)
-                .Include(g => g.GroupPeers)
-                .Include(g => g.AssessorStratResponse)
-                .Include(g => g.AssessorSpResponses)
-                .Include(g => g.AuthorOfComments)
+            var lastGroupMem = await _repo.GetGrpMemberships
+                .Where(gm => gm.CourseEnrollmentId == latestCrseMem.Id)
                 .FirstOrDefaultAsync();
 
             latestCrseMem.StudGroupEnrollments = new List<MemberInGroup> {lastGroupMem};
@@ -56,14 +48,26 @@ namespace Ecat.Student.Core.Business
             return courseMems;
         }
 
-        public Task<IEnumerable<WorkGroup>> GetGroupsAndMemForCourse()
+        public async Task<MemberInCourse> GetCrseMemById(int crseMemId)
         {
-            throw new NotImplementedException();
+            var crseMem = await _repo.GetCrseMembership
+                .Where(cm => cm.Id == crseMemId)
+                .Include(cm => cm.StudGroupEnrollments
+                    .OrderByDescending(gm => gm.Group.MpCategory)
+                    .FirstOrDefault())
+                .Include(cm => cm.StudGroupEnrollments.SelectMany(gm => gm.GroupPeers))
+                .SingleAsync();
+
+            return crseMem;
         }
 
-        public Task<IEnumerable<MemberInGroup>> GetPeersForGrp()
+        public async Task<MemberInGroup> GetGrpMemById(int grpMemId)
         {
-            throw new NotImplementedException();
+            var grpMem = await _repo.GetGrpMemberships
+                .Where(gm => gm.Id == grpMemId)
+                .SingleAsync();
+
+            return grpMem;
         }
 
 

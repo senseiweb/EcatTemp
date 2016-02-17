@@ -11,6 +11,7 @@ namespace Ecat.Shared.Model
         public string Name { get; set; }
         public string ClassNumber { get; set; }
         public string Term { get; set; }
+        public bool GradReportPublished { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime GradDate { get; set; }
 

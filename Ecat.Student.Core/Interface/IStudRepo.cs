@@ -9,7 +9,7 @@ namespace Ecat.Student.Core.Interface
     public interface IStudRepo
     {
         string GetMetadata { get; }
-        IQueryable<MemberInCourse> GetCrseMembership(int crseMemId);
-        IQueryable<MemberInGroup> GetGrpMemberships(int grpMemberId);
+        IQueryable<MemberInCourse> GetCrseMembership { get; }
+        IQueryable<MemberInGroup> GetGrpMemberships { get; }
     }
 }

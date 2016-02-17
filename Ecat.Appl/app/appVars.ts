@@ -22,6 +22,10 @@ export const enum EpmeSchool {
     Epmeic = 7
 }
 
+export const enum QueryError {
+    SuccessNoResult
+}
+
 export class EcMapGender {
     static unk = 'Unknown';
     static male = 'Male';

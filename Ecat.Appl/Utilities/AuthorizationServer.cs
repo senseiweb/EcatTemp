@@ -60,13 +60,8 @@ namespace Ecat.Appl.Utilities
     public class AuthorizationServer : OAuthAuthorizationServerProvider
     {
         private LoginToken _loginToken;
-        private readonly UserCtx _ctx;
 
-        public AuthorizationServer()
-        {
-            _ctx = new UserCtx();
-        }
-
+       
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             await Task.FromResult(context.Validated());
@@ -82,7 +77,13 @@ namespace Ecat.Appl.Utilities
                 return;
             }
 
-            var person = await _ctx.People.Include(user => user.Security).SingleAsync(user => user.Email == context.UserName);
+            Person person;
+
+            using (var ctx = new EcatContext())
+            {
+              person =  await ctx.People.Include(user => user.Security).SingleAsync(user => user.Email == context.UserName);
+            }
+
 
             var hasValidPassword = PasswordHash.ValidatePassword(context.Password, person.Security.PasswordHash);
 

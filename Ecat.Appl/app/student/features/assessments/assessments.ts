@@ -69,16 +69,17 @@ export default class EcStudentAssessments {
         //this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
         const self = this;
 
-        this.dCtx.student.getCourses().then(recCourseList);
+
+        this.dCtx.student.initCourses(false);
 
         function recCourseList(retData: ecat.entity.ICourseMember[]) {
-            if (self.dCtx.student.activeCourse === null || self.dCtx.student.activeCourse === undefined)
-            {
-                self.dCtx.student.activeCourse = retData[0];
-                //self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
-            }
-            self.courseEnrollments = retData;
-            self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
+            //if (self.dCtx.student.activeCourse === null || self.dCtx.student.activeCourse === undefined)
+            //{
+            //    self.dCtx.student.activeCourse = retData[0];
+            //    //self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
+            //}
+            //self.courseEnrollments = retData;
+            //self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
         }
 
 

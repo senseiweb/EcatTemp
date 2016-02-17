@@ -87,57 +87,57 @@ namespace Ecat.Appl.Utilities
 
             #region Check if auth headers are present
 
-            IEnumerable<string> headers;
+            //IEnumerable<string> headers;
 
-            httpContext.Request.Headers.TryGetValues("X-ECAT-PVT-AUTH", out headers);
+            //httpContext.Request.Headers.TryGetValues("X-ECAT-PVT-AUTH", out headers);
 
-            headers = headers?.ToList();
+            //headers = headers?.ToList();
 
-            var crseMemId = 0;
-            var grpMemId = 0;
+            //var crseMemId = 0;
+            //var grpMemId = 0;
 
-            if (headers != null && headers.Any())
-            {
-                AuthHeaderType authType;
-                var authHeader = headers.First().Split(':');
-                Enum.TryParse(authHeader[0], out authType);
-                if (authType == AuthHeaderType.CourseMember)
-                {
-                    var hasCrseMemId = int.TryParse(authHeader[1], out crseMemId);
-                    if (!hasCrseMemId)
-                    {
-                        httpContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                            "Attempted to authorize as course member but the request is malformed!");
-                    }
-                }
+            //if (headers != null && headers.Any())
+            //{
+            //    AuthHeaderType authType;
+            //    var authHeader = headers.First().Split(':');
+            //    Enum.TryParse(authHeader[0], out authType);
+            //    if (authType == AuthHeaderType.CourseMember)
+            //    {
+            //        var hasCrseMemId = int.TryParse(authHeader[1], out crseMemId);
+            //        if (!hasCrseMemId)
+            //        {
+            //            httpContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+            //                "Attempted to authorize as course member but the request is malformed!");
+            //        }
+            //    }
 
-                if (authType == AuthHeaderType.GroupMember)
-                {
-                    var hasCrseMemId = int.TryParse(authHeader[1], out grpMemId);
-                    if (!hasCrseMemId)
-                    {
-                        httpContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                            "Attempted to authorize as course member but the request is malformed!");
-                    }
-                }
-            }
+            //    if (authType == AuthHeaderType.GroupMember)
+            //    {
+            //        var hasCrseMemId = int.TryParse(authHeader[1], out grpMemId);
+            //        if (!hasCrseMemId)
+            //        {
+            //            httpContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+            //                "Attempted to authorize as course member but the request is malformed!");
+            //        }
+            //    }
+            //}
 
             #endregion
 
-            var courseMember = default(MemberInCourse);
-            var groupMember = default(MemberInGroup);
+            //var courseMember = default(MemberInCourse);
+            //var groupMember = default(MemberInGroup);
 
             var user = await ((DbSet<Person>) _ctx.People).FindAsync(token, parsedUid);
 
-            if (crseMemId != 0)
-            {
-                courseMember = await ((DbSet<MemberInCourse>) _ctx.MemberInCourses).FindAsync(token, crseMemId);
-            }
+            //if (crseMemId != 0)
+            //{
+            //    courseMember = await ((DbSet<MemberInCourse>) _ctx.MemberInCourses).FindAsync(token, crseMemId);
+            //}
 
-            if (grpMemId != 0)
-            {
-                groupMember = await ((DbSet<MemberInGroup>) _ctx.MemberInGroups).FindAsync(token, grpMemId);
-            }
+            //if (grpMemId != 0)
+            //{
+            //    groupMember = await ((DbSet<MemberInGroup>) _ctx.MemberInGroups).FindAsync(token, grpMemId);
+            //}
 
             if (user == null)
             {
@@ -149,7 +149,7 @@ namespace Ecat.Appl.Utilities
 
             Contract.Assert(controller != null);
 
-            controller.SetVariables(user, courseMember, groupMember);
+            controller.SetVariables(user);
 
         }
 

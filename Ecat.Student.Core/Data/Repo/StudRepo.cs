@@ -13,7 +13,7 @@ namespace Ecat.Student.Core.Data
         private readonly StudCtx _ctx;
         private readonly EFContextProvider<StudCtx> _efCtx;
 
-        public StudRepo(EFContextProvider<StudCtx> efCtx, StudCtx ctx )
+        public StudRepo(EFContextProvider<StudCtx> efCtx, StudCtx ctx)
         {
             _efCtx = efCtx;
             _ctx = ctx;
@@ -21,14 +21,20 @@ namespace Ecat.Student.Core.Data
 
         public string GetMetadata => _efCtx.Metadata();
 
-        public IQueryable<MemberInCourse> GetCrseMembership(int crseMemId)
-        {
-            return _ctx.MemberInCourses.Where(crseMem => crseMem.Id == crseMemId);
-        }
+        public IQueryable<MemberInCourse> GetCrseMembership =>
+            _ctx.MemberInCourses
+                .Where(cm => !cm.IsDeleted)
+                .OrderByDescending(crseMem => crseMem.Course.StartDate)
+                .Include(c => c.Course);
 
-        public IQueryable<MemberInGroup> GetGrpMemberships(int grpMemberId)
-        {
-            return _ctx.MemberInGroups.Where(gm => gm.Id == grpMemberId);
-        }
+        public IQueryable<MemberInGroup> GetGrpMemberships => _ctx.MemberInGroups
+            .Where(gm => !gm.IsDeleted)
+            .OrderByDescending(grpMem => grpMem.Group.MpCategory)
+            .Include(g => g.Group)
+            .Include(g => g.GroupPeers)
+            .Include(g => g.AssessorStratResponse)
+            .Include(g => g.AssessorSpResponses)
+            .Include(g => g.AuthorOfComments);
+
     }
 }

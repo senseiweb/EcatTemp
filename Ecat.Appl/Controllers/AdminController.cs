@@ -25,9 +25,7 @@ namespace Ecat.Appl.Controllers
             _adminLogic = adminLogic;
         }
         
-        internal override void SetVariables(Person person,
-            MemberInCourse courseMember = null,
-            MemberInGroup groupMember = null)
+        internal override void SetVariables(Person person)
         {
             _adminLogic.Admin = person;
         }
