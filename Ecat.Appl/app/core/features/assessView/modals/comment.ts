@@ -6,7 +6,13 @@ export default class EcStudentAssessmentAddCommentForm {
 
     nf: angular.IFormController;
 
+    radioModel = 'middle';
+
+
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx) {
+
+
+
     }
 
     cancel(): void {

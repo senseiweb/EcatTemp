@@ -55,6 +55,12 @@
 </div>
 <div class="modal-footer">
     <!-- TODO: Add Comment Type field -->
+    <div class="btn-group pull-left">
+        <label class="btn btn-default waves-effect" ng-model="radioModel" uib-btn-radio="negative">Negative</label>
+        <label class="btn btn-default waves-effect" ng-model="radioModel" uib-btn-radio="neutral">Neutral</label>
+        <label class="btn btn-default waves-effect" ng-model="radioModel" uib-btn-radio="positive">Positive</label>
+    </div>
+
     <button class="btn btn-danger" type="button" ng-click="assessEdit.delete()">Delete</button>
     <button class="btn btn-link" type="button" ng-click="commentAe.ok()">OK</button>
     <button class="btn btn-link" type="button" ng-click="commentAe.cancel()">Cancel</button>
