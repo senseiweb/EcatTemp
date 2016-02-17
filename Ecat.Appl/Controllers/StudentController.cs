@@ -15,7 +15,7 @@ using Ecat.Student.Core.Interface;
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    [/*EcatRolesAuthorized*/(Is = new[] { RoleMap.Student})]
+    [EcatRolesAuthorized(Is = new[] { RoleMap.Student})]
     public class StudentController : EcatApiController
     {
         private readonly IStudLogic _studLogic;

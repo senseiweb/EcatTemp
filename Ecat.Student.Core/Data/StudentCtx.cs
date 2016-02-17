@@ -13,9 +13,7 @@ namespace Ecat.Student.Core.Data
     {
         protected override void OnModelCreating(DbModelBuilder mb)
         {
-            mb.Entity<MemberInGroup>()
-                .ToTable("MemberInGroup");
-
+         
             mb.Ignore(new List<Type>
             {
                 typeof (External),
@@ -28,7 +26,6 @@ namespace Ecat.Student.Core.Data
                 typeof (FacSpComment),
                 typeof (FacSpAssessResponse)
             });
-
             //mb.Types().Configure(p => p.Ignore("IsDeleted"));
             //mb.Types().Configure(p => p.Ignore("DeletedById"));
             //mb.Types().Configure(p => p.Ignore("DeletedDate"));
@@ -54,6 +51,41 @@ namespace Ecat.Student.Core.Data
                .Ignore(p => p.FacilitatorInstructions)
                .Ignore(p => p.ModifiedById)
                .Ignore(p => p.ModifiedDate);
+
+            mb.Entity<MemberInGroup>()
+                .HasRequired(p => p.Student)
+                .WithMany(p => p.GroupPersonas)
+                .HasForeignKey(p => p.StudentId);
+
+            mb.Entity<SpAssessResponse>()
+                .HasRequired(p => p.Assessee)
+                .WithMany(p => p.AssesseeSpResponses)
+                .HasForeignKey(p => p.AssesseeId);
+
+            mb.Entity<SpAssessResponse>()
+              .HasRequired(p => p.Assessor)
+              .WithMany(p => p.AssessorSpResponses)
+              .HasForeignKey(p => p.AssessorId);
+
+            mb.Entity<SpStratResponse>()
+             .HasRequired(p => p.Assessee)
+             .WithMany(p => p.AssesseeStratResponse)
+             .HasForeignKey(p => p.AssesseeId);
+
+            mb.Entity<SpStratResponse>()
+              .HasRequired(p => p.Assessor)
+              .WithMany(p => p.AssessorStratResponse)
+              .HasForeignKey(p => p.AssessorId);
+
+            mb.Entity<SpComment>()
+                .HasRequired(p => p.Author)
+                .WithMany(p => p.AuthorOfComments)
+                .HasForeignKey(p => p.AuthorId);
+
+            mb.Entity<SpComment>()
+                .HasRequired(p => p.Recipient)
+                .WithMany(p => p.RecipientOfComments)
+                .HasForeignKey(p => p.RecipientId);
 
             mb.Entity<WorkGroup>()
                 .Ignore(p => p.MaxStrat);

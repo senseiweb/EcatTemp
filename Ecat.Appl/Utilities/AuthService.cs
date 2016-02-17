@@ -16,6 +16,7 @@ using Ecat.Appl.Controllers;
 using Ecat.Shared.Core;
 using Ecat.Shared.DbManager.Context;
 using Ecat.Shared.Model;
+using Ecat.Users.Core;
 
 namespace Ecat.Appl.Utilities
 {
@@ -23,12 +24,10 @@ namespace Ecat.Appl.Utilities
     {
         public bool AllowMultiple { get; }
 
-        private readonly EcatContext _ctx;
         private readonly RoleMap[] _authRoles;
 
-        public EcatAuthService(EcatContext ctx, RoleMap[] roles)
+        public EcatAuthService(RoleMap[] roles)
         {
-            _ctx = ctx;
             _authRoles = roles;
         }
 
@@ -126,8 +125,11 @@ namespace Ecat.Appl.Utilities
 
             //var courseMember = default(MemberInCourse);
             //var groupMember = default(MemberInGroup);
-
-            var user = await ((DbSet<Person>) _ctx.People).FindAsync(token, parsedUid);
+            Person user;
+            using (var ctx = new UserCtx())
+            {
+                 user = await ((DbSet<Person>) ctx.People).FindAsync(token, parsedUid);
+            }
 
             //if (crseMemId != 0)
             //{
