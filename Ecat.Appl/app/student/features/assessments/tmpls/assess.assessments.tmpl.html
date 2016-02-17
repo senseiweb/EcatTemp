@@ -3,15 +3,17 @@
         <div class="table-responsive">
             <table class="table table-hover tableCenterAlign">
                 <thead>
-                <tr>
-                    <th>Student</th>
-                    <th style="padding-left: 22px;">Assessments</th>
-                    <th>Strat</th>
-                    <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
-                    <th ng-if="assess.stratInputVis">Strat Position</th>
-                    <th ng-if="assess.stratInputVis">Composite Ranking</th>
+                    <tr>
+                        <th>Student</th>
+                        <th style="padding-left: 22px;">Assessments</th>                     
+                        <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
+                        <th ng-if="assess.stratInputVis">Composite Ranking</th>
+                        <th>Strat</th>
+                        <th ng-if="assess.stratInputVis">Strat Position</th>
+                        <th ng-if="assess.StratError"></th>
 
-                </tr>
+
+                    </tr>
                 </thead>
                 <tbody>
 
@@ -22,14 +24,10 @@
                         <button class="btn btn-link" ng-click="assess.addAssessment()">Add</button>
 
                     </td>
-                    <td>3</td>
+                    
                     <td ng-if="!assess.stratInputVis">
                         <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
 
-                    </td>
-
-                    <td ng-if="assess.stratInputVis">
-                        <input class="form-control" type="text" style="width: 20px">
                     </td>
                     <td ng-if="assess.stratInputVis">
                         <table>
@@ -40,10 +38,17 @@
                             </tr>
                         </table>
                     </td>
+
+                    <td>3</td>
+
+                    <td ng-if="assess.stratInputVis" style="width: 120px">
+                        <input class="form-control" id="inputError1" type="text" style="width: 100px">
+                    </td>
+
+                    <td><label class="control-label" for="inputError1">Duplicate Value!</label></td>
+
+
                 </tr>
-
-
-
                 </tbody>
             </table>
 

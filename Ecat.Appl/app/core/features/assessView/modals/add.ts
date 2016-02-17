@@ -7,7 +7,7 @@ export default class EcStudentAssessmentAddForm {
     nf: angular.IFormController;
 
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, mode: string) {
-        console.log(mode)
+        console.log(mode);
     }
 
     cancel(): void {

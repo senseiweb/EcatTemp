@@ -53,6 +53,8 @@ export default class EcStudentAssessments {
 
     courseEnrollments: ecat.entity.ICourseMember[] = [];
 
+    radioEffectiveness: string;
+    radioFreq: string;
 
     user: ecat.entity.IPerson;
 

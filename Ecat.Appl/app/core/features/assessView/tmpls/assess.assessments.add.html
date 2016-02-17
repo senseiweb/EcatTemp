@@ -26,15 +26,15 @@
     <div>
         <div ng-if="!assessAdd.notDisplayed" class="col-md-7">
             <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-primary">Ineffective</button>
-                <button type="button" class="btn btn-default">Effective</button>
-                <button type="button" class="btn btn-default">Highty Effective</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='ineffective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'ineffective'">Ineffective</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='effective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'effective'">Effective</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='highlyeffective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'highlyeffective'">Highty Effective</button>
             </div>
         </div>
         <div ng-if="!assessAdd.notDisplayed" class="col-md-4">
             <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-primary">Frequently</button>
-                <button type="button" class="btn btn-default">Always</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioFreq=='frequently'}" ng-model="assessAdd.radioFreq" uib-btn-radio="'frequently'">Frequently</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioFreq=='always'}" ng-model="assessAdd.radioFreq" uib-btn-radio="'always'">Always</button>
             </div>
         </div>
     </div>
