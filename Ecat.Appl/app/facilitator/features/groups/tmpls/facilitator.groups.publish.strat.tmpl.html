@@ -5,14 +5,21 @@
                 <thead>
                     <tr>
                         <th>Student</th>
-                        <th>Strat</th>
+                        <th>Old Strat</th>
                         <th>Strat Position</th>
                         <th>Composite Ranking</th>
 
                     </tr>
                 </thead>
                 <tbody>
-
+                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.LastName track by groupMember.id'">
+                        <td>{{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</td>
+                        <td>{{(groups.selectedGroup.facStratResponses | filter:{assesseeId==groupMember.id})[0].stratPosition}}</td>
+                        <td>
+                            <input class="form-control" type="text" style="width: 20px" />
+                        </td>
+                        <td></td>
+                    </tr>
                     <tr class="tableBottomBorder">
                         <td>Jason Silvers</td>
                         <td>3</td>

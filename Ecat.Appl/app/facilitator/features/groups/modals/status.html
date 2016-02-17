@@ -1,6 +1,6 @@
 ﻿<div class="modal-header">
     <div>
-        <h4 class="text-center thingHeader">{{viewStatus.groupname}} Assessment Status</h4>
+        <h4 class="text-center thingHeader">{{viewStatus.group.defaultName}}-{{viewStatus.group.mpCategory}} Assessment Status</h4>
     </div>
     <hr />
 </div>
@@ -18,6 +18,17 @@
         </tr>
     </thead>
     <tbody>
+        <tr ng-repeat="groupMember in viewStatus.groups.groupMembers | orderBy: 'student.person.LastName' track by groupMember.id">
+            <td>{{groupMember.student.person.mpRank}} {{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</td>
+            <td ng-if="groupMember.selfComplete"><i class="zmdi zmdi-check"></i></td>
+            <td class="error" ng-if="!groupMember.selfComplete">X</td>
+            <td ng-if="groupMember.peersComplete==groups.peersTotal"><i class="zmdi zmdi-check"></i></td>
+            <td class="error" ng-if="groupMember.peersComplete!=groups.peersTotal">{{groupMember.peersComplete}}/{{groups.peersTotal}}</td>
+            <td ng-if="groupMember.stratsComplete==groups.groupMembers.length"><i class="zmdi zmdi-check"></i></td>
+            <td class="error" ng-if="groupMember.stratsComplete!=groups.groupMembers.length">{{groupMember.stratsComplete}}/{{groups.groupMembers.length}}</td>
+            <td>{{groupMember.authorOfComments.length}}</td>
+            <td>HE:{{groupMember.hEGiven}} E:{{groupMember.eGiven}} IE:{{groupMember.iEGiven}} ND:{{groupMember.nDGiven}}</td>
+        </tr>
         <tr>
             <td>MSgt Longname, Testlongname</td>
             <td><i class="zmdi zmdi-check"></i></td>
@@ -66,16 +77,6 @@
             <td>3</td>
             <td>HE:5 E:10 IE:3 ND:4</td>
         </tr>
-        <!--<tr ng-repeat="student in groupMembers | orderby: 'id'">
-            <td>{{student.id}}</td>
-            <td ng-if="!student.spStatus.selfAssessComplete">Incomplete</td>
-            <td ng-if="student.spStatus.selfAssessComplete">Complete</td>
-            <td ng-if="!student.spStatus.peersAssessed === peersTotal">{{student.peersComplete}}/{{peersTotal}}</td>
-            <td ng-if="student.spStratResponses.length === peersTotal">Complete</td>
-            <td ng-if="!student.spStratResponses.length === peersTotal">{{student.spStratResponses.length}}/{{peersTotal}}</td>
-            <td>{{student.authorOfComments.length}}</td>
-            <td>HE: {{student.spStatus.hEGiven}} E: {{student.spStatus.eGiven}} IE: {{student.spStatus.iEGiven}} ND: {{student.spStatus.nDGiven}}</td>
-        </tr>-->
     </tbody>
 </table>
 

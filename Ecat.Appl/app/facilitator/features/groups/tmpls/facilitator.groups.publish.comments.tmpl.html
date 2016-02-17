@@ -4,13 +4,61 @@
 
         <div class="ms-block">
             <div class="dropdown" uib-dropdown="" style="">
-                <a class="btn btn-primary btn-block dropdown-toggle waves-effect" href="" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">flag <i class="caret m-l-5"></i></a>
+                <a class="btn btn-primary btn-block dropdown-toggle waves-effect" href="" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">Mass Flag <i class="caret m-l-5"></i></a>
 
                 <ul class="dropdown-menu dm-icon w-100">
-                    <li><a href=""><i class="zmdi zmdi-email"></i> Messages</a></li>
-                    <li><a href=""><i class="zmdi zmdi-account"></i> Contacts</a></li>
-                    <li><a href=""><i class="zmdi zmdi-format-list-bulleted"> </i>Todo Lists</a></li>
+                    <li><a data-ng-click="groups.massFlag('unflag')">Flag Unflagged as Neutral</a></li>
+                    <li><a data-ng-click="groups.massFlag('?')">Another Option?</a></li>
+                    <li><a data-ng-click="groups.massFlag('reset')">Reset All to Neutral</a></li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="listview lv-user ecat-messages">
+
+            <div class="lv-item media" ng-class="{active: groups.selectedStudent.id==groupMember.id}" ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy: 'student.person.LastName track by groupMember.id'" ng-click="groups.selectedStudent=groupMember">
+                <div class="lv-avatar pull-left">aw</div>
+                <div class="media-body">
+                    <div class="lv-title">{{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</div>
+                    <i class="zmdi zmdi-check pull-right zmdi-hc-fw" ng-if=""></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="ms-menu" style="left: 240px; width: 200px">
+            <div class="listview lv-user ecat-submessages">
+                <div class="lv-item media" ng-class="{active: groups.selectedComment.id==comment.id}" ng-repeat="comment in groups.selectedStudent.authorOfComments | orderyBy:'recipient.student.person.LastName' track by recipient.id" ng-click="groups.selectedComment=comment">
+                    <div class="media-body">
+                        <div class="lv-title">{{comment.recipient.student.person.LastName}}, {{comment.recipient.student.person.FirstName}}</div>
+                        <div class="lv-small clearfix">{{comment.mpCommentFlagRecipient}}<i class="zmdi zmdi-check pull-right zmdi-hc-fw" ng-if="comment.mpCommentFlagFac"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ms-body">
+            <div class="listview lv-message" style="margin-left: 200px">
+                <div class="lv-body">
+                    <h4 class="f-400 p-l-20">Comment type: {{groups.selectedComment.mpCommentType}}</h4>
+                    <div class="p-20 media">
+                        <div class="media-body f-14 clearfix">
+                            {{groups.selectedComment.commentText}}
+                        </div>
+                        <div class="pull-right p-t-30 p-r-5">
+                            <div class="btn-group clearfix" ng-model>
+                                <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentType=='Negative'}" ng-model="groups.radioCommentType" uib-btn-radio="'Negative'" ng-click="groups.selectedComment.mpCommentFlagFac='Negative'">Negative</label>
+                                <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentType=='Neutral'}" ng-model="groups.radioCommentType" uib-btn-radio="'Neutral'" ng-click="groups.selectedComment.mpCommentFlagFac='Neutral'">Neutral</label>
+                                <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentType=='Positive'}" ng-model="groups.radioCommentType" uib-btn-radio="'Positive'" ng-click="groups.selectedComment.mpCommentFlagFac='Positive'">Positive</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="lv-footer">
+                    <div class="small f-12 pull-right p-r-15">
+                        <i class="zmdi zmdi-time"></i> {{groups.selectedComment.modifiedDate}}
+                    </div>
+                </div>
             </div>
         </div>
 

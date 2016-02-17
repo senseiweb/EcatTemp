@@ -52,8 +52,8 @@ export default class EcInstructorGroups {
         keyboard: false,
         backdrop: 'static',
         templateUrl: 'wwwroot/app/facilitator/features/groups/modals/status.html',
-        size: 'lg'
-        //resolve: { selectedGroup: () => this.selectedGroup }
+        size: 'lg',
+        resolve: { selectedGroup: () => this.selectedGroup }
     }
 
     capstoneStudentDetailModalOptions: angular.ui.bootstrap.IModalSettings = {
@@ -67,8 +67,15 @@ export default class EcInstructorGroups {
         //resolve: { selectedGroup: () => this.selectedGroup }
     }
 
+    selectedGroup: Ecat.Shared.Model.WorkGroup;
+    //groups: Ecat.Shared.Model.WorkGroup[] =[];
+    courses: ecat.entity.ICourseMember[] = [];
+    selectedCourse: ecat.entity.ICourse;
+    selectedStudent: Ecat.Shared.Model.MemberInGroup;
+    selectedComment: Ecat.Shared.Model.SpComment;
+    radioCommentType: string;
 
-    groups: Array<{}>;
+    testgroups: Array<{}>;
     results: Array<{}>;
     questions: Array<{}>;
 
@@ -79,6 +86,8 @@ export default class EcInstructorGroups {
     }
 
     activate(): void {
+        //this.courses = this.dCtx.facilitator.getCourses();
+        
 
         this.questions = [
             {
@@ -109,7 +118,7 @@ export default class EcInstructorGroups {
             }
         ];
 
-        this.groups = [
+        this.testgroups = [
             {
                 id: 1,
                 flight: 'flight 1'
@@ -164,6 +173,10 @@ export default class EcInstructorGroups {
                 strat: '4'
             }
         ];
+
+    }
+
+    massFlag(action: string): void {
 
     }
 
