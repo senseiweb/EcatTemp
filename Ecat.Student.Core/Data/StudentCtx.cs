@@ -37,10 +37,10 @@ namespace Ecat.Student.Core.Data
             //mb.Types().Configure(p => p.Ignore("DeletedById"));
             //mb.Types().Configure(p => p.Ignore("DeletedDate"));
 
-            mb.Entity<Shared.Model.Student>()
-                .HasKey(p => p.PersonId)
-                .HasRequired(p => p.Person)
-                .WithOptional(p => p.Student);
+            //mb.Entity<Shared.Model.Student>()
+            //    .HasKey(p => p.PersonId)
+            //    .HasRequired(p => p.Person)
+            //    .WithOptional(p => p.Student);
 
             mb.Entity<Person>()
                 .Ignore(p => p.BbUserId)

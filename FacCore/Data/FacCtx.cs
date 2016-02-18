@@ -35,10 +35,10 @@ namespace FacCore.Data
             //mb.Types().Configure(p => p.Ignore("DeletedById"));
             //mb.Types().Configure(p => p.Ignore("DeletedDate"));
 
-            mb.Entity<Ecat.Shared.Model.Student>()
-                .HasKey(p => p.PersonId)
-                .HasRequired(p => p.Person)
-                .WithOptional(p => p.Student);
+            //mb.Entity<Ecat.Shared.Model.Student>()
+            //    .HasKey(p => p.PersonId)
+            //    .HasRequired(p => p.Person)
+            //    .WithOptional(p => p.Student);
 
             mb.Entity<Person>()
                 .Ignore(p => p.BbUserId)

@@ -45,17 +45,33 @@ export default class EcAppMain {
         this.c.swal(alertSettings, afterConfirmClose);
     }
 
-    authorizeMenu(state: angular.ui.IState): boolean {
+    authorizeMenu(state: angular.ui.IState, checkForCrseAdmin): boolean {
         if (!state) {
           return false;
         }
 
-        if (!state.data || !state.data.authorized) {
+        if (!state.data || !angular.isArray(state.data.authorized)) {
             return true;
         }
+
         const authorizedStateRoles = state.data.authorized;
         const user = this.dCtx.user.persona;
-        return user && angular.isArray(authorizedStateRoles) && authorizedStateRoles.some(role => role === user.mpInstituteRole);
+        
+        if (!user) {
+            return false;
+        }
+
+        const hasAuthorizedRole = authorizedStateRoles.some(role => role === user.mpInstituteRole);
+
+        if (!hasAuthorizedRole) {
+            return false;
+        }
+         
+        if (checkForCrseAdmin) {
+            return user.facilitator && user.facilitator.isCourseAdmin;
+        }
+
+        return true;
     }
 
     sidebarStat(event: JQueryEventObject): void {

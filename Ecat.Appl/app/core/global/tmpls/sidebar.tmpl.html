@@ -75,7 +75,7 @@
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.designer.main.name}}) }">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.designer.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.hq.main)" >
             <a href="" toggle-submenu>
                 <i class="zmdi  zmdi-wrench"></i> Course Designer
             </a>
@@ -85,7 +85,7 @@
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.cAdmin.main.name}}) }">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.cAdmin.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.fac.main, true)" >
             <a href="" toggle-submenu><i class="zmdi zmdi zmdi-view-list"></i> Course Admin</a>
             <ul>
 
@@ -94,7 +94,7 @@
 
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{ 'active toggled': $state.includes({{stateMgr.fac.main.name}}) }">
+        <li class="sub-menu" ng-class="{ 'active toggled': $state.includes({{stateMgr.fac.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.fac.main)" >
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-assignment-check"></i> 
                 Facilitator
@@ -106,7 +106,7 @@
 
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{ 'active toggled': main.$state.includes({{stateMgr.student.main.name}}) }">
+        <li class="sub-menu" ng-class="{ 'active toggled': main.$state.includes({{stateMgr.student.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.student.main)" >
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-graduation-cap"></i>
                 Student

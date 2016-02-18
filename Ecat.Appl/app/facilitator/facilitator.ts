@@ -2,6 +2,7 @@ import angular = require('angular')
 import groups from "facilitator/features/groups/groups"
 import facilitatorCfgProvider from 'facilitator/provider/facCfgProvider'
 import facilitatorConfig from 'facilitator/config/cfgFac'
+import facDataService from "facilitator/service/facilitatorData"
 import viewStatus from "facilitator/features/groups/modals/status"
 import capstoneStudentDetail from "facilitator/features/groups/modals/capstonestudentdetail"
 
@@ -12,6 +13,7 @@ export default class EcFacilitatorModule {
         angular.module(this.moduleId, [])
             .config(facilitatorConfig)
             .provider(facilitatorCfgProvider.providerId, facilitatorCfgProvider)
+            .service(facDataService.serviceId, facDataService)
             .controller(groups.controllerId, groups)
             .controller(viewStatus.controllerId, viewStatus)
             .controller(capstoneStudentDetail.controllerId, capstoneStudentDetail);

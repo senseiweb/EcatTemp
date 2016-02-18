@@ -35,8 +35,10 @@ namespace Ecat.Shared.DbManager.Context
                 .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
 
             mb.Ignore<Academy>();
-
             mb.Ignore<AcademyCategory>();
+            mb.Ignore<SantizedComment>();
+            mb.Ignore<SantizedResponse>();
+
 
             mb.Properties<DateTime>()
                 .Configure(c => c.HasColumnType("datetime2"));

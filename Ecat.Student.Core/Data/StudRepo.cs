@@ -30,7 +30,7 @@ namespace Ecat.Student.Core.Data
                 .OrderByDescending(crseMem => crseMem.Course.StartDate)
                 .Include(c => c.Course);
 
-        public IQueryable<MemberInGroup> GetGrpMemberships => _ctx.MemberInGroups
+        public IQueryable<MemberInGroup> GetSingleGrpMemberships => _ctx.MemberInGroups
             .Where(gm => !gm.IsDeleted)
             .OrderByDescending(grpMem => grpMem.Group.MpCategory)
             .Include(g => g.Group)

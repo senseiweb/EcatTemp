@@ -16,7 +16,7 @@ export default class EcFacilitatorStates {
             abstract: true,
             template: '<div ui-view></div>',
             data: {
-                authorized: [AppVar.EcMapInstituteRole.facilitator, AppVar.EcMapInstituteRole.external]
+                authorized: [AppVar.EcMapInstituteRole.facilitator]
             },
             resolve: {
                 moduleInit: ['$ocLazyLoad', this.loadModule]
@@ -37,7 +37,6 @@ export default class EcFacilitatorStates {
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-        if ()
         return this.isFacilitatorLoaded ? this.isFacilitatorLoaded :
             System.import('app/facilitator/facilitator.js').then((facClass: any) => {
                 const facMod = facClass.default.load();

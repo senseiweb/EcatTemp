@@ -8,8 +8,7 @@ namespace Ecat.Shared.Model
 {
     public class HqStaff : Profile
     {
-        public Person Person { get; set; }
-
+        public virtual Person Person { get; set; }
         public ICollection<MeetingAttendee> MeetingAttendences { get; set; }
     }
 }

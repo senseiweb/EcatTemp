@@ -17,6 +17,7 @@ namespace Ecat.Shared.Model
 
         public MemberInGroup Author { get; set; }
         public MemberInGroup Recipient { get; set; }
+        public MemberInCourse FacFlaggedBy { get; set; }
 
         public bool IsDeleted { get; set; }
         public int? DeletedById { get; set; }
