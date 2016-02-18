@@ -3,7 +3,7 @@
     [UserGuard]
     public class External : Profile
     {
-        public Person Person { get; set; }
+        public virtual Person Person { get; set; }
 
     }
 }

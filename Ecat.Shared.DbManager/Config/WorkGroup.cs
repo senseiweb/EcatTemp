@@ -28,7 +28,7 @@ namespace Ecat.Shared.DbManager.Config
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                     new IndexAnnotation(new IndexAttribute("IX_UniqueCourseGroup", 3) { IsUnique = true }));
 
-            HasMany(p => p.FacSpReponses)
+            HasMany(p => p.FacSpResponses)
                 .WithRequired(p => p.AssignedGroup)
                 .HasForeignKey(p => p.AssignedGroupId)
                 .WillCascadeOnDelete(false);

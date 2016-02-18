@@ -74,7 +74,7 @@
     <Compile Include="Interface\IStudLogic.cs" />
     <Compile Include="Interface\IStudRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Repo\StudRepo.cs" />
+    <Compile Include="Data\StudRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">

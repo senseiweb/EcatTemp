@@ -1,7 +1,5 @@
 ﻿import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
-import IDataCtx from 'core/service/data/context'
-import ICommon from "core/service/common"
 
 export default class EcAdminStates {
     private isAdminLoaded = false;
@@ -38,11 +36,12 @@ export default class EcAdminStates {
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-        return this.isAdminLoaded ? this.isAdminLoaded : System.import('app/admin/admin.js').then((adminModClass: any) => {
-            adminModClass.default().load();
-            $ocLl.load(adminModClass.default().moduleId)
-                .then(() => this.isAdminLoaded = true)
-                .catch(() => this.isAdminLoaded = false);
-        });
+        return this.isAdminLoaded ? this.isAdminLoaded :
+            System.import('app/admin/admin.js')
+            .then((adminModClass: any) => {
+                const adminMod = adminModClass.default.load();
+                $ocLl.inject(adminMod.moduleId);
+                this.isAdminLoaded = true;
+            });
     }
 }

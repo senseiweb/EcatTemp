@@ -10,6 +10,6 @@ namespace Ecat.Student.Core.Interface
     {
         string GetMetadata { get; }
         IQueryable<MemberInCourse> GetCrseMembership { get; }
-        IQueryable<MemberInGroup> GetGrpMemberships { get; }
+        IQueryable<MemberInGroup> GetSingleGrpMemberships { get; }
     }
 }

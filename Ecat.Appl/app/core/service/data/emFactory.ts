@@ -7,6 +7,7 @@ export default class EcEmFactory {
     static $inject = ['$injector'];
     private common = this.$injector.get('core.common') as ICommon;
 
+
     constructor(private $injector: angular.auto.IInjectorService) {
     }
 
@@ -16,14 +17,20 @@ export default class EcEmFactory {
     }
 
     getNewManager(apiResourceName: appVar.EcMapApiResource, clientExtensions?: Array<ecat.entity.IEntityExtension>): breeze.EntityManager {
+       
         breeze.NamingConvention.camelCase.setAsDefault();
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
         const serviceName = this.common.appEndpoint + apiResourceName;
         const metaDataStore = this.createMetadataStore(clientExtensions);
-        const mgr =  new breeze.EntityManager({
+        const mgr = new breeze.EntityManager({
             serviceName: serviceName,
             metadataStore: metaDataStore
         });
+
+        if (apiResourceName !== appVar.EcMapApiResource.user) {
+            return mgr;
+        }
+
         mgr.fetchMetadata()
             .then(() => {
                 this.common.broadcast(this.common.coreCfg.coreEvents.managerLoaded,
@@ -31,7 +38,6 @@ export default class EcEmFactory {
                 this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
             })
             .catch((error) => {
-                
                 this.common.logger.logError(`${apiResourceName}} Manager could not be loaded. This is a critical error.\nPlease attempt reload the application`, error, 'EM-Factory', true);
                 this.common.$state.go(this.common.stateMgr.core.error.name);
             });

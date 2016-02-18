@@ -8,7 +8,7 @@ export default class EcFacViewStatusModal {
     nf: angular.IFormController;
 
     group: Ecat.Shared.Model.WorkGroup;
-    groupMembers: ecat.entity.IGroupMember[] = [];
+    groupMembers: ecat.entity.IMemberInGroup[] = [];
     //students = [];
     peersTotal: number;
 
@@ -18,7 +18,7 @@ export default class EcFacViewStatusModal {
         const self = this;
 
         //this.dCtx.mock.getFacGroupDetails().then(recGroupDetails);
-        function recGroupDetails(data: Array<ecat.entity.IGroupMember>) {
+        function recGroupDetails(data: Array<ecat.entity.IMemberInGroup>) {
             self.groupMembers = data;
         }
 

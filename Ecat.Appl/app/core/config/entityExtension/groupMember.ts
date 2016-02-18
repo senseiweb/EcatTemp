@@ -15,7 +15,7 @@ interface IResponsesByMemeber {
 }
 
 export class GroupMemberInitializer {
-    constructor(groupMember: ecat.entity.IGroupMember) {
+    constructor(groupMember: ecat.entity.IMemberInGroup) {
 
     }
 }
@@ -116,5 +116,5 @@ export class GroupMemberInitializer {
 //export var groupMemberConfig: ecat.entity.IEntityExtension = {
 //    entityName: AppVar.EcMapEntityType.grpMember,
 //    ctorFunc: GroupMemberClientExtended,
-//    initFunc: (groupMemberEntity: ecat.entity.IGroupMember) => new GroupMemberInitializer(groupMemberEntity)
+//    initFunc: (groupMemberEntity: ecat.entity.IMemberInGroup) => new GroupMemberInitializer(groupMemberEntity)
 //}

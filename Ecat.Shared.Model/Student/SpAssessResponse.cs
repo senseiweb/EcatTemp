@@ -14,6 +14,7 @@ namespace Ecat.Shared.Model
         public string MpItemResponse { get; set; }
         public float ItemModelScore { get; set; }   
         public SpInventory InventoryItem { get; set; }
+        public SpAssessResult AssessResult { get; set; }
         public MemberInGroup Assessor { get; set; } 
         public MemberInGroup Assessee { get; set; }
 

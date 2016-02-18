@@ -1,8 +1,5 @@
 ﻿import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
-import IDataCtx from 'core/service/data/context'
-import ICommon from "core/service/common"
-import IStudentModule from "student/student"
 
 export default class EcStudentStates {
   
@@ -20,7 +17,7 @@ export default class EcStudentStates {
             abstract: true,
             template: '<div ui-view></div>',
             data: {
-                authorized: [AppVar.EcMapInstituteRole.student, AppVar.EcMapInstituteRole.external]
+                authorized: [AppVar.EcMapInstituteRole.student]
             },
             resolve: {
                 moduleInit: ['$ocLazyLoad', this.loadModule]
@@ -38,11 +35,11 @@ export default class EcStudentStates {
                 moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
             }
         }
-
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-        return this.isStudentLoaded ? this.isStudentLoaded : System.import('app/student/student.js')
+        return this.isStudentLoaded ? this.isStudentLoaded :
+            System.import('app/student/student.js')
             .then((studentModClass: any) => {
                 const studMod = studentModClass.default.load();
                 $ocLl.inject(studMod.moduleId);

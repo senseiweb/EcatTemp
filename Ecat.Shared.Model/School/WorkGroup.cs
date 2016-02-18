@@ -18,7 +18,7 @@ namespace Ecat.Shared.Model
         public bool IsPrimary { get; set; }
 
         public Course Course { get; set; }
-        public ICollection<FacSpAssessResponse> FacSpReponses { get; set; }
+        public ICollection<FacSpAssessResponse> FacSpResponses { get; set; }
         public ICollection<FacSpStratResponse> FacStratResponses { get; set; }
         public ICollection<FacSpComment> FacSpComments { get; set; }
         public ICollection<MemberInGroup> GroupMembers { get; set; }

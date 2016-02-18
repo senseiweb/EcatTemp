@@ -53,11 +53,13 @@ declare module ecat.entity
         course: ICourse;
     }
 
-    interface IWorkGroup extends breeze.Entity, Ecat.Shared.Model.WorkGroup { }
+    interface IWorkGroup extends breeze.Entity, Ecat.Shared.Model.WorkGroup {
+        groupMembers: IMemberInGroup[];
+    }
 
     interface ICourse extends breeze.Entity, Ecat.Shared.Model.Course {}
 
-    interface IGroupMember extends breeze.Entity, Ecat.Shared.Model.MemberInGroup { }
+    interface IMemberInGroup extends breeze.Entity, Ecat.Shared.Model.MemberInGroup { }
 
     interface IStudent extends breeze.Entity, Ecat.Shared.Model.Student { }
 

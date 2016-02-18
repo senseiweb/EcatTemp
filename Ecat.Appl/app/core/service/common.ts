@@ -10,7 +10,7 @@ import IDataCtx from "core/service/data/context"
 export default class EcCommon
 {
     static serviceId = 'core.common';
-    static $inject = ['$injector','$q', '$rootScope', '$state', '$stateParams', ILogger.serviceId, ICoreCfg.providerId, IDialog.serviceId, IStateMgr.providerId, 'userStatic'];
+    static $inject = ['$injector','$location','$q', '$rootScope', '$state', '$stateParams', ILogger.serviceId, ICoreCfg.providerId, IDialog.serviceId, IStateMgr.providerId, 'userStatic'];
 
     appEndpoint: string;
     appVar = AppVars;
@@ -37,6 +37,7 @@ export default class EcCommon
     tokenEndpoint: string;
 
     constructor(private inj: angular.auto.IInjectorService,
+        private $location: angular.ILocationService,
         public $q: angular.IQService,
         public $rootScope: ecat.IEcRootScope,
         public $state: angular.ui.IStateService,
@@ -56,15 +57,13 @@ export default class EcCommon
 
     appStartup(): void {
 
-        this.$rootScope.$on('$stateChangeSuccess', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: any, from: angular.ui.IState, fromParams: any) => {
+        this.$rootScope.$on('$stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: any, from: angular.ui.IState, fromParams: any) => {
 
             const dCtx = this.inj.get('data.context') as IDataCtx;
 
             if (!to.data || (!angular.isArray(to.data.authorized) && !angular.isDefined(to.data.validateToken))) {
                 return true;
             }
-
-            //this.checkValidToken(dCtx.user.token.validity(), $event);
 
             if (angular.isArray(to.data.authorized)) {
                 this.checkUserRoles(dCtx.user.persona, to.data.authorized, $event);
@@ -88,8 +87,7 @@ export default class EcCommon
                             closeOnConfirm: true
                         }
                     swal(tkError, () => {
-                            this.$state.go(error.redirectTo)
-
+                            this.$state.go(error.redirectTo);
                         }
                     );
                     break;
@@ -133,6 +131,7 @@ export default class EcCommon
     }
 
     checkUserRoles(user: ecat.entity.IPerson, authorizedRoles: Array<AppVars.EcMapInstituteRole>, event: angular.IAngularEvent) {
+        const deferred = this.$q.defer();
 
         const userRole = user ? user.mpInstituteRole : this.appVar.EcMapInstituteRole.external;
 
@@ -144,8 +143,11 @@ export default class EcCommon
                 allowEscapeKey: true,
                 closeOnConfirm: true
             }
-            this.swal(alertSetting, () => this.$state.go(this.stateMgr.core.dashboard, null, {notify: false}));
+            this.swal(alertSetting);
+            deferred.reject();
         }
+        deferred.resolve();
+        return deferred.promise;
     }
 
     checkValidToken(existDefer?: angular.IDeferred<Object>): angular.IPromise<boolean> | angular.IPromise<void> {

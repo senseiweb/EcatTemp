@@ -8,7 +8,7 @@ export default class EcCourseAdminGroups {
     //courses: ecat.entity.ICourse[] = [];
     //selectedCourse: ecat.entity.ICourse;
     //groups: ecat.entity.IGroup[] = [];
-    //groupMembers: ecat.entity.IGroupMember[] = [];
+    //groupMembers: ecat.entity.IMemberInGroup[] = [];
     courses: ecat.entity.ICourse[] = [];
     selectedCourse: ecat.entity.ICourse;
     groups: Ecat.Shared.Model.WorkGroup[] = [];

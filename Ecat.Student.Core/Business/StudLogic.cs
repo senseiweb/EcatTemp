@@ -39,11 +39,10 @@ namespace Ecat.Student.Core.Business
 
             var latestCrseMem = courseMems.First();
 
-            var lastGroupMem = await _repo.GetGrpMemberships
-                .Where(gm => gm.CourseEnrollmentId == latestCrseMem.Id)
-                .FirstOrDefaultAsync();
+            var lastGroupMem = await _repo.GetSingleGrpMemberships
+                .Where(gm => gm.CourseEnrollmentId == latestCrseMem.Id).ToListAsync();
 
-            latestCrseMem.StudGroupEnrollments = new List<MemberInGroup> {lastGroupMem};
+            latestCrseMem.StudGroupEnrollments = lastGroupMem;
 
             return courseMems;
         }
@@ -63,7 +62,7 @@ namespace Ecat.Student.Core.Business
 
         public async Task<MemberInGroup> GetGrpMemById(int grpMemId)
         {
-            var grpMem = await _repo.GetGrpMemberships
+            var grpMem = await _repo.GetSingleGrpMemberships
                 .Where(gm => gm.Id == grpMemId)
                 .SingleAsync();
 

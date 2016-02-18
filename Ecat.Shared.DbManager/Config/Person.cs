@@ -22,11 +22,28 @@ namespace Ecat.Shared.DbManager.Config
 
             Property(p => p.MpGender).IsRequired();
             Property(p => p.MpInstituteRole).IsRequired();
-            HasOptional(p => p.Student).WithRequired(p => p.Person);
+
             HasOptional(p => p.Security).WithRequired(p => p.Person);
-            HasOptional(p => p.External).WithRequired(p => p.Person);
-            HasOptional(p => p.Facilitator).WithRequired(p => p.Person);
-            HasOptional(p => p.HqStaff).WithRequired(p => p.Person);
+
+            HasOptional(p => p.Profile)
+                .WithRequired()
+                .WillCascadeOnDelete(true);
+
+            HasOptional(p => p.External)
+                .WithRequired(p => p.Person)
+                .WillCascadeOnDelete(false);
+
+            HasOptional(p => p.HqStaff)
+                .WithRequired(p => p.Person)
+                .WillCascadeOnDelete(false);
+
+            HasOptional(p => p.Student)
+                .WithRequired(p => p.Person)
+               .WillCascadeOnDelete(false);
+
+            HasOptional(p => p.Facilitator)
+                .WithRequired(p => p.Person)
+                .WillCascadeOnDelete(false);
         }
     }
 

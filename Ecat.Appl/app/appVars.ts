@@ -107,12 +107,12 @@ export class EcMapEdLevel {
 
 export class EcMapInstituteRole
 {
-    static hqAdmin = 'BCEE_01_HQ';
-    static designer = 'BCEE_02_Designer';
-    static courseAdmin = 'BCEE_03_CourseAdmin';
-    static facilitator = 'BCEE_04_Facilitator';
-    static student = 'BCEE_05_Student';
-    static external = 'BCEE_06_External';
+    static hqAdmin = 'ECAT_01_HQ';
+    static designer = 'ECAT_02_Designer';
+    static courseAdmin = 'ECAT_03_CourseAdmin';
+    static facilitator = 'ECAT_04_Facilitator';
+    static student = 'ECAT_05_Student';
+    static external = 'ECAT_06_External';
 }
 
 export class EcMapAnimationsEnum {

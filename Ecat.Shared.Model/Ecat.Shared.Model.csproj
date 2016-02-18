@@ -72,8 +72,10 @@
     <Compile Include="Headquarters\MeetingTaker\Decision.cs" />
     <Compile Include="Headquarters\MeetingTaker\Discussion.cs" />
     <Compile Include="Headquarters\MeetingTaker\Meeting.cs" />
+    <Compile Include="Student\SantizedResponse.cs" />
     <Compile Include="Student\KcResponse.cs" />
     <Compile Include="Student\KcResult.cs" />
+    <Compile Include="Student\SantizedComment.cs" />
     <Compile Include="Student\SpAssessResponse.cs" />
     <Compile Include="Student\SpAssessResult.cs" />
     <Compile Include="Student\SpComment.cs" />

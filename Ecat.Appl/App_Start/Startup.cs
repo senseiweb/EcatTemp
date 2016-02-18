@@ -14,6 +14,9 @@ using Ecat.Student.Core.Data;
 using Ecat.Student.Core.Interface;
 using Ecat.Users.Core;
 using Ecat.Users.Core.Business;
+using FacCore.Business;
+using FacCore.Data;
+using FacCore.Interface;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
@@ -113,6 +116,14 @@ namespace Ecat.Appl
                 .To<StudRepo>()
                 .InRequestScope();
 
+            kernel.Bind<IFacLogic>()
+              .To<FacLogic>()
+              .InRequestScope();
+
+            kernel.Bind<IFacRepo>()
+                .To<FacRepo>()
+                .InRequestScope();
+
             kernel.Bind<EcatContext>()
                 .ToSelf()
                 .InRequestScope();
@@ -134,6 +145,14 @@ namespace Ecat.Appl
                 .InRequestScope();
 
             kernel.Bind<EFContextProvider<StudCtx>>()
+                .ToSelf()
+                .InRequestScope();
+
+            kernel.Bind<FacCtx>()
+                .ToSelf()
+                .InRequestScope();
+
+            kernel.Bind<EFContextProvider<FacCtx>>()
                 .ToSelf()
                 .InRequestScope();
 

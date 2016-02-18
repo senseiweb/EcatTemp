@@ -1,7 +1,7 @@
 ﻿import IDataCtx from "core/service/data/context"
 
-export default class EcStudentAssessmentAddCommentForm {
-    static controllerId = 'app.student.assessment.comment';
+export default class EcAssessmentAddCommentForm {
+    static controllerId = 'app.core.assessment.comment';
     static $inject = ['$uibModalInstance',IDataCtx.serviceId];
 
     nf: angular.IFormController;

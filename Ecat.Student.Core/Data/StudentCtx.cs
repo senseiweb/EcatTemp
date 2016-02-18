@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
 using Ecat.Shared.Core;
+using Ecat.Shared.DbManager.Config;
 using Ecat.Shared.Model;
 using Microsoft.Owin.Security.Provider;
 
@@ -13,7 +14,14 @@ namespace Ecat.Student.Core.Data
     {
         protected override void OnModelCreating(DbModelBuilder mb)
         {
-         
+
+            mb.Configurations.Add(new ConfigSpStratResponse());
+            mb.Configurations.Add(new ConfigSpAssessResult());
+            mb.Configurations.Add(new ConfigSpComment());
+            mb.Configurations.Add(new ConfigSpAssessResponse());
+            mb.Configurations.Add(new ConfigMemberInCourse());
+            mb.Configurations.Add(new ConfigMemberInGroup());
+
             mb.Ignore(new List<Type>
             {
                 typeof (External),
@@ -23,14 +31,18 @@ namespace Ecat.Student.Core.Data
                 typeof (Security),
                 typeof (HqStaff),
                 typeof (FacSpStratResponse),
-                typeof (FacSpComment),
-                typeof (FacSpAssessResponse)
             });
             //mb.Types().Configure(p => p.Ignore("IsDeleted"));
             //mb.Types().Configure(p => p.Ignore("DeletedById"));
             //mb.Types().Configure(p => p.Ignore("DeletedDate"));
 
             mb.Entity<Shared.Model.Student>()
+                .ToTable("Profile")
+                .Ignore(p => p.Commander)
+                .Ignore(p => p.CommanderEmail)
+                .Ignore(p => p.Shirt)
+                .Ignore(p => p.ShirtEmail)
+                .Ignore(p => p.ContactNumber)
                 .HasKey(p => p.PersonId)
                 .HasRequired(p => p.Person)
                 .WithOptional(p => p.Student);
@@ -52,43 +64,13 @@ namespace Ecat.Student.Core.Data
                .Ignore(p => p.ModifiedById)
                .Ignore(p => p.ModifiedDate);
 
-            mb.Entity<MemberInGroup>()
-                .HasRequired(p => p.Student)
-                .WithMany(p => p.GroupPersonas)
-                .HasForeignKey(p => p.StudentId);
-
-            mb.Entity<SpAssessResponse>()
-                .HasRequired(p => p.Assessee)
-                .WithMany(p => p.AssesseeSpResponses)
-                .HasForeignKey(p => p.AssesseeId);
-
-            mb.Entity<SpAssessResponse>()
-              .HasRequired(p => p.Assessor)
-              .WithMany(p => p.AssessorSpResponses)
-              .HasForeignKey(p => p.AssessorId);
-
-            mb.Entity<SpStratResponse>()
-             .HasRequired(p => p.Assessee)
-             .WithMany(p => p.AssesseeStratResponse)
-             .HasForeignKey(p => p.AssesseeId);
-
-            mb.Entity<SpStratResponse>()
-              .HasRequired(p => p.Assessor)
-              .WithMany(p => p.AssessorStratResponse)
-              .HasForeignKey(p => p.AssessorId);
-
-            mb.Entity<SpComment>()
-                .HasRequired(p => p.Author)
-                .WithMany(p => p.AuthorOfComments)
-                .HasForeignKey(p => p.AuthorId);
-
-            mb.Entity<SpComment>()
-                .HasRequired(p => p.Recipient)
-                .WithMany(p => p.RecipientOfComments)
-                .HasForeignKey(p => p.RecipientId);
-
             mb.Entity<WorkGroup>()
-                .Ignore(p => p.MaxStrat);
+                .Ignore(p => p.MaxStrat)
+                .Ignore(p => p.AssignedKcInstrId)
+                .Ignore(p => p.FacSpComments)
+                .Ignore(p => p.FacSpResponses)
+                .Ignore(p => p.FacStratResponses)
+                .Ignore(p => p.BbGroupId);
 
             mb.Entity<Course>()
                 .Ignore(p => p.BbCourseId);
@@ -96,6 +78,8 @@ namespace Ecat.Student.Core.Data
             base.OnModelCreating(mb);
         }
 
+        public IDbSet<WorkGroup> WorkGroups { get; set; }
+        public IDbSet<Course> Courses { get; set; }
         public IDbSet<MemberInGroup> MemberInGroups { get; set; }
         public IDbSet<MemberInCourse> MemberInCourses { get; set; }
         public IDbSet<SpAssessResponse> SpAssessResponses { get; set; }
