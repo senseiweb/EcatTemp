@@ -12,8 +12,8 @@ export default class EcStudentAssessments {
     stratInputVis;
 
     activeCourseMember: ecat.entity.ICourseMember;
-    activeGroupMember: ecat.entity.IGroupMember;
-
+    //activeGroupMember: ecat.entity.IGroupMember;
+    activeGroupMember: Ecat.Shared.Model.MemberInGroup;
 
     addModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IAssessmentAdd.controllerId,
@@ -59,7 +59,8 @@ export default class EcStudentAssessments {
     logError = this.c.logSuccess('Assessment Center');
 
     courseEnrollments: ecat.entity.ICourseMember[] = [];
-    groups: ecat.entity.IGroupMember[] = [];
+    groups: Ecat.Shared.Model.MemberInGroup[] = [];
+    //groups: ecat.entity.IGroupMember[] = [];
 
     radioEffectiveness: string;
     radioFreq: string;
@@ -90,9 +91,9 @@ export default class EcStudentAssessments {
                 this.courseEnrollments = this.courseEnrollments.sort(sortByDate);
                 this.activeCourseMember = this.courseEnrollments[0];
                 this.dCtx.student.activeCrseMemId = this.activeCourseMember.id;
-                //this.groups = this.activeCourseMember.studGroupEnrollments;
-                //this.groups = this.groups.sort(sortByCategory);
-                //this.activeGroupMember = this.courseEnrollments[0].studGroupEnrollments[0].group[0];
+                this.groups = this.activeCourseMember.studGroupEnrollments;
+                this.groups = this.groups.sort(self.sortByCategory);
+                this.activeGroupMember = this.groups[0];
             })
             .catch(courseError);
             //.finally();   --Can be used to do some addtional functionality
@@ -122,17 +123,33 @@ export default class EcStudentAssessments {
 
         }
 
+        
+
 
         this.stratInputVis = false;
+
+    }
+
+    sortByCategory(first: Ecat.Shared.Model.MemberInGroup, second: Ecat.Shared.Model.MemberInGroup): number {
+    if (first.group.mpSpStatus.toString().localeCompare('Open')) {
+        return -1;
+
+    } else {
+        return 1;
+        }
 
     }
 
     setActiveCourse(courseMember: ecat.entity.ICourseMember): void {
         this.dCtx.student.activeCrseMemId = courseMember.id;
         this.activeCourseMember = courseMember;
+        this.groups = this.activeCourseMember.studGroupEnrollments;
+        this.groups = this.groups.sort(this.sortByCategory);
+        this.activeGroupMember = this.groups[0];
+
     }
 
-    setActiveGroup(groupMember: ecat.entity.IGroupMember): void {
+    setActiveGroup(groupMember: Ecat.Shared.Model.MemberInGroup): void {
         this.activeGroupMember = groupMember;
     
     }

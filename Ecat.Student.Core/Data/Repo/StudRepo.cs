@@ -34,7 +34,7 @@ namespace Ecat.Student.Core.Data
             .Where(gm => !gm.IsDeleted)
             .OrderByDescending(grpMem => grpMem.Group.MpCategory)
             .Include(g => g.Group)
-            .Include(g => g.GroupPeers)
+            .Include(g => g.GroupPeers.Select(s => s.Student))
             .Include(g => g.AssessorStratResponse)
             .Include(g => g.AssessorSpResponses)
             .Include(g => g.AuthorOfComments);
