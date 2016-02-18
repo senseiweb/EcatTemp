@@ -132,7 +132,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
     }
 
-    getGroupMembers(): breeze.promises.IPromise<ecat.entity.IGroupMember | angular.IPromise<void>> {
+    getGroupMembers(): breeze.promises.IPromise<ecat.entity.IMemberInGroup | angular.IPromise<void>> {
         if (!this.activeGrpMemId) {
             this.c.$q.reject(() => {
                 this.logWarn('Not active course selected!', null, false);
@@ -141,14 +141,14 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
 
         const self = this;
-        let grpMem: ecat.entity.IGroupMember = null;
+        let grpMem: ecat.entity.IMemberInGroup = null;
         const api = this.studentApiResources;
         const isLoaded = api.getGroupMembers.resource.isLoaded.group;
         
         if (isLoaded[this.activeGrpMemId]) {
             const pred = new breeze.Predicate('id', breeze.FilterQueryOp.Equals, this.activeGrpMemId);
 
-            grpMem = this.queryLocal(api.getGroupMembers.resource.name, null, pred) as ecat.entity.IGroupMember;
+            grpMem = this.queryLocal(api.getGroupMembers.resource.name, null, pred) as ecat.entity.IMemberInGroup;
             this.logSuccess('Course loaded from local cache', grpMem, false);
             return this.c.$q.when(grpMem);
         }
@@ -162,7 +162,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         function getGrpMembersResponse(data: breeze.QueryResult) {
 
-            grpMem = data.results[0] as ecat.entity.IGroupMember;
+            grpMem = data.results[0] as ecat.entity.IMemberInGroup;
 
             if (!grpMem) {
                 return self.c.$q.reject(() => self.logWarn('Query succeeded, but the group membership did not return a result', data, false)) as any;

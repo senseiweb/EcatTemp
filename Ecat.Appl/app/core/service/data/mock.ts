@@ -89,12 +89,12 @@ export default class EcMockData extends IUtilityRepo {
         }
     }
 
-    getStudAssessment(): breeze.promises.IPromise<Array<ecat.entity.IGroupMember> | angular.IPromise<void>> {
+    getStudAssessment(): breeze.promises.IPromise<Array<ecat.entity.IMemberInGroup> | angular.IPromise<void>> {
         const self = this;
         const resource = this.mockApiResources.getStudAssess.resource;
 
         if (resource.isLoaded) {
-            return this.c.$q.when(this.queryLocal(resource.name) as Array<ecat.entity.IGroupMember>);
+            return this.c.$q.when(this.queryLocal(resource.name) as Array<ecat.entity.IMemberInGroup>);
         }
 
         return this.query.from(resource.name)
@@ -104,11 +104,11 @@ export default class EcMockData extends IUtilityRepo {
             .then(getStudAsessSuccess)
             .catch(this.queryFailed);
 
-        function getStudAsessSuccess(data: breeze.QueryResult): Array<ecat.entity.IGroupMember> {
+        function getStudAsessSuccess(data: breeze.QueryResult): Array<ecat.entity.IMemberInGroup> {
             if (data.results.length === 0) {
                 return null;
             }
-            const groupMembers = data.results as Array<ecat.entity.IGroupMember>;
+            const groupMembers = data.results as Array<ecat.entity.IMemberInGroup>;
             resource.isLoaded = true;
             console.log(groupMembers);
             return groupMembers;
@@ -165,12 +165,12 @@ export default class EcMockData extends IUtilityRepo {
         }
     }
 
-    getFacGroupDetails(): breeze.promises.IPromise<Array<ecat.entity.IGroupMember> | angular.IPromise<void>> {
+    getFacGroupDetails(): breeze.promises.IPromise<Array<ecat.entity.IMemberInGroup> | angular.IPromise<void>> {
         const self = this;
         const resource = this.mockApiResources.getFacGroupDetails.resource;
 
         if (resource.isLoaded) {
-            return this.c.$q.when(this.queryLocal(resource.name) as Array<ecat.entity.IGroupMember>);
+            return this.c.$q.when(this.queryLocal(resource.name) as Array<ecat.entity.IMemberInGroup>);
         }
 
         return this.query.from(resource.name)
@@ -180,10 +180,10 @@ export default class EcMockData extends IUtilityRepo {
             .then(getFacGroupDetailsSuccess)
             .catch(this.queryFailed);
 
-        function getFacGroupDetailsSuccess(data: breeze.QueryResult): Array<ecat.entity.IGroupMember> {
+        function getFacGroupDetailsSuccess(data: breeze.QueryResult): Array<ecat.entity.IMemberInGroup> {
             if (data.results.length === 0) { return null; }
 
-            const groupMembers = data.results as Array<ecat.entity.IGroupMember>;
+            const groupMembers = data.results as Array<ecat.entity.IMemberInGroup>;
             resource.isLoaded = true;
             console.log(groupMembers);
             return groupMembers;

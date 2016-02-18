@@ -22,7 +22,6 @@ namespace Ecat.Student.Core.Data
             mb.Configurations.Add(new ConfigMemberInCourse());
             mb.Configurations.Add(new ConfigMemberInGroup());
 
-
             mb.Ignore(new List<Type>
             {
                 typeof (External),
@@ -37,10 +36,16 @@ namespace Ecat.Student.Core.Data
             //mb.Types().Configure(p => p.Ignore("DeletedById"));
             //mb.Types().Configure(p => p.Ignore("DeletedDate"));
 
-            //mb.Entity<Shared.Model.Student>()
-            //    .HasKey(p => p.PersonId)
-            //    .HasRequired(p => p.Person)
-            //    .WithOptional(p => p.Student);
+            mb.Entity<Shared.Model.Student>()
+                .ToTable("Profile")
+                .Ignore(p => p.Commander)
+                .Ignore(p => p.CommanderEmail)
+                .Ignore(p => p.Shirt)
+                .Ignore(p => p.ShirtEmail)
+                .Ignore(p => p.ContactNumber)
+                .HasKey(p => p.PersonId)
+                .HasRequired(p => p.Person)
+                .WithOptional(p => p.Student);
 
             mb.Entity<Person>()
                 .Ignore(p => p.BbUserId)
