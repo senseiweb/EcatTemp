@@ -1,7 +1,5 @@
 ﻿import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
-import IDataCtx from 'core/service/data/context'
-import ICommon from "core/service/common"
 
 export default class EcCourseAdminStates {
 
@@ -11,7 +9,7 @@ export default class EcCourseAdminStates {
     groups: angular.ui.IState;
     courses: angular.ui.IState;
 
-    constructor(coreMain: angular.ui.IState, coreDash: angular.ui.IState) {
+    constructor(coreMain: angular.ui.IState) {
         this.main = {
             name: `${coreMain.name}.courseAdmin`,
             parent: coreMain.name,
@@ -51,12 +49,12 @@ export default class EcCourseAdminStates {
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
-        return this.isCourseAdminLoaded ? this.isCourseAdminLoaded : System.import('app/courseAdmin/courseAdmin.js').then((courseAdminModClass: any) => {
-            const courseAdminClass = new courseAdminModClass.default();
-            $ocLl.load(courseAdminClass.courseAdminModule)
-                .then(() => this.isCourseAdminLoaded = true)
-                .catch(() => this.isCourseAdminLoaded = false);
-        });
+        return this.isCourseAdminLoaded ? this.isCourseAdminLoaded :
+            System.import('app/courseAdmin/courseAdmin.js').then((courseAdminModClass: any) => {
+                const crseAdminMod = courseAdminModClass.default().load();
+                $ocLl.inject(crseAdminMod.moduleId);
+                this.isCourseAdminLoaded = true;
+            });
     }
 }
 

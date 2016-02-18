@@ -1,18 +1,15 @@
-import ng = require('angular')
-import 'ngTable'
+import angular = require('angular')
 import groups from "facilitator/features/groups/groups"
 import facilitatorCfgProvider from 'facilitator/provider/facCfgProvider'
 import facilitatorConfig from 'facilitator/config/cfgFac'
 import viewStatus from "facilitator/features/groups/modals/status"
 import capstoneStudentDetail from "facilitator/features/groups/modals/capstonestudentdetail"
 
-
-
 export default class EcFacilitatorModule {
-    static moduleId = 'facilitator';
-    facilitatorModule: angular.IModule;
+    moduleId = 'facilitator';
+    static load = () => new EcFacilitatorModule();
     constructor() {
-        this.facilitatorModule = ng.module(EcFacilitatorModule.moduleId, ['ngTable'])
+        angular.module(this.moduleId, [])
             .config(facilitatorConfig)
             .provider(facilitatorCfgProvider.providerId, facilitatorCfgProvider)
             .controller(groups.controllerId, groups)

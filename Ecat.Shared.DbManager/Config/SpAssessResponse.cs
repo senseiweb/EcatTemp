@@ -5,7 +5,7 @@ using Ecat.Shared.Model;
 
 namespace Ecat.Shared.DbManager.Config
 {
-    internal class ConfigSpAssessResponse : EntityTypeConfiguration<SpAssessResponse>
+    public class ConfigSpAssessResponse : EntityTypeConfiguration<SpAssessResponse>
     {
         public ConfigSpAssessResponse()
         {

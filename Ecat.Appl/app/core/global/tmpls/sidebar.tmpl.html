@@ -48,7 +48,7 @@
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': $state.includes('admin') }" ng-if="main.hqAuthorized()">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.hq.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.hq.main)" >
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-widgets"></i>
                 Headquaters
@@ -65,57 +65,57 @@
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" data-ng-class="{'active toggled': main.$state.includes('widgets') }">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.analysis.main.name}})) }" ng-if="main.authorizeMenu(stateMgr.analysis.main)">
             <a href="" toggle-submenu>
-                <i class="zmdi zmdi-widgets"></i> Data Anaylsis
+                <i class="zmdi zmdi-shield-check"></i> Data Anaylsis
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" data-ui-sref="stateMgr.core." data-ng-click="main.sidebarStat($event)"> Self/Peer</a>
+                    <a ui-sref-active="active" ui-sref="stateMgr.core" ng-click="main.sidebarStat($event)"> Self/Peer</a>
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" data-ng-class="{'active toggled': main.$state.includes('widgets') }">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.designer.main.name}}) }">
             <a href="" toggle-submenu>
-                <i class="zmdi zmdi-widgets"></i> Course Designer
+                <i class="zmdi  zmdi-wrench"></i> Course Designer
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" data-ui-sref="{{stateMgr.designer.instruments.name}}" data-ng-click="main.sidebarStat($event)">Assessments</a>
+                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.designer.instruments.name}}" data-ng-click="main.sidebarStat($event)">Assessments</a>
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" data-ng-class="{ 'active toggled': main.$state.includes('tables') }">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.cAdmin.main.name}}) }">
             <a href="" toggle-submenu><i class="zmdi zmdi zmdi-view-list"></i> Course Admin</a>
             <ul>
 
-                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.courseAdmin.courses.name}}" ng-click="main.sidebarStat($event)">Courses</a></li>
-                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.courseAdmin.groups.name}}" ng-click="main.sidebarStat($event)">Groups</a></li>
+                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.cAdmin.courses.name}}" ng-click="main.sidebarStat($event)">Courses</a></li>
+                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.cAdmin.groups.name}}" ng-click="main.sidebarStat($event)">Groups</a></li>
 
             </ul>
         </li>
         <li class="sub-menu" ng-class="{ 'active toggled': $state.includes({{stateMgr.fac.main.name}}) }">
             <a href="" toggle-submenu>
-                <i class="zmdi zmdi-collection-text"></i> 
+                <i class="zmdi zmdi-assignment-check"></i> 
                 Facilitator
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.facilitator.groups.name}}" ng-click="mactrl.sidebarStat($event)">Groups</a>
+                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.fac.groups.name}}" ng-click="main.sidebarStat($event)">Groups</a>
                 </li>             
 
             </ul>
         </li>
         <li class="sub-menu" ng-class="{ 'active toggled': main.$state.includes({{stateMgr.student.main.name}}) }">
             <a href="" toggle-submenu>
-                <i class="zmdi zmdi-swap-alt"></i>
+                <i class="zmdi zmdi-graduation-cap"></i>
                 Student
             </a>
             <ul>
                 <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.student.assessment.name}}" ng-click="main.sidebarStat($event)">Assessments</a></li>
             </ul>
         </li>
-        <li class="sub-menu" data-ng-class="{ 'active toggled': main.$state.includes('charts') }">
+        <li class="sub-menu" ng-class="{ 'active toggled': main.$state.includes('charts') }">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-trending-up"></i>
                 Cognitive Assessment
@@ -125,7 +125,7 @@
                 <li><a data-ui-sref-active="active" data-ui-sref="charts.other-charts" data-ng-click="main.sidebarStat($event)">Other Charts</a></li>
             </ul>
         </li>
-        <li class="sub-menu" data-ng-class="{'active toggled': main.$state.includes('photo-gallery') }">
+        <li class="sub-menu" ng-class="{'active toggled': main.$state.includes('photo-gallery') }">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-image"></i>
                 Group Assessment

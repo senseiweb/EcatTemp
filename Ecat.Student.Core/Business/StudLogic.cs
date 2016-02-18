@@ -40,10 +40,9 @@ namespace Ecat.Student.Core.Business
             var latestCrseMem = courseMems.First();
 
             var lastGroupMem = await _repo.GetGrpMemberships
-                .Where(gm => gm.CourseEnrollmentId == latestCrseMem.Id)
-                .FirstOrDefaultAsync();
+                .Where(gm => gm.CourseEnrollmentId == latestCrseMem.Id).ToListAsync();
 
-            latestCrseMem.StudGroupEnrollments = new List<MemberInGroup> {lastGroupMem};
+            latestCrseMem.StudGroupEnrollments = lastGroupMem;
 
             return courseMems;
         }

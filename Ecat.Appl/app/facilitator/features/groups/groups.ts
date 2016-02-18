@@ -87,7 +87,7 @@ export default class EcInstructorGroups {
 
     activate(): void {
         //this.courses = this.dCtx.facilitator.getCourses();
-        
+        this.dCtx.facilitator.initializeCourses(false);
 
         this.questions = [
             {

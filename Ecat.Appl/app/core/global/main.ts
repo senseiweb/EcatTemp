@@ -6,7 +6,7 @@ export default class EcAppMain {
     static $inject = [ICommon.serviceId, IDataCtx.serviceId];
 
     sidebarToggle = { left: false, right: false };
-    user: ecat.entity.IPerson
+    user: ecat.entity.IPerson;
     constructor(private c: ICommon, private dCtx: IDataCtx) {
         this.user = dCtx.user.persona;
     }
@@ -46,6 +46,13 @@ export default class EcAppMain {
     }
 
     authorizeMenu(state: angular.ui.IState): boolean {
+        if (!state) {
+          return false;
+        }
+
+        if (!state.data || !state.data.authorized) {
+            return true;
+        }
         const authorizedStateRoles = state.data.authorized;
         const user = this.dCtx.user.persona;
         return user && angular.isArray(authorizedStateRoles) && authorizedStateRoles.some(role => role === user.mpInstituteRole);

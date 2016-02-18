@@ -487,8 +487,8 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="Controllers\CourseAdminController.cs" />
     <Compile Include="Controllers\EcatApiController.cs" />
+    <Compile Include="Controllers\FacilitatorController.cs" />
     <Compile Include="Controllers\LtiController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -829,6 +829,10 @@
     <ProjectReference Include="..\Ecat.Users.Core\Ecat.Users.Core.csproj">
       <Project>{a522515a-0b79-473b-a021-79674362500b}</Project>
       <Name>Ecat.Users.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FacCore\FacCore.csproj">
+      <Project>{4b57e312-1fa8-4676-ad8c-161c480b9989}</Project>
+      <Name>FacCore</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

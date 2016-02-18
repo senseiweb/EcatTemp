@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Reflection;
 using Ecat.Shared.Core;
 using Ecat.Shared.DbManager.Config;
 using Ecat.Shared.Model;
-using Microsoft.Owin.Security.Provider;
 
-namespace Ecat.Student.Core.Data
+namespace FacCore.Data
 {
-    public class StudCtx: EcatBaseContext<StudCtx>
+    public class FacCtx : EcatBaseContext<FacCtx>
     {
         protected override void OnModelCreating(DbModelBuilder mb)
         {
@@ -33,11 +30,12 @@ namespace Ecat.Student.Core.Data
                 typeof (HqStaff),
                 typeof (FacSpStratResponse),
             });
+
             //mb.Types().Configure(p => p.Ignore("IsDeleted"));
             //mb.Types().Configure(p => p.Ignore("DeletedById"));
             //mb.Types().Configure(p => p.Ignore("DeletedDate"));
 
-            mb.Entity<Shared.Model.Student>()
+            mb.Entity<Ecat.Shared.Model.Student>()
                 .HasKey(p => p.PersonId)
                 .HasRequired(p => p.Person)
                 .WithOptional(p => p.Student);
@@ -54,17 +52,15 @@ namespace Ecat.Student.Core.Data
                 .Ignore(p => p.ModifiedDate);
 
             mb.Entity<SpInstrument>()
-               .Ignore(p => p.Version)
-               .Ignore(p => p.FacilitatorInstructions)
-               .Ignore(p => p.ModifiedById)
-               .Ignore(p => p.ModifiedDate);
+                .Ignore(p => p.Version)
+                .Ignore(p => p.SelfInstructions)
+                .Ignore(p => p.PeerInstructions)
+                .Ignore(p => p.ModifiedById)
+                .Ignore(p => p.ModifiedDate);
 
             mb.Entity<WorkGroup>()
                 .Ignore(p => p.MaxStrat)
                 .Ignore(p => p.AssignedKcInstrId)
-                .Ignore(p => p.FacSpComments)
-                .Ignore(p => p.FacSpResponses)
-                .Ignore(p => p.FacStratResponses)
                 .Ignore(p => p.BbGroupId);
 
             mb.Entity<Course>()

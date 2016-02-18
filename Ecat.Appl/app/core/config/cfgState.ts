@@ -11,7 +11,9 @@ import * as AppVar from "appVars"
 
 export default class EcCoreStateConfig {
     static $inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', `${IEcStateProvider.providerId}Provider`, 'userStatic'];
+
     private $state: angular.ui.IStateService;
+
     constructor($locProvider: angular.ILocationProvider,
         private $stateProvider: angular.ui.IStateProvider,
         $urlProvider: angular.ui.IUrlRouterProvider,
@@ -29,11 +31,11 @@ export default class EcCoreStateConfig {
         const student = new StudentStates(core.main);
         this.loadStates(Object.keys(student), student as any, 'student');
 
-        const facilitator = new FacilitatorStates(core.main, core.dashboard);
-        this.loadStates(Object.keys(facilitator), facilitator as any, 'facilitator');
+        const facilitator = new FacilitatorStates(core.main);
+        this.loadStates(Object.keys(facilitator), facilitator as any, 'fac');
 
-        const courseAdmin = new CourseAdminStates(core.main, core.dashboard);
-        this.loadStates(Object.keys(courseAdmin), courseAdmin as any, 'courseAdmin');
+        const courseAdmin = new CourseAdminStates(core.main);
+        this.loadStates(Object.keys(courseAdmin), courseAdmin as any, 'cAdmin');
 
         const designer = new DesignerStates(core.main, core.dashboard);
         this.loadStates(Object.keys(designer), designer as any, 'designer');

@@ -16,8 +16,8 @@ export default class EcStateProvider {
                     core: this.core,
                     admin: this.admin,
                     student: this.student,
-                    facilitator: this.facilitator,
-                    courseAdmin: this.courseAdmin,
+                    fac: this.fac,
+                    cAdmin: this.cAdmin,
                     designer: this.designer
                 });
         }
@@ -26,8 +26,8 @@ export default class EcStateProvider {
     core: CoreStates;
     admin: AdminStates;
     student: StudentStates;
-    facilitator: FacilitatorStates;
-    courseAdmin: CourseAdminStates;
+    fac: FacilitatorStates;
+    cAdmin: CourseAdminStates;
     designer: DesignerStates;
 
 }

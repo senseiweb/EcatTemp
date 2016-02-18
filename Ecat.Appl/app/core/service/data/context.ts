@@ -5,27 +5,32 @@ import ISysAdminData from "admin/service/adminData"
 import IStudentData from "student/service/studentData"
 import ICourseAdminData from "courseAdmin/service/courseAdminData"
 import IDesignerData from "designer/service/designerData"
+import IFacilitator from "facilitator/service/facilitatorData"
 import ICommon from "core/service/common"
 import IMock from "core/service/data/mock"
 import * as AppVars from "appVars"
 
 export default class EcDataContext {
     static serviceId = 'data.context';
-    static $inject = ['$rootScope', ICommon.serviceId,IEntityFactory.serviceId];
+    static $inject = ['$rootScope', ICommon.serviceId, IEntityFactory.serviceId];
 
-    private loadedManagers: Array<{module: string, mgr: breeze.EntityManager}> = [];
+    private loadedManagers: Array<{ module: string, mgr: breeze.EntityManager }> = [];
     local: ILocal;
-    private repoNames = ['local',
+    private repoNames = [
+        'local',
         this.fixUpResourceName(AppVars.EcMapApiResource.mock),
         this.fixUpResourceName(AppVars.EcMapApiResource.user),
         this.fixUpResourceName(AppVars.EcMapApiResource.sa),
         this.fixUpResourceName(AppVars.EcMapApiResource.student),
         this.fixUpResourceName(AppVars.EcMapApiResource.courseAdmin),
-        this.fixUpResourceName(AppVars.EcMapApiResource.designer)
+        this.fixUpResourceName(AppVars.EcMapApiResource.designer),
+        this.fixUpResourceName(AppVars.EcMapApiResource.facilitator)
     ];
+
     sysAdmin: ISysAdminData;
     student: IStudentData;
     user: IUserData;
+    facilitator: IFacilitator;
     mock: IMock;
     courseAdmin: ICourseAdminData;
     designer: IDesignerData;

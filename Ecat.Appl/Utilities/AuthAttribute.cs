@@ -24,5 +24,9 @@ namespace Ecat.Appl.Utilities
     public class EcatRolesAuthorized : AuthorizationFilterAttribute
     {
         public RoleMap[] Is { get; set; }
+
+        public override bool AllowMultiple => false;
+
+
     }
 }
