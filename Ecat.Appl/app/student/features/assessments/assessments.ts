@@ -11,6 +11,8 @@ export default class EcStudentAssessments {
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
     stratInputVis;
 
+    isResultPublished = false;
+
     activeCourseMember: ecat.entity.ICourseMember;
     //activeGroupMember: ecat.entity.IGroupMember;
     activeGroupMember: Ecat.Shared.Model.MemberInGroup;
@@ -94,6 +96,8 @@ export default class EcStudentAssessments {
                 this.groups = this.activeCourseMember.studGroupEnrollments;
                 this.groups = this.groups.sort(self.sortByCategory);
                 this.activeGroupMember = this.groups[0];
+                self.checkIfPublished();
+
             })
             .catch(courseError);
             //.finally();   --Can be used to do some addtional functionality
@@ -123,15 +127,18 @@ export default class EcStudentAssessments {
 
         }
 
-        
-
-
         this.stratInputVis = false;
 
     }
 
+    checkIfPublished(): void {
+        if (this.activeGroupMember.group.mpSpStatus === this.c.appVar.MpSpStatus.published) {
+            this.isResultPublished = true;
+        }
+    }
+
     sortByCategory(first: Ecat.Shared.Model.MemberInGroup, second: Ecat.Shared.Model.MemberInGroup): number {
-    if (first.group.mpSpStatus.toString().localeCompare('Open')) {
+    if (first.group.mpSpStatus === this.c.appVar.MpSpStatus.open) {
         return -1;
 
     } else {

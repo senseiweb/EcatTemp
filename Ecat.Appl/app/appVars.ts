@@ -68,13 +68,13 @@ export class EcMapPaygrade {
 }
 
 export class EcSpItemResponse {
-    static Iea = "IEA";
-    static Ieu = "IEU";
-    static Nd = "ND";
-    static Eu = "EU";
-    static Ea = "EA";
-    static Heu = "HEU";
-    static Hea = "HEA";
+    static Iea = 'IEA';
+    static Ieu = 'IEU';
+    static Nd = 'ND';
+    static Eu = 'EU';
+    static Ea = 'EA';
+    static Heu = 'HEU';
+    static Hea = 'HEA';
 }
 
 export class EcMapApiResource
@@ -178,6 +178,15 @@ export class SweetAlertTypes {
 export const enum AuthHeaderType {
     CourseMember,
     Facilitator
+}
+
+export class MpSpStatus {
+
+  static und = 'Udr';
+  static open = 'Open';
+  static underReview = 'Under Review';
+  static published = 'Published';
+  static arch = 'ArchiveE';
 }
 
 export enum Keycode {

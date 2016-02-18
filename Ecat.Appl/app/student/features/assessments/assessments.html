@@ -22,10 +22,10 @@
             <div class="lv-header-alt clearfix p-b-5">
 
                 <div class="btn-group clearfix m-l-5">
-                    <button type="button" class="btn btn-primary" ng-click="assess.view=0; assess.stratInputVis = false">Assessments</button>
-                    <button type="button" class="btn btn-danger" ng-click="assess.stratInputVis = !assess.stratInputVis">Stratify Group</button>
+                    <button type="button" class="btn btn-primary" ng-if="!assess.isResultPublished" ng-click="assess.view=0; assess.stratInputVis = false">Assessments</button>
+                    <button type="button" class="btn btn-danger" ng-if="!assess.isResultPublished" ng-click="assess.stratInputVis = !assess.stratInputVis">Stratify Group</button>
 
-                    <div class="btn-group dropdown" uib-dropdown>                 
+                    <div class="btn-group dropdown" ng-if="assess.isResultsPublished" uib-dropdown>                 
                         <button class="btn btn-link dropdown-toggle btn-icon-text waves-effect" uib-dropdown-toggle>
                             <i class="zmdi zmdi-menu"></i>Results
                         </button>
