@@ -49,17 +49,15 @@ export default class EcStudentRepo extends IUtilityRepo {
         this.loadManager(this.studentApiResources);
     }
 
-    initCourses(forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.ICourse> | angular.IPromise<void>> {
+    initCourses(forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.ICourseMember> | angular.IPromise<void>> {
         const api = this.studentApiResources;
         const self = this;
-        let courses: Array<ecat.entity.ICourse> = [];
 
         if (api.initCourses.resource.isLoaded && !forceRefresh) {
             const courseMems = this.queryLocal(api.initCourses.resource.name) as Array<ecat.entity.ICourseMember>;
-            courses = courseMems.map(cm => cm.course);
-            this.logSuccess('Courses loaded from local cache', courses, false);
+            this.logSuccess('Courses loaded from local cache', courseMems, false);
 
-            return this.c.$q.when(courses);
+            return this.c.$q.when(courseMems);
         }
 
         return this.query.from(api.initCourses.resource.name)
@@ -68,11 +66,10 @@ export default class EcStudentRepo extends IUtilityRepo {
             .then(initCoursesReponse)
             .catch(this.queryFailed);
 
-            function initCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.ICourse> {
+            function initCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.ICourseMember> {
                 const crseMems = data.results as Array<ecat.entity.ICourseMember>;
                 crseMems.forEach(crseMem => {
-
-                    courses.push(crseMem.course);
+              
 
                     if (crseMem.studGroupEnrollments) {
                         crseMem.studGroupEnrollments.forEach(grp => {
@@ -83,8 +80,8 @@ export default class EcStudentRepo extends IUtilityRepo {
 
                     api.getCourseGroupMembers.resource.isLoaded[crseMem.courseId] = true;
                 });
-                self.logSuccess('Courses loaded from remote store', courses, false);
-                return courses;
+                self.logSuccess('Courses loaded from remote store', crseMems, false);
+                return crseMems;
             }
     }
 

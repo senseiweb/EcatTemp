@@ -11,6 +11,10 @@ export default class EcStudentAssessments {
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
     stratInputVis;
 
+    activeCourseMember: ecat.entity.ICourseMember;
+    activeGroupMember: ecat.entity.IGroupMember;
+
+
     addModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IAssessmentAdd.controllerId,
         controllerAs: 'assessAdd',
@@ -45,20 +49,23 @@ export default class EcStudentAssessments {
 
     };
 
-    courses: Array<string> = [];
+
 
     fullName = 'Unknown';
 
     groupMembers: Array<{}> = [];
 
+    //Turns logError into a log error function that is displayed to the client. 
+    logError = this.c.logSuccess('Assessment Center');
+
     courseEnrollments: ecat.entity.ICourseMember[] = [];
+    groups: ecat.entity.IGroupMember[] = [];
 
     radioEffectiveness: string;
     radioFreq: string;
 
     user: ecat.entity.IPerson;
 
-    questions: Array<{}>;
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
@@ -68,55 +75,68 @@ export default class EcStudentAssessments {
     activate(): void {
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
-        //this.courses = ['ILE 16-1', 'ILE 16-2', 'ILE 16-3'];
         const self = this;
 
 
-        this.dCtx.student.initCourses(false);
 
-        function recCourseList(retData: ecat.entity.ICourseMember[]) {
-            //if (self.dCtx.student.activeCourse === null || self.dCtx.student.activeCourse === undefined)
-            //{
-            //    self.dCtx.student.activeCourse = retData[0];
-            //    //self.dCtx.student.getAllGroupData().then(groupData => console.log(groupData));
-            //}
-            //self.courseEnrollments = retData;
-            //self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
+        function courseError(error: any) {
+            self.logError('There was an error loading Courses', error, true);
         }
 
+        //This unwraps the promise and retrieves the objects inside and stores it into a local variable
+        this.dCtx.student.initCourses(false)
+            .then((init: ecat.entity.ICourseMember[]) => {
+                this.courseEnrollments = init;
+                this.courseEnrollments = this.courseEnrollments.sort(sortByDate);
+                this.activeCourseMember = this.courseEnrollments[0];
+                this.dCtx.student.activeCrseMemId = this.activeCourseMember.id;
+                //this.groups = this.activeCourseMember.studGroupEnrollments;
+                //this.groups = this.groups.sort(sortByCategory);
+                //this.activeGroupMember = this.courseEnrollments[0].studGroupEnrollments[0].group[0];
+            })
+            .catch(courseError);
+            //.finally();   --Can be used to do some addtional functionality
 
-        this.questions = [
-        {
-            id: 1,
-            question: 'controlled emotions and impulses while adapting to changing circumstances',
-            assessAvg: 'Always Highly Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 2,
-            question: 'Did awesome things at the expense of others',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 3,
-            question: 'Was load and obnoxious',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 4,
-            question: 'Encouraged others to participate',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
-        }, {
-            id: 5,
-            question: 'Contributed to the group in a positive way',
-            assessAvg: 'Frequently Effective',
-            counts: 'IE: 4   E: 4   HE: 5'
+        //function recCourseList(retData: ecat.entity.ICourseMember[]) {
+
+        //    self.courseEnrollments = retData;
+        //    self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
+
+
+        //}
+       
+        
+
+        function sortByDate(first: ecat.entity.ICourseMember, second: ecat.entity.ICourseMember) {
+            if (first.course.startDate == second.course.startDate) {
+                return 0;
+            }
+
+            if (first.course.startDate < second.course.startDate) {
+                return 1;
+            }
+
+            else {
+                return -1;
+            }
+
         }
-        ];
+
 
         this.stratInputVis = false;
 
     }
+
+    setActiveCourse(courseMember: ecat.entity.ICourseMember): void {
+        this.dCtx.student.activeCrseMemId = courseMember.id;
+        this.activeCourseMember = courseMember;
+    }
+
+    setActiveGroup(groupMember: ecat.entity.IGroupMember): void {
+        this.activeGroupMember = groupMember;
+    
+    }
+
 
     addAssessment(): void {
         this.uiModal.open(this.addModalOptions)
