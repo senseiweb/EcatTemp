@@ -1,7 +1,7 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <h3 class="lead">Group Results</h3>
+            <h3 class="lead">{{groups.selectedStudent.LastName}}, {{groups.selectedStudent.FirstName}} Group Results</h3>
         </div>
     </div>
 </div>
@@ -21,18 +21,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="inventory in groups.selectedGroup.group.spInstrument.inventoryCollection | orderBy: 'displayOrder' track by inventory.id" style="height: 50px">
-                        <td>{{inventory.behavior}}</td>
-                        <td>?</td>
-                        <td>?</td>
-                        <td>?</td>
+                    <tr ng-repeat="invWithOv in groups.memberResults | orderBy: 'inventory.displayOrder'" style="height: 50px">
+                        <td>{{invWithOv.inventory.behavior}}</td>
+                        <td>{{invWithOv.self}}</td>
+                        <td>{{invWithOv.peerOverall}}</td>
+                        <td>{{invWithOv.fac}}</td>
                     </tr>
-                    <tr ng-repeat="result in groups.results track by $index" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">
+                    <!--<tr ng-repeat="result in groups.results track by $index" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">
                         <td>{{groups.questions[$index].question}}</td>
                         <td>{{result.self}}</td>
                         <td>{{result.peer}}</td>
                         <td>{{result.inst}}</td>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
         </div>

@@ -9,11 +9,13 @@ interface IFaciliatorApiResources extends ecat.IApiResources {
     getAllGroupData: ecat.IApiResource;
 }
 
-export default class EcStudentRepo extends IUtilityRepo {
+export default class EcFacilitatorRepo extends IUtilityRepo {
     static serviceId = 'data.facilitator';
     static $inject = ['$injector'];
 
     activateCrseMemId: number;
+    activeGroupId: number;
+
     private facilitatorApiResources: IFaciliatorApiResources = {
         initCourses: {
             returnedEntityType: this.c.appVar.EcMapEntityType.crseMember,

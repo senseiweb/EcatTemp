@@ -30,10 +30,10 @@
                         <td>{{groupMember.spAssessResult.spFacResult}}</td>
                         <td>{{groupMember.spStratResult.finalStratPosition}}</td>
                         <td style="width: 150px">
-                            <button ng-if="result.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.selectedStudent=groupMember; groups.resultsView=1">View Details</button>
+                            <button ng-if="result.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.selectedStudent=groupMember; groups.resultsView=1; groups.viewDetails()">View Details</button>
                         </td>
                     </tr>
-                    <tr ng-repeat="result in groups.results track by $index" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">
+                    <!--<tr ng-repeat="result in groups.results track by $index" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">
                         <td>{{result.student}}</td>
                         <td>{{result.self}}</td>
                         <td>{{result.peer}}</td>
@@ -43,7 +43,7 @@
                             <button ng-if="result.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.resultsView=1">View Details</button>
 
                         </td>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
         </div>

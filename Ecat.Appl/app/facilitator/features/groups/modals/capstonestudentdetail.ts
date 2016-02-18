@@ -15,7 +15,7 @@ import * as AppVar from "appVars"
 //    strat: Ecat.Shared.Model.SpStratResponse;
 //}
 
-export default class EcFacViewStatusModal {
+export default class EcFacCapstoneDetailsModal {
     static controllerId = 'app.facilitator.features.groups.capstonestudentdetails';
     static $inject = ['$uibModalInstance', IDataCtx.serviceId, 'selectedStudent'];
 
@@ -31,6 +31,6 @@ export default class EcFacViewStatusModal {
     }
 
     close(): void {
-        this.$mi.close();
+        this.$mi.dismiss();
     }
 }

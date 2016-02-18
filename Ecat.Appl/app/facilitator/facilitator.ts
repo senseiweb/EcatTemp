@@ -5,6 +5,9 @@ import facilitatorConfig from 'facilitator/config/cfgFac'
 import facDataService from "facilitator/service/facilitatorData"
 import viewStatus from "facilitator/features/groups/modals/status"
 import capstoneStudentDetail from "facilitator/features/groups/modals/capstonestudentdetail"
+import assessAdd from "core/features/assessView/modals/add"
+import assessEdit from "core/features/assessView/modals/edit"
+import commentAe from "core/features/assessView/modals/comment"
 
 export default class EcFacilitatorModule {
     moduleId = 'facilitator';
@@ -16,6 +19,9 @@ export default class EcFacilitatorModule {
             .service(facDataService.serviceId, facDataService)
             .controller(groups.controllerId, groups)
             .controller(viewStatus.controllerId, viewStatus)
-            .controller(capstoneStudentDetail.controllerId, capstoneStudentDetail);
+            .controller(capstoneStudentDetail.controllerId, capstoneStudentDetail)
+            .controller(assessAdd.controllerId, assessAdd)
+            .controller(assessEdit.controllerId, assessEdit)
+            .controller(commentAe.controllerId, commentAe);
     }
 }

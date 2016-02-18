@@ -1,4 +1,4 @@
-﻿import CoreStates from "core/config/statesCore"
+import CoreStates from "core/config/statesCore"
 import * as AppVar from "appVars"
 
 export default class EcFacilitatorStates {
