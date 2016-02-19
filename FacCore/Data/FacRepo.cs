@@ -28,5 +28,18 @@ namespace FacCore.Data
              .Where(cm => !cm.IsDeleted)
              .OrderByDescending(crseMem => crseMem.Course.StartDate)
              .Include(c => c.Course);
+
+        public IQueryable<MemberInGroup> GetAllWorkGroupData =>
+            _efCtx.Context.MemberInGroups
+                .Where(gm => !gm.IsDeleted)
+                .Include(g => g.Group)
+                .Include(g => g.Group.FacSpResponses)
+                .Include(g => g.Group.FacSpComments)
+                .Include(g => g.Group.FacStratResponses)
+                .Include(g => g.Group.GroupMembers)
+                .Include(gm => gm.Group.GroupMembers.Select(g => g.AssessorSpResponses))
+                .Include(gm => gm.Group.GroupMembers.Select(g => g.AssessorStratResponse))
+                .Include(gm => gm.Group.GroupMembers.Select(g => g.AuthorOfComments));
+
     }
 }

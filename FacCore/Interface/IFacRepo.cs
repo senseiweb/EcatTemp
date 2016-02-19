@@ -11,5 +11,6 @@ namespace FacCore.Interface
     {
         string Metadata { get; }
         IQueryable<MemberInCourse> GetCrseMembership { get; }
+        IQueryable<MemberInGroup> GetAllWorkGroupData { get; }
     }
 }

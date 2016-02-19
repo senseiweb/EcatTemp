@@ -46,7 +46,7 @@ export default class EcCommon
         public coreCfg: ICoreCfg,
         public dialog: IDialog,
         public stateMgr: IStateMgr,
-        private userStatic: any) {
+        private userStatic: ecat.entity.ILoginToken) {
 
         const environment = window.localStorage.getItem(this.localStorageKeysBak.appServer);
         this.serverEnvironment = environment || `${window.location.protocol}//${window.location.host}`;
@@ -133,20 +133,21 @@ export default class EcCommon
     checkUserRoles(user: ecat.entity.IPerson, authorizedRoles: Array<AppVars.EcMapInstituteRole>, event: angular.IAngularEvent) {
         const deferred = this.$q.defer();
 
-        const userRole = user ? user.mpInstituteRole : this.appVar.EcMapInstituteRole.external;
+        const userRole = (user) ? user.mpInstituteRole :
+            (this.userStatic) ? this.userStatic.person.mpInstituteRole :
+            this.appVar.EcMapInstituteRole.external;
 
         if (!authorizedRoles.some(role => role === userRole)) {
             event.preventDefault();
-            const alertSetting: SweetAlert.Settings = {
-                title: 'Unauthorized Access Attempted',
-                text: 'You are attempting to access a resource that requires an authorization level that you current do not have.',
-                allowEscapeKey: true,
-                closeOnConfirm: true
+            const alertError: ecat.IRoutingError = {
+                redirectTo: 'app.main.dashboard',
+                errorCode: AppVars.SysErrorType.NotAuthorized,
+                message: 'You are attempting to access a resource that requires an authorization level that you current do not have.'
             }
-            this.swal(alertSetting);
-            deferred.reject();
+            deferred.reject(alertError);
+        } else {
+            deferred.resolve();
         }
-        deferred.resolve();
         return deferred.promise;
     }
 
@@ -188,7 +189,7 @@ export default class EcCommon
 
         if (tokenStatus === AppVars.TokenStatus.Expired) {
             error.errorCode = AppVars.SysErrorType.AuthExpired;
-            error.redirectTo = this.stateMgr.core.login;
+            error.redirectTo = this.stateMgr.core.login.name;
             error.message = 'You authenication token has expired.';
             error.params = { mode: 'lock' };
             this.workingRouterError = true;
@@ -197,7 +198,7 @@ export default class EcCommon
 
         if (tokenStatus === AppVars.TokenStatus.Missing) {
             error.errorCode = AppVars.SysErrorType.AuthNoToken;
-            error.redirectTo = this.stateMgr.core.login;
+            error.redirectTo = this.stateMgr.core.login.name;
             error.message = 'You authenication token was not found. Please login.';
             error.params = { mode: 'login' };
             this.workingRouterError = true;

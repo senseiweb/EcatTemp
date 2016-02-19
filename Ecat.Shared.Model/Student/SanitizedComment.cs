@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ecat.Shared.Model
 {
-    public class SantizedComment
+    public class SanitizedComment
     {
         public int Id { get; set; }
         public int ResultId { get; set; }

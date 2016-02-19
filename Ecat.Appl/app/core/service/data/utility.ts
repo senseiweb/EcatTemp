@@ -82,7 +82,11 @@ export default class EcUtilityRepoServices {
     protected queryFailed = (error: any) => {
         const msg = `${this.loggerId} Error querying data: ${error ? (error.message || error.statusText) : 'Unknown Reason'}`;
         this.c.logger.logError(msg, error, 'Query Result', false);
-        return this.c.$q.reject(error);
+        var ecatError: ecat.IQueryError = {
+            errorMessage: msg,
+            errorType: this.c.appVar.QueryError.GeneralServerError
+        }
+        return this.c.$q.reject(ecatError);
     }
 
     protected registerTypes = (resourcesToRegister: ecat.IApiResources): void => {

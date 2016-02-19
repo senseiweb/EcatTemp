@@ -36,8 +36,8 @@ namespace Ecat.Shared.DbManager.Context
 
             mb.Ignore<Academy>();
             mb.Ignore<AcademyCategory>();
-            mb.Ignore<SantizedComment>();
-            mb.Ignore<SantizedResponse>();
+            mb.Ignore<SanitizedComment>();
+            mb.Ignore<SanitizedResponse>();
 
 
             mb.Properties<DateTime>()

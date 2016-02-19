@@ -62,6 +62,7 @@ declare module ecat.entity
 
     interface IMemberInGroup extends breeze.Entity, Ecat.Shared.Model.MemberInGroup {
         groupPeers: IMemberInGroup[];
+        group: IWorkGroup;
     }
 
     interface IStudent extends breeze.Entity, Ecat.Shared.Model.Student { }
@@ -77,4 +78,7 @@ declare module ecat.entity
     interface IFacSpAssess extends breeze.Entity, Ecat.Shared.Model.FacSpAssessResponse { }
 
     interface ISpAssess extends breeze.Entity, Ecat.Shared.Model.SpAssessResponse { }
+
+    interface IAssessComment extends breeze.Entity, Ecat.Shared.Model.SpComment {}
+
 }

@@ -41,6 +41,11 @@ declare module ecat {
         startUpComplete: boolean;
     }    
 
+    interface IQueryError {
+        errorType: number;
+        errorMessage: string;  
+    }
+
     interface ICoreCfg {
         errorPrefix?: string;
         coreEvents: IGlobalEvents;
@@ -83,7 +88,7 @@ declare module ecat {
     interface IRoutingError {
         message: string;
         errorCode: number;
-        redirectTo: angular.ui.IState;
+        redirectTo: string;
         params?: {};
     }
 

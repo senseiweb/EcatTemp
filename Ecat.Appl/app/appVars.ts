@@ -23,7 +23,9 @@ export const enum EpmeSchool {
 }
 
 export const enum QueryError {
-    SuccessNoResult
+    UnexpectedNoResult,
+    GeneralServerError,
+    MissingParameter
 }
 
 export class EcMapGender {
@@ -65,6 +67,17 @@ export class EcMapPaygrade {
     static civ = 'Civilian';
     static fn = 'Foreign National';
     static unk = 'Unknown';
+}
+
+export class MpCommentFlag {
+    static pos = "Positive";
+    static neg = "Negative";
+    static neut = "Netural";
+}
+
+export class MpCommentType {
+    static signed = "Signed";
+    static anon = "Anonymous";
 }
 
 export class EcSpItemResponse {
@@ -201,16 +214,16 @@ export enum Keycode {
     F = 70
 }
 
-export enum EntityTypes {
-    SpAssessResult,
-    SpAssessResponse,
-    SpInventory,
-    SpStratResponse,
-    SpStratResult,
-    EcGroupMember,
-    EcCourseMember,
-    EcGroupTypeInstrumnet
-}
+//export enum EntityTypes {
+//    SpAssessResult,
+//    SpAssessResponse,
+//    SpInventory,
+//    SpStratResponse,
+//    SpStratResult,
+//    EcGroupMember,
+//    EcCourseMember,
+//    EcGroupTypeInstrumnet
+//}
 
 export enum SysErrorType {
     Undefined,

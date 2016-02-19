@@ -11,6 +11,7 @@ namespace FacCore.Interface
     {
         Person Facilitator { get; set; }
         string GetMetadata { get; }
-        Task<List<MemberInCourse>> GetCrsesWithLastestGrpMem();
+        IQueryable<MemberInCourse> GetCrsesWithLastestGrpMem();
+        IQueryable<MemberInGroup> GetWorkGroupById();
     }
 }

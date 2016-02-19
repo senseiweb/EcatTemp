@@ -8,12 +8,13 @@ import ICommentAe from 'core/features/assessView/modals/comment'
 import ICSD from "facilitator/features/groups/modals/capstonestudentdetail"
 import IScoring from 'core/service/scoring'
 
-//interface IInventoryWithOveralls {
-//    inventory: Ecat.Shared.Model.SpInventory;
-//    self: string;
-//    peerOverall: string;
-//    fac: string;
-//}
+
+export interface IInventoryWithOveralls {
+    inventory: Ecat.Shared.Model.SpInventory;
+    self: string;
+    peerOverall: string;
+    fac: string;
+}
 
 export default class EcInstructorGroups {
     static controllerId = 'app.facilitator.features.groups';
@@ -137,11 +138,11 @@ export default class EcInstructorGroups {
         }
 
         //if (this.selectedGroup.id !== selected.id && this.selectedGroup.groupMembers.length === 0) {
-            //this.dCtx.facilitator.getGroupData(false)
-            //    .then((retData: ecat.entity.IWorkGroup) => {
-            //        this.selectedGroup = retData;
-            //        this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
-            //    });
+        //this.dCtx.facilitator.getGroupData(false)
+        //    .then((retData: ecat.entity.IWorkGroup) => {
+        //        this.selectedGroup = retData;
+        //        this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
+        //    });
         //}
     }
 

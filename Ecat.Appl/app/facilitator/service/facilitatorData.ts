@@ -6,7 +6,7 @@ import * as AppVar from 'appVars'
 
 interface IFaciliatorApiResources extends ecat.IApiResources {
     initCourses: ecat.IApiResource,
-    getAllGroupData: ecat.IApiResource;
+    getGroupById: ecat.IApiResource;
 }
 
 export default class EcFacilitatorRepo extends IUtilityRepo {
@@ -24,11 +24,13 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
                 isLoaded: false
             }
         },
-        getAllGroupData: {
+        getGroupById: {
             returnedEntityType: this.c.appVar.EcMapEntityType.grpMember,
             resource: {
-                name: 'GetAllGroupData',
-                isLoaded: false
+                name: 'GetWorkGroupData',
+                isLoaded: {
+                    group: {} as any
+                }
             }
         }
     };
@@ -70,6 +72,7 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
         }
     }
 
+
     getNewFacSpAssessResponse(groupId: number, assesseeId: number, inventoryId: number): ecat.entity.IFacSpAssess {
 
         const newAssessResponse = {
@@ -79,6 +82,48 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
         }
 
         return this.manager.createEntity(AppVar.EcMapEntityType.facSpAssessResponse, newAssessResponse) as ecat.entity.IFacSpAssess;
+
+    getFullGroupById(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
+        let workGroup: ecat.entity.IWorkGroup;
+        const self = this;
+        const api = this.facilitatorApiResources;
+        const predicate = new breeze.Predicate('id', breeze.FilterQueryOp.Equals, this.activeGroupId);
+        if (this.activeGroupId === null) {
+            const qe: ecat.IQueryError = {
+                errorMessage: 'You must have an active group to get by ID',
+                errorType: this.c.appVar.QueryError.MissingParameter
+            }
+            return this.c.$q.reject(qe);
+        }
+
+        const isLoaded = api.getGroupById.resource.isLoaded.group[this.activeGroupId];
+
+        if (isLoaded) {
+            workGroup = this.queryLocal(api.getGroupById.resource.name, null, predicate) as ecat.entity.IWorkGroup;
+            this.logSuccess(`Loaded workgroup with ID: ${this.activeGroupId} from local cache`, workGroup, false);
+            return this.c.$q.when(workGroup);
+        }
+
+        return this.query.from(api.getGroupById.resource.name)
+            .using(this.manager)
+            .withParameters({ groupId: this.activeGroupId })
+            .execute()
+            .then(getFullGrpByIdResponse)
+            .catch(this.queryFailed);
+
+        function getFullGrpByIdResponse(data: breeze.QueryResult): ecat.entity.IWorkGroup | angular.IPromise<void> {
+            const aMemberInGroup = data.results[0] as ecat.entity.IMemberInGroup;
+            if (!aMemberInGroup) {
+                const qe: ecat.IQueryError = {
+                    errorType: self.c.appVar.QueryError.UnexpectedNoResult,
+                    errorMessage: 'Expected a result, got nothing!'
+                }
+                return self.c.$q.reject(qe);
+            }
+            api.getGroupById.resource.isLoaded.group[self.activeGroupId] = true;
+            self.logSuccess(`Loaded workgroup with ID: ${self.activeGroupId} from local cache`, workGroup, false);
+            return aMemberInGroup.group;
+        }
     }
 
    loadFacilitatorManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {

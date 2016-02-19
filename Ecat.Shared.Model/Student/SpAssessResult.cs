@@ -12,8 +12,8 @@ namespace Ecat.Shared.Model
 
         public MemberInGroup ResultFor { get; set; }
         public SpInstrument AssignedInstrument { get; set; }
-        public ICollection<SantizedResponse> SantizedResponses { get; set; }
-        public ICollection<SantizedComment> SantizedComments { get; set; }
+        public ICollection<SanitizedResponse> SanitizedResponses { get; set; }
+        public ICollection<SanitizedComment> SanitizedComments { get; set; }
 
     }
 }

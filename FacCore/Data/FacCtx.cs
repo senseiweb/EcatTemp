@@ -18,7 +18,7 @@ namespace FacCore.Data
             mb.Configurations.Add(new ConfigSpAssessResponse());
             mb.Configurations.Add(new ConfigMemberInCourse());
             mb.Configurations.Add(new ConfigMemberInGroup());
-
+            mb.Configurations.Add(new ConfigSpStratResult());
 
             mb.Ignore(new List<Type>
             {
@@ -28,17 +28,16 @@ namespace FacCore.Data
                 typeof (External),
                 typeof (Security),
                 typeof (HqStaff),
-                typeof (FacSpStratResponse),
             });
 
             //mb.Types().Configure(p => p.Ignore("IsDeleted"));
             //mb.Types().Configure(p => p.Ignore("DeletedById"));
             //mb.Types().Configure(p => p.Ignore("DeletedDate"));
 
-            //mb.Entity<Ecat.Shared.Model.Student>()
-            //    .HasKey(p => p.PersonId)
-            //    .HasRequired(p => p.Person)
-            //    .WithOptional(p => p.Student);
+            mb.Entity<Ecat.Shared.Model.Student>()
+                .HasKey(p => p.PersonId)
+                .HasRequired(p => p.Person)
+                .WithOptional(p => p.Student);
 
             mb.Entity<Person>()
                 .Ignore(p => p.BbUserId)
@@ -70,6 +69,7 @@ namespace FacCore.Data
         }
 
         public IDbSet<WorkGroup> WorkGroups { get; set; }
+        public IDbSet<FacSpAssessResponse> FacSpAssessResponses {get; set;  } 
         public IDbSet<Course> Courses { get; set; }
         public IDbSet<MemberInGroup> MemberInGroups { get; set; }
         public IDbSet<MemberInCourse> MemberInCourses { get; set; }

@@ -21,12 +21,24 @@ namespace FacCore.Business
 
         public string GetMetadata => _repo.Metadata;
 
-        public async Task<List<MemberInCourse>> GetCrsesWithLastestGrpMem()
+        public IQueryable<MemberInCourse> GetCrsesWithLastestGrpMem()
         {
-            return await _repo.GetCrseMembership
+            return _repo.GetCrseMembership
                 .Where(crseMem => crseMem.PersonId == Facilitator.PersonId)
-                .Include(crse => crse.Course.Groups)
-                .ToListAsync();
+                .Include(crse => crse.Course.Groups);
+        }
+
+        public IQueryable<MemberInGroup> GetWorkGroupById(int groupId)
+        {
+            return _repo.GetAllWorkGroupData;
+
+            //return _repo.GetAllWorkGroupData
+            //    .Where(g => g.Group.Course.CourseMembers
+            //        .Any(
+            //            cm =>
+            //                cm.PersonId == Facilitator.PersonId &&
+            //                (cm.MpCourseRole == MpCourseRole.Facilitator || cm.MpCourseRole == MpCourseRole.CrseAdmin)) &&
+            //                g.Group.Id == groupId);
 
         }
     }
