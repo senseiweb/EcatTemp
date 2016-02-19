@@ -143,6 +143,38 @@ declare module ecat {
         tokenExpireDate: Date;
     }
 
+    interface IAssesseeComposite {
+        groupMember: Ecat.Shared.Model.MemberInGroup;
+        hEReceived: number;
+        eReceived: number;
+        nDReceived: number;
+        iEReceived: number;
+        overall: number;
+    }
+
+    interface IInventoryWithOveralls {
+        inventory: Ecat.Shared.Model.SpInventory;
+        self: string;
+        peerAggregate: number;
+        peerOverall: string;
+        fac: string;
+    }
+
+    interface IStudentSpStatus {
+        groupMember: Ecat.Shared.Model.MemberInGroup;
+        selfComplete: boolean;
+        peersComplete: number;
+        stratsComplete: number;
+        assessorComposite: IAssessorComposite;
+    }
+
+    interface IAssessorComposite {
+        hEGiven: number;
+        eGiven: number;
+        nDGiven: number;
+        iEGiven: number;
+    }
+
     
 }
 

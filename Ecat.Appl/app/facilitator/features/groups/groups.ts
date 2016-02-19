@@ -1,21 +1,23 @@
 import ICommon from 'core/service/common'
 import IDataCtx from 'core/service/data/context';
+import * as appVars from 'appVars'
 import IViewStatus from 'facilitator/features/groups/modals/status';
 import IAssessmentAdd from 'core/features/assessView/modals/add'
 import IAssessmentEdit from 'core/features/assessView/modals/edit'
 import ICommentAe from 'core/features/assessView/modals/comment'
 import ICSD from "facilitator/features/groups/modals/capstonestudentdetail"
+import IScoring from 'core/service/scoring'
 
-interface IInventoryWithOveralls {
-    inventory: Ecat.Shared.Model.SpInventory;
-    self: string;
-    peerOverall: string;
-    fac: string;
-}
+//interface IInventoryWithOveralls {
+//    inventory: Ecat.Shared.Model.SpInventory;
+//    self: string;
+//    peerOverall: string;
+//    fac: string;
+//}
 
 export default class EcInstructorGroups {
     static controllerId = 'app.facilitator.features.groups';
-    static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
+    static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId, IScoring.serviceId];
 
     //#region modal options
     addModalOptions: angular.ui.bootstrap.IModalSettings = {
@@ -24,7 +26,10 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        resolve: { mode: () => 'facilitator' },
+        resolve: {
+            mode: () => 'facilitator',
+            group: () => this.selectedStudent
+        },
         templateUrl: 'wwwroot/app/core/features/assessView/modals/add.html'
     };
 
@@ -86,9 +91,9 @@ export default class EcInstructorGroups {
     };
     radioCommentType: string;
     orderyBy: string;
-    memberResults: IInventoryWithOveralls[] = [];
+    memberResults: ecat.IInventoryWithOveralls[] = []
 
-    constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
+    constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx, private scoreService: IScoring) {
         console.log('Facilitator Groups Loaded');
         this.activate();
     }
@@ -151,34 +156,68 @@ export default class EcInstructorGroups {
         this.publishStatus.commentsComplete = true;
     }
 
+    checkPublish(): void {
+        if (this.selectedGroup.mpSpStatus === appVars.MpSpStatus.open) {
+            this.selectedGroup.mpSpStatus = appVars.MpSpStatus.underReview;
+        } else if (this.selectedGroup.mpSpStatus === appVars.MpSpStatus.underReview) {
+            this.selectedGroup.groupMembers.forEach(gm => {
+                var unflaggedComments = gm.authorOfComments.filter(aoc => {
+                    if (aoc.mpCommentFlagFac === null) {
+                        return true;
+                    }
+                    return false;
+                });
+
+                if (unflaggedComments.length > 0) {
+                    this.publishStatus.commentsComplete = false;
+                }
+            });
+
+            var unstrattedStudents = this.selectedGroup.groupMembers.filter(gm => {
+                this.selectedGroup.facStratResponses.forEach(strat => {
+                    if (strat.assesseeId === gm.id) {
+                        return false;
+                    }
+                });
+                return true;
+            });
+
+            if (unstrattedStudents.length > 0) {
+                this.publishStatus.stratsComplete = false;
+            }
+        }
+    }
+
     viewDetails(): void {
-        this.selectedGroup.spInstrument.inventoryCollection.forEach(inv => {
-            var invWithOv: IInventoryWithOveralls;
-            invWithOv.inventory = inv;
-            var peerAggregate = 0;
+        this.memberResults = this.scoreService.calcInventoryOveralls(this.selectedStudent);
 
-            this.selectedStudent.assesseeSpResponses.forEach(spr => {
-                if (spr.inventoryItemId === inv.id) {
-                    if (spr.assessorId === spr.assesseeId) {
-                        invWithOv.self = this.getResultString(spr.itemModelScore);
-                    } else {
-                        peerAggregate += spr.itemModelScore;
-                    }
-                }
-            });
+        //this.selectedGroup.spInstrument.inventoryCollection.forEach(inv => {
+        //    var invWithOv: IInventoryWithOveralls;
+        //    invWithOv.inventory = inv;
+        //    var peerAggregate = 0;
 
-            invWithOv.peerOverall = this.getResultString(peerAggregate / (this.selectedGroup.groupMembers.length - 1));
+        //    this.selectedStudent.assesseeSpResponses.forEach(spr => {
+        //        if (spr.inventoryItemId === inv.id) {
+        //            if (spr.assessorId === spr.assesseeId) {
+        //                invWithOv.self = this.getResultString(spr.itemModelScore);
+        //            } else {
+        //                peerAggregate += spr.itemModelScore;
+        //            }
+        //        }
+        //    });
 
-            this.selectedStudent.group.facSpReponses.forEach(spr => {
-                if (spr.relatedInventoryId === inv.id) {
-                    if (spr.assesseeId === this.selectedStudent.id) {
-                        invWithOv.fac = this.getResultString(spr.itemResponseScore);
-                    }
-                }
-            });
+        //    invWithOv.peerOverall = this.getResultString(peerAggregate / (this.selectedGroup.groupMembers.length - 1));
 
-            this.memberResults.push(invWithOv);
-        });
+        //    this.selectedStudent.group.facSpReponses.forEach(spr => {
+        //        if (spr.relatedInventoryId === inv.id) {
+        //            if (spr.assesseeId === this.selectedStudent.id) {
+        //                invWithOv.fac = this.getResultString(spr.itemResponseScore);
+        //            }
+        //        }
+        //    });
+
+        //    this.memberResults.push(invWithOv);
+        //});
     }
 
     getResultString(respScore: number): string {
