@@ -70,6 +70,17 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
         }
     }
 
+    getNewFacSpAssessResponse(groupId: number, assesseeId: number, inventoryId: number): ecat.entity.IFacSpAssess {
+
+        const newAssessResponse = {
+            assesseeId: assesseeId,
+            relatedInventoryId: inventoryId,
+            assignedGroupId: groupId
+        }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.facSpAssessResponse, newAssessResponse) as ecat.entity.IFacSpAssess;
+    }
+
    loadFacilitatorManager(): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
         return this.loadManager(this.facilitatorApiResources)
             .then(() => {

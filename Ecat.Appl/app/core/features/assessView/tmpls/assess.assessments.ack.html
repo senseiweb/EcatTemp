@@ -10,8 +10,8 @@
 
 <div class="row">
     <div class="col-md-12 p-t-20">
-        <p ng-if="assessAdd.mode=='student'">{{assessAdd.instrument.peerInstructions}}</p>
-        <p ng-if="assessAdd.mode=='facilitator'">{{assessAdd.instrument.facInstructions}}</p>
+        <p ng-if="assessAdd.mode=='student'">{{assessAdd.activeResponse.inventoryItem.instrument.peerInstructions}}</p>
+        <p ng-if="assessAdd.mode=='facilitator'">{{assessAdd.activeResponse.inventoryItem.instrument.facInstructions}}</p>
      </div>
 </div>
 

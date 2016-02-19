@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
-        <p class="lead">He controlled emotions and impulses while adapting to changing cirumstances</p>
+        <p class="lead">{{assessAdd.activeResponse.inventoryItem.behavior}}</p>
     </div>
 </div>
 
@@ -14,10 +14,10 @@
 
                 <ul class="dropdown-menu dropdown-menu-left">
                     <li>
-                        <a href="" ng-if="assessAdd.notDisplayed" ng-click="assessAdd.notDisplayed = false">Displayed</a>
+                        <a href="" ng-if="assessAdd.notDisplayed" ng-click="assessAdd.notDisplayed=false">Displayed</a>
                     </li>
                     <li>
-                        <a href="" ng-if="!assessAdd.notDisplayed" ng-click="assessAdd.notDisplayed=true">Not Displayed</a>
+                        <a href="" ng-if="!assessAdd.notDisplayed" ng-click="assessAdd.notDisplayed=true; assessAdd.checkResponse(0)">Not Displayed</a>
                     </li>
                 </ul>
             </li>
@@ -26,15 +26,15 @@
     <div>
         <div ng-if="!assessAdd.notDisplayed" class="col-md-7">
             <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='ineffective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'ineffective'">Ineffective</button>
-                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='effective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'effective'">Effective</button>
-                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='highlyeffective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'highlyeffective'">Highty Effective</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='ineffective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'ineffective'" ng-click="assessAdd.checkReponse(0)">Ineffective</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='effective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'effective'" ng-click="assessAdd.checkReponse(0)">Effective</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioEffectiveness=='highlyeffective'}" ng-model="assessAdd.radioEffectiveness" uib-btn-radio="'highlyeffective'" ng-click="assessAdd.checkReponse(0)">Highty Effective</button>
             </div>
         </div>
         <div ng-if="!assessAdd.notDisplayed" class="col-md-4">
             <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioFreq=='frequently'}" ng-model="assessAdd.radioFreq" uib-btn-radio="'frequently'">Frequently</button>
-                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioFreq=='always'}" ng-model="assessAdd.radioFreq" uib-btn-radio="'always'">Always</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioFreq=='frequently'}" ng-model="assessAdd.radioFreq" uib-btn-radio="'frequently'" ng-click="assessAdd.checkReponse(0)">Frequently</button>
+                <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessAdd.radioFreq=='always'}" ng-model="assessAdd.radioFreq" uib-btn-radio="'always'" ng-click="assessAdd.checkReponse(0)">Always</button>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
 <div class="row">
     <div class="col-md-12 text-center">
         <ul class="pagination">
-            <li ng-repeat="inventory in assessAdd.instrument.inventoryCollection | orderBy:'inventory.displayOrder' track by inventory.id" ng-class="{active: assessAdd.inventorycomplete}" ng-click="assessAdd.activeInventory=invetory.id"></li>
+            <li ng-repeat="spResponse in assessAdd.spResponses | orderBy:'spResponse.inventoryItem.displayOrder' track by spResponse.inventoryItem.id" ng-class="{success: spResponse.mpItemResponse!==null, active: assessAdd.activeResponse.inventoryItem.id==spResponse.inventoryItem.id}" ng-disable="assessAdd.activeResponse.inventoryItem.displayOrder < spResponse.inventoryItem.displayOrder && spResponse.mpItemResponse!==null" ng-click="assessAdd.checkResponse(spResponse.inventoryItem.displayOrder)"><a href="">{{spResponse.inventoryItem.displayOrder}}</a></li>
             <!--<li class="active"><a href="#">1</a></li>
             <li><a href="#">2</a></li>
             <li><a href="#">3</a></li>

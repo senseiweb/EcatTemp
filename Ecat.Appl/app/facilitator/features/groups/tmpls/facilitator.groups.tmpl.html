@@ -43,11 +43,11 @@
                     <td>{{group.mpSpStatus}}</td>
                     <td style="width: 475px">
 
-                        <button ng-if="group.isVisible && group.mpSpStatus!=='Published'" ng-click="groups.selectGroup(group); groups.viewStatus()" type="button" class="btn btn-link btn-sm waves-effect">View Status</button>
-                        <button ng-if="group.isVisible && group.mpSpStatus!=='Published'" ng-click="groups.selectGroup(group); groups.view=1; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Assess Group</button>
-                        <button ng-if="group.isVisible && group.mpSpStatus!=='Published'" ng-click="groups.selectGroup(group); groups.view=2; groups.isPublishing = true; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Publish</button>
-                        <button ng-if="group.isVisible && group.mpSpStatus=='Published'" ng-click="groups.selectGroup(group); groups.view=3; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Group Results</button>
-                        <button ng-if="group.isVisible && group.mpSpStatus=='Published' && groups.selectedCourse.GradReportPublished" ng-click="groups.selectGroup(group); groups.view=4; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Capstone Results</button>
+                        <button ng-if="group.isVisible && group.mpSpStatus!=='Published'" ng-click="groups.selectGroup(group, 'status'); groups.viewStatus()" type="button" class="btn btn-link btn-sm waves-effect">View Status</button>
+                        <button ng-if="group.isVisible && group.mpSpStatus!=='Published'" ng-click="groups.selectGroup(group, 'assess'); groups.view=1; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Assess Group</button>
+                        <button ng-if="group.isVisible && group.mpSpStatus!=='Published'" ng-click="groups.selectGroup(group, 'publish'); groups.view=2; groups.isPublishing = true; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Publish</button>
+                        <button ng-if="group.isVisible && group.mpSpStatus=='Published'" ng-click="groups.selectGroup(group, 'results'); groups.view=3; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Group Results</button>
+                        <button ng-if="group.isVisible && group.mpSpStatus=='Published' && groups.selectedCourse.GradReportPublished" ng-click="groups.selectGroup(group, 'capstone'); groups.view=4; groups.back=true; group.isVisible=false" type="button" class="btn btn-link btn-sm waves-effect">Capstone Results</button>
                     </td>
                 </tr>
                 <!--<tr ng-repeat="group in groups.groups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">

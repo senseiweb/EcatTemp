@@ -26,10 +26,6 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        resolve: {
-            mode: () => 'facilitator',
-            group: () => this.selectedStudent
-        },
         templateUrl: 'wwwroot/app/core/features/assessView/modals/add.html'
     };
 
@@ -39,7 +35,6 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        resolve: { mode: () => 'facilitator' },
         templateUrl: 'wwwroot/app/core/features/assessView/modals/edit.html'
 
     };
@@ -120,9 +115,26 @@ export default class EcInstructorGroups {
 
     }
 
-    selectGroup(selected: Ecat.Shared.Model.WorkGroup): void {
+    selectGroup(selected: Ecat.Shared.Model.WorkGroup, type: string): void {
         this.selectedGroup = selected;
         this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
+
+        switch (type) {
+            case 'status':
+                //this.spStatuses = this.scoreService.calcStudentSpStatus(this.group);
+                break;
+            case 'assess':
+                //this.scoreService.calcFacAssessStatus(this.selectedGroup);
+                break;
+            case 'publish':
+                //this.checkPublish(this.selectedGroup);
+                break;
+            case 'results':
+                //this.scoreService.calcGroupResults(this.selectedGroup);
+                break;
+            case 'capstone':
+                break;
+        }
 
         //if (this.selectedGroup.id !== selected.id && this.selectedGroup.groupMembers.length === 0) {
             //this.dCtx.facilitator.getGroupData(false)
@@ -160,7 +172,16 @@ export default class EcInstructorGroups {
         if (this.selectedGroup.mpSpStatus === appVars.MpSpStatus.open) {
             this.selectedGroup.mpSpStatus = appVars.MpSpStatus.underReview;
         } else if (this.selectedGroup.mpSpStatus === appVars.MpSpStatus.underReview) {
+            //var unflagged = this.selectedGroup.groupMembers.forEach(gm => {
+            //    var 
+            //});
+
             this.selectedGroup.groupMembers.forEach(gm => {
+                //var unflaggedComments = gm.authorOfComments.some(aoc => {
+                //    if (aoc.mpCommentFlagFac === null || aoc.mpCommentFlagFac === undefined) {
+                //        return true;
+                //    }
+                //});
                 var unflaggedComments = gm.authorOfComments.filter(aoc => {
                     if (aoc.mpCommentFlagFac === null) {
                         return true;
@@ -169,9 +190,21 @@ export default class EcInstructorGroups {
                 });
 
                 if (unflaggedComments.length > 0) {
+                //if (unflaggedComments) {
                     this.publishStatus.commentsComplete = false;
                 }
             });
+
+            //var unstrattedStudents = this.selectedGroup.groupMembers.some(gm => {
+            //    var notInFacStrats = this.selectedGroup.facStratResponses.some(strat => {
+            //        if (strat.assesseeId === gm.id) {
+            //            return false;
+            //        }
+            //    });
+            //    if (notInFacStrats) {
+            //        return true;
+            //    }
+            //});
 
             var unstrattedStudents = this.selectedGroup.groupMembers.filter(gm => {
                 this.selectedGroup.facStratResponses.forEach(strat => {
@@ -182,7 +215,7 @@ export default class EcInstructorGroups {
                 return true;
             });
 
-            if (unstrattedStudents.length > 0) {
+            if (unstrattedStudents) {
                 this.publishStatus.stratsComplete = false;
             }
         }
@@ -265,32 +298,53 @@ export default class EcInstructorGroups {
     }
 
 
-    addAssessment(): void {
+    addAssessment(assessee: Ecat.Shared.Model.MemberInGroup): void {
+        var spResponses: ecat.entity.IFacSpAssess[] = [];
+        this.selectedGroup.spInstrument.inventoryCollection.forEach(inv => {
+            var newResponse = this.dCtx.facilitator.getNewFacSpAssessResponse(this.selectedGroup.id, assessee.id, inv.id);
+            spResponses.push(newResponse);
+        });
+
+        this.addModalOptions.resolve = {
+            mode: () => 'facilitator',
+            assessment: () => spResponses
+        };
+
         this.uiModal.open(this.addModalOptions)
             .result
             .then(assessmentSaved)
             .catch(assessmentError);
 
         function assessmentSaved() {
-            
+
         }
 
         function assessmentError() {
-            
+
 
         }
-
-
     }
 
-    editAssessment(): void {
+    editAssessment(assessee: Ecat.Shared.Model.MemberInGroup): void {
+        var spResponses = this.selectedGroup.facSpResponses.filter(resp => {
+            if (resp.assesseeId === assessee.id) {
+                return true;
+            }
+            return false;
+        });
+
+        this.editModalOptions.resolve = {
+            mode: () => 'facilitator',
+            assessment: () => spResponses
+        };
+
         this.uiModal.open(this.editModalOptions)
             .result
-            .then(assessmentSaved)
+            .then(modalData => assessmentSaved(modalData))
             .catch(assessmentError);
 
-        function assessmentSaved() {
-
+        function assessmentSaved(retData: any) {
+            
         }
 
         function assessmentError() {
@@ -299,7 +353,14 @@ export default class EcInstructorGroups {
 
     }
 
-    addComment(): void {
+    addComment(recipient: Ecat.Shared.Model.MemberInGroup): void {
+        //var comment = this.dCtx.facilitator.getNewFacComment(this.selectedGroup.id, recipient.id);
+
+        this.commentModalOptions.resolve = {
+            mode: () => 'facilitator',
+            //comment: () => comment
+        };
+
         this.uiModal.open(this.commentModalOptions)
             .result
             .then(commentSaved)
@@ -314,6 +375,34 @@ export default class EcInstructorGroups {
 
         }
 
+    }
+
+    editComment(recipient: Ecat.Shared.Model.MemberInGroup): void {
+        var comment = this.selectedGroup.facSpComments.filter(com => {
+            if (com.recipientId === recipient.id) {
+                return true;
+            }
+            return false;
+        });
+
+        this.commentModalOptions.resolve = {
+            mode: () => 'facilitator',
+            comment: () => comment[0]
+        };
+
+        this.uiModal.open(this.commentModalOptions)
+            .result
+            .then(commentSaved)
+            .catch(commentError);
+
+        function commentSaved() {
+
+        }
+
+        function commentError() {
+
+
+        }
     }
 
 

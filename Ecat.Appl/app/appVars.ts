@@ -164,7 +164,8 @@ export class EcMapEntityType {
     static spComment = 'SpComment';
     static ecInventory = 'Inventory';
     static kcResult = 'KcResult';
-
+    static facSpAssessResponse = 'FacSpAssessResponse';
+    static spAssessResponse = 'SpAssessResponse';
 }
 
 export class SweetAlertTypes {

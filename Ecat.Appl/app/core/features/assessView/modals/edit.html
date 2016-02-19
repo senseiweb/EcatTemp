@@ -17,7 +17,78 @@
 </div>
 <div class="modal-body">
 
-    <div class="p-b-10 m-b-5" ng-repeat="question in assessEdit.questions track by question.id">
+    <div class="p-b-10 m-b-5" ng-repeat="response in assessEdit.spResponses | orderBy:'response.relatedInventory.displayOrder'">
+        <div class="row" ng-if="!response.showQuestion" ng-mouseover="response.rowShow=true" ng-mouseleave="response.rowShow=false">
+            <div class="col-md-1">
+                <button class="btn btn-default waves-effect" ng-if="response.rowShow" ng-click="response.showQuestion=!response.showQuestion; assessEdit.checkReponse()">
+                    <i class="zmdi zmdi-more-vert"></i>
+                </button>
+            </div>
+
+            <div class="col-md-11">
+                <p class="lead f-13">
+                    <strong>{{assessEdit.mpItemResponse}} @ </strong> {{response.relatedInventory.behavior}}
+                </p>
+            </div>
+        </div>
+        <div class="row p-b-20" ng-if="response.showQuestion">
+            <div class="col-md-1">
+                <ul class="lv-actions actions">
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="" ng-if="response.notDisplayed" ng-click="response.notDisplayed = false">Displayed</a>
+                            </li>
+                            <li>
+                                <a href="" ng-if="!response.notDisplayed" ng-click="response.notDisplayed = true">Not Displayed</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div ng-if="!assessEdit.notDisplayed" class="col-md-6  p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessEdit.radioEffectiveness=='ineffective'}" ng-model="assessEdit.radioEffectiveness" uib-btn-radio="'ineffective'">Ineffective</button>
+                        <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessEdit.radioEffectiveness=='effective'}" ng-model="assessEdit.radioEffectiveness" uib-btn-radio="'effective'">Effective</button>
+                        <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessEdit.radioEffectiveness=='highlyeffective'}" ng-model="assessEdit.radioEffectiveness" uib-btn-radio="'highlyeffective'">Highty Effective</button>
+                    </div>
+                </div>
+                <div ng-if="!assessEdit.notDisplayed" class="col-md-3 p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessEdit.radioFreq=='frequently'}" ng-model="assessEdit.radioFreq" uib-btn-radio="'frequently'">Frequently</button>
+                        <button type="button" class="btn btn-default waves-effect" ng-class="{'btn-primary': assessEdit.radioFreq=='always'}" ng-model="assessEdit.radioFreq" uib-btn-radio="'always'">Always</button>
+                    </div>
+                </div>
+                <!--<div ng-if="!response.notDisplayed" class="col-md-6  p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-primary">Ineffective</button>
+                        <button type="button" class="btn btn-default">Effective</button>
+                        <button type="button" class="btn btn-default">Highty Effective</button>
+                    </div>
+                </div>
+                <div ng-if="!response.notDisplayed" class="col-md-3 p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+                        <button type="button" class="btn btn-primary">Frequently</button>
+                        <button type="button" class="btn btn-default">Always</button>
+                    </div>
+                </div>
+                <div ng-if="response.notDisplayed" class="col-md-9">
+                    <p class="lead text-center f-12 p-t-5">NOT DISPLAYED</p>
+                </div>-->
+                <div class="col-md-2 p-l-30">
+                    <button class="btn btn-default waves-effect" ng-click="assessEdit.checkReponse(response); response.showQuestion = !response.showQuestion" style="padding: 3px; padding-top: 1px; padding-bottom: 1px; margin-top: 4px;">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="p-b-10 m-b-5" ng-repeat="question in assessEdit.questions track by question.id">
 
         <div class="row" ng-if="!question.showQuestion" ng-mouseover="question.rowShow=true" ng-mouseleave="question.rowShow=false">
             <div class="col-md-1">
@@ -77,7 +148,7 @@
             </div>
         </div>
 
-    </div>
+    </div>-->
 
 </div>
 <div class="modal-footer">

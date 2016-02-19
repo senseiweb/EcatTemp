@@ -28,7 +28,6 @@ export default class EcStudentAssessments {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        resolve: {mode: () => 'student'},
         templateUrl: 'wwwroot/app/core/features/assessView/modals/add.html'
 
     };
@@ -183,7 +182,18 @@ export default class EcStudentAssessments {
         this.isolateSelf();
     }
 
-    addAssessment(): void {
+    addAssessment(assessee: ecat.entity.IMemberInGroup): void {
+        var spResponses: ecat.entity.ISpAssess[] = [];
+        this.activeGroupMember.group.spInstrument.inventoryCollection.forEach(inv => {
+            var newResponse = this.dCtx.student.getNewSpAssessResponse(this.activeGroupMember, assessee, inv);
+            spResponses.push(newResponse);
+        });
+
+        this.addModalOptions.resolve = {
+            mode: () => 'student',
+            assessment: () => spResponses
+        };
+
         this.uiModal.open(this.addModalOptions)
             .result
             .then(assessmentSaved)

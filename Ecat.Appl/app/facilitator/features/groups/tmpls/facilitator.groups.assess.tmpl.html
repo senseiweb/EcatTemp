@@ -7,14 +7,24 @@
                         <th>Student</th>
                         <th style="padding-left: 22px;">Assessments</th>
                         <th style="padding-left: 22px;">Comments</th>
-                        <th>Composite Ranking</th>
+                        <!--<th>Composite Ranking</th>-->
 
                     </tr>
                 </thead>
                 <tbody>
 
-                    <tr class="tableBottomBorder">
-                        <td>Jason Silvers</td>
+                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'groupMember.student.person.LastName' track by groupMember.id">
+                        <td>{{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</td>
+                        <td>
+                            <button class="btn btn-link" ng-if="!groupMember.hasAssess" ng-click="groups.addAssessment(groupMember)">Add</button>
+                            <button class="btn btn-link" ng-if="groupMember.hasAssess" ng-click="groups.editAssessment(groupMember)">View/Edit</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-link" ng-if="!groupMember.hasComment" ng-click="groups.addComment(groupMember)">Add</button>
+                            <button class="btn btn-link" ng-if="groupMember.hasComment" ng-click="groups.editComment(groupMember)">View/Edit</button>
+                        </td>
+
+                        <!--<td>Jason Silvers</td>
                         <td>
 
                             <button class="btn btn-link" ng-click="groups.addAssessment()">Add</button>
@@ -23,8 +33,8 @@
                         <td>
                             <button class="btn btn-link" ng-click="groups.addComment()">View/Edit</button>
 
-                        </td>
-                        <td>
+                        </td>-->
+                        <!--<td>
                             <table>
                                 <tr>
                                     <td>E: 4</td>
@@ -32,7 +42,7 @@
                                     <td>HE: 2</td>
                                 </tr>
                             </table>
-                        </td>
+                        </td>-->
                     </tr>
 
                 </tbody>

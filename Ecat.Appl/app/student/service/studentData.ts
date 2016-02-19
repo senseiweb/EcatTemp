@@ -171,4 +171,14 @@ export default class EcStudentRepo extends IUtilityRepo {
             return grpMem;
         }
     }
+
+    getNewSpAssessResponse(assessor: ecat.entity.IMemberInGroup, assessee: ecat.entity.IMemberInGroup, inventory: Ecat.Shared.Model.SpInventory): ecat.entity.ISpAssess {
+        const newAssessResponse = {
+            assessor: assessor,
+            assessee: assessee,
+            inventoryItem: inventory
+        }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.spAssessResponse, newAssessResponse) as ecat.entity.ISpAssess;
+    }
 }

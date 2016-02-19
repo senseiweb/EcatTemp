@@ -739,7 +739,7 @@
     <TypeScriptCompile Include="app\core\service\requestAuthenicator.ts" />
     <TypeScriptCompile Include="app\core\features\userViews\dashboard.ts" />
     <TypeScriptCompile Include="app\core\features\userViews\profile.ts" />
-    <TypeScriptCompile Include="app\core\service\utility.ts" />
+    <TypeScriptCompile Include="app\core\service\scoring.ts" />
     <TypeScriptCompile Include="app\courseAdmin\config\cfgcourseAdmin.ts" />
     <TypeScriptCompile Include="app\courseAdmin\config\statesCourseAdmin.ts" />
     <TypeScriptCompile Include="app\courseAdmin\courseAdmin.ts" />
