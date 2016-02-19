@@ -139,7 +139,7 @@ export default class EcStudentAssessments {
 
 
     isolateSelf(): void {
-        var i = this.activeGroupMember.groupPeers.length;
+
 
         this.peers = this.activeGroupMember.groupPeers.filter(peer => {
             if (peer.id === this.activeGroupMember.id) {
