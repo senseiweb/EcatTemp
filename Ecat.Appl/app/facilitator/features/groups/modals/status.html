@@ -18,7 +18,19 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="groupMember in viewStatus.groups.groupMembers | orderBy: 'student.person.LastName' track by groupMember.id">
+        <tr ng-repeat="status in viewStatus.spStatuses | orderBy:'status.groupMember.student.person.LastName' track by status.groupMember.id">
+            <td>{{status.groupMember.student.person.mpRank}} {{status.groupMember.student.person.LastName}}, {{status.groupMember.student.person.FirstName}}</td>
+            <td ng-if="status.selfComplete"><i class="zmdi zmdi-check"></i></td>
+            <td class="error" ng-if="!status.selfComplete">X</td>
+            <td ng-if="status.peersComplete==groups.peersTotal"><i class="zmdi zmdi-check"></i></td>
+            <td class="error" ng-if="status.peersComplete!==(groups.group.groupMembers.length - 1)">{{status.peersComplete}}/{{(groups.group.groupMembers.length - 1)}}</td>
+            <td ng-if="status.stratsComplete==groups.group.groupMembers.length"><i class="zmdi zmdi-check"></i></td>
+            <td class="error" ng-if="status.stratsComplete!==groups.group.groupMembers.length">{{status.stratsComplete}}/{{groups.group.groupMembers.length}}</td>
+            <td>{{status.groupMember.authorOfComments.length}}</td>
+            <td>HE:{{status.hEGiven}} E:{{status.eGiven}} IE:{{status.iEGiven}} ND:{{status.nDGiven}}</td>
+        </tr>
+
+        <!--<tr ng-repeat="groupMember in viewStatus.groups.groupMembers | orderBy: 'student.person.LastName' track by groupMember.id">
             <td>{{groupMember.student.person.mpRank}} {{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</td>
             <td ng-if="groupMember.selfComplete"><i class="zmdi zmdi-check"></i></td>
             <td class="error" ng-if="!groupMember.selfComplete">X</td>
@@ -28,45 +40,15 @@
             <td class="error" ng-if="groupMember.stratsComplete!=groups.groupMembers.length">{{groupMember.stratsComplete}}/{{groups.groupMembers.length}}</td>
             <td>{{groupMember.authorOfComments.length}}</td>
             <td>HE:{{groupMember.hEGiven}} E:{{groupMember.eGiven}} IE:{{groupMember.iEGiven}} ND:{{groupMember.nDGiven}}</td>
-        </tr>
+        </tr>-->
+
+
         <!--<tr>
             <td>MSgt Longname, Testlongname</td>
             <td><i class="zmdi zmdi-check"></i></td>
             <td><i class="zmdi zmdi-check"></i></td>
             <td><i class="zmdi zmdi-check"></i></td>
             <td>0</td>
-            <td>HE:5 E:10 IE:3 ND:4</td>
-        </tr>
-        <tr>
-            <td>MSgt Doe, John</td>
-            <td class="error">Incomplete</td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td class="error">7/10</td>
-            <td>3</td>
-            <td>HE:5 E:10 IE:3 ND:4</td>
-        </tr>
-        <tr>
-            <td>MSgt Doe, John</td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td class="error">7/9</td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td>3</td>
-            <td>HE:5 E:10 IE:3 ND:4</td>
-        </tr>
-        <tr>
-            <td>MSgt Doe, John</td>
-            <td class="error">Incomplete</td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td>3</td>
-            <td>HE:5 E:10 IE:3 ND:4</td>
-        </tr>
-        <tr>
-            <td>MSgt Doe, John</td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td><i class="zmdi zmdi-check"></i></td>
-            <td>3</td>
             <td>HE:5 E:10 IE:3 ND:4</td>
         </tr>
         <tr>

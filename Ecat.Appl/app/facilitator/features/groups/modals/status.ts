@@ -1,26 +1,31 @@
 ﻿import IDataCtx from "core/service/data/context"
+import IScoringService from "core/service/scoring"
 import * as AppVar from "appVars"
 
 export default class EcFacViewStatusModal {
     static controllerId = 'app.facilitator.features.groups.viewStatus';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId, 'selectedGroup'];
+    static $inject = ['$uibModalInstance', IDataCtx.serviceId, IScoringService.serviceId, 'selectedGroup'];
 
     nf: angular.IFormController;
 
-    group: Ecat.Shared.Model.WorkGroup;
+    group: ecat.entity.IWorkGroup;
     groupMembers: ecat.entity.IMemberInGroup[] = [];
     //students = [];
-    peersTotal: number;
+    //peersTotal: number;
+    spStatuses: ecat.IStudentSpStatus[] = [];
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private selectedGroup: Ecat.Shared.Model.WorkGroup) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private scoreService: IScoringService, private selectedGroup: ecat.entity.IWorkGroup) {
+        this.group = selectedGroup;
+        this.spStatuses = this.scoreService.calcStudentSpStatus(this.group);
+
         //this.group = selectedGroup;
-        this.peersTotal = 9;//this.group.members.length - 1;
-        const self = this;
+        //this.peersTotal = 9;//this.group.members.length - 1;
+        //const self = this;
 
         //this.dCtx.mock.getFacGroupDetails().then(recGroupDetails);
-        function recGroupDetails(data: Array<ecat.entity.IMemberInGroup>) {
-            self.groupMembers = data;
-        }
+        //function recGroupDetails(data: Array<ecat.entity.IMemberInGroup>) {
+        //    self.groupMembers = data;
+        //}
 
 
 

@@ -50,7 +50,8 @@
 <div class="row">
     <div class="col-md-12 text-center">
         <ul class="pagination">
-            <li class="active"><a href="#">1</a></li>
+            <li ng-repeat="inventory in assessAdd.instrument.inventoryCollection | orderBy:'inventory.displayOrder' track by inventory.id" ng-class="{active: assessAdd.inventorycomplete}" ng-click="assessAdd.activeInventory=invetory.id"></li>
+            <!--<li class="active"><a href="#">1</a></li>
             <li><a href="#">2</a></li>
             <li><a href="#">3</a></li>
             <li><a href="#">4</a></li>
@@ -59,7 +60,7 @@
             <li><a href="#">7</a></li>
             <li><a href="#">8</a></li>
             <li><a href="#">9</a></li>
-            <li><a href="#">10</a></li>
+            <li><a href="#">10</a></li>-->
         </ul>
     </div>
 </div>
