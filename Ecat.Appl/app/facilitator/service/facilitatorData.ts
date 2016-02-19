@@ -1,7 +1,5 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import IMockRepo from "core/service/data/mock"
-import * as IGroupMemberExt from "core/config/entityExtension/groupMember"
-//import * as IGroupExt from "core/config/entityExtension/group"
 import * as AppVar from 'appVars'
 
 interface IFaciliatorApiResources extends ecat.IApiResources {
@@ -105,8 +103,8 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
         }
 
         return this.query.from(api.getGroupById.resource.name)
+            .where(predicate)
             .using(this.manager)
-            .withParameters({ groupId: this.activeGroupId })
             .execute()
             .then(getFullGrpByIdResponse)
             .catch(this.queryFailed);

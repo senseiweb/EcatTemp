@@ -15,22 +15,35 @@ namespace Ecat.Shared.DbManager.Config
             Property(p => p.FacilitatorInstructions).IsMaxLength();
             Property(p => p.SelfInstructions).IsMaxLength();
             Property(p => p.PeerInstructions).IsMaxLength();
+            HasMany(p => p.AssignedGroups)
+                .WithOptional(p => p.AssignedSpInstr)
+                .HasForeignKey(p => p.AssignedSpInstrId)
+                .WillCascadeOnDelete(false);
         }
     }
 
-    public  class ConfigKcInstrument : EntityTypeConfiguration<KcInstrument>
+    public class ConfigKcInstrument : EntityTypeConfiguration<KcInstrument>
     {
         public ConfigKcInstrument()
         {
             Property(p => p.Instructions).IsMaxLength();
+            HasMany(p => p.AssignedGroups)
+                .WithOptional(p => p.AssignedKcInstr)
+                .HasForeignKey(p => p.AssignedKcInstrId)
+                .WillCascadeOnDelete(false);
         }
     }
 
-    public  class ConfigCogInstrument : EntityTypeConfiguration<CogInstrument>
+
+    public class ConfigCogInstrument : EntityTypeConfiguration<CogInstrument>
     {
         public ConfigCogInstrument()
         {
             Property(p => p.CogInstructions).IsMaxLength();
+            //HasMany(p => p.AssignedGroups)
+            //    .WithOptional(p => p.)
+            //    .HasForeignKey(p => p.AssignedKcInstrId)
+            //    .WillCascadeOnDelete(false);
 
         }
     }

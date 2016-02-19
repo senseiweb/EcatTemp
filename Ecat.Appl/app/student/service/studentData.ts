@@ -1,5 +1,5 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
-import IMockRepo from "core/service/data/mock"
+import * as IMemInGrpExt from "core/config/entityExtension/memberInGroup"
 import * as AppVar from 'appVars'
 
 interface IStudentApiResources extends ecat.IApiResources {
@@ -45,7 +45,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     };
 
     constructor(inj) {
-        super(inj, 'Student Data Service', AppVar.EcMapApiResource.student, []);
+        super(inj, 'Student Data Service', AppVar.EcMapApiResource.student, [IMemInGrpExt.memberInGrpEntityExt]);
         this.loadManager(this.studentApiResources);
     }
 
@@ -72,6 +72,8 @@ export default class EcStudentRepo extends IUtilityRepo {
                 if (crseMem.studGroupEnrollments) {
                     crseMem.studGroupEnrollments.forEach(grp => {
                         api.getCourseGroupMembers.resource.isLoaded[grp.id] = true;
+                        grp.getMigStatus();
+                        console.log(grp.statusOfPeer);
                     });
 
                     api.getCourseGroupMembers.resource.isLoaded[crseMem.courseId] = true;

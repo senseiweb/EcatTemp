@@ -6,10 +6,6 @@
 export default class EcScoreService {
     static serviceId = 'core.score';
 
-    constructor(inj: angular.auto.IInjectorService) {
-
-    }
-
     calcAssesseeComposites(groupMember: Ecat.Shared.Model.MemberInGroup): Array<ecat.IAssesseeComposite> {
         var compositeCollection: Array<ecat.IAssesseeComposite>;
 
@@ -40,7 +36,7 @@ export default class EcScoreService {
             });
 
             //get the average score
-            assesseeComposite.overall = assesseeComposite.overall / groupMember.group.spInstrument.inventoryCollection.length;
+            assesseeComposite.overall = assesseeComposite.overall / groupMember.group.assignedSpInstr.inventoryCollection.length;
 
             compositeCollection.push(assesseeComposite);
         });
@@ -51,7 +47,7 @@ export default class EcScoreService {
     calcInventoryOveralls(groupMember: Ecat.Shared.Model.MemberInGroup): Array<ecat.IInventoryWithOveralls> {
         var iwoCollection: Array<ecat.IInventoryWithOveralls>;
         //set up an IWO object for each inventory
-        groupMember.group.spInstrument.inventoryCollection.forEach(inv => {
+        groupMember.group.assignedSpInstr.inventoryCollection.forEach(inv => {
             var invWithOv: ecat.IInventoryWithOveralls;
             invWithOv.inventory = inv;
             invWithOv.self = '';
@@ -116,21 +112,21 @@ export default class EcScoreService {
 
         //get all the facilitator assess responses for the passed in member and do the same we did with the peer responses
         //will this only have the responses for the passed in member? not sure...
+
         var facAssess = groupMember.group.facSpResponses.filter(resp => {
             if (resp.assesseeId === groupMember.id) {
                 return true;
             }
-
-            return false;
+           return false;
         });
 
-        facAssess.forEach(resp => {
-            iwoCollection.forEach(iwo => {
-                if (resp.relatedInventoryId === iwo.inventory.id) {
-                    iwo.fac = this.getResultString(resp.itemResponseScore);
-                }
-            });
-        });
+        //facAssess.forEach(resp => {
+        //    iwoCollection.forEach(iwo => {
+        //        if (resp.relatedInventoryId === iwo.inventory.id) {
+        //            iwo.fac = this.getResultString(resp.itemResponseScore);
+        //        }
+        //    });
+        //});
 
         //groupMember.group.spInstrument.inventoryCollection.forEach(inv => {
         //    var invWithOv: IInventoryWithOveralls;
@@ -232,7 +228,7 @@ export default class EcScoreService {
 
             //see if the amount of responses this member did per peer is the same as the amount of inventories on this group's instrument
             respPerPeerCollection.forEach(rpp => {
-                if (rpp.respCount === group.spInstrument.inventoryCollection.length) {
+                if (rpp.respCount === group.assignedSpInstr.inventoryCollection.length) {
                     if (rpp.peer.id === gm.id) {
                         spStatus.selfComplete = true;
                     } else {

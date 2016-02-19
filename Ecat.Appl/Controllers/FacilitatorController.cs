@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Breeze.WebApi2;
 using Ecat.Appl.Utilities;
+using Ecat.Fac.Core.Interface;
 using Ecat.Shared.Model;
-using FacCore.Interface;
 
 namespace Ecat.Appl.Controllers
 {
@@ -35,9 +35,15 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
-        public async Task<List<MemberInCourse>> GetInitalCourses()
+        public  IQueryable<MemberInCourse> GetInitalCourses()
         {
-            return await _facLogic.GetCrsesWithLastestGrpMem();
+            return  _facLogic.GetCrsesWithLastestGrpMem();
+        }
+
+        [HttpGet]
+        public IQueryable<MemberInGroup> GetWorkGroupData()
+        {
+            return _facLogic.GetWorkGroupById();
         }
     }
 }

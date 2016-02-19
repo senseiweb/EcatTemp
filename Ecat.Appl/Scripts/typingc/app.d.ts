@@ -25,7 +25,7 @@ declare module 'systemCfg' {
 }
 
 declare module ecat {
-
+    
     interface ILocalToken {
         userEmail: string;
         password: string;
@@ -181,6 +181,34 @@ declare module ecat {
     }
 
     
+}
+
+
+declare module ecat.entity.ext {
+    interface ISpStatusBreakOut {
+        highEff: number;    
+        eff: number;
+        ineff: number;
+        nd: number;
+    }
+
+    interface IMemberInGrpSpStatus {
+        assessComplete: boolean;
+        isPeerAllComplete: boolean;
+        stratComplete: boolean;
+        breakout: ISpStatusBreakOut;
+        missingAssessItems: Array<number>;
+        compositeScore: number;
+    }
+
+    interface IStatusOfPeer {
+        [peerId: number]: IMemberInGrpSpStatus;
+    }
+
+    interface IMemberInGrpExt {
+        getMigStatus(): void;
+        statusOfPeer: IStatusOfPeer;
+    }
 }
 
 declare module ecat.local

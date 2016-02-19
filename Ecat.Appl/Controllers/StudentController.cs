@@ -10,7 +10,8 @@ using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
 using Ecat.Appl.Utilities;
 using Ecat.Shared.Model;
-using Ecat.Student.Core.Interface;
+using Ecat.Stud.Core.Interface;
+using Ecat.Stud.Core.Interface;
 
 namespace Ecat.Appl.Controllers
 {

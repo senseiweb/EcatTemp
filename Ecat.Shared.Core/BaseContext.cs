@@ -32,6 +32,14 @@ namespace Ecat.Shared.Core
                 .Where(type => type.Name.StartsWith("Ec"))
                 .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
 
+            mb.Types()
+                 .Where(t => typeof(ISoftDelete).IsAssignableFrom(t))
+                 .Configure(p => p.Ignore("DeletedById"));
+
+            mb.Types()
+                .Where(t => typeof(ISoftDelete).IsAssignableFrom(t))
+                .Configure(p => p.Ignore("DeletedDate"));
+
             mb.Ignore<Academy>();
 
             mb.Ignore<AcademyCategory>();

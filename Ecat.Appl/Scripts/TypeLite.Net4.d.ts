@@ -89,7 +89,7 @@ declare module Ecat.Shared.Model {
 		facStratResponses: Ecat.Shared.Model.FacSpStratResponse[];
 		facSpComments: Ecat.Shared.Model.FacSpComment[];
 		groupMembers: Ecat.Shared.Model.MemberInGroup[];
-		spInstrument: Ecat.Shared.Model.SpInstrument;
+		assignedSpInstr: Ecat.Shared.Model.SpInstrument;
 		modifiedById: number;
 		modifiedDate: Date;
 	}
@@ -181,12 +181,13 @@ declare module Ecat.Shared.Model {
 		spResultScore: number;
 		resultFor: Ecat.Shared.Model.MemberInGroup;
 		assignedInstrument: Ecat.Shared.Model.SpInstrument;
-		santizedResponses: Ecat.Shared.Model.SantizedResponse[];
-		santizedComments: Ecat.Shared.Model.SantizedComment[];
+		sanitizedResponses: Ecat.Shared.Model.SanitizedResponse[];
+		sanitizedComments: Ecat.Shared.Model.SanitizedComment[];
 	}
-	interface SantizedResponse {
+	interface SanitizedResponse {
 		id: number;
 		isInstructorResponse: boolean;
+		isSelfResponse: boolean;
 		peerGenericName: string;
 		mpItemResponse: string;
 		itemModelScore: number;
@@ -195,7 +196,7 @@ declare module Ecat.Shared.Model {
 		inventoryItem: Ecat.Shared.Model.SpInventory;
 		assessResult: Ecat.Shared.Model.SpAssessResult;
 	}
-	interface SantizedComment {
+	interface SanitizedComment {
 		id: number;
 		resultId: number;
 		authorName: string;

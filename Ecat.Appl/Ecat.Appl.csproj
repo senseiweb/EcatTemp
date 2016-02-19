@@ -704,7 +704,7 @@
     <TypeScriptCompile Include="app\core\config\cfgState.ts" />
     <TypeScriptCompile Include="app\admin\config\statesAdmin.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\group.ts" />
-    <TypeScriptCompile Include="app\core\config\entityExtension\groupMember.ts" />
+    <TypeScriptCompile Include="app\core\config\entityExtension\memberInGroup.ts" />
     <TypeScriptCompile Include="app\core\config\statesCore.ts" />
     <TypeScriptCompile Include="app\core\config\entityExtension\person.ts" />
     <TypeScriptCompile Include="app\core\config\cfgCore.ts" />
@@ -811,6 +811,10 @@
       <Project>{A5301B78-3FC4-4625-A992-70E525B858C6}</Project>
       <Name>Ecat.Admin.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecat.Fac.Core\Ecat.Fac.Core.csproj">
+      <Project>{4B57E312-1FA8-4676-AD8C-161C480B9989}</Project>
+      <Name>Ecat.Fac.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
       <Project>{1BDCA966-E353-47FC-88C4-7C5A53FAF125}</Project>
       <Name>Ecat.Shared.Core</Name>
@@ -823,17 +827,13 @@
       <Project>{D7906F63-E656-4B40-9DCB-800819EFF9FF}</Project>
       <Name>Ecat.Shared.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecat.Student.Core\Ecat.Student.Core.csproj">
-      <Project>{A2A10AD6-98C5-428B-8FD5-F414D4DC1FC1}</Project>
-      <Name>Ecat.Student.Core</Name>
+    <ProjectReference Include="..\Ecat.Stud.Core\Ecat.Stud.Core.csproj">
+      <Project>{a2a10ad6-98c5-428b-8fd5-f414d4dc1fc1}</Project>
+      <Name>Ecat.Stud.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecat.Users.Core\Ecat.Users.Core.csproj">
       <Project>{a522515a-0b79-473b-a021-79674362500b}</Project>
       <Name>Ecat.Users.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FacCore\FacCore.csproj">
-      <Project>{4b57e312-1fa8-4676-ad8c-161c480b9989}</Project>
-      <Name>FacCore</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

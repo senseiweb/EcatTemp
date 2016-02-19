@@ -23,8 +23,8 @@ namespace Ecat.Shared.Model
         public ICollection<FacSpComment> FacSpComments { get; set; }
         public ICollection<MemberInGroup> GroupMembers { get; set; }
 
-        public SpInstrument SpInstrument { get; set; }
-        //public KcInstrument KcInstrument { get; set; }
+        public SpInstrument AssignedSpInstr { get; set; }
+        public KcInstrument AssignedKcInstr { get; set; }
 
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
