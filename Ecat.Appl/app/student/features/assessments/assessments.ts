@@ -3,19 +3,24 @@ import IDataCtx from 'core/service/data/context';
 import IAssessmentAdd from 'core/features/assessView/modals/add'
 import IAssessmentEdit from 'core/features/assessView/modals/edit'
 import ICommentAe from 'core/features/assessView/modals/comment'
+import * as AppVars from "appVars"
 
 //import {EcMapGender as gender} from "appVars"
 
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
+    appVar = AppVars;
+
     stratInputVis;
 
     isResultPublished = false;
 
     activeCourseMember: ecat.entity.ICourseMember;
-    //activeGroupMember: ecat.entity.IGroupMember;
-    activeGroupMember: Ecat.Shared.Model.MemberInGroup;
+    activeGroupMember: ecat.entity.IMemberInGroup;
+    //activeGroupMember: Ecat.Shared.Model.MemberInGroup;
+    studentSelf: ecat.entity.IMemberInGroup;
+    peers: ecat.entity.IMemberInGroup[];
 
     addModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IAssessmentAdd.controllerId,
@@ -61,8 +66,7 @@ export default class EcStudentAssessments {
     logError = this.c.logSuccess('Assessment Center');
 
     courseEnrollments: ecat.entity.ICourseMember[] = [];
-    groups: Ecat.Shared.Model.MemberInGroup[] = [];
-    //groups: ecat.entity.IGroupMember[] = [];
+    groups: ecat.entity.IMemberInGroup[] = [];
 
     radioEffectiveness: string;
     radioFreq: string;
@@ -97,6 +101,7 @@ export default class EcStudentAssessments {
                 this.groups = this.groups.sort(self.sortByCategory);
                 this.activeGroupMember = this.groups[0];
                 self.checkIfPublished();
+                self.isolateSelf();
 
             })
             .catch(courseError);
@@ -113,7 +118,7 @@ export default class EcStudentAssessments {
         
 
         function sortByDate(first: ecat.entity.ICourseMember, second: ecat.entity.ICourseMember) {
-            if (first.course.startDate == second.course.startDate) {
+            if (first.course.startDate === second.course.startDate) {
                 return 0;
             }
 
@@ -131,14 +136,30 @@ export default class EcStudentAssessments {
 
     }
 
+
+
+    isolateSelf(): void {
+        var i = this.activeGroupMember.groupPeers.length;
+
+        this.peers = this.activeGroupMember.groupPeers.filter(peer => {
+            if (peer.id === this.activeGroupMember.id) {
+                this.studentSelf = peer;
+                return false;
+            }
+            return true;
+        });
+
+ 
+    }
+
     checkIfPublished(): void {
-        if (this.activeGroupMember.group.mpSpStatus === this.c.appVar.MpSpStatus.published) {
+        if (this.activeGroupMember.group.mpSpStatus === AppVars.MpSpStatus.published) {
             this.isResultPublished = true;
         }
     }
 
     sortByCategory(first: Ecat.Shared.Model.MemberInGroup, second: Ecat.Shared.Model.MemberInGroup): number {
-    if (first.group.mpSpStatus === this.c.appVar.MpSpStatus.open) {
+    if (first.group.mpSpStatus === AppVars.MpSpStatus.published) {
         return -1;
 
     } else {
@@ -153,14 +174,14 @@ export default class EcStudentAssessments {
         this.groups = this.activeCourseMember.studGroupEnrollments;
         this.groups = this.groups.sort(this.sortByCategory);
         this.activeGroupMember = this.groups[0];
+        this.isolateSelf();
 
     }
 
-    setActiveGroup(groupMember: Ecat.Shared.Model.MemberInGroup): void {
+    setActiveGroup(groupMember: ecat.entity.IMemberInGroup): void {
         this.activeGroupMember = groupMember;
-    
+        this.isolateSelf();
     }
-
 
     addAssessment(): void {
         this.uiModal.open(this.addModalOptions)

@@ -34,12 +34,12 @@ declare module Ecat.Shared.Model {
 		modifiedDate: Date;
 	}
 	interface Student extends Ecat.Shared.Model.Profile {
-		person: Ecat.Shared.Model.Person;
 		contactNumber: string;
 		commander: string;
 		shirt: string;
 		commanderEmail: string;
 		shirtEmail: string;
+		person: Ecat.Shared.Model.Person;
 		groupPersonas: Ecat.Shared.Model.MemberInGroup[];
 		coursePersonas: Ecat.Shared.Model.MemberInCourse[];
 	}
@@ -85,7 +85,7 @@ declare module Ecat.Shared.Model {
 		mpSpStatus: string;
 		isPrimary: boolean;
 		course: Ecat.Shared.Model.Course;
-		facSpReponses: Ecat.Shared.Model.FacSpAssessResponse[];
+		facSpResponses: Ecat.Shared.Model.FacSpAssessResponse[];
 		facStratResponses: Ecat.Shared.Model.FacSpStratResponse[];
 		facSpComments: Ecat.Shared.Model.FacSpComment[];
 		groupMembers: Ecat.Shared.Model.MemberInGroup[];
@@ -100,6 +100,7 @@ declare module Ecat.Shared.Model {
 		name: string;
 		classNumber: string;
 		term: string;
+		gradReportPublished: boolean;
 		startDate: Date;
 		gradDate: Date;
 		courseMembers: Ecat.Shared.Model.MemberInCourse[];
@@ -176,10 +177,32 @@ declare module Ecat.Shared.Model {
 		id: number;
 		resultForId: number;
 		assignedInstrumentId: number;
-		mpSpResult: string;
-		mpSpResultScore: string;
+		mpStudentSpResult: string;
+		spResultScore: number;
 		resultFor: Ecat.Shared.Model.MemberInGroup;
 		assignedInstrument: Ecat.Shared.Model.SpInstrument;
+		santizedResponses: Ecat.Shared.Model.SantizedResponse[];
+		santizedComments: Ecat.Shared.Model.SantizedComment[];
+	}
+	interface SantizedResponse {
+		id: number;
+		isInstructorResponse: boolean;
+		peerGenericName: string;
+		mpItemResponse: string;
+		itemModelScore: number;
+		inventoryItemId: number;
+		assessResultId: number;
+		inventoryItem: Ecat.Shared.Model.SpInventory;
+		assessResult: Ecat.Shared.Model.SpAssessResult;
+	}
+	interface SantizedComment {
+		id: number;
+		resultId: number;
+		authorName: string;
+		commentText: string;
+		mpCommentFlagAuthor: string;
+		mpCommentFlagRecipient: string;
+		result: Ecat.Shared.Model.SpAssessResult;
 	}
 	interface FacSpStratResponse {
 		id: number;
@@ -241,6 +264,7 @@ declare module Ecat.Shared.Model {
 		mpItemResponse: string;
 		itemModelScore: number;
 		inventoryItem: Ecat.Shared.Model.SpInventory;
+		assessResult: Ecat.Shared.Model.SpAssessResult;
 		assessor: Ecat.Shared.Model.MemberInGroup;
 		assessee: Ecat.Shared.Model.MemberInGroup;
 		modifiedById: number;
@@ -258,6 +282,7 @@ declare module Ecat.Shared.Model {
 		mpCommentFlagRecipient: string;
 		author: Ecat.Shared.Model.MemberInGroup;
 		recipient: Ecat.Shared.Model.MemberInGroup;
+		facFlaggedBy: Ecat.Shared.Model.MemberInCourse;
 		isDeleted: boolean;
 		deletedById: number;
 		deletedDate: Date;
@@ -265,8 +290,8 @@ declare module Ecat.Shared.Model {
 		modifiedDate: Date;
 	}
 	interface Facilitator extends Ecat.Shared.Model.Profile {
-		person: Ecat.Shared.Model.Person;
 		isCourseAdmin: boolean;
+		person: Ecat.Shared.Model.Person;
 		coursePersonas: Ecat.Shared.Model.MemberInCourse[];
 	}
 	interface External extends Ecat.Shared.Model.Profile {

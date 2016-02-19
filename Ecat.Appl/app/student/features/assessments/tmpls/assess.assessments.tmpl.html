@@ -18,7 +18,7 @@
                 <tbody>
 
                 <tr class="tableBottomBorder">
-                    <td>Jason Silvers</td>
+                    <td>{{assess.studentSelf.student.person.firstName}} {{assess.studentSelf.student.person.lastName}}</td>
                     <td>
 
                         <button class="btn btn-link" ng-click="assess.addAssessment()">Add</button>
@@ -50,8 +50,35 @@
 
                 </tr>
 
-                <tr ng-repeat="stud in assess.activeGroupMember.">
-                    
+                <tr ng-repeat="peer in assess.peers track by peer.studentId">
+                    <td>{{peer.student.person.firstName}} {{peer.student.person.lastName}}</td>
+                    <td>
+
+                        <button class="btn btn-link" ng-click="assess.addAssessment()">Add</button>
+
+                    </td>
+
+                    <td ng-if="!assess.stratInputVis">
+                        <button class="btn btn-link" ng-click="assess.addComment()">View/Edit</button>
+
+                    </td>
+                    <td ng-if="assess.stratInputVis">
+                        <table>
+                            <tr>
+                                <td>E: 4</td>
+                                <td>AE: 4</td>
+                                <td>HE: 2</td>
+                            </tr>
+                        </table>
+                    </td>
+
+                    <td>3</td>
+
+                    <td ng-if="assess.stratInputVis" style="width: 120px">
+                        <input class="form-control" id="inputError1" type="text" style="width: 100px">
+                    </td>
+
+                    <td><label class="control-label" for="inputError1">Duplicate Value!</label></td>
                 </tr>
                 </tbody>
             </table>

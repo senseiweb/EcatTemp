@@ -6,7 +6,7 @@ import IAssessmentEdit from 'core/features/assessView/modals/edit'
 import ICommentAe from 'core/features/assessView/modals/comment'
 import ICSD from "facilitator/features/groups/modals/capstonestudentdetail"
 
-interface IInventoryWithOveralls {
+export interface IInventoryWithOveralls {
     inventory: Ecat.Shared.Model.SpInventory;
     self: string;
     peerOverall: string;
@@ -120,11 +120,11 @@ export default class EcInstructorGroups {
         this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
 
         //if (this.selectedGroup.id !== selected.id && this.selectedGroup.groupMembers.length === 0) {
-            //this.dCtx.facilitator.getGroupData(false)
-            //    .then((retData: ecat.entity.IWorkGroup) => {
-            //        this.selectedGroup = retData;
-            //        this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
-            //    });
+        //    this.dCtx.facilitator.getGroupData(false)
+        //        .then((retData: ecat.entity.IWorkGroup) => {
+        //            this.selectedGroup = retData;
+        //            this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
+        //        });
         //}
     }
 
@@ -169,7 +169,7 @@ export default class EcInstructorGroups {
 
             invWithOv.peerOverall = this.getResultString(peerAggregate / (this.selectedGroup.groupMembers.length - 1));
 
-            this.selectedStudent.group.facSpReponses.forEach(spr => {
+            this.selectedStudent.group.facSpResponses.forEach(spr => {
                 if (spr.relatedInventoryId === inv.id) {
                     if (spr.assesseeId === this.selectedStudent.id) {
                         invWithOv.fac = this.getResultString(spr.itemResponseScore);

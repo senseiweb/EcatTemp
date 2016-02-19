@@ -32,3 +32,4 @@ module Ecat.Shared.Model {
 		RefOnly = 7
 	}
 }
+
