@@ -13,7 +13,7 @@ using Ecat.Shared.Model;
 namespace Ecat.Appl.Controllers
 {
     [BreezeController]
-    [EcatRolesAuthorized(Is = new[] { RoleMap.Facilitator })]
+    //[EcatRolesAuthorized(Is = new[] { RoleMap.Facilitator })]
     public class FacilitatorController : EcatApiController
     {
         private readonly IFacLogic _facLogic;
@@ -41,9 +41,10 @@ namespace Ecat.Appl.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IQueryable<MemberInGroup> GetWorkGroupData()
         {
-            return _facLogic.GetWorkGroupById();
+            return _facLogic.GetMemberGroupById();
         }
     }
 }

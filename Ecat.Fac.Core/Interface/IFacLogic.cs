@@ -8,6 +8,6 @@ namespace Ecat.Fac.Core.Interface
         Person Facilitator { get; set; }
         string GetMetadata { get; }
         IQueryable<MemberInCourse> GetCrsesWithLastestGrpMem();
-        IQueryable<MemberInGroup> GetWorkGroupById();
+        IQueryable<MemberInGroup> GetMemberGroupById();
     }
 }

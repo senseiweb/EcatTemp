@@ -120,7 +120,7 @@ export default class EcInstructorGroups {
         this.selectedGroup = selected;
         this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
 
-        this.dCtx.facilitator.getFullGroupById();
+        this.dCtx.facilitator.getMemberByGroupId();
 
         switch (type) {
             case 'status':

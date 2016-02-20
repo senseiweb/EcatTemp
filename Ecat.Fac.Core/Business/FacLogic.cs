@@ -20,11 +20,11 @@ namespace Ecat.Fac.Core.Business
         public IQueryable<MemberInCourse> GetCrsesWithLastestGrpMem()
         {
             return _repo.GetCrseMembership
-                .Where(crseMem => crseMem.PersonId == Facilitator.PersonId)
+                .Where(crseMem => crseMem.PersonId == 128)
                 .Include(crse => crse.Course.Groups);
         }
 
-        public IQueryable<MemberInGroup> GetWorkGroupById()
+        public IQueryable<MemberInGroup> GetMemberGroupById()
         {
             return _repo.GetAllWorkGroupData;
 
