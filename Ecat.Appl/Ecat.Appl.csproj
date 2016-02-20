@@ -810,11 +810,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Admin.Core\Ecat.Admin.Core.csproj">
-      <Project>{A5301B78-3FC4-4625-A992-70E525B858C6}</Project>
+      <Project>{a5301b78-3fc4-4625-a992-70e525b858c6}</Project>
       <Name>Ecat.Admin.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecat.Designer.Core\Ecat.Designer.Core.csproj">
+      <Project>{7a7b6022-4f72-4c35-8d8d-2364e60bd02f}</Project>
+      <Name>Ecat.Designer.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ecat.Fac.Core\Ecat.Fac.Core.csproj">
-      <Project>{4B57E312-1FA8-4676-AD8C-161C480B9989}</Project>
+      <Project>{4b57e312-1fa8-4676-ad8c-161c480b9989}</Project>
       <Name>Ecat.Fac.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">

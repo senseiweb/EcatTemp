@@ -113,7 +113,7 @@ export default class EcScoreService {
         //get all the facilitator assess responses for the passed in member and do the same we did with the peer responses
         //will this only have the responses for the passed in member? not sure...
 
-        var facAssess = groupMember.group.facSpResponses.filter(resp => {
+        var facAssess = groupMember.group.facSpReponses.filter(resp => {
             if (resp.assesseeId === groupMember.id) {
                 return true;
             }
