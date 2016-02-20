@@ -215,7 +215,7 @@ export default class EcStudentAssessments {
 
     addComment(recipientId: number): void {
 
-        this.addModalOptions.resolve = {
+        this.commentModalOptions.resolve = {
             recipientId: () => recipientId,
             authorId: () => this.studentSelf.id
     };

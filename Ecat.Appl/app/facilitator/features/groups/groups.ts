@@ -329,7 +329,7 @@ export default class EcInstructorGroups {
     }
 
     editAssessment(assessee: Ecat.Shared.Model.MemberInGroup): void {
-        var spResponses = this.selectedGroup.facSpResponses.filter(resp => {
+        var spResponses = this.selectedGroup.facSpReponses.filter(resp => {
             if (resp.assesseeId === assessee.id) {
                 return true;
             }

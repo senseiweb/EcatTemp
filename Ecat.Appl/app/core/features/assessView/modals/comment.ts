@@ -4,7 +4,7 @@ import * as appVars from "appVars"
 
 export default class EcAssessmentAddCommentForm {
     static controllerId = 'app.core.assessment.comment';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId,ICommon.serviceId,'recipientId', 'authorId'];
+    static $inject = ['$uibModalInstance', IDataCtx.serviceId, ICommon.serviceId, 'recipientId', 'authorId'];
 
     comment: ecat.entity.ISpComment;
     recipientName: string;
@@ -22,7 +22,6 @@ export default class EcAssessmentAddCommentForm {
     radioComment: string;
 
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private recipientId: number, private authorId: number) {
-
 
 
         console.log(recipientId);

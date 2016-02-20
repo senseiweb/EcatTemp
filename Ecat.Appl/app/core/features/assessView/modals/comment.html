@@ -14,7 +14,7 @@
                            name="to"
                            id="to"
                            value = "{{commentAe.recipientName}}"
-                           class="form-control fg-input"
+                           class="form-control fg-input f-18"
                            disabled/>
                 </div>
             </div>
@@ -28,13 +28,15 @@
             <label for="from" class="control-label col-md-1">From:</label>
             <div class="col-md-8">
                 <div class="fg-line">
-                    <select ng-model="commentAe.comment.mpCommentType"
-                            name="from"
-                            required
-                            class="form-control input-lg fg-input">
-                        <option selected value="commentAe.commentType.signed">{{commentAe.recipientName}}</option>
-                        <option value="commentAe.commentType.anon">Annonymous</option>
-                    </select>
+                    <div class="select">
+                        <select ng-model="commentAe.comment.mpCommentType"
+                                name="from"
+                                required
+                                class="form-control input-lg fg-input">
+                            <option value="commentAe.commentType.signed">{{commentAe.authorName}}</option>
+                            <option value="commentAe.commentType.anon">Annonymous</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">

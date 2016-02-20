@@ -87,7 +87,7 @@ declare module Ecat.Shared.Model {
         facStratResponses: Ecat.Shared.Model.FacSpStratResponse[];
         facSpComments: Ecat.Shared.Model.FacSpComment[];
         groupMembers: Ecat.Shared.Model.MemberInGroup[];
-        spInstrument: Ecat.Shared.Model.SpInstrument;
+        assignedSpInstr: Ecat.Shared.Model.SpInstrument;
         modifiedById: number;
         modifiedDate: Date;
     }

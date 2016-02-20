@@ -152,7 +152,7 @@ export default class EcUserProfile {
             self.showFacilitator = !!self.user.facilitator;
             self.showExternal = !!self.user.external;
             self.showHq = !!self.user.hqStaff;
-            self.aboutMeText = self.user.profile.bio;
+            //self.aboutMeText = self.user.profile.bio;
         }
 
         function getProfileError(error: any) {

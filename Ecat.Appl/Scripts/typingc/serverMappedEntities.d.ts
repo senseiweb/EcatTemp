@@ -57,6 +57,7 @@ declare module ecat.entity
 
     interface IWorkGroup extends breeze.Entity, Ecat.Shared.Model.WorkGroup {
         groupMembers: IMemberInGroup[];
+   
     }
 
     interface ICourse extends breeze.Entity, Ecat.Shared.Model.Course {}
