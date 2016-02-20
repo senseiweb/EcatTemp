@@ -13,7 +13,7 @@
                     <input type="text"
                            name="to"
                            id="to"
-                           ng-model="commentAe.toFullName"
+                           ng-model="commentAe.recipient"
                            class="form-control fg-input"
                            disabled/>
                 </div>
@@ -28,11 +28,11 @@
             <label for="from" class="control-label col-md-1">From:</label>
             <div class="col-md-8">
                 <div class="fg-line">
-                    <select ng-model="commentAe.isAnnonymous"
-                            name="gender"
+                    <select ng-model="commentAe.author"
+                            name="from"
                             required
                             class="form-control input-lg fg-input">
-                        <option selected value="false">Bob Anderson</option>
+                        <option selected value="false">{{commentAe.comment.authorOfComments.student.person.firstName}} {{commentAe.comment.authorOfComment.student.person.lastName}}</option>
                         <option value="true">Annonymous</option>
                     </select>
                 </div>

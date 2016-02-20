@@ -185,8 +185,9 @@ export default class EcStudentRepo extends IUtilityRepo {
         return this.manager.createEntity(AppVar.EcMapEntityType.spAssessResponse, newAssessResponse) as ecat.entity.ISpAssess;
     }
 
-    getNewComment(recipientId: number): ecat.entity.IAssessComment {
-        const loggedInUser = this.dCtx.user.persona;
+
+    /*getNewComment(recipientId: number): ecat.entity.IAssessComment {
+       const loggedInUser = this.dCtx.user.persona;
 
         const newComment = {
             authorId: loggedInUser.personId,
@@ -196,6 +197,19 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
 
         return this.manager.createEntity(this.c.appVar.EcMapEntityType.spComment, newComment) as ecat.entity.IAssessComment;
-    }  
+    }  */
+
+    getNewSpComment(author: ecat.entity.IMemberInGroup, recipient: ecat.entity.IMemberInGroup): ecat.entity.ISpComment {
+        const newComment = {
+            author: author,
+            recipient: recipient,
+            MpCommentType: this.c.appVar.MpSpComment.neut
+
+    }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;
+
+    }
+
 
 }

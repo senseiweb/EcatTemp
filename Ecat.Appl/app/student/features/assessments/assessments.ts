@@ -211,6 +211,30 @@ export default class EcStudentAssessments {
 
     }
 
+    addComment(assessee: ecat.entity.IMemberInGroup): void {
+        var newComment = this.dCtx.student.getNewSpComment(this.studentSelf, assessee);
+
+        this.addModalOptions.resolve = {
+            mode: () => 'student',
+            comment: () => newComment
+    };
+
+        this.uiModal.open(this.commentModalOptions)
+            .result
+            .then(commentSaved)
+            .catch(commentError);
+
+        function commentSaved() {
+
+        }
+
+        function commentError() {
+
+
+        }
+
+    }
+
     editAssessment(): void {
         this.uiModal.open(this.editModalOptions)
             .result
@@ -227,22 +251,7 @@ export default class EcStudentAssessments {
 
     }
 
-    addComment(): void {
-        this.uiModal.open(this.commentModalOptions)
-            .result
-            .then(commentSaved)
-            .catch(commentError);
-
-        function commentSaved() {
-
-        }
-
-        function commentError() {
-
-
-        }
-
-    }
+    
 
     get viewStrat(): boolean {
         return true;

@@ -181,6 +181,13 @@ export class EcMapEntityType {
     static spAssessResponse = 'SpAssessResponse';
 }
 
+export class MpSpComment {
+    static pos = 'positive';
+    static neg = 'negative';
+    static neut = 'neutral';
+
+}
+
 export class SweetAlertTypes {
     static success = 'success';
     static warn = 'warning';

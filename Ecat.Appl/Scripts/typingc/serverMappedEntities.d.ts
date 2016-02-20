@@ -79,8 +79,8 @@ declare module ecat.entity
 
     interface ISpAssess extends breeze.Entity, Ecat.Shared.Model.SpAssessResponse { }
 
-    interface IAssessComment extends breeze.Entity, Ecat.Shared.Model.SpComment {}
-
     interface ISpAssessResponse extends breeze.Entity, Ecat.Shared.Model.SpAssessResponse {}
 
+    interface ISpComment extends breeze.Entity, Ecat.Shared.Model.SpComment {
+    }
 }
