@@ -184,7 +184,7 @@ export default class EcStudentAssessments {
 
     addAssessment(assessee: ecat.entity.IMemberInGroup): void {
         var spResponses: ecat.entity.ISpAssess[] = [];
-        this.activeGroupMember.group.spInstrument.inventoryCollection.forEach(inv => {
+        this.activeGroupMember.group.assignedSpInstr.inventoryCollection.forEach(inv => {
             var newResponse = this.dCtx.student.getNewSpAssessResponse(this.activeGroupMember, assessee, inv);
             spResponses.push(newResponse);
         });

@@ -120,6 +120,8 @@ export default class EcInstructorGroups {
         this.selectedGroup = selected;
         this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
 
+        this.dCtx.facilitator.getFullGroupById();
+
         switch (type) {
             case 'status':
                 //this.spStatuses = this.scoreService.calcStudentSpStatus(this.group);
@@ -301,7 +303,7 @@ export default class EcInstructorGroups {
 
     addAssessment(assessee: Ecat.Shared.Model.MemberInGroup): void {
         var spResponses: ecat.entity.IFacSpAssess[] = [];
-        this.selectedGroup.spInstrument.inventoryCollection.forEach(inv => {
+        this.selectedGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
             var newResponse = this.dCtx.facilitator.getNewFacSpAssessResponse(this.selectedGroup.id, assessee.id, inv.id);
             spResponses.push(newResponse);
         });

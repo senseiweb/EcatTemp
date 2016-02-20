@@ -80,6 +80,7 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
         }
 
         return this.manager.createEntity(AppVar.EcMapEntityType.facSpAssessResponse, newAssessResponse) as ecat.entity.IFacSpAssess;
+    }
 
     getFullGroupById(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
         let workGroup: ecat.entity.IWorkGroup;

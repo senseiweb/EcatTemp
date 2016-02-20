@@ -6,17 +6,17 @@ namespace Ecat.Shared.Model
     {
         public int Id { get; set; }
         public int AssesseeId { get; set; }
-        public int RelatedInventoryId { get; set; }
+        public int InventoryItemId { get; set; }
         public int? AssessResultId { get; set; }
         public int AssignedGroupId { get; set; }
 
-        public string MpSpItemResponse { get; set; }
-        public float ItemResponseScore { get; set; }
+        public string MpItemResponse { get; set; }
+        public float ItemModelScore { get; set; }
         public int ScoreModelVersion { get; set; }
 
         public WorkGroup AssignedGroup { get; set;  }
         public MemberInGroup Assessee { get; set; }
-        public SpInventory RelatedInventory { get; set; }
+        public SpInventory InventoryItem { get; set; }
         public SpAssessResult AssessResult { get; set; }
 
         public bool IsDeleted { get; set; }
