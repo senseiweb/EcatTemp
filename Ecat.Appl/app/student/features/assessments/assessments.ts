@@ -14,6 +14,8 @@ export default class EcStudentAssessments {
 
     stratInputVis;
 
+    hasComment = false;
+
     isResultPublished = false;
 
     activeCourseMember: ecat.entity.ICourseMember;
@@ -72,6 +74,8 @@ export default class EcStudentAssessments {
 
     user: ecat.entity.IPerson;
 
+  
+
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
@@ -82,8 +86,6 @@ export default class EcStudentAssessments {
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
         const self = this;
-
-
 
         function courseError(error: any) {
             self.logError('There was an error loading Courses', error, true);
@@ -211,12 +213,11 @@ export default class EcStudentAssessments {
 
     }
 
-    addComment(assessee: ecat.entity.IMemberInGroup): void {
-        var newComment = this.dCtx.student.getNewSpComment(this.studentSelf, assessee);
+    addComment(recipientId: number): void {
 
         this.addModalOptions.resolve = {
-            mode: () => 'student',
-            comment: () => newComment
+            recipientId: () => recipientId,
+            authorId: () => this.studentSelf.id
     };
 
         this.uiModal.open(this.commentModalOptions)

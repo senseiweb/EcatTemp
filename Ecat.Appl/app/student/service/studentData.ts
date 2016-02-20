@@ -1,6 +1,7 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import * as IMemInGrpExt from "core/config/entityExtension/memberInGroup"
 import * as AppVar from 'appVars'
+import MpCommentType = AppVar.MpCommentType;
 
 interface IStudentApiResources extends ecat.IApiResources {
     initCourses: ecat.IApiResource;
@@ -186,24 +187,15 @@ export default class EcStudentRepo extends IUtilityRepo {
     }
 
 
-    /*getNewComment(recipientId: number): ecat.entity.IAssessComment {
-       const loggedInUser = this.dCtx.user.persona;
+    getNewSpComment(recipientId: number): ecat.entity.ISpComment {
+        const loggedInUser = this.dCtx.user.persona;
 
         const newComment = {
             authorId: loggedInUser.personId,
             recipientId: recipientId,
-            mpCommentFlagAuthor: this.c.appVar.MpCommentFlag.neut,
-            mpCommentType: this.c.appVar.MpCommentType.signed
-        }
+            mpCommentFlagAuthor: AppVar.MpCommentType.signed,
+            MpCommentType: AppVar.MpSpComment.neut
 
-        return this.manager.createEntity(this.c.appVar.EcMapEntityType.spComment, newComment) as ecat.entity.IAssessComment;
-    }  */
-
-    getNewSpComment(author: ecat.entity.IMemberInGroup, recipient: ecat.entity.IMemberInGroup): ecat.entity.ISpComment {
-        const newComment = {
-            author: author,
-            recipient: recipient,
-            MpCommentType: this.c.appVar.MpSpComment.neut
 
     }
 
@@ -211,5 +203,25 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     }
 
+    getOrAddComment(recipientId: number, groupMemberId: number) {
+        const allComments = this.manager.getEntities(AppVar.EcMapEntityType.spComment) as Array<ecat.entity.ISpComment>;
+        let comment = allComments.filter(comment => comment.authorId === groupMemberId && comment.recipientId === recipientId)[0];
 
+        //Checks for null and undefined comment
+        if (comment) {
+            return comment;
+        } 
+
+        const newComment = {
+            authorId: groupMemberId,
+            recipientId: recipientId,
+            mpCommentFlagAuthor: AppVar.MpCommentType.signed,
+            MpCommentType: AppVar.MpSpComment.neut
+        }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;
+
+    }
+
+    
 }

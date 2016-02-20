@@ -29,7 +29,8 @@ export class MemberInGroupExt implements ecat.entity.ext.IMemberInGrpExt {
                 isPeerAllComplete: false,
                 missingAssessItems: [],
                 breakout: { ineff: 0, nd: 0, eff: 0, highEff: 0 },
-                compositeScore: 0
+                compositeScore: 0,
+                hasComment: false
             }
 
             const responseList = gm.assesseeSpResponses
@@ -39,6 +40,10 @@ export class MemberInGroupExt implements ecat.entity.ext.IMemberInGrpExt {
                 .filter(strat => strat.assessorId === this.id &&
                     strat.assesseeId === gm.id &&
                     (strat.stratPosition !== null || strat.stratPosition !== undefined || strat.stratPosition !== 0))[0];
+
+            migStatus.hasComment = !!gm.recipientOfComments
+                .filter(comment => comment.authorId === this.id &&
+                    comment.recipientId === gm.id)[0];
 
             const knownReponse = AppVar.EcSpItemResponse;
 

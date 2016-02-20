@@ -199,6 +199,7 @@ declare module ecat.entity.ext {
         breakout: ISpStatusBreakOut;
         missingAssessItems: Array<number>;
         compositeScore: number;
+        hasComment: boolean;
     }
 
     interface IStatusOfPeer {

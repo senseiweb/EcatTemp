@@ -13,40 +13,40 @@
                     <input type="text"
                            name="to"
                            id="to"
-                           ng-model="commentAe.recipient"
+                           value = "{{commentAe.recipientName}}"
                            class="form-control fg-input"
                            disabled/>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="profile-pic">
-                    <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
+                    <img alt="User Avatar" ng-src="{{commentAe.recipientAvatar}}">
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="commentAe.canChangeComment">
             <label for="from" class="control-label col-md-1">From:</label>
             <div class="col-md-8">
                 <div class="fg-line">
-                    <select ng-model="commentAe.author"
+                    <select ng-model="commentAe.comment.mpCommentType"
                             name="from"
                             required
                             class="form-control input-lg fg-input">
-                        <option selected value="false">{{commentAe.comment.authorOfComments.student.person.firstName}} {{commentAe.comment.authorOfComment.student.person.lastName}}</option>
-                        <option value="true">Annonymous</option>
+                        <option selected value="commentAe.commentType.signed">{{commentAe.recipientName}}</option>
+                        <option value="commentAe.commentType.anon">Annonymous</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="profile-pic">
-                    <img alt="User Avatar" ng-src="{{main.user.avatarLocation || main.user.defaultAvatarLocation}}">
+                    <img alt="User Avatar" ng-src="{{commentAe.authorAvatar}}">
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="fg-line">
                 <div class="col-md-12">
-                    <div text-angular ng-model="profile.aboutMeText" class="pmbb-edit"></div>
+                    <div text-angular ng-model="commentAe.comment.commentText" class="pmbb-edit"></div>
                 </div>
             </div>
         </div>
@@ -56,12 +56,12 @@
 <div class="modal-footer">
     <!-- TODO: Add Comment Type field -->
     <div class="btn-group btn-group-xs pull-left m-t-10">
-        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment=='negative'}" ng-model="commentAe.radioComment" uib-btn-radio="'negative'">Negative</label>
-        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment=='neutral'}" ng-model="commentAe.radioComment" uib-btn-radio="'neutral'">Neutral</label>
-        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment=='positive'}" ng-model="commentAe.radioComment" uib-btn-radio="'positive'">Positive</label>
+        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment===commentAe.commentFlag.neg}" ng-model="commentAe.radioComment" uib-btn-radio="{{commentAe.commentFlag.neg}}">{{commentAe.commentFlag.neg}}</label>
+        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment===commentAe.commentFlag.neut}" ng-model="commentAe.radioComment" uib-btn-radio="{{commentAe.commentFlag.neut}}">{{commentAe.commentFlag.neut}}</label>
+        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment===commentAe.commentFlag.pos}" ng-model="commentAe.radioComment" uib-btn-radio="{{commentAe.commentFlag.pos}}">{{commentAe.commentFlag.pos}}</label>
     </div>
 
     <button class="btn btn-danger" type="button" ng-click="assessEdit.delete()">Delete</button>
-    <button class="btn btn-link" type="button" ng-click="commentAe.ok()">OK</button>
+    <button class="btn btn-link" type="button" ng-click="commentAe.save()">Save</button>
     <button class="btn btn-link" type="button" ng-click="commentAe.cancel()">Cancel</button>
 </div>

@@ -38,6 +38,7 @@ declare module ecat.entity
         student: IStudent;
         facilitator: IFacilitator;
         external: IExternal;
+
     }
 
     interface ILoginToken extends breeze.Entity, Ecat.Shared.Model.LoginToken
@@ -63,9 +64,12 @@ declare module ecat.entity
     interface IMemberInGroup extends breeze.Entity, Ecat.Shared.Model.MemberInGroup, ext.IMemberInGrpExt {
         groupPeers: IMemberInGroup[];
         group: IWorkGroup;
+        student: IStudent;
     }
 
-    interface IStudent extends breeze.Entity, Ecat.Shared.Model.Student { }
+    interface IStudent extends breeze.Entity, Ecat.Shared.Model.Student {
+        person: IPerson;
+    }
 
     interface IFacilitator extends breeze.Entity, Ecat.Shared.Model.Facilitator { }
 
@@ -82,5 +86,7 @@ declare module ecat.entity
     interface ISpAssessResponse extends breeze.Entity, Ecat.Shared.Model.SpAssessResponse {}
 
     interface ISpComment extends breeze.Entity, Ecat.Shared.Model.SpComment {
+        author: IMemberInGroup;
+        recipient: IMemberInGroup;
     }
 }
