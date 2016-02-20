@@ -20,8 +20,7 @@
                 <tr class="tableBottomBorder">
                     <td>{{assess.studentSelf.student.person.firstName}} {{assess.studentSelf.student.person.lastName}}</td>
                     <td>
-
-                        <button class="btn btn-link" ng-click="assess.addAssessment()">Add</button>
+                        <button class="btn btn-link" ng-click="assess.editAssessment(assess.studentSelf)">View/Edit</button>
 
                     </td>
 
@@ -53,7 +52,6 @@
                 <tr ng-repeat="peer in assess.peers track by peer.studentId">
                     <td>{{peer.student.person.firstName}} {{peer.student.person.lastName}}</td>
                     <td>
-
                         <button class="btn btn-link" ng-click="assess.addAssessment(peer)">Add</button>
 
                     </td>

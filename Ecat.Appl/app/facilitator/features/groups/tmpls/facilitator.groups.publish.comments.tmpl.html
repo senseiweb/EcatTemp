@@ -15,10 +15,10 @@
 
         <div class="listview lv-user ecat-messages">
 
-            <div class="lv-item media" ng-class="{active: groups.selectedStudent.id==groupMember.id}" ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.LastName' track by groupMember.id" ng-click="groups.selectedStudent=groupMember">
+            <div class="lv-item media" ng-class="{active: groups.selectedStudent.id==groupMember.id}" ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.lastName' track by groupMember.id" ng-click="groups.selectedStudent=groupMember">
                 <div class="lv-avatar pull-left">aw</div>
                 <div class="media-body">
-                    <div class="lv-title">{{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</div>
+                    <div class="lv-title">{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</div>
                     <i class="zmdi zmdi-check-all pull-right zmdi-hc-fw" ng-if="{(groupMember.authorOfComments | filter:{mpCommentFlagFac:null}).length == 0}"></i>
                 </div>
             </div>
@@ -27,9 +27,9 @@
 
     <div class="ms-menu" style="left: 240px; width: 200px">
         <div class="listview lv-user ecat-submessages">
-            <div class="lv-item media" ng-class="{active: groups.selectedComment.id==comment.id}" ng-repeat="comment in groups.selectedStudent.authorOfComments | orderBy:'recipient.student.person.LastName' track by recipient.id" ng-click="groups.selectedComment=comment">
+            <div class="lv-item media" ng-class="{active: groups.selectedComment.id==comment.id}" ng-repeat="comment in groups.selectedStudent.authorOfComments | orderBy:'recipient.student.person.lastName' track by recipient.id" ng-click="groups.selectedComment=comment">
                 <div class="media-body">
-                    <div class="lv-title">{{comment.recipient.student.person.LastName}}, {{comment.recipient.student.person.FirstName}}</div>
+                    <div class="lv-title">{{comment.recipient.student.person.lastName}}, {{comment.recipient.student.person.firstName}}</div>
                     <div class="lv-small clearfix">{{comment.mpCommentFlagRecipient}}<i class="zmdi zmdi-check pull-right zmdi-hc-fw" ng-if="comment.mpCommentFlagFac"></i></div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 ﻿<div class="modal-header">
     <div>
-        <h4 class="text-center thingHeader">{{csd.student.FirstName}} {{csd.student.LastName}} Student Capstone Details</h4>
+        <h4 class="text-center thingHeader">{{csd.student.firstName}} {{csd.student.lastName}} Student Capstone Details</h4>
     </div>
     <hr />
 </div>
@@ -22,13 +22,13 @@
                         <th class="header">Assessment</th>
                     </tr>
                 </thead>
-                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.LastName track by peer.id" ng-if="csd.radioResponseType='Assessee'">
-                    <td>{{peer.student.person.LastName}}, {{peer.student.person.FirstName}}</td>
+                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.lastName track by peer.id" ng-if="csd.radioResponseType='Assessee'">
+                    <td>{{peer.student.person.lastName}}, {{peer.student.person.firstName}}</td>
                     <td>{{(groupEnroll.assesseeStratResponse | filter:{assessorId:peer.id})[0].stratPosition}}</td>
                     <td>{{(peer.spAssessResult | filter:{resultFor:groupEnroll.id})[0].mpSpResult}}</td>
                 </tr>
-                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.LastName track by peer.id" ng-if="csd.radioResponseType='Assessor'">
-                    <td>{{peer.student.person.LastName}}, {{peer.student.person.FirstName}}</td>
+                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.lastName track by peer.id" ng-if="csd.radioResponseType='Assessor'">
+                    <td>{{peer.student.person.lastName}}, {{peer.student.person.firstName}}</td>
                     <td>{{(groupEnroll.assessorStratResponse | filter:{assesseeId:peer.id})[0].stratPosition}}</td>
                     <td>{{(groupEnroll.spAssessResult | filter:{resultFor:peer.id})[0].mpSpResult}}</td>
                 </tr>

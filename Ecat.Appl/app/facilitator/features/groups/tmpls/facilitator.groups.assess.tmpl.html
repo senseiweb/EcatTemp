@@ -13,15 +13,15 @@
                 </thead>
                 <tbody>
 
-                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'groupMember.student.person.LastName' track by groupMember.id">
-                        <td>{{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</td>
+                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'groupMember.student.person.lastName' track by groupMember.id">
+                        <td>{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</td>
                         <td>
-                            <button class="btn btn-link" ng-if="!groupMember.hasAssess" ng-click="groups.addAssessment(groupMember)">Add</button>
-                            <button class="btn btn-link" ng-if="groupMember.hasAssess" ng-click="groups.editAssessment(groupMember)">View/Edit</button>
+                            <button class="btn btn-link" ng-if="!groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete" ng-click="groups.addAssessment(groupMember)">Add</button>
+                            <button class="btn btn-link" ng-if="groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete" ng-click="groups.editAssessment(groupMember)">View/Edit</button>
                         </td>
                         <td>
-                            <button class="btn btn-link" ng-if="!groupMember.hasComment" ng-click="groups.addComment(groupMember)">Add</button>
-                            <button class="btn btn-link" ng-if="groupMember.hasComment" ng-click="groups.editComment(groupMember)">View/Edit</button>
+                            <button class="btn btn-link" ng-if="!groups.facHasComments[groupMember.id]" ng-click="groups.addComment(groupMember)">Add</button>
+                            <button class="btn btn-link" ng-if="groups.facHasComments[groupMember.id]" ng-click="groups.editComment(groupMember)">View/Edit</button>
                         </td>
 
                         <!--<td>Jason Silvers</td>

@@ -43,7 +43,6 @@ import dialogService from 'core/service/dialog'
 import localDs from 'core/service/data/local'
 import authService from 'core/service/requestAuthenicator'
 import mockRepo from "core/service/data/mock"
-import scoreService from 'core/service/scoring'
 import * as AppVar from 'appVars'
 //#endregion
 
@@ -137,7 +136,6 @@ export default class EcAppCore {
             .service(localDs.serviceId, localDs)
             .service(dialogService.serviceId, dialogService)
             .service(mockRepo.serviceId, mockRepo)
-            .service(scoreService.serviceId, scoreService)
 
         //#endregion
 

@@ -9,7 +9,8 @@
         </div>
 
         <div class="col-md-8">
-            <h4 class="text-center thingHeader">Assessment for {{assessAdd.activeResponse.assessee.student.person.LastName}}, {{assessAdd.activeResponse.assessee.student.person.FirstName}}</h4>
+            <h4 class="text-center thingHeader" ng-if="assessAdd.mode!=='self'">Assessment for {{assessAdd.activeResponse.assessee.student.person.lastName}}, {{assessAdd.activeResponse.assessee.student.person.firstName}}</h4>
+            <h4 class="text-center thingHeader" ng-if="assessAdd.mode=='self'">Self Assessment</h4>
         </div>
 
         <div class="col-md-2">
@@ -32,7 +33,7 @@
 
 </div>
 <div ng-if="assessAdd.AckAccep" class="modal-footer">
-    <button class="btn btn-link" type="button" ng-if="assessAdd.activeResponse.inventoryItem.displayOrder==assessAdd.spResponses.length && assessAdd.activeResponse.itemResponseScore!==null" ng-click="assessAdd.save()">Save</button>
+    <button class="btn btn-link" type="button" ng-if="assessAdd.activeResponse.inventoryItem.displayOrder==assessAdd.spResponses.length && assessAdd.activeResponse.mpItemResponse!==null" ng-click="assessAdd.save()">Save</button>
     <button class="btn btn-link" type="button" ng-click="assessAdd.cancel()">Cancel</button>
 </div>
 

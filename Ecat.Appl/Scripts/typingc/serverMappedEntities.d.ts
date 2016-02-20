@@ -1,4 +1,4 @@
-﻿
+
 declare module ecat.entity
 {
     interface PersonClientExtensions {
@@ -72,6 +72,14 @@ declare module ecat.entity
         person: IPerson;
     }
 
+    interface IFacWorkGroup extends breeze.Entity, Ecat.Shared.Model.WorkGroup, ext.IFacWorkGroupExt {
+        groupMembers: IMemberInGroup[];
+        facSpResponses: IFacSpAssess[];
+        facStratResponses: IFacSpStratResponse[];
+        facSpComments: IFacSpComment[];
+        assignedSpInstr: ISpInstrument;
+    }
+
     interface IFacilitator extends breeze.Entity, Ecat.Shared.Model.Facilitator { }
 
     interface IExternal extends breeze.Entity, Ecat.Shared.Model.External { }
@@ -81,6 +89,10 @@ declare module ecat.entity
     interface IProfile extends breeze.Entity, Ecat.Shared.Model.Profile { }
 
     interface IFacSpAssess extends breeze.Entity, Ecat.Shared.Model.FacSpAssessResponse { }
+
+    interface IFacSpStratResponse extends breeze.Entity, Ecat.Shared.Model.FacSpStratResponse { }
+
+    interface IFacSpComment extends breeze.Entity, Ecat.Shared.Model.FacSpComment { }
 
     interface ISpAssess extends breeze.Entity, Ecat.Shared.Model.SpAssessResponse { }
 

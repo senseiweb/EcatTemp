@@ -12,8 +12,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.LastName' track by groupMember.id">
-                        <td>{{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</td>
+                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.lastName' track by groupMember.id">
+                        <td>{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</td>
                         <td>{{(groups.selectedGroup.facStratResponses | filter:{assesseeId:groupMember.id})[0].stratPosition}}</td>
                         <td>
                             <input class="form-control" type="text" style="width: 20px" />

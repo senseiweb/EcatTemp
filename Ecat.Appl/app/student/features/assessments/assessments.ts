@@ -40,7 +40,6 @@ export default class EcStudentAssessments {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        resolve: { mode: () => 'student' },
         templateUrl: 'wwwroot/app/core/features/assessView/modals/edit.html'
 
     };
@@ -186,13 +185,20 @@ export default class EcStudentAssessments {
 
     addAssessment(assessee: ecat.entity.IMemberInGroup): void {
         var spResponses: ecat.entity.ISpAssess[] = [];
+        var mode: string;
         this.activeGroupMember.group.assignedSpInstr.inventoryCollection.forEach(inv => {
             var newResponse = this.dCtx.student.getNewSpAssessResponse(this.activeGroupMember, assessee, inv);
             spResponses.push(newResponse);
         });
 
+        if (assessee.id === this.studentSelf.id) {
+            mode = 'self';
+        } else {
+            mode = 'peer';
+        }
+
         this.addModalOptions.resolve = {
-            mode: () => 'student',
+            mode: () => mode,
             assessment: () => spResponses
         };
 
@@ -236,14 +242,26 @@ export default class EcStudentAssessments {
 
     }
 
-    editAssessment(): void {
+    editAssessment(assessee: ecat.entity.IMemberInGroup): void {
+        var mode: string;
+        if (assessee.id === this.studentSelf.id) {
+            mode = 'self';
+        } else {
+            mode = 'peer';
+        }
+
+        this.editModalOptions.resolve = {
+            mode: () => mode,
+            assessment: () => assessee.assesseeSpResponses
+        };
+
         this.uiModal.open(this.editModalOptions)
             .result
-            .then(assessmentSaved)
+            .then(retData => assessmentSaved(retData))
             .catch(assessmentError);
 
-        function assessmentSaved() {
-
+        function assessmentSaved(retData: Ecat.Shared.Model.SpAssessResponse[]) {
+            assessee.assesseeSpResponses = retData;
         }
 
         function assessmentError() {

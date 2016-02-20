@@ -23,8 +23,8 @@
                         </th>
                     </tr>
                 </thead>
-                <tr ng-repeat="student in courses.students | filter:{LastName: filterName} | orderBy:['LastName','FirstName'] track by student.id" style="height: 50px">
-                    <td>{{student.LastName}}, {{student.firstName}}</td>
+                <tr ng-repeat="student in courses.students | filter:{lastName: filterName} | orderBy:['lastName','firstName'] track by student.id" style="height: 50px">
+                    <td>{{student.lastName}}, {{student.firstName}}</td>
                     <td>{{student.rank}}</td>
                     <td>{{student.affiliation}}</td>
                     <td>{{student.component}}</td>

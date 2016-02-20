@@ -757,6 +757,7 @@
     <TypeScriptCompile Include="app\designer\provider\designerCfgProvider.ts" />
     <TypeScriptCompile Include="app\designer\service\designerData.ts" />
     <TypeScriptCompile Include="app\facilitator\config\cfgFac.ts" />
+    <TypeScriptCompile Include="app\facilitator\config\entityExtension\workGroup.ts" />
     <TypeScriptCompile Include="app\facilitator\config\statesFac.ts" />
     <TypeScriptCompile Include="app\facilitator\features\groups\groups.ts" />
     <TypeScriptCompile Include="app\facilitator\facilitator.ts" />

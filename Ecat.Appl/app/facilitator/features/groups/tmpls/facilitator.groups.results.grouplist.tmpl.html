@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy: 'spStratResult.finalStratPosition' track by groupMember.id" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">
-                        <td>{{groupMember.student.person.LastName}}, {{groupMember.student.person.FirstName}}</td>
+                        <td>{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</td>
                         <td>{{groupMember.spAssessResult.spSelfResult}}</td>
                         <td>{{groupMember.spAssessResult.spPeerResult}}</td>
                         <td>{{groupMember.spAssessResult.spFacResult}}</td>
