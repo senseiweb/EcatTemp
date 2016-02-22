@@ -77,30 +77,30 @@ export default class EcAssessmentAddForm {
 
     checkResponse(response: any): void {
         if (this.radios[response.id].displayed === false) {
-            response.itemResponseScore = 0;
+            response.itemModelScore = 0;
             response.mpItemResponse = appVars.EcSpItemResponse.Nd;
         } else {
             if (this.radios[response.id].effectiveness !== 'None' && this.radios[response.id].freq !== 'None') {
                 switch (this.radios[response.id].effectiveness) {
                     case 'highlyeffective':
-                        response.itemResponseScore = 3;
+                        response.itemModelScore = 3;
                         break;
                     case 'effective':
-                        response.itemResponseScore = 1;
+                        response.itemModelScore = 1;
                         break;
                     case 'ineffective':
-                        response.itemResponseScore = -2;
+                        response.itemModelScore = -2;
                         break;
                 }
                 if (this.radios[response.id].freq === 'always') {
-                    if (response.itemResponseScore === -1) {
-                        response.itemResponseScore -= 1;
+                    if (response.itemModelScore === -1) {
+                        response.itemModelScore -= 1;
                     } else {
-                        response.itemResponseScore += 1;
+                        response.itemModelScore += 1;
                     }
                 }
 
-                switch (response.itemResponseScore) {
+                switch (response.itemModelScore) {
                     case -2:
                         response.mpItemResponse = appVars.EcSpItemResponse.Iea;
                         break;

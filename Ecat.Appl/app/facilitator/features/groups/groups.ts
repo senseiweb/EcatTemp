@@ -8,8 +8,33 @@ import ICommentAe from 'core/features/assessView/modals/comment'
 import ICSD from "facilitator/features/groups/modals/capstonestudentdetail"
 //import IScoring from 'core/service/scoring'
 
-export interface IFacComments {
-    [groupMemberId: number]: boolean
+//interface IResultsAverages {
+//    [groupMemberId: number]: IAssesseeSpAverages
+//}
+
+//interface IAssesseeSpAverages {
+//    self: string,
+//    peer: string,
+//    fac: string
+//}
+
+interface IGroupCapstone {
+    [studentId: number]: IStudentCapstone
+}
+
+interface IStudentCapstone {
+    [groupType: string]: IStudentGroupResults;
+}
+
+interface IStudentGroupResults {
+    strat: number,
+    self: string,
+    peer: string,
+    fac: string
+}
+
+interface INewStrat {
+    [assesseeId: number]: number
 }
 
 export default class EcInstructorGroups {
@@ -65,7 +90,6 @@ export default class EcInstructorGroups {
         backdrop: 'static',
         templateUrl: 'wwwroot/app/facilitator/features/groups/modals/capstonestudentdetail.html',
         size: 'lg',
-        resolve: { selectedStudent: () => this.selectedStudent }
     }
     //#endregion
 
@@ -75,15 +99,19 @@ export default class EcInstructorGroups {
     selectedCourse: Ecat.Shared.Model.Course;
     selectedGroup: ecat.entity.IFacWorkGroup;
     //selectedGroup: ecat.entity.IWorkGroup;
-    selectedStudent: Ecat.Shared.Model.MemberInGroup;
+    selectedStudent: ecat.entity.IMemberInGroup;
     selectedComment: Ecat.Shared.Model.SpComment;
     publishStatus = {
         commentsComplete: false,
         stratsComplete: false
     };
-    radioCommentType: string;
-    orderyBy: string;
-    facHasComments: IFacComments = {};
+    radioCommentFlag: string;
+    orderBy: string;
+    //resultsAverages: IResultsAverages = {};
+    groupCapstoneData: IGroupCapstone = {};
+    capstoneStudents: ecat.entity.ICourseMember[] = [];
+    groupTypes: string[] = [];
+    strats: INewStrat = {};
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Facilitator Groups Loaded');
@@ -99,6 +127,13 @@ export default class EcInstructorGroups {
                 this.dCtx.facilitator.activateCrseMemId = this.selectedCourse.id;
                 console.log(this.courses);
                 console.log(this.selectedCourse);
+
+                this.selectedCourse.groups.forEach(grp => {
+                    var found = this.groupTypes.some(gt => {
+                        if (gt === grp.mpCategory) { return true; }
+                    });
+                    if (!found) { this.groupTypes.push(grp.mpCategory); }
+                });
             });
 
         function sortCourseMems(first: ecat.entity.ICourseMember, second: ecat.entity.ICourseMember) {
@@ -108,8 +143,13 @@ export default class EcInstructorGroups {
         }
 
 
-        this.orderyBy = '';
+        this.orderBy = '';
 
+    }
+
+    changeCourse(selectedCourse: ecat.entity.ICourseMember): void {
+        this.selectedCourse = selectedCourse.course;
+        this.dCtx.facilitator.activateCrseMemId = this.selectedCourse.id;
     }
 
     selectGroup(selected: Ecat.Shared.Model.WorkGroup, type: string): void {
@@ -117,18 +157,8 @@ export default class EcInstructorGroups {
             .then((retData: ecat.entity.IFacWorkGroup) => {
                 this.selectedGroup = retData;
                 this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
-                console.log(this.courses);
-                console.log(this.selectedCourse);
                 this.setUpView(type);
             });
-
-        //if (this.selectedGroup.id !== selected.id && this.selectedGroup.groupMembers.length === 0) {
-        //this.dCtx.facilitator.getGroupData(false)
-        //    .then((retData: ecat.entity.IWorkGroup) => {
-        //        this.selectedGroup = retData;
-        //        this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
-        //    });
-        //}
     }
 
     setUpView(type: string): void {
@@ -137,28 +167,29 @@ export default class EcInstructorGroups {
                 //this.spStatuses = this.scoreService.calcStudentSpStatus(this.group);
                 break;
             case 'assess':
-                this.selectedGroup.groupMembers.forEach(gm => {
-                    var comment = this.selectedGroup.facSpComments.filter(com => {
-                        if (com.recipientId === gm.id) {
-                            return true;
-                        }
-                        return false;
-                    });
+                //this.selectedGroup.groupMembers.forEach(gm => {
+                //    var comment = this.selectedGroup.facSpComments.filter(com => {
+                //        if (com.recipientId === gm.id) {
+                //            return true;
+                //        }
+                //        return false;
+                //    });
 
-                    if (comment === undefined) {
-                        this.facHasComments[gm.id] = false;
-                    } else {
-                        this.facHasComments[gm.id] = true;
-                    }
-                });
+                //    if (comment === undefined) {
+                //        this.facHasComments[gm.id] = false;
+                //    } else {
+                //        this.facHasComments[gm.id] = true;
+                //    }
+                //});
                 break;
             case 'publish':
-                //this.checkPublish(this.selectedGroup);
+                this.checkPublish();
                 break;
             case 'results':
-                //this.scoreService.calcGroupResults(this.selectedGroup);
+                this.setUpResults();
                 break;
             case 'capstone':
+                this.setUpCapstone();
                 break;
         }
     }
@@ -167,7 +198,7 @@ export default class EcInstructorGroups {
         this.selectedGroup.groupMembers.forEach(gm => {
             gm.authorOfComments.forEach(aoc => {
                 if (aoc.mpCommentFlagFac === null) {
-                    aoc.mpCommentFlagFac = 'Neutral';
+                    aoc.mpCommentFlagFac = appVars.MpCommentFlag.neut;
                     //handle flaggedBy on the server when saving?
                     aoc.facFlaggedById = this.dCtx.user.persona.personId;
                 }
@@ -179,7 +210,7 @@ export default class EcInstructorGroups {
     massFlagReset(): void {
         this.selectedGroup.groupMembers.forEach(gm => {
             gm.authorOfComments.forEach(aoc => {
-                aoc.mpCommentFlagFac = 'Neutral';
+                aoc.mpCommentFlagFac = appVars.MpCommentFlag.neut;
                 aoc.facFlaggedById = this.dCtx.user.persona.personId;
             });
         });
@@ -236,6 +267,19 @@ export default class EcInstructorGroups {
         }
     }
 
+    setUpStrats(): void {
+        this.selectedGroup.groupMembers.forEach(gm => {
+            var foundStrat = false;
+            foundStrat = this.selectedGroup.facStratResponses.some(strat => {
+                if (strat.assesseeId === gm.id) { return true; }
+            });
+
+            if (!foundStrat) {
+                this.selectedGroup.facStratResponses.push(this.dCtx.facilitator.getNewFacStrat(this.selectedGroup, gm));
+            }
+        });
+    }
+
     viewDetails(): void {
         //this.memberResults = this.scoreService.calcInventoryOveralls(this.selectedStudent);
 
@@ -283,33 +327,114 @@ export default class EcInstructorGroups {
         //}
     }
 
-    save(): void {
-        //this.dCtx.facilitator.saveChanges();
-
-        //if (this.publishStatus.commentsComplete === false) {
-        //    var flaggedAll = true;
-        //    this.selectedGroup.groupMembers.forEach(gm => {
-        //        gm.authorOfComments.forEach(aoc => {
-        //            if (!aoc.mpCommentFlagFac) {
-        //                flaggedAll = false;
-        //            }
-        //        });
+    setUpResults(): void {
+        //this.selectedGroup.groupMembers.forEach(gm => {
+        //    var assesseeAv: IAssesseeSpAverages = {
+        //        self: '',
+        //        peer: '',
+        //        fac: ''
+        //    }
+        //    var selfAgg: number = 0;
+        //    var peerAgg: number = 0;
+        //    var facAgg: number = 0;
+        //    gm.assesseeSpResponses.forEach(resp => {
+        //        if (resp.assesseeId === gm.id) {
+        //            selfAgg += resp.itemModelScore;
+        //        } else {
+        //            peerAgg += resp.itemModelScore;
+        //        }
         //    });
 
-        //    if (flaggedAll) { this.publishStatus.commentsComplete = true; }
-        //}
+        //    var facResponses = this.selectedGroup.facSpResponses.filter(resp => {
+        //        if (resp.assesseeId === gm.id) { return true; }
+        //        return false;
+        //    });
 
-        //if (this.publishStatus.stratsComplete === false) {
-        //    if (this.selectedGroup.facStratResponses.length === this.selectedGroup.groupMembers.length) {
-        //        this.publishStatus.stratsComplete = true;
-        //    }
-        //}
+        //    facResponses.forEach(resp => {
+        //        facAgg += resp.itemModelScore;
+        //    });
+
+
+        //});
+    }
+
+    savePublish(): void {
+        var stratsCheck = true;
+        var stratList: number[] = [];
+        this.selectedGroup.groupMembers.forEach(gm => {
+            var found = false;
+            found = this.selectedGroup.facStratResponses.some(strat => {
+                if (strat.assesseeId === gm.id) { return true; }
+            });
+
+            if (!found) {
+                stratsCheck = false;
+            } else {
+                if (this.strats[gm.id] !== null || this.strats[gm.id] !== undefined) {
+                    stratList.push(this.strats[gm.id]);
+                } else {
+                    stratsCheck = false;
+                }
+            }
+        });
+        
+        if (stratsCheck) {
+            stratList.sort((first: number, second: number) => {
+                if (first === second) {
+                    stratsCheck = false;
+                    return 0;
+                }
+            });
+        }
+
+        if (stratsCheck) {
+
+        }
+
+        this.selectedGroup.groupMembers.forEach(gm => {
+            if (this.strats[gm.id] !== null || this.strats[gm.id] !== undefined) {
+                var studentStrat = this.selectedGroup.facStratResponses.filter(strat => {
+                    if (strat.assesseeId === gm.id) {
+                        return true;
+                    }
+                });
+
+                if (studentStrat[0] !== undefined) {
+
+                }
+                studentStrat[0].stratPosition = this.strats[gm.id];
+            }
+        });
+
+        this.save();
+    }
+
+    cancelPublish(): void {
+        const self = this;
+        const cancelAlertSettings: SweetAlert.Settings = {
+            title: 'Cancel Publication',
+            text: 'Canceling will reopen the group and allow students to make changes. Are you sure you want to cancel?',
+            type: 'warning',
+            confirmButtonText: 'Cancel Publication',
+            closeOnConfirm: true,
+            allowEscapeKey: true,
+            allowOutsideClick: true,
+            showCancelButton: true
+        }
+
+        this.c.swal(cancelAlertSettings, afterCancelPublish);
+
+        function afterCancelPublish(confirmed: boolean) {
+            if (!confirmed) { return; }
+            self.selectedGroup.mpSpStatus = appVars.MpSpStatus.open;
+            self.save();
+        }
     }
 
     publish(): void {
         this.checkPublish();
-
-        if (this.publishStatus.commentsComplete && this.publishStatus) {
+        const self = this;
+        if (this.publishStatus.commentsComplete && this.publishStatus.stratsComplete) {
             const publishAlertSettings: SweetAlert.Settings = {
                 title: 'Publish Group',
                 text: 'Publishing is final, you cannot change anything after this is completed. Are you sure you want to publish?',
@@ -322,7 +447,7 @@ export default class EcInstructorGroups {
             }
 
             this.c.swal(publishAlertSettings, afterPublishConfirmClose);
-
+        } else {
             const incompleteAlertSettings: SweetAlert.Settings = {
                 title: 'Review Incomplete',
                 text: 'You have not completed the group review,',
@@ -338,7 +463,8 @@ export default class EcInstructorGroups {
                 incompleteAlertSettings.text += ' not all comments are flagged';
             }
             if (!this.publishStatus.stratsComplete) {
-                incompleteAlertSettings.text += ' you have not completed all stratifications '
+                if (!this.publishStatus.commentsComplete) { incompleteAlertSettings.text += ' and' }
+                incompleteAlertSettings.text += ' you have not completed all stratifications'
             }
             incompleteAlertSettings.text += '.';
 
@@ -349,6 +475,8 @@ export default class EcInstructorGroups {
             if (!confirmed) {
                 return;
             }
+            self.selectedGroup.mpSpStatus = appVars.MpSpStatus.published;
+            self.save();
         }
 
         function afterIncompleteConfirmClose(confirmed: boolean) {
@@ -358,20 +486,67 @@ export default class EcInstructorGroups {
         }
     }
 
+    setUpCapstone(): void {
+        const self = this;
+        this.dCtx.facilitator.getCapstoneData()
+            .then((retData: Array<ecat.entity.ICourseMember>) => gotCapstoneData(retData));
+
+        function gotCapstoneData(retData: Array<ecat.entity.ICourseMember>): void {
+            self.capstoneStudents = retData;
+            self.capstoneStudents.forEach(cm => {
+                var studentCapstoneData: IStudentCapstone = {};
+                cm.studGroupEnrollments.forEach(gm => {
+                    var groupResults: IStudentGroupResults = {
+                        strat: 0,
+                        self: '',
+                        peer: '',
+                        fac: ''
+                    }
+                    groupResults.strat = gm.stratResults[0].finalStratPosition;
+                    //groupResults.self = gm.assessResults[0].self;
+                    //groupResults.peer = gm.assessResults[0].peer;
+                    //groupResults.fac = gm.assessResults[0].fac;
+
+                    studentCapstoneData[gm.group.mpCategory] = groupResults;
+                });
+                self.groupCapstoneData[cm.id] = studentCapstoneData;
+            });
+        }
+    }
+
+    save(): void {
+        const self = this;
+        this.dCtx.facilitator.saveChanges()
+            .then(saveReturn)
+            .catch(saveRejected);
+
+        function saveReturn(ret: breeze.SaveResult): void {
+            
+        }
+
+        function saveRejected(reason: any): void {
+            if (reason) {
+
+            }
+        }
+    }
+
     //#region modal calls
     viewStatus(): void {
         this.uiModal.open(this.statusModalOptions);
     }
 
-    viewCapstoneStudentDetails(): void {
+    viewCapstoneStudentDetails(student: ecat.entity.IMemberInGroup): void {
+        this.selectedStudent = student;
+        this.dCtx.facilitator.selectedStudentCMId = this.selectedStudent.courseEnrollmentId;
         this.uiModal.open(this.capstoneStudentDetailModalOptions);
     }
 
-    addAssessment(assessee: Ecat.Shared.Model.MemberInGroup): void {
+    addAssessment(assessee: ecat.entity.IMemberInGroup): void {
         const self = this;
         var spResponses: ecat.entity.IFacSpAssess[] = [];
         this.selectedGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
-            var newResponse = this.dCtx.facilitator.getNewFacSpAssessResponse(this.selectedGroup.id, assessee.id, inv.id);
+            var newResponse = this.dCtx.facilitator.getNewFacSpAssessResponse(this.selectedGroup, assessee, inv);
             spResponses.push(newResponse);
         });
 
@@ -390,7 +565,7 @@ export default class EcInstructorGroups {
                 self.selectedGroup.facSpResponses.push(resp);
             });
 
-            //self.dCtx.facilitator.save();
+            self.save();
         }
 
         function assessmentError() {
@@ -399,7 +574,7 @@ export default class EcInstructorGroups {
         }
     }
 
-    editAssessment(assessee: Ecat.Shared.Model.MemberInGroup): void {
+    editAssessment(assessee: ecat.entity.IMemberInGroup): void {
         const self = this;
         var spResponses = this.selectedGroup.facSpResponses.filter(resp => {
             if (resp.assesseeId === assessee.id) {
@@ -419,18 +594,7 @@ export default class EcInstructorGroups {
             .catch(assessmentError);
 
         function assessmentSaved(retData: ecat.entity.IFacSpAssess[]) {
-            spResponses.forEach(resp => {
-                var find = retData.filter(retResp => {
-                    if (retResp.id === resp.id) {
-                        return true;
-                    }
-                    return false;
-                });
-
-                resp = find[0];
-            });
-
-            //self.dCtx.facilitator.save();
+            self.save();
         }
 
         function assessmentError() {
@@ -439,9 +603,9 @@ export default class EcInstructorGroups {
 
     }
 
-    addComment(recipient: Ecat.Shared.Model.MemberInGroup): void {
+    addComment(recipient: ecat.entity.IMemberInGroup): void {
         const self = this;
-        //var comment = this.dCtx.facilitator.getNewFacComment(this.selectedGroup.id, recipient.id);
+        var comment = this.dCtx.facilitator.getNewFacComment(this.selectedGroup, recipient);
 
         this.commentModalOptions.resolve = {
             mode: () => 'facilitator',
@@ -455,7 +619,8 @@ export default class EcInstructorGroups {
 
         function commentSaved(retData: any) {
             self.selectedGroup.facSpComments.push(retData);
-            self.facHasComments[recipient.id] = true;
+            self.selectedGroup.statusOfStudent[recipient.id].hasComment = true;
+            self.save();
         }
 
         function commentError() {
@@ -465,7 +630,7 @@ export default class EcInstructorGroups {
 
     }
 
-    editComment(recipient: Ecat.Shared.Model.MemberInGroup): void {
+    editComment(recipient: ecat.entity.IMemberInGroup): void {
         const self = this;
         var comment = this.selectedGroup.facSpComments.filter(com => {
             if (com.recipientId === recipient.id) {
@@ -485,14 +650,7 @@ export default class EcInstructorGroups {
             .catch(commentError);
 
         function commentSaved(retData: any) {
-            var comment = self.selectedGroup.facSpComments.filter(com => {
-                if (com.recipientId === recipient.id) {
-                    return true;
-                }
-                return false;
-            });
-
-            comment = retData;
+            self.save();
         }
 
         function commentError() {

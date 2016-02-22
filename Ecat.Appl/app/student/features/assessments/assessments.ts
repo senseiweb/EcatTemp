@@ -261,7 +261,8 @@ export default class EcStudentAssessments {
             .catch(assessmentError);
 
         function assessmentSaved(retData: Ecat.Shared.Model.SpAssessResponse[]) {
-            assessee.assesseeSpResponses = retData;
+            console.log(assessee.assesseeSpResponses);
+            console.log(retData);
         }
 
         function assessmentError() {

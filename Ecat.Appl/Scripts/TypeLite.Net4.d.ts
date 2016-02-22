@@ -365,6 +365,5 @@ declare module Ecat.Shared.Model {
 		tokenExpire: Date;
 		person: Ecat.Shared.Model.Person;
 	}
->>>>>>> Stashed changes
 }
 

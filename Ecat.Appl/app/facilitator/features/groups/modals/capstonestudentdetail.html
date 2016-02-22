@@ -1,45 +1,21 @@
 ﻿<div class="modal-header">
     <div>
-        <h4 class="text-center thingHeader">{{csd.student.firstName}} {{csd.student.lastName}} Student Capstone Details</h4>
+        <h4 class="text-center thingHeader">{{csd.student.person.firstName}} {{csd.student.person.lastName}} Capstone Details</h4>
     </div>
     <hr />
 </div>
 
-<div class="modal-body">
-    <div class="col-md-6  p-l-5 p-r-5 p-t-4">
-        <div class="btn-group btn-group-sm">
-            <label class="btn btn-default" ng-class="{'btn-primary': csd.radioResponseType=='Assessor'}" ng-model="csd.radioResponseType" uib-btn-radio="'Assessor'">Assessor</label>
-            <label class="btn btn-default" ng-class="{'btn-primary': csd.radioResponseType=='Assessee'}" ng-model="csd.radioResponseType" uib-btn-radio="'Assessee'">Assessee</label>
+<div class="modal-body" ng-init="csd.capstoneView=0">
+    <div ng-switch="csd.capstoneView">
+        <div ng-switch-when="0">
+            <div ng-include="'wwwroot/app/facilitator/features/groups/modals/tmpls/capstone.groups.tmpl.html'"></div>
+        </div>
+        <div ng-switch-when="1">
+            <div ng-include="'wwwroot/app/facilitator/features/groups/modals/tmpls/capstone.behaviors.tmpl.html'"></div>
         </div>
     </div>
-    <uib-tabset justified="true">
-        <uib-tab ng-repeat="groupEnroll in csd.student.groupPersonas | orderyBy groupNumber" heading="{groupEnroll.group.groupNumber}">
-            <table class="table table-hover table-vmiddle">
-                <thead>
-                    <tr>
-                        <th class="header">Student</th>
-                        <th class="header">Strat</th>
-                        <th class="header">Assessment</th>
-                    </tr>
-                </thead>
-                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.lastName track by peer.id" ng-if="csd.radioResponseType='Assessee'">
-                    <td>{{peer.student.person.lastName}}, {{peer.student.person.firstName}}</td>
-                    <td>{{(groupEnroll.assesseeStratResponse | filter:{assessorId:peer.id})[0].stratPosition}}</td>
-                    <td>{{(peer.spAssessResult | filter:{resultFor:groupEnroll.id})[0].mpSpResult}}</td>
-                </tr>
-                <tr ng-repeat="peer in groupEnroll.groupPeers | orderBy peer.student.person.lastName track by peer.id" ng-if="csd.radioResponseType='Assessor'">
-                    <td>{{peer.student.person.lastName}}, {{peer.student.person.firstName}}</td>
-                    <td>{{(groupEnroll.assessorStratResponse | filter:{assesseeId:peer.id})[0].stratPosition}}</td>
-                    <td>{{(groupEnroll.spAssessResult | filter:{resultFor:peer.id})[0].mpSpResult}}</td>
-                </tr>
-            </table>
-        </uib-tab>
-    </uib-tabset>
 </div>
 
-
-
-
 <div class="modal-footer">
-    <button class="btn btn-link" type="button" ng-click="viewStatus.close()">Close</button>
+    <button class="btn btn-link" type="button" ng-click="csd.close()">Close</button>
 </div>

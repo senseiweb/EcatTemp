@@ -13,7 +13,6 @@ export default class EcAssessmentAddForm {
     activeResponse: any;
     notDisplayed: boolean;
 
-
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, mode: string, assessment: any) {
         this.mode = mode;
         this.spResponses = assessment.sort(sortResponses);
@@ -53,31 +52,31 @@ export default class EcAssessmentAddForm {
     checkResponse(response: any): void {
         var switchActive = false;
         if (this.notDisplayed === true) {
-            this.activeResponse.itemResponseScore = 0;
+            this.activeResponse.itemModelScore = 0;
             this.activeResponse.mpItemResponse = appVars.EcSpItemResponse.Nd;
             switchActive = true;
         } else {
             if (this.radioEffectiveness !== 'None' && this.radioFreq !== 'None') {
                 switch (this.radioEffectiveness) {
                     case 'highlyeffective':
-                        this.activeResponse.itemResponseScore = 3;
+                        this.activeResponse.itemModelScore = 3;
                         break;
                     case 'effective':
-                        this.activeResponse.itemResponseScore = 1;
+                        this.activeResponse.itemModelScore = 1;
                         break;
                     case 'ineffective':
-                        this.activeResponse.itemResponseScore = -2;
+                        this.activeResponse.itemModelScore = -2;
                         break;
                 }
                 if (this.radioFreq === 'always') {
-                    if (this.activeResponse.itemResponseScore === -1) {
-                        this.activeResponse.itemResponseScore -= 1;
+                    if (this.activeResponse.itemModelScore === -1) {
+                        this.activeResponse.itemModelScore -= 1;
                     } else {
-                        this.activeResponse.itemResponseScore += 1;
+                        this.activeResponse.itemModelScore += 1;
                     }
                 }
 
-                switch (this.activeResponse.itemResponseScore) {
+                switch (this.activeResponse.itemModelScore) {
                     case -2:
                         this.activeResponse.mpItemResponse = appVars.EcSpItemResponse.Iea;
                         break;
@@ -127,7 +126,7 @@ export default class EcAssessmentAddForm {
         if (!editing && response !== undefined) {
             this.activeResponse = response;
 
-            switch (this.activeResponse.itemResponseScore) {
+            switch (this.activeResponse.itemModelScore) {
                 case -2:
                     this.notDisplayed = false;
                     this.radioEffectiveness = 'ineffective';
@@ -139,6 +138,13 @@ export default class EcAssessmentAddForm {
                     this.radioFreq = 'frequently';
                     break;
                 case 0:
+                    if (this.activeResponse.mpItemResponse === null) {
+                        this.notDisplayed = false;
+                        this.radioEffectiveness = 'None';
+                        this.radioFreq = 'None';
+                        break;
+                    }
+
                     this.notDisplayed = true;
                     this.radioEffectiveness = 'None';
                     this.radioFreq = 'None';

@@ -29,7 +29,8 @@ export class FacWorkGroupExt implements ecat.entity.ext.IFacWorkGroupExt {
                 isPeerAllComplete: false,
                 missingAssessItems: [],
                 breakout: { ineff: 0, nd: 0, eff: 0, highEff: 0 },
-                compositeScore: 0
+                compositeScore: 0,
+                hasComment: false
             }
 
             const responseList = this.facSpAssessResponses
@@ -38,6 +39,9 @@ export class FacWorkGroupExt implements ecat.entity.ext.IFacWorkGroupExt {
             migStatus.stratComplete = !!this.facSpStratResponses
                 .filter(strat => strat.assesseeId === gm.id &&
                     (strat.stratPosition !== null || strat.stratPosition !== undefined || strat.stratPosition !== 0))[0];
+
+            migStatus.hasComment = !!this.facSpComments
+                .filter(comment => comment.recipientId === gm.id)[0];
 
             const knownReponse = AppVar.EcSpItemResponse;
 

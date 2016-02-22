@@ -259,6 +259,8 @@
     <Content Include="app\designer\features\instruments\tmpls\designer.instruments.tmpl.html" />
     <Content Include="app\facilitator\features\groups\groups.html" />
     <Content Include="app\facilitator\features\groups\modals\capstonestudentdetail.html" />
+    <Content Include="app\facilitator\features\groups\modals\tmpls\capstone.behaviors.tmpl.html" />
+    <Content Include="app\facilitator\features\groups\modals\tmpls\capstone.groups.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.strat.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.publish.comments.tmpl.html" />
     <Content Include="app\facilitator\features\groups\tmpls\facilitator.groups.capstoneresults.tmpl.html" />

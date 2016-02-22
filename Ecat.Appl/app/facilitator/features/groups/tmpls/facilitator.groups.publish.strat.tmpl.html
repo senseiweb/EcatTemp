@@ -12,13 +12,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.lastName' track by groupMember.id">
+                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'groupMember.student.person.lastName' track by groupMember.id">
                         <td>{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</td>
                         <td>{{(groups.selectedGroup.facStratResponses | filter:{assesseeId:groupMember.id})[0].stratPosition}}</td>
                         <td>
-                            <input class="form-control" type="text" style="width: 20px" />
+                            <input class="form-control" type="number" min="1" max="groups.selectedGroup.groupMembers.length" ng-model="groups.strats[groupMember.id]" style="width: 20px" />
                         </td>
-                        <td></td>
+                        <td><button popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}} " class="btn f-500 c-black btn-link f">{{groups.selectedGroup.statusOfStudent[groupMember.id].compositeScore}}</button></td>
                     </tr>
                     <!--<tr class="tableBottomBorder">
                         <td>Jason Silvers</td>

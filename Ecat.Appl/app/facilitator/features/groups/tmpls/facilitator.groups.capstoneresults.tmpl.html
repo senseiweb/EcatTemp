@@ -13,17 +13,21 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th colspan="4" class="text-center">Group1</th>
-                    <th colspan="4" class="text-center">Group2</th>
+                    <th colspan="4" class="text-center" ng-repeat="groupType in groups.groupTypes | orderBy: 'groupType'">{{groupType}}</th>
+                    <!--<th colspan="4" class="text-center">Group2</th>
                     <th colspan="4" class="text-center">Group3</th>
-                    <th colspan="4" class="text-center">Group4</th>
+                    <th colspan="4" class="text-center">Group4</th>-->
                 </tr>
                 <tr>
                     
                 </tr>
                 <tr>
                     <th>Student</th>
-                    <th>Strat</th>
+                    <th ng-repeat-start="groupType in groups.groupTypes | orderBy: 'groupType'">Strat</th>
+                    <th>Self</th>
+                    <th>Peer</th>
+                    <th ng-repeat-end>Inst</th>
+                    <!--<th>Strat</th>
                     <th>Self</th>
                     <th>Peer</th>
                     <th>Inst</th>
@@ -34,16 +38,19 @@
                     <th>Strat</th>
                     <th>Self</th>
                     <th>Peer</th>
-                    <th>Inst</th>
-                    <th>Strat</th>
-                    <th>Self</th>
-                    <th>Peer</th>
-                    <th>Inst</th>
+                    <th>Inst</th>-->
                 </tr>
                                    
                 </thead>
                 <tbody>
-                <tr>
+                    <tr ng-repeat="studentCM in groups.capstoneStudents | orderBy: 'studentCM.student.person.lastName' track by studentCM.id" ng-mouseover="studentCM.isVisible = true" ng-mouseleave="studentCM.isVisible = false" style="height: 50px">
+                        <td><a ng-click="groups.viewCapstoneStudentDetails(studentCM)" href="">{{studentCM.student.person.lastName}}, {{studentCM.student.person.firstName}}</a></td>
+                        <td ng-repeat-start="groupType in groups.groupTypes | orderBy: 'groupType'">{{groups.groupCapstoneData[studentCM.id].studentCapstoneData[groupType].strat}}</td>
+                        <td>{{groups.groupCapstoneData[studentCM.id].studentCapstoneData[groupType].self}}</td>
+                        <td>{{groups.groupCapstoneData[studentCM.id].studentCapstoneData[groupType].peer}}</td>
+                        <td ng-repeat-end>{{groups.groupCapstoneData[studentCM.id].studentCapstoneData[groupType].fac}}</td>
+                    </tr>
+                <!--<tr>
                     <td><a ng-click="groups.viewCapstoneStudentDetails()" href="">Bob Anderson</a></td>
                     <td>1</td>
                     <td>HAE</td>
@@ -118,7 +125,7 @@
                         <td>HAE</td>
                         <td>HAE</td>
                         <td>HAE</td>
-                    </tr>
+                    </tr>-->
 
 
                 </tbody>

@@ -8,7 +8,9 @@ import WorkGroup = Ecat.Shared.Model.WorkGroup;
 
 interface IFaciliatorApiResources extends ecat.IApiResources {
     initCourses: ecat.IApiResource,
-    getGroupById: ecat.IApiResource;
+    getGroupById: ecat.IApiResource,
+    getStudentCapstoneDetails: ecat.IApiResource,
+    getGroupCapstoneData: ecat.IApiResource
 }
 
 export default class EcFacilitatorRepo extends IUtilityRepo {
@@ -17,6 +19,7 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
 
     activateCrseMemId: number;
     activeGroupId: number;
+    selectedStudentCMId: number;
 
     private facilitatorApiResources: IFaciliatorApiResources = {
         initCourses: {
@@ -33,6 +36,23 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
                 isLoaded: {
                     group: {} as any
                 }
+            }
+        },
+        getGroupCapstoneData: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.crseMember,
+            resource: {
+                name: 'GetGroupCapstoneData',
+                isLoaded: {
+                    name: 'GetGroupCapstoneData',
+                    isLoaded: false
+                }
+            }
+        },
+        getStudentCapstoneDetails: {
+            returnedEntityType: this.c.appVar.EcMapEntityType.grpMember,
+            resource: {
+                name: 'GetStudentCapstoneDetails',
+                isLoaded: false
             }
         }
     };
@@ -75,15 +95,32 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
     }
 
 
-    getNewFacSpAssessResponse(groupId: number, assesseeId: number, inventoryId: number): ecat.entity.IFacSpAssess {
-
+    getNewFacSpAssessResponse(group: ecat.entity.IFacWorkGroup, assessee: ecat.entity.IMemberInGroup, inventory: Ecat.Shared.Model.SpInventory): ecat.entity.IFacSpAssess {
         const newAssessResponse = {
-            assesseeId: assesseeId,
-            relatedInventoryId: inventoryId,
-            assignedGroupId: groupId
+            assessee: assessee,
+            inventoryItem: inventory,
+            assignedGroup: group
         }
 
         return this.manager.createEntity(AppVar.EcMapEntityType.facSpAssessResponse, newAssessResponse) as ecat.entity.IFacSpAssess;
+    }
+
+    getNewFacComment(group: ecat.entity.IFacWorkGroup, recipient: ecat.entity.IMemberInGroup): ecat.entity.IFacSpComment {
+        const newFacComment = {
+            assignedGroup: group,
+            recipient: recipient
+        }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.facSpComment, newFacComment) as ecat.entity.IFacSpComment;
+    }
+
+    getNewFacStrat(group: ecat.entity.IFacWorkGroup, assessee: ecat.entity.IMemberInGroup): ecat.entity.IFacSpStratResponse {
+        const newFacStrat = {
+            assignedGroup: group,
+            assessee: assessee
+        }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.facSpStratResponse, newFacStrat) as ecat.entity.IFacSpStratResponse;
     }
 
     getMemberByGroupId(): breeze.promises.IPromise<ecat.entity.IFacWorkGroup | angular.IPromise<void>> {
@@ -126,6 +163,92 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
             api.getGroupById.resource.isLoaded.group[self.activeGroupId] = true;
             self.logSuccess(`Loaded workgroup with ID: ${self.activeGroupId} from local cache`, group, false);
             return group;
+        }
+    }
+
+    getCapstoneData(): breeze.promises.IPromise<Array<ecat.entity.ICourseMember> | angular.IPromise<void>> {
+        let groupCourseMems: Array<ecat.entity.ICourseMember>;
+        const self = this;
+        const api = this.facilitatorApiResources;
+        const predicate = new breeze.Predicate('Person.Id', breeze.FilterQueryOp.Equals, this.activeGroupId);
+        if (this.selectedStudentCMId === null) {
+            const qe: ecat.IQueryError = {
+                errorMessage: 'You must have a selected student to get by ID',
+                errorType: this.c.appVar.QueryError.MissingParameter
+            }
+            return this.c.$q.reject(qe);
+        }
+
+        const isLoaded = api.getGroupCapstoneData.resource.isLoaded.groupCapstoneData[this.activeGroupId];
+
+        if (isLoaded) {
+            groupCourseMems = this.queryLocal(api.getGroupCapstoneData.resource.name, null, predicate) as Array<ecat.entity.ICourseMember>;
+            this.logSuccess(`Loaded student data with ID: ${this.activeGroupId} from local cache`, groupCourseMems, false);
+            return this.c.$q.when(groupCourseMems);
+        }
+
+        return this.query.from(api.getGroupCapstoneData.resource.name)
+            .where(predicate)
+            .using(this.manager)
+            .execute()
+            .then(getGroupCapstoneResponse)
+            .catch(this.queryFailed);
+
+        function getGroupCapstoneResponse(data: breeze.QueryResult): Array<ecat.entity.ICourseMember> | angular.IPromise<void> {
+            groupCourseMems = data.results as Array<ecat.entity.ICourseMember>;
+            if (groupCourseMems === null) {
+                const qe: ecat.IQueryError = {
+                    errorType: self.c.appVar.QueryError.UnexpectedNoResult,
+                    errorMessage: 'Expected a result, got nothing!'
+                }
+                return self.c.$q.reject(qe);
+            }
+            api.getGroupCapstoneData.resource.isLoaded.studentGrpMems[self.activeGroupId] = true;
+            self.logSuccess(`Loaded student details with ID: ${self.activeGroupId}`, groupCourseMems, false);
+            return groupCourseMems;
+        }
+    }
+
+    getStudentCapstoneDetails(): breeze.promises.IPromise<Array<ecat.entity.IMemberInGroup> | angular.IPromise<void>> {
+        let studentGrpMems: Array<ecat.entity.IMemberInGroup>;
+        const self = this;
+        const api = this.facilitatorApiResources;
+        const predicate = new breeze.Predicate('Person.Id', breeze.FilterQueryOp.Equals, this.selectedStudentCMId);
+        if (this.selectedStudentCMId === null) {
+            const qe: ecat.IQueryError = {
+                errorMessage: 'You must have a selected student to get by ID',
+                errorType: this.c.appVar.QueryError.MissingParameter
+            }
+            return this.c.$q.reject(qe);
+        }
+
+        const isLoaded = api.getStudentCapstoneDetails.resource.isLoaded.studentCrseMem[this.selectedStudentCMId];
+
+        if (isLoaded) {
+            studentGrpMems = this.queryLocal(api.getStudentCapstoneDetails.resource.name, null, predicate) as Array<ecat.entity.IMemberInGroup>;
+            this.logSuccess(`Loaded student data with ID: ${this.selectedStudentCMId} from local cache`, studentGrpMems, false);
+            return this.c.$q.when(studentGrpMems);
+        }
+
+        return this.query.from(api.getStudentCapstoneDetails.resource.name)
+            .where(predicate)
+            .using(this.manager)
+            .execute()
+            .then(getStudentCapstoneResponse)
+            .catch(this.queryFailed);
+
+        function getStudentCapstoneResponse(data: breeze.QueryResult): Array<ecat.entity.IMemberInGroup> | angular.IPromise<void> {
+            studentGrpMems = data.results as Array<ecat.entity.IMemberInGroup>;
+            if (studentGrpMems === null) {
+                const qe: ecat.IQueryError = {
+                    errorType: self.c.appVar.QueryError.UnexpectedNoResult,
+                    errorMessage: 'Expected a result, got nothing!'
+                }
+                return self.c.$q.reject(qe);
+            }
+            api.getStudentCapstoneDetails.resource.isLoaded.studentGrpMems[self.selectedStudentCMId] = true;
+            self.logSuccess(`Loaded student details with ID: ${self.selectedStudentCMId}`, studentGrpMems, false);
+            return studentGrpMems;            
         }
     }
 

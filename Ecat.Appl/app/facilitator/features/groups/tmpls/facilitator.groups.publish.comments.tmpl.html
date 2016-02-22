@@ -15,7 +15,7 @@
 
         <div class="listview lv-user ecat-messages">
 
-            <div class="lv-item media" ng-class="{active: groups.selectedStudent.id==groupMember.id}" ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.lastName' track by groupMember.id" ng-click="groups.selectedStudent=groupMember">
+            <div class="lv-item media" ng-class="{'active': groups.selectedStudent.id==groupMember.id}" ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'student.person.lastName' track by groupMember.id" ng-click="groups.selectedStudent=groupMember">
                 <div class="lv-avatar pull-left">aw</div>
                 <div class="media-body">
                     <div class="lv-title">{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</div>
@@ -27,10 +27,10 @@
 
     <div class="ms-menu" style="left: 240px; width: 200px">
         <div class="listview lv-user ecat-submessages">
-            <div class="lv-item media" ng-class="{active: groups.selectedComment.id==comment.id}" ng-repeat="comment in groups.selectedStudent.authorOfComments | orderBy:'recipient.student.person.lastName' track by recipient.id" ng-click="groups.selectedComment=comment">
+            <div class="lv-item media" ng-class="{'active': groups.selectedComment.id==comment.id}" ng-repeat="comment in groups.selectedStudent.authorOfComments | orderBy:'recipient.student.person.lastName' track by recipient.id" ng-click="groups.selectedComment=comment; groups.radioCommentFlag=groups.selectedComment.mpCommentFlagFac">
                 <div class="media-body">
                     <div class="lv-title">{{comment.recipient.student.person.lastName}}, {{comment.recipient.student.person.firstName}}</div>
-                    <div class="lv-small clearfix">{{comment.mpCommentFlagRecipient}}<i class="zmdi zmdi-check pull-right zmdi-hc-fw" ng-if="comment.mpCommentFlagFac"></i></div>
+                    <div class="lv-small clearfix">{{comment.mpCommentFlagRecipient}}<i class="zmdi zmdi-check pull-right zmdi-hc-fw" ng-if="comment.mpCommentFlagFac!==null"></i></div>
                 </div>
             </div>
         </div>
@@ -46,9 +46,9 @@
                     </div>
                     <div class="pull-right p-t-30 p-r-5">
                         <div class="btn-group clearfix">
-                            <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentType=='Negative'}" ng-model="groups.radioCommentType" uib-btn-radio="'Negative'" ng-click="groups.selectedComment.mpCommentFlagFac='Negative'">Negative</label>
-                            <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentType=='Neutral'}" ng-model="groups.radioCommentType" uib-btn-radio="'Neutral'" ng-click="groups.selectedComment.mpCommentFlagFac='Neutral'">Neutral</label>
-                            <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentType=='Positive'}" ng-model="groups.radioCommentType" uib-btn-radio="'Positive'" ng-click="groups.selectedComment.mpCommentFlagFac='Positive'">Positive</label>
+                            <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentFlag=='Negative'}" ng-model="groups.radioCommentFlag" uib-btn-radio="'Negative'" ng-change="groups.selectedComment.mpCommentFlagFac='Negative'">Negative</label>
+                            <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentFlag=='Neutral'}" ng-model="groups.radioCommentFlag" uib-btn-radio="'Neutral'" ng-change="groups.selectedComment.mpCommentFlagFac='Neutral'">Neutral</label>
+                            <label class="btn btn-default" ng-class="{'btn-primary': groups.radioCommentFlag=='Positive'}" ng-model="groups.radioCommentFlag" uib-btn-radio="'Positive'" ng-change="groups.selectedComment.mpCommentFlagFac='Positive'">Positive</label>
                         </div>
                     </div>
                 </div>

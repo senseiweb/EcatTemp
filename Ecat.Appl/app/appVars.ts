@@ -72,7 +72,7 @@ export class EcMapPaygrade {
 export class MpCommentFlag {
     static pos = "Positive";
     static neg = "Negative";
-    static neut = "Netural";
+    static neut = "Neutral";
 }
 
 export class MpCommentType {
@@ -175,10 +175,12 @@ export class EcMapEntityType {
     static kcInstr = 'KcInstrument';
     static ecInstr = 'Instrument';
     static spComment = 'SpComment';
+    static facSpComment = 'FacSpComment';
     static ecInventory = 'Inventory';
     static kcResult = 'KcResult';
     static facSpAssessResponse = 'FacSpAssessResponse';
     static spAssessResponse = 'SpAssessResponse';
+    static facSpStratResponse = 'FacSpStratResponse';
 }
 
 export class MpSpComment {
