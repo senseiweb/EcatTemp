@@ -79,6 +79,7 @@ export default class EcStudentAssessments {
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
         this.activate();
+
     }
 
     activate(): void {

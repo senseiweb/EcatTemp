@@ -187,21 +187,21 @@ export default class EcStudentRepo extends IUtilityRepo {
     }
 
 
-    getNewSpComment(recipientId: number): ecat.entity.ISpComment {
-        const loggedInUser = this.dCtx.user.persona;
+    //getNewSpComment(recipientId: number): ecat.entity.ISpComment {
+    //    const loggedInUser = this.dCtx.user.persona;
 
-        const newComment = {
-            authorId: loggedInUser.personId,
-            recipientId: recipientId,
-            mpCommentFlagAuthor: AppVar.MpCommentType.signed,
-            MpCommentType: AppVar.MpSpComment.neut
+    //    const newComment = {
+    //        authorId: loggedInUser.personId,
+    //        recipientId: recipientId,
+    //        mpCommentFlagAuthor: AppVar.MpCommentType.signed,
+    //        MpCommentType: AppVar.MpCommentFlag.neut
 
 
-    }
+    //}
 
-        return this.manager.createEntity(AppVar.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;
+    //    return this.manager.createEntity(AppVar.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;
 
-    }
+    //}
 
     getOrAddComment(recipientId: number, groupMemberId: number) {
         const allComments = this.manager.getEntities(AppVar.EcMapEntityType.spComment) as Array<ecat.entity.ISpComment>;
@@ -215,8 +215,8 @@ export default class EcStudentRepo extends IUtilityRepo {
         const newComment = {
             authorId: groupMemberId,
             recipientId: recipientId,
-            mpCommentFlagAuthor: AppVar.MpCommentType.signed,
-            MpCommentType: AppVar.MpSpComment.neut
+            mpCommentFlagAuthor: AppVar.MpCommentFlag.neut,
+            mpCommentType: AppVar.MpCommentType.signed         
         }
 
         return this.manager.createEntity(AppVar.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;

@@ -23,7 +23,7 @@ export default class EcUtilityRepoServices {
     protected logWarn: (msg: string, data: any, showLog: boolean) => void;
     protected manager: breeze.EntityManager;
     mgrLoaded = false;
-    protected saveInProgress = false;
+    saveInProgress = false;
     protected query: breeze.EntityQuery;
 
     constructor(inj: angular.auto.IInjectorService,

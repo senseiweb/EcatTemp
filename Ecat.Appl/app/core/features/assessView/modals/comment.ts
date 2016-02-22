@@ -12,6 +12,10 @@ export default class EcAssessmentAddCommentForm {
     commentType = appVars.MpCommentType;
     commentFlag = appVars.MpCommentFlag;
 
+    logSuccess = this.c.logSuccess("Comment Modal");
+    logError = this.c.logError("Comment Modal");
+    isSaveInProgress = this.dCtx.student.saveInProgress;
+
     canChangeComment = false;
 
     recipientAvatar: string;
@@ -19,15 +23,11 @@ export default class EcAssessmentAddCommentForm {
 
     nf: angular.IFormController;
 
-    radioComment: string;
-
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private recipientId: number, private authorId: number) {
 
-
-        console.log(recipientId);
-    
+        console.log(recipientId);  
         this.activate();
-
+ 
     }
 
     activate(): void {
@@ -50,30 +50,50 @@ export default class EcAssessmentAddCommentForm {
             this.recipientAvatar = recipientPerson.avatarLocation || recipientPerson.defaultAvatarLocation;
             this.authorAvatar = authorPerson.avatarLocation || authorPerson.defaultAvatarLocation;
 
-           this.comment = comment;
+            this.comment = comment;
+
 
        }
 
-        this.radioComment = this.comment.mpCommentFlagAuthor;
     }
 
     //TODO: Need to code the delete method on the comment...
 
     //TODO: What happens to the comment when cancel
     cancel(): void {
+
+        if (this.comment.entityAspect.entityState.isAddedModifiedOrDeleted()) {
+            this.comment.entityAspect.rejectChanges();
+        }
+
         this.$mi.dismiss('canceled');
     }
 
-    commentError(error: any): void {
-        //this.c.logError('There was an error loading Courses', error, true);
+    commentError(errorMsg: any): void {
+        this.logError('There was an error loading Courses', errorMsg, true);
         
     }
 
     //TODO: Should do a saveChanges before moving on 
     save(): void {
-        //this.dCtx.student.saveChanges()
-        //    .then()
-        //    .catch(this.commentError)
-        //    .finally();
+
+        if (this.isSaveInProgress) {
+
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Warning',
+                text: 'You have a save in progress please wait and try again',
+                type: 'warning',
+                confirmButtonText: 'Ok',
+                closeOnConfirm: true,
+                allowEscapeKey: true,
+                allowOutsideClick: true,
+                showCancelButton: false
+            }
+
+            this.c.swal(alertSettings);
+
+        } else {
+            this.comment.entityAspect.entityManager.saveChanges();
+        }
     }
 }

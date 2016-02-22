@@ -31,7 +31,8 @@ export class FacWorkGroupExt implements ecat.entity.ext.IFacWorkGroupExt {
                 breakout: { ineff: 0, nd: 0, eff: 0, highEff: 0 },
                 compositeScore: 0,
                 hasComment: false
-            }
+
+            }  
 
             const responseList = this.facSpAssessResponses
                 .filter(response => response.assesseeId === gm.id);

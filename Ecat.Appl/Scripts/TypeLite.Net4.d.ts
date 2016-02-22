@@ -113,15 +113,15 @@ declare module Ecat.Shared.Model {
 	interface FacSpAssessResponse {
 		id: number;
 		assesseeId: number;
-        inventoryItemId: number;
+		inventoryItemId: number;
 		assessResultId: number;
 		assignedGroupId: number;
-        mpItemResponse: string;
-        itemModelScore: number;
+		mpItemResponse: string;
+		itemModelScore: number;
 		scoreModelVersion: number;
 		assignedGroup: Ecat.Shared.Model.WorkGroup;
 		assessee: Ecat.Shared.Model.MemberInGroup;
-        inventoryItem: Ecat.Shared.Model.SpInventory;
+		inventoryItem: Ecat.Shared.Model.SpInventory;
 		assessResult: Ecat.Shared.Model.SpAssessResult;
 		isDeleted: boolean;
 		deletedById: number;

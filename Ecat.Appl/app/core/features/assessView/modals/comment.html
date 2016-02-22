@@ -2,10 +2,8 @@
     <h4 class="thinHeader">Add/Edit Comment</h4>
 </div>
 
-
-
 <div class="modal-body ">
-    <form name="comment.nf" class="form-horizontal" novalidate role="form">
+    <form name="commentAe.nf" class="form-horizontal" novalidate role="form">
         <div class="form-group">
             <label for="to" class="control-label col-md-1">To:</label>
             <div class="col-md-8">
@@ -29,12 +27,12 @@
             <div class="col-md-8">
                 <div class="fg-line">
                     <div class="select">
-                        <select ng-model="commentAe.comment.mpCommentType"
+                        <select ng-model="commentAe.comment.mpCommentType"                               
                                 name="from"
                                 required
-                                class="form-control input-lg fg-input">
-                            <option value="commentAe.commentType.signed">{{commentAe.authorName}}</option>
-                            <option value="commentAe.commentType.anon">Annonymous</option>
+                                class="form-control f-18">
+                            <option value="{{commentAe.commentType.signed}}">{{commentAe.authorName}}</option>
+                            <option value="{{commentAe.commentType.anon}}">Annonymous</option>
                         </select>
                     </div>
                 </div>
@@ -58,12 +56,12 @@
 <div class="modal-footer">
     <!-- TODO: Add Comment Type field -->
     <div class="btn-group btn-group-xs pull-left m-t-10">
-        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment===commentAe.commentFlag.neg}" ng-model="commentAe.radioComment" uib-btn-radio="{{commentAe.commentFlag.neg}}">{{commentAe.commentFlag.neg}}</label>
-        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment===commentAe.commentFlag.neut}" ng-model="commentAe.radioComment" uib-btn-radio="{{commentAe.commentFlag.neut}}">{{commentAe.commentFlag.neut}}</label>
-        <label class="btn btn-default waves-effect" ng-class="{'btn-primary': commentAe.radioComment===commentAe.commentFlag.pos}" ng-model="commentAe.radioComment" uib-btn-radio="{{commentAe.commentFlag.pos}}">{{commentAe.commentFlag.pos}}</label>
+        <label class="btn btn-default waves-effect" ng-click="commentAe.nf.$setDirty()" ng-class="{'btn-primary': commentAe.comment.mpCommentFlagAuthor==commentAe.commentFlag.neg}" ng-model="commentAe.comment.mpCommentFlagAuthor" uib-btn-radio="'{{commentAe.commentFlag.neg}}'">{{commentAe.commentFlag.neg}}</label>
+        <label class="btn btn-default waves-effect" ng-click="commentAe.nf.$setDirty()" ng-class="{'btn-primary': commentAe.comment.mpCommentFlagAuthor==commentAe.commentFlag.neut}" ng-model="commentAe.comment.mpCommentFlagAuthor" uib-btn-radio="'{{commentAe.commentFlag.neut}}'">{{commentAe.commentFlag.neut}}</label>
+        <label class="btn btn-default waves-effect" ng-click="commentAe.nf.$setDirty()" ng-class="{'btn-primary': commentAe.comment.mpCommentFlagAuthor==commentAe.commentFlag.pos}" ng-model="commentAe.comment.mpCommentFlagAuthor" uib-btn-radio="'{{commentAe.commentFlag.pos}}'">{{commentAe.commentFlag.pos}}</label>
     </div>
 
-    <button class="btn btn-danger" type="button" ng-click="assessEdit.delete()">Delete</button>
-    <button class="btn btn-link" type="button" ng-click="commentAe.save()">Save</button>
+    <button class="btn btn-danger" type="button" ng-if="" ng-click="assessEdit.delete()">Delete</button>
+    <button class="btn btn-link" type="button" ng-if="commentAe.nf.$dirty && !commentAe.isSaveInProgress" ng-disable="!commentAe.isSaveInProgress" ng-click="commentAe.save()">Save</button>
     <button class="btn btn-link" type="button" ng-click="commentAe.cancel()">Cancel</button>
 </div>
