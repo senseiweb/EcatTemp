@@ -9,26 +9,26 @@ import ICSD from "facilitator/features/groups/modals/capstonestudentdetail"
 import IScore from 'core/service/scoring'
 
 //#region Interfaces
-interface IGroupCapstone {
+export interface IGroupCapstone {
     [studentId: number]: IStudentCapstone
 }
 
-interface IStudentCapstone {
+export interface IStudentCapstone {
     [groupType: string]: IStudentGroupResults
 }
 
-interface IGroupResults {
+export interface IGroupResults {
     [groupMemberId: number]: IStudentGroupResults
 }
 
-interface IStudentGroupResults {
+export interface IStudentGroupResults {
     strat: number,
     self: string,
     peer: string,
     fac: string
 }
 
-interface INewStrat {
+export interface INewStrat {
     [assesseeId: number]: number
 }
 //#endregion

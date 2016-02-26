@@ -1,6 +1,6 @@
 ﻿import IDataCtx from "core/service/data/context"
 import ICommon from 'core/service/common'
-import * as appVars from "appVars"
+import * as AppVars from "appVars"
 
 export default class EcAssessmentAddCommentForm {
     static controllerId = 'app.core.assessment.comment';
@@ -9,8 +9,8 @@ export default class EcAssessmentAddCommentForm {
     comment: ecat.entity.ISpComment;
     recipientName: string;
     authorName: string;
-    commentType = appVars.MpCommentType;
-    commentFlag = appVars.MpCommentFlag;
+    commentType = AppVars.MpCommentType;
+    commentFlag = AppVars.MpCommentFlag;
 
     logSuccess = this.c.logSuccess("Comment Modal");
     logError = this.c.logError("Comment Modal");
@@ -36,7 +36,7 @@ export default class EcAssessmentAddCommentForm {
        let authorPerson: ecat.entity.IPerson;
        let recipientPerson: ecat.entity.IPerson;
 
-       if (role === appVars.EcMapInstituteRole.student) {
+       if (role === AppVars.EcMapInstituteRole.student) {
 
            this.canChangeComment = true;
 

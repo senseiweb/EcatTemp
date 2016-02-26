@@ -1,13 +1,11 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <h3 class="lead">Overall Assessment - Always Effective</h3>
+            <h3 class="lead">{{groups.selectedStudent.lastName}}, {{groups.selectedStudent.firstName}} {{groups.selectedGroup.groupNumber}} Results</h3>
         </div>
     </div>
 </div>
-
-<hr/>
-
+<hr />
 <div class="row">
     <div class="col-md-12 p-t-20">
         <div class="table-responsive">
@@ -15,16 +13,24 @@
                 <thead>
                     <tr>
                         <th>Behavior</th>
-                        <th>Behavior Assessment Average</th>
-                        <th>Assessment Reponse Count</th>
+                        <th>Self</th>
+                        <th>Peer</th>
+                        <th>Instructor</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="question in assess.questions track by question.id">
-                        <td>{{question.question}}</td>
-                        <td>{{question.assessAvg}}</td>
-                        <td>{{question.counts}}</td>
+                    <tr ng-repeat="inventory in groups.selectedGroup.assignedSpInstr | orderBy: 'inventory.displayOrder'" style="height: 50px">
+                        <td>{{inventory.behavior}}</td>
+                        <td popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}}">{{invsWithOvs[inventory.displayOrder].selfWP}}</td>
+                        <td popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}}">{{invsWithOvs[inventory.displayOrder].peerWP}}</td>
+                        <td popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}}">{{invsWithOvs[inventory.displayOrder].facWP}}</td>
                     </tr>
+                    <!--<tr ng-repeat="result in groups.results track by $index" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">
+                        <td>{{groups.questions[$index].question}}</td>
+                        <td>{{result.self}}</td>
+                        <td>{{result.peer}}</td>
+                        <td>{{result.inst}}</td>
+                    </tr>-->
                 </tbody>
             </table>
         </div>

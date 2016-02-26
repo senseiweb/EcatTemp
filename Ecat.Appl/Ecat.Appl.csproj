@@ -281,7 +281,7 @@
     <Content Include="app\student\features\assessments\modals\add.html" />
     <Content Include="app\student\features\assessments\assessments.html" />
     <Content Include="app\student\features\assessments\tmpls\assess.assessments.tmpl.html" />
-    <Content Include="app\student\features\assessments\tmpls\assess.strat.tmpl.html" />
+    <Content Include="app\student\features\assessments\tmpls\assess.results.comments.tmpl.html" />
     <Content Include="app\student\features\assessments\tmpls\assess.results.tmpl.html" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />

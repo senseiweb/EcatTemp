@@ -70,10 +70,12 @@ export default class EcStudentAssessments {
     stratPerson: IStratPerson;
 
     groupMembers: Array<{}> = [];
-    //stratValidation: Array<IStratPerson> = [];
+
     stratValidation: INewStrats = {};
     stratValidationMax: number;
     stratInputContent: Array<number> = [];
+    selectedComment: Ecat.Shared.Model.SpComment;
+    commentFlag = AppVars.MpCommentFlag;
 
     //Turns logError into a log error function that is displayed to the client. 
     logError = this.c.logSuccess('Assessment Center');

@@ -70,7 +70,7 @@
                 </ul>
             </div>
 
-            <div class="lv-body" ng-init="assess.view=0">
+            <div class="lv-body" ng-init="assess.isResultPublished ? assess.view=1 : assess.view=0">
                 <div ng-switch="assess.view">
                     <div ng-switch-when="0">
                         <div ng-include="'wwwroot/app/student/features/assessments/tmpls/assess.assessments.tmpl.html'"></div>
@@ -79,7 +79,7 @@
                         <div ng-include="'wwwroot/app/student/features/assessments/tmpls/assess.results.tmpl.html'"></div>
                     </div>
                     <div ng-switch-when="2">
-                        <div ng-include="'wwwroot/app/student/features/assessments/tmpls/assess.comments.tmpl.html'"></div>
+                        <div ng-include="'wwwroot/app/student/features/assessments/tmpls/assess.results.comments.tmpl.html'"></div>
                     </div>
                 </div>
 
