@@ -1,0 +1,69 @@
+﻿<div class="modal-header">
+    <h4 class="thinHeader">Add/Edit Comment</h4>
+</div>
+
+<div class="modal-body ">
+    <form name="commenter.nf" class="form-horizontal" novalidate role="form">
+        <div class="form-group">
+            <label for="to" class="control-label col-md-1">To:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text"
+                           name="to"
+                           id="to"
+                           value="{{commenter.recipientName}}"
+                           class="form-control fg-input f-18"
+                           disabled />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profile-pic">
+                    <img alt="User Avatar" ng-src="{{commenter.recipientAvatar}}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-if="commenter.canChangeComment">
+            <label for="from" class="control-label col-md-1">From:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <div class="select">
+                        <label> </label>
+                        <select ng-model="commenter.comment.mpCommentType"
+                                name="from"
+                                required
+                                ng-disable="commenter.isInstructor"
+                                class="form-control f-18">
+                            <option value="{{commenter.commentType.signed}}">{{commenter.authorName}}</option>
+                            <option value="{{commenter.commentType.anon}}">Annonymous</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profile-pic">
+                    <img alt="User Avatar" ng-src="{{commenter.authorAvatar}}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fg-line">
+                <div class="col-md-12">
+                    <div text-angular ng-model="commenter.comment.commentText" class="pmbb-edit"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <!-- TODO: Add Comment Type field -->
+    <div class="btn-group btn-group-xs pull-left m-t-10">
+        <label class="btn btn-default waves-effect" ng-click="commenter.nf.$setDirty()" ng-class="{'btn-primary': commenter.comment.mpCommentFlagAuthor===commenter.commentFlag.neg}" ng-model="commenter.comment.mpCommentFlagAuthor" uib-btn-radio="'{{commenter.commentFlag.neg}}'">{{commenter.commentFlag.neg}}</label>
+        <label class="btn btn-default waves-effect" ng-click="commenter.nf.$setDirty()" ng-class="{'btn-primary': commenter.comment.mpCommentFlagAuthor===commenter.commentFlag.neut}" ng-model="commenter.comment.mpCommentFlagAuthor" uib-btn-radio="'{{commenter.commentFlag.neut}}'">{{commenter.commentFlag.neut}}</label>
+        <label class="btn btn-default waves-effect" ng-click="commenter.nf.$setDirty()" ng-class="{'btn-primary': commenter.comment.mpCommentFlagAuthor===commenter.commentFlag.pos}" ng-model="commenter.comment.mpCommentFlagAuthor" uib-btn-radio="'{{commenter.commentFlag.pos}}'">{{commenter.commentFlag.pos}}</label>
+    </div>
+
+    <button class="btn btn-danger" type="button" ng-if="commenter.isNew" ng-click="commenter.delete()">Delete</button>
+    <button class="btn btn-link" type="button" ng-if="commenter.nf.$dirty && !commenter.isSaveInProgress && commenter.nf.$valid" ng-disable="!commenter.isSaveInProgress" ng-click="commenter.save()">Save</button>
+    <button class="btn btn-link" type="button" ng-click="commenter.cancel()">Cancel</button>
+</div>

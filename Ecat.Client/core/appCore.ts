@@ -1,0 +1,135 @@
+﻿//#region Import Required Modules
+import 'angular'
+//#endregion 
+
+//#region Import Module Configuration
+import stateCfg from 'core/config/cfgAppStates'
+import coreCfg from 'core/config/cfgCore'
+//#endregion
+
+//#region Import Module Controllers
+import mainCntrl from "core/features/global/main"
+import dashboardCntrl from "core/features/userSystems/dashboard"
+import profileCntrl from "core/features/userSystems/profile"
+import loginCntrl from "core/features/login/login"
+import appCntrl from "core/features/global/global"
+//#endregion
+
+//#region Import Module directives
+import ecToggleSb from 'core/directives/toggleSidebar'
+import ecToggleSub from 'core/directives/toggleSubMenu'
+import * as ecMalihuScrollDirective from 'core/directives/malihuScroll'
+import ecFrmCntrl from 'core/directives/frmControl'
+import ecFgLine from 'core/directives/fgLine'
+import btnWave from "core/directives/btnWave"
+import iMask from 'core/directives/inputMask'
+import compareTo from "core/directives/compareToValidator"
+import emailValidator from "core/directives/dupEmailvalidator"
+//#endregion 
+
+//#region Import Module Services/Factory/Providers
+import cfgProvider from "core/config/cfgProviders"
+import ecMalihuScrollService from 'core/service/plugin/malihuScroll'
+import dataCtx from 'core/service/data/context'
+import emFactory from "core/service/data/emfactory"
+import userRepo from 'core/service/data/user'
+import studentRepo from 'student/service/context'
+import growl from "core/service/plugin/growlNotify"
+import logger from 'core/service/logger'
+import staticDs from "core/service/data/static"
+import authService from "core/service/authenicator"
+import * as _mp from "core/common/mapStrings"
+//#endregion
+
+export default class EcAppCore {
+    static moduleId = 'app.core';
+    static load = () => new EcAppCore();
+    private setUserStatic = (): ecat.entity.ILoginToken => {
+        let existingUserToken = window.sessionStorage.getItem('ECAT:TOKEN') || window.localStorage.getItem('ECAT:TOKEN');
+
+        if (!existingUserToken) {
+            existingUserToken = angular.element('#user-token').data('user-string');
+            angular.element('#user-token').removeAttr('data-user-string');
+
+            if (existingUserToken && existingUserToken !== '@ViewBag.User') {
+                window.sessionStorage.setItem('ECAT:TOKEN', JSON.stringify(existingUserToken));
+                return existingUserToken;
+            } else {
+                return null;
+            }
+        }
+
+        let loginToken = JSON.parse(existingUserToken) as ecat.entity.ILoginToken;
+        const expire = loginToken.tokenExpire as any;
+
+        if (new Date(expire) < new Date()) {
+            const newToken = angular.element('#user-token').data('usertstring');
+
+            if (newToken && newToken !== '@ViewBag.User') {
+                window.sessionStorage.setItem('ECAT:TOKEN', JSON.stringify(newToken));
+            } else {
+                window.sessionStorage.removeItem('ECAT:TOKEN');
+                window.localStorage.removeItem('ECAT:TOKEN');
+            }
+
+            loginToken = newToken || loginToken;
+        }
+
+        angular.element('#user-token').removeAttr('data-user-string');
+
+        return loginToken;
+    }
+
+    constructor() {
+
+        //#region Angular Module Declaration & Dependencies
+        angular.module(EcAppCore.moduleId, [])
+            //#endregion
+
+            //#region Configuration
+            .config(stateCfg)
+            .config(coreCfg)
+            .constant('userStatic', this.setUserStatic())
+            //#endregion
+
+            //#region Controllers
+            .controller(appCntrl.controllerId, appCntrl)
+            .controller(mainCntrl.controllerId, mainCntrl)
+            .controller(dashboardCntrl.controllerId, dashboardCntrl)
+            .controller(profileCntrl.controllerId, profileCntrl)
+            .controller(loginCntrl.controllerId, loginCntrl)
+            //#endregion
+
+            //#region Directives
+            .directive(ecFgLine.directiveId, () => new ecFgLine())
+            .directive(ecFrmCntrl.directiveId, () => new ecFrmCntrl())
+            .directive(ecToggleSb.directiveId, () => new ecToggleSb())
+            .directive(ecToggleSub.directiveId, () => new ecToggleSub())
+            .directive(btnWave.directiveId, () => new btnWave())
+            .directive(compareTo.directiveId, () => new compareTo())
+            .directive(iMask.directiveId, () => new iMask)
+            .directive(emailValidator.directiveId, ['$q', dataCtx.serviceId, ($q, dataCtx) => new emailValidator($q, dataCtx)])
+            .directive(ecMalihuScrollDirective.EcOverFlowMalihuScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', cfgProvider.stateConfigProvider.id, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowMalihuScroll(nss, $state, stateMgr)])
+            //#endregion
+
+            //#region Providers
+            .provider(cfgProvider.appCfgProvider.id, cfgProvider.appCfgProvider.provider)
+            .provider(cfgProvider.stateConfigProvider.id, cfgProvider.stateConfigProvider.provider())
+            //#endregion
+
+            //#region Services
+            .service(ecMalihuScrollService.serviceId, ecMalihuScrollService)
+            .service(authService.serviceId, authService)
+            .service(dataCtx.serviceId, dataCtx)
+            .service(emFactory.serviceId, emFactory)
+            .service(userRepo.serviceId, userRepo)
+            .service(studentRepo.serviceId, studentRepo)
+            .service(growl.serviceId, growl)
+            .service(logger.serviceId, logger)
+            .service(staticDs.serviceId, staticDs);
+
+        //#endregion
+
+    }
+
+}
