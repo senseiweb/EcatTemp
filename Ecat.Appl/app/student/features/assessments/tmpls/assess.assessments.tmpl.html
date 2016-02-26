@@ -10,7 +10,7 @@
                         <th ng-if="assess.stratInputVis">Composite Ranking</th>
                         <th>Strat</th>
                         <th ng-if="assess.stratInputVis">Strat Position</th>
-                        <th ng-if="assess.StratError"></th>
+                        <th ng-if="assess.stratInputVis"></th>
 
 
                     </tr>
@@ -40,16 +40,18 @@
 
                     <td>{{assess.studentSelf.spStratResponse}}</td>
 
-                    <td ng-if="assess.stratInputVis" style="width: 120px">
-                        <input class="form-control" id="inputError1" type="text" style="width: 100px">
+                    <td ng-if="assess.stratInputVis" style="width: 80px">
+                        <input ng-model="assess.stratValidation[assess.studentSelf.id].stratInput" class="form-control" type="number" style="width: 100px">
                     </td>
 
-                    <td><label class="control-label" for="inputError1">{{assess.stratError}}</label></td>
+                    <td ng-if="assess.stratInputVis" style="width: 150px">
+                        <label class="control-label error">{{assess.stratValidation[assess.studentSelf.id].error}}</label>
+                    </td>
 
 
                 </tr>
 
-                <tr ng-repeat="peer in assess.peers track by peer.studentId">
+                <tr ng-repeat="peer in assess.peers track by peer.id" ng-form="">
                     <td>{{peer.student.person.firstName}} {{peer.student.person.lastName}}</td>
                     <td>
                         <button class="btn btn-link" ng-click="assess.addAssessment(peer)">Add</button>
@@ -57,7 +59,7 @@
                     </td>
 
                     <td ng-if="!assess.stratInputVis">
-                        <button class="btn btn-link" ng-click="assess.addComment(peer.id)">{{assess.activeGroupMember.statusOfPeer[peer.studentId].hasComment ? "View/Edit" : "Add" }}</button>
+                        <button class="btn btn-link" ng-click="assess.addComment(peer.id)">{{assess.activeGroupMember.statusOfPeer[peer.id].hasComment ? "View/Edit" : "Add" }}</button>
 
                     </td>
                     <td ng-if="assess.stratInputVis">
@@ -70,13 +72,15 @@
                         </table>
                     </td>
 
-                    <td>3</td>
+                    <td>{{peer.assessorStratResponse[peer.id].stratPosition}}</td>
 
-                    <td ng-if="assess.stratInputVis" style="width: 120px">
-                        <input class="form-control" id="inputError1" type="text" style="width: 100px">
+                    <td ng-if="assess.stratInputVis" style="width: 80px">
+                        <input ng-model="assess.stratValidation[peer.id].stratInput" required class="form-control" type="number" style="width: 100px">
                     </td>
 
-                    <td><label class="control-label" for="inputError1">{{assess.stratError}}</label></td>
+                    <td ng-if="assess.stratInputVis" style="width: 150px">
+                        <label class="control-label error">{{assess.stratValidation[peer.id].error}}</label>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -7,15 +7,22 @@ import * as AppVars from "appVars"
 
 //import {EcMapGender as gender} from "appVars"
 
+export interface IStratPerson {
+    //studentId: number;
+    stratInput: number;
+    error: string;
+}
+
+export interface INewStrats {
+    [gmId: number]: IStratPerson
+}
+
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
-    static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
+    static $inject = ['$uibModal', '$scope', ICommon.serviceId, IDataCtx.serviceId];
     appVar = AppVars;
-
     stratInputVis;
-
     hasComment = false;
-
     isResultPublished = false;
 
     activeCourseMember: ecat.entity.ICourseMember;
@@ -56,11 +63,17 @@ export default class EcStudentAssessments {
 
     };
 
-
-
     fullName = 'Unknown';
 
+    
+
+    stratPerson: IStratPerson;
+
     groupMembers: Array<{}> = [];
+    //stratValidation: Array<IStratPerson> = [];
+    stratValidation: INewStrats = {};
+    stratValidationMax: number;
+    stratInputContent: Array<number> = [];
 
     //Turns logError into a log error function that is displayed to the client. 
     logError = this.c.logSuccess('Assessment Center');
@@ -73,13 +86,9 @@ export default class EcStudentAssessments {
 
     user: ecat.entity.IPerson;
 
-  
-
-
-    constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
+    constructor(private uiModal: angular.ui.bootstrap.IModalService, private scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
         this.activate();
-
     }
 
     activate(): void {
@@ -107,15 +116,6 @@ export default class EcStudentAssessments {
             })
             .catch(courseError);
             //.finally();   --Can be used to do some addtional functionality
-
-        //function recCourseList(retData: ecat.entity.ICourseMember[]) {
-
-        //    self.courseEnrollments = retData;
-        //    self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
-
-
-        //}
-       
         
 
         function sortByDate(first: ecat.entity.ICourseMember, second: ecat.entity.ICourseMember) {
@@ -138,19 +138,26 @@ export default class EcStudentAssessments {
     }
 
 
-
     isolateSelf(): void {
-
 
         this.peers = this.activeGroupMember.groupPeers.filter(peer => {
             if (peer.id === this.activeGroupMember.id) {
+                this.stratValidation[peer.id] = {
+                    error: '',
+                    stratInput: null
+                };
                 this.studentSelf = peer;
                 return false;
             }
+            this.stratValidation[peer.id] = {
+                error: '',
+                stratInput: null
+            };
             return true;
         });
 
- 
+        this.stratValidationMax = Object.keys(this.stratValidation).length;
+        console.log(this.stratValidationMax);
     }
 
     checkIfPublished(): void {
@@ -184,6 +191,75 @@ export default class EcStudentAssessments {
         this.isolateSelf();
     }
 
+    cancelStrat(): void {
+        this.studentSelf.groupPeers.forEach(peer => {
+            this.stratValidation[peer.id].error = '';
+            this.stratValidation[peer.id].stratInput = undefined;
+        });
+    }
+
+    saveStrat(): void {
+
+       var duplicates: Array <number> = [];
+
+        console.log(this.stratValidation);
+
+        var counts = [];
+        var isError = false;
+
+
+        this.studentSelf.groupPeers.forEach(peer => {
+            this.stratValidation[peer.id].error = '';
+            
+            if (this.stratValidation[peer.id].stratInput > this.stratValidationMax) {
+                this.stratValidation[peer.id].error = 'Strat too large';
+                isError = true;
+            }
+
+            if (this.stratValidation[peer.id].stratInput < 1) {
+                this.stratValidation[peer.id].error = 'Strat too small';
+                isError = true;
+            }
+            
+
+
+        });
+
+
+        this.studentSelf.groupPeers.forEach(peer => {
+            
+            if (this.stratValidation[peer.id].stratInput === null || this.stratValidation[peer.id].stratInput === undefined || this.stratValidation[peer.id].stratInput.toString() === '') {
+                this.stratValidation[peer.id].error = 'Empty';
+                isError = true;
+            } else {
+                if (counts[this.stratValidation[peer.id].stratInput] === undefined) {
+                    counts[this.stratValidation[peer.id].stratInput] = 1;
+                } else {
+                    counts[this.stratValidation[peer.id].stratInput] += 1;
+
+                    if (counts[this.stratValidation[peer.id].stratInput] > 1) {
+                        duplicates.push(this.stratValidation[peer.id].stratInput);
+                    }
+                }
+            }
+        });
+
+        this.studentSelf.groupPeers.forEach(peer => {
+            if (duplicates.indexOf(this.stratValidation[peer.id].stratInput) !== -1) {
+                this.stratValidation[peer.id].error = 'Duplicate Value';
+                isError = true;
+            } 
+        });
+
+
+        
+
+
+        console.log(this.stratValidation);
+
+
+    }
+
     addAssessment(assessee: ecat.entity.IMemberInGroup): void {
         var spResponses: ecat.entity.ISpAssess[] = [];
         var mode: string;
@@ -214,9 +290,7 @@ export default class EcStudentAssessments {
 
         function assessmentError() {
             
-
         }
-
 
     }
 
@@ -271,8 +345,6 @@ export default class EcStudentAssessments {
         }
 
     }
-
-    
 
     get viewStrat(): boolean {
         return true;

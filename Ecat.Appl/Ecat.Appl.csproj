@@ -718,7 +718,7 @@
     <TypeScriptCompile Include="app\core\directives\compareTo.ts" />
     <TypeScriptCompile Include="app\core\directives\fgLine.ts" />
     <TypeScriptCompile Include="app\core\directives\frmControl.ts" />
-    <TypeScriptCompile Include="app\core\directives\assessmentAdd.ts" />
+    <TypeScriptCompile Include="app\core\directives\validateStrat.ts" />
     <TypeScriptCompile Include="app\core\directives\inputMask.ts" />
     <TypeScriptCompile Include="app\core\directives\malihuScroll.ts" />
     <TypeScriptCompile Include="app\core\directives\tabError.ts" />
