@@ -1,8 +1,8 @@
 ﻿<div class="container animated fadeInRight">
     <div class="block-header">
-        <h2>{{groups.fullName}} Groups Center</h2>
+        <h2>{{groups.selectedCourse.classNumber}} {{groups.selectedCourse.name}} Groups Center</h2>
 
-        <ul class="actions">
+        <ul class="actions" ng-if="groups.view==0">
             <li class="dropdown" uib-dropdown>
                 <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-sort"></i>
@@ -40,7 +40,7 @@
 
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a href="">Refresh Data</a>
+                                <a href="groups.refreshData(groups.view)">Refresh Data</a>
                             </li>
                         </ul>
                     </li>

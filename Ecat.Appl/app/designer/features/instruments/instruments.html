@@ -11,7 +11,7 @@
                     <button type="button" class="btn btn-warning" ng-if="instruments.details" ng-click="instruments.view=1">Assessment</button>
                     <button type="button" class="btn btn-warning" ng-if="instruments.details" ng-click="instruments.view=2">Behaviors</button>
                     <button type="button" class="btn btn-primary" ng-if="instruments.view==0" ng-click="instruments.newInstrument()">New Assessment</button>
-                    <button type="button" class="btn btn-primary" ng-if="instruments.view==2" ng-click="instruments.newBehavior()">New Behavior</button>
+                    <button type="button" class="btn btn-primary" ng-if="instruments.view==2" ng-click="instruments.newInventory()">New Behavior</button>
                 </div>
 
                 <ul class="lv-actions actions">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div ng-if="instruments.view==1 || instruments.view==2" class="p-t-30 p-b-30 text-center">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" ng-click="instruments.save()">Save</button>
             </div>
         </div>
     </div>

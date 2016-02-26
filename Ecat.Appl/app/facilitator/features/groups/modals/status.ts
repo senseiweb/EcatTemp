@@ -62,6 +62,7 @@ export default class EcFacViewStatusModal {
 
             this.spStatuses[gm.id] = ovStatus;
         });
+        console.log(this.group.groupNumber + ' ' + this.group.defaultName + ' Group Status Loaded');
     }
 
     close(): void {

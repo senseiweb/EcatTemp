@@ -46,7 +46,9 @@ declare module ecat.entity
         person: IPerson;
     }
 
-    interface ISpInstrument extends breeze.Entity, Ecat.Shared.Model.SpInstrument { }
+    interface ISpInstrument extends breeze.Entity, Ecat.Shared.Model.SpInstrument {
+        inventoryCollection: ISpInventory[];
+    }
 
     interface ISpInventory extends breeze.Entity, Ecat.Shared.Model.SpInventory { }
 

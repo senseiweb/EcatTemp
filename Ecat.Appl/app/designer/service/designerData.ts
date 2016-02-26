@@ -32,9 +32,55 @@ export default class EcDesignerRepo extends IUtilityRepo {
     };
 
     constructor(inj) {
-        super(inj, 'Course Admin Data Service', AppVar.EcMapApiResource.courseAdmin, []);
+        super(inj, 'Designer Data Service', AppVar.EcMapApiResource.designer, []);
         this.loadManager(this.DesignerApiResources);
     }
+
+    //#region New Entities
+    getNewInstrument(): ecat.entity.ISpInstrument {
+        return this.manager.createEntity(AppVar.EcMapEntityType.spInstr) as ecat.entity.ISpInstrument;
+    }
+
+    cloneInstrument(original: ecat.entity.ISpInstrument, newVersion: number): ecat.entity.ISpInstrument {
+        const newInstrument = {
+            name: original.name,
+            version: newVersion,
+            isActive: false,
+            selfInstructions: original.selfInstructions,
+            peerInstructions: original.peerInstructions,
+            facilitatorInstructions: original.facilitatorInstructions,
+        }
+
+        var cloned = this.manager.createEntity(AppVar.EcMapEntityType.spInstr, newInstrument) as ecat.entity.ISpInstrument;
+
+        original.inventoryCollection.forEach(inv => {
+            var newInventory = this.cloneInventory(inv);
+            newInventory.instrument = cloned;
+            cloned.inventoryCollection.push(newInventory);
+        });
+
+        return cloned;
+    }
+
+    getNewInventory(instrument: ecat.entity.ISpInstrument): ecat.entity.ISpInventory {
+        const newInventory = {
+            instrument: instrument
+        }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.spInventory, newInventory) as ecat.entity.ISpInventory;
+    }
+
+    cloneInventory(original: ecat.entity.ISpInventory): ecat.entity.ISpInventory {
+        const newInventory = {
+            instrument: original.instrument,
+            isScored: original.isScored,
+            isDisplayed: original.isDisplayed,
+            behavior: original.behavior
+        }
+
+        return this.manager.createEntity(AppVar.EcMapEntityType.spInventory, newInventory) as ecat.entity.ISpInventory;
+    }
+    //#endregion
 
     getInstruments(): breeze.promises.IPromise<any> {
         const self = this;

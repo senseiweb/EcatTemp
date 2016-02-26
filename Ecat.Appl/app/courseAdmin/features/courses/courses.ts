@@ -18,6 +18,8 @@ export default class EcCourseAdminCourses {
     }
 
     activate(): void {
+        //this.academy = this.dCtx.user.persona.
+
         this.academy = {
             id: 1,
             Name: 'KENCOA',

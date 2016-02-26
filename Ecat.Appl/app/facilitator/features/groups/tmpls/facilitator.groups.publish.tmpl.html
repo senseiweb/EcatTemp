@@ -1,4 +1,12 @@
-﻿<div class="lv-body" ng-init="groups.publishView=0">
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="text-center">
+            <h3 class="lead">{{groups.selectedGroup.groupNumber}}-{{groups.selectedGroup.defaultName}} Publication</h3>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="lv-body" ng-init="groups.publishView=0">
     <div ng-switch="groups.publishView">
         <div ng-switch-when="0">
             <div ng-include="'wwwroot/app/facilitator/features/groups/tmpls/facilitator.groups.publish.comments.tmpl.html'"></div>

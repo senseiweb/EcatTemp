@@ -36,7 +36,7 @@
                     <td>{{instrument.Version}} <a ng-if="{instrument.Used}" class="zmdi zmdi-lock-outline"></a></td>
                     <td style="width: 350px">
                         <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true; instruments.select(instrument)" class="btn btn-link waves-effect">View/Edit</button>
-                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.clone(instrument)" class="btn btn-link waves-effect">Clone</button>
+                        <button type="button" ng-if="instrument.isVisible" ng-click="instruments.cloneInstrument(instrument); instruments.view=1; instruments.back=true; instruments.details=true;" class="btn btn-link waves-effect">Clone</button>
                     </td>
                 </tr>
 

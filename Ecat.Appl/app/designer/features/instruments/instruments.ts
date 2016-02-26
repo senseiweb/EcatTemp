@@ -7,7 +7,7 @@ export default class EcDesignerInstruments {
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId];
 
     instruments: ecat.entity.ISpInstrument[];
-    //selectedInstrument: Ecat.Models.EcInstrument;
+    selectedInstrument: ecat.entity.ISpInstrument;
     checkGroupType = {
         BC1: false,
         BC2: false,
@@ -27,58 +27,84 @@ export default class EcDesignerInstruments {
     };
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
-        console.log('Designer Instruments Loaded');
         this.activate();
     }
 
     activate(): void {
-        
+        const self = this;
+        this.dCtx.designer.getInstruments()
+            .then((retData: ecat.entity.ISpInstrument[]) => {
+                this.instruments = retData;
+                console.log('Designer Instruments Loaded');
+            });
     }
 
-    select(instrument: any): void {//Ecat.Models.SpInstrument): void {
-        //this.selectedInstrument = instrument;
+    select(instrument: ecat.entity.ISpInstrument): void {
+        this.selectedInstrument = instrument;
         //this.radioEduLevel = this.selectedInstrument.MpEducationLevel;
         //this.checkGroupType = this.selectedInstrument.groupTypes;
         this.radioEduLevel = 'NCOA';
         this.checkGroupType.BC1 = true;
     }
 
-    clone(cloneInstrument: any): void {
-        
+    cloneInstrument(subject: ecat.entity.ISpInstrument): void {
+        var latestVersion: number = 0;
+        this.instruments.forEach(inst => {
+            //if (inst.eduLevel === subject.eduLevel) {
+            //    if (inst.groupType === subject.groupType) {
+            //        if (inst.version > latestVersion) {
+            //            latestVersion = inst.version;
+            //        }
+            //    }
+            //}
+        });
+
+        this.select(this.dCtx.designer.cloneInstrument(subject, (latestVersion + 1)));
     }
 
     newAssessment(): void {
-
+        var newInstrument = this.dCtx.designer.getNewInstrument();
+        this.instruments.push(newInstrument);
+        this.select(newInstrument);
     }
 
     newBehavior(): void {
+        this.selectedInstrument.inventoryCollection.push(this.dCtx.designer.getNewInventory(this.selectedInstrument));
+    }
 
+    save(): void {
+        this.dCtx.designer.saveChanges()
+            .then((retData: breeze.SaveResult) => saved(retData))
+            .catch((retData: any) => rejected(retData));
+
+        function saved(retData: breeze.SaveResult): void {
+
+        }
+
+        function rejected(retData: any): void {
+
+        }
     }
 
     addEditInstructions(type: string): void {
+        const self = this;
         switch (type) {
             case 'Self':
-                var instructions = 'Self instructions';
                 this.instructionsModalOptions.resolve = {
                     passType: () => type,
-                    passInstructions: () => instructions
-                    //passInstructions: () => this.selectedInstrument.selfInstructions
+                    passInstructions: () => this.selectedInstrument.selfInstructions
                 }
                 break;
             case 'Peer':
-                var instructions = 'Peer instructions';
                 this.instructionsModalOptions.resolve = {
                     passType: () => type,
-                    passInstructions: () => instructions
-                    //passInstructions: () => this.selectedInstrument.peerInstructions
+                    passInstructions: () => this.selectedInstrument.peerInstructions
                 }
                 break;
             case 'Instructor':
-                var instructions: string = null;
                 this.instructionsModalOptions.resolve = {
                     passType: () => type,
-                    passInstructions: () => instructions
-                    //passInstructions: () => this.selectedInstrument.instructorInstructions
+                    passInstructions: () => this.selectedInstrument.facilitatorInstructions
                 }
                 break;
         }
@@ -89,11 +115,12 @@ export default class EcDesignerInstruments {
             .catch(instructionsModalError);
 
         function instructionsChanged() {
-
+            
         }
 
         function instructionsModalError() {
 
         }
     }
+
 }

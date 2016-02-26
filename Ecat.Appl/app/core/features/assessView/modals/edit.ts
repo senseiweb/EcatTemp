@@ -1,5 +1,4 @@
-﻿import IDataCtx from "core/service/data/context"
-import * as appVars from "appVars"
+﻿import * as appVars from "appVars"
 
 export interface IRadios {
     effectiveness: string;
@@ -13,7 +12,7 @@ export interface IRadioCollection {
 
 export default class EcAssessmentAddForm {
     static controllerId = 'app.core.assessment.formEdit';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId, 'mode', 'assessment'];
+    static $inject = ['$uibModalInstance', 'mode', 'assessment'];
 
     nf: angular.IFormController;
 
@@ -25,7 +24,7 @@ export default class EcAssessmentAddForm {
 
     radios: IRadioCollection = {} ;
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, mode: string, assessment: any) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, mode: string, assessment: any) {
         console.log('Assessment Loaded');
         this.spResponses = assessment;
         this.mode = mode;

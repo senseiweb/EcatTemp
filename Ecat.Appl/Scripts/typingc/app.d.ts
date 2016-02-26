@@ -147,6 +147,18 @@ declare module ecat {
         tokenWarnDate: Date;
         tokenExpireDate: Date;
     }
+
+    export interface IInventoriesWithOveralls {
+        [displayOrder: number]: IInventoryOverall;
+    }
+
+    export interface IInventoryOverall {
+        selfWP: string,
+        peerAgg: number,
+        peerCount: number,
+        peerWP: string,
+        facWP: string
+    }
     
 }
 

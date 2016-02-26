@@ -1,9 +1,8 @@
-﻿import IDataCtx from "core/service/data/context"
-import * as appVars from "appVars"
+﻿import * as appVars from "appVars"
 
 export default class EcAssessmentAddForm {
     static controllerId = 'app.core.assessment.formAdd';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId, 'mode', 'assessment'];
+    static $inject = ['$uibModalInstance', 'mode', 'assessment'];
 
     nf: angular.IFormController;
     mode: string;
@@ -13,7 +12,7 @@ export default class EcAssessmentAddForm {
     activeResponse: any;
     notDisplayed: boolean;
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, mode: string, assessment: any) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, mode: string, assessment: any) {
         this.mode = mode;
         this.spResponses = assessment.sort(sortResponses);
 

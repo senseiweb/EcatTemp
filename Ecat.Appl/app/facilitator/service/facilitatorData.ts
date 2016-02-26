@@ -94,7 +94,7 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
         }
     }
 
-
+    //#region New Entities
     getNewFacSpAssessResponse(group: ecat.entity.IFacWorkGroup, assessee: ecat.entity.IMemberInGroup, inventory: Ecat.Shared.Model.SpInventory): ecat.entity.IFacSpAssess {
         const newAssessResponse = {
             assessee: assessee,
@@ -122,8 +122,9 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
 
         return this.manager.createEntity(AppVar.EcMapEntityType.facSpStratResponse, newFacStrat) as ecat.entity.IFacSpStratResponse;
     }
+    //#endregion
 
-    getMemberByGroupId(): breeze.promises.IPromise<ecat.entity.IFacWorkGroup | angular.IPromise<void>> {
+    getMemberByGroupId(forceRefresh: boolean): breeze.promises.IPromise<ecat.entity.IFacWorkGroup | angular.IPromise<void>> {
         let group: ecat.entity.IFacWorkGroup;
         const self = this;
         const api = this.facilitatorApiResources;
@@ -138,7 +139,7 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
 
         const isLoaded = api.getGroupById.resource.isLoaded.group[this.activeGroupId];
 
-        if (isLoaded) {
+        if (isLoaded && !forceRefresh) {
             group = this.queryLocal(api.getGroupById.resource.name, null, predicate) as ecat.entity.IFacWorkGroup;
             this.logSuccess(`Loaded workgroup with ID: ${this.activeGroupId} from local cache`, group, false);
             return this.c.$q.when(group);
@@ -166,7 +167,7 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
         }
     }
 
-    getCapstoneData(): breeze.promises.IPromise<Array<ecat.entity.ICourseMember> | angular.IPromise<void>> {
+    getCapstoneData(forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.ICourseMember> | angular.IPromise<void>> {
         let groupCourseMems: Array<ecat.entity.ICourseMember>;
         const self = this;
         const api = this.facilitatorApiResources;
@@ -181,7 +182,7 @@ export default class EcFacilitatorRepo extends IUtilityRepo {
 
         const isLoaded = api.getGroupCapstoneData.resource.isLoaded.groupCapstoneData[this.activeGroupId];
 
-        if (isLoaded) {
+        if (isLoaded && !forceRefresh) {
             groupCourseMems = this.queryLocal(api.getGroupCapstoneData.resource.name, null, predicate) as Array<ecat.entity.ICourseMember>;
             this.logSuccess(`Loaded student data with ID: ${this.activeGroupId} from local cache`, groupCourseMems, false);
             return this.c.$q.when(groupCourseMems);

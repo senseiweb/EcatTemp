@@ -1,13 +1,11 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <h3 class="lead">{{groups.selectedStudent.lastName}}, {{groups.selectedStudent.firstName}} Group Results</h3>
+            <h3 class="lead">{{groups.selectedStudent.lastName}}, {{groups.selectedStudent.firstName}} {{groups.selectedGroup.groupNumber}} Results</h3>
         </div>
     </div>
 </div>
-
 <hr/>
-
 <div class="row">
     <div class="col-md-12 p-t-20">
         <div class="table-responsive">
@@ -21,11 +19,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="invWithOv in groups.memberResults | orderBy: 'inventory.displayOrder'" style="height: 50px">
-                        <td>{{invWithOv.inventory.behavior}}</td>
-                        <td>{{invWithOv.self}}</td>
-                        <td>{{invWithOv.peerOverall}}</td>
-                        <td>{{invWithOv.fac}}</td>
+                    <tr ng-repeat="inventory in groups.selectedGroup.assignedSpInstr | orderBy: 'inventory.displayOrder'" style="height: 50px">
+                        <td>{{inventory.behavior}}</td>
+                        <td>{{invsWithOvs[inventory.displayOrder].selfWP}}</td>
+                        <td>{{invsWithOvs[inventory.displayOrder].peerWP}}</td>
+                        <td>{{invsWithOvs[inventory.displayOrder].facWP}}</td>
                     </tr>
                     <!--<tr ng-repeat="result in groups.results track by $index" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">
                         <td>{{groups.questions[$index].question}}</td>

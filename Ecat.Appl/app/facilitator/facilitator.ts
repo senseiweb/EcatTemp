@@ -3,6 +3,7 @@ import groups from "facilitator/features/groups/groups"
 import facilitatorCfgProvider from 'facilitator/provider/facCfgProvider'
 import facilitatorConfig from 'facilitator/config/cfgFac'
 import facDataService from "facilitator/service/facilitatorData"
+import scoreService from 'core/service/scoring'
 import viewStatus from "facilitator/features/groups/modals/status"
 import capstoneStudentDetail from "facilitator/features/groups/modals/capstonestudentdetail"
 import assessAdd from "core/features/assessView/modals/add"
@@ -17,6 +18,7 @@ export default class EcFacilitatorModule {
             .config(facilitatorConfig)
             .provider(facilitatorCfgProvider.providerId, facilitatorCfgProvider)
             .service(facDataService.serviceId, facDataService)
+            .service(scoreService.serviceId, scoreService)
             .controller(groups.controllerId, groups)
             .controller(viewStatus.controllerId, viewStatus)
             .controller(capstoneStudentDetail.controllerId, capstoneStudentDetail)

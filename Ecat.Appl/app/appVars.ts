@@ -177,6 +177,7 @@ export class EcMapEntityType {
     static spComment = 'SpComment';
     static facSpComment = 'FacSpComment';
     static ecInventory = 'Inventory';
+    static spInventory = 'SpInventory';
     static kcResult = 'KcResult';
     static facSpAssessResponse = 'FacSpAssessResponse';
     static spAssessResponse = 'SpAssessResponse';

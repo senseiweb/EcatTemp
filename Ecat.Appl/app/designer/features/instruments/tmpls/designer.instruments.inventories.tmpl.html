@@ -25,7 +25,7 @@
                     <td ng-if="!inventory.edit">{{inventory.IsDisplayed}}</td>
                     <td style="width:700px" ng-if="!inventory.edit">{{inventory.Behavior}}</td>
                     <td style="width: 200px" ng-if="!inventory.edit">
-                        <button type="button" ng-if="inventory.isVisible" ng-click="inventory.edit=true" class="btn btn-link waves-effect">Edit</button>
+                        <button type="button" ng-if="inventory.isVisible" ng-click="inventory.edit=true;" class="btn btn-link waves-effect">Edit</button>
                     </td>
                     <td ng-if="inventory.edit"><input class="form-control" type="text" style="width: 20px" ng-model="inventory.DisplayOrder"></td>
                     <td ng-if="inventory.edit"><button class="btn-xs btn-primary" ng-if="inventory.IsScored" ng-click="inventory.IsScored=false">True</button><button class="btn-xs btn-primary" ng-if="!inventory.IsScored" ng-click="inventory.IsScored=true">False</button></td>

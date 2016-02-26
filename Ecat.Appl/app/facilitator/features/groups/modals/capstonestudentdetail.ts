@@ -1,4 +1,5 @@
 ﻿import IDataCtx from "core/service/data/context"
+import IScore from "core/service/scoring"
 import * as AppVar from "appVars"
 
 interface IResultsByPeer {
@@ -12,7 +13,7 @@ interface IResults {
 
 export default class EcFacCapstoneDetailsModal {
     static controllerId = 'app.facilitator.features.groups.capstonestudentdetails';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId];
+    static $inject = ['$uibModalInstance', IDataCtx.serviceId, IScore.serviceId];
 
     nf: angular.IFormController;
 
@@ -22,11 +23,12 @@ export default class EcFacCapstoneDetailsModal {
     assessorByPeer: IResultsByPeer = {};
     selectedAssess: Ecat.Shared.Model.SpAssessResponse[] = [];
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private score: IScore) {
         this.dCtx.facilitator.getStudentCapstoneDetails()
             .then((retData: Array<ecat.entity.IMemberInGroup>) => {
                 this.studentGMs = retData;
                 console.log(this.studentGMs);
+                console.log(this.studentGMs[0].student.person.lastName + ' Capstone Data Loaded');
                 this.activate();
             });
     }
@@ -54,7 +56,7 @@ export default class EcFacCapstoneDetailsModal {
                 //    resultsAgg += resp.itemModelScore;
                 //});
 
-                results.assessment = this.getResultString(peer.statusOfPeer[gm.id].compositeScore);
+                results.assessment = this.score.getCompositeResultString(peer.statusOfPeer[gm.id].compositeScore);
 
                 results.strat = peer.assessorStratResponse[0].stratPosition;
 
@@ -80,7 +82,7 @@ export default class EcFacCapstoneDetailsModal {
                         assessment: '',
                         strat: 0
                     };
-                    results.assessment = this.getResultString(gm.statusOfPeer[gm.id].compositeScore);
+                    results.assessment = this.score.getCompositeResultString(gm.statusOfPeer[gm.id].compositeScore);
 
                     results.strat = peer.assesseeStratResponse[0].stratPosition;
 
@@ -91,23 +93,36 @@ export default class EcFacCapstoneDetailsModal {
     }
 
     popBehaviors(peer: ecat.entity.IMemberInGroup): void {
+        //var findGM = this.studentGMs.filter(gm => {
+        //    if (gm.groupId === peer.groupId) { return true; }
+        //    return false;
+        //});
+        //var selStudGMId = findGM[0].id;
+
         if (this.radioResponseType === 'Assessee') {
             this.selectedAssess = peer.assessorSpResponses;
-
+            //this.selectedAssess = peer.assessorSpResponses.filter(resp => {
+            //    if (resp.assesseeId === selStudGMId) { return true; }
+            //    return false;
+            //});
         } else if (this.radioResponseType === 'Assessor') {
             this.selectedAssess = peer.assesseeSpResponses;
+            //this.selectedAssess = peer.assesseeSpResponses.filter(resp => {
+            //    if (resp.assesseeId === selStudGMId) { return true; }
+            //    return false;
+            //});
         }
     }
 
-    getResultString(respScore: number): string {
-        if (respScore < .17) { return 'Ineffective Always'; }
-        if (respScore >= .17 && respScore < .34) { return 'Ineffective Usually'; }
-        if (respScore >= .34 && respScore < .5) { return 'Not Displayed'; }
-        if (respScore >= .5 && respScore < .67) { return 'Effective Usually'; }
-        if (respScore >= .67 && respScore < .84) { return 'Effective Always'; }
-        if (respScore >= .84 && respScore < 1) { return 'Highly Effective Usually'; }
-        if (respScore >= 1) { return 'Highly Effective Always'; }
-    }
+    //getResultString(respScore: number): string {
+    //    if (respScore < .17) { return 'Ineffective Always'; }
+    //    if (respScore >= .17 && respScore < .34) { return 'Ineffective Usually'; }
+    //    if (respScore >= .34 && respScore < .5) { return 'Not Displayed'; }
+    //    if (respScore >= .5 && respScore < .67) { return 'Effective Usually'; }
+    //    if (respScore >= .67 && respScore < .84) { return 'Effective Always'; }
+    //    if (respScore >= .84 && respScore < 1) { return 'Highly Effective Usually'; }
+    //    if (respScore >= 1) { return 'Highly Effective Always'; }
+    //}
 
     close(): void {
         this.$mi.dismiss();
