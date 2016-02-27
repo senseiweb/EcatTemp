@@ -29,7 +29,7 @@ export default class StudentStates {
             name: `${this.main.name}.assessment`,
             parent: this.main.name,
             url: '/assessment',
-            templateUrl: 'Client/app/student/features/assessments/assessments.html',
+            templateUrl: '@[appStudent]/feature/assess/main.html',
             controller: 'app.student.assessment as assess',
             resolve: {
                 moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
@@ -39,7 +39,7 @@ export default class StudentStates {
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
         return this.isStudentLoaded ? this.isStudentLoaded :
-            System.import('app/student/student.js')
+            System.import('app/student/appStudent.js')
                 .then((studentModClass: any) => {
                     const studMod = studentModClass.default.load();
                     $ocLl.inject(studMod.moduleId);

@@ -1,5 +1,5 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
-import * as IMemInGrpExt from "core/entityExtensions/crseStudentInGroup"
+import * as IMemInGrpExt from "core/entityExtension/crseStudentInGroup"
 import * as _mp from "core/common/mapStrings"
 import * as _mpe from "core/common/mapEnum"
 import * as IFacWorkGrpExt from "faculty/entityExtensions/workgroup"
@@ -20,7 +20,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
     private facilitatorApiResources: IFacultyApiResources = {
         initCourses: {
-            returnedEntityType: _mp.EcMapEntityType.crseMember,
+            returnedEntityType: _mp.EcMapEntityType.faccultyCrseMember,
             resource: {
                 name: 'GetInitalCourses',
                 isLoaded: false
@@ -36,7 +36,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             }
         },
         getGroupCapstoneData: {
-            returnedEntityType:_mp.EcMapEntityType.crseMember,
+            returnedEntityType:_mp.EcMapEntityType.faccultyCrseMember,
             resource: {
                 name: 'GetGroupCapstoneData',
                 isLoaded: {

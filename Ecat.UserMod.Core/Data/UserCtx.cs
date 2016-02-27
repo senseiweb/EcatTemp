@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.Staff.MeetingTaker;
@@ -12,7 +9,7 @@ using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.DbMgr.Config;
 using Ecat.Shared.DbMgr.Context;
 
-namespace Ecat.UserMod.Core.Data
+namespace Ecat.UserMod.Core
 {
     public class UserCtx : ContextBase<UserCtx>
     {

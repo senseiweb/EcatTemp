@@ -17,7 +17,7 @@ System.register(["core/common/mapStrings", "core/states/core"], function(exports
                     this.parentName = 'student';
                     this.loadModule = function ($ocLl) {
                         return _this.isStudentLoaded ? _this.isStudentLoaded :
-                            System.import('app/student/student.js')
+                            System.import('app/student/appStudent.js')
                                 .then(function (studentModClass) {
                                 var studMod = studentModClass.default.load();
                                 $ocLl.inject(studMod.moduleId);
@@ -41,7 +41,7 @@ System.register(["core/common/mapStrings", "core/states/core"], function(exports
                         name: this.main.name + ".assessment",
                         parent: this.main.name,
                         url: '/assessment',
-                        templateUrl: 'Client/app/student/features/assessments/assessments.html',
+                        templateUrl: '@[appStudent]/feature/assess/main.html',
                         controller: 'app.student.assessment as assess',
                         resolve: {
                             moduleLoad: ['moduleInit', function (moduleInit) { return moduleInit; }]

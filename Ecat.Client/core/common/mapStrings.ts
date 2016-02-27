@@ -131,25 +131,28 @@ export class EcMapEntityType {
     static person = 'Person';
     static security = 'Security';
     static loginTk = 'LoginToken';
-    static facProfile = 'Faciliatator';
-    static hqStaffProfile = 'HqStaff';
-    static studProfile = 'Student';
-    static externalProfile = 'External';
+    static facProfile = 'ProfileFaculty';
+    static hqStaffProfile = 'ProfileStaff';
+    static studProfile = 'ProfileStudent';
+    static externalProfile = 'Profileexternal';
     static course = 'Course';
     static academy = 'Academy';
     static group = 'WorkGroup';
-    static grpMember = 'MemberInGroup';
-    static crseMember = 'MemberInCourse';
+    static grpMember = 'CrseStudentInGroup';
+    static studCrseMember = 'StudentInCourse';
+    static faccultyCrseMember = 'FacultyInCourse';
     static spInstr = 'SpInstrument';
     static kcInstr = 'KcInstrument';
     static ecInstr = 'Instrument';
-    static spComment = 'SpComment';
     static spInventory = 'SpInventory';
     static kcResult = 'KcResult';
-    static facSpResponse = 'FacSpAssessResponse';
+    static spResponse = 'SpResponse';
+    static spComment = 'SpComment';
+    static spStrat = 'SpStrat';
+    static spResult = 'SpResult';
+    static facSpResponse = 'FacSpResponse';
     static facSpComment = 'FacSpComment';
     static facStratResponse = 'FacStratResponse';
-    static spAssessResponse = 'SpAssessResponse';
 }
 
 export class MpSpComment {

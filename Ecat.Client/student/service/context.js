@@ -1,4 +1,4 @@
-System.register(['core/service/data/utility', "core/entityExtensions/crseStudentInGroup", "core/common/mapStrings"], function(exports_1) {
+System.register(['core/service/data/utility', "core/entityExtension/crseStudentInGroup", "core/common/mapStrings"], function(exports_1) {
     var __extends = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }
@@ -25,14 +25,14 @@ System.register(['core/service/data/utility', "core/entityExtensions/crseStudent
                     this.activated = false;
                     this.studentApiResources = {
                         initCourses: {
-                            returnedEntityType: _mp.EcMapEntityType.crseMember,
+                            returnedEntityType: _mp.EcMapEntityType.grpMember,
                             resource: {
                                 name: 'GetInitalCourses',
                                 isLoaded: false
                             }
                         },
                         getCourseGroupMembers: {
-                            returnedEntityType: _mp.EcMapEntityType.crseMember,
+                            returnedEntityType: _mp.EcMapEntityType.studCrseMember,
                             resource: {
                                 name: 'GetCrseGrpMembers',
                                 isLoaded: {
@@ -161,7 +161,7 @@ System.register(['core/service/data/utility', "core/entityExtensions/crseStudent
                         assessee: assessee,
                         inventoryItem: inventory
                     };
-                    return this.manager.createEntity(_mp.EcMapEntityType.spAssessResponse, newAssessResponse);
+                    return this.manager.createEntity(_mp.EcMapEntityType.spResponse, newAssessResponse);
                 };
                 EcStudentRepo.prototype.getOrAddComment = function (recipientId) {
                     var _this = this;

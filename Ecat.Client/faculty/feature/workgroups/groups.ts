@@ -44,7 +44,7 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: '@[appCore]/features/assessView/modals/add.html'
+        templateUrl: '@[appCore]/feature/assessView/modals/add.html'
     };
 
     editModalOptions: angular.ui.bootstrap.IModalSettings = {
@@ -53,7 +53,7 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: '@[appCore]/features/assessView/modals/edit.html'
+        templateUrl: '@[appCore]/feature/assessView/modals/edit.html'
 
     };
 
@@ -63,7 +63,7 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: '@[appCore]/features/assessView/modals/comment.html'
+        templateUrl: '@[appCore]/feature/assessView/modals/comment.html'
 
     };
 
@@ -73,7 +73,7 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: '@[appFaculty]/features/groups/modals/status.html',
+        templateUrl: '@[appFaculty]/feature/groups/modals/status.html',
         size: 'lg',
         resolve: { selectedGroup: () => this.selectedGroup }
     }
@@ -84,7 +84,7 @@ export default class EcInstructorGroups {
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
-        templateUrl: '@[appFaculty]/features/groups/modals/capstonestudentdetail.html',
+        templateUrl: '@[appFaculty]/feature/groups/modals/capstonestudentdetail.html',
         size: 'lg',
     }
     //#endregion

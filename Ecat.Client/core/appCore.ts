@@ -8,23 +8,23 @@ import coreCfg from 'core/config/cfgCore'
 //#endregion
 
 //#region Import Module Controllers
-import mainCntrl from "core/features/global/main"
-import dashboardCntrl from "core/features/userSystems/dashboard"
-import profileCntrl from "core/features/userSystems/profile"
-import loginCntrl from "core/features/login/login"
-import appCntrl from "core/features/global/global"
+import mainCntrl from "core/feature/global/main"
+import dashboardCntrl from "core/feature/userSystems/dashboard"
+import profileCntrl from "core/feature/userSystems/profile"
+import loginCntrl from "core/feature/login/login"
+import appCntrl from "core/feature/global/global"
 //#endregion
 
 //#region Import Module directives
-import ecToggleSb from 'core/directives/toggleSidebar'
-import ecToggleSub from 'core/directives/toggleSubMenu'
-import * as ecMalihuScrollDirective from 'core/directives/malihuScroll'
-import ecFrmCntrl from 'core/directives/frmControl'
-import ecFgLine from 'core/directives/fgLine'
-import btnWave from "core/directives/btnWave"
-import iMask from 'core/directives/inputMask'
-import compareTo from "core/directives/compareToValidator"
-import emailValidator from "core/directives/dupEmailvalidator"
+import ecToggleSb from 'core/directive/toggleSidebar'
+import ecToggleSub from 'core/directive/toggleSubMenu'
+import * as ecMalihuScrollDirective from 'core/directive/malihuScroll'
+import ecFrmCntrl from 'core/directive/frmControl'
+import ecFgLine from 'core/directive/fgLine'
+import btnWave from "core/directive/btnWave"
+import iMask from 'core/directive/inputMask'
+import compareTo from "core/directive/compareToValidator"
+import emailValidator from "core/directive/dupEmailvalidator"
 //#endregion 
 
 //#region Import Module Services/Factory/Providers

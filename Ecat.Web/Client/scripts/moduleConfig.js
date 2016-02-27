@@ -120,24 +120,18 @@ var moduleConfiguraton = {
     },
     "packages": {
         "app": {
-            "main": 'app/app.js',
+            "main": 'app/appEcat.js',
             "format": 'register',
             "defaultExtension": 'js',
             "map": {
-                "appVars": 'app/appVars',
                 "core": 'app/core',
-                "config": 'app/core/config',
-                "directive": 'app/core/directives',
-                "provider": 'app/core/provider',
-                "service": 'app/core/service',
-                "global": 'app/core/global',
                 "admin": 'app/admin',
                 "student": 'app/student',
                 "faculty": 'app/faculty',
                 "courseAdmin": 'app/courseAdmin',
+                "provider": "app/provider",
                 "designer": 'app/designer',
                 "hq": 'app/hq'
-
             }
         }
     }

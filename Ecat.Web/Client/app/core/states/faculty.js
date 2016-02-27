@@ -40,7 +40,7 @@ System.register(["core/states/core", "core/common/mapStrings"], function(exports
                         name: this.main.name + ".groups",
                         parent: this.main.name,
                         url: '/groups',
-                        templateUrl: 'Client/app/faculty/features/groups/groups.html',
+                        templateUrl: 'Client/app/faculty/feature/groups/groups.html',
                         controller: 'app.faculty.features.groups as groups',
                         resolve: {
                             moduleLoad: ['moduleInit', function (moduleInit) { return moduleInit; }]

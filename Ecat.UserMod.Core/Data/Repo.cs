@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
 using Ecat.Shared.Core.ModelLibrary.User;
-using Ecat.UserMod.Core.Business;
-using Ecat.UserMod.Core.Interface;
 using Newtonsoft.Json.Linq;
 
-namespace Ecat.UserMod.Core.Data
+namespace Ecat.UserMod.Core
 {
     using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
 

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Provider;
 using Ecat.Shared.Core.Utility;
-using Ecat.UserMod.Core.Interface;
 using LtiLibrary.Core.Lti1;
 
-namespace Ecat.UserMod.Core.Business
+namespace Ecat.UserMod.Core
 {
     public class LoginLogic
     {

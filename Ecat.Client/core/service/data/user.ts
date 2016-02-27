@@ -2,7 +2,7 @@
 import ICommon from "core/common/commonService"
 import IDataCtx from "core/service/data/context"
 import IEmFactory from 'core/service/data/emFactory'
-import * as _personExt from "core/entityExtensions/person"
+import * as _personExt from "core/entityExtension/person"
 import * as _mp from "core/common/mapStrings"
 import * as _mpe from "core/common/mapEnum"
 

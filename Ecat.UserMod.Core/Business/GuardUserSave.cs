@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Ecat.Shared.Core.Interface;
 using Ecat.Shared.Core.Logic;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
 
-namespace Ecat.UserMod.Core.Business
+namespace Ecat.UserMod.Core
 {
     using SaveMap = Dictionary<Type, List<EntityInfo>>;
     public class GuardUserSave

@@ -73,13 +73,13 @@
             <div class="lv-body" ng-init="assess.view=0">
                 <div ng-switch="assess.view">
                     <div ng-switch-when="0">
-                        <div ng-include="'Client/app/student/features/assessments/tmpls/assess.assessments.tmpl.html'"></div>
+                        <div ng-include="'@[appStudent]/feature/assess/list.tpl.html'"></div>
                     </div>
                     <div ng-switch-when="1">
-                        <div ng-include="'Client/app/student/features/assessments/tmpls/assess.results.tmpl.html'"></div>
+                        <div ng-include="'@[appStudent]/feature/assess/results.tpl.html'"></div>
                     </div>
                     <div ng-switch-when="2">
-                        <div ng-include="'Client/app/student/features/assessments/tmpls/assess.comments.tmpl.html'"></div>
+                        <div ng-include="'@[appStudent]/feature/assess/comments.tpl.html'"></div>
                     </div>
                 </div>
 

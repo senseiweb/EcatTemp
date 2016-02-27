@@ -291,7 +291,7 @@ System.register(["core/common/mapStrings"], function(exports_1) {
                     enumerable: true,
                     configurable: true
                 });
-                EcLocalDataService.serviceId = 'data.local';
+                EcLocalDataService.serviceId = 'data.static';
                 return EcLocalDataService;
             })();
             exports_1("default", EcLocalDataService);

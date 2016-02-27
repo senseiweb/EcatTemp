@@ -8,11 +8,13 @@ using System.Web.Http;
 using Breeze.ContextProvider;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Provider;
-using Ecat.UserMod.Core.Interface;
+using Ecat.UserMod.Core;
+using Ecat.Web.Utility;
 using Newtonsoft.Json.Linq;
 
 namespace Ecat.Web.Controllers
 {
+    [EcatRolesAuthorized]
     public class UserController : EcatBaseBreezeController
     {
         private readonly IUserLogic _userLogic;

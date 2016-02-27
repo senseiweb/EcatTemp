@@ -13,7 +13,7 @@ export default class CoreStates implements ecat.IEcatStateClass {
         name: 'app',
         url: '/app',
         abstract: true,
-        templateUrl: '@[appCore]/features/global/global.html',
+        templateUrl: '@[appCore]/feature/global/global.html',
         controller: 'app.global as app'
     }
 
@@ -21,7 +21,7 @@ export default class CoreStates implements ecat.IEcatStateClass {
         name: `${this.app.name}.main`,
         parent: this.app.name,
         url: '/main',
-        templateUrl: '@[appCore]/features/global/main.html',
+        templateUrl: '@[appCore]/feature/global/main.html',
         controller: 'app.global.main as main',
         resolve: {
             tokenValid: [_dataCtx.serviceId, _common.serviceId, (dCtx: _dataCtx, c: _common) =>
@@ -33,7 +33,7 @@ export default class CoreStates implements ecat.IEcatStateClass {
         name: `${this.main.name}.dashboard`,
         parent: this.main.name,
         url: '/dashboard',
-        templateUrl: '@[appCore]/features/userSystems/dashboard.html',
+        templateUrl: '@[appCore]/feature/userSystems/dashboard.html',
         controller: 'app.user.dashboard as dashboard'
     }
 
@@ -41,7 +41,7 @@ export default class CoreStates implements ecat.IEcatStateClass {
         name: `${this.main.name}.profile`,
         parent: this.main.name,
         url: '/profile',
-        templateUrl: '@[appCore]/features/userSystems/profile.html',
+        templateUrl: '@[appCore]/feature/userSystems/profile.html',
         controller: 'app.user.profile as profile'
     }
 
@@ -64,7 +64,7 @@ export default class CoreStates implements ecat.IEcatStateClass {
         name: `${this.redirect.name}.login`,
         parent: this.redirect.name,
         url: '/login/:mode',
-        templateUrl: '@[appCore]/features/login/login.html',
+        templateUrl: '@[appCore]/feature/login/login.html',
         controller: 'app.global.login as login'
     }
 }

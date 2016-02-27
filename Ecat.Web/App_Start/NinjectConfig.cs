@@ -4,21 +4,19 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using Ecat.FacFunc.Core.Business;
-using Ecat.FacFunc.Core.Data;
-using Ecat.FacFunc.Core.Interface;
+using Ecat.FacMod.Core;
 using Ecat.Shared.Core;
 using Ecat.Shared.Core.Interface;
 using Ecat.Shared.DbMgr.Context;
-using Ecat.StudFunc.Core.Business;
-using Ecat.StudFunc.Core.Data;
-using Ecat.StudFunc.Core.Inteface;
-using Ecat.UserMod.Core.Business;
-using Ecat.UserMod.Core.Data;
-using Ecat.UserMod.Core.Interface;
+using Ecat.StudMod.Core;
+using Ecat.UserMod.Core;
+using Ecat.Web.Provider;
+using Ecat.Web.Utility;
 using Ninject;
 using Ninject.Web.Common;
 using Ninject.Web.Mvc;
+using Ninject.Web.WebApi.FilterBindingSyntax;
+using FilterScope = System.Web.Http.Filters.FilterScope;
 
 namespace Ecat.Web
 {
@@ -31,8 +29,10 @@ namespace Ecat.Web
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
 
             kernel.Load(Assembly.GetExecutingAssembly());
-
-            kernel.Bind<ITests>().To<DependencyTest>();
+            kernel.BindHttpFilter<AuthorizedFilterService>(FilterScope.Controller)
+                .WhenControllerHas<EcatRolesAuthorized>()
+                .WithConstructorArgumentFromControllerAttribute<EcatRolesAuthorized>("roles", attribute => attribute.Is);    
+                            kernel.Bind<ITests>().To<DependencyTest>();
             kernel.Bind<EcatContext>().ToSelf().InRequestScope();
             kernel.Bind<IUserLogic>().To<UserLogic>().InRequestScope();
             kernel.Bind<IUserRepo>().To<UserRepo>().InRequestScope();

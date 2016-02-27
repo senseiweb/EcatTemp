@@ -13,6 +13,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
     {
         public int Id { get; set; }
         public string ResultEntityId { get; set; }
+        public int CourseId { get; set; }
+        public int WorkGroupId { get; set; }
         public bool IsInstructorResponse { get; set; }
         public bool IsSelfResponse { get; set; }
         public string PeerGenericName { get; set; }

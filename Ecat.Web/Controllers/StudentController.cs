@@ -5,11 +5,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.OData.Query;
 using Breeze.ContextProvider;
+using Breeze.WebApi2;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
-using Ecat.StudFunc.Core.Inteface;
+using Ecat.StudMod.Core;
 using Ecat.Web.Utility;
 using Newtonsoft.Json.Linq;
 
@@ -37,7 +39,8 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public IQueryable<StudentInCourse> GetInitalCourses()
+        [EnableBreezeQuery(MaxExpansionDepth = 1, AllowedArithmeticOperators = AllowedArithmeticOperators.None)]
+        public IQueryable<CrseStudentInGroup> GetInitalCourses()
         {
             return _studLogic.GetCrsesWithLastestGrpMem();
         }

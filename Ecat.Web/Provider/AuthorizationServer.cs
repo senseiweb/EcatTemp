@@ -9,7 +9,7 @@ using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Provider;
 using Ecat.Shared.Core.Utility;
-using Ecat.UserMod.Core.Data;
+using Ecat.UserMod.Core;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;

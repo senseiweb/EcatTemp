@@ -1,5 +1,5 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
-import * as _crseStudGroup from "core/entityExtensions/crseStudentInGroup"
+import * as _crseStudGroup from "core/entityExtension/crseStudentInGroup"
 import * as _mp from "core/common/mapStrings"
 
 interface IStudentApiResources extends ecat.IApiResources {
@@ -18,14 +18,14 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     private studentApiResources: IStudentApiResources = {
         initCourses: {
-            returnedEntityType: _mp.EcMapEntityType.crseMember,
+            returnedEntityType: _mp.EcMapEntityType.grpMember,
             resource: {
                 name: 'GetInitalCourses',
                 isLoaded: false
             }
         },
         getCourseGroupMembers: {
-            returnedEntityType: _mp.EcMapEntityType.crseMember,
+            returnedEntityType: _mp.EcMapEntityType.studCrseMember,
             resource: {
                 name: 'GetCrseGrpMembers',
                 isLoaded: {
@@ -182,7 +182,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             inventoryItem: inventory
         }
 
-        return this.manager.createEntity(_mp.EcMapEntityType.spAssessResponse, newAssessResponse) as ecat.entity.ISpRespnse;
+        return this.manager.createEntity(_mp.EcMapEntityType.spResponse, newAssessResponse) as ecat.entity.ISpRespnse;
     }
 
 

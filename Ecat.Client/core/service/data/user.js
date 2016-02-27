@@ -1,4 +1,4 @@
-System.register(['core/service/data/utility', "core/entityExtensions/person", "core/common/mapStrings", "core/common/mapEnum"], function(exports_1) {
+System.register(['core/service/data/utility', "core/entityExtension/person", "core/common/mapStrings", "core/common/mapEnum"], function(exports_1) {
     var __extends = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }

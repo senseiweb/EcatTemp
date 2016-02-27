@@ -26,7 +26,7 @@ System.register(["core/common/commonService", 'core/service/data/context', "core
                         bindToController: true,
                         keyboard: false,
                         backdrop: 'static',
-                        templateUrl: 'wwwroot/app/core/features/assessView/modals/add.html'
+                        templateUrl: 'Client/app/core/feature/assessView/modals/add.html'
                     };
                     this.editModalOptions = {
                         //controller: IAssessmentEdit.controllerId,
@@ -34,7 +34,7 @@ System.register(["core/common/commonService", 'core/service/data/context', "core
                         bindToController: true,
                         keyboard: false,
                         backdrop: 'static',
-                        templateUrl: 'wwwroot/app/core/features/assessView/modals/edit.html'
+                        templateUrl: 'Client/app/core/feature/assessView/modals/edit.html'
                     };
                     this.commentModalOptions = {
                         //controller: ICommentAe.controllerId,
@@ -42,7 +42,7 @@ System.register(["core/common/commonService", 'core/service/data/context', "core
                         bindToController: true,
                         keyboard: false,
                         backdrop: 'static',
-                        templateUrl: 'wwwroot/app/core/features/assessView/modals/comment.html'
+                        templateUrl: 'Client/app/core/feature/assessView/modals/comment.html'
                     };
                     this.statusModalOptions = {
                         //controller: IViewStatus.controllerId,
@@ -50,7 +50,7 @@ System.register(["core/common/commonService", 'core/service/data/context', "core
                         bindToController: true,
                         keyboard: false,
                         backdrop: 'static',
-                        templateUrl: 'wwwroot/app/faculty/features/groups/modals/status.html',
+                        templateUrl: 'Client/app/faculty/feature/groups/modals/status.html',
                         size: 'lg',
                         resolve: { selectedGroup: function () { return _this.selectedGroup; } }
                     };
@@ -60,7 +60,7 @@ System.register(["core/common/commonService", 'core/service/data/context', "core
                         bindToController: true,
                         keyboard: false,
                         backdrop: 'static',
-                        templateUrl: 'wwwroot/app/faculty/features/groups/modals/capstonestudentdetail.html',
+                        templateUrl: 'Client/app/faculty/feature/groups/modals/capstonestudentdetail.html',
                         size: 'lg',
                     };
                     this.courses = [];
