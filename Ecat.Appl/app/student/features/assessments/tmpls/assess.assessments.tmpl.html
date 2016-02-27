@@ -4,10 +4,10 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr>
-                        <th ng-click="assess.orderBy('name'); sortReverse = !sortReverse">Student</th>
+                        <th ng-click="assess.sortType = 'student.person.lastName'; sortReverse = !sortReverse">Student</th>
                         <th style="padding-left: 22px;">Assessments</th>                     
                         <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
-                        <th ng-click="assess.orderBy('compositeScore')" ng-if="assess.stratInputVis">Composite Ranking</th>
+                        <th ng-click="assess.sortByComposite(); assess.sortType = 'empty'" ng-if="assess.stratInputVis">Composite Ranking</th>
                         <th>Strat</th>
                         <th ng-if="assess.stratInputVis">Strat Position</th>
                         <th ng-if="assess.stratInputVis"></th>
@@ -45,7 +45,7 @@
 
                 </tr>
 
-                <tr ng-repeat="peer in assess.peers track by peer.id">
+                <tr ng-repeat="peer in assess.peers | orderBy: assess.sortType:sortReverse track by peer.id">
                     <td>{{peer.student.person.lastName}}, {{peer.student.person.firstName}}</td>
                     <td>
                         <button class="btn btn-link" ng-click="assess.addAssessment(peer)">Add</button>

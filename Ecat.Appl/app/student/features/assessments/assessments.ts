@@ -19,7 +19,7 @@ export interface INewStrats {
 
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
-    static $inject = ['$uibModal', '$scope', '$filter', ICommon.serviceId, IDataCtx.serviceId];
+    static $inject = ['$uibModal', '$scope', ICommon.serviceId, IDataCtx.serviceId];
     appVar = AppVars;
     stratInputVis;
     hasComment = false;
@@ -89,14 +89,13 @@ export default class EcStudentAssessments {
 
     user: ecat.entity.IPerson;
 
-    constructor(private uiModal: angular.ui.bootstrap.IModalService, private scope: angular.IScope, private filterOrderBy: angular.IFilterOrderBy, private c: ICommon, private dCtx: IDataCtx) {
+    constructor(private uiModal: angular.ui.bootstrap.IModalService, private scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
         this.activate();
     }
 
     activate(): void {
-        //this.sortType = 'student.person.lastName'
-        this.sortType = 'assess.activeGroupMember.statusOfPeer[].compositeScore';
+        this.sortType = 'student.person.lastName'
 
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
@@ -144,11 +143,11 @@ export default class EcStudentAssessments {
 
     }
 
-    sortByComposite(): ecat.entity.IMemberInGroup[] {
+    sortByComposite(): void {
 
         const self = this;
 
-         return this.peers = this.peers.sort(sort);
+         this.peers = this.peers.sort(sort);
              
 
         function sort(first: Ecat.Shared.Model.MemberInGroup, second: Ecat.Shared.Model.MemberInGroup): number {
@@ -167,18 +166,18 @@ export default class EcStudentAssessments {
         }
     }
 
-    orderBy(type: string): void {
+    //orderBy(type: string): void {
 
-        if (type === "name") {
-            this.filterOrderBy(this.peers, 'student.person.lastName', this.sortReverse);
-        }
+    //    if (type === "name") {
+    //        this.filterOrderBy(this.peers, 'student.person.lastName', this.sortReverse);
+    //    }
 
-        if (type === "compositeScore") {
-            this.sortByComposite();
-        }
+    //    if (type === "compositeScore") {
+    //        this.sortByComposite();
+    //    }
 
 
-    }
+    //}
 
     isolateSelf(): void {
 
