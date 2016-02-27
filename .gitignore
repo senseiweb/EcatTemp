@@ -2,7 +2,7 @@ Ecat.Client/**/*.js
 Ecat.Web/Client/**
 Ecat.Client/_configuration/typings
 !Ecat.Client/_vendor/**/*.js
-
+TestDbSeed.sql
 Ecat.Shared.DbMgr/Migrations/**
 bower
 bower_components

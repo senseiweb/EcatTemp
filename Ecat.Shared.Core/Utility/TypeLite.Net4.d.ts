@@ -4,6 +4,7 @@
 
  
 
+/// <reference path="serverEnums.ts" />
 
 declare module ecat.entity.s.user {
 	interface Person {
@@ -56,7 +57,7 @@ declare module ecat.entity.s.school {
 	interface StudentInCourse {
 		entityId: string;
 		courseId: number;
-		studentId: number;
+		studentPersonId: number;
 		course: ecat.entity.s.school.Course;
 		student: ecat.entity.s.user.ProfileStudent;
 		workGroupEnrollments: ecat.entity.s.school.CrseStudentInGroup[];
@@ -80,12 +81,11 @@ declare module ecat.entity.s.school {
 		entityId: string;
 		studentId: number;
 		courseId: number;
-		workgroupId: number;
-		stratResultId: number;
+		workGroupId: number;
 		workGroup: ecat.entity.s.school.WorkGroup;
-		student: ecat.entity.s.user.ProfileStudent;
+		studentProfile: ecat.entity.s.user.ProfileStudent;
 		course: ecat.entity.s.school.Course;
-		courseEnrollment: ecat.entity.s.school.StudentInCourse;
+		studentInCourse: ecat.entity.s.school.StudentInCourse;
 		groupPeers: ecat.entity.s.school.CrseStudentInGroup[];
 		assessorSpResponses: ecat.entity.s.learner.SpResponse[];
 		assesseeSpResponses: ecat.entity.s.learner.SpResponse[];
@@ -93,13 +93,9 @@ declare module ecat.entity.s.school {
 		recipientOfComments: ecat.entity.s.learner.SpComment[];
 		assessorStratResponse: ecat.entity.s.learner.StratResponse[];
 		assesseeStratResponse: ecat.entity.s.learner.StratResponse[];
-		assessResults: ecat.entity.s.learner.SpResult[];
-		stratResults: ecat.entity.s.learner.StratResult[];
-		isDeleted: boolean;
-		deletedById: number;
-		deletedDate: Date;
-		modifiedById: number;
-		modifiedDate: Date;
+		spResult: ecat.entity.s.learner.SpResult;
+		stratResult: ecat.entity.s.learner.StratResult;
+		facultyStrat: ecat.entity.s.faculty.FacStratResponse;
 	}
 	interface WorkGroup {
 		id: number;
@@ -154,7 +150,6 @@ declare module ecat.entity.s.faculty {
 	interface FacSpResponse {
 		entityId: string;
 		inventoryItemId: number;
-		spResultId: number;
 		workGroupId: number;
 		facultyPersonId: number;
 		assesseePersonId: number;
@@ -163,8 +158,8 @@ declare module ecat.entity.s.faculty {
 		itemModelScore: number;
 		scoreModelVersion: number;
 		workGroup: ecat.entity.s.school.WorkGroup;
-		assessee: ecat.entity.s.school.CrseStudentInGroup;
-		faculty: ecat.entity.s.school.FacultyInCourse;
+		studentAssessee: ecat.entity.s.school.CrseStudentInGroup;
+		facultyAssessor: ecat.entity.s.school.FacultyInCourse;
 		inventoryItem: ecat.entity.s.designer.SpInventory;
 		spResult: ecat.entity.s.learner.SpResult;
 	}
@@ -189,10 +184,10 @@ declare module ecat.entity.s.faculty {
 		facultyPersonId: number;
 		assesseePersonId: number;
 		workGroupId: number;
-		assessee: ecat.entity.s.school.CrseStudentInGroup;
+		studentAssessee: ecat.entity.s.school.CrseStudentInGroup;
 		stratResult: ecat.entity.s.learner.StratResult;
 		workGroup: ecat.entity.s.school.WorkGroup;
-		faculty: ecat.entity.s.school.FacultyInCourse;
+		facultyAssessor: ecat.entity.s.school.FacultyInCourse;
 		modifiedById: number;
 		modifiedDate: Date;
 	}
@@ -201,15 +196,14 @@ declare module ecat.entity.s.learner {
 	interface StratResult {
 		entityId: string;
 		courseId: number;
-		personId: number;
+		studentId: number;
 		workGroupId: number;
-		facStratId: number;
 		originalStratPosition: number;
 		finalStratPosition: number;
 		stratScore: number;
 		resultFor: ecat.entity.s.school.CrseStudentInGroup;
 		facStrat: ecat.entity.s.faculty.FacStratResponse;
-		sourceStratResponses: ecat.entity.s.learner.StratResponse[];
+		stratResponses: ecat.entity.s.learner.StratResponse[];
 		modifiedById: number;
 		modifiedDate: Date;
 	}
@@ -220,7 +214,6 @@ declare module ecat.entity.s.learner {
 		courseId: number;
 		workGroupId: number;
 		stratPosition: number;
-		stratResultId: number;
 		assessor: ecat.entity.s.school.CrseStudentInGroup;
 		assessee: ecat.entity.s.school.CrseStudentInGroup;
 		stratResult: ecat.entity.s.learner.StratResult;
@@ -251,16 +244,15 @@ declare module ecat.entity.s.learner {
 	}
 	interface SpResponse {
 		entityId: string;
-		assesseePersonId: number;
 		assessorPersonId: number;
+		assesseePersonId: number;
 		workGroupId: number;
 		courseId: number;
 		inventoryItemId: number;
-		assessResultId: number;
 		mpItemResponse: string;
 		itemModelScore: number;
 		inventoryItem: ecat.entity.s.designer.SpInventory;
-		assessResult: ecat.entity.s.learner.SpResult;
+		spResult: ecat.entity.s.learner.SpResult;
 		assessor: ecat.entity.s.school.CrseStudentInGroup;
 		assessee: ecat.entity.s.school.CrseStudentInGroup;
 		modifiedById: number;
@@ -270,10 +262,11 @@ declare module ecat.entity.s.learner {
 		entityId: string;
 		courseId: number;
 		workGroupId: number;
-		personId: number;
+		studentId: number;
 		assignedInstrumentId: number;
 		mpStudentSpResult: string;
 		spResultScore: number;
+		isScored: boolean;
 		resultFor: ecat.entity.s.school.CrseStudentInGroup;
 		assignedInstrument: ecat.entity.s.designer.SpInstrument;
 		facultyResponses: ecat.entity.s.faculty.FacSpResponse[];
@@ -283,6 +276,9 @@ declare module ecat.entity.s.learner {
 	}
 	interface SanitizedSpResponse {
 		id: number;
+		resultEntityId: string;
+		courseId: number;
+		workGroupId: number;
 		isInstructorResponse: boolean;
 		isSelfResponse: boolean;
 		peerGenericName: string;
@@ -291,11 +287,13 @@ declare module ecat.entity.s.learner {
 		inventoryItemId: number;
 		assessResultId: number;
 		inventoryItem: ecat.entity.s.designer.SpInventory;
-		assessResult: ecat.entity.s.learner.SpResult;
+		result: ecat.entity.s.learner.SpResult;
 	}
 	interface SanitizedSpComment {
 		id: number;
-		resultId: number;
+		resultEntityId: number;
+		courseId: number;
+		workGroupId: number;
 		authorName: string;
 		commentText: string;
 		mpCommentFlagAuthor: string;
@@ -343,7 +341,7 @@ declare module ecat.entity.s.designer {
 		version: string;
 		selfInstructions: string;
 		peerInstructions: string;
-		facilitatorInstructions: string;
+		facultyInstructions: string;
 		modifiedDate: Date;
 		modifiedById: number;
 		inventoryCollection: ecat.entity.s.designer.SpInventory[];

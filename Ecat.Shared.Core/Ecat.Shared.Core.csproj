@@ -142,7 +142,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Utility\Enums.ts">
+    <TypeScriptCompile Include="Utility\serverEnums.ts">
       <DependentUpon>TypeLite.Net4.tt</DependentUpon>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Utility\TypeLite.Net4.d.ts">

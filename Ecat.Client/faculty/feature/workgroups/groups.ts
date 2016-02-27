@@ -133,9 +133,9 @@ export default class EcInstructorGroups {
             //});
 
         function sortCourseMems(first: ecat.entity.ICrseStudInGroup, second: ecat.entity.ICrseStudInGroup) {
-            if (first.courseEnrollment.course.startDate < second.courseEnrollment.course.startDate) { return 1 }
-            if (first.courseEnrollment.course.startDate > second.courseEnrollment.course.startDate) { return -1 }
-            if (first.courseEnrollment.course.startDate === second.courseEnrollment.course.startDate) { return 0 }
+            if (first.course.startDate < second.course.startDate) { return 1 }
+            if (first.course.startDate > second.course.startDate) { return -1 }
+            if (first.course.startDate === second.course.startDate) { return 0 }
         }
 
 

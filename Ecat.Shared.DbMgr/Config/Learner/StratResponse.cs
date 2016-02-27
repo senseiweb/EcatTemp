@@ -22,14 +22,9 @@ namespace Ecat.Shared.DbMgr.Config
                 p.WorkGroupId,
             });
 
-            HasRequired(p => p.StratResult)
-                .WithMany(p => p.StratResponses)
-                .HasForeignKey(p => new {p.AssesseePersonId, p.CourseId,p.WorkGroupId})
-                .WillCascadeOnDelete(false);
-
             HasRequired(p => p.Assessor)
                 .WithMany(p => p.AssessorStratResponse)
-                .HasForeignKey(p => new { p.AssessorPersonId, p.CourseId, p.WorkGroupId })
+                .HasForeignKey(p => new {p.AssessorPersonId, p.CourseId, p.WorkGroupId})
                 .WillCascadeOnDelete(false);
 
             HasRequired(p => p.Assessee)

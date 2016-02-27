@@ -25,12 +25,12 @@ namespace Ecat.Shared.DbMgr.Config
 
             HasRequired(p => p.Assessor)
                 .WithMany(p => p.AssessorSpResponses)
-                .HasForeignKey(p => new { p.AssessorPersonId, p.CourseId, p.WorkGroupId })
+                .HasForeignKey(p => new {p.AssessorPersonId, p.CourseId, p.WorkGroupId})
                 .WillCascadeOnDelete(false);
 
             HasRequired(p => p.Assessee)
                 .WithMany(p => p.AssesseeSpResponses)
-                .HasForeignKey(p => new { p.AssesseePersonId, p.CourseId, p.WorkGroupId })
+                .HasForeignKey(p => new {p.AssesseePersonId, p.CourseId, p.WorkGroupId})
                 .WillCascadeOnDelete(false);
 
             HasRequired(p => p.InventoryItem)
@@ -38,10 +38,6 @@ namespace Ecat.Shared.DbMgr.Config
                 .HasForeignKey(p => p.InventoryItemId)
                 .WillCascadeOnDelete(false);
 
-            HasRequired(p => p.SpResult)
-                .WithMany(p => p.SpResponses)
-                .HasForeignKey(p => new {p.AssesseePersonId, p.CourseId, p.WorkGroupId})
-                .WillCascadeOnDelete(false);
         }
     }
 

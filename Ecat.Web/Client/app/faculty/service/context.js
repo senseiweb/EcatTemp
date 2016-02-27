@@ -24,7 +24,7 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                     _super.call(this, inj, 'Facilitator Data Service', _mp.EcMapApiResource.faculty, [IFacWorkGrpExt.facWorkGrpEntityExt]);
                     this.facilitatorApiResources = {
                         initCourses: {
-                            returnedEntityType: _mp.EcMapEntityType.crseMember,
+                            returnedEntityType: _mp.EcMapEntityType.faccultyCrseMember,
                             resource: {
                                 name: 'GetInitalCourses',
                                 isLoaded: false
@@ -40,7 +40,7 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                             }
                         },
                         getGroupCapstoneData: {
-                            returnedEntityType: _mp.EcMapEntityType.crseMember,
+                            returnedEntityType: _mp.EcMapEntityType.faccultyCrseMember,
                             resource: {
                                 name: 'GetGroupCapstoneData',
                                 isLoaded: {

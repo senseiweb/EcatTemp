@@ -23,9 +23,7 @@ namespace Ecat.Shared.DbMgr.Config
                 .WithMany(p => p.FacStratResponses)
                 .HasForeignKey(p => p.WorkGroupId)
                 .WillCascadeOnDelete(false);
-
-            HasOptional(p => p.StratResult)
-                .WithRequired(p => p.FacStrat);
+         
         }
     }
 }

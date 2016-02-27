@@ -30,7 +30,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Faculty
         public CrseStudentInGroup StudentAssessee { get; set; }
         public FacultyInCourse FacultyAssessor { get; set; }
         public SpInventory InventoryItem { get; set; }
-        public SpResult SpResult { get; set; }
 
         [TsIgnore]
         public bool IsDeleted { get; set; }

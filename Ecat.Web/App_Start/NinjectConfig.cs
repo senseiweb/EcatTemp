@@ -29,10 +29,11 @@ namespace Ecat.Web
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
 
             kernel.Load(Assembly.GetExecutingAssembly());
-            kernel.BindHttpFilter<AuthorizedFilterService>(FilterScope.Controller)
-                .WhenControllerHas<EcatRolesAuthorized>()
-                .WithConstructorArgumentFromControllerAttribute<EcatRolesAuthorized>("roles", attribute => attribute.Is);    
-                            kernel.Bind<ITests>().To<DependencyTest>();
+            //kernel.BindHttpFilter<AuthorizedFilterService>(FilterScope.Controller)
+            //    .WhenControllerHas<EcatRolesAuthorized>()
+            //    .WithConstructorArgumentFromControllerAttribute<EcatRolesAuthorized>("roles", attribute => attribute.Is);    
+
+            kernel.Bind<ITests>().To<DependencyTest>();
             kernel.Bind<EcatContext>().ToSelf().InRequestScope();
             kernel.Bind<IUserLogic>().To<UserLogic>().InRequestScope();
             kernel.Bind<IUserRepo>().To<UserRepo>().InRequestScope();
@@ -44,6 +45,6 @@ namespace Ecat.Web
             kernel.Bind<FacCtx>().ToSelf().InRequestScope();
 
             return kernel;
-         }
+        }
     }
 }

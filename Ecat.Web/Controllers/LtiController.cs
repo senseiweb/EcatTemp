@@ -64,24 +64,14 @@ namespace Ecat.Web.Controllers
                                 var newMember = new CrseStudentInGroup
                                 {
                                     CourseId = 6,
-                                    WorkgroupId = wrkgrp.Id,
+                                    WorkGroupId = wrkgrp.Id,
                                     StudentId = studentMix.First()
                                 };
 
-
-                                var spResult = new SpResult
-                                {
-                                    CourseId = 6,
-                                    WorkGroupId = wrkgrp.Id,
-                                    StudentId = studentMix.First(),
-                                    IsScored = false,
-                                    AssignedInstrumentId = wrkgrp.AssignedSpInstrId
-                                };
                                 groupMembers.Add(newMember);
                                 studentMix.Remove(newMember.StudentId);
 
-                                writer.WriteLine($"INSERT INTO StudentInGroup(CourseId,WorkGroupId,StudentId,IsDeleted,ModifiedDate) values ({6},{newMember.WorkgroupId},{newMember.StudentId},'false','{DateTime.Now.ToUniversalTime()}');");
-                                writer.WriteLine($"INSERT INTO SpResult(CourseId,WorkGroupId,StudentId,AssignedInstrumentId,IsScored) values ({6},{spResult.WorkGroupId},{spResult.AssignedInstrumentId},{spResult.StudentId},'false');");
+                                writer.WriteLine($"INSERT INTO CrseStudentInGroup(CourseId,WorkGroupId,StudentId,IsDeleted,ModifiedDate) values ({6},{newMember.WorkGroupId},{newMember.StudentId},'false','{DateTime.Now.ToUniversalTime()}');");
                             }
 
                             var peers = groupMembers;
@@ -141,11 +131,10 @@ namespace Ecat.Web.Controllers
                                             AssessorPersonId = member.StudentId,
                                             InventoryItemId = item,
                                             ItemModelScore = mdlScore,
-                                            MpItemResponse = mdlResponse,
-                                            SpResult = null
+                                            MpItemResponse = mdlResponse
                                         };
 
-                                        writer.WriteLine($"INSERT INTO SpResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,InventoryItemId, ItemResponse,ItemModelScore,ModifiedDate) values ({spResponse.AssessorPersonId},{spResponse.AssesseePersonId},{6},{spResponse.WorkGroupId},{spResponse.InventoryItemId},'{spResponse.MpItemResponse}',{spResponse.ItemModelScore},'{DateTime.Now.ToUniversalTime()}');");
+                                        writer.WriteLine($"INSERT INTO SpResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,InventoryItemId,ItemResponse,ItemModelScore,ModifiedDate) values ({spResponse.AssessorPersonId},{spResponse.AssesseePersonId},{6},{spResponse.WorkGroupId},{spResponse.InventoryItemId},'{spResponse.MpItemResponse}',{spResponse.ItemModelScore},'{DateTime.Now.ToUniversalTime()}');");
 
                                         Debug.WriteLine($"Member {member.StudentId} ==> Peer {peer.StudentId} ==> InventoryItem {item} Done with response {mdlResponse}");
                                     }
@@ -155,7 +144,7 @@ namespace Ecat.Web.Controllers
                                         CourseId = 6,
                                         AssessorPersonId = member.StudentId,
                                         AssesseePersonId = peer.StudentId,
-                                        WorkGroupId = member.WorkgroupId,
+                                        WorkGroupId = member.WorkGroupId,
                                         StratPosition = currentStrat
 
                                     };

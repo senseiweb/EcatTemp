@@ -25,7 +25,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public float ItemModelScore { get; set; }
 
         public SpInventory InventoryItem { get; set; }
-        public SpResult SpResult { get; set; }
         public CrseStudentInGroup Assessor { get; set; }
         public CrseStudentInGroup Assessee { get; set; }
 

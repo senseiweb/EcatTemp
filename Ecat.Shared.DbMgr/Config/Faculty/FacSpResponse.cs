@@ -33,11 +33,6 @@ namespace Ecat.Shared.DbMgr.Config
                 .WithMany(p => p.FacSpResponses)
                 .HasForeignKey(p => p.WorkGroupId)
                 .WillCascadeOnDelete(false);
-
-            HasRequired(p => p.SpResult)
-                .WithMany(p => p.FacultyResponses)
-                .HasForeignKey(p => new {p.AssesseePersonId, p.CourseId, p.WorkGroupId})
-                .WillCascadeOnDelete(false);
         }
     }
 }

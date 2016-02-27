@@ -14,10 +14,10 @@ namespace Ecat.Shared.Core.ModelLibrary.School
     [TsClass(Module = "ecat.entity.s.school")]
     public class CrseStudentInGroup : ICompositeEntity
     {
-        public string EntityId => $"{StudentId}|{CourseId}|{WorkgroupId}";
+        public string EntityId => $"{StudentId}|{CourseId}|{WorkGroupId}";
         public int StudentId { get; set; }
         public int CourseId { get; set; }
-        public int WorkgroupId { get; set; }
+        public int WorkGroupId { get; set; }
 
         public WorkGroup WorkGroup { get; set; }
         public ProfileStudent StudentProfile { get; set; }

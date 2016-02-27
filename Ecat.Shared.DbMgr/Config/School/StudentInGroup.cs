@@ -14,7 +14,7 @@ namespace Ecat.Shared.DbMgr.Config
     {
         public ConfigCrseStudInGroup()
         {
-            HasKey(p => new { p.StudentId, p.CourseId, p.WorkgroupId});
+            HasKey(p => new { p.StudentId, p.CourseId, p.WorkGroupId });
 
             HasRequired(p => p.StudentInCourse)
                 .WithMany(p => p.WorkGroupEnrollments)
@@ -23,7 +23,7 @@ namespace Ecat.Shared.DbMgr.Config
 
             HasRequired(p => p.WorkGroup)
                 .WithMany(p => p.GroupMembers)
-                .HasForeignKey(p =>p.WorkgroupId)
+                .HasForeignKey(p =>p.WorkGroupId)
                 .WillCascadeOnDelete(false);
 
             HasRequired(p => p.StudentProfile)

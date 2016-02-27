@@ -22,7 +22,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
 
         public CrseStudentInGroup Assessor { get; set; }
         public CrseStudentInGroup Assessee { get; set; }
-        public StratResult StratResult { get; set; }
 
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
