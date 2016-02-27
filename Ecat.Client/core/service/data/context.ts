@@ -83,7 +83,7 @@ export default class EcDataContext {
         localStorage.removeItem('ECAT:TOKEN');
         sessionStorage.removeItem('ECAT:TOKEN');
         this.user.isLoggedIn = false;
-        this.user.userApiResources.userToken.resource.isLoaded = false;
+        this.user;
     }
 
 }

@@ -23,7 +23,7 @@ System.register(["core/common/mapStrings"], function(exports_1) {
             })();
             exports_1("FacWorkGroupExt", FacWorkGroupExt);
             exports_1("facWorkGrpEntityExt", facWorkGrpEntityExt = {
-                entityName: _mp.EcMapEntityType.grpMember,
+                entityName: _mp.EcMapEntityType.crseStudInGrp,
                 ctorFunc: FacWorkGroupExt,
                 initFunc: function (FacWorkGrpEntity) { return new FacWorkGroupInitizer(FacWorkGrpEntity); }
             });

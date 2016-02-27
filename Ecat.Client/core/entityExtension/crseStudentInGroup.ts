@@ -3,7 +3,7 @@
 export class CrseStudInGrpInit {
 
     constructor(memberInGrpEntity: ecat.entity.ICrseStudInGroup) {
-        const group = memberInGrpEntity.group;
+        const group = memberInGrpEntity.workGroup;
         if (group && group.assignedSpInstr && memberInGrpEntity.groupPeers) {
             memberInGrpEntity.getMigStatus();
         }
@@ -16,13 +16,17 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
     private studentId: number;
     private assessorSpResponses: Array<ecat.entity.ISpRespnse>;
     private group: ecat.entity.IWorkGroup;
-    private groupPeers: Array<ecat.entity.ICrseStudInGroup>;
+    private workGroup: ecat.entity.IWorkGroup;
     private _migStatus: ecat.entity.ext.ICrseStudInGroupStatus;
 
     statusOfPeer: ecat.entity.ext.IStatusOfPeer = {};
 
     getMigStatus = () => {
-        this.groupPeers.forEach((gm) => {
+        if (!this.workGroup) {
+            return null;
+        }
+        const groupPeers = this.workGroup.groupMembers;
+        groupPeers.forEach((gm) => {
             let cummScore = 0;
             const migStatus: ecat.entity.ext.ICrseStudInGroupStatus = {
                 assessComplete: false,
@@ -31,6 +35,7 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
                 missingAssessItems: [],
                 breakout: { ineff: 0, nd: 0, eff: 0, highEff: 0 },
                 compositeScore: 0,
+                stratedPosition: null,
                 hasComment: false
             }
 
@@ -41,6 +46,8 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
                 .filter(strat => strat.assessorPersonId === this.studentId &&
                     strat.assesseePersonId === gm.studentId &&
                     (strat.stratPosition !== null || strat.stratPosition !== undefined || strat.stratPosition !== 0))[0];
+
+            migStatus.stratedPosition = (migStatus.stratComplete) ? gm.assesseeStratResponse.filter(strat => strat.assessorPersonId === this.studentId && strat.assesseePersonId === gm.studentId)[0].stratPosition : null;
 
             migStatus.hasComment = !!gm.recipientOfComments
                 .filter(comment => comment.authorPersonId === this.studentId &&
@@ -112,7 +119,7 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
 }
 
 export var memberInGrpEntityExt: ecat.entity.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.grpMember,
+    entityName: _mp.EcMapEntityType.crseStudInGrp,
     ctorFunc: CrseStudInGrpExt,
     initFunc: (crseStudInGrp: ecat.entity.ICrseStudInGroup) => new CrseStudInGrpInit(crseStudInGrp)
 }

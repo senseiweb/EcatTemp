@@ -56,7 +56,7 @@ System.register(['breeze', "core/common/mapStrings"], function(exports_1) {
                         if (resourceToMap.hasOwnProperty(resourceEntity)) {
                             var selectedResource = resourceToMap[resourceEntity];
                             if (selectedResource.returnedEntityType !== _mp.EcMapEntityType.unk) {
-                                metadataStore.setEntityTypeForResourceName(selectedResource.resource.name, selectedResource.returnedEntityType);
+                                metadataStore.setEntityTypeForResourceName(selectedResource.resource, selectedResource.returnedEntityType);
                             }
                         }
                     }

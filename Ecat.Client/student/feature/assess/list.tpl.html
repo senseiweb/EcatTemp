@@ -18,9 +18,9 @@
                 <tbody>
 
                     <tr class="tableBottomBorder">
-                        <td>{{assess.studentSelf.student.person.firstName}} {{assess.studentSelf.student.person.lastName}}</td>
+                        <td>{{assess.me.studentProfile.person.firstName}} {{assess.me.studentProfile.person.lastName}}</td>
                         <td>
-                            <button class="btn btn-link" ng-click="assess.editAssessment(assess.studentSelf)">View/Edit</button>
+                            <button class="btn btn-link" ng-click="assess.editAssessment(assess.me)">View/Edit</button>
 
                         </td>
 
@@ -35,26 +35,28 @@
                             </table>
                         </td>
 
-                        <td>{{assess.studentSelf.spStratResponse}}</td>
+                        <td>{{assess.me.statusOfPeer[me.studentId].stratedPosition}}</td>
 
                         <td ng-if="assess.stratInputVis" style="width: 120px">
                             <input class="form-control" id="inputError1" type="text" style="width: 100px">
                         </td>
 
-                        <td><label class="control-label" for="inputError1">{{assess.stratError}}</label></td>
+                        <td>
+                            <label class="control-label" for="inputError1">{{assess.stratError}}</label>
+                        </td>
 
 
                     </tr>
 
                     <tr ng-repeat="peer in assess.peers track by peer.studentId">
-                        <td>{{peer.student.person.firstName}} {{peer.student.person.lastName}}</td>
+                        <td>{{peer.studentProfile.person.firstName}} {{peer.studentProfile.person.lastName}}</td>
                         <td>
                             <button class="btn btn-link" ng-click="assess.addAssessment(peer)">Add</button>
 
                         </td>
 
                         <td ng-if="!assess.stratInputVis">
-                            <button class="btn btn-link" ng-click="assess.addComment(peer.id)">{{assess.activeGroupMember.statusOfPeer[peer.studentId].hasComment ? "View/Edit" : "Add" }}</button>
+                            <button class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{assess.me.statusOfPeer[peer.studentId].hasComment ? "View/Edit" : "Add" }}</button>
 
                         </td>
                         <td ng-if="assess.stratInputVis">
@@ -67,7 +69,7 @@
                             </table>
                         </td>
 
-                        <td>3</td>
+                        <td>{{assess.me.statusOfPeer[peer.studentId].stratedPosition || 'Not Stratified'}}</td>
 
                         <td ng-if="assess.stratInputVis" style="width: 120px">
                             <input class="form-control" id="inputError1" type="text" style="width: 100px">

@@ -37,18 +37,45 @@ namespace Ecat.StudMod.Core
             return _repo.ClientSaveChanges(saveBundle, neededSaveGuards);
         }
 
-        public IQueryable<CrseStudentInGroup> GetCrsesWithLastestGrpMem()
+        public IQueryable<CrseStudentInGroup> GetInitalCourses()
         {
-            return _repo.GetCrseMembership
+            var groups =  _repo.WorkGroups
                 .Where(gm => gm.StudentId == StudentPerson.PersonId)
-                .Include(gm => gm.WorkGroup)
-                .Include(gm => gm.AuthorOfComments)
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentProfile))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentProfile.Person))
-                .Include(gm => gm.AssessorSpResponses);
+                .OrderByDescending(p => p.Course.StartDate)
+                .Include(gm => gm.Course)
+                .Include(gm => gm.WorkGroup).ToList();
+
+            var latestGroup = groups.First();
+
+            var groupId = latestGroup.WorkgroupId;
+
+            latestGroup = _repo.WorkGroups
+                .Where(gm => gm.WorkgroupId == groupId && gm.StudentId == StudentPerson.PersonId)
+                .Include(gm => gm.AssessorStratResponse)
+                .Include(gm => gm.AssessorSpResponses)
+                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
+                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
+                .Include(gm => gm.AuthorOfComments).Single();
+
+            return groups.AsQueryable();
         }
 
-        public Task<CrseStudentInGroup> GetWorkGroupDataForStudent()
+        public IQueryable<StudentInCourse> GetSingleCourse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<CrseStudentInGroup> GetSingleWrkGrpMembers()
+        {
+            return _repo.WorkGroups
+                .Where(gm => gm.StudentId == StudentPerson.PersonId)
+                .Include(gm => gm.AssessorStratResponse)
+                .Include(gm => gm.AssessorSpResponses)
+                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
+                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person));
+        }
+
+        public Task<CrseStudentInGroup> Get()
         {
             throw new NotImplementedException();
         }

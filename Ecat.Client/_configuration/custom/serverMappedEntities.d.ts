@@ -16,6 +16,7 @@ declare module ecat.entity
             breakout: ISpStatusBreakOut;
             missingAssessItems: Array<number>;
             compositeScore: number;
+            stratedPosition: number;
             hasComment: boolean;
         }
 
@@ -83,10 +84,16 @@ declare module ecat.entity
         person: IPerson;
     }
 
+    interface IStaff extends breeze.Entity, s.user.ProfileStaff {
+        person: IPerson;
+    }
+
     interface IPerson extends breeze.Entity, s.user.Person, PersonClientExtensions {
         student: IStudent;
         faculty: IFaculty;
-        external: IExternal;
+        external:IExternal;
+        hqStaff: IStaff;
+        profile: IProfile;
     }
     //#endregion
 
@@ -109,19 +116,22 @@ declare module ecat.entity
         groupMembers: ICrseStudInGroup[];
     }
 
-    interface ICourse extends breeze.Entity, s.school.Course { }
+    interface ICourse extends breeze.Entity, s.school.Course {
+        workGroups: IWorkGroup[];
+    }
 
     interface ICrseStudInGroup extends breeze.Entity, s.school.CrseStudentInGroup, ICompositeKey, ext.ICrseStudInGrpExt {
         groupPeers: ICrseStudInGroup[];
-        group: IWorkGroup;
-        student: IStudent;
+        workGroup: IWorkGroup;
+        studentProfile: IStudent;
         assessorSpResponses: ISpRespnse[];
         assesseeSpResponses: ISpRespnse[];
         authorOfComments: ISpComment[];
         recipientOfComments: ISpComment[];
         assessorStratResponse: IStratResponse[];
         assesseeStratResponse: IStratResponse[];
-
+        course: ICourse;
+        studentInCourse: IStudInCrse;
     }
 
     interface IAcademy extends breeze.Entity, s.school.Academy { }

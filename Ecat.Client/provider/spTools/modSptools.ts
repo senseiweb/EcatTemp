@@ -10,6 +10,7 @@ export default class EcProviderSpTools {
     constructor() {
         angular
             .module(this.moduleId, ['ui.bootstrap'])
+            .controller(_commenter.controllerId, _commenter)
             .service(_sptools.serviceId, _sptools);
     }
 }

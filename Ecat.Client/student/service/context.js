@@ -1,10 +1,10 @@
-System.register(['core/service/data/utility', "core/entityExtension/crseStudentInGroup", "core/common/mapStrings"], function(exports_1) {
+System.register(['core/service/data/utility', "core/entityExtension/crseStudentInGroup", "core/entityExtension/person", "core/common/mapStrings"], function(exports_1) {
     var __extends = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var utility_1, _crseStudGroup, _mp;
+    var utility_1, _crseStudGroup, _personExt, _mp;
     var EcStudentRepo;
     return {
         setters:[
@@ -14,6 +14,9 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
             function (_crseStudGroup_1) {
                 _crseStudGroup = _crseStudGroup_1;
             },
+            function (_personExt_1) {
+                _personExt = _personExt_1;
+            },
             function (_mp_1) {
                 _mp = _mp_1;
             }],
@@ -21,71 +24,64 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
             EcStudentRepo = (function (_super) {
                 __extends(EcStudentRepo, _super);
                 function EcStudentRepo(inj) {
-                    _super.call(this, inj, 'Student Data Service', _mp.EcMapApiResource.student, [_crseStudGroup.memberInGrpEntityExt]);
+                    _super.call(this, inj, 'Student Data Service', _mp.EcMapApiResource.student, [_personExt.personConfig, _crseStudGroup.memberInGrpEntityExt]);
                     this.activated = false;
                     this.studentApiResources = {
-                        initCourses: {
-                            returnedEntityType: _mp.EcMapEntityType.grpMember,
-                            resource: {
-                                name: 'GetInitalCourses',
-                                isLoaded: false
-                            }
+                        courses: {
+                            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+                            resource: 'InitCourse'
                         },
-                        getCourseGroupMembers: {
+                        course: {
                             returnedEntityType: _mp.EcMapEntityType.studCrseMember,
-                            resource: {
-                                name: 'GetCrseGrpMembers',
-                                isLoaded: {
-                                    course: {}
-                                }
-                            }
+                            resource: 'ActiveCourse'
                         },
-                        getGroupMembers: {
-                            returnedEntityType: _mp.EcMapEntityType.grpMember,
-                            resource: {
-                                name: 'GetGrpMember',
-                                isLoaded: {
-                                    group: {}
-                                }
-                            }
+                        workGroup: {
+                            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+                            resource: 'ActiveWorkGroup'
                         }
                     };
                     this.loadManager(this.studentApiResources);
+                    this.isLoaded.course = {};
+                    this.isLoaded.workGroup = {};
+                    this.isLoaded.crseInStudGroup = {};
                 }
-                EcStudentRepo.prototype.initCourses = function (forceRefresh) {
+                EcStudentRepo.prototype.initCrseStudGroup = function (forceRefresh) {
                     var api = this.studentApiResources;
-                    var self = this;
-                    if (api.initCourses.resource.isLoaded && !forceRefresh) {
-                        var courseMems = this.queryLocal(api.initCourses.resource.name);
+                    var isLoaded = this.isLoaded;
+                    var log = this.log;
+                    var orderBy = 'course.startDate desc';
+                    if (isLoaded.courses && !forceRefresh) {
+                        var courseMems = this.queryLocal(api.courses.resource, orderBy);
                         this.logSuccess('Courses loaded from local cache', courseMems, false);
                         return this.c.$q.when(courseMems);
                     }
-                    return this.query.from(api.initCourses.resource.name)
+                    return this.query.from(api.courses.resource)
                         .using(this.manager)
-                        .orderBy('course.startDate desc')
+                        .orderBy(orderBy)
                         .execute()
                         .then(initCoursesReponse)
                         .catch(this.queryFailed);
                     function initCoursesReponse(data) {
-                        var studCourse = data.results;
-                        studCourse.forEach(function (studCrse) {
-                            if (studCrse.workGroupEnrollments) {
-                                studCrse.workGroupEnrollments.forEach(function (grp) {
-                                    api.getCourseGroupMembers.resource.isLoaded[grp.entityId] = true;
-                                    grp.getMigStatus();
-                                    console.log(grp.statusOfPeer);
-                                });
-                                api.getCourseGroupMembers.resource.isLoaded[studCrse.entityId] = true;
+                        var crseStudInGroups = data.results;
+                        isLoaded.courses = crseStudInGroups.length > 0;
+                        crseStudInGroups.forEach(function (crseStudInGroup) {
+                            isLoaded.crseInStudGroup[crseStudInGroup.entityId] = true;
+                            if (crseStudInGroup.course) {
+                                isLoaded[crseStudInGroup.courseId] = true;
+                            }
+                            if (crseStudInGroup.workGroup && crseStudInGroup.workGroup.groupMembers.length > 1) {
+                                isLoaded.workGroup[crseStudInGroup.workgroupId] = true;
+                                crseStudInGroup.getMigStatus();
                             }
                         });
-                        self.logSuccess('Courses loaded from remote store', studCourse, false);
-                        return studCourse;
+                        log.success('Courses loaded from remote store', data, false);
+                        return crseStudInGroups;
                     }
                 };
                 /**
                  * @desc  Gets the active course membership with course and group membership for the latest join workgroup, i.e. BC4.
                  */
-                EcStudentRepo.prototype.getCourseGroupMembers = function () {
+                EcStudentRepo.prototype.getActiveCourse = function () {
                     var _this = this;
                     if (!this.activeCourseId) {
                         this.c.$q.reject(function () {
@@ -93,66 +89,88 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                             return 'A course must be selected';
                         });
                     }
-                    var self = this;
-                    var crseMem = null;
+                    var course;
+                    var _common = this.c;
+                    var log = this.log;
                     var api = this.studentApiResources;
-                    var isLoaded = api.getCourseGroupMembers.resource.isLoaded.course;
-                    if (isLoaded[this.activeCourseId]) {
-                        var pred = new breeze.Predicate('id', breeze.FilterQueryOp.Equals, this.activeCourseId);
-                        crseMem = this.queryLocal(api.getCourseGroupMembers.resource.name, null, pred);
-                        this.logSuccess('Course loaded from local cache', crseMem, false);
-                        return this.c.$q.when(crseMem);
+                    var pred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
+                    var isLoaded = this.isLoaded;
+                    if (isLoaded.course[this.activeCourseId]) {
+                        var studInCourse = this.queryLocal(api.course.resource, null, pred);
+                        course = studInCourse.course;
+                        log.success('Course loaded from local cache', course, false);
+                        return this.c.$q.when(course);
                     }
-                    return this.query.from(api.getCourseGroupMembers.resource.name)
+                    return this.query.from(api.course.resource)
                         .using(this.manager)
-                        .withParameters({ crseMemId: this.activeCourseId })
+                        .where(pred)
                         .execute()
-                        .then(getCoursesResponse)
+                        .then(getActiveCrseReponse)
                         .catch(this.queryFailed);
-                    function getCoursesResponse(data) {
-                        crseMem = data.results[0];
-                        if (!crseMem) {
-                            return self.c.$q.reject(function () { return self.logWarn('Query succeeded, but the course membership did not return a result', data, false); });
+                    function getActiveCrseReponse(data) {
+                        var studInCrse = data.results[0];
+                        if (!studInCrse) {
+                            return _common.$q.reject(function () { return log.warn('Query succeeded, but the course membership did not return a result', data, false); });
                         }
-                        //if (crseMem.courseEnrollmen) {
-                        //    const grpLoaded = api.getGroupMembers.resource.isLoaded.group;
-                        //    crseMem.studGroupEnrollments.forEach(grpMem => {
-                        //        grpLoaded[grpMem.id] = true;
-                        //    });
-                        //}
-                        return crseMem;
+                        course = studInCrse.course;
+                        isLoaded.course[course.id] = true;
+                        if (course.workGroups) {
+                            var groups = course.workGroups;
+                            groups.forEach(function (grp) {
+                                isLoaded.workGroup[grp.id] = true;
+                            });
+                        }
+                        if (course.studentInCrseGroups && course.studentInCrseGroups.length > 1) {
+                            var crseStudInGroups = course.studentInCrseGroups;
+                            crseStudInGroups.forEach(function (stud) {
+                                isLoaded.crseInStudGroup[stud.entityId] = true;
+                            });
+                        }
+                        return course;
                     }
                 };
-                EcStudentRepo.prototype.getGroupMembers = function () {
+                EcStudentRepo.prototype.getActivetWorkGroup = function () {
                     var _this = this;
-                    if (!this.activeGroupId) {
+                    if (!this.activeGroupId || !this.activeCourseId) {
                         this.c.$q.reject(function () {
-                            _this.logWarn('Not active course selected!', null, false);
-                            return 'A course must be selected';
+                            _this.logWarn('Not active course/workgroup selected!', null, false);
+                            return 'A course/workgroup must be selected';
                         });
                     }
-                    var self = this;
-                    var grpMem = null;
+                    var workGroup;
+                    var _common = this.c;
+                    var log = this.log;
                     var api = this.studentApiResources;
-                    var isLoaded = api.getGroupMembers.resource.isLoaded.group;
-                    if (isLoaded[this.activeGroupId]) {
-                        var pred = new breeze.Predicate('id', breeze.FilterQueryOp.Equals, this.activeGroupId);
-                        grpMem = this.queryLocal(api.getGroupMembers.resource.name, null, pred);
-                        this.logSuccess('Course loaded from local cache', grpMem, false);
-                        return this.c.$q.when(grpMem);
+                    var groupPred = new breeze.Predicate('workgroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
+                    var coursePred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
+                    var predKey = breeze.Predicate.and([coursePred, groupPred]);
+                    var isLoaded = this.isLoaded;
+                    if (isLoaded.workGroup[this.activeGroupId]) {
+                        var studInGroup = this.queryLocal(api.workGroup.resource, null, predKey);
+                        workGroup = studInGroup[0].workGroup;
+                        log.success('Workgroup loaded from local cache', studInGroup, false);
+                        return this.c.$q.when(workGroup);
                     }
-                    return this.query.from(api.getGroupMembers.resource.name)
+                    return this.query.from(api.workGroup.resource)
                         .using(this.manager)
-                        .withParameters({ grpMemId: this.activeGroupId })
+                        .where(predKey)
                         .execute()
-                        .then(getGrpMembersResponse)
+                        .then(getActiveWorkGrpResponse)
                         .catch(this.queryFailed);
-                    function getGrpMembersResponse(data) {
-                        grpMem = data.results[0];
-                        if (!grpMem) {
-                            return self.c.$q.reject(function () { return self.logWarn('Query succeeded, but the group membership did not return a result', data, false); });
+                    function getActiveWorkGrpResponse(data) {
+                        var studInGroup = data.results[0];
+                        workGroup = studInGroup.workGroup;
+                        if (!workGroup) {
+                            return _common.$q.reject(function () { return log.warn('Query succeeded, but the course membership did not return a result', data, false); });
                         }
-                        return grpMem;
+                        isLoaded.workGroup[workGroup.id] = true;
+                        if (workGroup.groupMembers) {
+                            var members = workGroup.groupMembers;
+                            members.forEach(function (member) {
+                                isLoaded.workGroup[member.entityId] = true;
+                            });
+                        }
+                        return workGroup;
                     }
                 };
                 EcStudentRepo.prototype.getNewSpAssessResponse = function (assessor, assessee, inventory) {
@@ -178,7 +196,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                         return spComment;
                     }
                     var newComment = {
-                        authoerPersonId: loggedUserId,
+                        authorPersonId: loggedUserId,
                         recipientPersonId: recipientId,
                         courseId: this.activeCourseId,
                         workGroupId: this.activeGroupId,

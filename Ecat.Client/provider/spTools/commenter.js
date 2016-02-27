@@ -26,14 +26,14 @@ System.register(["core/service/data/context", "core/common/commonService", "core
                     var recipient;
                     if (authorRole === _mp.EcMapInstituteRole.student) {
                         var spComment = this.dCtx.student.getOrAddComment(this.recipientId);
-                        author = spComment.author.student.person;
-                        recipient = spComment.recipient.student.person;
+                        author = spComment.author.studentProfile.person;
+                        recipient = spComment.recipient.studentProfile.person;
                         this.comment = spComment;
                     }
                     else {
                         var facComment = this.dCtx.faculty.getFacSpComment(this.recipientId);
                         author = facComment.faculty.faculty.person;
-                        recipient = facComment.student.student.person;
+                        recipient = facComment.student.studentProfile.person;
                         facComment['mpCommentType'] = _mp.MpCommentType.signed;
                         this.comment = facComment;
                     }

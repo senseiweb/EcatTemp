@@ -31,30 +31,18 @@ System.register(['core/service/data/utility', "core/entityExtension/person", "co
                     this.userApiResources = {
                         checkEmail: {
                             returnedEntityType: _mp.EcMapEntityType.unk,
-                            resource: {
-                                name: 'CheckUserEmail',
-                                isLoaded: false
-                            }
+                            resource: 'CheckUserEmail'
                         },
                         login: {
                             returnedEntityType: _mp.EcMapEntityType.person,
-                            resource: {
-                                name: 'Login',
-                                isLoaded: false
-                            }
+                            resource: 'Login'
                         },
                         profile: {
                             returnedEntityType: _mp.EcMapEntityType.unk,
-                            resource: {
-                                name: 'Profiles',
-                                isLoaded: false
-                            }
+                            resource: 'Profiles'
                         },
                         userToken: {
-                            resource: {
-                                name: 'Token',
-                                isLoaded: false
-                            },
+                            resource: 'Token',
                             returnedEntityType: _mp.EcMapEntityType.unk
                         }
                     };
@@ -100,8 +88,8 @@ System.register(['core/service/data/utility', "core/entityExtension/person", "co
                     }
                 };
                 EcUserRepo.prototype.createUserToken = function () {
-                    var resource = this.userApiResources.userToken.resource;
-                    if (resource.isLoaded || !this.mgrLoaded || !this.userStatic) {
+                    var isLoaded = this.isLoaded;
+                    if (isLoaded.token || !this.mgrLoaded || !this.userStatic) {
                         return null;
                     }
                     this.persona = this.manager.createEntity(_mp.EcMapEntityType.person, this.userStatic.person, breeze.EntityState.Unchanged);
@@ -121,7 +109,7 @@ System.register(['core/service/data/utility', "core/entityExtension/person", "co
                 EcUserRepo.prototype.emailIsUnique = function (email) {
                     var requestCfg = {
                         method: 'get',
-                        url: (this.c.appEndpoint + this.endPoint) + "/" + this.userApiResources.checkEmail.resource.name,
+                        url: (this.c.appEndpoint + this.endPoint) + "/" + this.userApiResources.checkEmail.resource,
                         params: { email: email }
                     };
                     function emailIsUniqueResponse(result) {
@@ -134,11 +122,12 @@ System.register(['core/service/data/utility', "core/entityExtension/person", "co
                 EcUserRepo.prototype.getUserProfile = function () {
                     var self = this;
                     var res = this.userApiResources.profile.resource;
-                    if (res.isLoaded) {
+                    var isLoaded = this.isLoaded;
+                    if (isLoaded.profile) {
                         var pred = new breeze.Predicate('personId', breeze.FilterQueryOp.Equals, this.persona.personId);
-                        return this.c.$q.when(this.queryLocal(res.name, null, pred));
+                        return this.c.$q.when(this.queryLocal(res, null, pred));
                     }
-                    return this.query.from(res.name)
+                    return this.query.from(res)
                         .using(this.manager)
                         .execute()
                         .then(getUserProfileResponse)
@@ -176,6 +165,7 @@ System.register(['core/service/data/utility', "core/entityExtension/person", "co
                         if (profileEntity) {
                             userProfiles.push(profileEntity);
                         }
+                        isLoaded.profile = userProfiles.length > 0;
                         return userProfiles;
                     }
                 };
@@ -197,6 +187,7 @@ System.register(['core/service/data/utility', "core/entityExtension/person", "co
                     return deferred.promise;
                 };
                 EcUserRepo.prototype.loginUser = function (userEmail, password, saveLogin) {
+                    var isLoad = this.isLoaded;
                     if (this.token && userEmail === this.token.userEmail && password === this.token.password && this.token.validity() === 2 /* Valid */) {
                         return this.c.$q.resolve(this.persona);
                     }
@@ -247,12 +238,15 @@ System.register(['core/service/data/utility', "core/entityExtension/person", "co
                         else {
                             localStorage.removeItem('ECAT:RME');
                         }
-                        self.userApiResources.userToken.resource.isLoaded = true;
+                        isLoad.token = true;
                         self.isLoggedIn = true;
                         return user;
                     }
                 };
                 ;
+                EcUserRepo.prototype.logout = function () {
+                    this.isLoaded.token = false;
+                };
                 EcUserRepo.serviceId = 'data.user';
                 EcUserRepo.$inject = ['$http', '$injector', 'userStatic'];
                 return EcUserRepo;

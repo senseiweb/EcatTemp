@@ -8,8 +8,8 @@
                     <i class="zmdi zmdi-sort"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li ng-repeat="courseMem in assess.courseEnrollments track by courseMem.id">
-                        <a href="javascript:void(0)" ng-click="assess.setActiveCourse(courseMem)">{{courseMem.course.name}}</a>
+                    <li ng-repeat="course in assess.courses track by course.id">
+                        <a href="javascript:void(0)" ng-click="assess.setActiveCourse(course)"><i ng-if="course.id === assess.activeCrseId" class="zmdi zmdi-chevron-right"></i> {{course.name}}</a>
                     </li>
 
                 </ul>
@@ -45,16 +45,14 @@
 
                     <li class="dropdown" uib-dropdown>
 
-                        <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>{{assess.activeGroupMember.group.mpCategory}} - {{assess.activeGroupMember.group.defaultName}}</button>
+                        <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>{{assess.grpDisplayName}}</button>
 
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li ng-repeat="studGroup in assess.activeCourseMember.studGroupEnrollments track by studGroup.id">
-                                <a href="javascript:void(0)" ng-click="assess.setActiveGroup(studGroup)">{{studGroup.group.mpCategory}} - {{studGroup.group.defaultName}}</a>
+                            <li ng-repeat="group in assess.workGroups track by group.id ">
+                                <a href="javascript:void(0)" ng-click="assess.setActiveGroup(group)">{{group.mpCategory}} - {{group.defaultName}}</a>
                             </li>
                         </ul>
                     </li>
-
-
 
                     <li class="dropdown" uib-dropdown>
                         <a href="" uib-dropdown-toggle>

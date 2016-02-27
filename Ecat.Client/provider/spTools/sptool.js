@@ -23,8 +23,8 @@ System.register(["core/service/data/context", "provider/spTools/commenter"], fun
                         templateUrl: '@[appProvider]/spTools/commenter.html'
                     };
                 }
-                EcSpTools.prototype.loadSpComment = function (receiptentId) {
-                    this.commentModalOptions.resolve = { recipientId: receiptentId };
+                EcSpTools.prototype.loadSpComment = function (recipientId) {
+                    this.commentModalOptions.resolve = { recipientId: recipientId };
                     return this.$uim.open(this.commentModalOptions).result;
                 };
                 EcSpTools.serviceId = 'app.service.sptools';

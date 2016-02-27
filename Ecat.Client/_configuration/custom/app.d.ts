@@ -137,10 +137,7 @@ declare module ecat {
 
    
     export interface IApiResource {
-        resource: {
-            name: string;
-            isLoaded: any;
-        };
+        resource: string;
         returnedEntityType: string;
     }
 

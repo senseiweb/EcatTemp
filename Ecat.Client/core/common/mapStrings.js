@@ -179,8 +179,8 @@ System.register([], function(exports_1) {
                 EcMapEntityType.externalProfile = 'Profileexternal';
                 EcMapEntityType.course = 'Course';
                 EcMapEntityType.academy = 'Academy';
-                EcMapEntityType.group = 'WorkGroup';
-                EcMapEntityType.grpMember = 'CrseStudentInGroup';
+                EcMapEntityType.workGroup = 'WorkGroup';
+                EcMapEntityType.crseStudInGrp = 'CrseStudentInGroup';
                 EcMapEntityType.studCrseMember = 'StudentInCourse';
                 EcMapEntityType.faccultyCrseMember = 'FacultyInCourse';
                 EcMapEntityType.spInstr = 'SpInstrument';

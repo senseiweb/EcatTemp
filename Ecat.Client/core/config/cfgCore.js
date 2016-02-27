@@ -31,7 +31,7 @@ System.register(["core/service/authenicator", "core/config/cfgProviders"], funct
                     };
                     coreCfg.coreApp = coreAppCfg;
                     $ocLazyLoadProvider.config({
-                        debug: true
+                        debug: false
                     });
                     $provide.decorator('taOptions', [
                         '$delegate', '$timeout', function (taOptions, $timeout) {

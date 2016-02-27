@@ -24,14 +24,14 @@ export default class EcProviderSpToolCommenter {
 
         if (authorRole === _mp.EcMapInstituteRole.student) {
             const spComment = this.dCtx.student.getOrAddComment(this.recipientId) as ecat.entity.ISpComment;
-            author = spComment.author.student.person;
-            recipient = spComment.recipient.student.person;
+            author = spComment.author.studentProfile.person;
+            recipient = spComment.recipient.studentProfile.person;
             this.comment = spComment;
         }
         else {
             const facComment = this.dCtx.faculty.getFacSpComment(this.recipientId) as ecat.entity.IFacSpComment;
             author = facComment.faculty.faculty.person;
-            recipient = facComment.student.student.person;
+            recipient = facComment.student.studentProfile.person;
             facComment['mpCommentType'] = _mp.MpCommentType.signed;
             this.comment = facComment;
         }

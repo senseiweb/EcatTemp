@@ -32,7 +32,7 @@ export default class EcCoreConfig {
         coreCfg.coreApp = coreAppCfg;
 
         $ocLazyLoadProvider.config({
-            debug: true
+            debug: false
         });
 
         $provide.decorator('taOptions', [

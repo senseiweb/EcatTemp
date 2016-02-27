@@ -19,7 +19,6 @@ namespace Ecat.StudMod.Core
         protected override void OnModelCreating(DbModelBuilder mb)
         {
 
-
             mb.Configurations.Add(new ConfigSpResponse());
             mb.Configurations.Add(new ConfigSpResult());
             mb.Configurations.Add(new ConfigStratResponse());
@@ -60,7 +59,7 @@ namespace Ecat.StudMod.Core
 
         public IDbSet<WorkGroup> WorkGroups { get; set; }
         public IDbSet<Course> Courses { get; set; }
-        public IDbSet<CrseStudentInGroup> CrseStudentInGroups { get; set; }
+        public IDbSet<CrseStudentInGroup> StudentInGroups { get; set; }
         public IDbSet<StudentInCourse> StudentInCourses { get; set; }
         public IDbSet<SpResponse> SpResponses { get; set; }
         public IDbSet<SpResult> SpResults { get; set; }
