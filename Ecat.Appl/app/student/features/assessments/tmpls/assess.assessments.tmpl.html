@@ -4,10 +4,10 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr>
-                        <th>Student</th>
+                        <th ng-click="assess.orderBy('name'); sortReverse = !sortReverse">Student</th>
                         <th style="padding-left: 22px;">Assessments</th>                     
                         <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
-                        <th ng-if="assess.stratInputVis">Composite Ranking</th>
+                        <th ng-click="assess.orderBy('compositeScore')" ng-if="assess.stratInputVis">Composite Ranking</th>
                         <th>Strat</th>
                         <th ng-if="assess.stratInputVis">Strat Position</th>
                         <th ng-if="assess.stratInputVis"></th>
@@ -18,7 +18,7 @@
                 <tbody>
 
                 <tr class="tableBottomBorder">
-                    <td>{{assess.studentSelf.student.person.firstName}} {{assess.studentSelf.student.person.lastName}}</td>
+                    <td>{{assess.studentSelf.student.person.lastName}}, {{assess.studentSelf.student.person.firstName}}</td>
                     <td>
                         <button class="btn btn-link" ng-click="assess.editAssessment(assess.studentSelf)">View/Edit</button>
 
@@ -29,13 +29,7 @@
 
                     </td>
                     <td ng-if="assess.stratInputVis">
-                        <table>
-                            <tr>
-                                <td>E: 4</td>
-                                <td>AE: 4</td>
-                                <td>HE: 2</td>
-                            </tr>
-                        </table>
+                        <button popover-placement="top" popover-trigger="mouseenter" popover="HE:{{assess.activeGroupMember.statusOfPeer[assess.studentSelf.id].breakout.highEff}} | E:{{assess.activeGroupMember.statusOfPeer[assess.studentSelf.id].breakout.eff}} | ND:{{assess.activeGroupMember.statusOfPeer[assess.studentSelf.id].breakout.nd}} | IE:{{assess.activeGroupMember.statusOfPeer[assess.studentSelf.id].breakout.ineff}}" class="btn f-500 c-black btn-link f">{{assess.activeGroupMember.statusOfPeer[assess.studentSelf.id].compositeScore | number: 2}}</button>
                     </td>
 
                     <td>{{assess.studentSelf.spStratResponse}}</td>
@@ -51,8 +45,8 @@
 
                 </tr>
 
-                <tr ng-repeat="peer in assess.peers track by peer.id" ng-form="">
-                    <td>{{peer.student.person.firstName}} {{peer.student.person.lastName}}</td>
+                <tr ng-repeat="peer in assess.peers track by peer.id">
+                    <td>{{peer.student.person.lastName}}, {{peer.student.person.firstName}}</td>
                     <td>
                         <button class="btn btn-link" ng-click="assess.addAssessment(peer)">Add</button>
 
@@ -63,13 +57,7 @@
 
                     </td>
                     <td ng-if="assess.stratInputVis">
-                        <table>
-                            <tr>
-                                <td>E: 4</td>
-                                <td>AE: 4</td>
-                                <td>HE: 2</td>
-                            </tr>
-                        </table>
+                        <button popover-placement="top" popover-trigger="mouseenter" popover="HE:{{assess.activeGroupMember.statusOfPeer[peer.id].breakout.highEff}} | E:{{assess.activeGroupMember.statusOfPeer[peer.id].breakout.eff}} | ND:{{assess.activeGroupMember.statusOfPeer[peer.id].breakout.nd}} | IE:{{assess.activeGroupMember.statusOfPeer[peer.id].breakout.ineff}}" class="btn f-500 c-black btn-link f">{{assess.activeGroupMember.statusOfPeer[peer.id].compositeScore | number: 2}}</button>
                     </td>
 
                     <td>{{peer.assessorStratResponse[peer.id].stratPosition}}</td>

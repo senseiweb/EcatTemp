@@ -19,7 +19,7 @@ export interface INewStrats {
 
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
-    static $inject = ['$uibModal', '$scope', ICommon.serviceId, IDataCtx.serviceId];
+    static $inject = ['$uibModal', '$scope', '$filter', ICommon.serviceId, IDataCtx.serviceId];
     appVar = AppVars;
     stratInputVis;
     hasComment = false;
@@ -27,9 +27,11 @@ export default class EcStudentAssessments {
 
     activeCourseMember: ecat.entity.ICourseMember;
     activeGroupMember: ecat.entity.IMemberInGroup;
-    //activeGroupMember: Ecat.Shared.Model.MemberInGroup;
     studentSelf: ecat.entity.IMemberInGroup;
     peers: ecat.entity.IMemberInGroup[];
+
+    sortType: string;
+    sortReverse = false;
 
     addModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: IAssessmentAdd.controllerId,
@@ -65,7 +67,6 @@ export default class EcStudentAssessments {
 
     fullName = 'Unknown';
 
-    
 
     stratPerson: IStratPerson;
 
@@ -88,12 +89,15 @@ export default class EcStudentAssessments {
 
     user: ecat.entity.IPerson;
 
-    constructor(private uiModal: angular.ui.bootstrap.IModalService, private scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx) {
+    constructor(private uiModal: angular.ui.bootstrap.IModalService, private scope: angular.IScope, private filterOrderBy: angular.IFilterOrderBy, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Assessment Loaded');
         this.activate();
     }
 
     activate(): void {
+        //this.sortType = 'student.person.lastName'
+        this.sortType = 'assess.activeGroupMember.statusOfPeer[].compositeScore';
+
         this.user = this.dCtx.user.persona;
         this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
         const self = this;
@@ -111,8 +115,7 @@ export default class EcStudentAssessments {
                 this.dCtx.student.activeCrseMemId = this.activeCourseMember.id;
                 this.groups = this.activeCourseMember.studGroupEnrollments;
                 this.groups = this.groups.sort(self.sortByCategory);
-                this.activeGroupMember = this.groups[0];
-                self.checkIfPublished();
+                this.activeGroupMember = this.groups[0];               
                 self.isolateSelf();
 
             })
@@ -137,8 +140,45 @@ export default class EcStudentAssessments {
 
         this.stratInputVis = false;
 
+       
+
     }
 
+    sortByComposite(): ecat.entity.IMemberInGroup[] {
+
+        const self = this;
+
+         return this.peers = this.peers.sort(sort);
+             
+
+        function sort(first: Ecat.Shared.Model.MemberInGroup, second: Ecat.Shared.Model.MemberInGroup): number {
+            console.log(self.activeGroupMember.statusOfPeer[first.studentId].compositeScore);
+            
+            if (self.activeGroupMember.statusOfPeer[first.studentId].compositeScore === self.activeGroupMember.statusOfPeer[second.studentId].compositeScore) {
+                   return 0;
+            }
+
+            if (self.activeGroupMember.statusOfPeer[first.studentId].compositeScore < self.activeGroupMember.statusOfPeer[second.studentId].compositeScore) {
+                return 1;
+            } else {
+                return -1;
+            }
+
+        }
+    }
+
+    orderBy(type: string): void {
+
+        if (type === "name") {
+            this.filterOrderBy(this.peers, 'student.person.lastName', this.sortReverse);
+        }
+
+        if (type === "compositeScore") {
+            this.sortByComposite();
+        }
+
+
+    }
 
     isolateSelf(): void {
 
@@ -168,6 +208,8 @@ export default class EcStudentAssessments {
         }
     }
 
+
+
     sortByCategory(first: Ecat.Shared.Model.MemberInGroup, second: Ecat.Shared.Model.MemberInGroup): number {
     if (first.group.mpSpStatus === AppVars.MpSpStatus.published) {
         return -1;
@@ -190,7 +232,9 @@ export default class EcStudentAssessments {
 
     setActiveGroup(groupMember: ecat.entity.IMemberInGroup): void {
         this.activeGroupMember = groupMember;
+        this.checkIfPublished();
         this.isolateSelf();
+       
     }
 
     cancelStrat(): void {
