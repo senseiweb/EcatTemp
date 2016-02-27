@@ -4,10 +4,17 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr>
-                        <th ng-click="assess.sortType = 'student.person.lastName'; sortReverse = !sortReverse">Student</th>
+                        <th class="header" ng-click="assess.sortType = 'student.person.lastName'; sortReverse = !sortReverse">
+                            Student
+                            <span ng-if="assess.sortType == 'student.person.lastName' && !sortReverse" class="zmdi zmdi-sort-amount-asc zmdi-hc-fw"></span>
+                            <span ng-if="assess.sortType == 'student.person.lastName' && sortReverse" class="zmdi zmdi-sort-amount-desc zmdi-hc-fw"></span>
+                        </th>
                         <th style="padding-left: 22px;">Assessments</th>                     
                         <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
-                        <th ng-click="assess.sortByComposite(); assess.sortType = 'empty'" ng-if="assess.stratInputVis">Composite Ranking</th>
+                        <th ng-click="assess.sortByComposite(); assess.sortType = 'empty'" ng-if="assess.stratInputVis">
+                            Composite Ranking
+                            <span ng-if="assess.sortType == 'empty'" class="zmdi zmdi-sort-amount-desc zmdi-hc-fw"></span>
+                        </th>
                         <th>Strat</th>
                         <th ng-if="assess.stratInputVis">Strat Position</th>
                         <th ng-if="assess.stratInputVis"></th>
