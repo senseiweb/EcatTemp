@@ -23,6 +23,7 @@ System.register(['breezeSaveError', "core/common/commonService", "core/service/d
                     this.loggerId = loggerId;
                     this.endPoint = endPoint;
                     this.entityExtCfgs = entityExtCfgs;
+                    this.isLoaded = {};
                     this.mgrLoaded = false;
                     this.saveInProgress = false;
                     this.getManager = function (factory) {
@@ -86,12 +87,10 @@ System.register(['breezeSaveError', "core/common/commonService", "core/service/d
                     var emf = inj.get(emFactory_1.default.serviceId);
                     this.query = new breeze.EntityQuery();
                     this.c = c;
+                    this.log = c.getAllLoggers(this.loggerId);
                     this.dCtx = dCtx;
                     this.emf = emf;
                     this.mgrLoaded = false;
-                    this.logSuccess = this.c.logSuccess(this.loggerId);
-                    this.logInfo = this.c.logInfo(this.loggerId);
-                    this.logWarn = this.c.logWarning(this.loggerId);
                     this.getManager(emf);
                 }
                 EcUtilityRepoServices.prototype.addResources = function (apiResources) {

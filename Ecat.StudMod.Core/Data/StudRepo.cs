@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 namespace Ecat.StudMod.Core
 {
     using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
-
+    
     public class StudRepo : IStudRepo
     {
         private readonly StudCtx _ctx;
@@ -34,23 +34,19 @@ namespace Ecat.StudMod.Core
             return _efCtx.SaveChanges(saveBundle);
         }
 
-
         public string GetMetadata => _efCtx.Metadata();
 
-        public IQueryable<CrseStudentInGroup> GetCrseMembership => _ctx.CrseStudentInGroups
-                .Where(sg => !sg.IsDeleted)
-                .Include(c => c.Course);
+        public CrseStudentInGroup FindStudInGrpById(int studentId, int courseId, int workGroupId)
+        {
+            return _ctx.StudentInGroups.Find(studentId, courseId, workGroupId);
+        }
 
-        public IQueryable<CrseStudentInGroup> SingleGroupMemberResponses => _ctx.CrseStudentInGroups
-            .Where(gm => !gm.IsDeleted)
-            .OrderByDescending(grpMem => grpMem.WorkGroup.MpCategory)
-            .Include(g => g.WorkGroup)
-            .Include(g => g.WorkGroup.AssignedSpInstr)
-            .Include(g => g.WorkGroup.AssignedSpInstr.InventoryCollection)
-            .Include(g => g.WorkGroup.GroupMembers.Select(p => p.StudentProfile))
-            .Include(g => g.WorkGroup.GroupMembers.Select(p => p.StudentProfile.Person))
-            .Include(g => g.AssessorStratResponse)
-            .Include(g => g.AssessorSpResponses)
-            .Include(g => g.AuthorOfComments);
+        public IQueryable<CrseStudentInGroup> WorkGroups => _ctx.StudentInGroups
+            .Where(sg => !sg.IsDeleted)
+            .Include(gm => gm.WorkGroup);
+
+        public IQueryable<StudentInCourse> Courses => _ctx.StudentInCourses
+            .Where(course => !course.IsDeleted);
+
     }
 }

@@ -93,13 +93,13 @@ System.register(["core/common/commonService", 'core/service/data/context', "core
                     //    });
                     //});
                     function sortCourseMems(first, second) {
-                        if (first.courseEnrollment.course.startDate < second.courseEnrollment.course.startDate) {
+                        if (first.course.startDate < second.course.startDate) {
                             return 1;
                         }
-                        if (first.courseEnrollment.course.startDate > second.courseEnrollment.course.startDate) {
+                        if (first.course.startDate > second.course.startDate) {
                             return -1;
                         }
-                        if (first.courseEnrollment.course.startDate === second.courseEnrollment.course.startDate) {
+                        if (first.course.startDate === second.course.startDate) {
                             return 0;
                         }
                     }

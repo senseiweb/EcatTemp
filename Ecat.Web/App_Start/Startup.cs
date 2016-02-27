@@ -22,7 +22,6 @@ namespace Ecat.Web
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
-
             #region Add/Remove Filters
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             #endregion

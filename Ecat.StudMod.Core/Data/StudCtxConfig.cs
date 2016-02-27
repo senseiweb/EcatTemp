@@ -65,9 +65,9 @@ namespace Ecat.StudMod.Core
         }
     }
 
-    public class StudConfigStudCrse : EntityTypeConfiguration<Course>
+    public class StudConfigCrse : EntityTypeConfiguration<Course>
     {
-        public StudConfigStudCrse()
+        public StudConfigCrse()
         {
             Ignore(p => p.BbCourseId);
         }
@@ -111,6 +111,8 @@ namespace Ecat.StudMod.Core
             HasOptional(p => p.StratResult)
                 .WithRequired(p => p.ResultFor);
 
+            Ignore(p => p.GroupPeers);
+
             HasKey(p => new { p.StudentId, p.CourseId, p.WorkgroupId });
 
             HasRequired(p => p.StudentInCourse)
@@ -128,7 +130,6 @@ namespace Ecat.StudMod.Core
             HasRequired(p => p.Course)
                 .WithMany(p => p.StudentInCrseGroups)
                 .HasForeignKey(p => p.CourseId);
-
         }
     }
 

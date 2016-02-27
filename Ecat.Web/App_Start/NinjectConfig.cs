@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using Ecat.FacMod.Core;
 using Ecat.Shared.Core;
@@ -15,6 +16,7 @@ using Ecat.Web.Utility;
 using Ninject;
 using Ninject.Web.Common;
 using Ninject.Web.Mvc;
+using Ninject.Web.WebApi.Filter;
 using Ninject.Web.WebApi.FilterBindingSyntax;
 using FilterScope = System.Web.Http.Filters.FilterScope;
 
@@ -27,6 +29,7 @@ namespace Ecat.Web
             var kernel = new StandardKernel();
 
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+
 
             kernel.Load(Assembly.GetExecutingAssembly());
             kernel.BindHttpFilter<AuthorizedFilterService>(FilterScope.Controller)

@@ -21,38 +21,21 @@ export default class EcFacultyRepo extends IUtilityRepo {
     private facilitatorApiResources: IFacultyApiResources = {
         initCourses: {
             returnedEntityType: _mp.EcMapEntityType.faccultyCrseMember,
-            resource: {
-                name: 'GetInitalCourses',
-                isLoaded: false
-            }
+            resource: 'GetInitalCourses'
         },
         getGroupById: {
-            returnedEntityType: _mp.EcMapEntityType.group,
-            resource: {
-                name: 'GetWorkGroupData',
-                isLoaded: {
-                    group: {} as any
-                }
-            }
-        },
+            returnedEntityType: _mp.EcMapEntityType.workGroup,
+            resource:  'GetWorkGroupData'
+            },
         getGroupCapstoneData: {
             returnedEntityType:_mp.EcMapEntityType.faccultyCrseMember,
-            resource: {
-                name: 'GetGroupCapstoneData',
-                isLoaded: {
-                    name: 'GetGroupCapstoneData',
-                    isLoaded: false
-                }
-            }
+            resource: 'GetGroupCapstoneData'
         },
         getStudentCapstoneDetails: {
-            returnedEntityType: _mp.EcMapEntityType.grpMember,
-            resource: {
-                name: 'GetStudentCapstoneDetails',
-                isLoaded: false
+            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+            resource:  'GetStudentCapstoneDetails'
             }
-        }
-    };
+    }
 
     constructor(inj) {
         super(inj, 'Facilitator Data Service', _mp.EcMapApiResource.faculty, [IFacWorkGrpExt.facWorkGrpEntityExt]);
@@ -63,13 +46,13 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const api = this.facilitatorApiResources;
         const self = this;
 
-        if (api.initCourses.resource.isLoaded && !forceRefresh) {
-            const courseMems = this.queryLocal(api.initCourses.resource.name) as Array<ecat.entity.IFacInCrse>;
+        if (this.isLoaded && !forceRefresh) {
+            const courseMems = this.queryLocal(api.initCourses.resource) as Array<ecat.entity.IFacInCrse>;
             this.logSuccess('Courses loaded from local cache', courseMems, false);
             return this.c.$q.when(courseMems);
         }
 
-        return this.query.from(api.initCourses.resource.name)
+        return this.query.from(api.initCourses.resource)
             .using(this.manager)
             .execute()
             .then(initCoursesReponse)

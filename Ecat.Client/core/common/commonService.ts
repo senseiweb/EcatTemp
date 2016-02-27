@@ -25,10 +25,10 @@ export default class EcatCommonService {
     };
 
     getAllLoggers = (loggerTitle: string) => ({
-        succes: () => this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Success),
-        error: () => this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Error),
-        warn: () => this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Warning),
-        info: () => this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Info)
+        success:  this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Success),
+        error: this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Error),
+        warn: this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Warning),
+        info: this.logger.getLogFn(loggerTitle, _mpe.AlertTypes.Info)
     });
 
     logSuccess = (controllerId: string) => this.logger.getLogFn(controllerId, _mpe.AlertTypes.Success);

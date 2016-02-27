@@ -74,7 +74,7 @@ System.register(["core/service/data/emfactory", "core/common/commonService", "co
                     localStorage.removeItem('ECAT:TOKEN');
                     sessionStorage.removeItem('ECAT:TOKEN');
                     this.user.isLoggedIn = false;
-                    this.user.userApiResources.userToken.resource.isLoaded = false;
+                    this.user;
                 };
                 EcDataContext.serviceId = 'data.context';
                 EcDataContext.$inject = ['$rootScope', commonService_1.default.serviceId, emfactory_1.default.serviceId];

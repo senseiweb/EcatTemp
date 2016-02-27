@@ -1,5 +1,5 @@
-System.register(["core/common/commonService", 'core/service/data/context', "core/common/mapStrings"], function(exports_1) {
-    var commonService_1, context_1, _mp;
+System.register(["core/common/commonService", 'core/service/data/context', "provider/spTools/spTool", "core/common/mapStrings"], function(exports_1) {
+    var commonService_1, context_1, spTool_1, _mp;
     var EcStudentAssessments;
     return {
         setters:[
@@ -9,165 +9,120 @@ System.register(["core/common/commonService", 'core/service/data/context', "core
             function (context_1_1) {
                 context_1 = context_1_1;
             },
+            function (spTool_1_1) {
+                spTool_1 = spTool_1_1;
+            },
             function (_mp_1) {
                 _mp = _mp_1;
             }],
         execute: function() {
             //import {EcMapGender as gender} from "appVars"
             EcStudentAssessments = (function () {
-                function EcStudentAssessments(uiModal, c, dCtx) {
+                //#endregion
+                function EcStudentAssessments(uiModal, c, dCtx, spTools) {
                     this.uiModal = uiModal;
                     this.c = c;
                     this.dCtx = dCtx;
-                    this.appVar = _mp;
+                    this.spTools = spTools;
+                    this.fullName = 'Unknown';
+                    this.grpDisplayName = 'Not Set';
                     this.hasComment = false;
                     this.isResultPublished = false;
-                    this.fullName = 'Unknown';
-                    this.groupMembers = [];
-                    //Turns logError into a log error function that is displayed to the client. 
-                    this.logError = this.c.logSuccess('Assessment Center');
-                    this.courseEnrollments = [];
-                    this.groups = [];
+                    this.log = this.c.getAllLoggers('Assessment Center');
+                    this.mp = _mp;
                     console.log('Assessment Loaded');
                     this.activate();
                 }
                 EcStudentAssessments.prototype.activate = function () {
+                    var _this = this;
                     this.user = this.dCtx.user.persona;
                     this.fullName = this.user.firstName + " " + this.user.lastName + "'s";
                     var self = this;
                     function courseError(error) {
-                        self.logError('There was an error loading Courses', error, true);
+                        self.log.warn('There was an error loading Courses', error, true);
                     }
                     //This unwraps the promise and retrieves the objects inside and stores it into a local variable
-                    this.dCtx.student.initCourses(false);
-                    //.then((init: ecat.entity.IStudInCrse[]) => {
-                    //    this.courseEnrollments = init;
-                    //    this.courseEnrollments = this.courseEnrollments.sort(sortByDate);
-                    //    this.activeCourseMember = this.courseEnrollments[0];
-                    //    this.dCtx.student.activeCourseId = this.activeCourseMember.courseId;
-                    //    this.groups = this.activeCourseMember.studGroupEnrollments;
-                    //    this.groups = this.groups.sort(self.sortByCategory);
-                    //    this.activeGroupMember = this.groups[0];
-                    //    self.checkIfPublished();
-                    //    self.isolateSelf();
-                    //})
-                    //.catch(courseError);
-                    //.finally();   --Can be used to do some addtional functionality
-                    //function recCourseList(retData: ecat.entity.ICourseMember[]) {
-                    //    self.courseEnrollments = retData;
-                    //    self.courseEnrollments.forEach(ce => self.courses.push(ce.course.name));
-                    //}
-                    function sortByDate(first, second) {
-                        if (first.course.startDate === second.course.startDate) {
-                            return 0;
-                        }
-                        if (first.course.startDate < second.course.startDate) {
-                            return 1;
-                        }
-                        else {
-                            return -1;
-                        }
-                    }
+                    //TODO: Whatif there are no courses??
+                    this.dCtx.student.initCrseStudGroup(false)
+                        .then(function (crseStudInGrp) {
+                        _this.courses = _this.getUniqueCourses(crseStudInGrp);
+                        _this.workGroups = _this.courses[0].workGroups;
+                        _this.activeCrseId = _this.dCtx.student.activeCourseId = _this.courses[0].id;
+                        _this.setActiveGroup(_this.workGroups[0]);
+                        //this.courseEnrollments = init;
+                        //this.activeCourseMember = this.courseEnrollments[0];
+                        //this.dCtx.student.activeCourseId = this.activeCourseMember.courseId;
+                        //this.groups = this.activeCourseMember.studGroupEnrollments;
+                        //this.groups = this.groups.sort(self.sortByCategory);
+                        //this.activeGroupMember = this.groups[0];
+                        //self.checkIfPublished();
+                        //self.isolateSelf();
+                    })
+                        .catch(courseError);
                     this.stratInputVis = false;
                 };
-                EcStudentAssessments.prototype.isolateSelf = function () {
-                    var _this = this;
-                    this.peers = this.activeGroupMember.groupPeers.filter(function (peer) {
-                        if (peer.studentId === _this.activeGroupMember.studentId) {
-                            _this.studentSelf = peer;
-                            return false;
-                        }
-                        return true;
-                    });
-                };
-                EcStudentAssessments.prototype.checkIfPublished = function () {
-                    if (this.activeGroupMember.group.mpSpStatus === _mp.MpSpStatus.published) {
-                        this.isResultPublished = true;
-                    }
-                };
-                EcStudentAssessments.prototype.sortByCategory = function (first, second) {
-                    if (first.group.mpSpStatus === _mp.MpSpStatus.published) {
-                        return -1;
-                    }
-                    else {
-                        return 1;
-                    }
-                };
-                EcStudentAssessments.prototype.setActiveCourse = function (courseMember) {
-                    this.activeCourseMember = courseMember;
-                    this.groups = this.activeCourseMember.workGroupEnrollments;
-                    this.groups = this.groups.sort(this.sortByCategory);
-                    this.activeGroupMember = this.groups[0];
-                    this.isolateSelf();
-                };
-                EcStudentAssessments.prototype.setActiveGroup = function (groupMember) {
-                    this.activeGroupMember = groupMember;
-                    this.isolateSelf();
-                };
-                EcStudentAssessments.prototype.addAssessment = function (assessee) {
-                    var spResponses = [];
-                    var mode;
-                    this.activeGroupMember.group.assignedSpInstr.inventoryCollection.forEach(function (inv) {
-                        //var newResponse = this.dCtx.student.getNewSpAssessResponse(this.activeGroupMember, assessee, inv);
-                        //spResponses.push(newResponse);
-                    });
-                    if (assessee.studentId === this.studentSelf.studentId) {
-                        mode = 'self';
-                    }
-                    else {
-                        mode = 'peer';
-                    }
-                    //this.addModalOptions.resolve = {
-                    //    mode: () => mode,
-                    //    assessment: () => spResponses
-                    //};
-                    //this.uiModal.open(this.addModalOptions)
-                    //    .result
-                    //    .then(assessmentSaved)
-                    //    .catch(assessmentError);
-                    //function assessmentSaved() {
-                    //}
-                    //function assessmentError() {
-                    //}
-                };
                 EcStudentAssessments.prototype.addComment = function (recipientId) {
-                    //this.commentModalOptions.resolve = {
-                    //    recipientId: () => recipientId,
-                    //    authorId: () => this.studentSelf.studentId
-                    //};
-                    //this.uiModal.open(this.commentModalOptions)
-                    //    .result
-                    //    .then(commentSaved)
-                    //    .catch(commentError);
-                    //function commentSaved() {
-                    //}
-                    //function commentError() {
-                    //}
+                    if (!recipientId) {
+                        console.log('You must pass a recipient id to use this feature');
+                        return null;
+                    }
+                    //TODO: Add action after the comment has been dealt with
+                    this.spTools.loadSpComment(recipientId)
+                        .then(function () {
+                        console.log('Comment modal closed');
+                    })
+                        .catch(function () {
+                        console.log('Comment model errored');
+                    });
                 };
-                EcStudentAssessments.prototype.editAssessment = function (assessee) {
-                    var mode;
-                    if (assessee.studentId === this.studentSelf.studentId) {
-                        mode = 'self';
+                //checkIfPublished(): void {
+                //    if (this.activeGroupMember.group.mpSpStatus === _mp.MpSpStatus.published) {
+                //        this.isResultPublished = true;
+                //    }
+                //}
+                EcStudentAssessments.prototype.setActiveCourse = function (course) {
+                    var _this = this;
+                    this.activeCrseId = this.dCtx.student.activeCourseId = course.id;
+                    this.dCtx.student.getActiveCourse()
+                        .then(function (crse) {
+                        var wrkGrp = crse.workGroups[0];
+                        _this.setActiveGroup(wrkGrp);
+                    })
+                        .catch(function () { });
+                };
+                EcStudentAssessments.prototype.setActiveGroup = function (workGroup) {
+                    var _this = this;
+                    this.dCtx.student.activeGroupId = workGroup.id;
+                    this.grpDisplayName = workGroup.mpCategory + " - " + workGroup.defaultName;
+                    var myId = this.dCtx.user.persona.personId;
+                    //TODO: Need to do something with the error
+                    this.dCtx.student.getActivetWorkGroup()
+                        .then(function (wrkGrp) {
+                        var grpMembers = wrkGrp.groupMembers;
+                        if (grpMembers === null || grpMembers.length === 0) {
+                            //TODO: Address a condition if no members are in the group
+                            return null;
+                        }
+                        _this.me = grpMembers.filter(function (gm) { return gm.studentId === myId; })[0];
+                        _this.peers = grpMembers.filter(function (gm) { return gm.studentId !== myId; });
+                    })
+                        .catch(function () { return null; });
+                };
+                EcStudentAssessments.prototype.getUniqueCourses = function (crseStudInGrp) {
+                    var uniqueCourses = {};
+                    var courses = [];
+                    crseStudInGrp.forEach(function (crseStud) {
+                        uniqueCourses[crseStud.courseId] = crseStud.course;
+                    });
+                    for (var course in uniqueCourses) {
+                        if (uniqueCourses.hasOwnProperty(course)) {
+                            courses.push(uniqueCourses[course]);
+                        }
                     }
-                    else {
-                        mode = 'peer';
-                    }
-                    //this.editModalOptions.resolve = {
-                    //    mode: () => mode,
-                    //    assessment: () => assessee.assesseeSpResponses
-                    //};
-                    //this.uiModal.open(this.editModalOptions)
-                    //    .result
-                    //    .then(retData => assessmentSaved(retData))
-                    //    .catch(assessmentError);
-                    //function assessmentSaved(retData: any) {
-                    //    console.log(assessee.assesseeSpResponses);
-                    //    console.log(retData);
-                    //}
-                    //function assessmentError() {
+                    return courses;
                 };
                 EcStudentAssessments.controllerId = 'app.student.assessment';
-                EcStudentAssessments.$inject = ['$uibModal', commonService_1.default.serviceId, context_1.default.serviceId];
+                EcStudentAssessments.$inject = ['$uibModal', commonService_1.default.serviceId, context_1.default.serviceId, spTool_1.default.serviceId];
                 return EcStudentAssessments;
             })();
             exports_1("default", EcStudentAssessments);

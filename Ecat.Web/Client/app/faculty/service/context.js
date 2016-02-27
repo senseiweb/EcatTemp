@@ -24,37 +24,20 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                     _super.call(this, inj, 'Facilitator Data Service', _mp.EcMapApiResource.faculty, [IFacWorkGrpExt.facWorkGrpEntityExt]);
                     this.facilitatorApiResources = {
                         initCourses: {
-                            returnedEntityType: _mp.EcMapEntityType.crseMember,
-                            resource: {
-                                name: 'GetInitalCourses',
-                                isLoaded: false
-                            }
+                            returnedEntityType: _mp.EcMapEntityType.faccultyCrseMember,
+                            resource: 'GetInitalCourses'
                         },
                         getGroupById: {
-                            returnedEntityType: _mp.EcMapEntityType.group,
-                            resource: {
-                                name: 'GetWorkGroupData',
-                                isLoaded: {
-                                    group: {}
-                                }
-                            }
+                            returnedEntityType: _mp.EcMapEntityType.workGroup,
+                            resource: 'GetWorkGroupData'
                         },
                         getGroupCapstoneData: {
-                            returnedEntityType: _mp.EcMapEntityType.crseMember,
-                            resource: {
-                                name: 'GetGroupCapstoneData',
-                                isLoaded: {
-                                    name: 'GetGroupCapstoneData',
-                                    isLoaded: false
-                                }
-                            }
+                            returnedEntityType: _mp.EcMapEntityType.faccultyCrseMember,
+                            resource: 'GetGroupCapstoneData'
                         },
                         getStudentCapstoneDetails: {
-                            returnedEntityType: _mp.EcMapEntityType.grpMember,
-                            resource: {
-                                name: 'GetStudentCapstoneDetails',
-                                isLoaded: false
-                            }
+                            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+                            resource: 'GetStudentCapstoneDetails'
                         }
                     };
                     this.loadManager(this.facilitatorApiResources);
@@ -62,12 +45,12 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                 EcFacultyRepo.prototype.initializeCourses = function (forceRefresh) {
                     var api = this.facilitatorApiResources;
                     var self = this;
-                    if (api.initCourses.resource.isLoaded && !forceRefresh) {
-                        var courseMems = this.queryLocal(api.initCourses.resource.name);
+                    if (this.isLoaded && !forceRefresh) {
+                        var courseMems = this.queryLocal(api.initCourses.resource);
                         this.logSuccess('Courses loaded from local cache', courseMems, false);
                         return this.c.$q.when(courseMems);
                     }
-                    return this.query.from(api.initCourses.resource.name)
+                    return this.query.from(api.initCourses.resource)
                         .using(this.manager)
                         .execute()
                         .then(initCoursesReponse)

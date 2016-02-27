@@ -17,6 +17,13 @@ export default class EcUtilityRepoServices {
     protected dCtx: IDataCtx;
     protected c: _common;
     protected emf: IEmFactory;
+    protected isLoaded = {} as any;
+    protected log: {
+        error: (msg: string, data: any, showLog: boolean) => void;
+        warn: (msg: string, data: any, showLog: boolean) => void;
+        info: (msg: string, data: any, showLog: boolean) => void;
+        success: (msg: string, data: any, showLog: boolean) => void;
+    }
     protected logSuccess: (msg: string, data: any, showLog: boolean) => void;
     protected logInfo: (msg: string, data: any, showLog: boolean) => void;
     protected logWarn: (msg: string, data: any, showLog: boolean) => void;
@@ -35,12 +42,10 @@ export default class EcUtilityRepoServices {
         const emf = inj.get(IEmFactory.serviceId) as IEmFactory;
         this.query = new breeze.EntityQuery();
         this.c = c;
+        this.log = c.getAllLoggers(this.loggerId);
         this.dCtx = dCtx;
         this.emf = emf;
         this.mgrLoaded = false;
-        this.logSuccess = this.c.logSuccess(this.loggerId);
-        this.logInfo = this.c.logInfo(this.loggerId);
-        this.logWarn = this.c.logWarning(this.loggerId);
         this.getManager(emf);
     }
 

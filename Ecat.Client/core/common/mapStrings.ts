@@ -137,8 +137,8 @@ export class EcMapEntityType {
     static externalProfile = 'Profileexternal';
     static course = 'Course';
     static academy = 'Academy';
-    static group = 'WorkGroup';
-    static grpMember = 'CrseStudentInGroup';
+    static workGroup = 'WorkGroup';
+    static crseStudInGrp = 'CrseStudentInGroup';
     static studCrseMember = 'StudentInCourse';
     static faccultyCrseMember = 'FacultyInCourse';
     static spInstr = 'SpInstrument';

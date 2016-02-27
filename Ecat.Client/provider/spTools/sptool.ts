@@ -19,8 +19,8 @@ export default class EcSpTools {
         
     }
 
-    loadSpComment(receiptentId: number): angular.IPromise<void> {
-        this.commentModalOptions.resolve = { recipientId: receiptentId };
+    loadSpComment(recipientId: number): angular.IPromise<void> {
+        this.commentModalOptions.resolve = { recipientId: recipientId };
         return this.$uim.open(this.commentModalOptions).result;
     }
 }

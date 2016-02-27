@@ -41,10 +41,10 @@ System.register(['core/service/logger', "core/config/cfgProviders", "sweetalert"
                         clientProfile: "ECAT:CLIENTPROFILE:" + this.localStorageUid
                     };
                     this.getAllLoggers = function (loggerTitle) { return ({
-                        succes: function () { return _this.logger.getLogFn(loggerTitle, 3 /* Success */); },
-                        error: function () { return _this.logger.getLogFn(loggerTitle, 1 /* Error */); },
-                        warn: function () { return _this.logger.getLogFn(loggerTitle, 2 /* Warning */); },
-                        info: function () { return _this.logger.getLogFn(loggerTitle, 0 /* Info */); }
+                        success: _this.logger.getLogFn(loggerTitle, 3 /* Success */),
+                        error: _this.logger.getLogFn(loggerTitle, 1 /* Error */),
+                        warn: _this.logger.getLogFn(loggerTitle, 2 /* Warning */),
+                        info: _this.logger.getLogFn(loggerTitle, 0 /* Info */)
                     }); };
                     this.logSuccess = function (controllerId) { return _this.logger.getLogFn(controllerId, 3 /* Success */); };
                     this.logError = function (controllerId) { return _this.logger.getLogFn(controllerId, 1 /* Error */); };

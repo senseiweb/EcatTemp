@@ -13,7 +13,7 @@ namespace Ecat.StudMod.Core
     {
         string GetMetadata { get; }
         SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards);
-        IQueryable<CrseStudentInGroup> GetCrseMembership { get; }
-        IQueryable<CrseStudentInGroup> SingleGroupMemberResponses { get; }
+        IQueryable<CrseStudentInGroup> WorkGroups { get; }
+        IQueryable<StudentInCourse> Courses { get; }
     }
 }
