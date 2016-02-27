@@ -1,6 +1,6 @@
 ﻿<div class="container animated fadeInRight">
     <div class="block-header">
-        <h2>{{groups.course.name}} Groups Center</h2>
+        <h2>{{groups.selectedCourse.classNumber}} {{groups.selectedCourse.name}} Groups Center</h2>
 
         <ul class="actions">
             <li class="dropdown" uib-dropdown>
@@ -8,11 +8,9 @@
                     <i class="zmdi zmdi-sort"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li ng-repeat="course in groups.courses track by $index">
-                        <a href="javascript:void(0)">{{course}}</a>
+                    <li ng-repeat="course in groups.courses track by $index" ng-click="groups.changeCourse(course)">
+                        <a href="javascript:void(0)">{{course.classNumber}} {{course.name}}</a>
                     </li>
-                    <li>ALE 16-3</li>
-                    <li>ALE 16-4</li>
                 </ul>
             </li>
         </ul>
@@ -24,8 +22,8 @@
 
                 <div class="btn-group clearfix m-r-25">
                     <button type="button" class="btn btn-primary" ng-if="groups.back" ng-click="groups.view=0; groups.back=false; groups.enrollments=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Groups</button>
-                    <button type="button" class="btn btn-primary" ng-if="!groups.enrollments" ng-click="groups.pollGroups()">Poll Bb Groups</button>
-                    <button type="button" class="btn btn-primary" ng-if="groups.enrollments" ng-click="groups.poll()">Poll Bb Enrollments</button>
+                    <button type="button" class="btn btn-primary" ng-if="!groups.enrollments" ng-click="groups.pollLMS(groups.view)">Poll Bb Groups</button>
+                    <button type="button" class="btn btn-primary" ng-if="groups.enrollments" ng-click="groups.pollLMS(groups.view)">Poll Bb Enrollments</button>
                 </div>
 
                 <ul class="lv-actions actions">
@@ -35,7 +33,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a href="">Refresh Data</a>
+                                <a href="groups.refreshData(group.view)">Refresh Data</a>
                             </li>
                         </ul>
                     </li>

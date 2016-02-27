@@ -1,7 +1,7 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <h4 class="lead">ALE 16-3 - BC1 Flight 01 Students</h4>
+            <h4 class="lead">{{groups.selectedGroup.groupNumber}}-{{groups.selectedGroup.defaultName}} Students</h4>
         </div>
     </div>
 </div>
@@ -17,13 +17,13 @@
                         <th class="header">Component</th>
                     </tr>
                 </thead>
-                <tr ng-repeat="student in courses.students track by students.id" style="height: 50px">
-                    <td>{{student.lastName}}, {{student.firstName}}</td>
-                    <td>{{student.rank}}</td>
-                    <td>{{student.affiliation}}</td>
-                    <td>{{student.component}}</td>
+                <tr ng-repeat="student in courses.selectedGroup.groupMembers track by id" style="height: 50px">
+                    <td>{{student.person.lastName}}, {{student.person.firstName}}</td>
+                    <td>{{student.person.rank}}</td>
+                    <td>{{student.person.affiliation}}</td>
+                    <td>{{student.person.component}}</td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td>Student, Name</td>
                     <td>SMSgt</td>
                     <td>US</td>
@@ -40,7 +40,7 @@
                     <td>SMSgt</td>
                     <td>US</td>
                     <td>AF</td>
-                </tr>
+                </tr>-->
             </table>
         </div>
     </div>

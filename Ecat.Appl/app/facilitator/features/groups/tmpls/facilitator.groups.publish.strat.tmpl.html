@@ -1,4 +1,4 @@
-﻿<div class="row">
+<div class="row">
     <div class="col-md-12 p-t-20">
         <div class="table-responsive">
             <table class="table table-hover tableCenterAlign">
@@ -18,7 +18,7 @@
                         <td>
                             <input class="form-control" type="number" min="1" max="groups.selectedGroup.groupMembers.length" ng-model="groups.strats[groupMember.id]" style="width: 20px" />
                         </td>
-                        <td><button popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}}" class="btn f-500 c-black btn-link f">{{groups.selectedGroup.statusOfStudent[groupMember.id].compositeScore}}</button></td>
+                        <td><button ng-if="groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete" popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}}" class="btn f-500 c-black btn-link f">{{groups.selectedGroup.statusOfStudent[groupMember.id].compositeScore}}</button><label ng-if="!groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete">No Assessment</label></td>
                     </tr>
                     <!--<tr class="tableBottomBorder">
                         <td>Jason Silvers</td>

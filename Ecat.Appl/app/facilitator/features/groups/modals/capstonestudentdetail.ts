@@ -82,7 +82,7 @@ export default class EcFacCapstoneDetailsModal {
                         assessment: '',
                         strat: 0
                     };
-                    results.assessment = this.score.getCompositeResultString(gm.statusOfPeer[gm.id].compositeScore);
+                    results.assessment = this.score.getCompositeResultString(gm.statusOfPeer[peer.id].compositeScore);
 
                     results.strat = peer.assesseeStratResponse[0].stratPosition;
 

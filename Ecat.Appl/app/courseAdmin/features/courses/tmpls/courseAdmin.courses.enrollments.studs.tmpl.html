@@ -1,7 +1,7 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <h4 class="lead">ALE 16-3 Students</h4>
+            <h4 class="lead">{{courses.selectedCourse.classNumber}} {{courses.selectedCourse.name}} Students</h4>
         </div>
     </div>
 </div>
@@ -24,13 +24,13 @@
                     </tr>
                 </thead>
                 <tr ng-repeat="student in courses.students | filter:{lastName: filterName} | orderBy:['lastName','firstName'] track by student.id" style="height: 50px">
-                    <td>{{student.lastName}}, {{student.firstName}}</td>
-                    <td>{{student.rank}}</td>
-                    <td>{{student.affiliation}}</td>
-                    <td>{{student.component}}</td>
-                    <td><a ng-repeat="group in student.groupEnrollments">{{group.groupType}}</a></td>
+                    <td>{{student.person.lastName}}, {{student.person.firstName}}</td>
+                    <td>{{student.person.rank}}</td>
+                    <td>{{student.person.affiliation}}</td>
+                    <td>{{student.person.component}}</td>
+                    <td><a ng-repeat="groupMem in student.studGroupEnrollments">{{groupMem.group.groupNumber}}</a></td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td>Student, Name</td>
                     <td>SMSgt</td>
                     <td>US</td>
@@ -50,7 +50,7 @@
                     <td>US</td>
                     <td>AF</td>
                     <td>BC1 BC2 BC3 BC4</td>
-                </tr>
+                </tr>-->
             </table>
         </div>
     </div>

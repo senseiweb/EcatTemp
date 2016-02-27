@@ -11,8 +11,8 @@
                     <button type="button" class="btn btn-primary" ng-if="courses.back" ng-click="courses.view=0; courses.back=false; courses.enrollments=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Courses</button>
                     <button type="button" class="btn btn-warning" ng-if="courses.enrollments" ng-click="courses.view=1">Instructors</button>
                     <button type="button" class="btn btn-warning" ng-if="courses.enrollments" ng-click="courses.view=2">Students</button>
-                    <button type="button" class="btn btn-primary" ng-if="!courses.enrollments" ng-click="courses.pollCourses()">Poll Bb Courses</button>
-                    <button type="button" class="btn btn-primary" ng-if="courses.enrollments" ng-click="courses.pollEnrollments()">Poll Bb Enrollments</button>
+                    <button type="button" class="btn btn-primary" ng-if="!courses.enrollments" ng-click="courses.pollLMS(courses.view)">Poll Bb Courses</button>
+                    <button type="button" class="btn btn-primary" ng-if="courses.enrollments" ng-click="courses.pollLMS(courses.view)">Poll Bb Enrollments</button>
                 </div>
 
                 <ul class="lv-actions actions">
@@ -22,7 +22,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a href="">Refresh Data</a>
+                                <a href="courses.refreshData()">Refresh Data</a>
                             </li>
                         </ul>
                     </li>

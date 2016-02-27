@@ -151,18 +151,14 @@ export default class EcInstructorGroups {
                 this.selectedGroup = retData;
                 this.dCtx.facilitator.activeGroupId = this.selectedGroup.id;
                 console.log(this.selectedGroup.groupNumber + ' ' + this.selectedGroup.defaultName + ' Loaded');
-                this.setUpView(type);
+                switch (type) {
+                    case 'status': break;
+                    case 'assess': break;
+                    case 'publish': this.checkPublish(); break;
+                    case 'results': this.setUpResults(); break;
+                    case 'capstone': this.setUpCapstone(); break;
+                }
             });
-    }
-
-    setUpView(type: string): void {
-        switch (type) {
-            case 'status': break;
-            case 'assess': break;
-            case 'publish': this.checkPublish(); break;
-            case 'results': this.setUpResults(); break;
-            case 'capstone': this.setUpCapstone(); break;
-        }
     }
 
     refreshData(view: number): void {
@@ -194,7 +190,7 @@ export default class EcInstructorGroups {
 
             var selfAgg = 0;
             var peerAgg = 0;
-            var facAgg = 0;
+            //var facAgg = 0;
             gm.assessResults[0].sanitizedResponses.forEach(resp => {
                 //if (resp.assesseeId === gm.id) {
                     selfAgg += resp.itemModelScore;
@@ -208,13 +204,19 @@ export default class EcInstructorGroups {
             peerAgg = (peerAgg / (this.selectedGroup.groupMembers.length - 1)) / (this.selectedGroup.assignedSpInstr.inventoryCollection.length * 6);
             groupResult.peer = this.score.getCompositeResultString(peerAgg);
 
-            var facAssess = this.selectedGroup.facSpResponses.filter(resp => {
-                if (resp.assesseeId === gm.id) { return true; }
-                return false;
-            });
+            //var facAssess = this.selectedGroup.facSpResponses.filter(resp => {
+            //    if (resp.assesseeId === gm.id) { return true; }
+            //    return false;
+            //});
 
-            facAgg = this.score.calcFacComposite(facAssess);
-            groupResult.fac = this.score.getCompositeResultString(facAgg);
+            //facAgg = this.score.calcFacComposite(facAssess);
+            //groupResult.fac = this.score.getCompositeResultString(facAgg);
+
+            if (this.selectedGroup.statusOfStudent[gm.id].compositeScore !== null) {
+                groupResult.fac = this.score.getCompositeResultString(this.selectedGroup.statusOfStudent[gm.id].compositeScore);
+            } else {
+                groupResult.fac = 'No Assessment';
+            }
 
             this.groupResults[gm.id] = groupResult;
         });
@@ -473,7 +475,7 @@ export default class EcInstructorGroups {
                         if (peer.id === gm.id) {
                             groupResults.self = self.score.getCompositeResultString(gm.statusOfPeer[peer.id].compositeScore);
                         } else {
-                            peerAgg += gm.statusOfPeer[peer.id].compositeScore;
+                            peerAgg += peer.statusOfPeer[gm.id].compositeScore;
                         }
                     });
 
@@ -576,7 +578,7 @@ export default class EcInstructorGroups {
             retData.forEach(resp => {
                 self.selectedGroup.facSpResponses.push(resp);
             });
-
+            self.selectedGroup.getFacAssessStatus();
             self.save();
         }
 
@@ -604,6 +606,7 @@ export default class EcInstructorGroups {
             .catch(assessmentError);
 
         function assessmentSaved(retData: ecat.entity.IFacSpAssess[]) {
+            self.selectedGroup.getFacAssessStatus();
             self.save();
         }
 

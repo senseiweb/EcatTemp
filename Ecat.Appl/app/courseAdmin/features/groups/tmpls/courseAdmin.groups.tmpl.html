@@ -12,34 +12,37 @@
                     </tr>
                     <tr table-filters>
                         <th class="filter">
-                            <input type="text" />
+                            <input type="text" ng-model="filterGroupName"/>
                         </th>
                         <th class="filter">
-                            <select class="form-control">
-                                <option value="">Group Type</option>
-                                <option value="BC1">BC1</option>
-                                <option value="BC2">BC2</option>
-                                <option value="BC3">BC3</option>
-                                <option value="BC3">BC4</option>
+                            <select class="form-control" ng-model="filterGroupType">
+                                <option value="">All</option>
+                                <option value="{{type}}" ng-repeat="type in groups.groupTypes | orderBy:'type'">{{type}}</option>
                             </select>
                         </th>
                         <th class="filter">
-                            <input type="text" />
+                            <select class="form-control" ng-model="filterGroupStatus">
+                                <option value="">All</option>
+                                <option value="Open">Open</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Published">Published</option>
+                                <option value="!Published">Not Published</option>
+                            </select>
                         </th>
                     </tr>
                 </thead>
-                <tr ng-repeat="group in groups.groups track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
-                    <td>{{group.DefaultName}}</td>
-                    <td>{{group.MpCategory}}</td>
-                    <td>{{group.MpSpStatus}}</td>
-                    <td>Instructor Name</td>
+                <tr ng-repeat="group in groups.selectedCourse.groups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } | orderBy: ['mpCategory','defaultName','mpSpStatus'] track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
+                    <td>{{group.defaultName}}</td>
+                    <td>{{group.mpCategory}}</td>
+                    <td>{{group.mpSpStatus}}</td>
+                    <td>{{groups.lastModifiedBy[group.id]}}</td>
                     <td style="width: 350px">
-                        <button type="button" ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true; groups.enrollments=true" class="btn btn-link waves-effect">View Enrollments</button>
+                        <button type="button" ng-if="group.isVisible" ng-click="groups.selectedGroup=group; groups.view=1; groups.back=true; groups.enrollments=true" class="btn btn-link waves-effect">View Enrollments</button>
 
                     </td>
                 </tr>
 
-                <tr ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
+                <!--<tr ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
                     <td>Flight 01</td>
                     <td>BC1</td>
                     <td>Published</td>
@@ -66,7 +69,7 @@
                     <td style="width: 350px">
                         <button type="button" ng-if="group.isVisible" ng-click="groups.view=1; groups.back=true; groups.enrollments=true" class="btn btn-link waves-effect">View Enrollments</button>
                     </td>
-                </tr>
+                </tr>-->
 
             </table>
 
