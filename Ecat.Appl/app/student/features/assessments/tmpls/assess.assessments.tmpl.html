@@ -11,7 +11,7 @@
                         </th>
                         <th style="padding-left: 22px;">Assessments</th>                     
                         <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
-                        <th ng-click="assess.sortByComposite(); assess.sortType = 'empty'" ng-if="assess.stratInputVis">
+                        <th ng-click="assess.sortByComposite(); assess.sortType = 'empty'; sortReverse=false;" ng-if="assess.stratInputVis">
                             Composite Ranking
                             <span ng-if="assess.sortType == 'empty'" class="zmdi zmdi-sort-amount-desc zmdi-hc-fw"></span>
                         </th>
