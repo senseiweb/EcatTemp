@@ -6,7 +6,8 @@
         <div class="form-group">
             <div class="fg-line">
                 <div class="col-md-12">
-                    <div text-angular ng-model="instructions.instructions" class="pmbb-edit"></div>
+                    <div text-angular ng-model="instructions.instructions" class="pmbb-edit" ng-if="!instructions.locked"></div>
+                    <p ng-if="instructions.locked">{{instructions.instructions}}</p>
                 </div>
             </div>
         </div>
@@ -14,5 +15,5 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-link" type="button" ng-click="instructions.ok()">OK</button>
-    <button class="btn btn-link" type="button" ng-click="instructions.cancel()">Cancel</button>
+    <button class="btn btn-link" type="button" ng-click="instructions.cancel()" ng-if="!instructions.locked">Cancel</button>
 </div>

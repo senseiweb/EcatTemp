@@ -21,7 +21,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a href="">Refresh Data</a>
+                                <a href="instruments.refreshData(instruments.view)">Refresh Data</a>
                             </li>
                         </ul>
                     </li>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-if="instruments.view==1 || instruments.view==2" class="p-t-30 p-b-30 text-center">
+            <div ng-if="(instruments.view==1 || instruments.view==2) && !instruments.selectedInstrument.used" class="p-t-30 p-b-30 text-center">
                 <button type="button" class="btn btn-primary" ng-click="instruments.save()">Save</button>
             </div>
         </div>

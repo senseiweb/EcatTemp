@@ -82,7 +82,7 @@ export default class EcDesignerRepo extends IUtilityRepo {
     }
     //#endregion
 
-    getInstruments(): breeze.promises.IPromise<any> {
+    getInstruments(force: boolean): breeze.promises.IPromise<any> {
         const self = this;
         const res = this.DesignerApiResources.getInstruments.resource.name;
         const logger = this.logInfo;
@@ -102,7 +102,7 @@ export default class EcDesignerRepo extends IUtilityRepo {
         }
     }
 
-    getInventories(): breeze.promises.IPromise<any> {
+    getInventories(force: boolean): breeze.promises.IPromise<any> {
         const self = this;
         const res = this.DesignerApiResources.getInventories.resource.name;
         const logger = this.logInfo;

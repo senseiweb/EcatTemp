@@ -21,11 +21,8 @@
                         </th>
                         <th class="filter">
                             <select class="form-control" ng-model="filterGroupType">
-                                <option value="">Group Type</option>
-                                <option value="BC1">BC1</option>
-                                <option value="BC2">BC2</option>
-                                <option value="BC3">BC3</option>
-                                <option value="BC4">BC4</option>
+                                <option value="">All</option>
+                                <option value="{{type}}" ng-repeat="type in groups.groupTypes | orderBy:'type'">{{type}}</option>
                             </select>
                         </th>
                     </tr>
@@ -40,7 +37,7 @@
                     </td>
                 </tr>
 
-                <tr ng-mouseover="instrument.isVisible = true" ng-mouseleave="instrument.isVisible = false" style="height: 50px">
+                <!--<tr ng-mouseover="instrument.isVisible = true" ng-mouseleave="instrument.isVisible = false" style="height: 50px">
                     <td>NCOA</td>
                     <td>BC1 BC4</td>
                     <td>1 <a class="zmdi zmdi-lock-outline"></a></td>
@@ -66,7 +63,7 @@
                         <button type="button" ng-if="instrument.isVisible" ng-click="instruments.view=1; instruments.back=true; instruments.details=true; instruments.select(instrument)" class="btn btn-link waves-effect">View/Edit</button>
                         <button type="button" ng-if="instrument.isVisible" ng-click="" class="btn btn-link waves-effect">Clone</button>
                     </td>
-                </tr>
+                </tr>-->
 
             </table>
 

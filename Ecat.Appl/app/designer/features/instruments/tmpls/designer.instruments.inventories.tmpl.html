@@ -1,8 +1,8 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <!--<h4 class="lead">{{instruments.selectedInstrument.MpEducationLevel}}-{{instruments.selectedInstrument.MpGroupType}}-v{{instruments.selectedInstrument.Version}} Behaviors</h4>-->
-            <h4 class="lead">NCOA-BC1-v1 Behaviors</h4>
+            <h4 class="lead">{{instruments.selectedInstrument.MpEducationLevel}}-{{instruments.selectedInstrument.MpGroupType}}-v{{instruments.selectedInstrument.Version}} Behaviors <a class="vmdi vmdi-lock-outline" ng-if="instruments.selectedInstrument.used"></a></h4>
+            <!--<h4 class="lead">NCOA-BC1-v1 Behaviors</h4>-->
         </div>
     </div>
 </div>
@@ -19,13 +19,13 @@
                         <th class="header"></th>
                     </tr>
                 </thead>
-                <tr ng-repeat="inventory in inventories.inventories | orderBy: DisplayOrder track by inventory.id" ng-mouseover="inventory.isVisible = true" ng-mouseleave="inventory.isVisible = false" style="height: 50px">
+                <tr ng-repeat="inventory in instruments.selectedInstruments.inventoryCollection | orderBy: DisplayOrder track by inventory.id" ng-mouseover="inventory.isVisible = true" ng-mouseleave="inventory.isVisible = false" style="height: 50px">
                     <td ng-if="!inventory.edit">{{inventory.DisplayOrder}}</td>
                     <td ng-if="!inventory.edit">{{inventory.IsScored}}</td>
                     <td ng-if="!inventory.edit">{{inventory.IsDisplayed}}</td>
                     <td style="width:700px" ng-if="!inventory.edit">{{inventory.Behavior}}</td>
                     <td style="width: 200px" ng-if="!inventory.edit">
-                        <button type="button" ng-if="inventory.isVisible" ng-click="inventory.edit=true;" class="btn btn-link waves-effect">Edit</button>
+                        <button type="button" ng-if="inventory.isVisible" ng-click="inventory.edit=true;" class="btn btn-link waves-effect" ng-disabled="instruments.selectedInstrument.used">Edit</button>
                     </td>
                     <td ng-if="inventory.edit"><input class="form-control" type="text" style="width: 20px" ng-model="inventory.DisplayOrder"></td>
                     <td ng-if="inventory.edit"><button class="btn-xs btn-primary" ng-if="inventory.IsScored" ng-click="inventory.IsScored=false">True</button><button class="btn-xs btn-primary" ng-if="!inventory.IsScored" ng-click="inventory.IsScored=true">False</button></td>
@@ -37,7 +37,7 @@
                     </td>
                 </tr>
 
-                <tr ng-mouseover="inventory.isVisible = true" ng-mouseleave="inventory.isVisible = false" style="height: 50px">
+                <!--<tr ng-mouseover="inventory.isVisible = true" ng-mouseleave="inventory.isVisible = false" style="height: 50px">
                     <td ng-if="!inventory.edit">1</td>
                     <td ng-if="!inventory.edit">False</td>
                     <td ng-if="!inventory.edit">False</td>
@@ -70,7 +70,7 @@
                     <td style="width: 200px">
                         <button type="button" ng-if="inventory.isVisible" ng-click="inventories.view=1; inventories.back=true; inventories.enrollments=true" class="btn btn-link waves-effect">Edit</button>
                     </td>
-                </tr>
+                </tr>-->
 
             </table>
 

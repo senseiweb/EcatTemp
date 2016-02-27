@@ -56,6 +56,7 @@ export default class EcCourseAdminGroups {
                         this.groups = retData;
                         this.getGroupInfo();
                     });
+                break;
             case 1:
                 this.dCtx.courseAdmin.pollGroupMembers()
                     .then((retData: ecat.entity.IWorkGroup) => {
