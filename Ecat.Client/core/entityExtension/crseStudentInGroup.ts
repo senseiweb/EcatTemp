@@ -15,7 +15,6 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
     private entityId: string;
     private studentId: number;
     private assessorSpResponses: Array<ecat.entity.ISpRespnse>;
-    private group: ecat.entity.IWorkGroup;
     private workGroup: ecat.entity.IWorkGroup;
     private _migStatus: ecat.entity.ext.ICrseStudInGroupStatus;
 
@@ -40,7 +39,7 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
             }
 
             const responseList = gm.assesseeSpResponses
-                .filter(response => response.assesseePersonId === this.studentId && response.assessor.entityId === gm.entityId);
+                .filter(response => response.assessorPersonId === this.studentId && response.assesseePersonId === gm.studentId);
 
             migStatus.stratComplete = !!gm.assesseeStratResponse
                 .filter(strat => strat.assessorPersonId === this.studentId &&
@@ -93,8 +92,8 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
                 }
             );
 
-            if (this.group && this.group.assignedSpInstr) {
-                this.group
+            if (this.workGroup && this.workGroup.assignedSpInstr) {
+                this.workGroup
                     .assignedSpInstr
                     .inventoryCollection
                     .forEach(inventoryItem => {
@@ -104,7 +103,7 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
                         }
                     });
 
-                migStatus.compositeScore = cummScore / (this.group.assignedSpInstr.inventoryCollection.length * 6);
+                migStatus.compositeScore = cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 6);
             }
 
 
@@ -113,7 +112,7 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
 
             migStatus.isPeerAllComplete = migStatus.assessComplete && migStatus.stratComplete;
 
-            this.statusOfPeer[gm.entityId] = migStatus;
+            this.statusOfPeer[gm.studentId.toString()] = migStatus;
         });
     }
 }

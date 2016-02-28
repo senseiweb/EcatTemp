@@ -40,7 +40,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     }
 
     constructor(inj) {
-        super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [_personExt.personConfig, _crseStudGroup.memberInGrpEntityExt]);
+        super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [_personExt.studentPersonConfig, _crseStudGroup.memberInGrpEntityExt]);
         this.loadManager(this.studentApiResources);
         this.isLoaded.course = {};
         this.isLoaded.workGroup = {};
@@ -56,7 +56,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         if (isLoaded.courses && !forceRefresh) {
             const courseMems = this.queryLocal(api.courses.resource, orderBy) as Array<ecat.entity.ICrseStudInGroup>;
-            this.logSuccess('Courses loaded from local cache', courseMems, false);
+            this.log.success('Courses loaded from local cache', courseMems, false);
             return this.c.$q.when(courseMems);
         }
 
@@ -81,8 +81,7 @@ export default class EcStudentRepo extends IUtilityRepo {
                 }
 
                 if (crseStudInGroup.workGroup && crseStudInGroup.workGroup.groupMembers.length > 1) {
-                        isLoaded.workGroup[crseStudInGroup.workgroupId] = true;
-                        crseStudInGroup.getMigStatus();
+                        isLoaded.workGroup[crseStudInGroup.workGroupId] = true;
                     }
             });
 
@@ -99,7 +98,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         breeze.promises.IPromise<ecat.entity.ICourse | angular.IPromise<void>> {
         if (!this.activeCourseId) {
             this.c.$q.reject(() => {
-                this.logWarn('Not active course selected!', null, false);
+                this.log.warn('Not active course selected!', null, false);
                 return 'A course must be selected';
             });
         }
@@ -155,7 +154,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     getActivetWorkGroup(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
         if (!this.activeGroupId || !this.activeCourseId) {
             this.c.$q.reject(() => {
-                this.logWarn('Not active course/workgroup selected!', null, false);
+                this.log.warn('Not active course/workgroup selected!', null, false);
                 return 'A course/workgroup must be selected';
             });
         }
@@ -163,7 +162,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         const _common = this.c;
         const log = this.log;
         const api = this.studentApiResources;
-        const groupPred = new breeze.Predicate('workgroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
+        const groupPred = new breeze.Predicate('workGroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
         const coursePred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
         const predKey = breeze.Predicate.and([coursePred, groupPred]);
         const isLoaded = this.isLoaded as ICachedStudentData;
@@ -220,7 +219,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         const loggedUserId = this.dCtx.user.persona.personId;
 
         if (!this.activeGroupId || !this.activeCourseId) {
-            this.logWarn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
 
         const spComments = this.manager.getEntities(_mp.EcMapEntityType.spComment) as Array<ecat.entity.ISpComment>;
@@ -241,6 +240,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             workGroupId: this.activeGroupId,
             commentVersion: 0,
             mpCommentFlagAuthor: _mp.MpCommentFlag.neut,
+            mpCommentType: _mp.MpCommentType.signed 
         };
 
         return this.manager.createEntity(_mp.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;

@@ -47,14 +47,16 @@ namespace Ecat.StudMod.Core
 
             var latestGroup = groups.First();
 
-            var groupId = latestGroup.WorkgroupId;
+            var groupId = latestGroup.WorkGroupId;
 
             latestGroup = _repo.WorkGroups
-                .Where(gm => gm.WorkgroupId == groupId && gm.StudentId == StudentPerson.PersonId)
+                .Where(gm => gm.WorkGroupId == groupId && gm.StudentId == StudentPerson.PersonId)
+                .Include(gm => gm.WorkGroup.AssignedSpInstr)
+                .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)
                 .Include(gm => gm.AssessorStratResponse)
                 .Include(gm => gm.AssessorSpResponses)
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
-                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
+                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
                 .Include(gm => gm.AuthorOfComments).Single();
 
             return groups.AsQueryable();
@@ -69,7 +71,10 @@ namespace Ecat.StudMod.Core
         {
             return _repo.WorkGroups
                 .Where(gm => gm.StudentId == StudentPerson.PersonId)
+                .Include(gm => gm.WorkGroup.AssignedSpInstr)
+                .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)
                 .Include(gm => gm.AssessorStratResponse)
+                .Include(gm => gm.AuthorOfComments)
                 .Include(gm => gm.AssessorSpResponses)
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person));

@@ -47,7 +47,7 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                     var self = this;
                     if (this.isLoaded && !forceRefresh) {
                         var courseMems = this.queryLocal(api.initCourses.resource);
-                        this.logSuccess('Courses loaded from local cache', courseMems, false);
+                        this.log.success('Courses loaded from local cache', courseMems, false);
                         return this.c.$q.when(courseMems);
                     }
                     return this.query.from(api.initCourses.resource)
@@ -65,18 +65,18 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                             //api.getCourseGroupMembers.resource.isLoaded[crseMem.courseId] = true;
                             // }
                         });
-                        self.logSuccess('Courses loaded from remote store', crseMems, false);
+                        self.log.success('Courses loaded from remote store', crseMems, false);
                         return crseMems;
                     }
                 };
                 EcFacultyRepo.prototype.getFacSpInventory = function (assesseeId) {
                     var _this = this;
                     if (!this.activeGroupId || !this.activeCourseId) {
-                        this.logWarn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+                        this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
                     }
                     var instrument = this.manager.getEntityByKey(_mp.EcMapEntityType.spInventory, { courseId: this.activeCourseId, workGroupId: this.activeGroupId });
                     if (!instrument || !instrument.inventoryCollection) {
-                        this.logWarn('The instrument and/or inventory is not loaded on client', null, false);
+                        this.log.warn('The instrument and/or inventory is not loaded on client', null, false);
                     }
                     return instrument.inventoryCollection.map(function (inventory) {
                         var key = { assesseePersonId: assesseeId, courseId: _this.activeCourseId, workGroupId: _this.activeGroupId, inventoryItemId: inventory.id };
@@ -91,7 +91,7 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                 EcFacultyRepo.prototype.getFacSpComment = function (assesseeId) {
                     var _this = this;
                     if (!this.activeGroupId || !this.activeCourseId) {
-                        this.logWarn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+                        this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
                     }
                     var facComments = this.manager.getEntities(_mp.EcMapEntityType.facSpComment);
                     //Faculty comments are not tied to person, so do not search for faculty id when looking for faculty comments!
@@ -103,7 +103,7 @@ System.register(['core/service/data/utility', "core/common/mapStrings", "faculty
                 };
                 EcFacultyRepo.prototype.getFacStrat = function (assesseeId) {
                     if (!this.activeGroupId || !this.activeCourseId) {
-                        this.logWarn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+                        this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
                     }
                     var key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId };
                     var facStrat = this.manager.getEntityByKey(_mp.EcMapEntityType.facStratResponse, key);

@@ -67,7 +67,7 @@ System.register(['breezeSaveError', "core/common/commonService", "core/service/d
                         _this.saveInProgress = true;
                         return _this.manager.saveChanges()
                             .then(function (result) {
-                            _this.logInfo('Save Results', result, false);
+                            _this.log.info('Save Results', result, false);
                             return result;
                         })
                             .catch(_this.saveFailed)

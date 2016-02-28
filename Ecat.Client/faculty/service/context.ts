@@ -48,7 +48,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
         if (this.isLoaded && !forceRefresh) {
             const courseMems = this.queryLocal(api.initCourses.resource) as Array<ecat.entity.IFacInCrse>;
-            this.logSuccess('Courses loaded from local cache', courseMems, false);
+            this.log.success('Courses loaded from local cache', courseMems, false);
             return this.c.$q.when(courseMems);
         }
 
@@ -69,20 +69,20 @@ export default class EcFacultyRepo extends IUtilityRepo {
                     //api.getCourseGroupMembers.resource.isLoaded[crseMem.courseId] = true;
                // }
             });
-            self.logSuccess('Courses loaded from remote store', crseMems, false);
+            self.log.success('Courses loaded from remote store', crseMems, false);
             return crseMems;
         }
     }
 
     getFacSpInventory(assesseeId: number): Array<ecat.entity.IFacSpInventory> {
         if (!this.activeGroupId || !this.activeCourseId) {
-            this.logWarn('Missing required information', {groupdId: this.activeCourseId, courseId: this.activeCourseId}, false);
+            this.log.warn('Missing required information', {groupdId: this.activeCourseId, courseId: this.activeCourseId}, false);
         }
 
         const instrument = this.manager.getEntityByKey(_mp.EcMapEntityType.spInventory, { courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.ISpInstrument;
         
         if (!instrument || !instrument.inventoryCollection) {
-            this.logWarn('The instrument and/or inventory is not loaded on client', null, false);
+            this.log.warn('The instrument and/or inventory is not loaded on client', null, false);
         } 
 
         return instrument.inventoryCollection.map((inventory: ecat.entity.IFacSpInventory) => {
@@ -103,7 +103,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
     getFacSpComment(assesseeId: number): ecat.entity.IFacSpComment {
         if (!this.activeGroupId || !this.activeCourseId) {
-            this.logWarn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
 
         const facComments = this.manager.getEntities(_mp.EcMapEntityType.facSpComment) as Array<ecat.entity.IFacSpComment>;
@@ -120,7 +120,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
     getFacStrat(assesseeId: number): ecat.entity.IFacStratResponse {
         if (!this.activeGroupId || !this.activeCourseId) {
-            this.logWarn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId}, false);
+            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId}, false);
         }
         const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId };
 

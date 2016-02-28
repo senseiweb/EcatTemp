@@ -3,8 +3,7 @@ import IDataCtx from 'core/service/data/context'
 import ISpTools from "provider/spTools/spTool"
 import * as _mp from "core/common/mapStrings"
 
-//import {EcMapGender as gender} from "appVars"
-
+//TODO: Need to add logic if the workgroup status is published to make everything readonly
 export default class EcStudentAssessments {
     static controllerId = 'app.student.assessment';
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
@@ -19,7 +18,6 @@ export default class EcStudentAssessments {
     isResultPublished = false;
     log = this.c.getAllLoggers('Assessment Center');
     me: ecat.entity.ICrseStudInGroup;
-    mp = _mp;
     peers: Array<ecat.entity.ICrseStudInGroup>;
     radioEffectiveness: string;
     radioFreq: string;
@@ -75,6 +73,7 @@ export default class EcStudentAssessments {
         this.spTools.loadSpComment(recipientId)
             .then(() => {
                 console.log('Comment modal closed');
+                this.me.getMigStatus();
             })
             .catch(() => {
                 console.log('Comment model errored');
@@ -112,6 +111,8 @@ export default class EcStudentAssessments {
                     return null;
                 }
                 this.me = grpMembers.filter(gm => gm.studentId === myId)[0];
+                this.me.getMigStatus();
+                console.log(this.me.statusOfPeer);
                 this.peers = grpMembers.filter(gm => gm.studentId !== myId);
             })
             .catch(() => null);

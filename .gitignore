@@ -1,18 +1,14 @@
-Ecat.Client/**/*.js
-Ecat.Web/Client/**
-Ecat.Client/_configuration/typings
-!Ecat.Client/_vendor/**/*.js
+Ecat.Web/Client/**/*.*
 TestDbSeed.sql
+
+Ecat.Client/**/*.js
+Ecat.Client/**/*.map
+Ecat.Client/_configuration/typings/**/*.*
+!Ecat.Client/_vendor/**/*.js
+
 Ecat.Shared.DbMgr/Migrations/**
 bower
 bower_components
-published
-typings
-
-*.map
-
-sensitive*.*
-
 
 # Logs
 logs

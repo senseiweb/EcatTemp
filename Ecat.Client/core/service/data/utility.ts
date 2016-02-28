@@ -24,9 +24,6 @@ export default class EcUtilityRepoServices {
         info: (msg: string, data: any, showLog: boolean) => void;
         success: (msg: string, data: any, showLog: boolean) => void;
     }
-    protected logSuccess: (msg: string, data: any, showLog: boolean) => void;
-    protected logInfo: (msg: string, data: any, showLog: boolean) => void;
-    protected logWarn: (msg: string, data: any, showLog: boolean) => void;
     protected manager: breeze.EntityManager;
     mgrLoaded = false;
     saveInProgress = false;
@@ -111,7 +108,7 @@ export default class EcUtilityRepoServices {
         this.saveInProgress = true;
         return this.manager.saveChanges()
             .then((result: breeze.SaveResult) => {
-                this.logInfo('Save Results', result, false);
+                this.log.info('Save Results', result, false);
                 return result;
             })
             .catch(this.saveFailed)

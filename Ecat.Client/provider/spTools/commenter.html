@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-3">
                 <div class="profile-pic">
-                    <img alt="User Avatar" ng-src="{{commenter.recipientAvatar}}">
+                    <img alt="User Avatar" ng-src="{{commenter.recipientAvatar}}" height="47" width="47" style="border-radius: 50%; border: 3px solid rgba(0, 0, 0, 0.14); box-sizing: content-box">
                 </div>
             </div>
         </div>
@@ -41,7 +41,8 @@
             </div>
             <div class="col-md-3">
                 <div class="profile-pic">
-                    <img alt="User Avatar" ng-src="{{commenter.authorAvatar}}">
+                    <!--TODO: Move styling to a css class-->
+                    <img alt="User Avatar" ng-src="{{commenter.authorAvatar}}" height="47" width="47" style="border-radius: 50%; border: 3px solid rgba(0, 0, 0, 0.14); box-sizing: content-box">
                 </div>
             </div>
         </div>
@@ -64,6 +65,6 @@
     </div>
 
     <button class="btn btn-danger" type="button" ng-if="commenter.isNew" ng-click="commenter.delete()">Delete</button>
-    <button class="btn btn-link" type="button" ng-if="commenter.nf.$dirty && !commenter.isSaveInProgress && commenter.nf.$valid" ng-disable="!commenter.isSaveInProgress" ng-click="commenter.save()">Save</button>
+    <button class="btn btn-link" type="button" ng-if="commenter.nf.$dirty  && commenter.nf.$valid" ng-disable="!commenter.isSaveInProgress" ng-click="commenter.save()">Save</button>
     <button class="btn btn-link" type="button" ng-click="commenter.cancel()">Cancel</button>
 </div>

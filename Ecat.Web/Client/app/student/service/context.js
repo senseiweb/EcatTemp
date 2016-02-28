@@ -1,10 +1,10 @@
-System.register(['core/service/data/utility', "core/entityExtension/crseStudentInGroup", "core/common/mapStrings"], function(exports_1) {
+System.register(['core/service/data/utility', "core/entityExtension/crseStudentInGroup", "core/entityExtension/person", "core/common/mapStrings"], function(exports_1) {
     var __extends = (this && this.__extends) || function (d, b) {
         for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var utility_1, _crseStudGroup, _mp;
+    var utility_1, _crseStudGroup, _personExt, _mp;
     var EcStudentRepo;
     return {
         setters:[
@@ -14,6 +14,9 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
             function (_crseStudGroup_1) {
                 _crseStudGroup = _crseStudGroup_1;
             },
+            function (_personExt_1) {
+                _personExt = _personExt_1;
+            },
             function (_mp_1) {
                 _mp = _mp_1;
             }],
@@ -21,7 +24,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
             EcStudentRepo = (function (_super) {
                 __extends(EcStudentRepo, _super);
                 function EcStudentRepo(inj) {
-                    _super.call(this, inj, 'Student Data Service', _mp.EcMapApiResource.student, [_crseStudGroup.memberInGrpEntityExt]);
+                    _super.call(this, inj, 'Student Data Service', _mp.EcMapApiResource.student, [_personExt.studentPersonConfig, _crseStudGroup.memberInGrpEntityExt]);
                     this.activated = false;
                     this.studentApiResources = {
                         courses: {
@@ -49,7 +52,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                     var orderBy = 'course.startDate desc';
                     if (isLoaded.courses && !forceRefresh) {
                         var courseMems = this.queryLocal(api.courses.resource, orderBy);
-                        this.logSuccess('Courses loaded from local cache', courseMems, false);
+                        this.log.success('Courses loaded from local cache', courseMems, false);
                         return this.c.$q.when(courseMems);
                     }
                     return this.query.from(api.courses.resource)
@@ -67,8 +70,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                                 isLoaded[crseStudInGroup.courseId] = true;
                             }
                             if (crseStudInGroup.workGroup && crseStudInGroup.workGroup.groupMembers.length > 1) {
-                                isLoaded.workGroup[crseStudInGroup.workgroupId] = true;
-                                crseStudInGroup.getMigStatus();
+                                isLoaded.workGroup[crseStudInGroup.workGroupId] = true;
                             }
                         });
                         log.success('Courses loaded from remote store', data, false);
@@ -82,7 +84,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                     var _this = this;
                     if (!this.activeCourseId) {
                         this.c.$q.reject(function () {
-                            _this.logWarn('Not active course selected!', null, false);
+                            _this.log.warn('Not active course selected!', null, false);
                             return 'A course must be selected';
                         });
                     }
@@ -130,7 +132,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                     var _this = this;
                     if (!this.activeGroupId || !this.activeCourseId) {
                         this.c.$q.reject(function () {
-                            _this.logWarn('Not active course/workgroup selected!', null, false);
+                            _this.log.warn('Not active course/workgroup selected!', null, false);
                             return 'A course/workgroup must be selected';
                         });
                     }
@@ -138,7 +140,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                     var _common = this.c;
                     var log = this.log;
                     var api = this.studentApiResources;
-                    var groupPred = new breeze.Predicate('workgroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
+                    var groupPred = new breeze.Predicate('workGroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
                     var coursePred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
                     var predKey = breeze.Predicate.and([coursePred, groupPred]);
                     var isLoaded = this.isLoaded;
@@ -182,7 +184,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                     var _this = this;
                     var loggedUserId = this.dCtx.user.persona.personId;
                     if (!this.activeGroupId || !this.activeCourseId) {
-                        this.logWarn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+                        this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
                     }
                     var spComments = this.manager.getEntities(_mp.EcMapEntityType.spComment);
                     var spComment = spComments.filter(function (comment) { return comment.authorPersonId === loggedUserId &&
@@ -199,6 +201,7 @@ System.register(['core/service/data/utility', "core/entityExtension/crseStudentI
                         workGroupId: this.activeGroupId,
                         commentVersion: 0,
                         mpCommentFlagAuthor: _mp.MpCommentFlag.neut,
+                        mpCommentType: _mp.MpCommentType.signed
                     };
                     return this.manager.createEntity(_mp.EcMapEntityType.spComment, newComment);
                 };

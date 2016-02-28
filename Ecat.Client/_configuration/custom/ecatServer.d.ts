@@ -81,7 +81,7 @@ declare module ecat.entity.s.school {
 		entityId: string;
 		studentId: number;
 		courseId: number;
-		workgroupId: number;
+		workGroupId: number;
 		workGroup: ecat.entity.s.school.WorkGroup;
 		studentProfile: ecat.entity.s.user.ProfileStudent;
 		course: ecat.entity.s.school.Course;

@@ -1,4 +1,4 @@
-System.register(["core/service/data/context", "core/common/commonService", "core/common/mapStrings"], function(exports_1) {
+System.register(['core/service/data/context', 'core/common/commonService', 'core/common/mapStrings'], function(exports_1) {
     var context_1, commonService_1, _mp;
     var EcProviderSpToolCommenter;
     return {
@@ -20,8 +20,10 @@ System.register(["core/service/data/context", "core/common/commonService", "core
                     this.c = c;
                     this.recipientId = recipientId;
                     this.isInstructor = false;
+                    this.commentType = _mp.MpCommentType;
                     this.isNew = false;
-                    var authorRole = this.dCtx.user.persona.mpInstituteRole;
+                    this.isSaveInProgress = false;
+                    var authorRole = this.authorRole = this.dCtx.user.persona.mpInstituteRole;
                     var author;
                     var recipient;
                     if (authorRole === _mp.EcMapInstituteRole.student) {
@@ -42,6 +44,7 @@ System.register(["core/service/data/context", "core/common/commonService", "core
                     this.authorAvatar = author.avatarLocation || author.defaultAvatarLocation;
                     this.recipientAvatar = recipient.avatarLocation || recipient.defaultAvatarLocation;
                     this.isNew = this.comment.entityAspect.entityState === breeze.EntityState.Added;
+                    //TODO: Need to write a watcher for saveInProgress flag.
                 }
                 EcProviderSpToolCommenter.prototype.cancel = function () {
                     if (this.comment.entityAspect.entityState.isAddedModifiedOrDeleted()) {
@@ -54,16 +57,20 @@ System.register(["core/service/data/context", "core/common/commonService", "core
                 };
                 EcProviderSpToolCommenter.prototype.save = function () {
                     var _this = this;
+                    this.isSaveInProgress = true;
                     var ctx = (this.authorRole === _mp.EcMapInstituteRole.student) ? 'student' : 'faculty';
                     var saveCtx = this.dCtx[ctx];
                     var swalSettings = {
-                        title: "Oh no!, there was a problem saving this comment. Try saving again, or cancel the current comment and attempt this again later.",
-                        type: "error",
+                        title: 'Oh no!, there was a problem saving this comment. Try saving again, or cancel the current comment and attempt this again later.',
+                        type: 'error',
                         allowEscapeKey: true,
                         confirmButtonText: 'Ok'
                     };
+                    //TODO: need to write a finally method for canceling saveinprogress
                     saveCtx.saveChanges()
-                        .then(function () { return _this.$mi.close; })
+                        .then(function () {
+                        _this.$mi.close();
+                    })
                         .catch(function () {
                         _this.c.swal(swalSettings);
                     });

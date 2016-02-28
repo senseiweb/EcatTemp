@@ -113,7 +113,7 @@ namespace Ecat.StudMod.Core
 
             Ignore(p => p.GroupPeers);
 
-            HasKey(p => new { p.StudentId, p.CourseId, p.WorkgroupId });
+            HasKey(p => new { p.StudentId, p.CourseId, p.WorkGroupId });
 
             HasRequired(p => p.StudentInCourse)
                 .WithMany(p => p.WorkGroupEnrollments)
@@ -121,7 +121,7 @@ namespace Ecat.StudMod.Core
 
             HasRequired(p => p.WorkGroup)
                 .WithMany(p => p.GroupMembers)
-                .HasForeignKey(p => p.WorkgroupId);
+                .HasForeignKey(p => p.WorkGroupId);
 
             HasRequired(p => p.StudentProfile)
                 .WithMany(p => p.CourseGroupMemberships)

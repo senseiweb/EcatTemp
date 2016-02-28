@@ -1,5 +1,5 @@
-System.register(["core/common/commonService", 'core/service/data/context', "provider/spTools/spTool", "core/common/mapStrings"], function(exports_1) {
-    var commonService_1, context_1, spTool_1, _mp;
+System.register(["core/common/commonService", 'core/service/data/context', "provider/spTools/spTool"], function(exports_1) {
+    var commonService_1, context_1, spTool_1;
     var EcStudentAssessments;
     return {
         setters:[
@@ -11,12 +11,9 @@ System.register(["core/common/commonService", 'core/service/data/context', "prov
             },
             function (spTool_1_1) {
                 spTool_1 = spTool_1_1;
-            },
-            function (_mp_1) {
-                _mp = _mp_1;
             }],
         execute: function() {
-            //import {EcMapGender as gender} from "appVars"
+            //TODO: Need to add logic if the workgroup status is published to make everything readonly
             EcStudentAssessments = (function () {
                 //#endregion
                 function EcStudentAssessments(uiModal, c, dCtx, spTools) {
@@ -29,7 +26,6 @@ System.register(["core/common/commonService", 'core/service/data/context', "prov
                     this.hasComment = false;
                     this.isResultPublished = false;
                     this.log = this.c.getAllLoggers('Assessment Center');
-                    this.mp = _mp;
                     console.log('Assessment Loaded');
                     this.activate();
                 }
@@ -62,6 +58,7 @@ System.register(["core/common/commonService", 'core/service/data/context', "prov
                     this.stratInputVis = false;
                 };
                 EcStudentAssessments.prototype.addComment = function (recipientId) {
+                    var _this = this;
                     if (!recipientId) {
                         console.log('You must pass a recipient id to use this feature');
                         return null;
@@ -70,6 +67,7 @@ System.register(["core/common/commonService", 'core/service/data/context', "prov
                     this.spTools.loadSpComment(recipientId)
                         .then(function () {
                         console.log('Comment modal closed');
+                        _this.me.getMigStatus();
                     })
                         .catch(function () {
                         console.log('Comment model errored');
@@ -104,6 +102,8 @@ System.register(["core/common/commonService", 'core/service/data/context', "prov
                             return null;
                         }
                         _this.me = grpMembers.filter(function (gm) { return gm.studentId === myId; })[0];
+                        _this.me.getMigStatus();
+                        console.log(_this.me.statusOfPeer);
                         _this.peers = grpMembers.filter(function (gm) { return gm.studentId !== myId; });
                     })
                         .catch(function () { return null; });
