@@ -58,6 +58,7 @@ declare module ecat {
 
     interface ICoreAppConfig extends IEcatAppConfig {
         events: {
+            spInvntoryResponseChanged?: string;
             saveChangesEvent?: string;
             managerLoaded?: string;
             managerCreated?: string;

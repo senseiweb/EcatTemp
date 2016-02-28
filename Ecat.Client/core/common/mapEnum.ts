@@ -56,7 +56,7 @@ export const enum QueryError {
     MissingParameter
 }
 
-export const enum SpEffectiveLevel {
+export const enum SpEffectLevel {
     Ineffective,
     Effective,
     HighlyEffective

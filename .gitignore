@@ -1,9 +1,8 @@
-Ecat.Web/Client/**/*.*
 TestDbSeed.sql
-
-Ecat.Client/**/*.js
-Ecat.Client/**/*.map
-Ecat.Client/_configuration/typings/**/*.*
+*.js
+*.map
+Ecat.Client/_configuration/typings
+Ecat.Web/Client/**/*.*
 !Ecat.Client/_vendor/**/*.js
 
 Ecat.Shared.DbMgr/Migrations/**

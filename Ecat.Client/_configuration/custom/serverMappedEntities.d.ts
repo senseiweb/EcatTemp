@@ -1,6 +1,7 @@
 ﻿
 declare module ecat.entity
 {
+   //#region Client Extensions
     module ext  {
         interface ISpStatusBreakOut {
             highEff: number;
@@ -29,45 +30,46 @@ declare module ecat.entity
             statusOfPeer: IStatusOfPeer;
         }
 
+        interface ISpInventoryExtBase {
+            compositeScore: number;
+            behaviorFreq: number;
+            behaviorEffect: number;
+            behaviorDisplayed: boolean;
+        }
+
         interface IFacSpInventoryExt {
             responseForAssessee: IFacSpResponse;
-            compositeScore: number;
-            behaviorFreq: number;
-            behaviorEffect: number;
-            behaviorDisplayed: boolean;
         }
 
-        interface ISpInventoryExt {
+        interface IStudSpInventoryExt {
             responseForAssessee: ISpRespnse;
-            compositeScore: number;
-            behaviorFreq: number;
-            behaviorEffect: number;
-            behaviorDisplayed: boolean;
         }
-    }
 
-    interface ICompositeKey {
-        entityId: string;
-    }
+        interface ICompositeKey {
+            entityId: string;
+        }
 
-    interface GroupClientExtensions {
-        groupSpComplete: boolean;
-    }
+        interface GroupClientExtensions {
+            groupSpComplete: boolean;
+        }
 
-    interface IEntityExtension {
-        entityName: string;
-        ctorFunc: Function;
-        initFunc: (entity: breeze.Entity) => void;
-    }
+        interface IEntityExtension {
+            entityName: string;
+            ctorFunc: Function;
+            initFunc: (entity: breeze.Entity) => void;
+        }
 
-    //#region Model Owner: User
-    interface PersonClientExtensions {
-        verifyPassword: string;
-        defaultAvatarLocation: string;
-        prettyInstituteRole: string;
-        saluatation: string;
-    }
+        interface PersonClientExtensions {
+            verifyPassword: string;
+            defaultAvatarLocation: string;
+            prettyInstituteRole: string;
+            saluatation: string;
+        }
 
+    }
+    //#endregion
+    
+   //#region Model Owener User
     interface IStudent extends breeze.Entity, s.user.ProfileStudent {
         person: IPerson;
     }
@@ -88,26 +90,26 @@ declare module ecat.entity
         person: IPerson;
     }
 
-    interface IPerson extends breeze.Entity, s.user.Person, PersonClientExtensions {
+    interface IPerson extends breeze.Entity, s.user.Person, ext.PersonClientExtensions {
         student: IStudent;
         faculty: IFaculty;
         external:IExternal;
         hqStaff: IStaff;
         profile: IProfile;
     }
+
+    interface ILoginToken extends breeze.Entity, s.common.LoginToken {
+        person: IPerson;
+    }
     //#endregion
 
-    //#region Model Owner: Staff
-    //#endregion
-
-    //#region Model Owner: School
-
-    interface IStudInCrse extends breeze.Entity, s.school.StudentInCourse, ICompositeKey {
+   //#region Model Owner School
+    interface IStudInCrse extends breeze.Entity, s.school.StudentInCourse, ext.ICompositeKey {
         course: ICourse;
         workGroupEnrollments: ICrseStudInGroup[];
     }
 
-    interface IFacInCrse extends breeze.Entity, s.school.FacultyInCourse, ICompositeKey {
+    interface IFacInCrse extends breeze.Entity, s.school.FacultyInCourse, ext.ICompositeKey {
         course: ICourse;
         faculty: IFaculty;
     }
@@ -120,7 +122,7 @@ declare module ecat.entity
         workGroups: IWorkGroup[];
     }
 
-    interface ICrseStudInGroup extends breeze.Entity, s.school.CrseStudentInGroup, ICompositeKey, ext.ICrseStudInGrpExt {
+    interface ICrseStudInGroup extends breeze.Entity, s.school.CrseStudentInGroup, ext.ICompositeKey, ext.ICrseStudInGrpExt {
         groupPeers: ICrseStudInGroup[];
         workGroup: IWorkGroup;
         studentProfile: IStudent;
@@ -135,64 +137,53 @@ declare module ecat.entity
     }
 
     interface IAcademy extends breeze.Entity, s.school.Academy { }
-
     //#endregion
 
-    //#region Model Owner: Learner
+   //#region Model Owner Learner
     interface ISpResult extends breeze.Entity, s.learner.SpResult { }
 
-    interface IStratResult extends breeze.Entity, s.learner.StratResult, ICompositeKey {}
+    interface IStratResult extends breeze.Entity, s.learner.StratResult, ext.ICompositeKey {}
 
-    interface ISpRespnse extends breeze.Entity, s.learner.SpResponse, ICompositeKey {
+    interface ISpRespnse extends breeze.Entity, s.learner.SpResponse, ext.ICompositeKey {
         inventoryItem: IStudSpInventory | IFacSpInventory;
         assessResult: ISpResult;
         assessor: ICrseStudInGroup;
         assessee: ICrseStudInGroup;
     }
 
-    interface ISpComment extends breeze.Entity, s.learner.SpComment, ICompositeKey {
+    interface ISpComment extends breeze.Entity, s.learner.SpComment, ext.ICompositeKey {
         author: ICrseStudInGroup;
         recipient: ICrseStudInGroup;
         commentFlaggedBy: IFacInCrse;
         workGroup: IWorkGroup;
     }
 
-    interface IStratResponse extends breeze.Entity, s.learner.StratResponse, ICompositeKey {
+    interface IStratResponse extends breeze.Entity, s.learner.StratResponse, ext.ICompositeKey {
         assessor: ICrseStudInGroup;
         assessee: ICrseStudInGroup;
         stratResult: IStratResult;
     }
-
     //#endregion
 
-    //#region Model Owner: Faculty
-
-    interface IFacSpComment extends breeze.Entity, s.faculty.FacSpComment, ICompositeKey {
+   //#region Model Owner Faculty
+    interface IFacSpComment extends breeze.Entity, s.faculty.FacSpComment, ext.ICompositeKey {
         faculty: IFacInCrse;
         student: ICrseStudInGroup;
     }
 
-    interface IFacSpResponse extends breeze.Entity, s.faculty.FacSpResponse, ICompositeKey { }
+    interface IFacSpResponse extends breeze.Entity, s.faculty.FacSpResponse, ext.ICompositeKey { }
 
-    interface IFacStratResponse extends breeze.Entity, s.faculty.FacStratResponse, ICompositeKey { }
+    interface IFacStratResponse extends breeze.Entity, s.faculty.FacStratResponse, ext.ICompositeKey { }
     //#endregion
 
-    //#region Model Owner: Designer
+   //#region Model Owner Designer
     interface ISpInstrument extends breeze.Entity, s.designer.SpInstrument { }
 
-    interface IFacSpInventory extends breeze.Entity, s.designer.SpInventory, ext.IFacSpInventoryExt { }
+    interface ISpInventory extends breeze.Entity, s.designer.SpInventory {}
 
-    interface IStudSpInventory extends breeze.Entity, s.designer.SpInventory, ext.ISpInventoryExt { }
+    interface IFacSpInventory extends ISpInventory, ext.IFacSpInventoryExt { }
 
+    interface IStudSpInventory extends ISpInventory, ext.IStudSpInventoryExt { }
     //#endregion
-
-    //#region Model Owner: Common
-    interface ILoginToken extends breeze.Entity, s.common.LoginToken {
-        person: IPerson;
-    }
-
-    //#endregion
-
-    //#region Model Owner: Cognitive
-    //#endregion
+  
 }

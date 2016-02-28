@@ -2,16 +2,11 @@
 
 export class CrseStudInGrpInit {
 
-    constructor(memberInGrpEntity: ecat.entity.ICrseStudInGroup) {
-        const group = memberInGrpEntity.workGroup;
-        if (group && group.assignedSpInstr && memberInGrpEntity.groupPeers) {
-            memberInGrpEntity.getMigStatus();
-        }
-    }
+    constructor(memberInGrpEntity: ecat.entity.ICrseStudInGroup) { }
 
 }
 
-export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
+export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     private entityId: string;
     private studentId: number;
     private assessorSpResponses: Array<ecat.entity.ISpRespnse>;
@@ -117,8 +112,11 @@ export class CrseStudInGrpExt implements ecat.entity.ext.ICrseStudInGrpExt {
     }
 }
 
-export var memberInGrpEntityExt: ecat.entity.IEntityExtension = {
+class FacCrseStudInGrpExt extends CrseStudInGrpExtBase { }
+
+export var facCrseStudInGrpCfg: ecat.entity.ext.IEntityExtension = {
     entityName: _mp.EcMapEntityType.crseStudInGrp,
-    ctorFunc: CrseStudInGrpExt,
+    ctorFunc: FacCrseStudInGrpExt,
     initFunc: (crseStudInGrp: ecat.entity.ICrseStudInGroup) => new CrseStudInGrpInit(crseStudInGrp)
 }
+

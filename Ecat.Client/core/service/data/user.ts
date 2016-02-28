@@ -2,7 +2,7 @@
 import ICommon from "core/common/commonService"
 import IDataCtx from "core/service/data/context"
 import IEmFactory from 'core/service/data/emFactory'
-import * as _personExt from "core/entityExtension/person"
+import {userPeronCfg} from "core/entityExtension/person"
 import * as _mp from "core/common/mapStrings"
 import * as _mpe from "core/common/mapEnum"
 
@@ -61,7 +61,7 @@ export default class EcUserRepo extends IUtilityRepo {
     };
 
     constructor(private $http: angular.IHttpService, inj, public userStatic: ecat.entity.ILoginToken) {
-        super(inj, 'User Data Service', _mp.EcMapApiResource.user, [_personExt.personConfig]);
+        super(inj, 'User Data Service', _mp.EcMapApiResource.user, [userPeronCfg]);
         super.addResources(this.userApiResources);
         this.createUserToken();
     }

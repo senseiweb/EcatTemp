@@ -16,7 +16,7 @@ export default class EcEmFactory {
         return repo;
     }
 
-    getNewManager(apiResourceName: _mp.EcMapApiResource, clientExtensions?: Array<ecat.entity.IEntityExtension>): breeze.EntityManager {
+    getNewManager(apiResourceName: _mp.EcMapApiResource, clientExtensions?: Array<ecat.entity.ext.IEntityExtension>): breeze.EntityManager {
 
         breeze.NamingConvention.camelCase.setAsDefault();
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
@@ -45,7 +45,7 @@ export default class EcEmFactory {
     }
 
     //#region Internal Api
-    private createMetadataStore(clientExtensions: Array<ecat.entity.IEntityExtension>): breeze.MetadataStore {
+    private createMetadataStore(clientExtensions: Array<ecat.entity.ext.IEntityExtension>): breeze.MetadataStore {
         const metadataStore = new breeze.MetadataStore();
         if (clientExtensions && clientExtensions.length > 0) {
             clientExtensions.forEach((ext) => {

@@ -1,6 +1,7 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
-import * as _crseStudGroup from "core/entityExtension/crseStudentInGroup"
-import * as _personExt from "core/entityExtension/person"
+import {studCrseStudInGrpCfg} from "student/entityExtension/crseStudentInGroup"
+import {studPersonCfg} from "core/entityExtension/person"
+import {studSpInventoryCfg} from 'student/entityExtension/spInventory'
 import * as _mp from "core/common/mapStrings"
 
 interface IStudentApiResources extends ecat.IApiResources {
@@ -40,7 +41,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     }
 
     constructor(inj) {
-        super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [_personExt.studentPersonConfig, _crseStudGroup.memberInGrpEntityExt]);
+        super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [studPersonCfg, studCrseStudInGrpCfg, studSpInventoryCfg]);
         this.loadManager(this.studentApiResources);
         this.isLoaded.course = {};
         this.isLoaded.workGroup = {};
@@ -203,7 +204,6 @@ export default class EcStudentRepo extends IUtilityRepo {
             return workGroup;
         }
     }
-
 
     getNewSpAssessResponse(assessor: ecat.entity.ICrseStudInGroup, assessee: ecat.entity.ICrseStudInGroup, inventory:ecat.entity.IStudSpInventory): ecat.entity.ISpRespnse {
         const newAssessResponse = {

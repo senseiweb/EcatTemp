@@ -1,0 +1,128 @@
+﻿<div>
+    <div ng-if="!assesser.hasAcknowledge">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h3 class="lead m-t-0 m-b-0">Acknowledgment</h3>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+        <div class="row">
+            <div class="col-md-12 p-t-20">
+                <div ng-bind-html="assesser.instructions"></div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="assesser.hasAcknowledge">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="lead">{{assesser.activeInvent.behavior}}</p>
+            </div>
+        </div>
+
+        <div class="row p-b-20 p-t-20">
+            <div class="col-md-1">
+                <ul class="lv-actions actions">
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li>
+                                <a href="javascript:void(0)" 
+                                   ng-hide="assesser.activeInvent.behaviorDisplayed"
+                                   ng-click="assesser.activeInvent.behaviorDisplayed = true, assesser.checkDone()">
+                                    Displayed
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" 
+                                   ng-hide="!assesser.activeInvent.behaviorDisplayed"
+                                   ng-click="assesser.activeInvent.behaviorDisplayed = false, assesser.checkDon()">
+                                    Not Displayed
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div ng-if="assesser.activeInvent.behaviorDisplayed">
+                <div class="col-md-7">
+                    <div class="btn-group btn-group-sm">
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.SpEffectLevel.Ineffective}"
+                                ng-model="assesser.activeInvent.behaviorEffect"
+                                ng-click="assesser.checkDone()"
+                                uib-btn-radio="{{assesser.enum.SpEffectLevel.Ineffective}}">
+                            Ineffective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary':assesser.activeInvent.behaviorEffect === assesser.enum.SpEffectLevel.Effective}"
+                                ng-model="assesser.activeInvent.behaviorEffect"
+                                ng-click="assesser.checkDone()"
+                                uib-btn-radio="{{assesser.enum.SpEffectLevel.Effective}}">
+                            Effective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.SpEffectLevel.HighlyEffective}"
+                                ng-model="assesser.activeInvent.behaviorEffect"
+                                ng-click="assesser.checkDone()"
+                                uib-btn-radio="{{assesser.enum.SpEffectLevel.HighlyEffective}}">
+                            Highly Effective
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group btn-group-sm">
+                        
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.SpFreqLevel.Frequently}"
+                                ng-model="assesser.activeInvent.behaviorFreq"
+                                ng-click="assesser.checkDone()"
+                                uib-btn-radio="{{assesser.enum.SpFreqLevel.Frequently}}">
+                            Frequently
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.SpFreqLevel.Always}"
+                                ng-model="assesser.activeInvent.behaviorFreq"
+                                ng-click="assesser.checkDone()"
+                                uib-btn-radio="{{assesser.enum.SpFreqLevel.Always}}">
+                            Always
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!assesser.activeInvent.behaviorDisplayed" c
+                 lass="col-md-11">
+                <p class="lead text-center">NOT DISPLAYED</p>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="pagination">
+                    <li ng-repeat="pager in assesser.pagers | orderby: displayId  track by pager.itemId"
+                        ng-class="{success: pager.isCompleted, active: assesser.activeInventory.id === pager.itemId}"
+                        ng-click="assesser.changeInventory(pager)">
+                        <a href="javascript:void(0)">{{pager.displayId}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+
+</div>

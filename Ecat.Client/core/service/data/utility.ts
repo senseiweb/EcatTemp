@@ -32,7 +32,7 @@ export default class EcUtilityRepoServices {
     constructor(inj: angular.auto.IInjectorService,
         private loggerId: string,
         protected endPoint: string,
-        protected entityExtCfgs: Array<ecat.entity.IEntityExtension>) {
+        protected entityExtCfgs: Array<ecat.entity.ext.IEntityExtension>) {
 
         const dCtx = inj.get(IDataCtx.serviceId) as IDataCtx;
         const c = inj.get(_common.serviceId) as _common;

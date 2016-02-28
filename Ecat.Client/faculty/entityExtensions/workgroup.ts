@@ -109,7 +109,7 @@ export class FacWorkGroupExt  {
 
 }
 
-export var facWorkGrpEntityExt: ecat.entity.IEntityExtension = {
+export var facWorkGrpEntityExt: ecat.entity.ext.IEntityExtension = {
     entityName: _mp.EcMapEntityType.crseStudInGrp,
     ctorFunc: FacWorkGroupExt,
     initFunc: (FacWorkGrpEntity: any) => new FacWorkGroupInitizer(FacWorkGrpEntity)
