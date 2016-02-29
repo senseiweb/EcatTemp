@@ -38,6 +38,15 @@ namespace Ecat.Shared.DbMgr.Config
                 .HasForeignKey(p => p.InventoryItemId)
                 .WillCascadeOnDelete(false);
 
+            HasRequired(p => p.Course)
+                .WithMany(p => p.SpResponses)
+                .HasForeignKey(p => p.CourseId)
+                .WillCascadeOnDelete(false);
+
+            HasRequired(p => p.WorkGroup)
+                .WithMany(p => p.SpResponses)
+                .HasForeignKey(p => p.WorkGroupId)
+                .WillCascadeOnDelete(false);
         }
     }
 

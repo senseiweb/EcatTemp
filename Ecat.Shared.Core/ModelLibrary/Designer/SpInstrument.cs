@@ -16,8 +16,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Designer
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public string Version { get; set; }
-        public string SelfInstructions { get; set; }
-        public string PeerInstructions { get; set; }
+        public string StudentInstructions { get; set; }
         public string FacultyInstructions { get; set; }
 
         public DateTime? ModifiedDate { get; set; }

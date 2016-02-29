@@ -14,8 +14,7 @@ namespace Ecat.Shared.DbMgr.Config
         public ConfigSpInstrument()
         {
             Property(p => p.FacultyInstructions).IsMaxLength();
-            Property(p => p.SelfInstructions).IsMaxLength();
-            Property(p => p.PeerInstructions).IsMaxLength();
+            Property(p => p.StudentInstructions).IsMaxLength();
             HasMany(p => p.AssignedGroups)
                 .WithOptional(p => p.AssignedSpInstr)
                 .HasForeignKey(p => p.AssignedSpInstrId)

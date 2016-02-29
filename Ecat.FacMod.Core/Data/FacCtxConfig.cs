@@ -5,48 +5,80 @@ using Ecat.Shared.Core.ModelLibrary.User;
 
 namespace Ecat.FacMod.Core
 {
-    internal class ConfigStudSpInstrument : EntityTypeConfiguration<SpInstrument>
+    internal class FacConfigStudSpInstrument : EntityTypeConfiguration<SpInstrument>
     {
-        public ConfigStudSpInstrument()
+        public FacConfigStudSpInstrument()
         {
             Ignore(p => p.Version);
-            Ignore(p => p.SelfInstructions);
-            Ignore(p => p.PeerInstructions);
+            Ignore(p => p.StudentInstructions);
             HasMany(p => p.AssignedGroups)
                 .WithOptional(p => p.AssignedSpInstr)
                 .HasForeignKey(p => p.AssignedSpInstrId);
         }
     }
 
-    internal class ConfigStudSpInventory : EntityTypeConfiguration<SpInventory>
+    internal class FacConfigStudSpInventory : EntityTypeConfiguration<SpInventory>
     {
-        public ConfigStudSpInventory()
+        public FacConfigStudSpInventory()
         {
             Ignore(p => p.IsScored);
         }
     }
 
-    internal class ConfigStudWrkGrp : EntityTypeConfiguration<WorkGroup>
+    internal class FacConfigStudWrkGrp : EntityTypeConfiguration<WorkGroup>
     {
-        public ConfigStudWrkGrp()
+        public FacConfigStudWrkGrp()
         {
             Ignore(p => p.MaxStrat);
             Ignore(p => p.BbGroupId);
         }
     }
 
-    internal class ConfigStudCrse : EntityTypeConfiguration<Course>
+    internal class FacConfigStudCrse : EntityTypeConfiguration<Course>
     {
-        public ConfigStudCrse()
+        public FacConfigStudCrse()
         {
             Ignore(p => p.BbCourseId);
         }
     }
 
- 
-    internal class ConfigStudPerson : EntityTypeConfiguration<Person>
+
+    internal class FacConfigProfileBase : EntityTypeConfiguration<ProfileBase>
     {
-        public ConfigStudPerson()
+        public FacConfigProfileBase()
+        {
+            ToTable("Profile");
+           
+            HasKey(p => p.PersonId)
+                .HasRequired(p => p.Person)
+                .WithOptional(p => p.Student);
+        }
+    }
+
+    internal class FacConfigProfileStudent : EntityTypeConfiguration<ProfileStudent>
+    {
+        public FacConfigProfileStudent()
+        {
+
+            HasKey(p => p.PersonId)
+                .HasRequired(p => p.Person)
+                .WithOptional(p => p.Student);
+        }
+    }
+
+    internal class FacConfigProfileFaculty : EntityTypeConfiguration<ProfileFaculty>
+    {
+        public FacConfigProfileFaculty()
+        {
+            HasKey(p => p.PersonId)
+                .HasRequired(p => p.Person)
+                .WithOptional(p => p.Faculty);
+        }
+    }
+
+    internal class FacConfigPerson : EntityTypeConfiguration<Person>
+    {
+        public FacConfigPerson()
         {
             Ignore(p => p.BbUserId);
             Ignore(p => p.IsActive);

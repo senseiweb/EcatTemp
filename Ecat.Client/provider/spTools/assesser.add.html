@@ -117,7 +117,7 @@
                 <ul class="pagination">
                     <li ng-repeat="pager in assesser.pagers | orderby: displayId  track by pager.itemId"
                         ng-class="{success: pager.isCompleted, active: assesser.activeInventory.id === pager.itemId}"
-                        ng-click="assesser.changeInventory(pager)">
+                        ng-click="assesser.changeInventory(pager, $first)">
                         <a href="javascript:void(0)">{{pager.displayId}}</a>
                     </li>
                 </ul>

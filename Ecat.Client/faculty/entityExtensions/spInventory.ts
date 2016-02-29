@@ -4,16 +4,7 @@ import ICommon from "core/common/commonService"
 import {SpInventoryExtBase} from "core/entityExtension/spInventory"
 
 
-class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IFacSpInventoryExt {
-    responseForAssessee: ecat.entity.IFacSpResponse;
-    constructor() {
-        super(this.responseForAssessee);
-    }
-}
-
-class StudSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IStudSpInventoryExt {
-    responseForAssessee: ecat.entity.ISpRespnse;
-}
+class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IFacSpInventoryExt { }
 
 export var facSpInventoryCfg: ecat.entity.ext.IEntityExtension = {
     entityName: _mp.EcMapEntityType.spInventory,
@@ -21,8 +12,3 @@ export var facSpInventoryCfg: ecat.entity.ext.IEntityExtension = {
     initFunc: null
 }
 
-export var studSpInventoryCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.spInventory,
-    ctorFunc: StudSpInventoryExt,
-    initFunc: null
-}

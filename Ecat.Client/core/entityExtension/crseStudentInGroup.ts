@@ -9,7 +9,7 @@ export class CrseStudInGrpInit {
 export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     private entityId: string;
     private studentId: number;
-    private assessorSpResponses: Array<ecat.entity.ISpRespnse>;
+    private assessorSpResponses: Array<ecat.entity.ISpResponse>;
     private workGroup: ecat.entity.IWorkGroup;
     private _migStatus: ecat.entity.ext.ICrseStudInGroupStatus;
 
@@ -27,7 +27,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
                 stratComplete: false,
                 isPeerAllComplete: false,
                 missingAssessItems: [],
-                breakout: { ineff: 0, nd: 0, eff: 0, highEff: 0 },
+                breakout: { IE: 0, ND: 0, E: 0, HE: 0 },
                 compositeScore: 0,
                 stratedPosition: null,
                 hasComment: false
@@ -54,32 +54,32 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
                     switch (response.mpItemResponse) {
 
                     case knownReponse.iea:
-                        migStatus.breakout.ineff += 1;
+                        migStatus.breakout.IE += 1;
                         cummScore += 0;
                         break;
                     case knownReponse.ieu:
-                        migStatus.breakout.ineff += 1;
+                        migStatus.breakout.IE += 1;
                         cummScore += 1;
                         break;
                     case knownReponse.nd:
                         cummScore += 2;
-                        migStatus.breakout.nd += 1;
+                        migStatus.breakout.ND += 1;
                         break;
                     case knownReponse.ea:
                         cummScore += 3;
-                        migStatus.breakout.eff += 1;
+                        migStatus.breakout.E += 1;
                         break;
                     case knownReponse.eu:
                         cummScore += 4;
-                        migStatus.breakout.eff += 1;
+                        migStatus.breakout.E += 1;
                         break;
                     case knownReponse.hea:
                         cummScore += 5;
-                        migStatus.breakout.highEff += 1;
+                        migStatus.breakout.HE += 1;
                         break;
                     case knownReponse.heu:
                         cummScore += 6;
-                        migStatus.breakout.highEff += 1;
+                        migStatus.breakout.HE += 1;
                         break;
                     default:
                         break;

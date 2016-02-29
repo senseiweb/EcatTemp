@@ -80,6 +80,24 @@ export default class EcStudentAssessments {
             });
     }
 
+    loadAssessment(assesseeId): void {
+        if (!assesseeId) {
+            console.log('You must pass a recipient id to use this feature');
+            return null;
+        }
+
+        //TODO: Add action after the comment has been dealt with
+        this.spTools.loadSpAssessment(assesseeId)
+            .then(() => {
+                console.log('Comment modal closed');
+                this.me.getMigStatus();
+            })
+            .catch(() => {
+                console.log('Comment model errored');
+            });
+    }
+
+
     //checkIfPublished(): void {
     //    if (this.activeGroupMember.group.mpSpStatus === _mp.MpSpStatus.published) {
     //        this.isResultPublished = true;
@@ -135,72 +153,7 @@ export default class EcStudentAssessments {
     }
     
 
-
-//addAssessment(assessee: ecat.entity.ICrseStudInGroup): void {
-    //    var spResponses: ecat.entity.ISpRespnse[] = [];
-    //    var mode: string;
-    //    this.activeGroupMember.group.assignedSpInstr.inventoryCollection.forEach(inv => {
-    //        //var newResponse = this.dCtx.student.getNewSpAssessResponse(this.activeGroupMember, assessee, inv);
-    //        //spResponses.push(newResponse);
-    //    });
-
-    //    if (assessee.studentId === this.studentSelf.studentId) {
-    //        mode = 'self';
-    //    } else {
-    //        mode = 'peer';
-    //    }
-
-    //    //this.addModalOptions.resolve = {
-    //    //    mode: () => mode,
-    //    //    assessment: () => spResponses
-    //    //};
-
-    //    //this.uiModal.open(this.addModalOptions)
-    //    //    .result
-    //    //    .then(assessmentSaved)
-    //    //    .catch(assessmentError);
-
-    //    //function assessmentSaved() {
-
-    //    //}
-
-    //    //function assessmentError() {
-
-
-    //    //}
-
-
-    //}
-
     
-
-    //editAssessment(assessee: ecat.entity.ICrseStudInGroup): void {
-    //    var mode: string;
-    //    if (assessee.studentId === this.studentSelf.studentId) {
-    //        mode = 'self';
-    //    } else {
-    //        mode = 'peer';
-    //    }
-
-    //    //this.editModalOptions.resolve = {
-    //    //    mode: () => mode,
-    //    //    assessment: () => assessee.assesseeSpResponses
-    //    //};
-
-    //    //this.uiModal.open(this.editModalOptions)
-    //    //    .result
-    //    //    .then(retData => assessmentSaved(retData))
-    //    //    .catch(assessmentError);
-
-    //    //function assessmentSaved(retData: any) {
-    //    //    console.log(assessee.assesseeSpResponses);
-    //    //    console.log(retData);
-    //    //}
-
-    //    //function assessmentError() {
-
-    //    }
-
     
 
     //get viewStrat(): boolean {

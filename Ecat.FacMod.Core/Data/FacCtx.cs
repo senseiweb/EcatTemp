@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Reflection;
 using Ecat.Shared.Core.Interface;
@@ -20,31 +21,34 @@ namespace Ecat.FacMod.Core
 
             mb.Configurations.Add(new ConfigSpResponse());
             mb.Configurations.Add(new ConfigSpResult());
+            mb.Configurations.Add(new ConfigStratResponse());
+            mb.Configurations.Add(new ConfigStratResult());
             mb.Configurations.Add(new ConfigSpComment());
             mb.Configurations.Add(new ConfigFacSpResponse());
+            mb.Configurations.Add(new ConfigFacStratResponse());
+            mb.Configurations.Add(new ConfigFacSpComment());
             mb.Configurations.Add(new ConfigCrseStudInGroup());
             mb.Configurations.Add(new ConfigFacultyInCourse());
             mb.Configurations.Add(new ConfigStudentInCourse());
-            mb.Configurations.Add(new ConfigProfile());
 
             mb.Ignore(new List<Type>
             {
-                typeof (ProfileExternal),
-                typeof (ProfileStaff),
+               typeof (ProfileExternal),
                 typeof (Security),
-                typeof (ProfileStaff)
+                typeof (ProfileStaff),
             });
 
             mb.Types()
-            .Where(t => typeof(IAuditable).IsAssignableFrom(t))
-            .Configure(p => p.Ignore("ModifiedById"));
+               .Where(t => typeof(IAuditable).IsAssignableFrom(t))
+               .Configure(p => p.Ignore("ModifiedById"));
 
             mb.Types()
-            .Where(t => typeof(IAuditable).IsAssignableFrom(t))
-            .Configure(p => p.Ignore("ModifiedDate"));
+                .Where(t => typeof(IAuditable).IsAssignableFrom(t))
+                .Configure(p => p.Ignore("ModifiedDate"));
 
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
-             .Where(type => type.IsClass && type.Namespace == "Ecat.FacFunc.Core.Data.Config");
+                .Where(type => !string.IsNullOrEmpty(type.Namespace))
+                .Where(type => type.BaseType != null && type.BaseType.IsGenericType && type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>));
 
             foreach (var configurationInstance in typesToRegister.Select(Activator.CreateInstance))
             {

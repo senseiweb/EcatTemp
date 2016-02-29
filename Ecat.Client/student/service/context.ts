@@ -95,8 +95,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     /**
      * @desc  Gets the active course membership with course and group membership for the latest join workgroup, i.e. BC4.
      */
-    getActiveCourse():
-        breeze.promises.IPromise<ecat.entity.ICourse | angular.IPromise<void>> {
+    getActiveCourse(): breeze.promises.IPromise<ecat.entity.ICourse | angular.IPromise<void>> {
         if (!this.activeCourseId) {
             this.c.$q.reject(() => {
                 this.log.warn('Not active course selected!', null, false);
@@ -205,21 +204,21 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
     }
 
-    getNewSpAssessResponse(assessor: ecat.entity.ICrseStudInGroup, assessee: ecat.entity.ICrseStudInGroup, inventory:ecat.entity.IStudSpInventory): ecat.entity.ISpRespnse {
+    getNewSpAssessResponse(assessor: ecat.entity.ICrseStudInGroup, assessee: ecat.entity.ICrseStudInGroup, inventory:ecat.entity.IStudSpInventory): ecat.entity.ISpResponse {
         const newAssessResponse = {
             assessor: assessor,
             assessee: assessee,
             inventoryItem: inventory
         }
 
-        return this.manager.createEntity(_mp.EcMapEntityType.spResponse, newAssessResponse) as ecat.entity.ISpRespnse;
+        return this.manager.createEntity(_mp.EcMapEntityType.spResponse, newAssessResponse) as ecat.entity.ISpResponse;
     }
 
     getOrAddComment(recipientId: number) {
         const loggedUserId = this.dCtx.user.persona.personId;
 
         if (!this.activeGroupId || !this.activeCourseId) {
-            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+            this.log.warn('Missing required information', { groupdId: this.activeGroupId, courseId: this.activeCourseId }, false);
         }
 
         const spComments = this.manager.getEntities(_mp.EcMapEntityType.spComment) as Array<ecat.entity.ISpComment>;
@@ -246,5 +245,36 @@ export default class EcStudentRepo extends IUtilityRepo {
         return this.manager.createEntity(_mp.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;
     }
 
+    getSpInventory(assesseeId: number): Array<ecat.entity.ISpInventory> {
+        const loggedUserId = this.dCtx.user.persona.personId;
+
+        if (!this.activeGroupId || !this.activeCourseId) {
+            this.log.warn('Missing required information', { groupdId: this.activeGroupId, courseId: this.activeCourseId }, false);
+            return null;
+        }
+
+        const workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+
+        if (!workGroup.assignedSpInstr) {
+            this.log.warn('Missing an assigned instrument for this workgroup', workGroup, false);
+            return null;
+        }
+
+        const inventoryList = workGroup.assignedSpInstr.inventoryCollection as Array<ecat.entity.IStudSpInventory>;
+
+        inventoryList.forEach(item => {
+            const key = { assessorPersonId: loggedUserId, assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: item.id };
+
+            let spResponse = this.manager.getEntityByKey(_mp.EcMapEntityType.spResponse, [loggedUserId, assesseeId, this.activeCourseId, this.activeGroupId, item.id]) as ecat.entity.ISpResponse;
+
+            if (!spResponse) {
+                spResponse = this.manager.createEntity(_mp.EcMapEntityType.spResponse, key) as ecat.entity.ISpResponse;
+            }
+
+            item.responseForAssessee = spResponse;
+        });
+
+        return inventoryList;
+    }
 
 }

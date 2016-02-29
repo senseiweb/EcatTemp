@@ -92,7 +92,7 @@ export class EcMapInstituteRole {
     static hqAdmin = 'ECAT_01_HQ';
     static designer = 'ECAT_02_Designer';
     static courseAdmin = 'ECAT_03_CourseAdmin';
-    static faculty = 'ECAT_04_Faci';
+    static faculty = 'ECAT_04_Faculty';
     static student = 'ECAT_05_Student';
     static external = 'ECAT_06_External';
 }

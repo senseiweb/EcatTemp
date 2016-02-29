@@ -1,7 +1,7 @@
 ﻿import {CrseStudInGrpExtBase, CrseStudInGrpInit} from "core/entityExtension/crseStudentInGroup"
 import * as _mp from "core/common/mapStrings"
 
-class StudCrseStudInGrpExt extends CrseStudInGrpExtBase { }
+class StudCrseStudInGrpExt extends CrseStudInGrpExtBase {}
 
 export var studCrseStudInGrpCfg: ecat.entity.ext.IEntityExtension = {
     entityName: _mp.EcMapEntityType.crseStudInGrp,

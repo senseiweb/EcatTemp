@@ -54,10 +54,10 @@ export default class EcFacViewStatusModal {
                     ovStatus.strats += 1;
                 }
 
-                ovStatus.hEGiven += gm.statusOfPeer[peer.studentId].breakout.highEff;
-                ovStatus.eGiven += gm.statusOfPeer[peer.studentId].breakout.eff;
-                ovStatus.iEGiven += gm.statusOfPeer[peer.studentId].breakout.ineff;
-                ovStatus.nDGiven += gm.statusOfPeer[peer.studentId].breakout.nd;
+                ovStatus.hEGiven += gm.statusOfPeer[peer.studentId].breakout.IE;
+                ovStatus.eGiven += gm.statusOfPeer[peer.studentId].breakout.E;
+                ovStatus.iEGiven += gm.statusOfPeer[peer.studentId].breakout.IE;
+                ovStatus.nDGiven += gm.statusOfPeer[peer.studentId].breakout.ND;
             });
 
             this.spStatuses[gm.studentId] = ovStatus;

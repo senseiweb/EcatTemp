@@ -1,7 +1,7 @@
 ﻿import _staticDs from "core/service/data/static";
 import * as _mp from "core/common/mapStrings"
 
-class PersonInitializer {
+export class PersonInitializer {
     constructor(person: ecat.entity.IPerson) {
         if (person.avatarLocation === null) {
             const imgDirectory = '/Client/content/img/avatars/';
@@ -10,7 +10,7 @@ class PersonInitializer {
     }
 }
 
-class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
+export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
     private mpInstituteRole: string;
     private mpPaygrade: string;
     private mpComponent: string;

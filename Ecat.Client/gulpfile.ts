@@ -5,7 +5,7 @@ const sysJsCfg = require('./_configuration/moduleConfig.js');
 
 var webProj = '../Ecat.Web';
 var modelProj = '../Ecat.Shared.Core/Utility';
-var linksRegex = /@\[app[A-Z]\w+\]\S+\.html/g;
+var linksRegex = /@\[[a-z]+[A-Z]\w+\]\S+\.html/g;
 var modCfgRegEx = /_vendor\/\S+\/(\S+.js)/g;
 var paths = {
     webroot: `${webProj}/Client`,
@@ -61,7 +61,7 @@ const replaceText = (path) => {
     if (!path) {
         console.log('No path');
     }
-    const match = /@\[app([A-Z]\w+)\](\S+\.html)/g.exec(path);
+    const match = /@\[[a-z]+([A-Z]\w+)\](\S+\.html)/g.exec(path);
    //console.log(match || path);
     const appPath = `Client/app/${match[1].toLowerCase()}`;
     const filePath = `${appPath}${match[2]}`;
@@ -85,7 +85,7 @@ gulp.task('buildScripts', () => {
         const mappings = sysJsCfg.map;
         const keys = Object.keys(sysJsCfg.map);
         //console.log(keys);
-        keys .filter(key => key !== 'templates')
+        keys.filter(key => key !== 'templates')
             .forEach(key => paths.push(mappings[key]));
     };
 

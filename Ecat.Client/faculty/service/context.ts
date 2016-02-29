@@ -12,7 +12,7 @@ interface IFacultyApiResources extends ecat.IApiResources {
 }
 
 export default class EcFacultyRepo extends IUtilityRepo {
-    static serviceId = 'data.faulty';
+    static serviceId = 'data.faculty';
     static $inject = ['$injector'];
 
     activeCourseId: number;

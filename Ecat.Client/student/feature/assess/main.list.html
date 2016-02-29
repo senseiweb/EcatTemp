@@ -21,16 +21,12 @@
                         <td>{{assess.me.studentProfile.person.firstName}} {{assess.me.studentProfile.person.lastName}}</td>
                         <td>
                             <button class="btn btn-link" ng-click="assess.editAssessment(assess.me)">View/Edit</button>
-
                         </td>
-
                         <td ng-if="!assess.stratInputVis"></td>
                         <td ng-if="assess.stratInputVis">
                             <table>
                                 <tr>
-                                    <td>E: 4</td>
-                                    <td>AE: 4</td>
-                                    <td>HE: 2</td>
+                                    <td ng-repeat="(key, value) in assess.me.statusOfPeer[me.studentId].breakout">{{key+':'+ value}}</td>
                                 </tr>
                             </table>
                         </td>
@@ -51,8 +47,9 @@
                     <tr ng-repeat="peer in assess.peers track by peer.studentId">
                         <td>{{peer.studentProfile.person.firstName}} {{peer.studentProfile.person.lastName}}</td>
                         <td>
-                            <button class="btn btn-link" ng-click="assess.addAssessment(peer)">Add</button>
-
+                            <button class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
+                                {{assess.me.statusOfPeer[peer.studentId].assessComplete ? "View/Edit" : "Add" }}
+                            </button>
                         </td>
 
                         <td ng-if="!assess.stratInputVis">

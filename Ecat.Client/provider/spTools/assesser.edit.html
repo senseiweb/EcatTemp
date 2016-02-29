@@ -1,10 +1,115 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<div class="p-b-10 m-b-5" ng-repeat="item in assesser.inventoryList | orderBy: displayOrder">
 
-</body>
-</html>
+    <div class="row" ng-if="!item.showBehavior" ng-mouseover="item.rowShow=true" ng-mouseleave="item.rowShow=false">
+        <div class="col-md-1">
+            <button class="btn btn-default waves-effect" 
+                    ng-if="item.rowShow" 
+                    ng-click="item.showBehavior = true">
+                <i class="zmdi zmdi-more-vert"></i>
+            </button>
+        </div>
+
+        <div class="col-md-11">
+            <p class="lead f-13">
+                <strong>{{assesser.getFormattedResponse(item)}} @ </strong> {{item.behavior}}
+            </p>
+        </div>
+    </div>
+    <div class="row p-b-20" ng-if="item.showBehavior">
+        <div class="col-md-1">
+            <ul class="lv-actions actions">
+                <li class="dropdown" uib-dropdown>
+                    <a href="javascript:void(0)" uib-dropdown-toggle>
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="javascript:void(0)"
+                               ng-if="!item.behaviorDisplayed"
+                               ng-click="item.behaviorDisplayed = true">
+                                Displayed
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                               ng-if="item.behaviorDisplayed"
+                               ng-click="item.behaviorDisplayed = false">
+                                Not Displayed
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div ng-if="item.behaviorDisplayed">
+                <div class="col-md-6 p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+
+                        <button type="button" 
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorEffect === assesser.enum.ie}"
+                                ng-model="item.behaviorEffect"
+                                uib-btn-radio="{{assesser.enum.ie}}">
+                            Ineffective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorEffect === assesser.enum.e}"
+                                ng-model="item.behaviorEffect"
+                                uib-btn-radio="{{assesser.enum.e}}">
+                            Effective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorEffect === assesser.enum.he}"
+                                ng-model="item.behaviorEffect"
+                                uib-btn-radio="{{assesser.enum.he}}">
+                            Highly Effective
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3 p-l-5 p-r-5 p-t-4">
+                    <div class="btn-group btn-group-xs">
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorFreq === assesser.enum.fre}"
+                                ng-model="item.behaviorFreq"
+                                uib-btn-radio="{{assesser.enum.fre}}">
+                            Frequently
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorFreq === assesser.enum.alw}"
+                                ng-model="item.behaviorFreq"
+                                uib-btn-radio="{{assesser.enum.alw}}">
+                            Always
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div ng-if="!item.behaviorDisplayed">
+                <div class="col-md-9">
+                    <p class="lead text-center f-12 p-t-5">NOT DISPLAYED</p>
+                </div>
+            </div>
+         
+            <div class="col-md-2 p-l-30">
+                <button class="btn btn-default waves-effect" 
+                        ng-click="assessEdit.checkResponse(spResponse); item.showBehavior = false" 
+                        ng-disabled="assessEdit.radios[spResponse.id].displayed===true && (assessEdit.radios[spResponse.id].effectiveness==='None' || assessEdit.radios[spResponse.id].freq==='None')" style="padding: 3px; padding-top: 1px; padding-bottom: 1px; margin-top: 4px;">
+                    <i class="zmdi zmdi-close"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

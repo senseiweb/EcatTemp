@@ -4,10 +4,10 @@ declare module ecat.entity
    //#region Client Extensions
     module ext  {
         interface ISpStatusBreakOut {
-            highEff: number;
-            eff: number;
-            ineff: number;
-            nd: number;
+            HE: number;
+            E: number;
+            IE: number;
+            ND: number;
         }
 
         interface ICrseStudInGroupStatus {
@@ -31,19 +31,16 @@ declare module ecat.entity
         }
 
         interface ISpInventoryExtBase {
+            responseForAssessee: ISpResponse | IFacSpResponse;
             compositeScore: number;
             behaviorFreq: number;
             behaviorEffect: number;
             behaviorDisplayed: boolean;
         }
 
-        interface IFacSpInventoryExt {
-            responseForAssessee: IFacSpResponse;
-        }
+        interface IFacSpInventoryExt extends ISpInventoryExtBase { }
 
-        interface IStudSpInventoryExt {
-            responseForAssessee: ISpRespnse;
-        }
+        interface IStudSpInventoryExt extends ISpInventoryExtBase {}
 
         interface ICompositeKey {
             entityId: string;
@@ -126,8 +123,8 @@ declare module ecat.entity
         groupPeers: ICrseStudInGroup[];
         workGroup: IWorkGroup;
         studentProfile: IStudent;
-        assessorSpResponses: ISpRespnse[];
-        assesseeSpResponses: ISpRespnse[];
+        assessorSpResponses: ISpResponse[];
+        assesseeSpResponses: ISpResponse[];
         authorOfComments: ISpComment[];
         recipientOfComments: ISpComment[];
         assessorStratResponse: IStratResponse[];
@@ -144,7 +141,7 @@ declare module ecat.entity
 
     interface IStratResult extends breeze.Entity, s.learner.StratResult, ext.ICompositeKey {}
 
-    interface ISpRespnse extends breeze.Entity, s.learner.SpResponse, ext.ICompositeKey {
+    interface ISpResponse extends breeze.Entity, s.learner.SpResponse, ext.ICompositeKey {
         inventoryItem: IStudSpInventory | IFacSpInventory;
         assessResult: ISpResult;
         assessor: ICrseStudInGroup;
@@ -171,7 +168,9 @@ declare module ecat.entity
         student: ICrseStudInGroup;
     }
 
-    interface IFacSpResponse extends breeze.Entity, s.faculty.FacSpResponse, ext.ICompositeKey { }
+    interface IFacSpResponse extends breeze.Entity, s.faculty.FacSpResponse, ext.ICompositeKey {
+        assessee: ICrseStudInGroup;
+    }
 
     interface IFacStratResponse extends breeze.Entity, s.faculty.FacStratResponse, ext.ICompositeKey { }
     //#endregion
@@ -179,7 +178,7 @@ declare module ecat.entity
    //#region Model Owner Designer
     interface ISpInstrument extends breeze.Entity, s.designer.SpInstrument { }
 
-    interface ISpInventory extends breeze.Entity, s.designer.SpInventory {}
+    interface ISpInventory extends breeze.Entity, s.designer.SpInventory, ext.ISpInventoryExtBase { }
 
     interface IFacSpInventory extends ISpInventory, ext.IFacSpInventoryExt { }
 

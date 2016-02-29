@@ -28,7 +28,7 @@ export default class EcFacultyStates {
             name: `${this.main.name}.groups`,
             parent: this.main.name,
             url: '/groups',
-            templateUrl: 'Client/app/faculty/feature/groups/groups.html',
+            templateUrl: '@[appFaculty]/feature/workgroups/groups.html',
             controller: 'app.faculty.features.groups as groups',
             resolve: {
                 moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
@@ -38,7 +38,7 @@ export default class EcFacultyStates {
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {
         return this.isFacilitatorLoaded ? this.isFacilitatorLoaded :
-            System.import('app/faculty/faculty.js').then((facClass: any) => {
+            System.import('app/faculty/appFac.js').then((facClass: any) => {
                 const facMod = facClass.default.load();
                 $ocLl.inject(facMod.moduleId);
                 this.isFacilitatorLoaded = true;

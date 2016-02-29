@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using TypeLite;
 
 namespace Ecat.Shared.Core.ModelLibrary.School
@@ -22,6 +23,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
 
         public ICollection<StudentInCourse> StudentsInCourse { get; set; }
         public ICollection<CrseStudentInGroup> StudentInCrseGroups { get; set; }
+        public ICollection<SpResponse> SpResponses { get; set; } 
         public ICollection<FacultyInCourse> Faculty { get; set; }
         public ICollection<WorkGroup> WorkGroups { get; set; }
     }

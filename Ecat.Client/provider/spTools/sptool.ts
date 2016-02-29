@@ -1,5 +1,6 @@
 ﻿import IDataCtx from "core/service/data/context"
 import _commenter from "provider/spTools/commenter"
+import _assesser from "provider/spTools/assesser"
 
 export default class EcSpTools {
     static serviceId = 'app.service.sptools';
@@ -16,7 +17,7 @@ export default class EcSpTools {
     };
 
     private assssModalOption: angular.ui.bootstrap.IModalSettings = {
-        controller: _commenter.controllerId,
+        controller: _assesser.controllerId,
         controllerAs: 'assesser',
         bindToController: true,
         keyboard: false,
@@ -34,8 +35,8 @@ export default class EcSpTools {
         return this.$uim.open(this.commentModalOptions).result;
     }
 
-    loadSpAssessment(recipientId: number): angular.IPromise<void> {
-        this.assssModalOption.resolve = { recipientId: recipientId }
+    loadSpAssessment(assesseeId: number): angular.IPromise<void> {
+        this.assssModalOption.resolve = { assesseeId: assesseeId }
         return this.$uim.open(this.assssModalOption).result;
     }
 }
