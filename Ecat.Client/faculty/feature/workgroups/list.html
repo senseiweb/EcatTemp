@@ -1,0 +1,13 @@
+﻿<ul class="actions" ng-if="groups.view==0">
+    <li class="dropdown" uib-dropdown>
+        <a href="" uib-dropdown-toggle>
+            <i class="zmdi zmdi-sort"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li ng-repeat="courseEnroll in groups.courses track by courseEnroll.id">
+                <a href="javascript:void(0)" ng-click="groups.changeCourse(courseEnroll); groups.view=0">{{courseEnroll.course.classNumber}} {{courseEnroll.course.name}}</a>
+            </li>
+
+        </ul>
+    </li>
+</ul>

@@ -56,8 +56,8 @@ export default class CoreStates implements ecat.IEcatStateClass {
     error: angular.ui.IState = {
         name: `${this.redirect.name}.error`,
         parent: this.redirect.name,
-        url: '/error',
-        templateUrl: '@[appCore]/common/tpls/error.html'
+        url: '/error/:redirect',
+        templateUrl: '@[appCore]/feature/global/error.html'
     }
 
     login: angular.ui.IState = {

@@ -7,13 +7,12 @@ import {IStateMgr} from "core/config/cfgProviders";
 export default class EcStateConfiguration {
 
     static $inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', `${_stateMgr.stateConfigProvider.id}Provider`, 'userStatic'];
-
+    appLoaded = false;
     statesToConfigure = [_core, _student, _faculty];
 
     constructor($lp: angular.ILocationProvider, private $sp: angular.ui.IStateProvider, $up: angular.ui.IUrlRouterProvider, private sm: IStateMgr, userStatic: ecat.entity.ILoginToken) {
-
+        
         $lp.html5Mode(true);
-
         $up.otherwise(() => {
             const self = this;
             let urlRoute = '';
@@ -56,7 +55,15 @@ export default class EcStateConfiguration {
             calculateUrl(this.sm.core.dashboard);
             return urlRoute;
         });
-
+        $up.when('/app/main/faculty/workgroup', () => this.sm.faculty.wgList.name);
+        $up.when('/app/redirect/error', () => {
+            const stateErrorRedirect = localStorage.getItem('ECAT:APPERR:REDIRECT');
+            if (stateErrorRedirect) {
+                return '/';
+            }
+            return null;
+        });
+        this.appLoaded = true;
         this.load();
     }
 

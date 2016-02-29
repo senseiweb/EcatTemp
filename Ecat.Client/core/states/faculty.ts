@@ -7,7 +7,12 @@ export default class EcFacultyStates {
     parentName = 'faculty';
 
     main: angular.ui.IState;
-    groups: angular.ui.IState;
+    workGroup: angular.ui.IState;
+    wgList: angular.ui.IState;
+    wgAssess: angular.ui.IState;
+    wgPublish: angular.ui.IState;
+    wgCaps: angular.ui.IState;
+    wgResult: angular.ui.IState;
 
     constructor() {
         this.main = {
@@ -24,16 +29,56 @@ export default class EcFacultyStates {
             }
         }
 
-        this.groups = {
-            name: `${this.main.name}.groups`,
+        this.workGroup = {
+            name: `${this.main.name}.workgroup`,
             parent: this.main.name,
-            url: '/groups',
+            url: '/workGroup/:filter',
             templateUrl: '@[appFaculty]/feature/workgroups/groups.html',
-            controller: 'app.faculty.features.groups as groups',
             resolve: {
                 moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
             }
         }
+
+        this.wgList = {
+            name: `${this.workGroup.name}.list`,
+            parent: this.workGroup.name,
+            url: '',
+            templateUrl: '@[appFaculty]/feature/workgroups/list.html',
+            controller: 'app.faculty.wkgrp.list as wkl'
+        }
+
+        this.wgAssess = {
+            name: `${this.workGroup.name}.assess`,
+            parent: this.workGroup.name,
+            url: '/assess',
+            templateUrl: '@[appFaculty]/feature/workgroups/assess.html',
+            controller: 'app.faculty.wkgrp.assess as wka'
+        }
+
+        this.wgPublish = {
+            name: `${this.workGroup.name}.publish`,
+            parent: this.workGroup.name,
+            url: '/publish',
+            templateUrl: '@[appFaculty]/feature/workgroups/publish.html',
+            controller: 'app.faculty.wkgrp.publish as wkp'
+        }
+
+        this.wgCaps = {
+            name: `${this.workGroup.name}.capstone`,
+            parent: this.workGroup.name,
+            url: '/capstone',
+            templateUrl: '@[appFaculty]/feature/workgroups/capstone.html',
+            controller: 'app.faculty.wkgrp.capstone as wkc'
+        }
+
+        this.wgResult = {
+            name: `${this.workGroup.name}.result`,
+            parent: this.workGroup.name,
+            url: '/results',
+            templateUrl: '@[appFaculty]/feature/workgroups/result.html',
+            controller: 'app.faculty.wkgrp.result as wkr'
+        }
+
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => {

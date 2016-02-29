@@ -81,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DbDevSeed.sql" />
-    <Content Include="TestDbSeed.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

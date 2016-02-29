@@ -13,6 +13,7 @@ import dashboardCntrl from "core/feature/userSystems/dashboard"
 import profileCntrl from "core/feature/userSystems/profile"
 import loginCntrl from "core/feature/login/login"
 import appCntrl from "core/feature/global/global"
+import appErrCntrl from "core/feature/global/error"
 //#endregion
 
 //#region Import Module directives
@@ -98,6 +99,7 @@ export default class EcAppCore {
             .controller(dashboardCntrl.controllerId, dashboardCntrl)
             .controller(profileCntrl.controllerId, profileCntrl)
             .controller(loginCntrl.controllerId, loginCntrl)
+            .controller(appErrCntrl.controllerId, appErrCntrl)
             //#endregion
 
             //#region Directives

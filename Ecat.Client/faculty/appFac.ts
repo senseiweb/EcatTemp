@@ -1,9 +1,11 @@
 ﻿import angular = require('angular')
-import groups from "faculty/feature/workgroups/groups"
 import facultyConfig from "faculty/config/configFacultyApp"
 import facDataService from "faculty/service/context"
-import viewStatus from "faculty/feature/workgroups/status"
-import capStudDetail from "faculty/feature/workgroups/capStudDetail"
+import wrkgrpList from "faculty/feature/workgroups/list"
+import wrkgrpAssess from "faculty/feature/workgroups/assess"
+import wrkgrpPublish from "faculty/feature/workgroups/publish"
+import wrkgrpCap from "faculty/feature/workgroups/capstone"
+import wrkgrpResult from "faculty/feature/workgroups/result"
 
 export default class EcFacilitatorModule {
     moduleId = 'faculty';
@@ -12,8 +14,10 @@ export default class EcFacilitatorModule {
         angular.module(this.moduleId, [])
             .config(facultyConfig)
             .service(facDataService.serviceId, facDataService)
-            .controller(groups.controllerId, groups)
-            .controller(viewStatus.controllerId, viewStatus)
-            .controller(capStudDetail.controllerId, capStudDetail);
+            .controller(wrkgrpList.controllerId, wrkgrpList)
+            .controller(wrkgrpAssess.controllerId, wrkgrpAssess)
+            .controller(wrkgrpPublish.controllerId, wrkgrpPublish)
+            .controller(wrkgrpCap.controllerId, wrkgrpCap)
+            .controller(wrkgrpResult.controllerId, wrkgrpResult);
     }
 }

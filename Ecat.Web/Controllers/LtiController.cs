@@ -134,10 +134,14 @@ namespace Ecat.Web.Controllers
                                             MpItemResponse = mdlResponse
                                         };
 
-                                        writer.WriteLine($"INSERT INTO SpResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,InventoryItemId,ItemResponse,ItemModelScore,ModifiedDate) values ({spResponse.AssessorPersonId},{spResponse.AssesseePersonId},{6},{spResponse.WorkGroupId},{spResponse.InventoryItemId},'{spResponse.MpItemResponse}',{spResponse.ItemModelScore},'{DateTime.Now.ToUniversalTime()}');");
+                                        if (wrkgrp.MpCategory !=  MpGroupType.Wg4)
+                                        {
+                                            writer.WriteLine($"INSERT INTO SpResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,InventoryItemId,ItemResponse,ItemModelScore,ModifiedDate) values ({spResponse.AssessorPersonId},{spResponse.AssesseePersonId},{6},{spResponse.WorkGroupId},{spResponse.InventoryItemId},'{spResponse.MpItemResponse}',{spResponse.ItemModelScore},'{DateTime.Now.ToUniversalTime()}');");
 
-                                        Debug.WriteLine($"Member {member.StudentId} ==> Peer {peer.StudentId} ==> InventoryItem {item} Done with response {mdlResponse}");
+                                            Debug.WriteLine($"Member {member.StudentId} ==> Peer {peer.StudentId} ==> InventoryItem {item} Done with response {mdlResponse}");
+                                        }
                                     }
+                                      
                                     var currentStrat = stratMix.First();
                                     var stratResponse = new StratResponse
                                     {
@@ -149,11 +153,15 @@ namespace Ecat.Web.Controllers
 
                                     };
 
-                                    writer.WriteLine($"INSERT INTO StratResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,StratPosition,ModifiedDate) values ({stratResponse.AssessorPersonId},{stratResponse.AssesseePersonId},{6},{stratResponse.WorkGroupId},{stratResponse.StratPosition},'{DateTime.Now.ToUniversalTime()}');");
+                                    if (wrkgrp.MpCategory != MpGroupType.Wg4)
+                                    {
+                                        writer.WriteLine(
+                                            $"INSERT INTO StratResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,StratPosition,ModifiedDate) values ({stratResponse.AssessorPersonId},{stratResponse.AssesseePersonId},{6},{stratResponse.WorkGroupId},{stratResponse.StratPosition},'{DateTime.Now.ToUniversalTime()}');");
 
-                                    Debug.WriteLine($"Member {member.StudentId} ==> Peer {peer.StudentId} ==> Strat response {stratMix.First()}");
-                                    stratMix.Remove(currentStrat);
-
+                                        Debug.WriteLine(
+                                            $"Member {member.StudentId} ==> Peer {peer.StudentId} ==> Strat response {stratMix.First()}");
+                                        stratMix.Remove(currentStrat);
+                                    }
                                     Debug.WriteLine($"Member {member.StudentId} ==> Peer {peer.StudentId} done!");
                                 }
                                 Debug.WriteLine($"Member {member.StudentId}  done!");
