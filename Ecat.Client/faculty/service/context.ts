@@ -5,10 +5,16 @@ import * as _mpe from "core/common/mapEnum"
 import * as IFacWorkGrpExt from "faculty/entityExtensions/workgroup"
 
 interface IFacultyApiResources extends ecat.IApiResources {
-    initCourses: ecat.IApiResource,
-    getGroupById: ecat.IApiResource,
-    getStudentCapstoneDetails: ecat.IApiResource,
-    getGroupCapstoneData: ecat.IApiResource;
+    courses: ecat.IApiResource,
+    course: ecat.IApiResource,
+    wgAssess: ecat.IApiResource,
+
+}
+
+interface ICachcedFacultyData {
+    initiailze: boolean;
+    course: any;
+    workGroup: any;
 }
 
 export default class EcFacultyRepo extends IUtilityRepo {
@@ -18,75 +24,134 @@ export default class EcFacultyRepo extends IUtilityRepo {
     activeCourseId: number;
     activeGroupId: number;
 
-    private facilitatorApiResources: IFacultyApiResources = {
-        initCourses: {
-            returnedEntityType: _mp.EcMapEntityType.faccultyCrseMember,
-            resource: 'GetInitalCourses'
+    private facultyApiResource: IFacultyApiResources = {
+        courses: {
+            returnedEntityType: _mp.EcMapEntityType.facCrseMember,
+            resource: 'InitCourses'
         },
-        getGroupById: {
-            returnedEntityType: _mp.EcMapEntityType.workGroup,
-            resource:  'GetWorkGroupData'
-            },
-        getGroupCapstoneData: {
-            returnedEntityType:_mp.EcMapEntityType.faccultyCrseMember,
-            resource: 'GetGroupCapstoneData'
+        course: {
+            returnedEntityType: _mp.EcMapEntityType.facCrseMember,
+            resource: 'ActiveCourse'
+        },
+        wgAssess: {
+            returnedEntityType: _mp.EcMapEntityType.facCrseMember,
+            resource: 'WorkGroupAssess'
         },
         getStudentCapstoneDetails: {
             returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
-            resource:  'GetStudentCapstoneDetails'
-            }
+            resource: 'GetStudentCapstoneDetails'
+        }
     }
 
     constructor(inj) {
-        super(inj, 'Facilitator Data Service', _mp.EcMapApiResource.faculty, [IFacWorkGrpExt.facWorkGrpEntityExt]);
-        this.loadManager(this.facilitatorApiResources);
+        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [IFacWorkGrpExt.facWorkGrpEntityExt]);
+        this.loadManager(this.facultyApiResource);
+        this.isLoaded.workGroup = {};
+        this.isLoaded.course = {};
     }
 
-    initializeCourses(forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.IFacInCrse> | angular.IPromise<void>> {
-        const api = this.facilitatorApiResources;
-        const self = this;
+    initializeCourses(forceRefresh?: boolean): breeze.promises.IPromise<Array<ecat.entity.ICourse> | angular.IPromise<void>> {
+        const resource = this.facultyApiResource.courses.resource;
+        const log = this.log;
+        const isLoaded = this.isLoaded as ICachcedFacultyData;
+        let courses: Array<ecat.entity.ICourse>;
 
-        if (this.isLoaded && !forceRefresh) {
-            const courseMems = this.queryLocal(api.initCourses.resource) as Array<ecat.entity.IFacInCrse>;
-            this.log.success('Courses loaded from local cache', courseMems, false);
-            return this.c.$q.when(courseMems);
+        if (isLoaded.initiailze && !forceRefresh) {
+            const cachedFacInCourse = this.queryLocal(resource) as Array<ecat.entity.IFacInCrse>;
+            courses = cachedFacInCourse.map(facInCrse => facInCrse.course);
+            this.log.success('Courses loaded from local cache', courses, false);
+            return this.c.$q.when(courses);
         }
 
-        return this.query.from(api.initCourses.resource)
+        return this.query.from(resource)
             .using(this.manager)
             .execute()
             .then(initCoursesReponse)
             .catch(this.queryFailed);
 
-        function initCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.IFacInCrse> {
-            const crseMems = data.results as Array<ecat.entity.IFacInCrse>;
-            crseMems.forEach(crseMem => {
-                //if () {
-                   // .forEach(grp => {
-                        //api.getCourseGroupMembers.resource.isLoaded[grp.id] = true;
-                 //   });
+        function initCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.ICourse> {
+            const facInCrses = data.results as Array<ecat.entity.IFacInCrse>;
 
-                    //api.getCourseGroupMembers.resource.isLoaded[crseMem.courseId] = true;
-               // }
+            facInCrses.forEach(facCrse => {
+
+                if (!facCrse.course.workGroups || facCrse.course.workGroups.length > 0) {
+                    return null;
+                }
+
+                isLoaded.course[facCrse.courseId] = true;
+
+                facCrse.course.workGroups.reduce((loadedWg, wg) => {
+                    if (wg.groupMembers && wg.groupMembers.length > 0) {
+                        loadedWg[wg.id] = true;
+                    }
+                }, isLoaded.workGroup);
+
             });
-            self.log.success('Courses loaded from remote store', crseMems, false);
-            return crseMems;
+            courses = facInCrses.map(facCrse => facCrse.course);
+            log.success('Courses loaded from remote store', data, false);
+            return courses;
+        }
+    }
+
+    getActiveCourse(): breeze.promises.IPromise<ecat.entity.ICourse | angular.IPromise<void>> {
+
+        const log = this.log;
+        const loggedInPersonId = this.dCtx.user.persona.personId;
+        const isLoaded = this.isLoaded as ICachcedFacultyData;
+        let course: ecat.entity.ICourse;
+        
+        if (isLoaded.course[this.activeCourseId]) {
+            const cachedFacInCourse = this.manager.getEntityByKey(_mp.EcMapEntityType.facCrseMember, [loggedInPersonId, this.activeCourseId]) as ecat.entity.IFacInCrse;
+            if (cachedFacInCourse) {
+               course = cachedFacInCourse.course;
+               log.success('Course loaded from local cache', course, false);
+               return this.c.$q.when(course);
+            }
+        }
+        
+        const resource = this.facultyApiResource.course.resource;
+        const pred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
+        return this.query.from(resource)
+                .using(this.manager)
+                .where(pred)
+                .execute()
+                .then(getActiveCourseResponse)
+                .catch(this.queryFailed)
+                
+        function getActiveCourseResponse(data: breeze.QueryResult): ecat.entity.ICourse {
+            const facCrseResult = data.results[0] as ecat.entity.IFacInCrse;
+            if (!facCrseResult) {
+                return null;
+            }
+            
+            course = facCrseResult.course;
+            
+            if (course.workGroups && course.workGroups.length > 0) {
+               isLoaded.course[course.id] = true;
+                course.workGroups.forEach(wg => {
+                    if (wg.groupMembers && wg.groupMembers.length > 0) {
+                        isLoaded.workGroup[wg.id] = true;
+                    }
+                });
+            }
+            log.success('Course loaded from remote store', course, false);
+            return course;
         }
     }
 
     getFacSpInventory(assesseeId: number): Array<ecat.entity.IFacSpInventory> {
         if (!this.activeGroupId || !this.activeCourseId) {
-            this.log.warn('Missing required information', {groupdId: this.activeCourseId, courseId: this.activeCourseId}, false);
+            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
 
         const instrument = this.manager.getEntityByKey(_mp.EcMapEntityType.spInventory, { courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.ISpInstrument;
-        
+
         if (!instrument || !instrument.inventoryCollection) {
             this.log.warn('The instrument and/or inventory is not loaded on client', null, false);
-        } 
+        }
 
         return instrument.inventoryCollection.map((inventory: ecat.entity.IFacSpInventory) => {
-            const key = {assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: inventory.id };
+            const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: inventory.id };
 
             let facSpReponse = this.manager.getEntityByKey(_mp.EcMapEntityType.facSpResponse, key) as ecat.entity.IFacSpResponse;
 
@@ -120,7 +185,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
     getFacStrat(assesseeId: number): ecat.entity.IFacStratResponse {
         if (!this.activeGroupId || !this.activeCourseId) {
-            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId}, false);
+            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
         const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId };
 

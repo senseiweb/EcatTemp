@@ -5,7 +5,7 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
             <li ng-repeat="course in wkl.courses track by course.id">
-                <a href="javascript:void(0)" ng-click="wkl.changeCourse(course);">{{wkl.course.classNumber}} {{wkl.course.name}}</a>
+                <a href="javascript:void(0)" ng-click="wkl.changeActiveCourse(course);">{{wkl.activeCourse.classNumber}} {{wkl.activeCourse.name}}</a>
             </li>
         </ul>
     </li>
@@ -23,7 +23,7 @@
 
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                            <a href="wkl.refreshGroups()">Refresh Data</a>
+                            <a href="wkl.refreshInit()">Refresh Data</a>
                         </li>
                     </ul>
                 </li>
@@ -38,23 +38,23 @@
                             <thead>
                                 <tr>
                                     <th class="header">
-                                        <button class="btn f-500 c-black btn-link f" ng-click="wkl.orderBy='defaultName'">
+                                        <button class="btn f-500 c-black btn-link f" ng-click="wkgrpOrderBy='defaultName'">
                                             Flight
-                                            <i class="zmdi zdmi-triangle-down" ng-if="wkl.orderBy=='defaultName'"></i>
+                                            <i class="zmdi zdmi-triangle-down" ng-if="wkgrpOrderBy=='defaultName'"></i>
                                         </button>
                                     </th>
 
 
                                     <th class="header">
-                                        <button class="btn f-500 c-black btn-link f" ng-click="wkl.orderBy='mpCategory'">
+                                        <button class="btn f-500 c-black btn-link f" ng-click="wkgrpOrderBy='mpCategory'">
                                             Group Type
-                                            <i class="zmdi zdmi-triangle-down" ng-if="wkl.orderBy==='mpCategory'"></i>
+                                            <i class="zmdi zdmi-triangle-down" ng-if="wkgrpOrderBy==='mpCategory'"></i>
                                         </button>
                                     </th>
 
                                     <th class="header">
-                                        <button class="btn f-500 c-black btn-link f" ng-click="wkl.orderBy='mpSpStatus'">
-                                            Status<i class="zmdi zdmi-triangle-down" ng-if="wkl.orderBy=='mpSpStatus'"></i>
+                                        <button class="btn f-500 c-black btn-link f" ng-click="wkgrpOrderBy='mpSpStatus'">
+                                            Status<i class="zmdi zdmi-triangle-down" ng-if="wkgrpOrderBy=='mpSpStatus'"></i>
                                         </button>
                                     </th>
 
@@ -83,7 +83,7 @@
 
                                 </tr>
                             </thead>
-                            <tr ng-repeat="wg in wkl.course.workGroups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } | orderBy: ['wkl.orderBy','mpCategory','defaultName','mpSpStatus'] track by wg.id"
+                            <tr ng-repeat="wg in wkl.activeCourse.workGroups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } | orderBy: [wkgrpOrderBy,'mpCategory','defaultName','mpSpStatus'] track by wg.id"
                             ng-mouseover="wg.isVisible = true" ng-mouseleave="wg.isVisible = false" style="height: 50px">
                                 <td>{{wg.defaultName}}</td>
                                 <td>{{wg.mpCategory}}</td>

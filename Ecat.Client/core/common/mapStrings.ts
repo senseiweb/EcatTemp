@@ -140,7 +140,7 @@ export class EcMapEntityType {
     static workGroup = 'WorkGroup';
     static crseStudInGrp = 'CrseStudentInGroup';
     static studCrseMember = 'StudentInCourse';
-    static faccultyCrseMember = 'FacultyInCourse';
+    static facCrseMember = 'FacultyInCourse';
     static spInstr = 'SpInstrument';
     static kcInstr = 'KcInstrument';
     static ecInstr = 'Instrument';
