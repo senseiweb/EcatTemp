@@ -5,21 +5,23 @@ import * as _mp from 'core/common/mapStrings'
 
 export default class EcProviderSpToolCommenter {
     static controllerId = 'app.provider.sptools.commenter';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId, ICommon.serviceId, 'recipientId'];
+    static $inject = ['$uibModalInstance', '$scope', IDataCtx.serviceId, ICommon.serviceId, 'recipientId'];
 
     private isInstructor = false;
     authorRole: string;
     authorAvatar: string;
     authorName: string;
     commentType = _mp.MpCommentType;
+    commentFlag = _mp.MpCommentFlag;
     comment: ecat.entity.ISpComment | ecat.entity.IFacSpComment;
     isNew = false;
     nf: angular.IFormController;
     recipientName: string;
     recipientAvatar: string;
     isSaveInProgress = false;
+    
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private recipientId: number) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private $scope: angular.IScope, private dCtx: IDataCtx, private c: ICommon, private recipientId: number) {
 
         const authorRole = this.authorRole = this.dCtx.user.persona.mpInstituteRole;
         let author: ecat.entity.IPerson;
@@ -44,7 +46,16 @@ export default class EcProviderSpToolCommenter {
         this.recipientAvatar = recipient.avatarLocation || recipient.defaultAvatarLocation;
         this.isNew = this.comment.entityAspect.entityState === breeze.EntityState.Added;
 
-        //TODO: Need to write a watcher for saveInProgress flag.
+
+        //Not sure where to put this
+        $scope.$watch('this.dCtx.student.saveInProgress', (newValue: string, oldValue: string) => {
+            if (newValue) {
+                this.isSaveInProgress = true;
+            } else {
+                this.isSaveInProgress = false;
+            }
+        });
+
     }
 
     cancel(): void {
@@ -57,6 +68,33 @@ export default class EcProviderSpToolCommenter {
 
     //TODO: need to write this!
     delete(): void {
+
+        const self = this;
+        this.isSaveInProgress = true;
+       
+        const swalSettings: SweetAlert.Settings = {
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this comment.',
+            type: 'warning',
+            confirmButtonText: 'Yes, Delete',
+            confirmButtonColor: '#F44336',
+            showCancelButton: true,
+            allowEscapeKey: true
+            
+        }
+
+        function afterConfirmDelete(confirmed: boolean)
+        {
+            if (!confirmed) {
+                return;
+            }
+
+            self.comment.entityAspect.setDeleted();
+            self.save();
+        }
+
+        this.c.swal(swalSettings, afterConfirmDelete);
+        
     }
 
     save(): void {
@@ -66,7 +104,7 @@ export default class EcProviderSpToolCommenter {
         
         const saveCtx = this.dCtx[ctx] as IUtility;
         const swalSettings: SweetAlert.Settings = {
-            title: 'Oh no!, there was a problem saving this comment. Try saving again, or cancel the current comment and attempt this again later.',
+            title: 'Oh no!, there was a problem updating this comment. Try saving again, or cancel the current comment and attempt this again later.',
             type: 'error',
             allowEscapeKey: true,
             confirmButtonText: 'Ok'
