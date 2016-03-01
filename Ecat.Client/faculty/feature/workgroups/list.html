@@ -1,13 +1,141 @@
-﻿<ul class="actions" ng-if="groups.view==0">
+﻿<ul class="actions">
     <li class="dropdown" uib-dropdown>
-        <a href="" uib-dropdown-toggle>
+        <a href="javascript:void(0)" uib-dropdown-toggle>
             <i class="zmdi zmdi-sort"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
-            <li ng-repeat="courseEnroll in groups.courses track by courseEnroll.id">
-                <a href="javascript:void(0)" ng-click="groups.changeCourse(courseEnroll); groups.view=0">{{courseEnroll.course.classNumber}} {{courseEnroll.course.name}}</a>
+            <li ng-repeat="course in wkl.courses track by course.id">
+                <a href="javascript:void(0)" ng-click="wkl.changeCourse(course);">{{wkl.course.classNumber}} {{wkl.course.name}}</a>
             </li>
-
         </ul>
     </li>
 </ul>
+
+<div class="card" id="groups-main">
+    <div class="listview lv-bordered lv-lg">
+        <div class="lv-header-alt clearfix p-b-5">
+
+            <ul class="lv-actions actions">
+                <li class="dropdown" uib-dropdown>
+                    <a href="" uib-dropdown-toggle>
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="wkl.refreshGroups()">Refresh Data</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="lv-body">
+            <div class="row">
+                <div class="col-md-12 p-t-20">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-vmiddle">
+                            <thead>
+                                <tr>
+                                    <th class="header">
+                                        <button class="btn f-500 c-black btn-link f" ng-click="wkl.orderBy='defaultName'">
+                                            Flight
+                                            <i class="zmdi zdmi-triangle-down" ng-if="wkl.orderBy=='defaultName'"></i>
+                                        </button>
+                                    </th>
+
+
+                                    <th class="header">
+                                        <button class="btn f-500 c-black btn-link f" ng-click="wkl.orderBy='mpCategory'">
+                                            Group Type
+                                            <i class="zmdi zdmi-triangle-down" ng-if="wkl.orderBy==='mpCategory'"></i>
+                                        </button>
+                                    </th>
+
+                                    <th class="header">
+                                        <button class="btn f-500 c-black btn-link f" ng-click="wkl.orderBy='mpSpStatus'">
+                                            Status<i class="zmdi zdmi-triangle-down" ng-if="wkl.orderBy=='mpSpStatus'"></i>
+                                        </button>
+                                    </th>
+
+                                    <th class="header"></th>
+
+                                </tr>
+                                <tr table-filters>
+                                    <th class="filter">
+                                        <input type="text" ng-model="filterGroupName" />
+                                    </th>
+                                    <th class="filter">
+                                        <select class="form-control" ng-model="filterGroupType">
+                                            <option value="">All</option>
+                                            <option value="{{type}}" ng-repeat="type in wkl.groupTypes | orderBy:'type'">{{type}}</option>
+                                        </select>
+                                    </th>
+                                    <th class="filter">
+                                        <select class="form-control" ng-model="filterGroupStatus">
+                                            <option value="">All</option>
+                                            <option value="{{mp.MpSpStatus.open}}">Open</option>
+                                            <option value="{{mp.MpSpStatus.underReview}}">Under Review</option>
+                                            <option value="{{mp.MpSpStatus.published}}">Published</option>
+                                            <option value="!{{mp.MpSpStatus.published}}">Not Published</option>
+                                        </select>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="wg in wkl.course.workGroups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } | orderBy: ['wkl.orderBy','mpCategory','defaultName','mpSpStatus'] track by wg.id"
+                            ng-mouseover="wg.isVisible = true" ng-mouseleave="wg.isVisible = false" style="height: 50px">
+                                <td>{{wg.defaultName}}</td>
+                                <td>{{wg.mpCategory}}</td>
+                                <td>{{wg.mpSpStatus}}</td>
+                                <td style="width: 475px">
+                                    <span ng-show="wg.isVisible">
+                                
+                                <span ng-if="wg.mpSpStatus !== mp.MpSpStatus.published">
+                                    
+                                    <button ng-click="wkl.viewStatus(wg)" 
+                                            type="button" 
+                                            class="btn btn-link btn-sm waves-effect">
+                                            View Status
+                                    </button>
+                                
+                                    <button ng-click="wkl.goToAssess(wg)" 
+                                            type="button" 
+                                            class="btn btn-link btn-sm waves-effect">
+                                            Assess Group
+                                    </button>
+                                    
+                                    <button ng-click="wkl.goToPublish(wg)" 
+                                            type="button" 
+                                            class="btn btn-link btn-sm waves-effect">
+                                            Publish
+                                    </button>
+                                </span>
+
+                               <span ng-if="wg.mpSpStatus === mp.MpSpStatus.published">
+
+                                    <button  ng-click="wkl.goToResults(wg)" 
+                                             type="button" 
+                                             class="btn btn-link btn-sm waves-effect">
+                                             Group Results
+                                    </button>
+                                
+                                    <button ng-if="wkl.course.gradReportPublished" 
+                                            ng-click="wkl.goToCapstone(wg)" 
+                                            type="button" 
+                                            class="btn btn-link btn-sm waves-effect">
+                                            Capstone Results
+                                    </button>
+                                </span>
+                           </span>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
