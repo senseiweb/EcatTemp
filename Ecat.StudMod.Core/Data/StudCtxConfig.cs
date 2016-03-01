@@ -145,6 +145,8 @@ namespace Ecat.StudMod.Core
                 p.CommentVersion
             });
 
+            Property(p => p.CommentText).IsMaxLength();
+
             HasRequired(p => p.Author)
              .WithMany(p => p.AuthorOfComments)
              .HasForeignKey(p => new { p.AuthorPersonId, p.CourseId, p.WorkGroupId })

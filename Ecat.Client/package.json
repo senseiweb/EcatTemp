@@ -20,6 +20,7 @@
     "gulp-print": "~2.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
+    "gulp-typescript": "^2.12.0",
     "gulp-util": "~3.0.7",
     "systemjs": "^0.19.9",
     "tsd": "^0.6.5"

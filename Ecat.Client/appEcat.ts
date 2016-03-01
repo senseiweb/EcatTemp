@@ -21,7 +21,7 @@ export default class EcApp {
         appCore.load();
         return new EcApp();
     }
-    
+    test = 'test3';
     constructor() {
     
         //#region Angular Module Declaration & Dependencies

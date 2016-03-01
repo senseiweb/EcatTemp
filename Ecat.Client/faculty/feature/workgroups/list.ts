@@ -1,5 +1,5 @@
-﻿import * as _mp from 'core/common/mapStrings'
-import IDataCtx from 'core/service/data/context'
+﻿import IDataCtx from 'core/service/data/context'
+import * as _mp from 'core/common/mapStrings'
 
 export default class EcFacultyWgList {
     static controllerId = 'app.faculty.wkgrp.list';
@@ -23,8 +23,24 @@ export default class EcFacultyWgList {
     }
     
     private changeActiveCourse(course: ecat.entity.ICourse): void {
-       this.activeCourse = course;
-       this.dCtx.faculty.activeCourseId = course.id;
+       let activeCourse = this.activeCourse
+       activeCourse = course;
+       
+       this.dCtx.faculty
+            .activeCourseId = course.id;
+       
+       this.dCtx.faculty
+            .getActiveCourse()
+            .then(getActiveCourseReponse)
+       
+       function getActiveCourseReponse(course: ecat.entity.ICourse) {
+               
+       }
+       
+       function getActiveCourseErro(resonse: ecat.IQueryError) {
+           
+       }
+            
     }
     
     private goToAssess(wg: ecat.entity.IWorkGroup): void {
