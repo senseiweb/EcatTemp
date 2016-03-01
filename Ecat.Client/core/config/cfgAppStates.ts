@@ -1,13 +1,12 @@
 ﻿import _core from "core/states/core"
 import _student from "core/states/student"
 import _faculty from "core/states/faculty"
-import _stateMgr from "core/config/cfgProviders"
+import _stateMgr from 'core/config/cfgProviders'
 import {IStateMgr} from "core/config/cfgProviders";
 
 export default class EcStateConfiguration {
 
     static $inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', `${_stateMgr.stateConfigProvider.id}Provider`, 'userStatic'];
-    appLoaded = false;
     statesToConfigure = [_core, _student, _faculty];
 
     constructor($lp: angular.ILocationProvider, private $sp: angular.ui.IStateProvider, $up: angular.ui.IUrlRouterProvider, private sm: IStateMgr, userStatic: ecat.entity.ILoginToken) {
@@ -63,7 +62,6 @@ export default class EcStateConfiguration {
             }
             return null;
         });
-        this.appLoaded = true;
         this.load();
     }
 

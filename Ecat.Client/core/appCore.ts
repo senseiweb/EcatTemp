@@ -88,8 +88,8 @@ export default class EcAppCore {
             //#endregion
 
             //#region Configuration
-            .config(stateCfg)
-            .config(coreCfg)
+            .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', `${cfgProvider.stateConfigProvider.id}Provider`, 'userStatic',(a,b,c,d,e) => new stateCfg(a,b,c,d,e)])
+            .config(['$httpProvider', '$ocLazyLoadProvider', `${cfgProvider.appCfgProvider.id}Provider`, '$provide',(a,b,c,d) => new coreCfg(a,b,c,d)])
             .constant('userStatic', this.setUserStatic())
             //#endregion
 

@@ -81,17 +81,17 @@ gulp.task('buildClean', function(done){
 });
 
 gulp.task('compileTypescript', () => {
-    return gulp.src(sourcePaths.appTs, {base: '.'})
+    return gulp.src(sourcePaths.appTs, { base: '.' })
         .pipe($$.plumber())
-        .pipe($$.debug({title: 'Compiling'}))
+        .pipe($$.debug({ title: 'Compiling' }))
         .pipe($$.typescript({
             noImplicitAny: false,
             noEmitOnError: false,
             removeComments: false,
             module: 'system',
             sourceMap: false,
-            target: 'es5',
-            isolatedModules: true
+            isolatedModules: true,
+            target: 'es5'
         }))
         .pipe(gulp.dest('.'));
 });
