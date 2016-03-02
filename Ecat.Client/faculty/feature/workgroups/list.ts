@@ -1,16 +1,31 @@
 ﻿import IDataCtx from 'core/service/data/context'
 import * as _mp from 'core/common/mapStrings'
 
+interface IWgFilter {
+    filterWith?: Array<string>;
+    optionList?: Array<{key: string, count: number}>;
+}
+
+interface IWgCatFilter {
+    cat: IWgFilter;
+    status: IWgFilter;
+    name: IWgFilter;
+}
+
 export default class EcFacultyWgList {
     static controllerId = 'app.faculty.wkgrp.list';
     static $inject = [IDataCtx.serviceId];
     
     private mp = _mp.MpSpStatus;
     private activeCourse: ecat.entity.ICourse;
+    private canPublish = false;
     private courses: Array<ecat.entity.ICourse> = [];
-    private filterGrpStatus: Array<string>;
-    private filterStati: Array<{}> = [{ key: 'test1', count: 12 }, { key: 'test2', count: 15 }];
-    private groupTypes: Array<string> = [];
+    private filters: IWgCatFilter = {
+        cat: { optionList: [], filterWith: [] },
+        status: { optionList: [], filterWith: [] },
+        name: { optionList: [], filterWith: [] }
+    }
+
     constructor(private dCtx: IDataCtx) {
         this.activate();
     }
@@ -57,6 +72,21 @@ export default class EcFacultyWgList {
             
     }
     
+    private filteredGrpCat = (item: ecat.entity.IWorkGroup) => {
+    
+        return this.filters.cat.filterWith.length === 0 || this.filters.cat.filterWith.some(e => item.mpCategory === e);
+    }
+    
+    private filteredGrpFlight = (item: ecat.entity.IWorkGroup) => {
+
+        return this.filters.name.filterWith.length === 0 || this.filters.name.filterWith.some(e => item.defaultName === e);
+    }
+
+    private filteredGrpStatus = (item: ecat.entity.IWorkGroup) => {
+
+        return this.filters.status.filterWith.length === 0 || this.filters.status.filterWith.some(e => item.mpSpStatus === e);
+    }
+
     private goToAssess(wg: ecat.entity.IWorkGroup): void {
         
     }
@@ -74,9 +104,43 @@ export default class EcFacultyWgList {
     }
     
     private _unwrapGrpTypes(groups: Array<ecat.entity.IWorkGroup>): void {
-        const grp = {};
-        groups.forEach(g => grp[g.mpCategory] = null);
-        this.groupTypes = Object.keys(grp).sort();
+        const grpCat = {};
+        const grpName = {};
+        const grpStatus = {};
+
+        groups.forEach((g, i, array) => {
+            grpCat[g.mpCategory] = null;
+            grpName[g.defaultName] = null;
+            grpStatus[g.mpSpStatus] = null;
+        });
+
+        const uniqueCatKeys = Object.keys(grpCat).sort();
+        const uniqueNameKeys = Object.keys(grpName).sort();
+        const uniqueStatusKeys = Object.keys(grpStatus).sort();
+
+        this.filters.cat.optionList = uniqueCatKeys.map(key => {
+            const count = groups.filter(g => g.mpCategory === key).length;
+            return {
+                key: key,
+                count: count
+            }
+        });
+
+        this.filters.name.optionList = uniqueNameKeys.map(key => {
+            const count = groups.filter(g => g.mpCategory === key).length;
+            return {
+                key: key,
+                count: count
+            }
+        });
+
+        this.filters.status.optionList = uniqueStatusKeys.map(key => {
+            const count = groups.filter(g => g.mpCategory === key).length;
+            return {
+                key: key,
+                count: count
+            }
+        });
     }
 
     private viewStatus(wg: ecat.entity.IWorkGroup): void {

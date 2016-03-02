@@ -34,20 +34,11 @@
             <div class="row">
                 <div class="col-md-12 p-t-20">
 
-                    <ui-select multiple ng-model="wkl.filterGrpStatus" theme="select2" ng-disabled="wkl.filterStati.length <= 1">
-                        <ui-select-match placeholder="--Filter By Pub Status--">{{item}}</ui-select-match>
-                        <ui-select-choices repeat="status.key as status in wkl.filterStati | filter: $select.search">
-                            <div>
-                                Status: <span ng-bind-html="' '+status.key | highlight: $select.search"></span> [{{status.count}}]
-                            </div>
-                        </ui-select-choices>
-                    </ui-select>
-
                     <div class="table-responsive">
                         <table class="table table-hover table-vmiddle">
                             <thead>
                             <tr>
-                                <th class="header col-md-4">
+                                <th class="header col-md-3 text-center">
                                     <button class="btn f-500 c-black btn-link f" ng-click="wkgrpOrderBy='defaultName'">
                                         Flight
                                         <i class="zmdi zdmi-triangle-down" ng-if="wkgrpOrderBy=='defaultName'"></i>
@@ -55,75 +46,87 @@
                                 </th>
 
 
-                                <th class="header col-md-2">
+                                <th class="header col-md-3  text-center">
                                     <button class="btn f-500 c-black btn-link f" ng-click="wkgrpOrderBy='mpCategory'">
                                         Group Type
                                         <i class="zmdi zdmi-triangle-down" ng-if="wkgrpOrderBy==='mpCategory'"></i>
                                     </button>
                                 </th>
 
-                                <th class="header col-md-2">
+                                <th class="header col-md-3  text-center">
                                     <button class="btn f-500 c-black btn-link f" ng-click="wkgrpOrderBy='mpSpStatus'">
                                         Status<i class="zmdi zdmi-triangle-down" ng-if="wkgrpOrderBy=='mpSpStatus'"></i>
                                     </button>
                                 </th>
 
-                                <th class="header col-md-4"></th>
-
-                            </tr>
-                            <tr table-filters>
-                                <th class="filter">
-                                    <input type="text" ng-model="filterGroupName"/>
-                                </th>
-                                <th class="filter">
-                                    <select class="select" ng-model="filterGroupType">
-                                        <option value="">All</option>
-                                        <option value="{{type}}" ng-repeat="type in wkl.groupTypes">{{type}}</option>
-                                    </select>
-                                </th>
-                                <th class="filter">
-
-                                    <select class="select" ng-model="filterGroupStatus">
-                                        <option value="">All</option>
-                                        <option value="{{mp.MpSpStatus.open}}">Open</option>
-                                        <option value="{{mp.MpSpStatus.underReview}}">Under Review</option>
-                                        <option value="{{mp.MpSpStatus.published}}">Published</option>
-                                        <option value="!{{mp.MpSpStatus.published}}">Not Published</option>
-                                    </select>
-                                </th>
+                                <th class="header col-md-3  text-center">Options</th>
 
                             </tr>
                             </thead>
-                            <tr ng-repeat="wg in wkl.activeCourse.workGroups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } | orderBy: [wkgrpOrderBy,'mpCategory','defaultName','mpSpStatus'] track by wg.id"
+                            <tr table-filters>
+                                <td class="filter">
+                                    <ui-select multiple ng-model="wkl.filterGrpFlightWith" theme="select2" style="width: 100%">
+                                        <ui-select-match placeholder="--Filter By Flight Number--">{{$item.key}}</ui-select-match>
+                                        <ui-select-choices repeat="status.key as status in wkl.filterGrFlightOptions | filter: $select.search">
+                                            <div>
+                                                <span> Name: <span ng-bind-html="' ' + cat.key"></span>&nbsp;|&nbsp;{{cat.count}} items</span>
+                                            </div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                                <td class="filter">
+                                    <ui-select multiple ng-model="wkl.filterGrpCatWith" theme="select2" style="width: 100%">
+                                        <ui-select-match placeholder="--Filter By Group Category--">{{$item.key}}</ui-select-match>
+                                        <ui-select-choices repeat="cat.key as cat in wkl.filterGrpCatOptions | filter: $select.search">
+                                            <span>  Category: <span ng-bind-html="' ' + cat.key"></span> | {{cat.count}} items</span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                                <td class="filter">
+
+                                    <ui-select multiple ng-model="wkl.filterGrpStatusWith" theme="select2" style="width: 100%">
+                                        <ui-select-match placeholder="--Filter By Pub Status--">{{$item.key}}</ui-select-match>
+                                        <ui-select-choices repeat="status.key as status in wkl.filterGrpStatusOptions | filter: $select.search">
+                                            <span> Pub Status: <span ng-bind-html="' ' + cat.key"></span> | {{cat.count}} items</span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                   
+                                </td>
+
+                            </tr>
+
+                            <tr ng-repeat="wg in wkl.activeCourse.workGroups | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.id"
                                 ng-mouseover="wg.isVisible = true" ng-mouseleave="wg.isVisible = false" style="height: 50px">
                                 <td>{{wg.defaultName}}</td>
                                 <td>{{wg.mpCategory}}</td>
                                 <td>{{wg.mpSpStatus}}</td>
                                 <td style="width: 475px">
-                                    <span ng-show="wg.isVisible">
+                                    <div ng-show="wg.isVisible">
                                 
-                                <span ng-if="wg.mpSpStatus !== mp.MpSpStatus.published">
+                                <div class="btn-group btn-group-xs" role="group" ng-if="wg.mpSpStatus !== mp.MpSpStatus.published">
+                                
                                     
                                     <button ng-click="wkl.viewStatus(wg)" 
                                             type="button" 
-                                            class="btn btn-link btn-sm waves-effect">
+                                            class="btn btn-link btn-sm waves-effect btn-info">
                                             View Status
                                     </button>
                                 
                                     <button ng-click="wkl.goToAssess(wg)" 
                                             type="button" 
-                                            class="btn btn-link btn-sm waves-effect">
+                                            class="btn btn-link btn-sm waves-effect btn-info">
                                             Assess Group
                                     </button>
                                     
-                                    <button ng-click="wkl.goToPublish(wg)" 
-                                            type="button" 
+                                    <button ng-click="wkl.goToPublish(wg)"
+                                            type="button"
+                                            ng-class="wkl.canPublish ? 'btn-success' : 'btn-danger'"
                                             class="btn btn-link btn-sm waves-effect">
                                             Publish
                                     </button>
-                                </span>
+                                </div>
 
-                               <span ng-if="wg.mpSpStatus === mp.MpSpStatus.published">
+                               <div class="btn-group btn-group-xs" role="group" ng-if="wg.mpSpStatus === mp.MpSpStatus.published">
 
                                     <button  ng-click="wkl.goToResults(wg)" 
                                              type="button" 
@@ -137,8 +140,8 @@
                                             class="btn btn-link btn-sm waves-effect">
                                             Capstone Results
                                     </button>
-                                </span>
-                           </span>
+                                </div>
+                           </div>
 
                                 </td>
                             </tr>
