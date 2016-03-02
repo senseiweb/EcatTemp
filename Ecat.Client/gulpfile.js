@@ -8,7 +8,7 @@ var modelProj = '../Ecat.Shared.Core/Utility';
 var linksRegex = /@\[[a-z]+[A-Z]\w+\]\S+\.html/g;
 var modCfgRegEx = /_vendor\/\S+\/(\S+.js)/g;
 var paths = {
-    webroot: `${webProj}/Client`,
+    webroot: webProj + '/Client',
     app: '/app',
     config: '/config',
     content: '/content',
@@ -42,7 +42,7 @@ var log = function(msg) {
     if (typeof (msg) === 'object') {
         for (var item in msg) {
             if (msg.hasOwnProperty(item)) {
-                $$.util.log($$.util.colors.green(`Logging Object Property ==> ${item}: ${msg[item]}`));
+                $$.util.log($$.util.colors.green('Logging Object Property ==> ' + item + ' ' + msg[item]));
             }
         }
     } else {
@@ -51,11 +51,11 @@ var log = function(msg) {
 }
 
 var clean = function(path, done){
-    log(`Cleaning: ${$$.util.colors.white(path)}`);
+    log('Cleaning: '+ $$.util.colors.white(path));
     var options = { force: true }
     //WARNING: THIS WILL DELETE FILES OUTSIDE OF THE CURRENT WORKING DIRECTORY!, 
     //Changes options to {dryRun: true, force: true } to test before making changes!!
-    return del(path, options, done).then(paths => console.log(paths));
+    return del(path, options, done).then(function(paths) { console.log(paths) });
 }
 
 var replaceText = function(path){
@@ -64,8 +64,8 @@ var replaceText = function(path){
     }
     var match = /@\[[a-z]+([A-Z]\w+)\](\S+\.html)/g.exec(path);
    //console.log(match || path);
-    var appPath = `Client/app/${match[1].toLowerCase()}`;
-    var filePath = `${appPath}${match[2]}`;
+    var appPath = 'Client/app/' + match[1].toLowerCase();
+    var filePath = appPath + match[2];
     //console.log('final path ==> printing');
     log(filePath);
     return filePath;
@@ -80,8 +80,8 @@ gulp.task('buildClean', function(done){
     return clean(source, done);
 });
 
-gulp.task('compileTypescript', () => {
-    return gulp.src(sourcePaths.appTs, { base: '.' })
+gulp.task('compileTypescript',function(){
+    return gulp.src(sourcePaths.appTs, { base: '.', since: gulp.lastRun('compileTypescript') })
         .pipe($$.plumber())
         .pipe($$.debug({ title: 'Compiling' }))
         .pipe($$.typescript({
@@ -96,7 +96,7 @@ gulp.task('compileTypescript', () => {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('buildScripts', () => {
+gulp.task('buildScripts', function() {
     var filePathRegEx = /_vendor\/\S+\/\S+\.js/g;
     var paths = [];
 
@@ -104,8 +104,8 @@ gulp.task('buildScripts', () => {
         var mappings = sysJsCfg.map;
         var keys = Object.keys(mappings);
         //console.log(keys);
-        keys.filter(key => key !== 'templates')
-            .forEach(key => paths.push(mappings[key]));
+        keys.filter(function(key){return key !== 'templates'})
+            .forEach(function(key) { return paths.push(mappings[key]) });
     };
 
     orginalSourcePaths();
@@ -116,7 +116,7 @@ gulp.task('buildScripts', () => {
         '_vendor/**/bower/system.js/dist/system.src.js'
     ].concat(paths);
 
-    sourceScripts.forEach((item) => log(item));
+    sourceScripts.forEach(function(item) { return log(item) });
 
     var checkForModuleConfig = function(file){
         return file.path.toLowerCase().indexOf('moduleconfig') !== -1;
@@ -141,7 +141,7 @@ gulp.task('buildScripts', () => {
         .pipe(gulp.dest(pubPaths.scripts));
 });
 
-gulp.task('buildStyles', () => {
+gulp.task('buildStyles', function() {
     return gulp.src(['_content/ecat.less'])
         .pipe($$.plumber())
         .pipe($$.debug({ title: 'Styles Build:' }))
@@ -150,15 +150,17 @@ gulp.task('buildStyles', () => {
         .pipe(gulp.dest(pubPaths.styles));
 });
 
-gulp.task('getIndexHtml', () => {
+gulp.task('getIndexHtml', function() {
 
-return  gulp.src([`${webProj}/Views/Lti/Secure.cshtml`])
-    .pipe($$.plumber())
-    .pipe($$.debug({ title: 'Index Build: ' }))
-    .pipe($$.rename('index.html'))
-    .pipe(gulp.dest(`${paths.webroot}/`))});
+        return gulp.src([webProj + '/Views/Lti/Secure.cshtml'])
+            .pipe($$.plumber())
+            .pipe($$.debug({ title: 'Index Build: ' }))
+            .pipe($$.rename('index.html'))
+            .pipe(gulp.dest(paths.webroot + '/'));
+    }
+);
 
-gulp.task('getTypings', () => {
+gulp.task('getTypings', function() {
     var check = function(file) {
         return file.path.indexOf('.d.ts') > -1;
     }
@@ -170,7 +172,7 @@ gulp.task('getTypings', () => {
         .pipe(gulp.dest('./_configuration/custom/'));
 });
 
-gulp.task('buildFonts', () => {
+gulp.task('buildFonts', function() {
     var check = function (file){
         return file.path.toLowerCase().indexOf('roboto') === -1 &&
             file.path.toLowerCase().indexOf('weather') === -1 &&
@@ -190,7 +192,7 @@ gulp.task('buildFonts', () => {
 });
 
 
-gulp.task('buildImages', () => {
+gulp.task('buildImages', function() {
     return gulp.src(sourcePaths.images)
         .pipe($$.debug({ title: 'Image Build:' }))
         .pipe($$.plumber())
@@ -199,7 +201,7 @@ gulp.task('buildImages', () => {
 
 
 
-gulp.task('buildTemplates', () => {
+gulp.task('buildTemplates', function() {
     var options = {
         standalone: true,
         base: function(file) {
@@ -227,7 +229,7 @@ gulp.task('buildTemplates', () => {
 
 });
 
-gulp.task('smallBuildApp', () => {
+gulp.task('smallBuildApp', function(){
     return gulp.src(sourcePaths.appJs)
         .pipe($$.debug({ title: 'App Build:' }))
         .pipe($$.replace(linksRegex, replaceText))
@@ -247,6 +249,6 @@ gulp.task('rebuildApp', gulp.series('buildClean',
     'buildImages',
     'buildApp'));
 
-gulp.task('rebuildAppWatch', gulp.series('rebuildApp', () => gulp.watch(['./**/*.{ts,js,html,less}', '!./_vendor/bower/**'], gulp.series('rebuildApp'))));
-gulp.task('buildAppWatch', gulp.series('rebuildApp', () => gulp.watch(['./**/*.{ts,js,html}', '!./_vendor/bower/**','!./node_modules/**', '!./gulpfile*'], gulp.series('buildApp'))));
+gulp.task('rebuildAppWatch', gulp.series('rebuildApp', function(){ gulp.watch(['./**/*.{ts,js,html,less}', '!./_vendor/bower/**'], gulp.series('rebuildApp'))}));
+gulp.task('buildAppWatch', gulp.series('rebuildApp', function() { gulp.watch(['./**/*.{ts,js,html}', '!./_vendor/bower/**', '!./node_modules/**', '!./gulpfile*'], gulp.series('buildApp')) }));
 

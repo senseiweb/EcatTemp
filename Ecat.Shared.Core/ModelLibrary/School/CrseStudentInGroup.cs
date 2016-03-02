@@ -36,6 +36,8 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public StratResult StratResult { get; set; }
         public FacStratResponse FacultyStrat { get; set; }
 
+        public int NumberOfAuthorComments { get; set; }
+
         [TsIgnore]
         public bool IsDeleted { get; set; }
         [TsIgnore]

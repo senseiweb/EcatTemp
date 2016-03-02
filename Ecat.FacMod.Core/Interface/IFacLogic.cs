@@ -12,6 +12,7 @@ namespace Ecat.FacMod.Core
         SaveResult ClientSave(JObject saveBundle);
         string GetMetadata { get; }
         IQueryable<FacultyInCourse> GetCrsesWithLastestGrpMem();
-        IQueryable<CrseStudentInGroup> GetMembersByCrseId();
+        IQueryable<CrseStudentInGroup> GetWorkGroupSpData(int courseId, int workGroupId);
+        IQueryable<FacultyInCourse> GetActiveCourseData(int courseId);
     }
 }

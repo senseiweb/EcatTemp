@@ -1,6 +1,7 @@
 declare var mCustomScroll: any;
 declare var Waves: any;
-declare var systemCfg: any;
+declare var moduleCfg: any;
+declare var uiSelect: any;
 
 interface JQuery {
     mCustomScrollbar({}: any): JQuery;
@@ -21,8 +22,8 @@ declare module 'mCustomScroll' {
     export = mCustomScroll;
 }
 
-declare module 'systemCfg' {
-    export = systemCfg;
+declare module 'moduleCfg' {
+    export = moduleCfg;
 }
 
 declare module ecat {

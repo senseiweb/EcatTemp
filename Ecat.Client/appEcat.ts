@@ -3,6 +3,7 @@
 import angular = require('angular')
 import swal from 'sweetalert'
 import 'animate'
+import 'ngSanitize'
 import 'ocLazyLoad'
 import 'uiRouter'
 import 'loadingBar'
@@ -30,6 +31,7 @@ export default class EcApp {
                 'ui.bootstrap',
                 'ngAnimate',
                 'ngMessages',
+                'ngSanitize',
                 'angular-loading-bar',
                 'oc.lazyLoad',
                 'breeze.angular',

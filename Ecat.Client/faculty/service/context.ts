@@ -34,7 +34,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             resource: 'ActiveCourse'
         },
         wgAssess: {
-            returnedEntityType: _mp.EcMapEntityType.facCrseMember,
+            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
             resource: 'WorkGroupAssess'
         },
         getStudentCapstoneDetails: {
@@ -110,13 +110,12 @@ export default class EcFacultyRepo extends IUtilityRepo {
         }
         
         const resource = this.facultyApiResource.course.resource;
-        const pred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
         return this.query.from(resource)
-                .using(this.manager)
-                .where(pred)
-                .execute()
-                .then(getActiveCourseResponse)
-                .catch(this.queryFailed)
+            .using(this.manager)
+            .withParameters({courseId: this.activeCourseId})
+            .execute()
+            .then(getActiveCourseResponse)
+            .catch(this.queryFailed);
                 
         function getActiveCourseResponse(data: breeze.QueryResult): ecat.entity.ICourse {
             const facCrseResult = data.results[0] as ecat.entity.IFacInCrse;

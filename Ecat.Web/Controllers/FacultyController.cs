@@ -7,10 +7,12 @@ using System.Web.Http;
 using Ecat.FacMod.Core;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
+using Ecat.Shared.Core.Utility;
+using Ecat.Web.Utility;
 
 namespace Ecat.Web.Controllers
 {
-    //[EcatRolesAuthorized(Is = new[] { RoleMap.Facilitator })]
+    [EcatRolesAuthorized(Is = new[] { RoleMap.Faculty })]
     public class FacultyController : EcatBaseBreezeController
     {
         private readonly IFacLogic _facLogic;
@@ -32,16 +34,21 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public IQueryable<FacultyInCourse> GetInitalCourses()
+        public IQueryable<FacultyInCourse> InitCourses()
         {
             return _facLogic.GetCrsesWithLastestGrpMem();
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public IQueryable<CrseStudentInGroup> GetWorkGroupData()
+        public IQueryable<FacultyInCourse> ActiveCourse(int courseId)
         {
-            return _facLogic.GetMembersByCrseId();
+            return _facLogic.GetActiveCourseData(courseId);
+        }
+
+        [HttpGet]
+        public IQueryable<CrseStudentInGroup> WorkGroupAssess(int courseId, int workGroupId)
+        {
+            return _facLogic.GetWorkGroupSpData(courseId, workGroupId);
         }
     }
 }

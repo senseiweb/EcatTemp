@@ -2,7 +2,6 @@
 import _cfgProvider from "core/config/cfgProviders"
 
 export default class EcCoreConfig {
-    static $inject = ['$httpProvider', '$ocLazyLoadProvider', `${_cfgProvider.appCfgProvider.id}Provider`, '$provide'];
 
     private globalEvents = {
         saveChangesEventId: 'global.data.saveChanges',

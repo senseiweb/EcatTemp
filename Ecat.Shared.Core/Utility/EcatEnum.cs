@@ -24,7 +24,7 @@ namespace Ecat.Shared.Core.Utility
         SysAdmin,
         Designer,
         CrseAdmin,
-        Facilitator,
+        Faculty,
         Student,
         External,
         RefOnly

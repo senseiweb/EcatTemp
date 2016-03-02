@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.DbMgr.Context;
 using Newtonsoft.Json.Linq;
@@ -23,7 +24,7 @@ namespace Ecat.FacMod.Core
             _efCtx = efCtx;
         }
 
-        public SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards)
+        SaveResult IFacRepo.ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards)
         {
             if (!saveGuards.Any()) return _efCtx.SaveChanges(saveBundle);
 
@@ -36,25 +37,32 @@ namespace Ecat.FacMod.Core
         }
 
 
-        public string Metadata => _efCtx.Metadata();
+        string IFacRepo.Metadata => _efCtx.Metadata();
 
-        public IQueryable<FacultyInCourse> GetFacultyCourses => _ctx.FacultyInCourses
+        IQueryable<FacultyInCourse> IFacRepo.GetFacultyCourses => _ctx.FacultyInCourses
             .Where(fc => !fc.IsDeleted)
             .OrderByDescending(fc => fc.Course.StartDate)
             .Include(fc => fc.Course);
 
+        void IFacRepo.AddCourseWorkgroups(Course course)
+        {
+            _ctx.Entry(course).Collection(wg => wg.WorkGroups).Load();
+        }
 
-        IQueryable<CrseStudentInGroup> IFacRepo.GetAllWorkGroupData =>
-            _ctx.StudentInGroups
-                .Where(gm => !gm.IsDeleted)
-                .Include(g => g.WorkGroup)
-                .Include(g => g.WorkGroup.FacSpResponses)
-                .Include(g => g.WorkGroup.FacSpComments)
-                .Include(g => g.WorkGroup.FacStratResponses)
-                .Include(g => g.WorkGroup.GroupMembers)
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(g => g.AssessorSpResponses))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(g => g.AssessorStratResponse))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(g => g.AuthorOfComments));
+        IQueryable<CommentCount> IFacRepo.AuthorCommentCounts(List<int> authorIds, int workGroupId)
+        {
+            return _ctx.StudentInGroups
+                .Where(sig => authorIds.Contains(sig.StudentId) && sig.WorkGroupId == workGroupId)
+                .Select(sig => new CommentCount
+                {
+                    AuthorId = sig.StudentId,
+                    NumOfComments = sig.AuthorOfComments.Count()
+                });
+        }
+
+        IQueryable<WorkGroup> IFacRepo.GetCourseWorkGroups => _ctx.WorkGroups;
+
+        IQueryable<CrseStudentInGroup> IFacRepo.GetWorkGroupMembers => _ctx.StudentInGroups.Where(sig => !sig.IsDeleted);
     }
 
 }

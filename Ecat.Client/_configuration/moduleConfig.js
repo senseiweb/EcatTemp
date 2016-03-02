@@ -1,29 +1,31 @@
 ﻿var moduleConfiguraton = {
     "baseURL": 'Client/',
     "map": {
-        "jquery": '_vendor/bower/jquery/dist/jquery.min.js',
         "angular": '_vendor/bower/angular/angular.js',
         "animate": '_vendor/bower/angular-animate/angular-animate.min.js',
-        "ocLazyLoad": '_vendor/bower/oclazyload/dist/ocLazyLoad.js',
-        "uiRouter": '_vendor/bower/angular-ui-router/release/angular-ui-router.js',
-        "uiBootstrap": '_vendor/bower/angular-bootstrap/ui-bootstrap-tpls.min.js',
-        "jMouseWheel": '_vendor/bower/jquery-mousewheel/jquery.mousewheel.min.js',
-        "mCustomScroll": '_vendor/bower/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
-        "loadingBar": '_vendor/angular-loading-bar/src/loading-bar.js',
         "breeze": '_vendor/bower/breeze-client/breeze.debug.js',
         "breezeNg": '_vendor/bower/breeze-client/build/adapters/breeze.bridge.angular.js',
         "breezeSaveError": '_vendor/bower/breeze-client-labs/breeze.saveErrorExtensions.js',
-        "ngMessage": '_vendor/bower/angular-messages/angular-messages.min.js',
-        "ngTable": '_vendor/bower/ng-table/dist/ng-table.min.js',
-        "moment": '_vendor/bower/moment/moment.js',
         "bsGrowl": '_vendor/bower/remarkable-bootstrap-notify/bootstrap-notify.js',
+        "inputMask": '_vendor/bower/jquery-mask-plugin/dist/jquery.mask.min.js',
+        "jMouseWheel": '_vendor/bower/jquery-mousewheel/jquery.mousewheel.min.js',
+        "jquery": '_vendor/bower/jquery/dist/jquery.min.js',
+        "loadingBar": '_vendor/angular-loading-bar/src/loading-bar.js',
+        "mCustomScroll": '_vendor/bower/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
+        "moment": '_vendor/bower/moment/moment.js',
+        "ngMessage": '_vendor/bower/angular-messages/angular-messages.min.js',
+        "ngSanitize": '_vendor/bower/angular-sanitize/angular-sanitize.js',
+        "ngTable": '_vendor/bower/ng-table/dist/ng-table.min.js',
+        "ocLazyLoad": '_vendor/bower/oclazyload/dist/ocLazyLoad.js',
         "sweetalert": '_vendor/bower/sweetalert/dist/sweetalert.min.js',
         "templates": 'app/templates.js',
-        "waves": '_vendor/bower/waves/dist/waves.min.js',
-        "inputMask": '_vendor/bower/jquery-mask-plugin/dist/jquery.mask.min.js',
         "textNgRangy": '_vendor/bower/textAngular/dist/textAngular-rangy.min.js',
         "textNgSantize": '_vendor/bower/textAngular/dist/textAngular-sanitize.min.js',
-        "textNg": '_vendor/bower/textAngular/dist/textAngular.min.js'
+        "textNg": '_vendor/bower/textAngular/dist/textAngular.min.js',
+        "uiRouter": '_vendor/bower/angular-ui-router/release/angular-ui-router.js',
+        "uiBootstrap": '_vendor/bower/angular-bootstrap/ui-bootstrap-tpls.min.js',
+        "uiSelect": '_vendor/ui-select/select.min.js',
+        "waves": '_vendor/bower/waves/dist/waves.min.js'
     },
     "meta": {
         "jquery": {
@@ -47,6 +49,10 @@
             "deps": ['angular']
         },
         "uiRouter": {
+            "format": 'global',
+            "deps": ['angular']
+        },
+        "uiSelect": {
             "format": 'global',
             "deps": ['angular']
         },
@@ -114,6 +120,10 @@
             "deps": ['textNgSantize', 'textNgRangy']
         },
         "ngTable": {
+            "format": 'global',
+            "deps": ['angular']
+        },
+        "ngSanitize": {
             "format": 'global',
             "deps": ['angular']
         }

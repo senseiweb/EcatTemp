@@ -18,7 +18,7 @@
         public const string HqAdmin = "ECAT_01_HQ",
             Designer = "ECAT_02_Designer",
             CourseAdmin = "ECAT_03_CourseAdmin",
-            Facilitator = "ECAT_04_Faculty",
+            Faculty = "ECAT_04_Faculty",
             Student = "ECAT_05_Student",
             External = "ECAT_06_External",
             RefOnly = "ECAT_07_RefOnly",
@@ -30,7 +30,7 @@
         public const string HqAdmin = "BCEE: ECAT 01 HQ",
             Designer = "BCEE: ECAT 02 Designer",
             CourseAdmin = "BCEE: ECAT 03 Course Admin",
-            Facilitator = "BCEE: ECAT 04 Facilitator",
+            Facilitator = "BCEE: ECAT 04 Faculty",
             Student = "BCEE: ECAT 05 Student",
             External = "BCEE: ECAT 06 External",
             RefOnly = "BCEE: ECAT 07 Reference Only";
@@ -48,9 +48,9 @@
                 case MpInstituteRoleId.Designer:
                     return RoleMap.Designer;
                 case MpInstituteRoleId.CourseAdmin:
-                    return RoleMap.Facilitator;
-                case MpInstituteRoleId.Facilitator:
-                    return RoleMap.Facilitator;
+                    return RoleMap.Faculty;
+                case MpInstituteRoleId.Faculty:
+                    return RoleMap.Faculty;
                 case MpInstituteRoleId.Student:
                     return RoleMap.Student;
                 case MpInstituteRoleId.External:
@@ -73,7 +73,7 @@
                 case MpInstituteRoleName.Designer:
                     return MpInstituteRoleId.Designer;
                 case MpInstituteRoleName.Facilitator:
-                    return MpInstituteRoleId.Facilitator;
+                    return MpInstituteRoleId.Faculty;
                 case MpInstituteRoleName.Student:
                     return MpInstituteRoleId.Student;
                 case MpInstituteRoleName.External:

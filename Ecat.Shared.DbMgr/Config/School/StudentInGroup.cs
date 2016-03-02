@@ -37,6 +37,7 @@ namespace Ecat.Shared.DbMgr.Config
                 .WillCascadeOnDelete(false);
 
             Ignore(p => p.GroupPeers);
+            Ignore(p => p.NumberOfAuthorComments);
 
             HasOptional(p => p.SpResult)
                 .WithRequired(p => p.ResultFor);

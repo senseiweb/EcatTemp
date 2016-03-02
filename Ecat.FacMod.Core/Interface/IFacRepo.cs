@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Breeze.ContextProvider;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Newtonsoft.Json.Linq;
 
@@ -14,6 +15,9 @@ namespace Ecat.FacMod.Core
         string Metadata { get; }
         SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards);
         IQueryable<FacultyInCourse> GetFacultyCourses { get; }
-        IQueryable<CrseStudentInGroup> GetAllWorkGroupData { get; }
+        IQueryable<WorkGroup> GetCourseWorkGroups { get; }
+        IQueryable<CrseStudentInGroup> GetWorkGroupMembers { get; }
+        void AddCourseWorkgroups(Course course);
+        IQueryable<CommentCount> AuthorCommentCounts(List<int> authorIds, int workGroupId);
     }
 }

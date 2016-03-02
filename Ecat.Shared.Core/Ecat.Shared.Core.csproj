@@ -79,6 +79,7 @@
     <Compile Include="Interface\ITests.cs" />
     <Compile Include="Logic\SharedGuardian.cs" />
     <Compile Include="ModelLibrary\Common\AcademyCategory.cs" />
+    <Compile Include="ModelLibrary\Common\CommentCount.cs" />
     <Compile Include="ModelLibrary\Common\LoginToken.cs" />
     <Compile Include="ModelLibrary\Designer\AssessMap.cs" />
     <Compile Include="ModelLibrary\Designer\CogInstrument.cs" />

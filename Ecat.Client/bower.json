@@ -60,10 +60,11 @@
   },
   "resolutions": {
     "nouislider": "~8.0.2",
-    "angular": "~1.4.8",
+    "angular": "~1.4.9",
     "chosen": "~1.4.2"
   },
   "devDependencies": {
-    "ocLazyLoad-SystemJS-Router": "https://github.com/lookfirst/ocLazyLoad-SystemJS-Router.git#1.2.2"
+    "ocLazyLoad-SystemJS-Router": "https://github.com/lookfirst/ocLazyLoad-SystemJS-Router.git#1.2.2",
+    "angular-sanitize": "^1.5.0"
   }
 }

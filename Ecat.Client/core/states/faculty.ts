@@ -31,9 +31,10 @@ export default class EcFacultyStates {
 
         this.workGroup = {
             name: `${this.main.name}.workgroup`,
+            abstract: true,
             parent: this.main.name,
             url: '/workGroup/:filter',
-            templateUrl: '@[appFaculty]/feature/workgroups/groups.html',
+            templateUrl: '@[appFaculty]/feature/workgroups/workgroup.html',
             resolve: {
                 moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
             }
