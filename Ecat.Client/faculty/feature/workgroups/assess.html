@@ -1,10 +1,47 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover tableCenterAlign">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th style="padding-left: 22px;">Assessments</th>
+                        <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
+                        <th ng-if="assess.stratInputVis">Composite Ranking</th>
+                        <th>Strat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="member in wka.groupMembers track by member.studentId">
+                        <td>{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
+                        <td>
+                            <button class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
+                                {{member.statusOfStudent.assessComplete ? "View/Edit" : "Add" }}
+                            </button>
+                        </td>
 
-</body>
-</html>
+                        <td ng-if="!assess.stratInputVis">
+                            <button class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{member.statusOfStudent.hasComment ? "View/Edit" : "Add" }}</button>
+
+                        </td>
+                        <td>
+                            [HE: {{}}]
+                        </td>
+
+                        <td>{{assess.me.statusOfPeer[peer.studentId].stratedPosition || 'Not Stratified'}}</td>
+
+                        <td ng-if="assess.stratInputVis" style="width: 120px">
+                            <input class="form-control" id="inputError1" type="text" style="width: 100px">
+                        </td>
+
+                        <td><label class="control-label" for="inputError1">{{assess.stratError}}</label></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div ui-view></div>
+

@@ -1,7 +1,7 @@
-﻿import * as _mpe from "core/common/mapEnum"
-import * as _mp from "core/common/mapStrings"
-import IDataCtx from "core/service/data/context"
-import ICommon from "core/common/commonService"
+﻿import * as _mpe from 'core/common/mapEnum'
+import * as _mp from 'core/common/mapStrings'
+import IDataCtx from 'core/service/data/context'
+import ICommon from 'core/common/commonService'
 
 interface IAssessPager {
     itemId: number;

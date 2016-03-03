@@ -151,7 +151,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
     }
 
-    getActivetWorkGroup(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
+    getActiveWorkGroup(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
         if (!this.activeGroupId || !this.activeCourseId) {
             this.c.$q.reject(() => {
                 this.log.warn('Not active course/workgroup selected!', null, false);

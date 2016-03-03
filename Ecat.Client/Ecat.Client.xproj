@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleFolder Include="_configuration\typings\main\" />
+    <DnxInvisibleFolder Include="_configuration\_vendor\bower\" />
     <DnxInvisibleFolder Include="_vendor\bower\" />
   </ItemGroup>
   <ItemGroup>

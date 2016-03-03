@@ -144,7 +144,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         }
     }
     
-    getActiveWorkgroup(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
+    getActiveWorkGroup(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
         const log = this.log;
         const _ = this;
         const loggedInPersonId = this.dCtx.user.persona.personId;

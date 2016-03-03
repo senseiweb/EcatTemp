@@ -10,7 +10,7 @@ declare module ecat.entity
             ND: number;
         }
 
-        interface ICrseStudInGroupStatus {
+        interface ICrseStudInGrpStatus {
             assessComplete: boolean;
             isPeerAllComplete: boolean;
             stratComplete: boolean;
@@ -20,18 +20,34 @@ declare module ecat.entity
             stratedPosition: number;
             hasComment: boolean;
         }
+        
+        interface IFacCrseStudInGrpStatus {
+            assessComplete: boolean;
+            stratComplete: boolean;
+            missingAssessItems: Array<number>;
+            breakout: ISpStatusBreakOut;
+            compositeScore: number;
+            stratedPosition: number;
+            hasComment: boolean;
+        }
 
         interface IStatusOfPeer {
-            [peerId: number]: ICrseStudInGroupStatus;
+            [peerId: number]: ICrseStudInGrpStatus;
+        }
+        
+        interface IStatusOfStudent {
+            [studentId: number]: IFacCrseStudInGrpStatus;
         }
 
         interface ICrseStudInGrpExt {
-            getMigStatus(): void;
+            getSigStatus(refresh?: boolean): void;
             statusOfPeer: IStatusOfPeer;
         }
 
         interface IFacCrseStudInGrpExt extends ICrseStudInGrpExt {
             numberOfAuthorComments: number;
+            statusOfStudent: IFacCrseStudInGrpStatus;
+            getFacSpStatus(refresh?: boolean): void;
         }
 
         interface ISpInventoryExtBase {

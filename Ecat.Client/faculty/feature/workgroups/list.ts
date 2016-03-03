@@ -111,7 +111,8 @@ export default class EcFacultyWgList {
     }
 
     private goToAssess(wg: ecat.entity.IWorkGroup): void {
-        
+        this.dCtx.faculty.activeGroupId = wg.id;
+        this.c.$state.go(this.c.stateMgr.faculty.wgAssess.name);
     }
     
     private goToPublish(wg: ecat.entity.IWorkGroup): void {
@@ -132,7 +133,7 @@ export default class EcFacultyWgList {
         $scope.close = () => {$mi.close();};
 
         members.forEach(gm => {
-            gm.getMigStatus();
+            gm.getSigStatus();
 
             const isSelfDone = gm.statusOfPeer[gm.studentId].assessComplete;
 

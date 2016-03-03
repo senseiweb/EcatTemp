@@ -73,7 +73,7 @@ export default class EcStudentAssessments {
         this.spTools.loadSpComment(recipientId)
             .then(() => {
                 console.log('Comment modal closed');
-                this.me.getMigStatus();
+                this.me.getSigStatus();
             })
             .catch(() => {
                 console.log('Comment model errored');
@@ -90,7 +90,7 @@ export default class EcStudentAssessments {
         this.spTools.loadSpAssessment(assesseeId)
             .then(() => {
                 console.log('Comment modal closed');
-                this.me.getMigStatus();
+                this.me.getSigStatus();
             })
             .catch(() => {
                 console.log('Comment model errored');
@@ -129,7 +129,7 @@ export default class EcStudentAssessments {
                     return null;
                 }
                 this.me = grpMembers.filter(gm => gm.studentId === myId)[0];
-                this.me.getMigStatus();
+                this.me.getSigStatus();
                 console.log(this.me.statusOfPeer);
                 this.peers = grpMembers.filter(gm => gm.studentId !== myId);
             })
