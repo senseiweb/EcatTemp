@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">{{wgName}} Status</h4>
+    </div>
+    <hr />
+</div>
+
+
+<table class="table table-hover tableCenterAlign">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Self</th>
+            <th>Peer</th>
+            <th>Strats</th>
+            <th>Comments</th>
+            <th>Response Aggregates</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr ng-repeat="gm in wgMembers | orderBy: 'studentProfile.person.lastName' track by gm.studentId">
+            <td>
+                {{gm.studentProfile.person.mpPaygrade}} {{gm.studentProfile.person.lastName}}, {{gm.studentProfile.person.firstName}}
+            </td>
+            
+            <td>
+                <i class="zmdi zmdi-hc-fw" ng-if="gm.check.isSelfDone" ng-class="gm.check.isSelfDone ? 'zmdi-check' : 'zmdi-close'"></i>
+            </td>
+            
+           <td>
+               <a href="javascript:void(0)" uib-tooltip={{gm.check.sp.count}}> 
+                   <i class="zmdi zmdi-hc-fw" ng-if="gm.check.sp.isDone" ng-class="gm.check.sp.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
+               </a>
+           </td>
+            <td>
+                 <a href="javascript:void(0)" uib-tooltip={{gm.check.strat.count}}> 
+                   <i class="zmdi zmdi-hc-fw" ng-if="gm.check.strat.isDone" ng-class="gm.check.strat.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
+               </a>
+            </td>
+            <td>{{gm.numberOfAuthorComments}}</td>
+            <td>HE: {{gm.aggreg.he}} | E: {{gm.aggreg.e}} | ND: {{gm.aggreg.nd}} | IE: {{gm.aggreg.nd}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="close()">Close</button>
+</div>

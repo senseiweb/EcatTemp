@@ -46,9 +46,9 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public IQueryable<CrseStudentInGroup> WorkGroupAssess(int courseId, int workGroupId)
+        public IQueryable<CrseStudentInGroup> WorkGroupAssess(int courseId, int workGroupId, bool addAssessment)
         {
-            return _facLogic.GetWorkGroupSpData(courseId, workGroupId);
+            return _facLogic.GetWorkGroupSpData(courseId, workGroupId, addAssessment);
         }
     }
 }

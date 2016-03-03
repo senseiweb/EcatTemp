@@ -16,8 +16,9 @@ namespace Ecat.FacMod.Core
         SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards);
         IQueryable<FacultyInCourse> GetFacultyCourses { get; }
         IQueryable<WorkGroup> GetCourseWorkGroups { get; }
-        IQueryable<CrseStudentInGroup> GetWorkGroupMembers { get; }
+        IQueryable<CrseStudentInGroup> GetWorkGroupMembers(bool addAssessment);
         void AddCourseWorkgroups(Course course);
         IQueryable<CommentCount> AuthorCommentCounts(List<int> authorIds, int workGroupId);
+        List<int> CanWgPublish(List<int> wgIds);
     }
 }

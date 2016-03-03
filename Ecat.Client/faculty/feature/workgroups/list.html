@@ -65,29 +65,29 @@
                             </thead>
                             <tr table-filters>
                                 <td class="filter">
-                                    <ui-select multiple ng-model="wkl.filterGrpFlightWith" theme="select2" style="width: 100%">
+                                    <ui-select multiple ng-model="wkl.filters.name.filterWith" theme="select2" style="width: 100%">
                                         <ui-select-match placeholder="--Filter By Flight Number--">{{$item.key}}</ui-select-match>
-                                        <ui-select-choices repeat="status.key as status in wkl.filterGrFlightOptions | filter: $select.search">
+                                        <ui-select-choices repeat="name.key as name in wkl.filters.name.optionList | filter: $select.search">
                                             <div>
-                                                <span> Name: <span ng-bind-html="' ' + cat.key"></span>&nbsp;|&nbsp;{{cat.count}} items</span>
+                                                <span> Name: <span ng-bind-html="' ' + name.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{name.count}} items</span>
                                             </div>
                                         </ui-select-choices>
                                     </ui-select>
                                 </td>
                                 <td class="filter">
-                                    <ui-select multiple ng-model="wkl.filterGrpCatWith" theme="select2" style="width: 100%">
+                                    <ui-select multiple ng-model="wkl.filters.cat.filterWith" theme="select2" style="width: 100%">
                                         <ui-select-match placeholder="--Filter By Group Category--">{{$item.key}}</ui-select-match>
-                                        <ui-select-choices repeat="cat.key as cat in wkl.filterGrpCatOptions | filter: $select.search">
-                                            <span>  Category: <span ng-bind-html="' ' + cat.key"></span> | {{cat.count}} items</span>
+                                        <ui-select-choices repeat="cat.key as cat in wkl.filters.cat.optionList | filter: $select.search">
+                                            <span>  Category: <span ng-bind-html="' ' + cat.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{cat.count}} items</span>
                                         </ui-select-choices>
                                     </ui-select>
                                 </td>
                                 <td class="filter">
 
-                                    <ui-select multiple ng-model="wkl.filterGrpStatusWith" theme="select2" style="width: 100%">
+                                    <ui-select multiple ng-model="wkl.filters.status.filterWith" theme="select2" style="width: 100%">
                                         <ui-select-match placeholder="--Filter By Pub Status--">{{$item.key}}</ui-select-match>
-                                        <ui-select-choices repeat="status.key as status in wkl.filterGrpStatusOptions | filter: $select.search">
-                                            <span> Pub Status: <span ng-bind-html="' ' + cat.key"></span> | {{cat.count}} items</span>
+                                        <ui-select-choices repeat="status.key as status in wkl.filters.status.optionList | filter: $select.search">
+                                            <span> Pub Status: <span ng-bind-html="' ' + status.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{status.count}} items</span>
                                         </ui-select-choices>
                                     </ui-select>
                                    
@@ -120,7 +120,7 @@
                                     
                                     <button ng-click="wkl.goToPublish(wg)"
                                             type="button"
-                                            ng-class="wkl.canPublish ? 'btn-success' : 'btn-danger'"
+                                            ng-class="wg.canPublish ? 'btn-success' : 'btn-danger'"
                                             class="btn btn-link btn-sm waves-effect">
                                             Publish
                                     </button>

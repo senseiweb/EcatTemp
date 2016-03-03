@@ -36,7 +36,6 @@ namespace Ecat.FacMod.Core
             return _efCtx.SaveChanges(saveBundle);
         }
 
-
         string IFacRepo.Metadata => _efCtx.Metadata();
 
         IQueryable<FacultyInCourse> IFacRepo.GetFacultyCourses => _ctx.FacultyInCourses
@@ -62,7 +61,29 @@ namespace Ecat.FacMod.Core
 
         IQueryable<WorkGroup> IFacRepo.GetCourseWorkGroups => _ctx.WorkGroups;
 
-        IQueryable<CrseStudentInGroup> IFacRepo.GetWorkGroupMembers => _ctx.StudentInGroups.Where(sig => !sig.IsDeleted);
+        IQueryable<CrseStudentInGroup> IFacRepo.GetWorkGroupMembers(bool addAssessment)
+        {
+            var query =  _ctx.StudentInGroups.Where(sig => !sig.IsDeleted);
+            return !addAssessment
+                ? query
+                : query.Include(g => g.WorkGroup.AssignedSpInstr)
+                    .Include(g => g.WorkGroup.AssignedSpInstr.InventoryCollection);
+        }
+
+        List<int> IFacRepo.CanWgPublish(List<int> wgIds)
+        {
+            return _ctx.WorkGroups
+                .Where(grp => wgIds.Contains(grp.Id))
+                .Where(grp=> grp.GroupMembers.Any() && grp.AssignedSpInstr.InventoryCollection.Any())
+                .Where(grp => grp.GroupMembers.All(crseStudent =>
+                    crseStudent.AssessorSpResponses.Count(r => !r.Assessee.IsDeleted) ==
+                    grp.GroupMembers.Count(gm => !gm.IsDeleted)*grp.AssignedSpInstr.InventoryCollection.Count()))
+                .Where(grp => grp.GroupMembers.All(crseStudent =>
+                    crseStudent.AssessorStratResponse.Count(r => !r.Assessee.IsDeleted) ==
+                    grp.GroupMembers.Count(gm => !gm.IsDeleted)))
+                .Select(wg => wg.Id)
+                .ToList();
+        } 
     }
 
 }

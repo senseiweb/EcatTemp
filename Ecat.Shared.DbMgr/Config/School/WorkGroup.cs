@@ -27,6 +27,8 @@ namespace Ecat.Shared.DbMgr.Config
                 .HasMaxLength(4)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                     new IndexAnnotation(new IndexAttribute("IX_UniqueCourseGroup", 3) { IsUnique = true }));
+
+            Ignore(p => p.CanPublish);
         }
     }
 }

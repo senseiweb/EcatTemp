@@ -10,7 +10,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Ecat.FacMod.Core
 {
-    using System.Threading.Tasks;
     using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
 
     public class FacLogic : IFacLogic
@@ -46,9 +45,9 @@ namespace Ecat.FacMod.Core
                 .Include(fc => fc.Course.WorkGroups);
         }
 
-        IQueryable<CrseStudentInGroup> IFacLogic.GetWorkGroupSpData(int courseId, int workGroupId)
+        IQueryable<CrseStudentInGroup> IFacLogic.GetWorkGroupSpData(int courseId, int workGroupId, bool addAssessment)
         {
-            var groupMembers = _repo.GetWorkGroupMembers
+          var groupMembers = _repo.GetWorkGroupMembers(addAssessment)
                 .Where(gm => gm.WorkGroup.Course.Faculty
                     .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId && fac.Faculty.Person.IsActive))
                 .Where(gm => gm.CourseId == courseId && gm.WorkGroupId == workGroupId)
@@ -61,6 +60,7 @@ namespace Ecat.FacMod.Core
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.AssessorStratResponse));
 
             var groupMembersId = groupMembers.Select(gm => gm.StudentId).ToList();
+
             var commentCount = _repo.AuthorCommentCounts(groupMembersId, workGroupId).ToList();
 
             foreach (var cc in commentCount)
@@ -88,6 +88,16 @@ namespace Ecat.FacMod.Core
 
             _repo.AddCourseWorkgroups(latestCourse);
 
+            var crseWgNotPublish =
+                latestCourse.WorkGroups.Where(wg => wg.MpSpStatus == MpSpStatus.Open).Select(wg => wg.Id);
+
+            var grpIdsReadyForPublish = _repo.CanWgPublish(crseWgNotPublish.ToList());
+
+            foreach (var wg in grpIdsReadyForPublish.Select(grpId => latestCourse.WorkGroups.Single(grp => grp.Id == grpId)))
+            {
+                wg.CanPublish = true;
+            }
+            
             return facCrses.AsQueryable();
         }
 

@@ -8,9 +8,9 @@ using TypeLite;
 namespace Ecat.Shared.Core.ModelLibrary.Common
 {
     [TsIgnore]
-    public class CommentCount
+    public class WgCanPublish
     {
-        public int AuthorId { get; set; }
-        public int NumOfComments { get; set; }
+        public int WgId { get; set; }
+        public bool CanPublish { get; set; }
     }
 }

@@ -81,6 +81,7 @@
     <Compile Include="ModelLibrary\Common\AcademyCategory.cs" />
     <Compile Include="ModelLibrary\Common\CommentCount.cs" />
     <Compile Include="ModelLibrary\Common\LoginToken.cs" />
+    <Compile Include="ModelLibrary\Common\WgCanPublish.cs" />
     <Compile Include="ModelLibrary\Designer\AssessMap.cs" />
     <Compile Include="ModelLibrary\Designer\CogInstrument.cs" />
     <Compile Include="ModelLibrary\Designer\CogInventory.cs" />

@@ -5,6 +5,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.Interface;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
@@ -46,7 +47,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
 
         public SpInstrument AssignedSpInstr { get; set; }
         public KcInstrument AssignedKcInstr { get; set; }
-
+        public bool CanPublish { get; set; }
         public int? ModifiedById { get; set; }
         public DateTime ModifiedDate { get; set; }
     }

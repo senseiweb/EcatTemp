@@ -30,6 +30,10 @@ declare module ecat.entity
             statusOfPeer: IStatusOfPeer;
         }
 
+        interface IFacCrseStudInGrpExt extends ICrseStudInGrpExt {
+            numberOfAuthorComments: number;
+        }
+
         interface ISpInventoryExtBase {
             responseForAssessee: ISpResponse | IFacSpResponse;
             compositeScore: number;
@@ -119,7 +123,7 @@ declare module ecat.entity
         workGroups: IWorkGroup[];
     }
 
-    interface ICrseStudInGroup extends breeze.Entity, s.school.CrseStudentInGroup, ext.ICompositeKey, ext.ICrseStudInGrpExt {
+    interface ICrseStudInGroup extends breeze.Entity, s.school.CrseStudentInGroup, ext.ICompositeKey, ext.ICrseStudInGrpExt, ext.IFacCrseStudInGrpExt {
         groupPeers: ICrseStudInGroup[];
         workGroup: IWorkGroup;
         studentProfile: IStudent;
