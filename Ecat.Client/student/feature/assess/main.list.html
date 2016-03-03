@@ -20,7 +20,10 @@
                     <tr class="tableBottomBorder">
                         <td>{{assess.me.studentProfile.person.firstName}} {{assess.me.studentProfile.person.lastName}}</td>
                         <td>
-                            <button class="btn btn-link" ng-click="assess.editAssessment(assess.me)">{{assess.me.statusOfPeer[assess.me.studentId].assessComplete ? "View/Edit" : "Add" }}</button>
+                            <button ng-if="!assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(assess.me)">{{assess.me.statusOfPeer[assess.me.studentId].assessComplete ? "View/Edit" : "Add" }}</button>
+                            <button ng-if="assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(assess.me)">
+                                view
+                            </button>
                         </td>
                         <td ng-if="!assess.stratInputVis"></td>
                         <td ng-if="assess.stratInputVis">
@@ -47,8 +50,11 @@
                     <tr ng-repeat="peer in assess.peers track by peer.studentId">
                         <td>{{peer.studentProfile.person.firstName}} {{peer.studentProfile.person.lastName}}</td>
                         <td>
-                            <button class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
+                            <button ng-if="!assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
                                 {{assess.me.statusOfPeer[peer.studentId].assessComplete ? "View/Edit" : "Add" }}
+                            </button>
+                            <button ng-if="assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
+                                view
                             </button>
                         </td>
 

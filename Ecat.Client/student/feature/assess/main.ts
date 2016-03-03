@@ -16,7 +16,7 @@ export default class EcStudentAssessments {
     fullName = 'Unknown';
     grpDisplayName = 'Not Set';
     hasComment = false;
-    isResultPublished = true;
+    isResultPublished = false;
     log = this.c.getAllLoggers('Assessment Center');
     me: ecat.entity.ICrseStudInGroup;
     peers: Array<ecat.entity.ICrseStudInGroup>;
