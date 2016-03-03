@@ -3,6 +3,7 @@
 import angular = require('angular')
 import swal from 'sweetalert'
 import 'animate'
+import 'ngFlot'
 import 'ngSanitize'
 import 'ocLazyLoad'
 import 'uiRouter'
@@ -29,6 +30,7 @@ export default class EcApp {
             angular.module('app.ecat', [
                 'ui.router',
                 'ui.bootstrap',
+                'angular-flot',
                 'ngAnimate',
                 'ngMessages',
                 'ngSanitize',

@@ -240,7 +240,7 @@ export default class EcFacultyWgList {
         const modal = this.$uim;
         const c = this.c;
         this.dCtx.faculty.activeGroupId = wg.id;
-        this.dCtx.faculty.getActiveWorkgroup()
+        this.dCtx.faculty.getActiveWorkGroup()
         .then(getActiveWgReponse)
         .catch(getActiveWgResponseError);
         

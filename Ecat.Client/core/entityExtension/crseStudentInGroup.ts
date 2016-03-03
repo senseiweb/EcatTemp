@@ -11,6 +11,38 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected workGroup: ecat.entity.IWorkGroup;
     private _sigStatus: ecat.entity.ext.ICrseStudInGrpStatus;
 
+    options =  {
+        series: {
+            pie: {
+                show: true,
+                stroke: {
+                    width: 2
+                }
+            },
+            legend: {
+                container: '.flc-pie',
+                backgroundOpacity: 0.5,
+                noColumns: 0,
+                backgroundColor: "white",
+                lineWidth: 0
+            },
+            grid: {
+                hoverable: true,
+                clickable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: '%p.0%, %s', // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false,
+                cssClass: 'flot-tooltip'
+            }
+        }
+    }
+
     statusOfPeer: ecat.entity.ext.IStatusOfPeer = {};
 
     getSigStatus = (refresh?: boolean) => {

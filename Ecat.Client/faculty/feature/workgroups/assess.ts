@@ -14,8 +14,8 @@ export default class EcFacultyWgAssess {
         this.dCtx.faculty.getActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {
             wg.groupMembers.forEach(gm => {
                 gm.getFacSpStatus();
-            })
-            this.groupMembers = wg.groupMembers[0].statusOfStudent
-        })
+            });
+            this.groupMembers = wg.groupMembers;
+        });
     }
 }

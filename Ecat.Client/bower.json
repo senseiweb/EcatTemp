@@ -58,6 +58,7 @@
     "angular-summernote": "~0.7.0",
     "textAngular": "~1.4.6",
     "Flot": "flot#^0.8.3",
+    "angular-flot": "^0.0.16"
   },
   "resolutions": {
     "nouislider": "~8.0.2",

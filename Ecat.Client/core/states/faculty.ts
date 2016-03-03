@@ -1,5 +1,5 @@
 ﻿import _core from 'core/states/core'
-import * as _mp from 'ore/common/mapStrings'
+import * as _mp from 'core/common/mapStrings'
 
 export default class EcFacultyStates {
 

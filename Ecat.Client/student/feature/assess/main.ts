@@ -122,7 +122,7 @@ export default class EcStudentAssessments {
         const myId = this.dCtx.user.persona.personId;
         
         //TODO: Need to do something with the error
-        this.dCtx.student.getActivetWorkGroup()
+        this.dCtx.student.getActiveWorkGroup()
             .then((wrkGrp: ecat.entity.IWorkGroup) => {
                 const grpMembers = wrkGrp.groupMembers;
                 if (grpMembers === null || grpMembers.length === 0) {

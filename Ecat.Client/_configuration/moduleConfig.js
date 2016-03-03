@@ -7,12 +7,14 @@
         "breezeNg": '_vendor/bower/breeze-client/build/adapters/breeze.bridge.angular.js',
         "breezeSaveError": '_vendor/bower/breeze-client-labs/breeze.saveErrorExtensions.js',
         "bsGrowl": '_vendor/bower/remarkable-bootstrap-notify/bootstrap-notify.js',
+        "flot": '_vendor/bower/Flot/jquery.flot.js',
         "inputMask": '_vendor/bower/jquery-mask-plugin/dist/jquery.mask.min.js',
         "jMouseWheel": '_vendor/bower/jquery-mousewheel/jquery.mousewheel.min.js',
         "jquery": '_vendor/bower/jquery/dist/jquery.min.js',
         "loadingBar": '_vendor/angular-loading-bar/src/loading-bar.js',
         "mCustomScroll": '_vendor/bower/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
         "moment": '_vendor/bower/moment/moment.js',
+        "ngFlot": '_vendor/bower/angular-flot/angular-flot.js',
         "ngMessage": '_vendor/bower/angular-messages/angular-messages.min.js',
         "ngSanitize": '_vendor/bower/angular-sanitize/angular-sanitize.js',
         "ngTable": '_vendor/bower/ng-table/dist/ng-table.min.js',
@@ -126,6 +128,14 @@
         "ngSanitize": {
             "format": 'global',
             "deps": ['angular']
+        },
+        "flot": {
+            "format": 'global',
+            "deps": ['jquery']
+        },
+        "ngFlot": {
+            "format": 'global',
+            "deps": ['flot']
         }
     },
     "packages": {
