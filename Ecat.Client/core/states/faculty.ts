@@ -1,5 +1,5 @@
-﻿import _core from "core/states/core"
-import * as _mp from "core/common/mapStrings"
+﻿import _core from 'core/states/core'
+import * as _mp from 'ore/common/mapStrings'
 
 export default class EcFacultyStates {
 
@@ -33,7 +33,7 @@ export default class EcFacultyStates {
             name: `${this.main.name}.workgroup`,
             abstract: true,
             parent: this.main.name,
-            url: '/workGroup/:filter',
+            url: '/workGroup',
             templateUrl: '@[appFaculty]/feature/workgroups/workgroup.html',
             resolve: {
                 moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
