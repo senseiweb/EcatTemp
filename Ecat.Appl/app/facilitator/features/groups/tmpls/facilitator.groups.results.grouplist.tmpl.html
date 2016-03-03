@@ -28,7 +28,8 @@
                         <td>{{groups.groupResults[groupMember.id].fac}}</td>
                         <td>{{groups.groupResults[groupMember.id].strat}}</td>
                         <td style="width: 150px">
-                            <button ng-if="groupMember.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.selectedStudent=groupMember; groups.resultsView=1; groups.viewGRDetails()">View Details</button>
+                            <button ng-if="groupMember.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.selectedStudent=groupMember; groups.resultsView=1; groups.viewGRBehaviors()">Behaviors</button>
+                            <button ng-if="groupMember.isVisible" type="button" class="btn btn-link btn-sm waves-effect" ng-click="groups.selectedStudent=groupMember; groups.resultsView=2; groups.viewGRComments()">Comments</button>
                         </td>
                     </tr>
                     <!--<tr ng-repeat="result in groups.results track by $index" ng-mouseover="result.isVisible = true" ng-mouseleave="result.isVisible = false" style="height: 50px">

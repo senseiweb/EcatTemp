@@ -109,6 +109,7 @@ export default class EcInstructorGroups {
     capstoneStudents: ecat.entity.ICourseMember[] = [];
     groupTypes: string[] = [];
     strats: INewStrat = {};
+    radioCommentType: string;
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx, private score: IScore) {
         this.activate(false);
@@ -222,13 +223,17 @@ export default class EcInstructorGroups {
         });
     }
 
-    viewGRDetails(): void {
+    viewGRBehaviors(): void {
         var facAssess = this.selectedGroup.facSpResponses.filter(resp => {
             if (resp.assesseeId === this.selectedStudent.id) { return true; }
             return false;
         });
 
         this.invsWithOvs = this.score.calcInventoryOveralls(this.selectedGroup.assignedSpInstr, this.selectedStudent.assesseeSpResponses, facAssess);
+    }
+
+    viewGRComments(): void {
+
     }
     //#endregion
 
