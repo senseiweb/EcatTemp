@@ -20,7 +20,7 @@
                     <tr class="tableBottomBorder">
                         <td>{{assess.me.studentProfile.person.firstName}} {{assess.me.studentProfile.person.lastName}}</td>
                         <td>
-                            <button class="btn btn-link" ng-click="assess.editAssessment(assess.me)">View/Edit</button>
+                            <button class="btn btn-link" ng-click="assess.editAssessment(assess.me)">{{assess.me.statusOfPeer[assess.me.studentId].assessComplete ? "View/Edit" : "Add" }}</button>
                         </td>
                         <td ng-if="!assess.stratInputVis"></td>
                         <td ng-if="assess.stratInputVis">
@@ -53,8 +53,8 @@
                         </td>
 
                         <td ng-if="!assess.stratInputVis">
-                            <button class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{assess.me.statusOfPeer[peer.studentId].hasComment ? "View/Edit" : "Add" }}</button>
-
+                            <button ng-if="!assess.isResultPublished" class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{assess.me.statusOfPeer[peer.studentId].hasComment ? "View/Edit" : "Add" }}</button>
+                            <button ng-if="assess.isResultPublished" class="btn btn-link" ng-click="assess.addComment(peer.studentId)">View</button>
                         </td>
                         <td ng-if="assess.stratInputVis">
                             <table>

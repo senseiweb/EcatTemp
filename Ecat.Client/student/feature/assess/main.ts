@@ -12,10 +12,11 @@ export default class EcStudentAssessments {
     activeCrseId: number;
     assessmentForm: angular.IFormController;
     courses: ecat.entity.ICourse[];
+    commentFlag = _mp.MpCommentFlag;
     fullName = 'Unknown';
     grpDisplayName = 'Not Set';
     hasComment = false;
-    isResultPublished = false;
+    isResultPublished = true;
     log = this.c.getAllLoggers('Assessment Center');
     me: ecat.entity.ICrseStudInGroup;
     peers: Array<ecat.entity.ICrseStudInGroup>;

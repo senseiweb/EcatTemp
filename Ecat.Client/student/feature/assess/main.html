@@ -22,7 +22,7 @@
             <div class="lv-header-alt clearfix p-b-5">
 
                 <div class="btn-group clearfix m-l-5">
-                    <button type="button" class="btn btn-primary" ng-if="!assess.isResultPublished" ng-click="assess.view=0; assess.stratInputVis = false">Assessments</button>
+                    <button type="button" class="btn btn-primary" ng-click="assess.view=0; assess.stratInputVis = false">Assessments</button>
                     <button type="button" class="btn btn-danger" ng-if="!assess.isResultPublished" ng-click="assess.stratInputVis = !assess.stratInputVis">Stratify Group</button>
 
                     <div class="btn-group dropdown" ng-if="assess.isResultPublished" uib-dropdown>
@@ -74,10 +74,10 @@
                         <div ng-include="'@[appStudent]/feature/assess/main.list.html'"></div>
                     </div>
                     <div ng-switch-when="1">
-                        <div ng-include="'@[appStudent]/feature/assess/main.result.tpl.html'"></div>
+                        <div ng-include="'@[appStudent]/feature/assess/main.result.html'"></div>
                     </div>
                     <div ng-switch-when="2">
-                        <div ng-include="'@[appStudent]/feature/assess/comments.tpl.html'"></div>
+                        <div ng-include="'@[appStudent]/feature/assess/comment.tpl.html'"></div>
                     </div>
                 </div>
 

@@ -40,8 +40,8 @@ export default class EcProviderSpToolCommenter {
             facComment['mpCommentType'] = _mp.MpCommentType.signed;
             this.comment = facComment;
         }
-        this.recipientName = `${author.firstName} ${author.lastName}`;
-        this.authorName = `${recipient.firstName} ${recipient.lastName}`;
+        this.recipientName = `${recipient.firstName} ${recipient.lastName}`;
+        this.authorName = `${author.firstName} ${author.lastName}`;
         this.authorAvatar = author.avatarLocation || author.defaultAvatarLocation;
         this.recipientAvatar = recipient.avatarLocation || recipient.defaultAvatarLocation;
         this.isNew = this.comment.entityAspect.entityState === breeze.EntityState.Added;
