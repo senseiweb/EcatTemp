@@ -1,4 +1,4 @@
-﻿import * as _mp from "core/common/mapStrings"
+﻿import * as _mp from 'core/common/mapStrings'
 
 export class CrseStudInGrpInit {
     constructor(memberInGrpEntity: ecat.entity.ICrseStudInGroup) { }
@@ -11,7 +11,8 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected workGroup: ecat.entity.IWorkGroup;
     private _sigStatus: ecat.entity.ext.ICrseStudInGrpStatus;
 
-    options =  {
+    chartSopData: Array<any> = [];
+    chartOptions =  {
         series: {
             pie: {
                 show: true,
@@ -23,7 +24,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
                 container: '.flc-pie',
                 backgroundOpacity: 0.5,
                 noColumns: 0,
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 lineWidth: 0
             },
             grid: {
@@ -147,6 +148,45 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
             sigStatus.isPeerAllComplete = sigStatus.assessComplete && sigStatus.stratComplete;
 
             this.statusOfPeer[gm.studentId.toString()] = this._sigStatus = sigStatus;
+
+            let compositeTotal = 0;
+            for (let item in sigStatus.breakout) {
+                if (sigStatus.breakout.hasOwnProperty(item)) {
+                    compositeTotal += sigStatus.breakout[item];
+                  }
+            }
+
+            for (let item in sigStatus.breakout) {
+                if (sigStatus.breakout.hasOwnProperty(item)) {
+                    const bo = sigStatus.breakout;
+
+                    if (bo[item] > 0) {
+                        let label = 'Unknown';
+                        let color = '';
+
+                        switch (item) {
+                        case 'HE':
+                            label = `Highly Effective: [${bo[item]}]`;
+                            color = '#F44336';
+                                break;
+                        case 'E':
+                            label = `Effective: [${bo[item]}]`;
+                            color = '#03A9F4';
+                            break;
+                        case 'IE':
+                            label = `Ineffective [${bo[item]}]`;
+                            color = '#8BC34A';
+                            break;
+                        case 'ND':
+                            label = `Not Displayed [${bo[item]}]`;
+                            color = '#FFEB3B';
+                            break;
+                        }
+
+                        this.chartSopData.push({ label: label, data: (bo[item] / compositeTotal) * 100, color: color });
+                    }
+                }
+            }
         });
     }
 }

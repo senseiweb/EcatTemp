@@ -39,17 +39,17 @@ namespace Ecat.StudMod.Core
 
         public IQueryable<CrseStudentInGroup> GetInitalCourses()
         {
-            var groups =  _repo.WorkGroups
+            var groups =  _repo.CrseStudentInGroups
                 .Where(gm => gm.StudentId == StudentPerson.PersonId)
                 .OrderByDescending(p => p.Course.StartDate)
                 .Include(gm => gm.Course)
                 .Include(gm => gm.WorkGroup).ToList();
 
-            var latestGroup = groups.First();
+            var latestGroup = groups.OrderByDescending(gm => gm.WorkGroup.MpCategory).First();
 
             var groupId = latestGroup.WorkGroupId;
 
-            latestGroup = _repo.WorkGroups
+            latestGroup = _repo.CrseStudentInGroups
                 .Where(gm => gm.WorkGroupId == groupId && gm.StudentId == StudentPerson.PersonId)
                 .Include(gm => gm.WorkGroup.AssignedSpInstr)
                 .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)
@@ -58,6 +58,7 @@ namespace Ecat.StudMod.Core
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
                 .Include(gm => gm.AuthorOfComments).Single();
+
 
             return groups.AsQueryable();
         }
@@ -69,7 +70,7 @@ namespace Ecat.StudMod.Core
 
         public IQueryable<CrseStudentInGroup> GetSingleWrkGrpMembers()
         {
-            return _repo.WorkGroups
+            return _repo.CrseStudentInGroups
                 .Where(gm => gm.StudentId == StudentPerson.PersonId)
                 .Include(gm => gm.WorkGroup.AssignedSpInstr)
                 .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)

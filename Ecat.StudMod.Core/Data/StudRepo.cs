@@ -41,7 +41,7 @@ namespace Ecat.StudMod.Core
             return _ctx.StudentInGroups.Find(studentId, courseId, workGroupId);
         }
 
-        public IQueryable<CrseStudentInGroup> WorkGroups => _ctx.StudentInGroups
+        public IQueryable<CrseStudentInGroup> CrseStudentInGroups => _ctx.StudentInGroups
             .Where(sg => !sg.IsDeleted)
             .Include(gm => gm.WorkGroup);
 

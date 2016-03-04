@@ -150,6 +150,7 @@ declare module ecat {
 
     interface IEcatParams extends angular.ui.IStateParamsService {
         ltiModId: string;
+        wgId: number;
         uId: string;
         mode: string;
     }

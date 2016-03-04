@@ -1,47 +1,79 @@
-﻿<div class="row">
-    <div class="col-md-12 p-t-20">
-        <div class="table-responsive">
-            <table class="table table-hover tableCenterAlign">
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th style="padding-left: 22px;">Assessments</th>
-                        <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
-                        <th ng-if="assess.stratInputVis">Composite Ranking</th>
-                        <th>Strat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="member in wka.groupMembers track by member.studentId">
-                        <td>{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
-                        <td>
-                            <button class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
-                                {{member.statusOfStudent.assessComplete ? "View/Edit" : "Add" }}
-                            </button>
-                        </td>
+﻿<div class="card" id="assessments-main">
+    <div class="listview lv-bordered lv-lg">
+        <div class="lv-header-alt clearfix p-b-5">
 
-                        <td ng-if="!assess.stratInputVis">
-                            <button class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{member.statusOfStudent.hasComment ? "View/Edit" : "Add" }}</button>
+            <a href="javascript:void(0)" ui-sref="{{stateMgr.faculty.wgList.name}}"><i class="zmdi zmdi-arrow-back"></i> Return to WorkGroups</a>
 
-                        </td>
-                        <td>
-                            [HE: {{}}]
-                        </td>
+            <ul class="lv-actions actions">
 
-                        <td>{{assess.me.statusOfPeer[peer.studentId].stratedPosition || 'Not Stratified'}}</td>
+                <li class="dropdown" uib-dropdown>
 
-                        <td ng-if="assess.stratInputVis" style="width: 120px">
-                            <input class="form-control" id="inputError1" type="text" style="width: 100px">
-                        </td>
+                    <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>{{assess.grpDisplayName}}</button>
 
-                        <td><label class="control-label" for="inputError1">{{assess.stratError}}</label></td>
-                    </tr>
-                </tbody>
-            </table>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li ng-repeat="group in assess.workGroups track by group.id ">
+                            <a href="javascript:void(0)" ng-click="assess.setActiveGroup(group)">{{group.mpCategory}} - {{group.defaultName}}</a>
+                        </li>
+                    </ul>
+                </li>
 
+                <li class="dropdown" uib-dropdown>
+                    <a href="" uib-dropdown-toggle>
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="">Refresh Data</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="lv-body">
+            <div class="row">
+                <div class="col-md-12 p-t-20">
+                    <div class="table-responsive">
+                        <table class="table table-hover tableCenterAlign">
+                            <thead>
+                                <tr>
+                                    <th col-md-3>Student</th>
+                                    <th col-md-2>Assessments</th>
+                                    <th col-md-2>Comments</th>
+                                    <th col-md-1>Strat</th>
+                                    <th col-md-3>Composite/Breakout</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="member in wka.groupMembers track by member.studentId">
+                                    <td>{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
+                                    <td>
+                                        <button class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
+                                            {{member.statusOfStudent.assessComplete ? "View/Edit" : "Add" }}
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{member.statusOfStudent.hasComment ? "View/Edit" : "Add" }}</button>
+
+                                    </td>
+                                    <td>{{assess.me.statusOfPeer[peer.studentId].stratedPosition || 'Not Stratified'}}</td>
+
+                                    <td>
+                                        <pie-sp-break-out dataset="member.statusOfStudent.chartSosData" options="member.statusOfStudent.chartOptions"></pie-sp-break-out>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div ui-view></div>
+
+
 

@@ -111,13 +111,13 @@
                                             class="btn btn-link btn-sm waves-effect btn-info">
                                             View Status
                                     </button>
-                                
-                                    <button ng-click="wkl.goToAssess(wg)" 
-                                            type="button" 
-                                            class="btn btn-link btn-sm waves-effect btn-info">
-                                            Assess Group
-                                    </button>
-                                    
+
+                                    <a href="javascript:void(0)"
+                                       ui-sref="{{stateMgr.faculty.wgAssess.name}}({wgId: {{wg.id}}})"
+                                       class="btn btn-link btn-sm waves-effect btn-info">
+                                        Assess Group
+                                    </a>
+
                                     <button ng-click="wkl.goToPublish(wg)"
                                             type="button"
                                             ng-class="wg.canPublish ? 'btn-success' : 'btn-danger'"

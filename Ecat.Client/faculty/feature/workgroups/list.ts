@@ -109,11 +109,6 @@ export default class EcFacultyWgList {
 
         return this.filters.status.filterWith.length === 0 || this.filters.status.filterWith.some(e => item.mpSpStatus === e);
     }
-
-    private goToAssess(wg: ecat.entity.IWorkGroup): void {
-        this.dCtx.faculty.activeGroupId = wg.id;
-        this.c.$state.go(this.c.stateMgr.faculty.wgAssess.name);
-    }
     
     private goToPublish(wg: ecat.entity.IWorkGroup): void {
         //TODO: Check if all work is done, if not error;

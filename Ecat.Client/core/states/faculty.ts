@@ -51,7 +51,7 @@ export default class EcFacultyStates {
         this.wgAssess = {
             name: `${this.workGroup.name}.assess`,
             parent: this.workGroup.name,
-            url: '/assess',
+            url: '/assess/{wgId:int}',
             templateUrl: '@[appFaculty]/feature/workgroups/assess.html',
             controller: 'app.faculty.wkgrp.assess as wka'
         }

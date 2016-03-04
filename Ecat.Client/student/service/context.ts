@@ -277,4 +277,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         return inventoryList;
     }
 
+    getWgSpResult(): breeze.promises.IPromise<ecat.entity.ISpResult | angular.IPromise<void>> {
+        return null;
+    }
 }

@@ -42,12 +42,15 @@ declare module ecat.entity
         interface ICrseStudInGrpExt {
             getSigStatus(refresh?: boolean): void;
             statusOfPeer: IStatusOfPeer;
+            chartSopData: Array<any>;
+            chartOptions: {};
         }
 
         interface IFacCrseStudInGrpExt extends ICrseStudInGrpExt {
             numberOfAuthorComments: number;
             statusOfStudent: IFacCrseStudInGrpStatus;
             getFacSpStatus(refresh?: boolean): void;
+            chartSosData: Array<any>;
         }
 
         interface ISpInventoryExtBase {

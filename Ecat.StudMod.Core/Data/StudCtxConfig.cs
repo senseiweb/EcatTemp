@@ -61,6 +61,7 @@ namespace Ecat.StudMod.Core
             Ignore(p => p.FacSpResponses);
             Ignore(p => p.FacStratResponses);
             Ignore(p => p.BbGroupId);
+            Ignore(p => p.CanPublish);
         }
     }
 

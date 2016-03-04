@@ -6,11 +6,21 @@ interface ISpBreakOutPieAttrs extends angular.IAttributes {
 
 export default class EcDirSpBreakOutPie implements angular.IDirective {
     static directiveId = 'pieSpBreakOut';
-    restrict = 'A';
-    scope = {
-        inputMask: '='
+    
+    restrict = 'E';
+    scope = {};
+    bindToController = {
+        dataset: '=',
+        options: '=',
+        callback: '=',
+        onPlotClick: '&',
+        onPlotHover: '&',
+        onPlotSelected: '&'
     }
-    link = (scope: any, element: angular.IAugmentedJQuery, attrs: ISpBreakOutPieAttrs) => {
-        element.mask(scope.inputMask.mask);
+    controllerAs = 'spbo';
+    controller = ($scope, $element) => {
+        const options =  $scope.$parent.options;
+        console.log(options);
     }
+
 }
