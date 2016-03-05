@@ -1,7 +1,7 @@
 ﻿<div class="p-b-10 m-b-5" ng-repeat="item in assesser.inventoryList | orderBy: displayOrder">
 
     <div class="row" ng-if="!item.showBehavior" ng-mouseover="item.rowShow=true" ng-mouseleave="item.rowShow=false">
-        <div class="col-md-1">
+        <div class="col-md-1" ng-if="!assesser.isPublished">
             <button class="btn btn-default waves-effect" 
                     ng-if="item.rowShow" 
                     ng-click="item.showBehavior = true">
@@ -9,13 +9,13 @@
             </button>
         </div>
 
-        <div class="col-md-11">
+        <div  ng-class="assesser.isPublished ? 'col-md-12' : 'col-md-11'">
             <p class="lead f-13">
                 <strong>{{assesser.getFormattedResponse(item)}} @ </strong> {{item.behavior}}
             </p>
         </div>
     </div>
-    <div class="row p-b-20" ng-if="item.showBehavior">
+    <div class="row p-b-20" ng-if="item.showBehavior && !assess.isPublised">
         <div class="col-md-1">
             <ul class="lv-actions actions">
                 <li class="dropdown" uib-dropdown>
@@ -105,8 +105,8 @@
          
             <div class="col-md-2 p-l-30">
                 <button class="btn btn-default waves-effect" 
-                        ng-click="assessEdit.checkResponse(spResponse); item.showBehavior = false" 
-                        ng-disabled="assessEdit.radios[spResponse.id].displayed===true && (assessEdit.radios[spResponse.id].effectiveness==='None' || assessEdit.radios[spResponse.id].freq==='None')" style="padding: 3px; padding-top: 1px; padding-bottom: 1px; margin-top: 4px;">
+                        ng-click="assesser.checkResponses(item);"
+                        ng-disabled="" style="padding: 3px; padding-top: 1px; padding-bottom: 1px; margin-top: 4px;">
                     <i class="zmdi zmdi-close"></i>
                 </button>
             </div>

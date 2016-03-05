@@ -10,6 +10,7 @@ export default class EcSpTools {
         controller: _commenter.controllerId,
         controllerAs: 'commenter',
         bindToController: true,
+        size: 'lg',
         keyboard: false,
         backdrop: 'static',
         templateUrl: '@[appProvider]/spTools/commenter.html'
@@ -19,6 +20,7 @@ export default class EcSpTools {
     private assssModalOption: angular.ui.bootstrap.IModalSettings = {
         controller: _assesser.controllerId,
         controllerAs: 'assesser',
+        size: 'lg',
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
@@ -30,13 +32,15 @@ export default class EcSpTools {
         
     }
 
-    loadSpComment(recipientId: number): angular.IPromise<void> {
-        this.commentModalOptions.resolve = { recipientId: recipientId };
+    loadSpComment(recipientId: number, viewOnly: boolean): angular.IPromise<void> {
+        this.commentModalOptions.resolve = { recipientId: recipientId, viewOnly: viewOnly };
         return this.$uim.open(this.commentModalOptions).result;
     }
 
-    loadSpAssessment(assesseeId: number): angular.IPromise<void> {
-        this.assssModalOption.resolve = { assesseeId: assesseeId }
+    loadSpAssessment(assesseeId: number, viewOnly: boolean): angular.IPromise<void> {
+        this.assssModalOption.resolve = {
+            assesseeId: assesseeId, viewOnly: viewOnly
+    }
         return this.$uim.open(this.assssModalOption).result;
     }
 }

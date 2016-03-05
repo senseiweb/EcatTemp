@@ -42,7 +42,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     constructor(inj) {
         super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [studPersonCfg, studCrseStudInGrpCfg, studSpInventoryCfg]);
-        this.loadManager(this.studentApiResources);
+        //this.loadManager(this.studentApiResources);
         this.isLoaded.course = {};
         this.isLoaded.workGroup = {};
         this.isLoaded.crseInStudGroup = {}
@@ -262,7 +262,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         const inventoryList = workGroup.assignedSpInstr.inventoryCollection as Array<ecat.entity.IStudSpInventory>;
 
-        inventoryList.forEach(item => {
+        return inventoryList.map(item => {
             const key = { assessorPersonId: loggedUserId, assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: item.id };
 
             let spResponse = this.manager.getEntityByKey(_mp.EcMapEntityType.spResponse, [loggedUserId, assesseeId, this.activeCourseId, this.activeGroupId, item.id]) as ecat.entity.ISpResponse;
@@ -272,9 +272,8 @@ export default class EcStudentRepo extends IUtilityRepo {
             }
 
             item.responseForAssessee = spResponse;
+            return item;
         });
-
-        return inventoryList;
     }
 
     getWgSpResult(): breeze.promises.IPromise<ecat.entity.ISpResult | angular.IPromise<void>> {

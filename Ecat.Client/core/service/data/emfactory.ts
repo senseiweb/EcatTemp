@@ -6,6 +6,7 @@ export default class EcEmFactory {
     static serviceId = 'core.data.emfactory';
     static $inject = ['$injector'];
     private common = this.$injector.get('core.service.common') as ICommon;
+    private isMgrLoading = {};
 
 
     constructor(private $injector: angular.auto.IInjectorService) {
@@ -16,7 +17,7 @@ export default class EcEmFactory {
         return repo;
     }
 
-    getNewManager(apiResourceName: _mp.EcMapApiResource, clientExtensions?: Array<ecat.entity.ext.IEntityExtension>): breeze.EntityManager {
+    getNewManager(apiResourceName: _mp.EcMapApiResource, clientExtensions?: Array<ecat.entity.ext.IEntityExtension>): breeze.promises.IPromise<breeze.EntityManager> {
 
         breeze.NamingConvention.camelCase.setAsDefault();
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
@@ -27,21 +28,27 @@ export default class EcEmFactory {
             metadataStore: metaDataStore
         });
 
-        if (apiResourceName !== _mp.EcMapApiResource.user) {
-            return mgr;
+        if (!mgr.metadataStore.isEmpty()) {
+            return this.common.$q.resolve(mgr);
+        }
+        if (this.isMgrLoading[apiResourceName as any]) {
+            console.log('Manager is loading multiple timpe');
         }
 
-        mgr.fetchMetadata()
-            .then(() => {
+        this.isMgrLoading[apiResourceName as any]  = true;
+       return mgr.fetchMetadata()
+            .then((): breeze.EntityManager => {
                 this.common.broadcast(this.common.coreCfg.coreApp.events.managerLoaded,
                     { loaded: true, mgrName: apiResourceName });
                 this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
-            })
+               this.isMgrLoading[apiResourceName as any] = false;
+               return mgr;
+           })
             .catch((error) => {
-                this.common.logger.logError(`${apiResourceName}} Manager could not be loaded. This is a critical error.\nPlease attempt reload the application`, error, 'EM-Factory', true);
+                this.common.logger.logError(`${apiResourceName} Manager could not be loaded. This is a critical error.\n Please attempt reload the application`, this.isMgrLoading, 'EM-Factory', true);
                 this.common.$state.go(this.common.stateMgr.core.error.name);
-            });
-        return mgr;
+               return mgr;
+           });
     }
 
     //#region Internal Api

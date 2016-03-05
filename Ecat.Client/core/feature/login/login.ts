@@ -48,9 +48,7 @@ export default class EcGlobalLogin {
                 if (this.user) {
                     return null;
                 }
-                this.dCtx.user.createUserLocal(true).then((user: ecat.entity.IPerson) => {
-                    this.user = user;
-                });
+                this.user = this.dCtx.user.createUserLocal();
                 this.userEmail = null;
                 this.userPassword = null;
                 break;

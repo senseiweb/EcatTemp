@@ -15,14 +15,15 @@ export default class EcProviderSpToolCommenter {
     commentFlag = _mp.MpCommentFlag;
     comment: ecat.entity.ISpComment | ecat.entity.IFacSpComment;
     isNew = false;
+    isPublished = false;
     nf: angular.IFormController;
     recipientName: string;
     recipientAvatar: string;
     isSaveInProgress = false;
     
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private $scope: angular.IScope, private dCtx: IDataCtx, private c: ICommon, private recipientId: number) {
-
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private $scope: angular.IScope, private dCtx: IDataCtx, private c: ICommon, private recipientId: number, private viewOnly: boolean) {
+        this.isPublished = viewOnly;
         const authorRole = this.authorRole = this.dCtx.user.persona.mpInstituteRole;
         let author: ecat.entity.IPerson;
         let recipient: ecat.entity.IPerson;
@@ -59,6 +60,9 @@ export default class EcProviderSpToolCommenter {
     }
 
     cancel(): void {
+        if (this.isPublished) {
+           return this.$mi.close();
+        }
         if (this.comment.entityAspect.entityState.isAddedModifiedOrDeleted()) {
             this.comment.entityAspect.rejectChanges();
         }
@@ -98,6 +102,16 @@ export default class EcProviderSpToolCommenter {
     }
 
     save(): void {
+        if (this.isPublished) {
+            const swalPubSettings: SweetAlert.Settings = {
+                title: 'How did you get here!',
+                text: 'The workgroup status has been set to published, no changes are allowed!',
+                type: 'error',
+                allowEscapeKey: true,
+                confirmButtonText: 'Ok'
+            }
+            return this.c.swal(swalPubSettings);
+        }
         this.isSaveInProgress = true;
 
         const ctx = (this.authorRole === _mp.EcMapInstituteRole.student) ? 'student' : 'faculty';

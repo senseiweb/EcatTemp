@@ -7,6 +7,7 @@ interface JQuery {
     mCustomScrollbar({}: any): JQuery;
     placeholder({}: any): JQuery;
     mask(mask: any): JQuery;
+    plot(data: any[], config: any): JQuery;
 }
 
 declare module breeze {
@@ -151,6 +152,7 @@ declare module ecat {
     interface IEcatParams extends angular.ui.IStateParamsService {
         ltiModId: string;
         wgId: number;
+        crseId: number;
         uId: string;
         mode: string;
     }

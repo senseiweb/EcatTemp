@@ -10,7 +10,7 @@ export default class EcDataContext {
     static serviceId = 'data.context';
     static $inject = ['$rootScope', _common.serviceId, IEmFactory.serviceId];
 
-    private loadedManagers: Array<{ module: string, mgr: breeze.EntityManager }> = [];
+    loadedManagers: Array<{ module: string, mgr: breeze.EntityManager }> = [];
     static: IStaticData;
     private repoNames = [
         'static',
@@ -29,12 +29,12 @@ export default class EcDataContext {
     courseAdmin: any;
     designer: any;
 
-    constructor($rs: angular.IRootScopeService, private c: _common, emFactory: IEmFactory) {
+    constructor($rs: angular.IRootScopeService, private c: _common, emfactory: IEmFactory) {
         this.repoNames.forEach((name: string) => {
             Object.defineProperty(this, name, {
                 configurable: true,
                 get() {
-                    const repo = emFactory.getRepo(name);
+                    const repo = emfactory.getRepo(name);
                     Object.defineProperty(this, name, {
                         value: repo,
                         configurable: false,
@@ -45,10 +45,10 @@ export default class EcDataContext {
             });
         });
 
-        $rs.$on(c.coreCfg.coreApp.events.addManager, (event: angular.IAngularEvent, data: Array<any>) => {
-            this.loadedManagers.push({ module: data[0].data.module, mgr: data[0].data.mgr });
-            event.preventDefault();
-        });
+        //$rs.$on(c.coreCfg.coreApp.events.addManager, (event: angular.IAngularEvent, data: Array<any>) => {
+        //    this.loadedManagers.push({ module: data[0].data.module, mgr: data[0].data.mgr });
+        //    event.preventDefault();
+        //});
     }
 
     private clearManagers(): void {
@@ -66,8 +66,7 @@ export default class EcDataContext {
         const changesStatus: Array<{ name: string, hasChanges: boolean }> = [];
         this.loadedManagers.forEach((holder) => {
             changesStatus.push({ name: holder.module, hasChanges: holder.mgr.hasChanges() });
-        }
-        );
+        });
         return changesStatus.filter(status => status.hasChanges);
     }
 

@@ -1,9 +1,10 @@
 ﻿import _core from 'core/states/core'
+import IDataCtx from "core/service/data/context"
 import * as _mp from 'core/common/mapStrings'
 
 export default class EcFacultyStates {
 
-    private isFacilitatorLoaded = false;
+    private isFacultyAppLoaded = false;
     parentName = 'faculty';
 
     main: angular.ui.IState;
@@ -22,10 +23,17 @@ export default class EcFacultyStates {
             abstract: true,
             template: '<div ui-view></div>',
             data: {
+                validateToken: true,
                 authorized: [_mp.EcMapInstituteRole.faculty]
             },
             resolve: {
-                moduleInit: ['$ocLazyLoad', this.loadModule]
+                moduleInit: ['$ocLazyLoad', this.loadModule],
+                tokenValid: ['tokenValid', (tokenValid) => tokenValid],
+                dCtxReady: ['moduleInit', 'tokenValid', IDataCtx.serviceId, (m, t, dCtx: IDataCtx) => {
+                    console.log(dCtx.faculty.activeCourseId);
+                    return dCtx.faculty.activate().then(() =>
+                        console.log('Faculty Manager Ready'));
+                }]
             }
         }
 
@@ -36,7 +44,7 @@ export default class EcFacultyStates {
             url: '/workGroup',
             templateUrl: '@[appFaculty]/feature/workgroups/workgroup.html',
             resolve: {
-                moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
+                facAppReady: ['dCtxReady', (dc) => dc]
             }
         }
 
@@ -51,7 +59,7 @@ export default class EcFacultyStates {
         this.wgAssess = {
             name: `${this.workGroup.name}.assess`,
             parent: this.workGroup.name,
-            url: '/assess/{wgId:int}',
+            url: '/assess/{crseId:int}/{wgId:int}',
             templateUrl: '@[appFaculty]/feature/workgroups/assess.html',
             controller: 'app.faculty.wkgrp.assess as wka'
         }
@@ -82,14 +90,17 @@ export default class EcFacultyStates {
 
     }
 
-    private loadModule = ($ocLl: oc.ILazyLoad): void => {
-        return this.isFacilitatorLoaded ? this.isFacilitatorLoaded :
-            System.import('app/faculty/appFac.js').then((facClass: any) => {
+    private loadModule = ($ocLl: oc.ILazyLoad): void => System.import('app/faculty/appFac.js')
+        .then((facClass: any) => {
+            if (!this.isFacultyAppLoaded) {
                 const facMod = facClass.default.load();
                 $ocLl.inject(facMod.moduleId);
-                this.isFacilitatorLoaded = true;
-            });
-    }
+                this.isFacultyAppLoaded = true;
+            } else {
+                return true;
+            }
+        });
+
 }
 
 

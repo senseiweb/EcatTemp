@@ -1,5 +1,10 @@
 ﻿import angular = require('angular')
 import 'uiSelect'
+import 'flot'
+import 'flotPie'
+import 'flotResize'
+import 'flotTooltip'
+import modSpTools from "provider/spTools/modSptools"
 import facultyConfig from 'faculty/config/configFacultyApp'
 import facDataService from 'faculty/service/context'
 import wrkgrpList from 'faculty/feature/workgroups/list'
@@ -12,7 +17,8 @@ export default class EcFacilitatorModule {
     moduleId = 'faculty';
     static load = () => new EcFacilitatorModule();
     constructor() {
-        angular.module(this.moduleId, ['ui.select'])
+        const spToolMod = new modSpTools();
+        angular.module(this.moduleId, ['ui.select', spToolMod.moduleId])
             .config(facultyConfig)
             .service(facDataService.serviceId, facDataService)
             .controller(wrkgrpList.controllerId, wrkgrpList)

@@ -38,30 +38,33 @@
                         <table class="table table-hover tableCenterAlign">
                             <thead>
                                 <tr>
-                                    <th col-md-3>Student</th>
-                                    <th col-md-2>Assessments</th>
-                                    <th col-md-2>Comments</th>
-                                    <th col-md-1>Strat</th>
-                                    <th col-md-3>Composite/Breakout</th>
+                                    <th class="col-md-3 text-center">Student</th>
+                                    <th class="col-md-2 text-center">Assessments</th>
+                                    <th class="col-md-2 text-center">Comments</th>
+                                    <th class="col-md-1 text-center">Strat</th>
+                                    <th class="col-md-3 text-center">Composite/Breakout</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="table-ft-lrg">
                                 <tr ng-repeat="member in wka.groupMembers track by member.studentId">
                                     <td>{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
                                     <td>
-                                        <button class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
-                                            {{member.statusOfStudent.assessComplete ? "View/Edit" : "Add" }}
-                                        </button>
+                                        <a class="btn btn-link" href="javascript:void(0)" ng-click="wka.loadAssessment(member.studentId)">
+                                            {{member.assessText}}
+                                        </a>
                                     </td>
 
-                                    <td>
-                                        <button class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{member.statusOfStudent.hasComment ? "View/Edit" : "Add" }}</button>
+                                    <td class="text-center">
+                                        <a href="javascript:void(0)" class="btn btn-link" ng-click="wka.loadComment(member.studentId)">{{member.commentText}}</a>
 
                                     </td>
-                                    <td>{{assess.me.statusOfPeer[peer.studentId].stratedPosition || 'Not Stratified'}}</td>
+                                    <td class="text-center">
+                                        {{member.statusOfStudent.stratedPosition || 'Not Stratified'}}
+                                    </td>
 
-                                    <td>
-                                        <pie-sp-break-out dataset="member.statusOfStudent.chartSosData" options="member.statusOfStudent.chartOptions"></pie-sp-break-out>
+                                    <td class="text-center">
+                                        <div pie-sp-break-out dataset="member.chartSosData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                        <div id="flotlegend{{$index}}" style="display: none"></div>
                                     </td>
                                 </tr>
                             </tbody>

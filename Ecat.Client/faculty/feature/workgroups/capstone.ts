@@ -1,5 +1,5 @@
-﻿import IDataCtx from "core/service/data/context"
-import * as _mp from "core/common/mapStrings"
+﻿import IDataCtx from 'core/service/data/context'
+import * as _mp from 'core/common/mapStrings'
 
 interface IResultsByPeer {
     [peerId: number]: IResults

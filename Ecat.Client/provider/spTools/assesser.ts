@@ -12,7 +12,7 @@ interface IAssessPager {
 export default class EcProviderSpToolAssessTaker {
 
     static controllerId = 'app.provider.sptools.assesser';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId, ICommon.serviceId, 'assesseeId'];
+    static $inject = ['$uibModalInstance', IDataCtx.serviceId, ICommon.serviceId, 'assesseeId', 'viewOnly'];
 
     private activeInvent: ecat.entity.ISpInventory;
     private assessee: ecat.entity.IPerson;
@@ -31,35 +31,37 @@ export default class EcProviderSpToolAssessTaker {
     private instructions: string;
     private inventoryList: Array<ecat.entity.ISpInventory> = [];
     private isNewAssess = false;
+    private isPublished = false;
     private isSelf = false;
     private pagers: Array<IAssessPager> = [];
     private readyToSave = false;
     private role: string;
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private assesseeId: number) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private assesseeId: number, viewOnly: boolean) {
+        this.isPublished = viewOnly;
         this.activate();
     }    
 
     private activate(): void {
         this.role = this.dCtx.user.persona.mpInstituteRole;
         const myId = this.dCtx.user.persona.personId;
+        const isStudent = this.role === _mp.EcMapInstituteRole.student;
 
-        if (this.role === _mp.EcMapInstituteRole.student) {
+        if (isStudent) {
             this.inventoryList = this.dCtx.student.getSpInventory(this.assesseeId) as Array<ecat.entity.IStudSpInventory>;
-          
         } else {
-            
+            this.inventoryList = this.dCtx.faculty.getFacSpInventory(this.assesseeId) as Array<ecat.entity.IFacSpInventory>;
         }
 
         const response = this.inventoryList[0].responseForAssessee;
         this.assessee = response.assessee.studentProfile.person;
         this.isSelf = this.assessee.personId === myId;
         this.groupName = response.workGroup.customName || response.workGroup.defaultName;
-        this.isNewAssess = this.inventoryList.some(item => item.entityAspect.entityState === breeze.EntityState.Added);
+        this.isNewAssess = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState === breeze.EntityState.Added);
 
         if (this.isNewAssess) {
-
-            this.instructions = this.inventoryList[0].instrument.studentInstructions;
+            const instrument = this.inventoryList[0].instrument;
+            this.instructions = isStudent ? instrument.studentInstructions : instrument.facultyInstructions;
 
             this.pagers = this.inventoryList.map(item => {
                 const pager = {} as IAssessPager;
@@ -98,6 +100,10 @@ export default class EcProviderSpToolAssessTaker {
         
     }
 
+    private checkResponse(item: ecat.entity.ISpInventory | any) {
+        item.showBehavior = false;
+    }
+
     private createInventList(): void {
         
     }
@@ -123,7 +129,17 @@ export default class EcProviderSpToolAssessTaker {
     }
 
     private save(): void {
-        
+        if (this.isPublished) {
+            const swalPubSettings: SweetAlert.Settings = {
+                title: 'How did you get here!',
+                text: 'The workgroup status has been set to published, no changes are allowed!',
+                type: 'error',
+                allowEscapeKey: true,
+                confirmButtonText: 'Ok'
+            }
+            return this.c.swal(swalPubSettings);
+        }
+
     }
 
     private pagerSort(a: IAssessPager, b: IAssessPager) {

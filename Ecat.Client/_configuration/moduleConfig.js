@@ -7,7 +7,10 @@
         "breezeNg": '_vendor/bower/breeze-client/build/adapters/breeze.bridge.angular.js',
         "breezeSaveError": '_vendor/bower/breeze-client-labs/breeze.saveErrorExtensions.js',
         "bsGrowl": '_vendor/bower/remarkable-bootstrap-notify/bootstrap-notify.js',
-        "flot": '_vendor/bower/Flot/jquery.flot.js',
+        "flot": '_vendor/flot/jquery.flot.js',
+        "flotPie": '_vendor/flot/jquery.flot.pie.js',
+        "flotResize": '_vendor/flot/jquery.flot.resize.js',
+        "flotTooltip": '_vendor/flot/jquery.flot.tooltip.js',
         "inputMask": '_vendor/bower/jquery-mask-plugin/dist/jquery.mask.min.js',
         "jMouseWheel": '_vendor/bower/jquery-mousewheel/jquery.mousewheel.min.js',
         "jquery": '_vendor/bower/jquery/dist/jquery.min.js',
@@ -133,7 +136,15 @@
             "format": 'global',
             "deps": ['jquery']
         },
-        "ngFlot": {
+        "flotPie": {
+            "format": 'global',
+            "deps": ['flot']
+        },
+        "flotTooltip": {
+            "format": 'global',
+            "deps": ['flot']
+        }, 
+        "flotResize": {
             "format": 'global',
             "deps": ['flot']
         }

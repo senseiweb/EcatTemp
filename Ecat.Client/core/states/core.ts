@@ -1,5 +1,5 @@
 ﻿import _common from "core/common/commonService"
-import _dataCtx from "core/service/data/context"
+import IDataCtx from "core/service/data/context"
 
 export default class CoreStates implements ecat.IEcatStateClass {
     static mainRefState: angular.ui.IState;
@@ -24,8 +24,8 @@ export default class CoreStates implements ecat.IEcatStateClass {
         templateUrl: '@[appCore]/feature/global/main.html',
         controller: 'app.global.main as main',
         resolve: {
-            tokenValid: [_dataCtx.serviceId, _common.serviceId, (dCtx: _dataCtx, c: _common) =>
-                c.checkValidToken()]
+            userMgrActivated: [IDataCtx.serviceId, (dCtx: IDataCtx) => dCtx.user.activate()],
+            tokenValid: ['userMgrActivated', (uma) => uma]
         }
     }
 
@@ -33,6 +33,9 @@ export default class CoreStates implements ecat.IEcatStateClass {
         name: `${this.main.name}.dashboard`,
         parent: this.main.name,
         url: '/dashboard',
+        data: {
+            validateToken: true
+        },
         templateUrl: '@[appCore]/feature/userSystems/dashboard.html',
         controller: 'app.user.dashboard as dashboard'
     }
@@ -41,6 +44,9 @@ export default class CoreStates implements ecat.IEcatStateClass {
         name: `${this.main.name}.profile`,
         parent: this.main.name,
         url: '/profile',
+        data: {
+            validateToken: true
+        },
         templateUrl: '@[appCore]/feature/userSystems/profile.html',
         controller: 'app.user.profile as profile'
     }
@@ -65,6 +71,9 @@ export default class CoreStates implements ecat.IEcatStateClass {
         parent: this.redirect.name,
         url: '/login/:mode',
         templateUrl: '@[appCore]/feature/login/login.html',
-        controller: 'app.global.login as login'
+        controller: 'app.global.login as login',
+        resolve: {
+            loginMgrActivated: [IDataCtx.serviceId, (dCtx: IDataCtx) => dCtx.user.activate()],
+        }
     }
 }

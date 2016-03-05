@@ -1,8 +1,9 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
-import {facCrseStudInGrpCfg}from "faculty/entityExtensions/crseStudentInGroup"
-import {facWorkGrpEntityExt} from "faculty/entityExtensions/workgroup"
-import * as _mp from "core/common/mapStrings"
-import * as _mpe from "core/common/mapEnum"
+import {facCrseStudInGrpCfg}from 'faculty/entityExtensions/crseStudentInGroup'
+import {facWorkGrpEntityExt} from 'faculty/entityExtensions/workgroup'
+import {facPersonCfg} from 'faculty/entityExtensions/person'
+import * as _mp from 'core/common/mapStrings'
+import * as _mpe from 'core/common/mapEnum'
 
 interface IFacultyApiResources extends ecat.IApiResources {
     courses: ecat.IApiResource,
@@ -24,6 +25,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
     activeCourseId: number;
     activeGroupId: number;
+    facRepoLoaded: angular.IPromise<any>;
 
     private facultyApiResource: IFacultyApiResources = {
         courses: {
@@ -45,11 +47,22 @@ export default class EcFacultyRepo extends IUtilityRepo {
     }
 
     constructor(inj) {
-        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facWorkGrpEntityExt, facCrseStudInGrpCfg]);
-        this.loadManager(this.facultyApiResource);
+        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facPersonCfg,facWorkGrpEntityExt, facCrseStudInGrpCfg]);
+        super.addResources(this.facultyApiResource);
         this.isLoaded.workGroup = {};
         this.isLoaded.course = {};
         this.isLoaded.spInstr = {};
+    }
+
+    activate(): angular.IPromise<any> {
+        if (this.isActivated) {
+           return this.c.$q.resolve();
+        }
+
+        return this.getManager(this.emf)
+            .then(() => {
+                this.isActivated = true;
+            });
     }
 
     initializeCourses(forceRefresh?: boolean): breeze.promises.IPromise<Array<ecat.entity.ICourse> | angular.IPromise<void>> {
@@ -164,7 +177,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const resource = this.facultyApiResource.wgAssess.resource;
         const params = {courseId: this.activeCourseId, workGroupId: this.activeGroupId, addAssessment: false};
      
-        if (!isLoaded.spInstr[cachedWg.assignedSpInstrId]) {
+        if (!cachedWg || !isLoaded.spInstr[cachedWg.assignedSpInstrId]) {
             params.addAssessment = true;
         }
         
@@ -200,24 +213,27 @@ export default class EcFacultyRepo extends IUtilityRepo {
             this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
 
-        const instrument = this.manager.getEntityByKey(_mp.EcMapEntityType.spInventory, { courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.ISpInstrument;
+        const workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
 
-        if (!instrument || !instrument.inventoryCollection) {
-            this.log.warn('The instrument and/or inventory is not loaded on client', null, false);
+        if (!workGroup.assignedSpInstr) {
+            this.log.warn('Missing an assigned instrument for this workgroup', workGroup, false);
+            return null;
         }
 
-        return instrument.inventoryCollection.map((inventory: ecat.entity.IFacSpInventory) => {
-            const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: inventory.id };
+        const inventoryList = workGroup.assignedSpInstr.inventoryCollection as Array<ecat.entity.IStudSpInventory>;
 
-            let facSpReponse = this.manager.getEntityByKey(_mp.EcMapEntityType.facSpResponse, key) as ecat.entity.IFacSpResponse;
+        return inventoryList.map((item: ecat.entity.IFacSpInventory) => {
+            const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: item.id };
+
+            let facSpReponse = this.manager.getEntityByKey(_mp.EcMapEntityType.facSpResponse, [assesseeId, this.activeCourseId, this.activeGroupId]) as ecat.entity.IFacSpResponse;
 
             if (!facSpReponse) {
                 facSpReponse = this.manager.createEntity(_mp.EcMapEntityType.facSpResponse, key) as ecat.entity.IFacSpResponse;
             }
 
-            inventory.responseForAssessee = facSpReponse;
+            item.responseForAssessee = facSpReponse;
 
-            return inventory;
+            return item;
         }) as Array<ecat.entity.IFacSpInventory>;
 
     }

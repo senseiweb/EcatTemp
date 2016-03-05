@@ -1,7 +1,7 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
 import ICommon from "core/common/commonService"
 import IDataCtx from "core/service/data/context"
-import IEmFactory from 'core/service/data/emFactory'
+import IEmFactory from "core/service/data/emfactory"
 import {userPeronCfg} from "core/entityExtension/person"
 import * as _mp from "core/common/mapStrings"
 import * as _mpe from "core/common/mapEnum"
@@ -59,47 +59,55 @@ export default class EcUserRepo extends IUtilityRepo {
             return _mpe.TokenStatus.Valid;
         }
     };
+    userServiceReady = false;
 
     constructor(private $http: angular.IHttpService, inj, public userStatic: ecat.entity.ILoginToken) {
         super(inj, 'User Data Service', _mp.EcMapApiResource.user, [userPeronCfg]);
         super.addResources(this.userApiResources);
-        this.createUserToken();
-    }
-
-    createUserLocal(addSecurity: boolean): breeze.promises.IPromise<ecat.entity.IPerson | angular.IPromise<void>> {
-
-        const self = this;
-
-        if (!this.mgrLoaded) {
-            return this.loadManager(this.apiResources)
-                .then(createUserLcl)
-                .catch(this.queryFailed);
-        }
-
-        return this.c.$q.when(createUserLcl());
-
-        function createUserLcl(): ecat.entity.IPerson {
-            const newPerson = {
-                registrationComplete: false,
-                mpInstituteRole: this.c.appVar.EcMapInstituteRole.external
-            };
-
-            const user = self.manager.createEntity(this.c.appVar.EcMapEntityType.person, newPerson) as ecat.entity.IPerson;
-
-            user.mpAffiliation = _mp.EcMapAffiliation.unk;
-            user.mpComponent = _mp.EcMapComponent.unk;
-            user.mpPaygrade = _mp.EcMapPaygrade.unk;
-            user.mpGender = _mp.EcMapGender.unk;
-
-            return user;
+        if (userStatic) {
+            this.token.expire = new Date(this.userStatic.tokenExpire as any),
+                this.token.warning = new Date(this.userStatic.tokenExpireWarning as any),
+                this.token.auth = this.userStatic.authToken;
         }
     }
+
+    activate(): angular.IPromise<void> {
+        if (this.isActivated) {
+            return this.c.$q.resolve();
+        }
+        const _ = this;
+        return this.getManager(this.emf)
+            .then(userRepoActivateResponse)
+            .catch(userRepoActivateError);
+
+        function userRepoActivateResponse(): void {
+            _.isActivated = _.userServiceReady = true;
+            _.createUserToken();
+        }
+
+        function userRepoActivateError(): void {
+
+        }
+    }
+
+    createUserLocal(): ecat.entity.IPerson {
+        const newPerson = {
+            registrationComplete: false,
+            mpInstituteRole: _mp.EcMapInstituteRole.external
+        };
+
+        const user = this.manager.createEntity(_mp.EcMapEntityType.person, newPerson) as ecat.entity.IPerson;
+
+        user.mpAffiliation = _mp.EcMapAffiliation.unk;
+        user.mpComponent = _mp.EcMapComponent.unk;
+        user.mpPaygrade = _mp.EcMapPaygrade.unk;
+        user.mpGender = _mp.EcMapGender.unk;
+
+        return user;
+    }
+
 
     createUserToken(): ecat.entity.ILoginToken {
-        const isLoaded: ICachedUserData = this.isLoaded;
-        if (isLoaded.token || !this.mgrLoaded || !this.userStatic) {
-            return null;
-        }
 
         this.persona = this.manager.createEntity(_mp.EcMapEntityType.person, this.userStatic.person, breeze.EntityState.Unchanged) as ecat.entity.IPerson;
 

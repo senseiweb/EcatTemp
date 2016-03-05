@@ -3,7 +3,6 @@
 import angular = require('angular')
 import swal from 'sweetalert'
 import 'animate'
-import 'ngFlot'
 import 'ngSanitize'
 import 'ocLazyLoad'
 import 'uiRouter'
@@ -30,7 +29,6 @@ export default class EcApp {
             angular.module('app.ecat', [
                 'ui.router',
                 'ui.bootstrap',
-                'angular-flot',
                 'ngAnimate',
                 'ngMessages',
                 'ngSanitize',
@@ -42,7 +40,7 @@ export default class EcApp {
                 'app.core'
             ])
             .service(_common.serviceId, _common)
-            .run([_common.serviceId, 'breeze', (common: _common) => common.appStartup()]);
+            .run(['breeze',(breeze) => breeze]);
         //#endregion
 
     }

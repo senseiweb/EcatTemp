@@ -1,8 +1,8 @@
 ﻿import 'breezeSaveError'
-import _common from "core/common/commonService"
-import IEmFactory from "core/service/data/emFactory"
-import IDataCtx from "core/service/data/context"
-import * as _mpe from "core/common/mapEnum"
+import _common from 'core/common/commonService'
+import IEmFactory from "core/service/data/emfactory"
+import IDataCtx from 'core/service/data/context'
+import * as _mpe from 'core/common/mapEnum'
 
 export interface ILocalResource {
     userProfile: boolean;
@@ -18,6 +18,7 @@ export default class EcUtilityRepoServices {
     protected c: _common;
     protected emf: IEmFactory;
     protected isLoaded = {} as any;
+    protected isActivated = false;
     protected log: {
         error: (msg: string, data: any, showLog: boolean) => void;
         warn: (msg: string, data: any, showLog: boolean) => void;
@@ -25,7 +26,6 @@ export default class EcUtilityRepoServices {
         success: (msg: string, data: any, showLog: boolean) => void;
     }
     protected manager: breeze.EntityManager;
-    mgrLoaded = false;
     saveInProgress = false;
     protected query: breeze.EntityQuery;
 
@@ -33,7 +33,6 @@ export default class EcUtilityRepoServices {
         private loggerId: string,
         protected endPoint: string,
         protected entityExtCfgs: Array<ecat.entity.ext.IEntityExtension>) {
-
         const dCtx = inj.get(IDataCtx.serviceId) as IDataCtx;
         const c = inj.get(_common.serviceId) as _common;
         const emf = inj.get(IEmFactory.serviceId) as IEmFactory;
@@ -42,35 +41,39 @@ export default class EcUtilityRepoServices {
         this.log = c.getAllLoggers(this.loggerId);
         this.dCtx = dCtx;
         this.emf = emf;
-        this.mgrLoaded = false;
-        this.getManager(emf);
     }
 
     addResources(apiResources): void {
         this.apiResources = apiResources;
     }
 
-    private getManager = (factory: IEmFactory): void => {
+    protected getManager = (factory: IEmFactory): breeze.promises.IPromise<void> => {
+        const _ = this;
+        return factory
+            .getNewManager(this.endPoint, this.entityExtCfgs)
+            .then(getManagerResponse);
 
-        this.manager = factory.getNewManager(this.endPoint, this.entityExtCfgs);
-
-        this.c.broadcast(this.c.coreCfg.coreApp.events.addManager, { data: { module: this.endPoint, mgr: this.manager } });
-
-        this.c.$rootScope.$on(this.c.coreCfg.coreApp.events.managerLoaded, (event, data) => {
-            if (data[0].mgrName === this.endPoint) {
-                this.mgrLoaded = true;
-                this.registerTypes(this.apiResources);
-            }
-        });
+        function getManagerResponse(mgr: breeze.EntityManager) {
+            _.manager = mgr;
+            _.registerTypes(_.apiResources);
+            _.dCtx.loadedManagers.push({ module: _.endPoint, mgr: mgr });
+            //this.c.$rootScope.$on(this.c.coreCfg.coreApp.events.managerLoaded, (event, data) => {
+            //    if (data[0].mgrName === this.endPoint) {
+            //        this.mgrReady = true;
+            //        this.registerTypes(this.apiResources);
+            //    }
+            //});
+        }
     }
 
-    protected loadManager(apiResources: ecat.IApiResources): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-        return this.manager.fetchMetadata()
-            .then(() => {
-                this.registerTypes(apiResources);
-            })
-            .catch(this.queryFailed);
-    }
+
+//protected loadManager(apiResources: ecat.IApiResources): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
+    //    return this.manager.fetchMetadata()
+    //        .then(() => {
+    //            this.registerTypes(apiResources);
+    //        })
+    //        .catch(this.queryFailed);
+    //}
 
     protected queryLocal = (resource: string, ordering?: string, predicate?: breeze.Predicate): breeze.Entity | breeze.Entity[]=> {
         return this.query.from(resource)

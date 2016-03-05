@@ -18,6 +18,7 @@ export default class EcStudentAssessments {
     private hasComment = false;
     private hasResultComment = false;
     private isResultPublished = true;
+    private isViewOnly = true;
     private log = this.c.getAllLoggers('Assessment Center');
     private me: ecat.entity.ICrseStudInGroup;
     private peers: Array<ecat.entity.ICrseStudInGroup>;
@@ -63,7 +64,7 @@ export default class EcStudentAssessments {
         }
         
         //TODO: Add succes or failure logger
-        this.spTools.loadSpComment(recipientId)
+        this.spTools.loadSpComment(recipientId, this.isViewOnly)
             .then(() => {
                 console.log('Comment modal closed');
                 this.me.getSigStatus();
@@ -95,7 +96,7 @@ export default class EcStudentAssessments {
         }
 
         //TODO: Add succes or failure logger
-        this.spTools.loadSpAssessment(assesseeId)
+        this.spTools.loadSpAssessment(assesseeId, this.isViewOnly)
             .then(() => {
                 console.log('Comment modal closed');
                 this.me.getSigStatus();
@@ -128,11 +129,13 @@ export default class EcStudentAssessments {
                 const grpMembers = wrkGrp.groupMembers;
 
                 this.isResultPublished = wrkGrp.mpSpStatus === _mp.MpSpStatus.published;
-                
+
+                this.isViewOnly = this.isResultPublished || wrkGrp.mpSpStatus === _mp.MpSpStatus.arch;
+
                 if (this.isResultPublished) {
                     //TODO: Check how this perform between group changes
                     this.log.info('Retrieving results, standby...', null, true);
-                    this.getWorkGroupResults();
+                    //this.getWorkGroupResults();
                 }
 
                 if (!grpMembers || grpMembers.length === 0) {

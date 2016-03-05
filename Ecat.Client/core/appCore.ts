@@ -1,5 +1,8 @@
 ﻿//#region Import Required Modules
 import 'angular'
+import * as _mpe from "core/common/mapEnum"
+import swal from "sweetalert"
+import {IStateMgr} from "core/config/cfgProviders"
 //#endregion 
 
 //#region Import Module Configuration
@@ -33,9 +36,8 @@ import spBoDirective from "core/directive/spBreakoutPie"
 import cfgProvider from "core/config/cfgProviders"
 import ecMalihuScrollService from 'core/service/plugin/malihuScroll'
 import dataCtx from 'core/service/data/context'
-import emFactory from "core/service/data/emfactory"
+import emfactory from "core/service/data/emfactory"
 import userRepo from 'core/service/data/user'
-import studentRepo from 'student/service/context'
 import growl from "core/service/plugin/growlNotify"
 import logger from 'core/service/logger'
 import staticDs from "core/service/data/static"
@@ -81,6 +83,111 @@ export default class EcAppCore {
 
         return loginToken;
     }
+    private wireUpListeners = ($q: angular.IQService, $rs: angular.IRootScopeService, $state: angular.ui.IStateService, dCtx: dataCtx, stateMgr: IStateMgr, userStatic: ecat.entity.ILoginToken): void => {
+        
+        
+        function notifyError(error: ecat.IRoutingError) {
+            const promptSettings: SweetAlert.Settings = {
+                title: 'System Navigation Error',
+                text: error.message,
+                type: 'error',
+                closeOnConfirm: true
+            }
+            swal(promptSettings);
+        }
+
+        $rs.$on('$stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: any, from: angular.ui.IState, fromParams: any) => {
+
+            if (!to.data) {
+                return null;
+            }
+
+            const error: ecat.IRoutingError = {
+                errorCode: _mpe.SysErrorType.Undefined,
+                redirectTo: '',
+                params: {},
+                message: ''
+            }
+
+            if (angular.isDefined(to.data.validateToken)) {
+              
+                const tokenStatus = dCtx.user.token.validity();
+
+                if (tokenStatus === _mpe.TokenStatus.Expired) {
+                    error.errorCode = _mpe.SysErrorType.AuthExpired;
+                    error.redirectTo = stateMgr.core.login.name;
+                    error.message = 'You authenication token has expired. Please re-login.';
+                    notifyError(error);
+                    $event.preventDefault();
+                    return $state.go(stateMgr.core.login.name, { mode: 'lock', redirect: to, params: toParams });
+                }
+
+                if (tokenStatus === _mpe.TokenStatus.Missing) {
+                    error.errorCode = _mpe.SysErrorType.AuthNoToken;
+                    error.redirectTo = stateMgr.core.login.name;
+                    error.message = 'You authenication token was not found. Please login.';
+                    error.params = { mode: 'login' };
+                    notifyError(error);
+                    $event.preventDefault();
+                    return $state.go(stateMgr.core.login.name, { mode: 'login', redirect: to, params: toParams });
+                }
+               
+            }
+
+            if (angular.isArray(to.data.authorized)) {
+                const user = dCtx.user.persona;
+                const userRole = user ? user.mpInstituteRole : userStatic.person.mpInstituteRole;
+                error.errorCode = _mpe.SysErrorType.NotAuthorized;
+                error.redirectTo = stateMgr.core.login.name;
+                error.message = 'You are attempting to access a resource that requires an authorization level that is not currently associated with your account.';
+
+                if (!userRole) {
+                    notifyError(error);
+                    $event.preventDefault();
+                }
+                const authorizedRoles = to.data.authorized as Array<string>;
+
+                if (!authorizedRoles.some(authRole => authRole === userRole)) {
+                    notifyError(error);
+                    $event.preventDefault();
+                }
+            }
+            return true;
+        });
+
+        $rs.$on('$stateChangeError', ($event, toState, toParams, fromState, fromParams, routeError) => {
+
+            if (angular.isObject(routeError)) {
+
+                const error = routeError as ecat.IRoutingError;
+                $event.preventDefault();
+
+                switch (error.errorCode) {
+                case _mpe.SysErrorType.RegNotComplete:
+                    const regError: SweetAlert.Settings = {
+                        title: 'Registration Error',
+                        text: error.message,
+                        type: 'error',
+                        closeOnConfirm: true
+                    }
+                    swal(regError, () => {
+                        $state.go(error.redirectTo, null, { notify: false });
+                    });
+                    break;
+
+                default:
+                    const promptSettings: SweetAlert.Settings = {
+                        title: 'Unexpected Navigation Error',
+                        text: 'A unexpected system navigation error occurred. Please retry your request, or contact support if the problem persist',
+                        type: 'error',
+                        closeOnConfirm: true
+                    }
+                    swal(promptSettings);
+                    console.log(error.message);
+                }
+            }
+        });
+    }
 
     constructor() {
 
@@ -89,8 +196,8 @@ export default class EcAppCore {
             //#endregion
 
             //#region Configuration
-            .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', `${cfgProvider.stateConfigProvider.id}Provider`, 'userStatic',(a,b,c,d,e) => new stateCfg(a,b,c,d,e)])
-            .config(['$httpProvider', '$ocLazyLoadProvider', `${cfgProvider.appCfgProvider.id}Provider`, '$provide',(a,b,c,d) => new coreCfg(a,b,c,d)])
+            .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', `${cfgProvider.stateConfigProvider.id}Provider`, 'userStatic', (a, b, c, d, e) => new stateCfg(a, b, c, d, e)])
+            .config(['$httpProvider', '$ocLazyLoadProvider', `${cfgProvider.appCfgProvider.id}Provider`, '$provide', (a, b, c, d) => new coreCfg(a, b, c, d)])
             .constant('userStatic', this.setUserStatic())
             //#endregion
 
@@ -125,12 +232,12 @@ export default class EcAppCore {
             .service(ecMalihuScrollService.serviceId, ecMalihuScrollService)
             .service(authService.serviceId, authService)
             .service(dataCtx.serviceId, dataCtx)
-            .service(emFactory.serviceId, emFactory)
+            .service(emfactory.serviceId, emfactory)
             .service(userRepo.serviceId, userRepo)
-            .service(studentRepo.serviceId, studentRepo)
             .service(growl.serviceId, growl)
             .service(logger.serviceId, logger)
-            .service(staticDs.serviceId, staticDs);
+            .service(staticDs.serviceId, staticDs)
+            .run(['$q', '$rootScope', '$state', dataCtx.serviceId, cfgProvider.stateConfigProvider.id,'userStatic', this.wireUpListeners]);
 
         //#endregion
 
