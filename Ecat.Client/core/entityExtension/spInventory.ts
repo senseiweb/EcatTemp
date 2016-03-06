@@ -2,14 +2,14 @@
 import * as _mpe from "core/common/mapEnum"
 
 export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
-    private _behaveDisplayed: boolean;
-    private _freqLevel: _mpe.SpFreqLevel;
-    private _effLevel: _mpe.SpEffectLevel;
+    private _behaveDisplayed = true;
+    private _freqLevel: _mpe.SpFreqLevel = null;
+    private _effLevel: _mpe.SpEffectLevel = null;
 
 
     compositeScore: number;
     responseForAssessee: ecat.entity.ISpResponse | ecat.entity.IFacSpResponse;
-
+ß
     get behaviorFreq(): _mpe.SpFreqLevel {
         if (!this.responseForAssessee) {
             return null;

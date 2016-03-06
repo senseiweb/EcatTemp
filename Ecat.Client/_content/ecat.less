@@ -25,12 +25,45 @@
 
 
 body {
-    tbody.table-ft-lrg{
-        font-size: 1.3em;
 
-        a {
+    table .table-ft-lrg {
+        tbody{
+            font-size: 1em;
+        }
+        th {
             font-size: 1.3em;
         }
+
+        a {
+            font-size: 1em;
+        }
+    }
+
+    ul.pagination.self-peer {
+         
+        li {
+            a {
+                background-color: #fff;
+
+                .active {
+                    background-color: #31529F;
+
+                }
+                  i.zmdi{
+            position: absolute;
+            font-size: 1.2em;
+            top: -15px;
+            left: 21px;
+        }
+            }
+            .completed{
+                &not .active{
+                    border: 1px solid #003F29;
+                }
+            }
+
+          
+        }  
     }
 
     ul.select2-result-single {

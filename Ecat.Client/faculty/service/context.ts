@@ -2,6 +2,7 @@
 import {facCrseStudInGrpCfg}from 'faculty/entityExtensions/crseStudentInGroup'
 import {facWorkGrpEntityExt} from 'faculty/entityExtensions/workgroup'
 import {facPersonCfg} from 'faculty/entityExtensions/person'
+import {facSpInventoryCfg} from "faculty/entityExtensions/spInventory"
 import * as _mp from 'core/common/mapStrings'
 import * as _mpe from 'core/common/mapEnum'
 
@@ -47,7 +48,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
     }
 
     constructor(inj) {
-        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facPersonCfg,facWorkGrpEntityExt, facCrseStudInGrpCfg]);
+        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facSpInventoryCfg,facPersonCfg,facWorkGrpEntityExt, facCrseStudInGrpCfg]);
         super.addResources(this.facultyApiResource);
         this.isLoaded.workGroup = {};
         this.isLoaded.course = {};

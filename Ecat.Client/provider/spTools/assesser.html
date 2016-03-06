@@ -42,7 +42,10 @@
                 ng-click="assesser.save()">
             Save
         </button>
-        <button class="btn btn-link" type="button" ng-click="assesser.cancel()">Cancel</button>
+        <button class="btn btn-link" type="button" ng-click="assesser.cancel()">
+            <span ng-if="assesser.isPristine">Close</span>
+            <span ng-if="!assesser.isPristine">Cancel</span>
+        </button>
     </div>
 
     <div ng-if="!assesser.hasAcknowledge" class="modal-footer">

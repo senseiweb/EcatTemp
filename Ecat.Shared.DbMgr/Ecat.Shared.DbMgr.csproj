@@ -76,7 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DbDevSeed.sql" />
+    <None Include="DbDevSeed.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

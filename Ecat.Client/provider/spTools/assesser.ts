@@ -7,6 +7,8 @@ interface IAssessPager {
     itemId: number;
     displayId: number;
     isCompleted: boolean;
+    isOpen: boolean;
+    isActive: boolean;
 }
 
 export default class EcProviderSpToolAssessTaker {
@@ -32,6 +34,7 @@ export default class EcProviderSpToolAssessTaker {
     private inventoryList: Array<ecat.entity.ISpInventory> = [];
     private isNewAssess = false;
     private isPublished = false;
+    private isPristine = false;
     private isSelf = false;
     private pagers: Array<IAssessPager> = [];
     private readyToSave = false;
@@ -39,6 +42,9 @@ export default class EcProviderSpToolAssessTaker {
 
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private assesseeId: number, viewOnly: boolean) {
         this.isPublished = viewOnly;
+        c.$rootScope.$on('$destory', () => {
+            this.$mi.dismiss('closed by destory');
+        });
         this.activate();
     }    
 
@@ -67,6 +73,7 @@ export default class EcProviderSpToolAssessTaker {
                 const pager = {} as IAssessPager;
                 pager.displayId = item.displayOrder;
                 pager.isCompleted = item.responseForAssessee.mpItemResponse !== null;
+                pager.isOpen = pager.isCompleted;
                 pager.itemId = item.id;
                 return pager;
             }).sort(this.pagerSort);
@@ -81,23 +88,35 @@ export default class EcProviderSpToolAssessTaker {
     private acknowledge(): void {
         this.hasAcknowledge = true;
         const firstItem = this.pagers[0];
-        this.changeInventory(firstItem, true);
+        this.changeInventory(firstItem, 0, true);
     }
 
-    private changeInventory(pager: IAssessPager, skipCheck?: boolean): void {
-        const previousPager = this.pagers.filter(p => p.displayId === (pager.displayId - 1))[0];
+    private changeInventory(pager: IAssessPager, $index: number, skipCheck?: boolean): void {
+        const previousIndex = $index === 0 ? $index : $index - 1;
+        const previousPager = this.pagers[previousIndex];
 
-        if (!previousPager.isCompleted && !skipCheck) {
-            return null;
+        if (!skipCheck) {
+            const previousItem = this.inventoryList.filter(item => item.id === previousPager.itemId)[0];
+            previousPager.isCompleted = previousItem.responseForAssessee.mpItemResponse !== null;
+            if (!previousPager.isCompleted) {
+                return null;
+            }
         }
 
-        const response = this.inventoryList.filter(item => item.id === pager.itemId)[0];
-
-        pager.isCompleted = response === null;
+        const inventoryItem = this.inventoryList.filter(item => item.id === pager.itemId)[0];
+        this.activeInvent = inventoryItem;
     }
 
     private cancel(): void {
         
+    }
+
+    private checkDone(): void {
+        const allValidValues = this.inventoryList.every(item => item.responseForAssessee.mpItemResponse !== null);
+        const hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isAddedModifiedOrDeleted());
+
+        this.isPristine = allValidValues && !hasChanges;
+        this.readyToSave = allValidValues && hasChanges;
     }
 
     private checkResponse(item: ecat.entity.ISpInventory | any) {

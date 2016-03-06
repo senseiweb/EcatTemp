@@ -80,8 +80,12 @@ export default class EcUserRepo extends IUtilityRepo {
             .then(userRepoActivateResponse)
             .catch(userRepoActivateError);
 
-        function userRepoActivateResponse(): void {
+        function userRepoActivateResponse(): void | angular.IPromise<void> {
             _.isActivated = _.userServiceReady = true;
+            if (!_.userStatic) {
+                console.log('Error: user static account not found');
+              return _.c.$q.reject('no static user exists');
+            }
             _.createUserToken();
         }
 

@@ -34,14 +34,14 @@
                             <li>
                                 <a href="javascript:void(0)" 
                                    ng-hide="assesser.activeInvent.behaviorDisplayed"
-                                   ng-click="assesser.activeInvent.behaviorDisplayed = true, assesser.checkDone()">
+                                   ng-click="assesser.activeInvent.behaviorDisplayed = true; assesser.checkDone()">
                                     Displayed
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:void(0)" 
                                    ng-hide="!assesser.activeInvent.behaviorDisplayed"
-                                   ng-click="assesser.activeInvent.behaviorDisplayed = false, assesser.checkDon()">
+                                   ng-click="assesser.activeInvent.behaviorDisplayed = false; assesser.checkDon()">
                                     Not Displayed
                                 </a>
                             </li>
@@ -51,54 +51,52 @@
             </div>
             <div ng-if="assesser.activeInvent.behaviorDisplayed">
                 <div class="col-md-7">
-                    <div class="btn-group btn-group-sm">
-
+                    <div class="btn-group btn-group-lg">
                         <button type="button"
                                 class="btn btn-default waves-effect"
-                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.SpEffectLevel.Ineffective}"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.ie}"
                                 ng-model="assesser.activeInvent.behaviorEffect"
                                 ng-click="assesser.checkDone()"
-                                uib-btn-radio="{{assesser.enum.SpEffectLevel.Ineffective}}">
+                                uib-btn-radio="{{assesser.enum.ie}}">
                             Ineffective
                         </button>
 
                         <button type="button"
                                 class="btn btn-default waves-effect"
-                                ng-class="{'btn-primary':assesser.activeInvent.behaviorEffect === assesser.enum.SpEffectLevel.Effective}"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.e}"
                                 ng-model="assesser.activeInvent.behaviorEffect"
                                 ng-click="assesser.checkDone()"
-                                uib-btn-radio="{{assesser.enum.SpEffectLevel.Effective}}">
+                                uib-btn-radio="{{assesser.enum.e}}">
                             Effective
                         </button>
 
                         <button type="button"
                                 class="btn btn-default waves-effect"
-                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.SpEffectLevel.HighlyEffective}"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.he}"
                                 ng-model="assesser.activeInvent.behaviorEffect"
                                 ng-click="assesser.checkDone()"
-                                uib-btn-radio="{{assesser.enum.SpEffectLevel.HighlyEffective}}">
+                                uib-btn-radio="{{assesser.enum.he}}">
                             Highly Effective
                         </button>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="btn-group btn-group-sm">
-                        
+                    <div class="btn-group btn-group-lg">
                         <button type="button"
                                 class="btn btn-default waves-effect"
-                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.SpFreqLevel.Frequently}"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.fre}"
                                 ng-model="assesser.activeInvent.behaviorFreq"
                                 ng-click="assesser.checkDone()"
-                                uib-btn-radio="{{assesser.enum.SpFreqLevel.Frequently}}">
+                                uib-btn-radio="{{assesser.enum.fre}}">
                             Frequently
                         </button>
 
                         <button type="button"
                                 class="btn btn-default waves-effect"
-                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.SpFreqLevel.Always}"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.alw}"
                                 ng-model="assesser.activeInvent.behaviorFreq"
                                 ng-click="assesser.checkDone()"
-                                uib-btn-radio="{{assesser.enum.SpFreqLevel.Always}}">
+                                uib-btn-radio="{{assesser.enum.alw}}">
                             Always
                         </button>
                     </div>
@@ -114,11 +112,15 @@
 
         <div class="row">
             <div class="col-md-12 text-center">
-                <ul class="pagination">
-                    <li ng-repeat="pager in assesser.pagers | orderby: displayId  track by pager.itemId"
-                        ng-class="{success: pager.isCompleted, active: assesser.activeInventory.id === pager.itemId}"
-                        ng-click="assesser.changeInventory(pager, $first)">
-                        <a href="javascript:void(0)">{{pager.displayId}}</a>
+                <ul class="pagination self-peer">
+                    <li ng-repeat="pager in assesser.pagers | orderBy: displayId track by pager.itemId"
+                        ng-class="{completed: pager.isCompleted, active: pager.itemId === assesser.activeInvent.id}"
+                        ng-disabled="!pager.isCompleted || pager.itemId === assesser.activeInvent.id"
+                        ng-click="assesser.changeInventory(pager,$index,$first)">
+                        <a href="javascript:void(0)">
+                            {{pager.displayId}}
+                            <i class="zmdi zmdi-check-circle" ng-if="pager.itemId !== assesser.activeInvent.id && pager.isCompleted" ></i>
+                        </a>
                     </li>
                 </ul>
             </div>
