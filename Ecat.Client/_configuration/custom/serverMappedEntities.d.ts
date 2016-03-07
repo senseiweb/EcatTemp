@@ -15,6 +15,7 @@ declare module ecat.entity
             isPeerAllComplete: boolean;
             stratComplete: boolean;
             breakout: ISpStatusBreakOut;
+            breakOutChartData: Array<any>;
             missingAssessItems: Array<number>;
             compositeScore: number;
             stratedPosition: number;
@@ -26,6 +27,7 @@ declare module ecat.entity
             stratComplete: boolean;
             missingAssessItems: Array<number>;
             breakout: ISpStatusBreakOut;
+            breakOutChartData: Array<any>;
             compositeScore: number;
             stratedPosition: number;
             hasComment: boolean;
@@ -40,17 +42,12 @@ declare module ecat.entity
         }
 
         interface ICrseStudInGrpExt {
-            getSigStatus(refresh?: boolean): void;
             statusOfPeer: IStatusOfPeer;
-            chartSopData: Array<any>;
-            chartOptions: {};
         }
 
         interface IFacCrseStudInGrpExt extends ICrseStudInGrpExt {
             numberOfAuthorComments: number;
             statusOfStudent: IFacCrseStudInGrpStatus;
-            getFacSpStatus(refresh?: boolean): void;
-            chartSosData: Array<any>;
         }
 
         interface ISpInventoryExtBase {
@@ -90,7 +87,7 @@ declare module ecat.entity
     //#endregion
     
    //#region Model Owener User
-    interface IStudent extends breeze.Entity, s.user.ProfileStudent {
+    interface IStudentProfile extends breeze.Entity, s.user.ProfileStudent {
         person: IPerson;
     }
 
@@ -111,7 +108,7 @@ declare module ecat.entity
     }
 
     interface IPerson extends breeze.Entity, s.user.Person, ext.PersonClientExtensions {
-        student: IStudent;
+        student: IStudentProfile;
         faculty: IFaculty;
         external:IExternal;
         hqStaff: IStaff;
@@ -136,6 +133,7 @@ declare module ecat.entity
 
     interface IWorkGroup extends breeze.Entity, s.school.WorkGroup {
         groupMembers: ICrseStudInGroup[];
+        spComments: ISpComment[];
     }
 
     interface ICourse extends breeze.Entity, s.school.Course {
@@ -145,7 +143,7 @@ declare module ecat.entity
     interface ICrseStudInGroup extends breeze.Entity, s.school.CrseStudentInGroup, ext.ICompositeKey, ext.ICrseStudInGrpExt, ext.IFacCrseStudInGrpExt {
         groupPeers: ICrseStudInGroup[];
         workGroup: IWorkGroup;
-        studentProfile: IStudent;
+        studentProfile: IStudentProfile;
         assessorSpResponses: ISpResponse[];
         assesseeSpResponses: ISpResponse[];
         authorOfComments: ISpComment[];

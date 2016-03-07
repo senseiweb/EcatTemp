@@ -1,4 +1,5 @@
 ﻿import IDataCtx from "core/service/data/context"
+import ICommon from "core/common/commonService"
 import _commenter from "provider/spTools/commenter"
 import _assesser from "provider/spTools/assesser"
 
@@ -10,7 +11,6 @@ export default class EcSpTools {
         controller: _commenter.controllerId,
         controllerAs: 'commenter',
         bindToController: true,
-        size: 'lg',
         keyboard: false,
         backdrop: 'static',
         templateUrl: '@[appProvider]/spTools/commenter.html'
@@ -20,7 +20,6 @@ export default class EcSpTools {
     private assssModalOption: angular.ui.bootstrap.IModalSettings = {
         controller: _assesser.controllerId,
         controllerAs: 'assesser',
-        size: 'lg',
         bindToController: true,
         keyboard: false,
         backdrop: 'static',
@@ -28,8 +27,8 @@ export default class EcSpTools {
 
     };
 
-    constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx) {
-        
+    constructor(private $uim: angular.ui.bootstrap.IModalService,c:ICommon, private dCtx: IDataCtx) {
+       
     }
 
     loadSpComment(recipientId: number, viewOnly: boolean): angular.IPromise<void> {

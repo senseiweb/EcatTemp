@@ -30,7 +30,7 @@ export default class BsGrowlService {
                     x: 20,
                     y: 85
                 },
-                template: this.$tc.get('Clinet/app/core/common/tpls/notifyError.tpl.html') as string
+                template: this.$tc.get('@[appCore]/common/tpls/notifyError.tpl.html') as string
             }
         );
     }

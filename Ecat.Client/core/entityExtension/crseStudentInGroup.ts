@@ -7,37 +7,32 @@ export class CrseStudInGrpInit {
 export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected entityId: string;
     protected studentId: number;
+    protected studentProfile: ecat.entity.IStudentProfile;
     protected assessorSpResponses: Array<ecat.entity.ISpResponse>;
     protected workGroup: ecat.entity.IWorkGroup;
-    private _sigStatus: ecat.entity.ext.ICrseStudInGrpStatus;
 
-    chartSopData: Array<any> = [];
-    chartOptions =  {
-       
+    get rankName(): string {
+        return (!this.studentProfile) ? 'Unknown' : `${this.studentProfile.person.mpPaygrade} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
     }
 
-    statusOfPeer: ecat.entity.ext.IStatusOfPeer = {};
-
-    getSigStatus = (refresh?: boolean) => {
+    get statusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         if (!this.workGroup) {
             console.log('Unable to update status missing assign workgroup');
             return null;
         }
-
-        if (this._sigStatus && !refresh) {
-            return this._sigStatus;
-        }
+        console.log('ran sop check for ' + this.studentId);
 
         const groupPeers = this.workGroup.groupMembers;
-
         groupPeers.forEach((gm) => {
             let cummScore = 0;
+
             const sigStatus: ecat.entity.ext.ICrseStudInGrpStatus = {
                 assessComplete: false,
                 stratComplete: false,
                 isPeerAllComplete: false,
                 missingAssessItems: [],
                 breakout: { IE: 0, ND: 0, E: 0, HE: 0 },
+                breakOutChartData: [],
                 compositeScore: 0,
                 stratedPosition: null,
                 hasComment: false
@@ -59,7 +54,8 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
             const knownReponse = _mp.EcSpItemResponse;
 
             const responseList = gm.assesseeSpResponses
-                .filter(response => response.assessorPersonId === this.studentId && response.assesseePersonId === gm.studentId);
+                .filter(response => response.assessorPersonId === this.studentId &&
+                    response.assesseePersonId === gm.studentId);
 
             responseList.forEach(response => {
 
@@ -96,8 +92,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
                     default:
                         break;
                 }
-            }
-            );
+            });
 
             if (this.workGroup.assignedSpInstr) {
                 this.workGroup
@@ -110,64 +105,24 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
                         }
                     });
 
-                sigStatus.compositeScore = cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 6);
+                cummScore = (cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 6)) * 100;
+                sigStatus.compositeScore = parseFloat(cummScore.toFixed(2));
             }
-
 
             sigStatus.assessComplete = sigStatus.missingAssessItems.length === 0;
 
-
             sigStatus.isPeerAllComplete = sigStatus.assessComplete && sigStatus.stratComplete;
 
-            this.statusOfPeer[gm.studentId.toString()] = this._sigStatus = sigStatus;
+            const { HE, E, IE, ND } = sigStatus.breakout;
 
-            let compositeTotal = 0;
-            for (let item in sigStatus.breakout) {
-                if (sigStatus.breakout.hasOwnProperty(item)) {
-                    compositeTotal += sigStatus.breakout[item];
-                  }
-            }
+            sigStatus.breakOutChartData.push({ label: 'High Effective', data: HE, color: '#AAAA00' });
+            sigStatus.breakOutChartData.push({ label: 'Effective', data: E, color: '#00AA58' });
+            sigStatus.breakOutChartData.push({ label: 'Ineffective', data: IE, color: '#AA0000' });
+            sigStatus.breakOutChartData.push({ label: 'Not Display', data: ND, color: '#AAAAAA' });
 
-            for (let item in sigStatus.breakout) {
-                if (sigStatus.breakout.hasOwnProperty(item)) {
-                    const bo = sigStatus.breakout;
-
-                    if (bo[item] > 0) {
-                        let label = 'Unknown';
-                        let color = '';
-
-                        switch (item) {
-                        case 'HE':
-                            label = `Highly Effective: [${bo[item]}]`;
-                            color = '#F44336';
-                                break;
-                        case 'E':
-                            label = `Effective: [${bo[item]}]`;
-                            color = '#03A9F4';
-                            break;
-                        case 'IE':
-                            label = `Ineffective [${bo[item]}]`;
-                            color = '#8BC34A';
-                            break;
-                        case 'ND':
-                            label = `Not Displayed [${bo[item]}]`;
-                            color = '#FFEB3B';
-                            break;
-                        }
-
-                        this.chartSopData.push({ label: label, data: (bo[item] / compositeTotal) * 100, color: color });
-                    }
-                }
-            }
+            this.statusOfPeer[gm.studentId.toString()]  = sigStatus;
+           
         });
+
     }
 }
-
-class FacCrseStudInGrpExt extends CrseStudInGrpExtBase { }
-
-export var facCrseStudInGrpCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.crseStudInGrp,
-    ctorFunc: FacCrseStudInGrpExt,
-    initFunc: (crseStudInGrp: ecat.entity.ICrseStudInGroup) => new CrseStudInGrpInit(crseStudInGrp)
-}
-

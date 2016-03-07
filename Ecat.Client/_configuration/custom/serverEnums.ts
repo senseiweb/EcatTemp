@@ -1,3 +1,4 @@
+
 module Ecat.Shared.Core.Utility {
 	export const enum EdLevel {
 		None = 0,
@@ -26,7 +27,7 @@ module Ecat.Shared.Core.Utility {
 		SysAdmin = 1,
 		Designer = 2,
 		CrseAdmin = 3,
-		Facilitator = 4,
+		Faculty = 4,
 		Student = 5,
 		External = 6,
 		RefOnly = 7

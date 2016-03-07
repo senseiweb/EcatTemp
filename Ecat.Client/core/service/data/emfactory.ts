@@ -17,7 +17,7 @@ export default class EcEmFactory {
         return repo;
     }
 
-    getNewManager(apiResourceName: _mp.EcMapApiResource, clientExtensions?: Array<ecat.entity.ext.IEntityExtension>): breeze.promises.IPromise<breeze.EntityManager> {
+    getNewManager(apiResourceName: _mp.EcMapApiResource, clientExtensions?: Array<ecat.entity.ext.IEntityExtension>): breeze.promises.IPromise<breeze.EntityManager | angular.IPromise<void>> {
 
         breeze.NamingConvention.camelCase.setAsDefault();
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
@@ -47,7 +47,7 @@ export default class EcEmFactory {
             .catch((error) => {
                 this.common.logger.logError(`${apiResourceName} Manager could not be loaded. This is a critical error.\n Please attempt reload the application`, this.isMgrLoading, 'EM-Factory', true);
                 this.common.$state.go(this.common.stateMgr.core.error.name);
-               return mgr;
+               return this.common.$q.reject(error);
            });
     }
 
@@ -63,7 +63,7 @@ export default class EcEmFactory {
     }
 
     registerResourceTypes(metadataStore: breeze.MetadataStore, resourceToMap: ecat.IApiResources) {
-
+       
         for (let resourceEntity in resourceToMap) {
 
             if (resourceToMap.hasOwnProperty(resourceEntity)) {

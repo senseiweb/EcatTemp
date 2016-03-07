@@ -47,11 +47,12 @@ export default class EcUtilityRepoServices {
         this.apiResources = apiResources;
     }
 
-    protected getManager = (factory: IEmFactory): breeze.promises.IPromise<void> => {
+    protected getManager = (factory: IEmFactory): breeze.promises.IPromise<any | angular.IPromise<void>> => {
         const _ = this;
         return factory
             .getNewManager(this.endPoint, this.entityExtCfgs)
-            .then(getManagerResponse);
+            .then(getManagerResponse)
+            .catch(this.queryFailed);
 
         function getManagerResponse(mgr: breeze.EntityManager) {
             _.manager = mgr;

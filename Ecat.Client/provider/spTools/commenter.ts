@@ -7,19 +7,19 @@ export default class EcProviderSpToolCommenter {
     static controllerId = 'app.provider.sptools.commenter';
     static $inject = ['$uibModalInstance', '$scope', IDataCtx.serviceId, ICommon.serviceId, 'recipientId'];
 
+    private authorRole: string;
+    private authorAvatar: string;
+    private authorName: string;
+    private commentType = _mp.MpCommentType;
+    private commentFlag = _mp.MpCommentFlag;
+    private comment: ecat.entity.ISpComment | ecat.entity.IFacSpComment;
     private isInstructor = false;
-    authorRole: string;
-    authorAvatar: string;
-    authorName: string;
-    commentType = _mp.MpCommentType;
-    commentFlag = _mp.MpCommentFlag;
-    comment: ecat.entity.ISpComment | ecat.entity.IFacSpComment;
-    isNew = false;
-    isPublished = false;
-    nf: angular.IFormController;
-    recipientName: string;
-    recipientAvatar: string;
-    isSaveInProgress = false;
+    private isNew = false;
+    private isPublished = false;
+    private nf: angular.IFormController;
+    private recipientName: string;
+    private recipientAvatar: string;
+    private isSaveInProgress = false;
     
 
     constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private $scope: angular.IScope, private dCtx: IDataCtx, private c: ICommon, private recipientId: number, private viewOnly: boolean) {
@@ -36,9 +36,10 @@ export default class EcProviderSpToolCommenter {
         }
         else {
             const facComment = this.dCtx.faculty.getFacSpComment(this.recipientId) as ecat.entity.IFacSpComment;
-            author = facComment.faculty.faculty.person;
+            author = this.dCtx.user.persona;
             recipient = facComment.student.studentProfile.person;
             facComment['mpCommentType'] = _mp.MpCommentType.signed;
+            this.isInstructor = true;
             this.comment = facComment;
         }
         this.recipientName = `${recipient.firstName} ${recipient.lastName}`;

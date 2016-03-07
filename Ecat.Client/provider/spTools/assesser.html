@@ -25,36 +25,36 @@
     <hr />
 
 </div>
-<div class="modal-body">
-    <div ng-if="assesser.isNewAssess">
+<div ng-if="assesser.isNewAssess">
+    <div class="modal-body">
         <div ng-include="'@[modProvider]/spTools/assesser.add.html'"></div>
     </div>
-    <div ng-if="!assesser.isNewAssess">
-        <div ng-include="'@[modProvider]/spTools/assesser.edit.html'"></div>
-    </div>
-</div>
+    <div class="modal-footer">
+        <div class="row" ng-if="assesser.hasAcknowledge">
+            <div ng-if="assesser.hasAcknowledge">
+                <button class="btn btn-link"
+                        type="button"
+                        ng-if="assesser.readyToSave"
+                        ng-click="assesser.save()">
+                    Save
+                </button>
+                <button class="btn btn-link" type="button" ng-click="assesser.cancel()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+        <div ng-if="!assesser.hasAcknowledge">
+            <button class="btn btn-link" type="button" ng-click="assesser.acknowledge()">I Agree</button>
+            <button class="btn btn-link" type="button" ng-click="assesser.cancel()">Cancel</button>
+        </div>
 
-<div ng-if="assesser.isNewAssess">
-    <div ng-if="assesser.hasAcknowledge" class="modal-footer">
-        <button class="btn btn-link"
-                type="button"
-                ng-if="assesser.readyToSave"
-                ng-click="assesser.save()">
-            Save
-        </button>
-        <button class="btn btn-link" type="button" ng-click="assesser.cancel()">
-            <span ng-if="assesser.isPristine">Close</span>
-            <span ng-if="!assesser.isPristine">Cancel</span>
-        </button>
-    </div>
-
-    <div ng-if="!assesser.hasAcknowledge" class="modal-footer">
-        <button class="btn btn-link" type="button" ng-click="assesser.acknowledge()">I Agree</button>
-        <button class="btn btn-link" type="button" ng-click="assesser.cancel()">Cancel</button>
     </div>
 </div>
 
 <div ng-if="!assesser.isNewAssess">
+    <div class="modal-body">
+        <div ng-include="'@[modProvider]/spTools/assesser.edit.html'"></div>
+    </div>
     <div class="modal-footer">
         <button class="btn btn-link" type="button" ng-click="assesser.save()">
             <span ng-if="assesser.hasChanges">Save</span>
@@ -62,10 +62,13 @@
         </button>
         <button class="btn btn-link"
                 ng-if="assess.hasChanges"
-                type="button" 
+                type="button"
                 ng-click="assesser.cancel()">
             Cancel
         </button>
     </div>
 </div>
+
+
+
 

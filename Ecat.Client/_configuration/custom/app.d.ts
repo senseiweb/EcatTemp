@@ -10,6 +10,10 @@ interface JQuery {
     plot(data: any[], config: any): JQuery;
 }
 
+interface Array<T> {
+    getUnique(): Array<T>;
+}
+
 declare module breeze {
     var saveErrorMessageService: any;
 }

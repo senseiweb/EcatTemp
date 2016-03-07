@@ -128,7 +128,6 @@ export default class EcFacultyWgList {
         $scope.close = () => {$mi.close();};
 
         members.forEach(gm => {
-            gm.getSigStatus();
 
             const isSelfDone = gm.statusOfPeer[gm.studentId].assessComplete;
 

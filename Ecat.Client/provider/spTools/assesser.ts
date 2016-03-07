@@ -1,26 +1,28 @@
 ﻿import * as _mpe from 'core/common/mapEnum'
 import * as _mp from 'core/common/mapStrings'
+import _swal from "sweetalert"
 import IDataCtx from 'core/service/data/context'
 import ICommon from 'core/common/commonService'
+import IUtility from 'core/service/data/utility'
 
 interface IAssessPager {
-    itemId: number;
-    displayId: number;
-    isCompleted: boolean;
-    isOpen: boolean;
-    isActive: boolean;
+    pageId: number;
+    item: ecat.entity.ISpInventory;
 }
 
 export default class EcProviderSpToolAssessTaker {
 
     static controllerId = 'app.provider.sptools.assesser';
-    static $inject = ['$uibModalInstance', IDataCtx.serviceId, ICommon.serviceId, 'assesseeId', 'viewOnly'];
+    static $inject = ['$rootScope','$uibModalInstance', IDataCtx.serviceId, ICommon.serviceId, 'assesseeId', 'viewOnly'];
 
     private activeInvent: ecat.entity.ISpInventory;
     private assessee: ecat.entity.IPerson;
     private assesseeGoByName: string;
     private assesseeName: string;
+    
     private avatar: string;
+    private currentPage: number;
+    private previousPage = 1;
     private enum = {
         he: _mpe.SpEffectLevel.HighlyEffective,
         e: _mpe.SpEffectLevel.Effective,
@@ -36,14 +38,15 @@ export default class EcProviderSpToolAssessTaker {
     private isPublished = false;
     private isPristine = false;
     private isSelf = false;
+    private isStudent = true;
     private pagers: Array<IAssessPager> = [];
     private readyToSave = false;
     private role: string;
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private assesseeId: number, viewOnly: boolean) {
+    constructor($rs: angular.IScope, private $mi: angular.ui.bootstrap.IModalServiceInstance, private dCtx: IDataCtx, private c: ICommon, private assesseeId: number, viewOnly: boolean) {
         this.isPublished = viewOnly;
-        c.$rootScope.$on('$destory', () => {
-            this.$mi.dismiss('closed by destory');
+        $rs.$on(c.coreCfg.coreApp.events.spInvntoryResponseChanged, ($event: angular.IAngularEvent) => {
+            this.cancel($event);
         });
         this.activate();
     }    
@@ -51,9 +54,9 @@ export default class EcProviderSpToolAssessTaker {
     private activate(): void {
         this.role = this.dCtx.user.persona.mpInstituteRole;
         const myId = this.dCtx.user.persona.personId;
-        const isStudent = this.role === _mp.EcMapInstituteRole.student;
+        this.isStudent = this.role === _mp.EcMapInstituteRole.student;
 
-        if (isStudent) {
+        if (this.isStudent) {
             this.inventoryList = this.dCtx.student.getSpInventory(this.assesseeId) as Array<ecat.entity.IStudSpInventory>;
         } else {
             this.inventoryList = this.dCtx.faculty.getFacSpInventory(this.assesseeId) as Array<ecat.entity.IFacSpInventory>;
@@ -67,56 +70,82 @@ export default class EcProviderSpToolAssessTaker {
 
         if (this.isNewAssess) {
             const instrument = this.inventoryList[0].instrument;
-            this.instructions = isStudent ? instrument.studentInstructions : instrument.facultyInstructions;
+            this.instructions = this.isStudent ? instrument.studentInstructions : instrument.facultyInstructions;
 
             this.pagers = this.inventoryList.map(item => {
                 const pager = {} as IAssessPager;
-                pager.displayId = item.displayOrder;
-                pager.isCompleted = item.responseForAssessee.mpItemResponse !== null;
-                pager.isOpen = pager.isCompleted;
-                pager.itemId = item.id;
+                pager.pageId = item.displayOrder;
+                pager.item = item;
                 return pager;
             }).sort(this.pagerSort);
+
+            this.activeInvent = this.pagers[0].item;
         }
 
         this.assesseeName = `${this.assessee.firstName} ${this.assessee.lastName}`;
         this.avatar = this.assessee.avatarLocation || this.assessee.defaultAvatarLocation;
         this.assesseeGoByName = (this.assessee.goByName) ? `[${this.assessee.goByName}]` : null;
-       
     }
 
     private acknowledge(): void {
         this.hasAcknowledge = true;
-        const firstItem = this.pagers[0];
-        this.changeInventory(firstItem, 0, true);
     }
 
-    private changeInventory(pager: IAssessPager, $index: number, skipCheck?: boolean): void {
-        const previousIndex = $index === 0 ? $index : $index - 1;
-        const previousPager = this.pagers[previousIndex];
+    private cancel($event?: angular.IAngularEvent): void {
+        console.log('scope destoryed');
+        const hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isAddedModifiedOrDeleted());
+        if (hasChanges) {
+            const alertSetting: SweetAlert.Settings = {
+                title: 'Caution, Unsaved Changes',
+                text: 'You have made changes to this assessment that have not been saved, Are you sure you want to cancel them?',
+                type: 'warning',
+                closeOnCancel: true,
+                closeOnConfirm: false,
+                confirmButtonText: 'Yes, cancel changes.',
+                cancelButtonText: 'No, don\'t cancel'
+            };
 
-        if (!skipCheck) {
-            const previousItem = this.inventoryList.filter(item => item.id === previousPager.itemId)[0];
-            previousPager.isCompleted = previousItem.responseForAssessee.mpItemResponse !== null;
-            if (!previousPager.isCompleted) {
-                return null;
-            }
+            _swal(alertSetting, (confirmed?: boolean) => {
+                if (confirmed) {
+                    this.inventoryList.forEach(item => item.responseForAssessee.entityAspect.rejectChanges());
+                    this.$mi.dismiss();
+                    _swal('Gotta it...changes canceled.', 'sucess');
+                }
+            });
+        } else {
+            this.$mi.close('User canceled');
+        }
+    }
+
+    private changePage(): void {
+        const previousPager = this.pagers.filter(pager => pager.pageId === this.previousPage)[0];
+        const currentPager = this.pagers.filter(pager => pager.pageId === this.currentPage)[0];
+
+        this.activeInvent = currentPager.item;
+
+        if (previousPager.item.responseForAssessee.mpItemResponse !== null) {
+            //Hack: wow,this smells...
+            const nodes = document.querySelectorAll('#sp-pager li > a') as NodeList;
+            const links = Array.prototype.slice.call(nodes);
+            const element = links.filter(e => e.text === this.previousPage.toString())[0];
+            angular.element(element)
+                .closest('li')
+                .addClass('sp-complete');
+            console.log(element);
         }
 
-        const inventoryItem = this.inventoryList.filter(item => item.id === pager.itemId)[0];
-        this.activeInvent = inventoryItem;
+        this.previousPage = this.currentPage;
     }
 
-    private cancel(): void {
-        
-    }
-
-    private checkDone(): void {
+    checkReadyToSave(): void {
         const allValidValues = this.inventoryList.every(item => item.responseForAssessee.mpItemResponse !== null);
         const hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isAddedModifiedOrDeleted());
-
-        this.isPristine = allValidValues && !hasChanges;
         this.readyToSave = allValidValues && hasChanges;
+
+        if (this.currentPage === this.pagers.length) {
+            this.previousPage = this.currentPage;
+            this.changePage();
+        }
     }
 
     private checkResponse(item: ecat.entity.ISpInventory | any) {
@@ -159,11 +188,29 @@ export default class EcProviderSpToolAssessTaker {
             return this.c.swal(swalPubSettings);
         }
 
+        const ctx = this.isStudent ? 'student' : 'faculty';
+
+        const saveCtx = this.dCtx[ctx] as IUtility;
+        const swalSettings: SweetAlert.Settings = {
+            title: 'Oh no!, there was a problem updating this assessment. Try saving again, or cancel the current comment and attempt this again later.',
+            type: 'warning',
+            allowEscapeKey: true,
+            confirmButtonText: 'Ok'
+        }
+        //TODO: need to write a finally method for canceling saveinprogress
+        saveCtx.saveChanges()
+            .then(() => {
+                this.$mi.close();
+            })
+            .catch(() => {
+                this.c.swal(swalSettings);
+            });
     }
 
+
     private pagerSort(a: IAssessPager, b: IAssessPager) {
-        if (a.displayId < b.displayId) return -1;
-        if (a.displayId === b.displayId) return 0;
-        if (a.displayId > b.displayId) return 1;
+        if (a.pageId < b.pageId) return -1;
+        if (a.pageId === b.pageId) return 0;
+        if (a.pageId > b.pageId) return 1;
     }
 }

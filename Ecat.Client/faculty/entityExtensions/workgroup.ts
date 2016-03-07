@@ -1,4 +1,4 @@
-﻿import * as _mp from "core/common/mapStrings"
+﻿import * as _mp from 'core/common/mapStrings'
 
 export class FacWorkGroupInitizer {
 
@@ -17,5 +17,5 @@ export class FacWorkGroupExt  {
 export var facWorkGrpEntityExt: ecat.entity.ext.IEntityExtension = {
     entityName: _mp.EcMapEntityType.crseStudInGrp,
     ctorFunc: FacWorkGroupExt,
-    initFunc: (FacWorkGrpEntity: any) => new FacWorkGroupInitizer(FacWorkGrpEntity)
+    initFunc: (facWorkGrpEntity: any) => new FacWorkGroupInitizer(facWorkGrpEntity)
 }

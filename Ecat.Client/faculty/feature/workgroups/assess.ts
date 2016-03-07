@@ -13,6 +13,10 @@ export default class EcFacultyWgAssess {
     private log = this.c.getAllLoggers('Faculty Sp Assessment');
 
     constructor(private $scope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
+        $scope.$on('$destroy', ($event) => {
+            //TODO: change this to the appropriate event
+            c.broadcast(c.coreCfg.coreApp.events.spInvntoryResponseChanged, { event: $event });
+        });
         this.activate();
     }
     
@@ -31,9 +35,9 @@ export default class EcFacultyWgAssess {
             this.isViewOnly = wg.mpSpStatus === _mp.MpSpStatus.published || wg.mpSpStatus === _mp.MpSpStatus.arch;
 
             wg.groupMembers.forEach(gm => {
-                gm.getFacSpStatus();
                 const hasComment = gm.statusOfStudent.hasComment;
                 const assessComplete = gm.statusOfStudent.assessComplete;
+                gm['hasChartData'] = gm.statusOfStudent.breakOutChartData.some(cd => cd.data > 0);
                 let commentText = '';
                 let assessText = '';
 
@@ -55,7 +59,9 @@ export default class EcFacultyWgAssess {
     private loadAssessment(studentId: number): void {
         this.sptool
             .loadSpAssessment(studentId, this.isViewOnly)
-            .then(() => { })
+            .then(() => {
+
+            })
             .catch((error) => console.log(error));
     }
 
@@ -63,7 +69,9 @@ export default class EcFacultyWgAssess {
     private loadComment(studentId: number): void {
         this.sptool
             .loadSpComment(studentId, this.isViewOnly)
-            .then(() => { })
+            .then(() => {
+              
+            })
             .catch((error) => console.log(error));
     }
 }

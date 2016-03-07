@@ -20,9 +20,10 @@ namespace Ecat.Shared.Core.ModelLibrary.Faculty
         public int Version { get; set; }
         public string CommentText { get; set; }
         public string MpCommentFlagRecipient { get; set; }
+        public string MpCommentFlagAuthor { get; set; }
 
         public CrseStudentInGroup Student { get; set; }
-        public FacultyInCourse Faculty { get; set; }
+        public FacultyInCourse FacultyCourse { get; set; }
         public WorkGroup WorkGroup { get; set; }
 
         [TsIgnore]

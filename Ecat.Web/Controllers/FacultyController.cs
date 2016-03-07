@@ -4,11 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Breeze.ContextProvider;
 using Ecat.FacMod.Core;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
 using Ecat.Web.Utility;
+using Newtonsoft.Json.Linq;
 
 namespace Ecat.Web.Controllers
 {
@@ -33,6 +36,12 @@ namespace Ecat.Web.Controllers
             return _facLogic.GetMetadata;
         }
 
+        [HttpPost]
+        public SaveResult SaveChanges(JObject saveBundle)
+        {
+            return _facLogic.ClientSave(saveBundle);
+        }
+
         [HttpGet]
         public IQueryable<FacultyInCourse> InitCourses()
         {
@@ -43,6 +52,12 @@ namespace Ecat.Web.Controllers
         public IQueryable<FacultyInCourse> ActiveCourse(int courseId)
         {
             return _facLogic.GetActiveCourseData(courseId);
+        }
+
+        [HttpGet]
+        public IQueryable<SpComment> ActiveWgSpComment()
+        {
+            return _facLogic.GetSpComments();
         }
 
         [HttpGet]

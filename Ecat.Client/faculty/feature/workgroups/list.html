@@ -103,27 +103,26 @@
                                 <td style="width: 475px">
                                     <div ng-show="wg.isVisible">
                                 
-                                <div class="btn-group btn-group-xs" role="group" ng-if="wg.mpSpStatus !== mp.MpSpStatus.published">
+                                <div role="group" ng-if="wg.mpSpStatus !== mp.MpSpStatus.published">
                                 
-                                    
                                     <button ng-click="wkl.viewStatus(wg)" 
                                             type="button" 
                                             class="btn btn-link btn-sm waves-effect btn-info">
-                                            View Status
+                                            Status
                                     </button>
 
                                     <a href="javascript:void(0)"
                                        ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId: {{wg.courseId}},wgId: {{wg.id}}})"
                                        class="btn btn-link btn-sm waves-effect btn-info">
-                                        Assess Group
+                                        Assess
                                     </a>
 
-                                    <button ng-click="wkl.goToPublish(wg)"
-                                            type="button"
-                                            ng-class="wg.canPublish ? 'btn-success' : 'btn-danger'"
-                                            class="btn btn-link btn-sm waves-effect">
-                                            Publish
-                                    </button>
+                                    <a href="javascript:void(0)"
+                                       ng-class="wg.canPublish ? 'btn-success' : 'btn-danger'"
+                                       ui-sref="{{stateMgr.faculty.wgPublish.name}}({crseId: {{wg.courseId}},wgId: {{wg.id}}})"
+                                       class="btn btn-link btn-sm waves-effect btn-info">
+                                        Publish
+                                    </a>
                                 </div>
 
                                <div class="btn-group btn-group-xs" role="group" ng-if="wg.mpSpStatus === mp.MpSpStatus.published">
@@ -131,14 +130,14 @@
                                     <button  ng-click="wkl.goToResults(wg)" 
                                              type="button" 
                                              class="btn btn-link btn-sm waves-effect">
-                                             Group Results
+                                             Group
                                     </button>
                                 
                                     <button ng-if="wkl.course.gradReportPublished" 
                                             ng-click="wkl.goToCapstone(wg)" 
                                             type="button" 
                                             class="btn btn-link btn-sm waves-effect">
-                                            Capstone Results
+                                            Capstone
                                     </button>
                                 </div>
                            </div>

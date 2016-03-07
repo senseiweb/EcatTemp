@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Breeze.ContextProvider;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
@@ -40,20 +41,23 @@ namespace Ecat.FacMod.Core
         IQueryable<FacultyInCourse> IFacLogic.GetActiveCourseData(int courseId)
         {
             return _repo.GetFacultyCourses
-                .Where(fc => fc.FacultyPersonId == FacultyPerson.PersonId && fc.Faculty.Person.IsActive)
+                .Where(fc => fc.FacultyPersonId == FacultyPerson.PersonId && fc.FacultyProfile.Person.IsActive)
                 .Where(fc => fc.CourseId == courseId)
                 .Include(fc => fc.Course.WorkGroups);
         }
 
         IQueryable<CrseStudentInGroup> IFacLogic.GetWorkGroupSpData(int courseId, int workGroupId, bool addAssessment)
         {
-          var groupMembers = _repo.GetWorkGroupMembers(addAssessment)
+            var groupMembers = _repo.GetWorkGroupMembers(addAssessment)
                 .Where(gm => gm.WorkGroup.Course.Faculty
-                    .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId && fac.Faculty.Person.IsActive))
+                    .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId && fac.FacultyProfile.Person.IsActive))
                 .Where(gm => gm.CourseId == courseId && gm.WorkGroupId == workGroupId)
                 .Include(fc => fc.Course.WorkGroups)
                 .Include(gm => gm.WorkGroup)
                 .Include(gm => gm.WorkGroup.GroupMembers)
+                .Include(gm => gm.WorkGroup.FacSpComments)
+                .Include(gm => gm.WorkGroup.FacSpResponses)
+                .Include(gm => gm.WorkGroup.FacStratResponses)
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.AssessorSpResponses))
@@ -72,11 +76,10 @@ namespace Ecat.FacMod.Core
             return groupMembers.AsQueryable();
         }
 
-
         IQueryable<FacultyInCourse> IFacLogic.GetCrsesWithLastestGrpMem()
         {
             var facCrses = _repo.GetFacultyCourses
-                .Where(fc => fc.FacultyPersonId == FacultyPerson.PersonId && fc.Faculty.Person.IsActive)
+                .Where(fc => fc.FacultyPersonId == FacultyPerson.PersonId && fc.FacultyProfile.Person.IsActive)
                 .Include(crse => crse.Course.WorkGroups).ToList();
 
             if (!facCrses.Any())
@@ -101,6 +104,13 @@ namespace Ecat.FacMod.Core
             return facCrses.AsQueryable();
         }
 
-
+        IQueryable<SpComment> IFacLogic.GetSpComments()
+        {
+            return _repo.WgComments
+                .Where(comment => comment.WorkGroup
+                    .Course
+                    .Faculty
+                    .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId));
+        }
     }
 }

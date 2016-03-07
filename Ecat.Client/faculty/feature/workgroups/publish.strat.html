@@ -1,0 +1,47 @@
+﻿<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover tableCenterAlign">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Old Strat</th>
+                        <th>Strat Position</th>
+                        <th>Composite Ranking</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'groupMember.student.person.lastName' track by groupMember.id">
+                        <td>{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</td>
+                        <td>{{(groups.selectedGroup.facStratResponses | filter:{assesseeId:groupMember.id})[0].stratPosition}}</td>
+                        <td>
+                            <input class="form-control" type="number" min="1" max="groups.selectedGroup.groupMembers.length" ng-model="groups.strats[groupMember.id]" style="width: 20px" />
+                        </td>
+                        <td><button ng-if="groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete" popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}}" class="btn f-500 c-black btn-link f">{{groups.selectedGroup.statusOfStudent[groupMember.id].compositeScore}}</button><label ng-if="!groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete">No Assessment</label></td>
+                    </tr>
+                    <!--<tr class="tableBottomBorder">
+                        <td>Jason Silvers</td>
+                        <td>3</td>
+                        <td>
+                            <input class="form-control" type="text" style="width: 20px">
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>E: 4</td>
+                                    <td>AE: 4</td>
+                                    <td>HE: 2</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>-->
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div ui-view></div>

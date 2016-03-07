@@ -3,20 +3,22 @@ import {facCrseStudInGrpCfg}from 'faculty/entityExtensions/crseStudentInGroup'
 import {facWorkGrpEntityExt} from 'faculty/entityExtensions/workgroup'
 import {facPersonCfg} from 'faculty/entityExtensions/person'
 import {facSpInventoryCfg} from "faculty/entityExtensions/spInventory"
+import {facSpCommentCfg} from "faculty/entityExtensions/spComment"
 import * as _mp from 'core/common/mapStrings'
 import * as _mpe from 'core/common/mapEnum'
 
 interface IFacultyApiResources extends ecat.IApiResources {
-    courses: ecat.IApiResource,
-    course: ecat.IApiResource,
-    wgAssess: ecat.IApiResource,
-
+    courses: ecat.IApiResource;
+    course: ecat.IApiResource;
+    wgAssess: ecat.IApiResource;
+    wgComment: ecat.IApiResource;
 }
 
 interface ICachcedFacultyData {
-    initiailze: boolean;
+    initialize: boolean;
     course: any;
     workGroup: any;
+    wgComment: any;
     spInstr: any;
 }
 
@@ -44,13 +46,18 @@ export default class EcFacultyRepo extends IUtilityRepo {
         getStudentCapstoneDetails: {
             returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
             resource: 'GetStudentCapstoneDetails'
+        },
+        wgComment: {
+            returnedEntityType: _mp.EcMapEntityType.spComment,
+            resource: 'ActiveWgSpComment'
         }
     }
 
     constructor(inj) {
-        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facSpInventoryCfg,facPersonCfg,facWorkGrpEntityExt, facCrseStudInGrpCfg]);
+        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facSpInventoryCfg, facPersonCfg, facWorkGrpEntityExt, facCrseStudInGrpCfg, facSpCommentCfg]);
         super.addResources(this.facultyApiResource);
         this.isLoaded.workGroup = {};
+        this.isLoaded.wgComment = {}
         this.isLoaded.course = {};
         this.isLoaded.spInstr = {};
     }
@@ -70,11 +77,10 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const _ = this;
         const resource = this.facultyApiResource.courses.resource;
         const log = this.log;
-        const isLoaded = this.isLoaded as ICachcedFacultyData;
         const ordering = 'course.startDate desc';
         let courses: Array<ecat.entity.ICourse>;
         
-        if (isLoaded.initiailze && !forceRefresh) {
+        if (this.isLoaded.initialize && !forceRefresh) {
             const cachedFacInCourse = this.queryLocal(resource) as Array<ecat.entity.IFacInCrse>;
             courses = cachedFacInCourse.map(facInCrse => facInCrse.course);
             this.log.success('Courses loaded from local cache', courses, false);
@@ -93,7 +99,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
             facInCrses.forEach(facCrse => {
 
-                if (!facCrse.course.workGroups || facCrse.course.workGroups.length == 0) {
+                if (!facCrse.course.workGroups || facCrse.course.workGroups.length === 0) {
                     return null;
                 }
 
@@ -109,7 +115,45 @@ export default class EcFacultyRepo extends IUtilityRepo {
             courses = facInCrses.map(facCrse => facCrse.course);
             log.success('Courses loaded from remote store', data, false);
             _.activeCourseId = courses[0].id;
+            _.isLoaded.initialize = true;
             return courses;
+        }
+    }
+
+    fetchActiveWgComments(): breeze.promises.IPromise<Array<ecat.entity.ISpComment> | angular.IPromise<void>> {
+        if (!this.activeGroupId || !this.activeCourseId) {
+            return this.c.$q.reject(this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false)) as any;
+        }
+
+        const log = this.log;
+        const _ = this;
+        const resource = this.facultyApiResource.wgComment.resource;
+        const wgPred = new breeze.Predicate('workGroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
+        const crsePred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
+        if (this.isLoaded.wgComment[this.activeGroupId]) {
+            const cachedWgComment = this.queryLocal(resource, null, crsePred.and(wgPred)) as Array<ecat.entity.ISpComment>;
+            if (cachedWgComment) {
+                log.success('Retrieved SpComments from local cache', cachedWgComment, false);
+                return this.c.$q.resolve(cachedWgComment);
+            }
+        }
+
+        return this.query.from(resource)
+            .where(crsePred.and(wgPred))
+            .using(this.manager)
+            .execute()
+            .then(fetchActiveWgCommentsResponse)
+            .catch(this.queryFailed);
+
+        function fetchActiveWgCommentsResponse(data: breeze.QueryResult): Array<ecat.entity.ISpComment> {
+            const comments = data.results as Array<ecat.entity.ISpComment>;
+            if (!comments || comments.length === 0) {
+                return null;
+            }
+
+            _.isLoaded.wgComment = true;
+            log.success('Retrieved SpComment for local data source', comments, false);
+            return comments;
         }
     }
 
@@ -226,10 +270,11 @@ export default class EcFacultyRepo extends IUtilityRepo {
         return inventoryList.map((item: ecat.entity.IFacSpInventory) => {
             const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: item.id };
 
-            let facSpReponse = this.manager.getEntityByKey(_mp.EcMapEntityType.facSpResponse, [assesseeId, this.activeCourseId, this.activeGroupId]) as ecat.entity.IFacSpResponse;
+            let facSpReponse = this.manager.getEntityByKey(_mp.EcMapEntityType.facSpResponse, [assesseeId, this.activeCourseId, this.activeGroupId, item.id]) as ecat.entity.IFacSpResponse;
 
             if (!facSpReponse) {
                 facSpReponse = this.manager.createEntity(_mp.EcMapEntityType.facSpResponse, key) as ecat.entity.IFacSpResponse;
+                facSpReponse.facultyPersonId = this.dCtx.user.persona.personId;
             }
 
             item.responseForAssessee = facSpReponse;
@@ -250,7 +295,10 @@ export default class EcFacultyRepo extends IUtilityRepo {
         let facComment = facComments.filter(comment => comment.studentPersonId === assesseeId && comment.courseId === this.activeCourseId && comment.workGroupId === this.activeGroupId)[0];
 
         if (!facComment) {
-            facComment = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.IFacSpComment;
+            facComment = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, { studentPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.IFacSpComment;
+            //this.manager.createEntity(_mp.EcMapEntityType.facCrseMember, { facultyPersonId: this.dCtx.user.persona.personId, courseId: this.activeCourseId }, breeze.EntityState.Unchanged);
+            facComment.facultyPersonId = this.dCtx.user.persona.personId;
+            facComment.mpCommentFlagAuthor = _mp.MpCommentFlag.neut;
         }
 
         return facComment;

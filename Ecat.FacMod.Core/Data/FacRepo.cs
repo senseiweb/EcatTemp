@@ -5,6 +5,7 @@ using System.Linq;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
 using Ecat.Shared.Core.ModelLibrary.Common;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.DbMgr.Context;
 using Newtonsoft.Json.Linq;
@@ -63,7 +64,7 @@ namespace Ecat.FacMod.Core
 
         IQueryable<CrseStudentInGroup> IFacRepo.GetWorkGroupMembers(bool addAssessment)
         {
-            var query =  _ctx.StudentInGroups.Where(sig => !sig.IsDeleted);
+            var query = _ctx.StudentInGroups.Where(sig => !sig.IsDeleted);
             return !addAssessment
                 ? query
                 : query.Include(g => g.WorkGroup.AssignedSpInstr)
@@ -74,7 +75,7 @@ namespace Ecat.FacMod.Core
         {
             return _ctx.WorkGroups
                 .Where(grp => wgIds.Contains(grp.Id))
-                .Where(grp=> grp.GroupMembers.Any() && grp.AssignedSpInstr.InventoryCollection.Any())
+                .Where(grp => grp.GroupMembers.Any() && grp.AssignedSpInstr.InventoryCollection.Any())
                 .Where(grp => grp.GroupMembers.All(crseStudent =>
                     crseStudent.AssessorSpResponses.Count(r => !r.Assessee.IsDeleted) ==
                     grp.GroupMembers.Count(gm => !gm.IsDeleted)*grp.AssignedSpInstr.InventoryCollection.Count()))
@@ -83,7 +84,11 @@ namespace Ecat.FacMod.Core
                     grp.GroupMembers.Count(gm => !gm.IsDeleted)))
                 .Select(wg => wg.Id)
                 .ToList();
-        } 
+        }
+
+        IQueryable<SpComment> IFacRepo.WgComments => _ctx.SpComments
+            .Where(comment => !comment.IsDeleted)
+            .Take(200);
     }
 
 }

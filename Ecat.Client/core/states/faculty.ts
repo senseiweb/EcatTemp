@@ -67,7 +67,7 @@ export default class EcFacultyStates {
         this.wgPublish = {
             name: `${this.workGroup.name}.publish`,
             parent: this.workGroup.name,
-            url: '/publish',
+            url: '/publish/{crseId:int}/{wgId:int}',
             templateUrl: '@[appFaculty]/feature/workgroups/publish.html',
             controller: 'app.faculty.wkgrp.publish as wkp'
         }

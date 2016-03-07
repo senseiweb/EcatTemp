@@ -1,8 +1,16 @@
 
+
+
+
+
  
  
 
+
  
+
+
+
 
 /// <reference path="serverEnums.ts" />
 
@@ -97,6 +105,7 @@ declare module ecat.entity.s.school {
 		spResult: ecat.entity.s.learner.SpResult;
 		stratResult: ecat.entity.s.learner.StratResult;
 		facultyStrat: ecat.entity.s.faculty.FacStratResponse;
+		numberOfAuthorComments: number;
 	}
 	interface WorkGroup {
 		id: number;
@@ -123,6 +132,7 @@ declare module ecat.entity.s.school {
 		spStratResults: ecat.entity.s.learner.StratResult[];
 		assignedSpInstr: ecat.entity.s.designer.SpInstrument;
 		assignedKcInstr: ecat.entity.s.designer.KcInstrument;
+		canPublish: boolean;
 		modifiedById: number;
 		modifiedDate: Date;
 	}
@@ -131,7 +141,7 @@ declare module ecat.entity.s.school {
 		courseId: number;
 		facultyPersonId: number;
 		course: ecat.entity.s.school.Course;
-		faculty: ecat.entity.s.user.ProfileFaculty;
+		facultyProfile: ecat.entity.s.user.ProfileFaculty;
 		spResponses: ecat.entity.s.faculty.FacSpResponse[];
 		spComments: ecat.entity.s.faculty.FacSpComment[];
 		stratResponse: ecat.entity.s.faculty.FacStratResponse[];
@@ -172,8 +182,9 @@ declare module ecat.entity.s.faculty {
 		version: number;
 		commentText: string;
 		mpCommentFlagRecipient: string;
+		mpCommentFlagAuthor: string;
 		student: ecat.entity.s.school.CrseStudentInGroup;
-		faculty: ecat.entity.s.school.FacultyInCourse;
+		facultyCourse: ecat.entity.s.school.FacultyInCourse;
 		workGroup: ecat.entity.s.school.WorkGroup;
 	}
 	interface FacStratResponse {
@@ -485,5 +496,6 @@ declare module ecat.entity.s.common {
 		person: ecat.entity.s.user.Person;
 	}
 }
+
 
 

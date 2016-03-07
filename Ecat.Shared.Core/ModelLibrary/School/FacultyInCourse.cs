@@ -19,7 +19,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public int CourseId { get; set; }
         public int FacultyPersonId  { get; set; }
         public Course Course { get; set; }
-        public ProfileFaculty Faculty { get; set; }
+        public ProfileFaculty FacultyProfile { get; set; }
 
         public ICollection<FacSpResponse> SpResponses { get; set; }
         public ICollection<FacSpComment> SpComments { get; set; } 

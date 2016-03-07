@@ -76,7 +76,7 @@ gulp.task('buildClean', function(done){
     var source = keys.map(function(key) {
         return pubPaths[key] + '/**';
     });
-    source = source.concat(['**/*.map']);
+    //source = source.concat(['./**/*.map','!node_modules/**', '!bower/**']);
     return clean(source, done);
 });
 

@@ -14,7 +14,9 @@ namespace Ecat.Shared.DbMgr.Config
         {
             HasKey(p => new {p.StudentPersonId, p.CourseId, p.WorkGroupId, p.Version});
 
-            HasRequired(p => p.Faculty)
+            Property(p => p.CommentText).IsMaxLength();
+
+            HasRequired(p => p.FacultyCourse)
                  .WithMany(p => p.SpComments)
                  .HasForeignKey(p => new { p.FacultyPersonId, p.CourseId })
                  .WillCascadeOnDelete(false);

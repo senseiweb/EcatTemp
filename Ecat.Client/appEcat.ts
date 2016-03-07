@@ -40,7 +40,20 @@ export default class EcApp {
                 'app.core'
             ])
             .service(_common.serviceId, _common)
-            .run(['breeze',(breeze) => breeze]);
+            .run(['breeze', (breeze) => {
+                Array.prototype.getUnique = function () {
+                    const u = {};
+                    const a = [];
+                    for (var i = 0, l = this.length; i < l; ++i) {
+                        if (u.hasOwnProperty(this[i])) {
+                            continue;
+                        }
+                        a.push(this[i]);
+                        u[this[i]] = 1;
+                    }
+                    return a;
+                } 
+                }]);
         //#endregion
 
     }
