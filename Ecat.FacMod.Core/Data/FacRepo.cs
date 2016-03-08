@@ -87,8 +87,7 @@ namespace Ecat.FacMod.Core
         }
 
         IQueryable<SpComment> IFacRepo.WgComments => _ctx.SpComments
-            .Where(comment => !comment.IsDeleted)
-            .Take(200);
+            .Where(comment => !comment.IsDeleted);
     }
 
 }

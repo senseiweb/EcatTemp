@@ -211,32 +211,59 @@ body {
 
     }
 
-	#messages-main {
+	.faculty #messages-main {
         min-height: 450px;
 
-        & .ms-body {
-            padding-left: 440px;
+        & .ms-body {     
+            padding-left: 0;
         }
 
         & .ms-menu  {
-          
+          position: static;
+          width: 100%;
 
         & .ecat-messages {
             .lv-item {
 			.lv-avatar {
 				background-color: @m-blue;
 			}
+              span.badge{
+                border-radius: 36%;
+                top: 6px;
+                right: 15px;
+                position: absolute;
+            }
+
+            span.flag-breakdown > span + span:after {
+                content: "/\00a0";
+            }
+
+            span.flag-breakdown{
+                position:absolute;
+                bottom:3px;
+                right: 25px;
+            }
+
 			&.active{
 			background: @m-blue; 
 
 			.lv-avatar {
-				background-color: #fff;
+				background-color: @m-white;
 				color: @m-blue;
 			}
 
 			.lv-title {
-				color: #fff;
+				color: @m-white;
 			}
+
+            span.badge{
+                color: @m-blue;
+                background-color: @m-white;
+            }
+
+            span.flag-breakdown {
+                color: @m-white;
+            }
 			}
 		}
         }
@@ -248,13 +275,32 @@ body {
 		}
 	}}		
 	  #ecat-submessage.ms-menu {
-            background-color: #fff;
-            position: absolute;
-            left: 240px;
-            width: 200px;
-            border: 1px solid #EEE;
+          .sp-neut-comment {
+              position: absolute;
+              right: 156px;
+              bottom: 12px;
+              color: @m-green;
+          }
 
-            lv-title {
+          .sp-pos-comment {
+              position: absolute;
+              right: 159px;
+              bottom: 13px;
+              color: @m-orange;
+          }
+
+          .sp-neg-comment {
+              position: absolute;
+              right: 159px;
+              bottom: 13px;
+              color: @m-red;
+          }
+
+
+            background-color: #fff;
+            border-left: 1px solid #EEE;
+            border-bottom: none;
+            .listview .lv-item.active .media-body .lv-title {
                 color: @m-blue;
             }
 		}

@@ -4,6 +4,7 @@ import _swal from "sweetalert"
 import * as _mp from "core/common/mapStrings"
 
 const enum PubState {
+    Loading,
     Comment,
     Strat,
     Final
@@ -22,7 +23,7 @@ export default class EcFacultyWgPublish {
     protected doneWithComments = false;
     protected doneWithStrats = false;
     protected gmWithComments: Array<ecat.entity.ICrseStudInGroup>;
-    protected pubState = PubState.Comment;
+    protected pubState = PubState.Loading;
     protected selectedAuthor: ecat.entity.ICrseStudInGroup;
     protected selectedRecipient: ecat.entity.ICrseStudInGroup;
     protected selectedComment: ecat.entity.ISpComment = null;
@@ -128,7 +129,10 @@ export default class EcFacultyWgPublish {
                 })
                 .filter(author => !!author)
                 .sort(_.sortByLastName);
-
+            _.pubState = PubState.Comment;
+           _.gmWithComments.forEach(crseStud => {
+               _.updateRemaining(crseStud);
+            })
             _.selectedAuthor = _.gmWithComments[0];
         }
         //TODO: Handle get comment error
@@ -160,10 +164,16 @@ export default class EcFacultyWgPublish {
         }
     }
 
+    protected selectAuthor(author: ecat.entity.ICrseStudInGroup): void {
+        this.updateRemaining(author);
+        this.selectedAuthor = author;
+        this.selectedComment = null;
+    }
+
     protected selectComment(comment: ecat.entity.ISpComment): void {
        const activeComment = comment;
        activeComment['isFlaggingComplete'] = comment.mpCommentFlagFac !== null;
-
+       this.selectedComment = comment;
     }
 
     private sortByLastName(studentA: ecat.entity.ICrseStudInGroup, studentB: ecat.entity.ICrseStudInGroup) {
@@ -174,5 +184,12 @@ export default class EcFacultyWgPublish {
 
     protected switchTo(tab: string): void {
         //TODO: add check if leaving state is finihsed
+    }
+
+    protected updateRemaining(author: ecat.entity.ICrseStudInGroup, flag?: string): void {
+        author['numRemaining'] = author.authorOfComments.filter(aoc => aoc.mpCommentFlagFac === null).length;
+        if(flag) {
+            this.selectedComment.mpCommentFlagFac = flag;
+        }
     }
 }
