@@ -10,18 +10,9 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected studentProfile: ecat.entity.IStudentProfile;
     protected assessorSpResponses: Array<ecat.entity.ISpResponse>;
     protected workGroup: ecat.entity.IWorkGroup;
-
-    get rankName(): string {
-        return (!this.studentProfile) ? 'Unknown' : `${this.studentProfile.person.mpPaygrade} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
-    }
-
-    get statusOfPeer(): ecat.entity.ext.IStatusOfPeer {
-        if (!this.workGroup) {
-            console.log('Unable to update status missing assign workgroup');
-            return null;
-        }
-        console.log('ran sop check for ' + this.studentId);
-
+    protected _sop: ecat.entity.ext.IStatusOfPeer = null;
+    
+    updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         const groupPeers = this.workGroup.groupMembers;
         groupPeers.forEach((gm) => {
             let cummScore = 0;
@@ -120,9 +111,33 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
             sigStatus.breakOutChartData.push({ label: 'Ineffective', data: IE, color: '#AA0000' });
             sigStatus.breakOutChartData.push({ label: 'Not Display', data: ND, color: '#AAAAAA' });
 
-            this.statusOfPeer[gm.studentId.toString()]  = sigStatus;
-           
+            this._sop[gm.studentId.toString()] = sigStatus;
         });
+        return this._sop;
+    }
 
+    get rankName(): string {
+        return (!this.studentProfile) ? 'Unknown' : `${this.studentProfile.person.saluatation} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
+    }
+
+    get nameSorter() {
+        return {
+            last: (this.studentProfile && this.studentProfile.person) ? this.studentProfile.person.lastName : 'Unknown',
+            first: (this.studentProfile && this.studentProfile.person) ? this.studentProfile.person.firstName : 'Unknown'
+        }
+    }
+
+    get statusOfPeer(): ecat.entity.ext.IStatusOfPeer {
+        if (!this.workGroup) {
+            console.log('Unable to update status missing assign workgroup');
+            return null;
+        }
+        console.log(`ran sop check for ${this.studentId}`);
+        if (this._sop) {
+            return this._sop;
+        }
+        this._sop = {};
+        this.updateStatusOfPeer();
+        return this._sop;
     }
 }

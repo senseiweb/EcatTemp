@@ -159,7 +159,7 @@
                 "student": 'app/student',
                 "faculty": 'app/faculty',
                 "courseAdmin": 'app/courseAdmin',
-                "provider": "app/provider",
+                "provider": 'app/provider',
                 "designer": 'app/designer',
                 "hq": 'app/hq'
             }

@@ -1,8 +1,9 @@
 ﻿import * as _mp from "core/common/mapStrings"
+import IDataCtx from "core/service/data/context"
 import _core from "core/states/core"
 
 export default class StudentStates {
-    private isStudentLoaded = false;
+    private isStudentAppLoaded = false;
     parentName = 'student';
 
     main: angular.ui.IState;
@@ -20,7 +21,13 @@ export default class StudentStates {
                 authorized: [_mp.EcMapInstituteRole.student]
             },
             resolve: {
-                moduleInit: ['$ocLazyLoad', this.loadModule]
+                moduleInit: ['$ocLazyLoad', this.loadModule],
+                tokenValid: ['tokenValid', (tokenValid) => tokenValid],
+                dCtxReady: ['moduleInit', 'tokenValid', IDataCtx.serviceId, (m, t, dCtx: IDataCtx) => {
+                    console.log(dCtx.student.activeCourseId);
+                    return dCtx.student.activate().then(() =>
+                        console.log('Student Manager Ready'));
+                }]
             }
 
         }
@@ -37,13 +44,14 @@ export default class StudentStates {
         }
     }
 
-    private loadModule = ($ocLl: oc.ILazyLoad): void => {
-        return this.isStudentLoaded ? this.isStudentLoaded :
-            System.import('app/student/appStudent.js')
-                .then((studentModClass: any) => {
-                    const studMod = studentModClass.default.load();
-                    $ocLl.inject(studMod.moduleId);
-                    this.isStudentLoaded = true;
-                });
-    }
+    private loadModule = ($ocLl: oc.ILazyLoad): void => System.import('app/student/appStudent.js')
+        .then((studClass: any) => {
+            if (!this.isStudentAppLoaded) {
+                const studMod = studClass.default.load();
+                $ocLl.inject(studMod.moduleId);
+                this.isStudentAppLoaded = true;
+            } else {
+                return true;
+            }
+        });
 }

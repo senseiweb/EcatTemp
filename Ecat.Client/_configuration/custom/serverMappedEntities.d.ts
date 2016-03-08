@@ -43,6 +43,9 @@ declare module ecat.entity
 
         interface ICrseStudInGrpExt {
             statusOfPeer: IStatusOfPeer;
+            updateStatusOfPeer(): IStatusOfPeer;
+            nameSorter: {last:string; first: string}
+            rankName: string;
         }
 
         interface IFacCrseStudInGrpExt extends ICrseStudInGrpExt {

@@ -4,38 +4,35 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr>
-                        <th>Student</th>
-                        <th>Old Strat</th>
-                        <th>Strat Position</th>
-                        <th>Composite Ranking</th>
-
+                        <th class="col-md-4">Student</th>
+                        <th class="col-md-2">Previous Position</th>
+                        <th class="col-md-3">New Position</th>
+                        <th class="col-md-3">Composite Ranking</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="groupMember in groups.selectedGroup.groupMembers | orderBy:'groupMember.student.person.lastName' track by groupMember.id">
-                        <td>{{groupMember.student.person.lastName}}, {{groupMember.student.person.firstName}}</td>
-                        <td>{{(groups.selectedGroup.facStratResponses | filter:{assesseeId:groupMember.id})[0].stratPosition}}</td>
+                    <tr ng-repeat="gm in gmWithComments | orderBy:'gm.studentProfile.person.lastName' track by gm.studentId">
+                        <td>{{:gm.rankName}}</td>
+                        <td>{{}}</td>
                         <td>
-                            <input class="form-control" type="number" min="1" max="groups.selectedGroup.groupMembers.length" ng-model="groups.strats[groupMember.id]" style="width: 20px" />
+                            <input class="form-control"
+                                   type="number"
+                                   min="1"
+                                   max="groups.selectedGroup.groupMembers.length"
+                                   ng-model="gm.proposedPosition" 
+                                   style="width: 20px" />
                         </td>
-                        <td><button ng-if="groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete" popover-placement="top" popover-trigger="mouseenter" popover="HE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.highEff}} | E:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.eff}} | ND:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.nd}} | IE:{{groups.selectedGroup.statusOfStudent[groupMember.id].breakout.ineff}}" class="btn f-500 c-black btn-link f">{{groups.selectedGroup.statusOfStudent[groupMember.id].compositeScore}}</button><label ng-if="!groups.selectedGroup.statusOfStudent[groupMember.id].assessComplete">No Assessment</label></td>
+                        <td>
+                            <div id="sp-chart-data-{{$index}}" ng-if="member.hasChartData">
+                                <span class="sp-graph-composite">{{member.statusOfStudent.compositeScore}}</span>
+                                <div pie-sp-break-out dataset="member.chartSosData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                <div id="flotlegend{{$index}}" style="display: none"></div>
+                            </div>
+                            <div ng-if="!member.hasChartData">
+                                No Data
+                            </div>
+                        </td>
                     </tr>
-                    <!--<tr class="tableBottomBorder">
-                        <td>Jason Silvers</td>
-                        <td>3</td>
-                        <td>
-                            <input class="form-control" type="text" style="width: 20px">
-                        </td>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>E: 4</td>
-                                    <td>AE: 4</td>
-                                    <td>HE: 2</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>-->
 
                 </tbody>
             </table>
@@ -43,5 +40,3 @@
         </div>
     </div>
 </div>
-
-<div ui-view></div>

@@ -18,9 +18,14 @@
                 <tbody>
 
                     <tr class="tableBottomBorder">
-                        <td>{{assess.me.studentProfile.person.firstName}} {{assess.me.studentProfile.person.lastName}}</td>
+                        <td>{{assess.me.rankName}}</td>
                         <td>
-                            <button ng-if="!assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(assess.me)">{{assess.me.statusOfPeer[assess.me.studentId].assessComplete ? "View/Edit" : "Add" }}</button>
+                            <button ng-if="!assess.isResultPublished"
+                                    class="btn btn-link"
+                                    ng-click="assess.loadAssessment(assess.me)">
+                                {{assess.me.statusOfPeer[assess.me.studentId].assessComplete ? "View/Edit" : "Add" }}
+                            </button>
+
                             <button ng-if="assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(assess.me)">
                                 view
                             </button>

@@ -1,6 +1,6 @@
 ﻿import ICommon from "core/common/commonService"
 import IDataCtx from 'core/service/data/context'
-import ISpTools from "provider/spTools/spTool"
+import ISpTools from "provider/spTools/sptool"
 import * as _mp from "core/common/mapStrings"
 
 //TODO: Need to add logic if the workgroup status is published to make everything readonly

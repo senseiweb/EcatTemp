@@ -42,10 +42,21 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     constructor(inj) {
         super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [studPersonCfg, studCrseStudInGrpCfg, studSpInventoryCfg]);
-        //this.loadManager(this.studentApiResources);
+        super.addResources(this.studentApiResources);
         this.isLoaded.course = {};
         this.isLoaded.workGroup = {};
         this.isLoaded.crseInStudGroup = {}
+    }
+
+    activate(): angular.IPromise<any> {
+        if (this.isActivated) {
+            return this.c.$q.resolve();
+        }
+
+        return this.getManager(this.emf)
+            .then(() => {
+                this.isActivated = true;
+            });
     }
 
     initCrseStudGroup(forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.ICrseStudInGroup> | angular.IPromise<void>> {

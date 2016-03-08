@@ -97,7 +97,6 @@ namespace Ecat.StudMod.Core
             Ignore(p => p.BbUserId);
             Ignore(p => p.IsActive);
             Ignore(p => p.ModifiedById);
-            Ignore(p => p.MpInstituteRole);
         }
     }
 

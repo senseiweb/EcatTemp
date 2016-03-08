@@ -11,10 +11,10 @@ export class PersonInitializer {
 }
 
 export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
-    private mpInstituteRole: string;
-    private mpPaygrade: string;
-    private mpComponent: string;
-    private mpAffiliation: string;
+    private mpInstituteRole: string = null;
+    private mpPaygrade: string = null;
+    private mpComponent: string = null;
+    private mpAffiliation: string = null;
 
     defaultAvatarLocation: string;
     verifyPassword: string;
@@ -34,7 +34,7 @@ export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
             return 'FN';
         }
 
-        if (!this.mpPaygrade || !this.mpInstituteRole || !this.mpComponent) {
+        if (!this.mpComponent) {
             return null;
         }
 

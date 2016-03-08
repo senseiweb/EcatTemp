@@ -1,6 +1,7 @@
 ﻿import IDataCtx from 'core/service/data/context'
 import ICommon from 'core/common/commonService'
 import _swal from "sweetalert"
+import _moment from "moment"
 import * as _mp from "core/common/mapStrings"
 
 const enum PubState {
@@ -12,7 +13,7 @@ const enum PubState {
 
 export default class EcFacultyWgPublish {
     static controllerId = 'app.faculty.wkgrp.publish';
-    static $inject = [ICommon.serviceId, IDataCtx.serviceId];
+    static $inject = ['$scope',ICommon.serviceId, IDataCtx.serviceId];
 
     protected activeWorkGroup: ecat.entity.IWorkGroup;
     protected commentFlag ={
@@ -29,7 +30,7 @@ export default class EcFacultyWgPublish {
     protected selectedComment: ecat.entity.ISpComment = null;
     protected workGroupName = 'Not Listed';
 
-    constructor(private c: ICommon, private dCtx: IDataCtx) {
+    constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx) {
         
         this.activate(c.$stateParams.crseId, c.$stateParams.wgId);
     }
@@ -102,12 +103,107 @@ export default class EcFacultyWgPublish {
         }
     }
 
+    protected authorFlagReset(): void {
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Mass Update Pending',
+            text: `This action will flagged ALL ${this.selectedAuthor.rankName} comments to neutral. Are you sure?`,
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: true,
+            closeOnConfirm: false,
+            confirmButtonText: 'Reset Author\'s Comments'
+        };
+
+        _swal(alertSettings, (confirmed?: boolean) => {
+            if (confirmed) {
+
+                this.selectedAuthor.authorOfComments.forEach(aoc => {
+                    aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut;
+                });
+
+                this.selectedAuthor["numRemaining"] = 0;
+                swal('Update Complete', 'All Author comment have been set to Netural', 'success');
+                this.$scope.$apply();
+            }
+        });
+
+    }
+
+    protected authorFlagUnflagged(): void {
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Mass Update Pending',
+            text: `This action will flag ALL ${this.selectedAuthor.rankName} unflagged comments to neutral. Are you sure?`,
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: true,
+            closeOnConfirm: false,
+            confirmButtonText: 'Flag Author\'s Comments'
+        };
+
+        _swal(alertSettings, (confirmed?: boolean) => {
+            if (confirmed) {
+                this.selectedAuthor.authorOfComments.forEach(aoc => aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut);
+                this.selectedAuthor["numRemaining"] = 0;
+                swal('Update Complete', 'Author\'s unflagged comments have been flagged', 'success');
+                this.$scope.$apply();
+            }
+        });
+    }
+
     protected massFlagReset(): void {
-        
+
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Mass Update Pending',
+            text: 'This action will flag ALL comments to neutral. Are you sure?',
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: true,
+            closeOnConfirm: false,
+            confirmButtonText: 'Reset All Comments'
+        };
+
+        _swal(alertSettings, (confirmed?: boolean) => {
+            if (confirmed) {
+                this.gmWithComments.forEach(gm => {
+                    gm.authorOfComments.forEach(aoc => aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut);
+                    gm['numRemaining'] = 0;
+                });
+                
+                swal('Update Complete', 'All comments have been flagged as neutral', 'success');
+                this.$scope.$apply();
+            }
+        });
+
     }
 
     protected massFlagUnflagged(): void {
-        
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Mass Update Pending',
+            text: 'This action will flag ALL UNFLAGGED comments to neutral. Are you sure?',
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: true,
+            closeOnConfirm: false,
+            confirmButtonText: 'Flag Unflagged Comments'
+        };
+
+        _swal(alertSettings, (confirmed?: boolean) => {
+            if (confirmed) {
+                this.gmWithComments.forEach(gm => {
+                    gm.authorOfComments
+                        .filter(aoc => aoc.mpCommentFlagFac === null)
+                        .forEach(aoc => aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut);
+                    gm['numRemaining'] = 0;
+                    
+                });
+                swal('Update Complete', 'All unflagged comments have been flagged as Neutral', 'success');
+                this.$scope.$apply();
+            }
+        });
     }
 
     protected processActiveWg(wg: ecat.entity.IWorkGroup): void {
@@ -131,10 +227,11 @@ export default class EcFacultyWgPublish {
                 .filter(author => !!author)
                 .sort(_.sortByLastName);
             _.pubState = PubState.Comment;
-           _.gmWithComments.forEach(crseStud => {
-               _.updateRemaining(crseStud);
-            })
+            _.gmWithComments.forEach(crseStud => {
+                _.updateRemaining(crseStud);
+            });
             _.selectedAuthor = _.gmWithComments[0];
+            _.selectComment(_.selectedAuthor.authorOfComments[0]);
         }
         //TODO: Handle get comment error
         function processWgCommentsErro(): void {
@@ -166,15 +263,14 @@ export default class EcFacultyWgPublish {
     }
 
     protected selectAuthor(author: ecat.entity.ICrseStudInGroup): void {
-        this.updateRemaining(author);
         this.selectedAuthor = author;
-        this.selectedComment = null;
+        this.selectedComment = author.authorOfComments[0];
+        this.updateRemaining(author);
     }
 
     protected selectComment(comment: ecat.entity.ISpComment): void {
-       const activeComment = comment;
-       activeComment['isFlaggingComplete'] = comment.mpCommentFlagFac !== null;
-       this.selectedComment = comment;
+        comment['modDate'] = _moment(comment.modifiedDate).format('DD-MMM-YY: HHMM [hrs]') as any;
+        this.selectedComment = comment;
     }
 
     private sortByLastName(studentA: ecat.entity.ICrseStudInGroup, studentB: ecat.entity.ICrseStudInGroup) {
@@ -184,7 +280,10 @@ export default class EcFacultyWgPublish {
     }
 
     protected switchTo(tab: string): void {
-        //TODO: add check if leaving state is finihsed
+        this.doneWithComments = !this.gmWithComments.some(gm => gm.authorOfComments.some(aoc => aoc.mpCommentFlagFac === null));
+        
+        if (tab === 'strat') this.pubState = PubState.Strat;
+        if (tab === 'comment') this.pubState = PubState.Comment;
     }
 
     protected updateRemaining(author: ecat.entity.ICrseStudInGroup, flag?: string): void {
