@@ -1,6 +1,6 @@
 ﻿<div class="block-header">
-
-</div>
+     
+ </div>
 
 <div class="card faculty" id="groups-main">
     <div ng-if="wkp.pubState === 0">
@@ -21,7 +21,7 @@
                     <button type="button"
                             class="btn waves-effect"
                             ng-class="wkp.pubState === 1 ? 'btn-primary' : 'btn-default'"
-                            ng-click="wkp.switchTo('comment')">
+                            ng-click="wkp.switchTo('comments')">
                         <i class="zmdi zmdi-check" ng-if="wkp.doneWithComments"></i>
                         Comments
                     </button>
@@ -29,10 +29,11 @@
                     <button type="button"
                             class="btn waves-effect"
                             ng-class="wkp.pubState === 2 ? 'btn-primary' : 'btn-default'"
-                            ng-click="wkp.switchTo('strat')">
+                            ng-click="wkp.switchTo('strats')">
                         <i class="zmdi zmdi-check" ng-if="wkp.doneWithStrats"></i>
                         Stratify
                     </button>
+
 
                     <button type="button"
                             class="btn btn-link waves-effect"
@@ -41,47 +42,207 @@
                         Publish
                     </button>
                 </div>
-                <div class="pull-right">
-                    <button type="button"
-                            class="btn btn-link waves-effect ">
-                        Save Progress
-                    </button>
-                    <ul class="lv-actions actions">
-                        <li class="dropdown" uib-dropdown>
-                            <a href="javascript:void(0)" uib-dropdown-toggle>
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
 
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a href="javascript:void(0)"
-                                       ng-click="wkp.refreshData()">
-                                        Refresh Data
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"
-                                       style="color: red"
-                                       ng-click="wkp.cancelPublish()">
-                                        Cancel Publication
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                <div class="pull-right">
+
+                    <button type="button"
+                            class="btn btn-default waves-effect">
+                        Save Comments
+                    </button>
+
                 </div>
 
+
+                    <ul class="lv-actions actions">
+                    
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="javascript:void(0)"
+                                   ng-click="wkp.refreshData()">
+                                    Refresh Data
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)"
+                                   style="color: red"
+                                   ng-click="wkp.cancelPublish()">
+                                    Cancel Publication
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
             <div class="lv-body">
-                <div ng-switch="wkp.pubState">
-                    <div ng-switch-when="1">
-                        <div ng-include="'@[appFaculty]/feature/workgroups/publish.comment.html'"></div>
-                    </div>
-                    <div ng-switch-when="2">
-                        <div ng-include="'@[appFaculty]/feature/workgroups/publish.strat.html'"></div>
+                <div ng-if="wkp.pubState === 1">
+                    <div class="card m-b-0" id="messages-main">
+
+                        <div class="row">
+                            <div class="col-md-3" style="padding-right: 0;">
+                                <div class="ms-menu">
+
+                                    <div class="ms-block">
+                                        <div class="dropdown"
+                                             uib-dropdown>
+                                            <a class="btn btn-primary btn-block dropdown-toggle waves-effect"
+                                               href="javascript:void(0)"
+                                               uib-dropdown-toggle
+                                               aria-haspopup="true"
+                                               aria-expanded="false">
+                                                Mass Flag
+                                                <i class="caret m-l-5"></i>
+                                            </a>
+
+                                            <ul class="dropdown-menu dm-icon w-100">
+                                                <li>
+                                                    <a data-ng-click="wka.massFlagUnflagged()">Set All</a>
+                                                </li>
+                                                <li>
+                                                    <a data-ng-click="wka.massFlagReset()">Reset All</a>
+                                                </li>
+                                                <li>
+                                                    <a data-ng-click="wka.massFlagReset()">Set Selected Author's</a>
+                                                </li>
+                                                <li>
+                                                    <a data-ng-click="wka.massFlagReset()">Reset Selected Author's</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="listview lv-user ecat-messages m-t-20">
+
+                                        <div class="lv-item media"
+                                             ng-class="{'active': wkp.selectedAuthor.studentId === author.studentId}"
+                                             ng-repeat="author in wkp.gmWithComments track by author.studentId"
+                                             ng-click="wkp.selectAuthor(author)">
+
+                                            <div class="lv-avatar pull-left">
+                                                {{author.studentProfile.person.firstName.charAt(0)}}{{author.studentProfile.person.lastName.charAt(0)}}
+                                            </div>
+
+                                            <div class="media-body">
+                                                <div class="lv-title">
+                                                    {{author.rankName}}
+                                                </div>
+                                                <span class="badge" ng-if="author.numRemaining">{{author.numRemaining}}</span>
+                                                <span class="flag-breakdown" ng-show="wkp.selectedAuthor.studentId === author.studentId">
+                                                    <span class="p-r-5">
+                                                        <i class="zmdi zmdi-hc-fw zmdi-plus-circle-o"></i>3
+                                                    </span>
+                                                    <span class="p-r-5">
+                                                        <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline"></i>4
+                                                    </span>
+                                                    <span>
+                                                        <i class="zmdi zmdi-hc-fw zmdi-close-circle-o"></i>4
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px;">
+                                <div id="ecat-submessage" class="ms-menu pull-left">
+                                  <div class="listview lv-user">
+                                        <div class="lv-item media"
+                                             ng-repeat="comment in wkp.selectedAuthor.authorOfComments | orderBy: 'name' track by comment.recipientPersonId"
+                                             ng-click="wkp.selectComment(comment)"
+                                             ng-class="{'sub-active': wkp.selectedComment.recipientPersonId === comment.recipientPersonId}">
+                                            <div class="media-body">
+                                                <div class="lv-title">
+                                                    {{comment.recipient.rankName}}
+                                                </div>
+
+                                                <i class="zmdi zmdi-hc-fw"
+                                                   style="display: inline" 
+                                                   ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5 m-l-5': comment.mpCommentFlagFac === wkp.commentFlag.neut,
+                                                              'zmdi-close-circle-o sp-neg-comment p-r-5 m-l-5': comment.mpCommentFlagFac === wkp.commentFlag.neg,
+                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5 m-l-5': comment.mpCommentFlagFac === wkp.commentFlag.pos}"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7" style="padding-left: 0;">
+                                <div class="ms-body">
+                                    <div class="listview lv-message">
+                                        <div class="lv-body">
+                                            <div ng-if="wkp.selectedComment === null">
+                                                <h2 class="text-center">Select a recipient...</h2>
+                                            </div>
+                                            <div ng-if="wkp.selectedComment !== null">
+                                                <h4 class="f-400 p-l-20">Comment type: {{wkp.selectedComment.mpCommentType}}</h4>
+                                                <div class="p-20 media">
+                                                    <div class="media-body f-14">
+                                                        <p ng-bind-html="wkp.selectedComment.commentText"></p>
+                                                    </div>
+                                                    <div class="pull-right p-t-30 p-r-5">
+                                                        <div class="btn-group">
+                                                            <label class="btn btn-default"
+                                                                   ng-class="{'btn-primary': wkp.selectedComment.mpCommentFlagFac=== wkp.commentFlag.neg}"
+                                                                   ng-model="wkp.selectedComment.mpCommentFlagFac"
+                                                                   ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.neg)"
+                                                                   uib-btn-radio="wkp.commentFlag.neg">
+                                                                {{wkp.commentFlag.neg}}
+                                                            </label>
+
+                                                            <label class="btn btn-default"
+                                                                   ng-class="{'btn-primary': wkp.selectedComment.mpCommentFlagFac=== wkp.commentFlag.neut}"
+                                                                   ng-model="wkp.selectedComment.mpCommentFlagFac"
+                                                                   ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.neut)"
+                                                                   uib-btn-radio="wkp.commentFlag.neut">
+                                                                {{wkp.commentFlag.neut}}
+                                                            </label>
+
+                                                            <label class="btn btn-default"
+                                                                   ng-class="{'btn-primary': wkp.selectedComment.mpCommentFlagFac=== wkp.commentFlag.pos}"
+                                                                   ng-model="wkp.selectedComment.mpCommentFlagFac"
+                                                                   ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.pos)"
+                                                                   uib-btn-radio="wkp.commentFlag.pos">
+                                                                {{wkp.commentFlag.pos}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="lv-footer">
+                                                    <div class="small f-12 pull-right p-r-15">
+                                                        Last Modified: <i class="zmdi zmdi-time"></i>{{wkp.selectedComment.modifiedDate}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
                     </div>
                 </div>
+
+                <div ng-if="wkp.pubState === 2">
+                </div>
+
+                <div ng-if="wkp.pubState === 3">
+
+                </div>
             </div>
+
+            <div ng-if="groups.isPublishing && groups.view==2" class="p-t-30 p-b-30 text-center">
+                <button type="button" class="btn btn-primary" ng-click="groups.savePublish()">Save</button>
+            </div>
+
         </div>
     </div>
+  
 </div>
