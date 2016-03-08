@@ -123,6 +123,7 @@ export default class EcFacultyWgPublish {
             _.gmWithComments = comments.map(comment => {
                     if (!uniques.hasOwnProperty(comment.authorPersonId)) {
                         uniques[comment.authorPersonId] = true;
+                        //This creates a new property on the object, not changed tracked, only view can see it. 
                         comment.author['isAllCommentFlagged'] = !comment.author.authorOfComments.some(com => com.mpCommentFlagFac === null);
                         return comment.author;
                     }

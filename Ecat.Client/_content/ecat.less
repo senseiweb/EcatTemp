@@ -234,10 +234,6 @@ body {
                 position: absolute;
             }
 
-            span.flag-breakdown > span + span:after {
-                content: "/\00a0";
-            }
-
             span.flag-breakdown{
                 position:absolute;
                 bottom:3px;
@@ -246,6 +242,7 @@ body {
 
 			&.active{
 			background: @m-blue; 
+
 
 			.lv-avatar {
 				background-color: @m-white;
@@ -275,18 +272,24 @@ body {
 		}
 	}}		
 	  #ecat-submessage.ms-menu {
+
+          .sub-active {
+                background-color: #f8f8f8;
+                font-weight: bold;
+            }
+
           .sp-neut-comment {
               position: absolute;
-              right: 156px;
-              bottom: 12px;
-              color: @m-green;
+              right: 159px;
+              bottom: 13px;
+              color: @m-gray;
           }
 
           .sp-pos-comment {
               position: absolute;
               right: 159px;
               bottom: 13px;
-              color: @m-orange;
+              color: @m-green;
           }
 
           .sp-neg-comment {

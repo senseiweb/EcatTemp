@@ -17,7 +17,6 @@
         "loadingBar": '_vendor/angular-loading-bar/src/loading-bar.js',
         "mCustomScroll": '_vendor/bower/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js',
         "moment": '_vendor/bower/moment/moment.js',
-        "ngFlot": '_vendor/bower/angular-flot/angular-flot.js',
         "ngMessage": '_vendor/bower/angular-messages/angular-messages.min.js',
         "ngSanitize": '_vendor/bower/angular-sanitize/angular-sanitize.js',
         "ngTable": '_vendor/bower/ng-table/dist/ng-table.min.js',

@@ -42,6 +42,12 @@
                     </button>
                 </div>
                 <ul class="lv-actions actions">
+                    <button type="button"
+                            class="btn btn-link waves-effect">
+                        Save Comments
+                    </button>
+
+
                     <li class="dropdown" uib-dropdown>
                         <a href="" uib-dropdown-toggle>
                             <i class="zmdi zmdi-more-vert"></i>
@@ -81,16 +87,22 @@
                                                uib-dropdown-toggle
                                                aria-haspopup="true"
                                                aria-expanded="false">
-                                                Flag All
+                                                Mass Flag
                                                 <i class="caret m-l-5"></i>
                                             </a>
 
                                             <ul class="dropdown-menu dm-icon w-100">
                                                 <li>
-                                                    <a data-ng-click="wka.massFlagUnflagged()">Flag All Unflagged (Neutral)</a>
+                                                    <a data-ng-click="wka.massFlagUnflagged()">Set All</a>
                                                 </li>
                                                 <li>
-                                                    <a data-ng-click="wka.massFlagReset()">Reset All (Neutral)</a>
+                                                    <a data-ng-click="wka.massFlagReset()">Reset All</a>
+                                                </li>
+                                                <li>
+                                                    <a data-ng-click="wka.massFlagReset()">Set Selected Author's</a>
+                                                </li>
+                                                <li>
+                                                    <a data-ng-click="wka.massFlagReset()">Reset Selected Author's</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -104,7 +116,7 @@
                                              ng-click="wkp.selectAuthor(author)">
 
                                             <div class="lv-avatar pull-left">
-                                                {{author.studentProfile.person.lastName.charAt(0)}}
+                                                {{author.studentProfile.person.firstName.charAt(0)}}{{author.studentProfile.person.lastName.charAt(0)}}
                                             </div>
 
                                             <div class="media-body">
@@ -114,13 +126,13 @@
                                                 <span class="badge" ng-if="author.numRemaining">{{author.numRemaining}}</span>
                                                 <span class="flag-breakdown" ng-show="wkp.selectedAuthor.studentId === author.studentId">
                                                     <span>
-                                                        <i class="zmdi zmdi-hc-fw zmdi-star-outline"></i> - 3
+                                                        <i class="zmdi zmdi-hc-fw zmdi-plus-circle-o p-r-5"></i>3
                                                     </span>
                                                     <span>
-                                                        <i class="zmdi zmdi-hc-fw zmdi-check"></i> - 4
+                                                        <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline p-r-5"></i>4
                                                     </span>
                                                     <span>
-                                                        <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline"></i> - 4
+                                                        <i class="zmdi zmdi-hc-fw zmdi-close-circle-o p-r-5"></i>4
                                                     </span>
                                                 </span>
                                             </div>
@@ -130,44 +142,21 @@
                             </div>
                             <div class="col-md-2" style="padding-left: 0;">
                                 <div id="ecat-submessage" class="ms-menu pull-left">
-                                    <div class="ms-block">
-                                        <div class="dropdown"
-                                             uib-dropdown>
-                                            <!--TODO: Add a tooltip for what this does -->
-                                            <button class="btn btn-default btn-link dropdown-toggle"
-                                                    href="javascript:void(0)"
-                                                    uib-dropdown-toggle
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                Flag Author's
-                                                <i class="caret m-l-5"></i>
-                                            </button>
-
-                                            <ul class="dropdown-menu dm-icon w-200">
-                                                <li>
-                                                    <a data-ng-click="wka.authorMassFlag()">Any Unflagged</a>
-                                                </li>
-                                                <li>
-                                                    <a data-ng-click="wka.authorMassReset()">Reset Author</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="listview lv-user">
+                                  <div class="listview lv-user">
                                         <div class="lv-item media"
                                              ng-repeat="comment in wkp.selectedAuthor.authorOfComments | orderBy: 'name' track by comment.recipientPersonId"
                                              ng-click="wkp.selectComment(comment)"
-                                             ng-class="{'active': wkp.selectedComment.recipientPersonId === comment.recipientPersonId}">
+                                             ng-class="{'sub-active': wkp.selectedComment.recipientPersonId === comment.recipientPersonId}">
                                             <div class="media-body">
                                                 <div class="lv-title">
                                                     {{comment.recipient.rankName}}
                                                 </div>
-                                                
-                                                    <i class="zmdi zmdi-hc-fw" 
-                                                       ng-class="{'zmdi-check sp-neut-comment': comment.mpCommentFlagFac === wkp.commentFlag.neut,
-                                                              'zmdi-minus-circle-outline sp-neg-comment': comment.mpCommentFlagFac === wkp.commentFlag.neg,
-                                                              'zmdi-star-outline sp-pos-comment': comment.mpCommentFlagFac === wkp.commentFlag.pos}"></i>
+
+                                                <i class="zmdi zmdi-hc-fw"
+                                                   style="display: inline" 
+                                                   ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.mpCommentFlagFac === wkp.commentFlag.neut,
+                                                              'zmdi-close-circle-o sp-neg-comment p-r-5': comment.mpCommentFlagFac === wkp.commentFlag.neg,
+                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.mpCommentFlagFac === wkp.commentFlag.pos}"></i>
                                             </div>
                                         </div>
                                     </div>
