@@ -43,7 +43,8 @@
                 </div>
                 <div class="pull-right">
                     <button type="button"
-                             ng-disabled="wkp.isSaving"
+                            ng-disabled="wkp.isSaving"
+                            ng-click="wkp.saveChanges()"
                              class="btn btn-link waves-effect">
                         <span ng-if="wkp.isSaving">Saving...</span>
                         <span ng-if="!wkp.isSaving"> Save {{wkp.saveBtnText}}</span>

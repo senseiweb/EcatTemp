@@ -64,7 +64,7 @@ export const enum SpEffectLevel {
 
 export const enum SpFreqLevel {
     Always,
-    Frequently
+    Usually
 }
 
 export const enum CompositeModelScore {

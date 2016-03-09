@@ -2,16 +2,19 @@
 
     <div class="row" ng-if="!item.showBehavior" ng-mouseover="item.rowShow=true" ng-mouseleave="item.rowShow=false">
         <div class="col-md-1" ng-if="!assesser.isPublished">
-            <button class="btn btn-default waves-effect" 
-                    ng-if="item.rowShow" 
-                    ng-click="item.showBehavior = true">
+            <button class="btn btn-default waves-effect"
+                    ng-if="item.rowShow"
+                    ng-click="assesser.openEditAssessItem(item)">
                 <i class="zmdi zmdi-more-vert"></i>
             </button>
         </div>
 
-        <div  ng-class="assesser.isPublished ? 'col-md-12' : 'col-md-11'">
+        <div ng-class="assesser.isPublished ? 'col-md-12' : 'col-md-11'">
             <p class="lead f-13">
-                <strong>{{assesser.getFormattedResponse(item)}} @ </strong> {{item.behavior}}
+                <strong>
+                    <span ng-class="{'c-green': item.isChanged}">{{assesser.getFormattedResponse(item)}}</span> @
+                </strong>
+                {{::item.behavior}}
             </p>
         </div>
     </div>
@@ -47,7 +50,7 @@
                 <div class="col-md-6 p-l-5 p-r-5 p-t-4">
                     <div class="btn-group btn-group-xs">
 
-                        <button type="button" 
+                        <button type="button"
                                 class="btn btn-default waves-effect"
                                 ng-class="{'btn-primary': item.behaviorEffect === assesser.enum.ie}"
                                 ng-model="item.behaviorEffect"
@@ -79,10 +82,10 @@
 
                         <button type="button"
                                 class="btn btn-default waves-effect"
-                                ng-class="{'btn-primary': item.behaviorFreq === assesser.enum.fre}"
+                                ng-class="{'btn-primary': item.behaviorFreq === assesser.enum.usl}"
                                 ng-model="item.behaviorFreq"
                                 uib-btn-radio="{{assesser.enum.fre}}">
-                            Frequently
+                            Usually
                         </button>
 
                         <button type="button"
@@ -92,20 +95,19 @@
                                 uib-btn-radio="{{assesser.enum.alw}}">
                             Always
                         </button>
-
                     </div>
                 </div>
             </div>
-            
+
             <div ng-if="!item.behaviorDisplayed">
                 <div class="col-md-9">
                     <p class="lead text-center f-12 p-t-5">NOT DISPLAYED</p>
                 </div>
             </div>
-         
+
             <div class="col-md-2 p-l-30">
-                <button class="btn btn-default waves-effect" 
-                        ng-click="assesser.checkResponses(item);"
+                <button class="btn btn-default waves-effect"
+                        ng-click="assesser.closeEditAssessItem(item);"
                         ng-disabled="" style="padding: 3px; padding-top: 1px; padding-bottom: 1px; margin-top: 4px;">
                     <i class="zmdi zmdi-close"></i>
                 </button>

@@ -137,7 +137,7 @@ export default class EcFacultyWgPublish {
                 _swal(alertSetting, (continuePublish: boolean) => {
                     if (continuePublish) {
                         wg.mpSpStatus = _mp.MpSpStatus.underReview;
-                        _.saveChanges('wg')
+                        _.saveChanges()
                             .then(() => _swal('Publishing...', 'Okay, you are good to go!', 'success'))
                             .then(() => _.processActiveWg(wg));
                     } else {
@@ -252,9 +252,9 @@ export default class EcFacultyWgPublish {
         
     }
 
-    protected saveChanges(what: string): angular.IPromise<void> {
+    protected saveChanges(): angular.IPromise<void> {
 
-        if (what === 'strats') {
+        if (this.pubState === PubState.Strat) {
 
             const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
             if (hasErrors) {
@@ -276,9 +276,7 @@ export default class EcFacultyWgPublish {
             .catch(saveChangesError);
 
         function saveChangesResponse(): void {
-            if (what === 'strat') {
-                
-            }
+        
         }
 
         //TODO: if no changes are exists, dCtx will throw an IQueryError that needs to be handled

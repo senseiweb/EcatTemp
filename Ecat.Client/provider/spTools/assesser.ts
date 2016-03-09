@@ -27,11 +27,12 @@ export default class EcProviderSpToolAssessTaker {
         he: _mpe.SpEffectLevel.HighlyEffective,
         e: _mpe.SpEffectLevel.Effective,
         ie: _mpe.SpEffectLevel.Ineffective,
-        fre: _mpe.SpFreqLevel.Frequently,
+        usl: _mpe.SpFreqLevel.Usually,
         alw: _mpe.SpFreqLevel.Always
     }
     private groupName: string;
     private hasAcknowledge = false;
+    protected hasChanges = false;
     private instructions: string;
     private inventoryList: Array<ecat.entity.ISpInventory> = [];
     private isNewAssess = false;
@@ -82,6 +83,10 @@ export default class EcProviderSpToolAssessTaker {
             this.activeInvent = this.pagers[0].item;
         }
 
+        if (!this.isNewAssess) {
+            this.hasAcknowledge = true;
+        }
+
         this.assesseeName = `${this.assessee.firstName} ${this.assessee.lastName}`;
         this.avatar = this.assessee.avatarLocation || this.assessee.defaultAvatarLocation;
         this.assesseeGoByName = (this.assessee.goByName) ? `[${this.assessee.goByName}]` : null;
@@ -91,29 +96,31 @@ export default class EcProviderSpToolAssessTaker {
         this.hasAcknowledge = true;
     }
 
-    private cancel($event?: angular.IAngularEvent): void {
-        console.log('scope destoryed');
+    protected cancel($event?: angular.IAngularEvent): void {
+
         const hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isAddedModifiedOrDeleted());
-        if (hasChanges) {
+
+        if (hasChanges && this.hasAcknowledge) {
             const alertSetting: SweetAlert.Settings = {
                 title: 'Caution, Unsaved Changes',
-                text: 'You have made changes to this assessment that have not been saved, Are you sure you want to cancel them?',
+                text: 'You have made changes to this assessment that have not been saved.\n\n Are you sure you want to cancel them?',
                 type: 'warning',
                 showCancelButton: true,
                 showConfirmButton: true,
                 closeOnCancel: true,
                 closeOnConfirm: false,
-                confirmButtonText: 'Yes, cancel changes.',
-                cancelButtonText: 'No, don\'t cancel'
+                confirmButtonColor: '#F44336',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
             };
 
             _swal(alertSetting, (confirmed?: boolean) => {
                 if (confirmed) {
                     this.inventoryList.forEach(item => item.responseForAssessee.entityAspect.rejectChanges());
                     this.$mi.dismiss();
-                    _swal('Success!', 'Gotta it...changes canceled.', 'sucess');
+                    _swal('Success!', 'Gotta it...changes canceled.', 'success');
                     _swal.close();
-                }
+                } 
             });
         } else {
             this.$mi.close('User canceled');
@@ -140,7 +147,7 @@ export default class EcProviderSpToolAssessTaker {
         this.previousPage = this.currentPage;
     }
 
-    checkReadyToSave(): void {
+    protected checkReadyToSave(): void {
         const allValidValues = this.inventoryList.every(item => item.responseForAssessee.mpItemResponse !== null);
         const hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isAddedModifiedOrDeleted());
         this.readyToSave = allValidValues && hasChanges;
@@ -151,32 +158,38 @@ export default class EcProviderSpToolAssessTaker {
         }
     }
 
-    private checkResponse(item: ecat.entity.ISpInventory | any) {
-        item.showBehavior = false;
+    protected closeEditAssessItem(inventoryItem: ecat.entity.ISpInventory): void {
+        inventoryItem['rowShow'] = false;
+        inventoryItem['showBehavior'] = false;
+        inventoryItem['isChanged'] = inventoryItem.responseForAssessee.entityAspect.entityState.isModified();
+        this.hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isModified());
     }
 
-    private createInventList(): void {
-        
-    }
-
-    private getFormattedResponse(item: ecat.entity.ISpInventory): string {
+    protected getFormattedResponse(item: ecat.entity.ISpInventory): string {
 
         switch (item.responseForAssessee.mpItemResponse) {
         case _mp.EcSpItemResponse.iea:
             return 'Always: Ineffective';
         case _mp.EcSpItemResponse.ieu:
-            return 'Fequently: Ineffective';
+            return 'Usually: Ineffective';
         case _mp.EcSpItemResponse.ea:
             return 'Always: Effective';
         case _mp.EcSpItemResponse.eu:
-            return 'Frequently: Effective';
+            return 'Usually: Effective';
         case _mp.EcSpItemResponse.heu:
-            return 'Frequently: Highly Effective';
+            return 'Usually: Highly Effective';
         case _mp.EcSpItemResponse.hea:
             return 'Always: Highly Effective';
+        case _mp.EcSpItemResponse.nd:
+            return 'Not Displayed';
         default:
             return 'Unknown';
         }
+    }
+
+    protected openEditAssessItem(inventoryItem: ecat.entity.ISpInventory): void {
+        inventoryItem['rowShow'] = true;
+        inventoryItem['showBehavior'] = true;
     }
 
     private save(): void {
@@ -209,7 +222,6 @@ export default class EcProviderSpToolAssessTaker {
                 this.c.swal(swalSettings);
             });
     }
-
 
     private pagerSort(a: IAssessPager, b: IAssessPager) {
         if (a.pageId < b.pageId) return -1;

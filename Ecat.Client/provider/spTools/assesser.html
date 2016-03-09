@@ -56,15 +56,17 @@
         <div ng-include="'@[modProvider]/spTools/assesser.edit.html'"></div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-link" type="button" ng-click="assesser.save()">
-            <span ng-if="assesser.hasChanges">Save</span>
-            <span ng-if="!assesser.hasChanges">Close</span>
+        <button class="btn btn-link"
+                type="button"
+                ng-if="assesser.hasChanges"
+                ng-click="assesser.save()">
+            Save
         </button>
         <button class="btn btn-link"
-                ng-if="assess.hasChanges"
                 type="button"
                 ng-click="assesser.cancel()">
-            Cancel
+            <span ng-if="!assesser.hasChanges">Close</span>
+            <span ng-if="assesser.hasChanges">Cancel</span>
         </button>
     </div>
 </div>

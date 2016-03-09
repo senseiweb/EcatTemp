@@ -26,7 +26,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
             case _mp.EcSpItemResponse.heu:
             case _mp.EcSpItemResponse.eu:
             case _mp.EcSpItemResponse.ieu:
-                return _mpe.SpFreqLevel.Frequently;
+                return _mpe.SpFreqLevel.Usually;
             default:
                 return null;
         }
