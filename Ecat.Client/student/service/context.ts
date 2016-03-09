@@ -2,6 +2,7 @@
 import {studCrseStudInGrpCfg} from "student/entityExtension/crseStudentInGroup"
 import {studPersonCfg} from "core/entityExtension/person"
 import {studSpInventoryCfg} from 'student/entityExtension/spInventory'
+import {studStratCfg} from "student/entityExtension/stratReponse"
 import * as _mp from "core/common/mapStrings"
 
 interface IStudentApiResources extends ecat.IApiResources {
@@ -41,7 +42,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     }
 
     constructor(inj) {
-        super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [studPersonCfg, studCrseStudInGrpCfg, studSpInventoryCfg]);
+        super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [studPersonCfg, studCrseStudInGrpCfg, studSpInventoryCfg, studStratCfg]);
         super.addResources(this.studentApiResources);
         this.isLoaded.course = {};
         this.isLoaded.workGroup = {};

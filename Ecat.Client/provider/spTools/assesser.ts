@@ -99,6 +99,8 @@ export default class EcProviderSpToolAssessTaker {
                 title: 'Caution, Unsaved Changes',
                 text: 'You have made changes to this assessment that have not been saved, Are you sure you want to cancel them?',
                 type: 'warning',
+                showCancelButton: true,
+                showConfirmButton: true,
                 closeOnCancel: true,
                 closeOnConfirm: false,
                 confirmButtonText: 'Yes, cancel changes.',
@@ -109,7 +111,8 @@ export default class EcProviderSpToolAssessTaker {
                 if (confirmed) {
                     this.inventoryList.forEach(item => item.responseForAssessee.entityAspect.rejectChanges());
                     this.$mi.dismiss();
-                    _swal('Gotta it...changes canceled.', 'sucess');
+                    _swal('Success!', 'Gotta it...changes canceled.', 'sucess');
+                    _swal.close();
                 }
             });
         } else {

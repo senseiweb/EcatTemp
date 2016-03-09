@@ -4,6 +4,7 @@ import {facWorkGrpEntityExt} from 'faculty/entityExtensions/workgroup'
 import {facPersonCfg} from 'faculty/entityExtensions/person'
 import {facSpInventoryCfg} from "faculty/entityExtensions/spInventory"
 import {facSpCommentCfg} from "faculty/entityExtensions/spComment"
+import {facStratCfg} from "faculty/entityExtensions/facStratResponse"
 import * as _mp from 'core/common/mapStrings'
 import * as _mpe from 'core/common/mapEnum'
 
@@ -54,7 +55,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
     }
 
     constructor(inj) {
-        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facSpInventoryCfg, facPersonCfg, facWorkGrpEntityExt, facCrseStudInGrpCfg, facSpCommentCfg]);
+        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facSpInventoryCfg, facPersonCfg, facWorkGrpEntityExt, facCrseStudInGrpCfg, facSpCommentCfg, facStratCfg]);
         super.addResources(this.facultyApiResource);
         this.isLoaded.workGroup = {};
         this.isLoaded.wgComment = {}
@@ -251,6 +252,28 @@ export default class EcFacultyRepo extends IUtilityRepo {
             log.success('WorkGroup loaded from remote store', workGroup, false);
             return workGroup;
         }
+    }
+
+    getAllActiveWgFacStrat(): Array<ecat.entity.IFacStratResponse> {
+        if (!this.activeGroupId || !this.activeCourseId) {
+            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+        }
+
+        const workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+
+        return workGroup.groupMembers.map(gm => {
+            const existingStrat = gm.facultyStrat;
+
+            if (existingStrat) {
+                return existingStrat;
+            }
+
+            return this.manager.createEntity(_mp.EcMapEntityType.facStratResponse, {
+                assesseePersonId: gm.studentId,
+                courseId: this.activeCourseId,
+                workGroupId: this.activeGroupId
+            }) as ecat.entity.IFacStratResponse;
+        });
     }
 
     getFacSpInventory(assesseeId: number): Array<ecat.entity.IFacSpInventory> {

@@ -7,6 +7,7 @@ export class PersonInitializer {
             const imgDirectory = '/Client/content/img/avatars/';
             person.defaultAvatarLocation = `${imgDirectory}default.png`;
         }
+        if (person.mpPaygrade) person.updateSalutation();
     }
 }
 
@@ -15,11 +16,9 @@ export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
     private mpPaygrade: string = null;
     private mpComponent: string = null;
     private mpAffiliation: string = null;
+    private _salutation: string = null;
 
-    defaultAvatarLocation: string;
-    verifyPassword: string;
-
-    get saluatation(): string {
+    updateSalutation(): string {
         const paygradeList = _staticDs;
 
         if (!this.mpPaygrade) {
@@ -35,7 +34,7 @@ export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
         }
 
         if (!this.mpComponent) {
-            return null;
+            return this.mpPaygrade;
         }
 
         for (let paygrade in paygradeList) {
@@ -59,7 +58,18 @@ export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
                 }
             }
         }
-        return null;
+        return this.mpPaygrade;
+    }
+
+    defaultAvatarLocation: string;
+    verifyPassword: string;
+
+    get salutation(): string {
+        if (this._salutation) {
+            return this._salutation;
+        }
+        this.updateSalutation();
+        return this._salutation;
     }
 
     get prettyInstituteRole(): string {

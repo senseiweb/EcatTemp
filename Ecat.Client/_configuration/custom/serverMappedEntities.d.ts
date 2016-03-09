@@ -22,6 +22,12 @@ declare module ecat.entity
             hasComment: boolean;
         }
         
+        interface IStratEvaluator {
+            isValid: boolean;
+            validationErrors: Array<{ cat: string, text: string }>;
+            proposedPosition: number;
+        }
+
         interface IFacCrseStudInGrpStatus {
             assessComplete: boolean;
             stratComplete: boolean;
@@ -49,6 +55,7 @@ declare module ecat.entity
         }
 
         interface IFacCrseStudInGrpExt extends ICrseStudInGrpExt {
+            updateStatusOfStudent(): IFacCrseStudInGrpStatus;
             numberOfAuthorComments: number;
             statusOfStudent: IFacCrseStudInGrpStatus;
         }
@@ -83,7 +90,8 @@ declare module ecat.entity
             verifyPassword: string;
             defaultAvatarLocation: string;
             prettyInstituteRole: string;
-            saluatation: string;
+            updateSalutation(): string
+            salutation: string;
         }
 
     }
@@ -155,6 +163,7 @@ declare module ecat.entity
         assesseeStratResponse: IStratResponse[];
         course: ICourse;
         studentInCourse: IStudInCrse;
+        facultyStrat: IFacStratResponse;
     }
 
     interface IAcademy extends breeze.Entity, s.school.Academy { }
@@ -179,7 +188,7 @@ declare module ecat.entity
         workGroup: IWorkGroup;
     }
 
-    interface IStratResponse extends breeze.Entity, s.learner.StratResponse, ext.ICompositeKey {
+    interface IStratResponse extends breeze.Entity, s.learner.StratResponse, ext.ICompositeKey, ext.IStratEvaluator {
         assessor: ICrseStudInGroup;
         assessee: ICrseStudInGroup;
         stratResult: IStratResult;
@@ -196,7 +205,9 @@ declare module ecat.entity
         assessee: ICrseStudInGroup;
     }
 
-    interface IFacStratResponse extends breeze.Entity, s.faculty.FacStratResponse, ext.ICompositeKey { }
+    interface IFacStratResponse extends breeze.Entity, s.faculty.FacStratResponse, ext.ICompositeKey, ext.IStratEvaluator {
+        studentAssessee: ICrseStudInGroup;
+    }
     //#endregion
 
    //#region Model Owner Designer

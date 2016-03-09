@@ -1,19 +1,16 @@
 ﻿import IDataCtx from 'core/service/data/context'
 import ICommon from 'core/common/commonService'
+import ISpTools from "provider/spTools/sptool"
 import _swal from "sweetalert"
 import _moment from "moment"
 import * as _mp from "core/common/mapStrings"
+import * as _mpe from "core/common/mapEnum"
 
-const enum PubState {
-    Loading,
-    Comment,
-    Strat,
-    Final
-}
+
 
 export default class EcFacultyWgPublish {
     static controllerId = 'app.faculty.wkgrp.publish';
-    static $inject = ['$scope',ICommon.serviceId, IDataCtx.serviceId];
+    static $inject = ['$scope',ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     protected activeWorkGroup: ecat.entity.IWorkGroup;
     protected commentFlag ={
@@ -23,14 +20,16 @@ export default class EcFacultyWgPublish {
     }
     protected doneWithComments = false;
     protected doneWithStrats = false;
+    protected facultyStratResponses: Array<ecat.entity.IFacStratResponse>;
     protected gmWithComments: Array<ecat.entity.ICrseStudInGroup>;
     protected pubState = PubState.Loading;
+    protected saveBtnText = 'Progress';
     protected selectedAuthor: ecat.entity.ICrseStudInGroup;
     protected selectedRecipient: ecat.entity.ICrseStudInGroup;
     protected selectedComment: ecat.entity.ISpComment = null;
     protected workGroupName = 'Not Listed';
 
-    constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx) {
+    constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
         
         this.activate(c.$stateParams.crseId, c.$stateParams.wgId);
     }
@@ -85,7 +84,7 @@ export default class EcFacultyWgPublish {
                     if (continuePublish) {
                         wg.mpSpStatus = _mp.MpSpStatus.underReview;
                         _.saveChanges()
-                            .then(() => _swal('Okay, you are good to go!', 'success'))
+                            .then(() => _swal('Publishing...','Okay, you are good to go!', 'success'))
                             .then(() => _.processActiveWg(wg));
                     } else {
                         _swal.close();
@@ -151,6 +150,7 @@ export default class EcFacultyWgPublish {
             }
         });
     }
+
 
     protected massFlagReset(): void {
 
@@ -227,8 +227,9 @@ export default class EcFacultyWgPublish {
                 .filter(author => !!author)
                 .sort(_.sortByLastName);
             _.pubState = PubState.Comment;
-            _.gmWithComments.forEach(crseStud => {
+            _.gmWithComments.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
                 _.updateRemaining(crseStud);
+                crseStud['facStrat'] = crseStud.facultyStrat.stratPosition;
             });
             _.selectedAuthor = _.gmWithComments[0];
             _.selectComment(_.selectedAuthor.authorOfComments[0]);
@@ -282,8 +283,24 @@ export default class EcFacultyWgPublish {
     protected switchTo(tab: string): void {
         this.doneWithComments = !this.gmWithComments.some(gm => gm.authorOfComments.some(aoc => aoc.mpCommentFlagFac === null));
         
-        if (tab === 'strat') this.pubState = PubState.Strat;
-        if (tab === 'comment') this.pubState = PubState.Comment;
+        if (tab === 'strat') {
+            if (!this.facultyStratResponses) {
+                this.facultyStratResponses = this.dCtx.faculty.getAllActiveWgFacStrat();
+                this.facultyStratResponses.forEach(response => {
+                    response.studentAssessee["hasChartData"] = response.studentAssessee
+                        .statusOfStudent
+                        .breakOutChartData
+                        .some(cd => cd.data > 0);
+                  this.sptool.evaluateStratification<ecat.entity.IFacStratResponse>(response, this.gmWithComments);
+                });
+            }
+            this.pubState = PubState.Strat;
+            this.saveBtnText = 'Stratifications';
+        }
+        if (tab === 'comment') {
+            this.pubState = PubState.Comment;
+            this.saveBtnText = 'Comments';
+        }
     }
 
     protected updateRemaining(author: ecat.entity.ICrseStudInGroup, flag?: string): void {
@@ -292,4 +309,16 @@ export default class EcFacultyWgPublish {
             this.selectedComment.mpCommentFlagFac = flag;
         }
     }
+}
+
+const enum PubState {
+    Loading,
+    Comment,
+    Strat,
+    Final
+}
+
+interface IStratError {
+    cat: string;
+    text: string;
 }

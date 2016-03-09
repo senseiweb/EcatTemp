@@ -117,7 +117,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     }
 
     get rankName(): string {
-        return (!this.studentProfile) ? 'Unknown' : `${this.studentProfile.person.saluatation} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
+        return (!this.studentProfile) ? 'Unknown' : `${this.studentProfile.person.salutation} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
     }
 
     get nameSorter() {

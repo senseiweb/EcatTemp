@@ -4,33 +4,46 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr>
-                        <th class="col-md-4">Student</th>
-                        <th class="col-md-2">Previous Position</th>
-                        <th class="col-md-3">New Position</th>
+                        <th class="col-md-3">Student</th>
                         <th class="col-md-3">Composite Ranking</th>
+                        <th class="col-md-2">Previous Position</th>
+                        <th class="col-md-2">New Position</th>
+                        <th class="col-md-2">Validation</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="gm in gmWithComments | orderBy:'gm.studentProfile.person.lastName' track by gm.studentId">
-                        <td>{{:gm.rankName}}</td>
-                        <td>{{}}</td>
+                    <tr ng-repeat="strat in wkp.facStratResponses | orderBy:'strat.studentAssessee.nameSorter.lastName' track by gm.studentId">
+                        <td>{{:strat.studentAssessee.rankName}}</td>
+                        <td>
+                            <div ng-if="!strat.studentAssessee.hasChartData">
+                                No Assessment
+                            </div>
+                            <div id="sp-chart-data-{{$index}}" ng-if="strat.studentAssessee.hasChartData">
+                                <span class="sp-graph-composite">{{strat.studentAssessee.statusOfStudent.compositeScore}}</span>
+                                <div pie-sp-break-out dataset="strat.studentAssessee.statusOfStudent.breakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                <div id="flotlegend{{$index}}" style="display: none"></div>
+                            </div>
+                        </td>
+                        <td>{{strat.stratPosition || 'None'}}</td>
                         <td>
                             <input class="form-control"
                                    type="number"
                                    min="1"
                                    max="groups.selectedGroup.groupMembers.length"
-                                   ng-model="gm.proposedPosition" 
+                                   ng-change="wkp.evaluateStrat(strat)"
+                                   ng-model="strat.proposedPosition"
+                                   ng-model-options="{updateOn: blur}" 
                                    style="width: 20px" />
                         </td>
-                        <td>
-                            <div id="sp-chart-data-{{$index}}" ng-if="member.hasChartData">
-                                <span class="sp-graph-composite">{{member.statusOfStudent.compositeScore}}</span>
-                                <div pie-sp-break-out dataset="member.chartSosData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
-                                <div id="flotlegend{{$index}}" style="display: none"></div>
-                            </div>
-                            <div ng-if="!member.hasChartData">
-                                No Data
-                            </div>
+                        <td class="text-center">
+                            <span ng-if="strat.isValid">
+                                Valid
+                            </span>
+                            <span ng-if="!strat.isValid">
+                                <a href="javascript:void(0)" uib-popover-title="Validation Errors" uib-popover-template="'@[appCore]/common/tpls/stratErrorPopover.tpl.html'">
+                                    Invalid
+                                </a>
+                            </span>
                         </td>
                     </tr>
 

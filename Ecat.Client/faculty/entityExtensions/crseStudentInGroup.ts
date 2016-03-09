@@ -3,9 +3,10 @@ import {CrseStudInGrpExtBase, CrseStudInGrpInit} from 'core/entityExtension/crse
 
 class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ext.IFacCrseStudInGrpExt {
 
-    numberOfAuthorComments = null;
-    
-    get statusOfStudent(): ecat.entity.ext.IFacCrseStudInGrpStatus {
+    private _statusOfStudent: ecat.entity.ext.IFacCrseStudInGrpStatus = null;
+
+    updateStatusOfStudent(): ecat.entity.ext.IFacCrseStudInGrpStatus {
+
         if (!this.workGroup) {
             console.log('Unable to update status missing assign workgroup');
             return null;
@@ -39,36 +40,36 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         spResponses.forEach(response => {
 
             switch (response.mpItemResponse) {
-            case knownReponse.iea:
-                bo.IE += 1;
-                cummScore += 0;
-                break;
-            case knownReponse.ieu:
-                bo.IE += 1;
-                cummScore += 1;
-                break;
-            case knownReponse.nd:
-                cummScore += 2;
-                bo.ND += 1;
-                break;
-            case knownReponse.ea:
-                cummScore += 3;
-                bo.E += 1;
-                break;
-            case knownReponse.eu:
-                cummScore += 4;
-                bo.E += 1;
-                break;
-            case knownReponse.hea:
-                cummScore += 5;
-                bo.HE += 1;
-                break;
-            case knownReponse.heu:
-                cummScore += 6;
-                bo.HE += 1;
-                break;
-            default:
-                break;
+                case knownReponse.iea:
+                    bo.IE += 1;
+                    cummScore += 1;
+                    break;
+                case knownReponse.ieu:
+                    bo.IE += 1;
+                    cummScore += 2;
+                    break;
+                case knownReponse.nd:
+                    cummScore += 3;
+                    bo.ND += 1;
+                    break;
+                case knownReponse.ea:
+                    cummScore += 4;
+                    bo.E += 1;
+                    break;
+                case knownReponse.eu:
+                    cummScore += 5;
+                    bo.E += 1;
+                    break;
+                case knownReponse.hea:
+                    cummScore += 6;
+                    bo.HE += 1;
+                    break;
+                case knownReponse.heu:
+                    cummScore += 7;
+                    bo.HE += 1;
+                    break;
+                default:
+                    break;
             }
         });
 
@@ -83,11 +84,11 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
                     }
                 });
 
-            composite = (cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 6)).toFixed(2);
-            composite = composite * 100;
+            composite = (cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 7) * 100);
+            composite = Math.round(composite);
         }
 
-        const { HE, E, IE, ND } = this.statusOfStudent.breakout;
+        const { HE, E, IE, ND } = bo;
 
         const chartData = [];
         chartData.push({ label: 'High Effective', data: HE, color: '#AAAA00' });
@@ -95,7 +96,7 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         chartData.push({ label: 'Ineffective', data: IE, color: '#AA0000' });
         chartData.push({ label: 'Not Display', data: ND, color: '#AAAAAA' });
 
-        return {
+        this._statusOfStudent =  {
             assessComplete: missingItems.length === 0,
             stratComplete: stratComplete,
             hasComment: hasComment,
@@ -105,8 +106,18 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
             compositeScore: composite,
             stratedPosition: stratedPosition
         }
+    }
 
-      
+    numberOfAuthorComments = null;
+    
+    get statusOfStudent(): ecat.entity.ext.IFacCrseStudInGrpStatus {
+
+        if (this._statusOfStudent) {
+            return this._statusOfStudent;
+        }
+        this.updateStatusOfStudent();
+        return this._statusOfStudent;
+
     }
 };
 

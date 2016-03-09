@@ -64,7 +64,7 @@
                                     <td class="text-center">
                                         <div id="sp-chart-data-{{$index}}" ng-if="member.hasChartData">
                                             <span class="sp-graph-composite">{{member.statusOfStudent.compositeScore}}</span>
-                                            <div pie-sp-break-out dataset="member.chartSosData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                            <div pie-sp-break-out dataset="member.statusOfStudent.breakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
                                             <div id="flotlegend{{$index}}" style="display: none"></div>
                                         </div>
                                         <div ng-if="!member.hasChartData">
