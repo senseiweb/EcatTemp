@@ -1,7 +1,22 @@
 ﻿<div class="container animated fadeInRight">
     <div class="block-header">
         <h2>App: Faculty WorkGroup Module</h2>
+
+        <ul class="actions" ng-if="$state.includes(stateMgr.faculty.wgList.name)">
+            <li class="dropdown" uib-dropdown>
+                <a href="javascript:void(0)" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-sort"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-repeat="course in wkl.courses track by course.id">
+                        <a href="javascript:void(0)" ng-click="wkl.changeActiveCourse(course);">{{wkl.activeCourse.classNumber}} {{wkl.activeCourse.name}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
     </div>
 
     <div ui-view></div>
+
 </div>

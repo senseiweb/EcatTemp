@@ -1,15 +1,11 @@
-﻿<div class="block-header">
-
-</div>
-
-<div class="card faculty" id="groups-main">
+﻿<div class="card faculty" id="groups-main">
     <div ng-if="wkp.pubState === 0">
         <h2 class="text-center">Preparing WorkGroup Publisher....</h2>
     </div>
     <div ng-if="wkp.pubState !== 0">
         <div class="listview lv-bordered lv-lg">
 
-            <div class="lv-header-alt clearfix p-b-5">
+            <div class="lv-header-alt clearfix p-b-15">
                 <a href="javascript:void(0)"
                    type="button"
                    class="btn btn-link pull-left"
@@ -45,7 +41,8 @@
                     <button type="button"
                             ng-disabled="wkp.isSaving"
                             ng-click="wkp.saveChanges()"
-                             class="btn btn-link waves-effect">
+                             class="btn btn-link waves-effect"
+                             style="margin-top: 3px">
                         <span ng-if="wkp.isSaving">Saving...</span>
                         <span ng-if="!wkp.isSaving"> Save {{wkp.saveBtnText}}</span>
                     </button>
