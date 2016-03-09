@@ -22,6 +22,7 @@ export default class EcFacultyWgPublish {
     protected doneWithStrats = false;
     protected facultyStratResponses: Array<ecat.entity.IFacStratResponse>;
     protected gmWithComments: Array<ecat.entity.ICrseStudInGroup>;
+    protected isSaving = false;
     protected pubState = PubState.Loading;
     protected saveBtnText = 'Progress';
     protected selectedAuthor: ecat.entity.ICrseStudInGroup;
@@ -136,7 +137,7 @@ export default class EcFacultyWgPublish {
                 _swal(alertSetting, (continuePublish: boolean) => {
                     if (continuePublish) {
                         wg.mpSpStatus = _mp.MpSpStatus.underReview;
-                        _.saveChanges()
+                        _.saveChanges('wg')
                             .then(() => _swal('Publishing...', 'Okay, you are good to go!', 'success'))
                             .then(() => _.processActiveWg(wg));
                     } else {
@@ -251,17 +252,37 @@ export default class EcFacultyWgPublish {
         
     }
 
-    protected saveChanges(): angular.IPromise<void> {
+    protected saveChanges(what: string): angular.IPromise<void> {
+
+        if (what === 'strats') {
+
+            const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
+            if (hasErrors) {
+                _swal('Not Ready', 'Your proposed stratification changes contain errors, please make ensure all proposed changes are valid before saving', 'warning');
+            }
+
+            const changeSet = this.facultyStratResponses
+                .filter(response => response.proposedPosition !== null);
+            changeSet.forEach(response => response.stratPosition = response.proposedPosition);
+
+            return this.dCtx.faculty.saveChanges(changeSet)
+                .then(saveChangesResponse)
+                .catch(saveChangesError);
+        }
+
        return this.dCtx.faculty
             .saveChanges()
             .then(saveChangesResponse)
             .catch(saveChangesError);
 
         function saveChangesResponse(): void {
-
+            if (what === 'strat') {
+                
+            }
         }
 
-        function saveChangesError(): void {
+        //TODO: if no changes are exists, dCtx will throw an IQueryError that needs to be handled
+        function saveChangesError(reason: string|ecat.IQueryError): void {
 
         }
     }

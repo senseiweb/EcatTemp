@@ -43,8 +43,10 @@
                 </div>
                 <div class="pull-right">
                     <button type="button"
-                            class="btn btn-link waves-effect ">
-                        Save {{wkp.saveBtnText}}
+                             ng-disabled="wkp.isSaving"
+                             class="btn btn-link waves-effect">
+                        <span ng-if="wkp.isSaving">Saving...</span>
+                        <span ng-if="!wkp.isSaving"> Save {{wkp.saveBtnText}}</span>
                     </button>
                     <ul class="lv-actions actions">
                         <li class="dropdown" uib-dropdown>

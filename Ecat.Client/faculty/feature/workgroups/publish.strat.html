@@ -6,8 +6,8 @@
                     <tr>
                         <th class="col-md-3">Student</th>
                         <th class="col-md-3 text-center">Composite Ranking</th>
-                        <th class="col-md-2 text-center">Previous Position</th>
-                        <th class="col-md-2 text-center">New Position</th>
+                        <th class="col-md-2 text-center">Current Strat</th>
+                        <th class="col-md-2 text-center">Proposed Change</th>
                         <th class="col-md-2 text-center">Validation</th>
                     </tr>
                 </thead>
@@ -25,18 +25,23 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            {{strat.stratPosition || 'None'}}
+                            <span ng-if="strat.stratPosition" style="width: 100px; font-size: 1.8em">
+                                {{strat.strat}}
+                            </span>
+                            <span ng-if="!strat.stratPosition">
+                                None
+                            </span>
                         </td>
                         <td class="text-center">
                             <input class="form-control text-center"
                                    type="number"
-                                   style="width: 100px; font-size: 1.8em;"
+                                   style="width: 100px; font-size: 1.8em"
                                    min="1"
                                    max="groups.selectedGroup.groupMembers.length"
                                    ng-change="wkp.evaluateStrat(strat)"
+                                   ng-disabled="wkp.isSaving"
                                    ng-model="strat.proposedPosition"
-                                   ng-model-options="{debounce: 1500}" 
-                                   style="width: 20px" />
+                                   ng-model-options="{debounce: 1500}"/>
                         </td>
                         <td class="text-center">
                             <span ng-if="strat.isValid">

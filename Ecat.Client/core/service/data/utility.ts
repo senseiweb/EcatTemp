@@ -98,7 +98,7 @@ export default class EcUtilityRepoServices {
         this.emf.registerResourceTypes(this.manager.metadataStore, resourcesToRegister);
     }
 
-    saveChanges = (): breeze.promises.IPromise<breeze.SaveResult | angular.IPromise<void>> => {
+    saveChanges = (entities?: Array<breeze.Entity>): breeze.promises.IPromise<breeze.SaveResult | angular.IPromise<void>> => {
         //TODO: Add a check for token still valid before change
         if (!this.manager.hasChanges()) {
             return this.c.$q.reject('Nothing to save!');

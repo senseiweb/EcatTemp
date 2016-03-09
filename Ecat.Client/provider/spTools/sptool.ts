@@ -47,6 +47,7 @@ export default class EcSpTools {
 
     evaluateStratification<T extends ecat.entity.IFacStratResponse | ecat.entity.IStratResponse>(response: T, peers: Array<ecat.entity.ICrseStudInGroup>): T {
         const newPos = response.proposedPosition;
+
          //Check 1: Do I need to continue?
         if ((response.stratPosition && !newPos)) {
             response.isValid = true;
@@ -59,7 +60,7 @@ export default class EcSpTools {
         if (!newPos) {
             errors.push({
                 cat: 'Missing',
-                text: 'A numerical value gt 0 must be entered'
+                text: 'Without a current strat, a numerical value gt 0 must be entered in proposed change.'
             });
             response.validationErrors = errors;
             return response;
@@ -69,7 +70,7 @@ export default class EcSpTools {
         if (!angular.isNumber(newPos)) {
             errors.push({
                 cat: 'Not Number',
-                text: 'A numerical value gt 0 must be entered'
+                text: 'The proposed change should be a number.'
             });
         }
 
@@ -77,15 +78,15 @@ export default class EcSpTools {
         if (newPos > peers.length) {
             errors.push({
                 cat: 'Not In Range',
-                text: 'Must be eq or less than number of group '
+                text: 'The proposed change should be greater than the number of group members.'
             });
         }
 
         //Check 5: Check for strat outside low range
-        if (newPos < 0) {
+        if (newPos < 1) {
             errors.push({
                 cat: 'Not In Range',
-                text: 'Must be greater than 0'
+                text: 'The proposed change should be greater than zero.'
             });
         }
 
@@ -95,7 +96,7 @@ export default class EcSpTools {
             .forEach(peer => {
                 errors.push({
                     cat: 'Duplicate',
-                    text: `${peer.rankName} has identical proposed change`
+                    text: `${peer.rankName} has an identical proposed change`
                 });
             });
 
@@ -107,7 +108,7 @@ export default class EcSpTools {
             .forEach(peer => {
                 errors.push({
                     cat: 'Duplicate',
-                    text: `${peer.rankName} is already stratified at this position`
+                    text: `${peer.rankName} is currently at this position without a proposed change.`
                 });
             });
 
