@@ -91,7 +91,7 @@ export default class EcSpTools {
 
         //Check 6: for duplicate proposed changes
         peers
-            .filter(peer => peer.facultyStrat.proposedPosition === newPos)
+            .filter(peer => peer.facultyStrat.proposedPosition === newPos && response.assesseePersonId !== peer.studentId)
             .forEach(peer => {
                 errors.push({
                     cat: 'Duplicate',
@@ -101,12 +101,18 @@ export default class EcSpTools {
 
         //Check 7: for duplicate exist strat w/o proposed changes
         peers
-            .filter(peer => peer.facultyStrat.stratPosition === newPos && peer.facultyStrat.proposedPosition === null)
+            .filter(peer => peer.facultyStrat.stratPosition === newPos &&
+                peer.facultyStrat.proposedPosition === null &&
+                response.assesseePersonId !== peer.studentId)
             .forEach(peer => {
                 errors.push({
                     cat: 'Duplicate',
                     text: `${peer.rankName} is already stratified at this position`
                 });
             });
+
+        response.isValid = errors.length === 0;
+        response.validationErrors = errors;
+        return response;
     }
 }

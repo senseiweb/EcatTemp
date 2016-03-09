@@ -1,9 +1,9 @@
 ﻿import * as _mp from 'core/common/mapStrings'
 
 export class FacSpStratResponseExt implements ecat.entity.ext.IStratEvaluator {
-    isValid: boolean;
-    validationErrors: Array<{ cat: string, text: string }>;
-    proposedPosition: number;
+    isValid = false;
+    validationErrors: Array<{ cat: string, text: string }> = null;
+    proposedPosition: number = null;
 
 }
 

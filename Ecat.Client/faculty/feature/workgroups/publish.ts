@@ -54,54 +54,6 @@ export default class EcFacultyWgPublish {
         this.getActiveWorkGroup();
     }
 
-    protected cancelPublish(): void {
-        
-    }
-
-    private getActiveWorkGroup(): void {
-        const _ = this;
-        //TODO: handle the error handler
-        this.dCtx.faculty.getActiveWorkGroup()
-            .then(getActiveWgResponse)
-            .catch(getActiveWgResponseErr);
-
-        function getActiveWgResponse(wg: ecat.entity.IWorkGroup): void {
-            if (wg.mpSpStatus === _mp.MpSpStatus.open) {
-
-                const alertSetting: SweetAlert.Settings = {
-                    title: 'Locking it down',
-                    text: 'Be advised, you are preparing to start publishing this workgroup. Students will no longer be able to save changes to their assessment. Would you like to continue?',
-                    confirmButtonText: 'Start Publication',
-                    type: 'warning',
-                    showCancelButton: true,
-                    showConfirmButton: true,
-                    closeOnConfirm: false,
-                    closeOnCancel: false,
-                    cancelButtonText: 'Cancel Request'
-                }
-
-                _swal(alertSetting, (continuePublish: boolean) => {
-                    if (continuePublish) {
-                        wg.mpSpStatus = _mp.MpSpStatus.underReview;
-                        _.saveChanges()
-                            .then(() => _swal('Publishing...','Okay, you are good to go!', 'success'))
-                            .then(() => _.processActiveWg(wg));
-                    } else {
-                        _swal.close();
-                        _.c.$state.go(_.c.stateMgr.faculty.wgList.name);
-                    }
-                });
-            } else {
-                _.processActiveWg(wg);
-            }
-        }
-
-        //TODO: Will throw error if a workgroup is not found, deal with it!
-        function getActiveWgResponseErr(reason): void {
-
-        }
-    }
-
     protected authorFlagReset(): void {
         const alertSettings: SweetAlert.Settings = {
             title: 'Mass Update Pending',
@@ -149,6 +101,58 @@ export default class EcFacultyWgPublish {
                 this.$scope.$apply();
             }
         });
+    }
+
+    protected cancelPublish(): void {
+
+    }
+
+    protected evaluateStrat(strat: ecat.entity.IFacStratResponse): void {
+       strat = this.sptool.evaluateStratification(strat, this.gmWithComments);
+    }
+
+    private getActiveWorkGroup(): void {
+        const _ = this;
+        //TODO: handle the error handler
+        this.dCtx.faculty.getActiveWorkGroup()
+            .then(getActiveWgResponse)
+            .catch(getActiveWgResponseErr);
+
+        function getActiveWgResponse(wg: ecat.entity.IWorkGroup): void {
+            if (wg.mpSpStatus === _mp.MpSpStatus.open) {
+
+                const alertSetting: SweetAlert.Settings = {
+                    title: 'Locking it down',
+                    text: 'Be advised, you are preparing to start publishing this workgroup. Students will no longer be able to save changes to their assessment. Would you like to continue?',
+                    confirmButtonText: 'Start Publication',
+                    type: 'warning',
+                    showCancelButton: true,
+                    showConfirmButton: true,
+                    closeOnConfirm: false,
+                    closeOnCancel: false,
+                    cancelButtonText: 'Cancel Request'
+                }
+
+                _swal(alertSetting, (continuePublish: boolean) => {
+                    if (continuePublish) {
+                        wg.mpSpStatus = _mp.MpSpStatus.underReview;
+                        _.saveChanges()
+                            .then(() => _swal('Publishing...', 'Okay, you are good to go!', 'success'))
+                            .then(() => _.processActiveWg(wg));
+                    } else {
+                        _swal.close();
+                        _.c.$state.go(_.c.stateMgr.faculty.wgList.name);
+                    }
+                });
+            } else {
+                _.processActiveWg(wg);
+            }
+        }
+
+        //TODO: Will throw error if a workgroup is not found, deal with it!
+        function getActiveWgResponseErr(reason): void {
+
+        }
     }
 
 
@@ -229,7 +233,6 @@ export default class EcFacultyWgPublish {
             _.pubState = PubState.Comment;
             _.gmWithComments.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
                 _.updateRemaining(crseStud);
-                crseStud['facStrat'] = crseStud.facultyStrat.stratPosition;
             });
             _.selectedAuthor = _.gmWithComments[0];
             _.selectComment(_.selectedAuthor.authorOfComments[0]);
