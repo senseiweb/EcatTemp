@@ -1,8 +1,13 @@
 ﻿<div class="card" id="assessments-main">
     <div class="listview lv-bordered lv-lg">
-        <div class="lv-header-alt clearfix p-b-5">
+        <div class="lv-header-alt clearfix p-b-15">
 
-            <a href="javascript:void(0)" ui-sref="{{stateMgr.faculty.wgList.name}}"><i class="zmdi zmdi-arrow-back"></i> Return to WorkGroups</a>
+            <a href="javascript:void(0)"
+               type="button"
+               class="btn btn-link pull-left"
+               ui-sref="{{stateMgr.faculty.wgList.name}}">
+                <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to WorkGroups
+            </a>
 
             <ul class="lv-actions actions">
 
@@ -35,19 +40,19 @@
             <div class="row">
                 <div class="col-md-12 p-t-20">
                     <div class="table-responsive">
-                        <table class="table table-hover tableCenterAlign tbl-lrg-font">
+                        <table class="table table-hover tableCenterAlign">
                             <thead>
-                                <tr>
-                                    <th class="col-md-3 text-center">Student</th>
+                                <tr class="f-16">
+                                    <th class="col-md-3 text-left">Student</th>
                                     <th class="col-md-2 text-center">Assessments</th>
                                     <th class="col-md-2 text-center">Comments</th>
-                                    <th class="col-md-1 text-center">Strat</th>
+                                    <th class="col-md-2 text-center">Strat</th>
                                     <th class="col-md-3 text-center">Composite/Breakout</th>
                                 </tr>
                             </thead>
-                            <tbody >
+                            <tbody class="f-14">
                                 <tr ng-repeat="member in wka.groupMembers track by member.studentId">
-                                    <td>{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
+                                    <td style="border-right: 1px solid #f0f0f0;">{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
                                     <td class="text-center">
                                         <a class="btn btn-link" href="javascript:void(0)" ng-click="wka.loadAssessment(member.studentId)">
                                             {{member.assessText}}

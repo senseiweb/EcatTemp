@@ -245,6 +245,26 @@ export default class EcFacultyWgPublish {
     }
 
     protected publish(): void {
+        if (this.doneWithComments && this.doneWithStrats) {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Publish Results',
+                text: `This action will publish results of this group to students. Are you sure?`,
+                type: 'warning',
+                showCancelButton: true,
+                showConfirmButton: true,
+                closeOnCancel: true,
+                closeOnConfirm: false,
+                confirmButtonText: 'Publish'
+            };
+
+            _swal(alertSettings, (confirmed?: boolean) => {
+                if (confirmed) {
+                    swal('Complete', 'Publishing Complete', 'success');
+                }
+
+            });
+        }
+
         
     }
 
