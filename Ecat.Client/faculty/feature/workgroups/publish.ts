@@ -124,7 +124,7 @@ export default class EcFacultyWgPublish {
 
                 const alertSetting: SweetAlert.Settings = {
                     title: 'Locking it down',
-                    text: 'Be advised, you are preparing to start publishing this workgroup. Students will no longer be able to save changes to their assessment. Would you like to continue?',
+                    text: 'Be advised, you are preparing to start publishing this workgroup.\n\n Students will no longer be able to save changes to their assessment. Would you like to continue?',
                     confirmButtonText: 'Start Publication',
                     type: 'warning',
                     showCancelButton: true,
@@ -138,7 +138,7 @@ export default class EcFacultyWgPublish {
                     if (continuePublish) {
                         wg.mpSpStatus = _mp.MpSpStatus.underReview;
                         _.saveChanges()
-                            .then(() => _swal('Publishing...', 'Okay, you are good to go!', 'success'))
+                            .then(() => {_swal('Publishing...', 'Okay, you are good to go!', 'success')})
                             .then(() => _.processActiveWg(wg));
                     } else {
                         _swal.close();

@@ -2,6 +2,7 @@
 import ISpTools from "provider/spTools/sptool"
 import IDataCtx from 'core/service/data/context'
 import * as _mp from "core/common/mapStrings"
+import _moment from "moment"
 
 //TODO: Need to add logic if the workgroup status is published to make everything readonly
 export default class EcStudentAssessments {
@@ -9,24 +10,38 @@ export default class EcStudentAssessments {
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     //#region Controller Properties
-    private activeCrseId: number;
-    private assessmentForm: angular.IFormController;
-    private courses: ecat.entity.ICourse[];
-    private commentFlag = _mp.MpCommentFlag;
-    private fullName = 'Unknown';
-    private grpDisplayName = 'Not Set';
-    private hasComment = false;
-    private hasResultComment = false;
-    private isResultPublished = true;
-    private isViewOnly = true;
+    protected activeCrseId: number;
+    protected activeView: number;
+    protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false}
+    protected assessmentForm: angular.IFormController;
+    protected courses: ecat.entity.ICourse[];
+    protected commentFlag = _mp.MpCommentFlag;
+    protected fullName = 'Unknown';
+    protected grpDisplayName = 'Not Set';
+    protected hasComment = false;
+    protected hasResultComment = false;
+    protected isResultPublished = true;
+    protected isViewOnly = true;
     private log = this.c.getAllLoggers('Assessment Center');
-    private me: ecat.entity.ICrseStudInGroup;
-    private peers: Array<ecat.entity.ICrseStudInGroup>;
-    private radioEffectiveness: string;
-    private radioFreq: string;
-    private stratInputVis: boolean;
-    private user: ecat.entity.IPerson;
-    private workGroups: ecat.entity.IWorkGroup[];
+    protected me: ecat.entity.ICrseStudInGroup;
+    protected peers: Array<ecat.entity.ICrseStudInGroup>;
+    protected radioEffectiveness: string;
+    protected radioFreq: string;
+    protected sortOpt = {
+        student: 'rankName',
+        assess: 'assessText',
+        comment: 'commentText',
+        strat: 'stratText'
+    }
+    protected stratInputVis: boolean;
+    protected user: ecat.entity.IPerson;
+    protected view = {
+        peer: StudAssessViews.PeerList,
+        strat: StudAssessViews.StratList,
+        myReport: StudAssessViews.ResultMyReport,
+        comment: StudAssessViews.ResultComment
+    }
+    protected workGroups: ecat.entity.IWorkGroup[];
     //#endregion
 
     constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
@@ -36,25 +51,29 @@ export default class EcStudentAssessments {
 
     private activate(): void {
         this.user = this.dCtx.user.persona;
-        this.fullName = `${this.user.firstName} ${this.user.lastName}'s`;
-        const self = this;
-
-        function courseError(error: any) {
-            self.log.warn('There was an error loading Courses', error, true);
-        }
+        const _ = this;
 
         //This unwraps the promise and retrieves the objects inside and stores it into a local variable
         //TODO: Whatif there are no courses??
         this.dCtx.student.initCrseStudGroup(false)
-            .then((crseStudInGrp: ecat.entity.ICrseStudInGroup[]) => {
-                this.courses = this.getUniqueCourses(crseStudInGrp);
-                this.workGroups = this.courses[0].workGroups;
-                this.activeCrseId = this.dCtx.student.activeCourseId = this.courses[0].id;
-                this.setActiveGroup(this.workGroups[0]);
-            })
+            .then(activationResponse)
             .catch(courseError);
        
-        this.stratInputVis = false;
+        function activationResponse(crseStudInGrps: Array<ecat.entity.ICrseStudInGroup>) {
+            _.courses = _.getUniqueCourses(crseStudInGrps);
+            _.workGroups = _.courses[0]
+                .workGroups
+                .sort(_.sortWg);
+
+            _.workGroups.forEach(wg => { wg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}` });
+            _.activeCrseId = _.dCtx.student.activeCourseId = _.courses[0].id;
+            _.activeView = _.workGroups[0].mpSpStatus === _mp.MpSpStatus.published ? StudAssessViews.ResultMyReport : StudAssessViews.PeerList;
+            _.setActiveGroup(_.workGroups[0]);
+        }
+
+        function courseError(error: any) {
+            _.log.warn('There was an error loading Courses', error, true);
+        }
     }
 
     private addComment(recipientId: number): void {
@@ -88,7 +107,7 @@ export default class EcStudentAssessments {
         }
     }
 
-    private loadAssessment(assesseeId): void {
+    protected loadAssessment(assesseeId): void {
         if (!assesseeId) {
             console.log('You must pass a recipient id to use this feature');
             return null;
@@ -98,7 +117,37 @@ export default class EcStudentAssessments {
         this.spTools.loadSpAssessment(assesseeId, this.isViewOnly)
             .then(() => {
                 console.log('Comment modal closed');
+                if (this.isViewOnly) {
+                    return;
+                }
+                const updatedPeer = this.peers.filter(peer => peer.studentId === assesseeId)[0];
+                this.me.updateStatusOfPeer();
+                updatedPeer['assessText'] = this.me.statusOfPeer[updatedPeer.studentId].assessComplete ? 'Edit' : 'Add';
             })
+            
+            .catch(() => {
+                console.log('Comment model errored');
+            });
+    }
+
+    protected loadComment(recipientId): void {
+        if (!recipientId) {
+            console.log('You must pass a recipient id to use this feature');
+            return null;
+        }
+
+        //TODO: Add succes or failure logger
+        this.spTools.loadSpComment(recipientId, this.isViewOnly)
+            .then(() => {
+                console.log('Comment modal closed');
+                if (this.isViewOnly) {
+                    return;
+                }
+                const updatedPeer = this.peers.filter(peer => peer.studentId === recipientId)[0];
+                this.me.updateStatusOfPeer();
+                updatedPeer['commentText'] = this.me.statusOfPeer[updatedPeer.studentId].hasComment ? 'Edit' : 'Add';
+            })
+
             .catch(() => {
                 console.log('Comment model errored');
             });
@@ -117,7 +166,6 @@ export default class EcStudentAssessments {
     private setActiveGroup(workGroup: ecat.entity.IWorkGroup): void {
 
         this.dCtx.student.activeGroupId = workGroup.id;
-        this.grpDisplayName = `${workGroup.mpCategory} - ${workGroup.defaultName}`;
         const myId = this.dCtx.user.persona.personId;
         
         //TODO: Need to do something with the error
@@ -128,7 +176,7 @@ export default class EcStudentAssessments {
 
                 this.isResultPublished = wrkGrp.mpSpStatus === _mp.MpSpStatus.published;
 
-                this.isViewOnly = this.isResultPublished || wrkGrp.mpSpStatus === _mp.MpSpStatus.arch;
+                this.isViewOnly = this.isResultPublished || wrkGrp.mpSpStatus !== _mp.MpSpStatus.open;
 
                 if (this.isResultPublished) {
                     //TODO: Check how this perform between group changes
@@ -142,10 +190,38 @@ export default class EcStudentAssessments {
                 }
 
                 this.me = grpMembers.filter(gm => gm.studentId === myId)[0];
-                console.log(this.me.statusOfPeer);
+
+                grpMembers.forEach(gm => {
+                    if (this.isViewOnly) {
+                        gm['assessText'] = (this.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
+                        gm['commentText'] = (this.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
+                        gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
+                    } else {
+                        gm['assessText'] = (this.me.statusOfPeer[gm.studentId].assessComplete) ? 'Edit' : 'Add';
+                        gm['commentText'] = (this.me.statusOfPeer[gm.studentId].hasComment) ? 'Edit' : 'Add';
+                        gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
+                    }
+                });
                 this.peers = grpMembers.filter(gm => gm.studentId !== myId);
+               
             })
             .catch(() => null);
+    }
+
+    protected sortList(sortOpt: string): void {
+        if (this.activeSort.opt === sortOpt) {
+            this.activeSort.desc = !this.activeSort.desc;
+            return;
+        }
+  
+        this.activeSort.opt = sortOpt;
+        this.activeSort.desc = true;
+    }
+
+    private sortWg(wgA: ecat.entity.IWorkGroup, wgB: ecat.entity.IWorkGroup): number {
+        if (wgA.mpCategory < wgB.mpCategory) return 1;
+        if (wgA.mpCategory > wgB.mpCategory) return -1;
+       return 0;
     }
 
     private getUniqueCourses(crseStudInGrp: Array<ecat.entity.ICrseStudInGroup>): Array<ecat.entity.ICourse> {
@@ -161,10 +237,27 @@ export default class EcStudentAssessments {
                 courses.push(uniqueCourses[course]);
             }
         }
-        return courses;
+        courses.forEach((crse: ecat.entity.ICourse) => {
+            crse['name'] = crse.classNumber || crse.name;
+        });
+        return courses.sort((crseA: ecat.entity.ICourse, crseB: ecat.entity.ICourse) => {
+            if (crseA.startDate < crseB.startDate) return 1;
+            if (crseA.startDate > crseB.startDate) return -1;
+            return 0;
+        });
     }
+}
 
-    //get viewStrat(): boolean {
-    //    return true;
-    //}
+const enum SortOpt {
+    Student,
+    Assess,
+    Comment,
+    Strat
+}
+
+const enum StudAssessViews {
+    PeerList,
+    StratList,
+    ResultMyReport,
+    ResultComment
 }

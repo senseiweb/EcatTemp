@@ -1,45 +1,96 @@
-﻿b
-<div class="table-responsive">
-    <table class="table table-hover tableCenterAlign">
-        <thead>
-            <tr>
-                <th>Student</th>
-                <th>Ineffective</th>
-                <th>Effective</th>
-                <th>Highly Effective</th>
-                <th>Strat Position</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Jason Silvers</td>
-                <td>2</td>
-                <td>3</td>
-                <td>5</td>
-                <td><input class="form-control" type="text" style="width: 20px"></td>
-            </tr>
-            <tr>
-                <td>Everybody Else</td>
-                <td>2</td>
-                <td>3</td>
-                <td>5</td>
-                <td><input class="form-control" type="text" style="width: 20px"></td>
-            </tr>
-            <tr>
-                <td>Everybody Else</td>
-                <td>2</td>
-                <td>3</td>
-                <td>5</td>
-                <td><input class="form-control" type="text" style="width: 20px"></td>
-            </tr>
-            <tr>
-                <td>Everybody Else</td>
-                <td>2</td>
-                <td>3</td>
-                <td>5</td>
-                <td><input class="form-control" type="text" style="width: 20px"></td>
-            </tr>
-        </tbody>
-    </table>
+﻿<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover tableCenterAlign">
+                <thead>
+                    <tr>
+                        <th class="col-md-3">Student</th>
+                        <th class="col-md-3" style="padding-left: 22px;">Assessments</th>
+                        <th ng-if="!assess.stratInputVis" style="padding-left: 22px;">Comments</th>
+                        <th ng-if="assess.stratInputVis">Composite Ranking</th>
+                        <th>Strat</th>
+                        <th ng-if="assess.stratInputVis">Strat Position</th>
+                        <th ng-if="assess.StratError"></th>
 
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="tableBottomBorder">
+                        <td>{{assess.me.rankName}}</td>
+                        <td>
+                            <button ng-if="!assess.isResultPublished"
+                                    class="btn btn-link"
+                                    ng-click="assess.loadAssessment(assess.me)">
+                                {{assess.me.statusOfPeer[assess.me.studentId].assessComplete ? "View/Edit" : "Add" }}
+                            </button>
+
+                            <button ng-if="assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(assess.me)">
+                                view
+                            </button>
+                        </td>
+                        <td ng-if="!assess.stratInputVis"></td>
+                        <td ng-if="assess.stratInputVis">
+                            <table>
+                                <tr>
+                                    <td ng-repeat="(key, value) in assess.me.statusOfPeer[me.studentId].breakout">{{key+':'+ value}}</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td>{{assess.me.statusOfPeer[me.studentId].stratedPosition}}</td>
+
+                        <td ng-if="assess.stratInputVis" style="width: 120px">
+                            <input class="form-control" id="inputError1" type="text" style="width: 100px">
+                        </td>
+
+                        <td>
+                            <label class="control-label" for="inputError1">{{assess.stratError}}</label>
+                        </td>
+
+
+                    </tr>
+
+                    <tr ng-repeat="peer in assess.peers track by peer.studentId">
+                        <td>{{peer.studentProfile.person.firstName}} {{peer.studentProfile.person.lastName}}</td>
+                        <td>
+                            <button ng-if="!assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
+                                {{assess.me.statusOfPeer[peer.studentId].assessComplete ? "View/Edit" : "Add" }}
+                            </button>
+                            <button ng-if="assess.isResultPublished" class="btn btn-link" ng-click="assess.loadAssessment(peer.studentId)">
+                                view
+                            </button>
+                        </td>
+
+                        <td ng-if="!assess.stratInputVis">
+                            <button ng-if="!assess.isResultPublished" class="btn btn-link" ng-click="assess.addComment(peer.studentId)">{{assess.me.statusOfPeer[peer.studentId].hasComment ? "View/Edit" : "Add" }}</button>
+                            <button ng-if="assess.isResultPublished" class="btn btn-link" ng-click="assess.addComment(peer.studentId)">View</button>
+                        </td>
+                        <td ng-if="assess.stratInputVis">
+                            <table>
+                                <tr>
+                                    <td>E: 4</td>
+                                    <td>AE: 4</td>
+                                    <td>HE: 2</td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td>{{assess.me.statusOfPeer[peer.studentId].stratedPosition || 'Not Stratified'}}</td>
+
+                        <td ng-if="assess.stratInputVis" style="width: 120px">
+                            <input class="form-control" id="inputError1" type="text" style="width: 100px">
+                        </td>
+
+                        <td><label class="control-label" for="inputError1">{{assess.stratError}}</label></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>
+
+<div ui-view></div>
+

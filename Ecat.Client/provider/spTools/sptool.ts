@@ -46,6 +46,7 @@ export default class EcSpTools {
     }
 
     evaluateStratification<T extends ecat.entity.IFacStratResponse | ecat.entity.IStratResponse>(response: T, peers: Array<ecat.entity.ICrseStudInGroup>): T {
+        const _ = this;
         const newPos = response.proposedPosition;
 
          //Check 1: Do I need to continue?
@@ -91,8 +92,12 @@ export default class EcSpTools {
         }
 
         //Check 6: for duplicate proposed changes
+        function findDupProposedChanges(peer: ecat.entity.ICrseStudInGroup): boolean {
+            return peer.facultyStrat.proposedPosition === newPos && response.assesseePersonId !== peer.studentId;
+        }
+
         peers
-            .filter(peer => peer.facultyStrat.proposedPosition === newPos && response.assesseePersonId !== peer.studentId)
+            .filter(findDupProposedChanges)
             .forEach(peer => {
                 errors.push({
                     cat: 'Duplicate',
@@ -101,16 +106,51 @@ export default class EcSpTools {
             });
 
         //Check 7: for duplicate exist strat w/o proposed changes
-        peers
-            .filter(peer => peer.facultyStrat.stratPosition === newPos &&
+        function findDupExistStrat(peer: ecat.entity.ICrseStudInGroup): boolean {
+            return peer.facultyStrat.stratPosition === newPos &&
                 peer.facultyStrat.proposedPosition === null &&
-                response.assesseePersonId !== peer.studentId)
+                response.assesseePersonId !== peer.studentId;
+        }
+
+        peers
+            .filter(findDupExistStrat)
             .forEach(peer => {
                 errors.push({
                     cat: 'Duplicate',
                     text: `${peer.rankName} is currently at this position without a proposed change.`
                 });
             });
+
+        //Check 8: Rerun previous duplicate errors to see if they are corrected now
+        peers
+            .filter(peer => peer.facultyStrat.validationErrors.length > 0)
+            .forEach((peer, index, array) => {
+                const hasDupError = peer.facultyStrat.validationErrors.some(error => error.cat === 'Duplicate');
+                const newErrors: Array<{ cat: string, text: string }> = [];
+                if (hasDupError) {
+                    array
+                        .filter(findDupProposedChanges)
+                        .forEach(pr => {
+                            newErrors.push({
+                                cat: 'Duplicate',
+                                text: `${pr.rankName} has an identical proposed change`
+                            });
+                        });
+
+                    array
+                        .filter(findDupExistStrat)
+                        .forEach(pr => {
+                            newErrors.push({
+                                cat: 'Duplicate',
+                                text: `${pr.rankName} has an identical proposed change`
+                            });
+                        });
+
+                    peer.facultyStrat.isValid = newErrors.length === 0;
+                    peer.facultyStrat.validationErrors = newErrors;
+                }
+            });
+
 
         response.isValid = errors.length === 0;
         response.validationErrors = errors;
