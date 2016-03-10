@@ -141,7 +141,7 @@ export default class EcFacultyWgPublish {
                     if (continuePublish) {
                         wg.mpSpStatus = _mp.MpSpStatus.underReview;
                         _.saveChanges()
-                            .then(() => {_swal('Publishing...', 'Okay, you are good to go!', 'success')})
+                            .then(() => {_swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success')})
                             .then(() => _.processActiveWg(wg));
                     } else {
                         _swal.close();
@@ -248,6 +248,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected publish(): void {
+
         if (this.doneWithComments && this.doneWithStrats) {
             const alertSettings: SweetAlert.Settings = {
                 title: 'Publish Results',
@@ -266,9 +267,10 @@ export default class EcFacultyWgPublish {
                 }
 
             });
+        } else {
+            swal('Not Complete', 'You have unfinished work, you must flag all comments and provide stratification for all members before publishing', 'error');
         }
 
-        
     }
 
     protected refreshData(): void {

@@ -91,7 +91,7 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         const { HE, E, IE, ND } = bo;
 
         const chartData = [];
-        chartData.push({ label: 'High Effective', data: HE, color: '#AAAA00' });
+        chartData.push({ label: 'Highly Effective', data: HE, color: '#00308F' });
         chartData.push({ label: 'Effective', data: E, color: '#00AA58' });
         chartData.push({ label: 'Ineffective', data: IE, color: '#AA0000' });
         chartData.push({ label: 'Not Display', data: ND, color: '#AAAAAA' });
