@@ -110,6 +110,7 @@ export default class EcUtilityRepoServices {
 
         this.c.broadcast(this.c.coreCfg.coreApp.events.saveChangesEvent, { inflight: true });
         this.saveInProgress = true;
+        console.log(this.manager.getChanges());
         return this.manager.saveChanges()
             .then((result: breeze.SaveResult) => {
                 this.log.info('Save Results', result, false);

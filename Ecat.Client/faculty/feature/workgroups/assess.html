@@ -54,13 +54,13 @@
                                 <tr ng-repeat="member in wka.groupMembers track by member.studentId">
                                     <td style="border-right: 1px solid #f0f0f0;">{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-link" href="javascript:void(0)" ng-click="wka.loadAssessment(member.studentId)">
+                                        <a class="btn btn-link f-14" href="javascript:void(0)" ng-click="wka.loadAssessment(member.studentId)">
                                             {{member.assessText}}
                                         </a>
                                     </td>
 
                                     <td class="text-center">
-                                        <a href="javascript:void(0)" class="btn btn-link" ng-click="wka.loadComment(member.studentId)">{{member.commentText}}</a>
+                                        <a href="javascript:void(0)" class="btn btn-link f-14" ng-click="wka.loadComment(member.studentId)">{{member.commentText}}</a>
 
                                     </td>
                                     <td class="text-center">

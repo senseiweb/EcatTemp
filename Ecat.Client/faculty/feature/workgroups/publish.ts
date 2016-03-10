@@ -279,22 +279,22 @@ export default class EcFacultyWgPublish {
 
     protected saveChanges(): angular.IPromise<void> {
         const _ = this;
-        if (this.pubState === PubState.Strat) {
+        //if (this.pubState === PubState.Strat) {
 
-            const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
-            if (hasErrors) {
-                _swal('Not Ready', 'Your proposed stratification changes contain errors, please make ensure all proposed changes are valid before saving', 'warning');
-                return null;
-            }
+        //    const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
+        //    if (hasErrors) {
+        //        _swal('Not Ready', 'Your proposed stratification changes contain errors, please make ensure all proposed changes are valid before saving', 'warning');
+        //        return null;
+        //    }
 
-            const changeSet = this.facultyStratResponses
-                .filter(response => response.proposedPosition !== null);
-            changeSet.forEach(response => response.stratPosition = response.proposedPosition);
-            this.isSaving = true;
-            return this.dCtx.faculty.saveChanges(changeSet)
-                .then(saveChangesResponse)
-                .catch(saveChangesError);
-        }
+        //    const changeSet = this.facultyStratResponses
+        //        .filter(response => response.proposedPosition !== null);
+        //    changeSet.forEach(response => response.stratPosition = response.proposedPosition);
+        //    this.isSaving = true;
+        //    return this.dCtx.faculty.saveChanges(changeSet)
+        //        .then(saveChangesResponse)
+        //        .catch(saveChangesError);
+        //}
 
         return this.dCtx.faculty
             .saveChanges()

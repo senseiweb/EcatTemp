@@ -25,6 +25,14 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
             ND: null
         };
 
+        const gaveBo: ecat.entity.ext.ISpGaveStatusBreakOut = {
+            gaveHE: null,
+            gaveIE: null,
+            gaveE: null,
+            gaveND: null
+        };
+
+
         const studStrat = facStats.filter(strat => strat.assesseePersonId === this.studentId && !!strat.stratPosition)[0];
 
         const stratComplete = !!studStrat;
@@ -40,36 +48,36 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         spResponses.forEach(response => {
 
             switch (response.mpItemResponse) {
-                case knownReponse.iea:
-                    bo.IE += 1;
-                    cummScore += 1;
-                    break;
-                case knownReponse.ieu:
-                    bo.IE += 1;
-                    cummScore += 2;
-                    break;
-                case knownReponse.nd:
-                    cummScore += 3;
-                    bo.ND += 1;
-                    break;
-                case knownReponse.ea:
-                    cummScore += 4;
-                    bo.E += 1;
-                    break;
-                case knownReponse.eu:
-                    cummScore += 5;
-                    bo.E += 1;
-                    break;
-                case knownReponse.hea:
-                    cummScore += 6;
-                    bo.HE += 1;
-                    break;
-                case knownReponse.heu:
-                    cummScore += 7;
-                    bo.HE += 1;
-                    break;
-                default:
-                    break;
+            case knownReponse.iea:
+                bo.IE += 1;
+                cummScore += 1;
+                break;
+            case knownReponse.ieu:
+                bo.IE += 1;
+                cummScore += 2;
+                break;
+            case knownReponse.nd:
+                cummScore += 3;
+                bo.ND += 1;
+                break;
+            case knownReponse.ea:
+                cummScore += 4;
+                bo.E += 1;
+                break;
+            case knownReponse.eu:
+                cummScore += 5;
+                bo.E += 1;
+                break;
+            case knownReponse.hea:
+                cummScore += 6;
+                bo.HE += 1;
+                break;
+            case knownReponse.heu:
+                cummScore += 7;
+                bo.HE += 1;
+                break;
+            default:
+                break;
             }
         });
 
@@ -96,13 +104,49 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         chartData.push({ label: 'Ineffective', data: IE, color: '#AA0000' });
         chartData.push({ label: 'Not Display', data: ND, color: '#AAAAAA' });
 
+
+        let totalMarkings = 0;
+        let totalHe = 0;
+        let totalE = 0;
+        let totalIe = 0;
+        let totalNd = 0;
+
+        const peers = this.workGroup.groupMembers.filter(mem => mem.studentId !== this.studentId);
+
+        peers.forEach((mem) => {
+            const c = this.statusOfPeer[mem.studentId].breakout;
+            const totalForPeer = c.E + c.HE + c.IE + c.ND;
+            totalMarkings += totalForPeer;
+            totalE += c.E;
+            totalHe += c.HE;
+            totalIe += c.IE;
+            totalNd += c.ND;
+
+        });
+
+        gaveBo.gaveHE = (totalHe / totalMarkings * 100);
+        gaveBo.gaveE = (totalE / totalMarkings * 100);
+        gaveBo.gaveIE = (totalIe / totalMarkings * 100);
+        gaveBo.gaveND = (totalNd / totalMarkings * 100);
+
+        const { gaveHE, gaveE, gaveIE, gaveND } = gaveBo;
+
+        const gaveChartData = [];
+
+        gaveChartData.push({ label: 'Highly Effective', data: gaveHE, color: '#00308F' });
+        gaveChartData.push({ label: 'Effective', data: gaveE, color: '#00AA58' });
+        gaveChartData.push({ label: 'Ineffective', data: gaveIE, color: '#AA0000' });
+        gaveChartData.push({ label: 'Not Display', data: gaveND, color: '#AAAAAA' });
+
         this._statusOfStudent =  {
             assessComplete: missingItems.length === 0,
             stratComplete: stratComplete,
             hasComment: hasComment,
             missingAssessItems: missingItems,
             breakout: bo,
+            gaveBreakOut: gaveBo,
             breakOutChartData: chartData,
+            gaveBreakOutChartData: gaveChartData,
             compositeScore: composite,
             stratedPosition: stratedPosition
         }

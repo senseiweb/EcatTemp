@@ -3,6 +3,14 @@ declare module ecat.entity
 {
    //#region Client Extensions
     module ext  {
+
+        interface ISpGaveStatusBreakOut {
+            gaveHE: number;
+            gaveE: number;
+            gaveIE: number;
+            gaveND: number;
+        }
+
         interface ISpStatusBreakOut {
             HE: number;
             E: number;
@@ -15,6 +23,7 @@ declare module ecat.entity
             isPeerAllComplete: boolean;
             stratComplete: boolean;
             breakout: ISpStatusBreakOut;
+            gaveBreakOut: ISpGaveStatusBreakOut;
             breakOutChartData: Array<any>;
             missingAssessItems: Array<number>;
             compositeScore: number;
@@ -33,7 +42,9 @@ declare module ecat.entity
             stratComplete: boolean;
             missingAssessItems: Array<number>;
             breakout: ISpStatusBreakOut;
+            gaveBreakOut: ISpGaveStatusBreakOut;
             breakOutChartData: Array<any>;
+            gaveBreakOutChartData: Array<any>;
             compositeScore: number;
             stratedPosition: number;
             hasComment: boolean;

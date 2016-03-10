@@ -7,17 +7,17 @@
 
 
 <table class="table table-hover tableCenterAlign">
-    <thead>
+    <thead class="f-16">
         <tr>
-            <th>Student</th>
-            <th>Self</th>
-            <th>Peer</th>
-            <th>Strats</th>
-            <th>Comments</th>
-            <th>Response Aggregates</th>
+            <th class="f-400">Student</th>
+            <th class="f-400">Self</th>
+            <th class="f-400">Peer</th>
+            <th class="f-400">Strats</th>
+            <th class="f-400 text-center">Comments</th>
+            <th class="f-400">Response Aggregates</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="f-14">
 
         <tr ng-repeat="gm in wgMembers | orderBy: 'studentProfile.person.lastName' track by gm.studentId">
             <td>
@@ -25,21 +25,29 @@
             </td>
             
             <td>
-                <i class="zmdi zmdi-hc-fw" ng-if="gm.check.isSelfDone" ng-class="gm.check.isSelfDone ? 'zmdi-check' : 'zmdi-close'"></i>
+                <i class="zmdi zmdi-hc-fw zmdi-hc-2x" ng-if="gm.check.isSelfDone" ng-class="gm.check.isSelfDone ? 'zmdi-check' : 'zmdi-close'"></i>
             </td>
             
            <td>
                <a href="javascript:void(0)" uib-tooltip={{gm.check.sp.count}}> 
-                   <i class="zmdi zmdi-hc-fw" ng-if="gm.check.sp.isDone" ng-class="gm.check.sp.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
+                   <i class="zmdi zmdi-hc-fw zmdi-hc-2x" ng-if="gm.check.sp.isDone" ng-class="gm.check.sp.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
                </a>
            </td>
             <td>
                  <a href="javascript:void(0)" uib-tooltip={{gm.check.strat.count}}> 
-                   <i class="zmdi zmdi-hc-fw" ng-if="gm.check.strat.isDone" ng-class="gm.check.strat.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
+                   <i class="zmdi zmdi-hc-fw zmdi-hc-2x" ng-if="gm.check.strat.isDone" ng-class="gm.check.strat.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
                </a>
             </td>
-            <td>{{gm.numberOfAuthorComments}}</td>
-            <td>HE: {{gm.aggreg.he}} | E: {{gm.aggreg.e}} | ND: {{gm.aggreg.nd}} | IE: {{gm.aggreg.nd}}</td>
+            <td class="text-center f-18">{{gm.numberOfAuthorComments}}</td>
+            <td class="text-center p-t-0 p-b-0">
+                <div id="sp-chart-gave-data-{{$index}}" ng-if="gm.hasChartData">
+                    <div pie-sp-break-out dataset="gm.statusOfStudent.gaveBreakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                    <div id="flotlegend{{$index}}" style="display: none"></div>
+                </div>
+                <div ng-if="!gm.hasChartData">
+                    No Data
+                </div>
+            </td>
         </tr>
     </tbody>
 </table>

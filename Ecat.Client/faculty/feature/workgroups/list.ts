@@ -137,21 +137,8 @@ export default class EcFacultyWgList {
 
             const peersStratCompletion = peers.map(mem => gm.statusOfPeer[mem.studentId].stratComplete);
 
-            let totalMarkings = 0;
-            let totalHe = 0;
-            let totalE = 0;
-            let totalIe = 0;
-            let totalNd = 0;
+            gm['hasChartData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);
 
-            peers.forEach((mem) => {
-                const c = gm.statusOfPeer[mem.studentId].breakout;
-                const totalForPeer = c.E + c.HE + c.IE + c.ND;
-                totalMarkings += totalForPeer;
-                totalE += c.E;
-                totalHe += c.HE;
-                totalIe += c.IE;
-                totalNd += c.ND;
-            });
 
             gm.check = {
                 isSelfDone: isSelfDone,
@@ -164,12 +151,7 @@ export default class EcFacultyWgList {
                     count: `${peersStratCompletion.filter(complete => complete).length} / ${peersStratCompletion.length}`
                 }
             }
-            gm.aggreg = {
-                he: `${(totalHe / totalMarkings * 100).toFixed(2)}%`,
-                e: `${(totalE / totalMarkings * 100).toFixed(2)}%`,
-                nd: `${(totalNd / totalMarkings * 100).toFixed(2)}%`,
-                ie: `${(totalIe / totalMarkings * 100).toFixed(2)}%`,
-            }
+
         });
         $scope.wgMembers = members;
     }
