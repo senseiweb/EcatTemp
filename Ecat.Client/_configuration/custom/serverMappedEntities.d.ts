@@ -145,6 +145,8 @@ declare module ecat.entity
     interface IWorkGroup extends breeze.Entity, s.school.WorkGroup {
         groupMembers: ICrseStudInGroup[];
         spComments: ISpComment[];
+        facStratResponses: IFacStratResponse[];
+        spStratResponses: IStratResponse[];
     }
 
     interface ICourse extends breeze.Entity, s.school.Course {

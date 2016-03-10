@@ -6,8 +6,8 @@ import _assesser from "provider/spTools/assesser"
 
 export default class EcSpTools {
     static serviceId = 'app.service.sptools';
-    static $inject = ['$uibModal', IDataCtx.serviceId];
-
+    static $inject = ['$q','$timeout','$uibModal', IDataCtx.serviceId];
+    private off: angular.IPromise<Array<ecat.entity.ICrseStudInGroup>>;
     private commentModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: _commenter.controllerId,
         controllerAs: 'commenter',
@@ -28,7 +28,7 @@ export default class EcSpTools {
 
     };
 
-    constructor(private $uim: angular.ui.bootstrap.IModalService,c:ICommon, private dCtx: IDataCtx) {
+    constructor(private $q: angular.IQService, private $to: angular.ITimeoutService, private $uim: angular.ui.bootstrap.IModalService,c:ICommon, private dCtx: IDataCtx) {
        
     }
 
@@ -45,115 +45,96 @@ export default class EcSpTools {
         return this.$uim.open(this.assssModalOption).result;
     }
 
-    evaluateStratification<T extends ecat.entity.IFacStratResponse | ecat.entity.IStratResponse>(response: T, peers: Array<ecat.entity.ICrseStudInGroup>): T {
-        const _ = this;
-        const newPos = response.proposedPosition;
+    evaluateStratification(workGroup: ecat.entity.IWorkGroup, isInstructor?: boolean): angular.IPromise<Array<ecat.entity.ICrseStudInGroup>> {
 
-         //Check 1: Do I need to continue?
-        if ((response.stratPosition && !newPos)) {
-            response.isValid = true;
-            return response;
+        if (this.off) {
+            this.$to.cancel(this.off);
         }
 
-        const errors: Array<{ cat: string, text: string }> = [];
+        this.off = this.$to((): Array<ecat.entity.ICrseStudInGroup> => {
+            const responses: Array<ecat.entity.IFacStratResponse | ecat.entity.IStratResponse> = (isInstructor) ? workGroup.facStratResponses : workGroup.spStratResponses;
 
-        //Check 2: If no previous strat, check if proposed is empty
-        if (!newPos) {
-            errors.push({
-                cat: 'Missing',
-                text: 'Without a current strat, a numerical value gt 0 must be entered in proposed change.'
-            });
-            response.validationErrors = errors;
-            return response;
-        }
-
-        //Check 3: Check for is a number value
-        if (!angular.isNumber(newPos)) {
-            errors.push({
-                cat: 'Not Number',
-                text: 'The proposed change should be a number.'
-            });
-        }
-
-        //Check 4: Check for strat outside top range
-        if (newPos > peers.length) {
-            errors.push({
-                cat: 'Not In Range',
-                text: 'The proposed change should be greater than the number of group members.'
-            });
-        }
-
-        //Check 5: Check for strat outside low range
-        if (newPos < 1) {
-            errors.push({
-                cat: 'Not In Range',
-                text: 'The proposed change should be greater than zero.'
-            });
-        }
-
-        //Check 6: for duplicate proposed changes
-        function findDupProposedChanges(peer: ecat.entity.ICrseStudInGroup): boolean {
-            return peer.facultyStrat.proposedPosition === newPos && response.assesseePersonId !== peer.studentId;
-        }
-
-        peers
-            .filter(findDupProposedChanges)
-            .forEach(peer => {
-                errors.push({
-                    cat: 'Duplicate',
-                    text: `${peer.rankName} has an identical proposed change`
-                });
-            });
-
-        //Check 7: for duplicate exist strat w/o proposed changes
-        function findDupExistStrat(peer: ecat.entity.ICrseStudInGroup): boolean {
-            return peer.facultyStrat.stratPosition === newPos &&
-                peer.facultyStrat.proposedPosition === null &&
-                response.assesseePersonId !== peer.studentId;
-        }
-
-        peers
-            .filter(findDupExistStrat)
-            .forEach(peer => {
-                errors.push({
-                    cat: 'Duplicate',
-                    text: `${peer.rankName} is currently at this position without a proposed change.`
-                });
-            });
-
-        //Check 8: Rerun previous duplicate errors to see if they are corrected now
-        peers
-            .filter(peer => peer.facultyStrat.validationErrors.length > 0)
-            .forEach((peer, index, array) => {
-                const hasDupError = peer.facultyStrat.validationErrors.some(error => error.cat === 'Duplicate');
-                const newErrors: Array<{ cat: string, text: string }> = [];
-                if (hasDupError) {
-                    array
-                        .filter(findDupProposedChanges)
-                        .forEach(pr => {
-                            newErrors.push({
-                                cat: 'Duplicate',
-                                text: `${pr.rankName} has an identical proposed change`
-                            });
-                        });
-
-                    array
-                        .filter(findDupExistStrat)
-                        .forEach(pr => {
-                            newErrors.push({
-                                cat: 'Duplicate',
-                                text: `${pr.rankName} has an identical proposed change`
-                            });
-                        });
-
-                    peer.facultyStrat.isValid = newErrors.length === 0;
-                    peer.facultyStrat.validationErrors = newErrors;
+            responses.forEach((response: ecat.entity.IFacStratResponse | ecat.entity.IStratResponse, i, array) => {
+                response.validationErrors = [];
+                if (!response.stratPosition && !response.proposedPosition) {
+                    response.validationErrors.push({
+                        cat: 'Required',
+                        text: 'Without a current strat, a numerical value gt 0 must be entered in proposed change.'
+                    });
                 }
+
+                if (response.proposedPosition) {
+                    if (!angular.isNumber(response.proposedPosition)) {
+                        response.validationErrors.push({
+                            cat: 'Invalid Value',
+                            text: 'The proposed change should be a number.'
+                        });
+                    }
+
+                    if (response.proposedPosition > array.length) {
+                        response.validationErrors.push({
+                            cat: 'Invalid Value',
+                            text: 'The proposed change should be greater than the number of group members.'
+                        });
+                    }
+
+                    if (response.proposedPosition < 1) {
+                        response.validationErrors.push({
+                            cat: 'Invalid Value',
+                            text: 'The proposed change should be greater than zero.'
+                        });
+                    }
+
+
+                    if (isInstructor) {
+                        const instrStrat = array as Array<ecat.entity.IFacStratResponse>;
+                        instrStrat
+                            .filter(r => r.proposedPosition === response.proposedPosition && r.assesseePersonId !== response.assesseePersonId)
+                            .forEach(r => {
+                                response.validationErrors.push({
+                                    cat: 'Duplicate',
+                                    text: `${r.studentAssessee.rankName}: has an identical proposed change`
+                                });
+                            });
+                    } else {
+                        const studStrat = array as Array<ecat.entity.IStratResponse>;
+                        studStrat
+                            .filter(r => r.proposedPosition === response.proposedPosition && r.assesseePersonId !== response.assesseePersonId)
+                            .forEach(r => {
+                                response.validationErrors.push({
+                                    cat: 'Duplicate',
+                                    text: `${r.assessee.rankName}: has an identical proposed change`
+                                });
+                            });
+                    }
+
+
+                    if (isInstructor) {
+                        const instrStrat = array as Array<ecat.entity.IFacStratResponse>;
+                        instrStrat
+                            .filter(r => r.stratPosition === response.proposedPosition && r.proposedPosition === null)
+                            .forEach(r => {
+                                response.validationErrors.push({
+                                    cat: 'Duplicate',
+                                    text: `${r.studentAssessee.rankName}: is currently at this position without a proposed change.`
+                                });
+                            });
+                    } else {
+                        const studStrat = array as Array<ecat.entity.IStratResponse>;
+                        studStrat
+                            .filter(r => r.stratPosition === response.proposedPosition && r.proposedPosition === null)
+                            .forEach(r => {
+                                response.validationErrors.push({
+                                    cat: 'Duplicate',
+                                    text: `${r.assessee.rankName}: is currently at this position without a proposed change.`
+                                });
+                            });
+                    }
+                }
+                response.isValid = response.validationErrors.length === 0;
             });
-
-
-        response.isValid = errors.length === 0;
-        response.validationErrors = errors;
-        return response;
+            return workGroup.groupMembers;
+        }, 1000);
+        return this.off;
     }
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

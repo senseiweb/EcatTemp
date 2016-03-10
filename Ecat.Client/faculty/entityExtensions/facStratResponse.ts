@@ -2,7 +2,7 @@
 
 export class FacSpStratResponseExt implements ecat.entity.ext.IStratEvaluator {
     isValid = false;
-    validationErrors: Array<{ cat: string, text: string }> = null;
+    validationErrors: Array<{ cat: string, text: string }>;
     proposedPosition: number = null;
 
 }

@@ -108,8 +108,11 @@ export default class EcFacultyWgPublish {
 
     }
 
-    protected evaluateStrat(strat: ecat.entity.IFacStratResponse): void {
-       strat = this.sptool.evaluateStratification(strat, this.gmWithComments);
+    protected evaluateStrat(strat: ecat.entity.IFacStratResponse) {
+        this.sptool.evaluateStratification(this.activeWorkGroup, true)
+            .then((crseMems) => {
+                this.gmWithComments = crseMems;
+            });
     }
 
     private getActiveWorkGroup(): void {
@@ -273,30 +276,38 @@ export default class EcFacultyWgPublish {
     }
 
     protected saveChanges(): angular.IPromise<void> {
-
+        const _ = this;
         if (this.pubState === PubState.Strat) {
 
             const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
             if (hasErrors) {
                 _swal('Not Ready', 'Your proposed stratification changes contain errors, please make ensure all proposed changes are valid before saving', 'warning');
+                return null;
             }
 
             const changeSet = this.facultyStratResponses
                 .filter(response => response.proposedPosition !== null);
             changeSet.forEach(response => response.stratPosition = response.proposedPosition);
-
+            this.isSaving = true;
             return this.dCtx.faculty.saveChanges(changeSet)
                 .then(saveChangesResponse)
                 .catch(saveChangesError);
         }
 
-       return this.dCtx.faculty
+        return this.dCtx.faculty
             .saveChanges()
             .then(saveChangesResponse)
-            .catch(saveChangesError);
+            .catch(saveChangesError)
+            .finally(() => { this.isSaving = false });
+                  
 
         function saveChangesResponse(): void {
-        
+            
+            _.facultyStratResponses.forEach((response) => {
+                response.validationErrors = [];
+                response.isValid = true;
+                response.proposedPosition = null;
+            });
         }
 
         //TODO: if no changes are exists, dCtx will throw an IQueryError that needs to be handled
@@ -329,11 +340,14 @@ export default class EcFacultyWgPublish {
             if (!this.facultyStratResponses) {
                 this.facultyStratResponses = this.dCtx.faculty.getAllActiveWgFacStrat();
                 this.facultyStratResponses.forEach(response => {
-                    response.studentAssessee["hasChartData"] = response.studentAssessee
+                    response.studentAssessee['hasChartData'] = response.studentAssessee
                         .statusOfStudent
                         .breakOutChartData
                         .some(cd => cd.data > 0);
-                  this.sptool.evaluateStratification<ecat.entity.IFacStratResponse>(response, this.gmWithComments);
+                    this.sptool.evaluateStratification(this.activeWorkGroup, true)
+                        .then((crseMembers) => {
+                            this.gmWithComments = crseMembers;
+                        });
                 });
             }
             this.pubState = PubState.Strat;
