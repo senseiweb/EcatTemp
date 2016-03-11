@@ -57,21 +57,50 @@ export default class EcFacultyWgAssess {
 
     //TODO: are any handlers needed for after actions
     private loadAssessment(studentId: number): void {
+        if (!studentId) {
+            console.log('You must pass a student id to use this feature');
+            return null
+        }
+
         this.sptool
             .loadSpAssessment(studentId, this.isViewOnly)
             .then(() => {
+                console.log('Assessment Modal Closed');
+                if (this.isViewOnly) {
+                    return;
+                }
+
+                const updatedStudent = this.groupMembers.filter(mem => mem.studentId === studentId)[0];
+                updatedStudent.updateStatusOfStudent();
+                updatedStudent['hasChartData'] = updatedStudent.statusOfStudent.breakOutChartData.some(cd => cd.data > 0);
+                updatedStudent['assessText'] = updatedStudent.statusOfStudent.assessComplete ? 'Edit' : 'Add';
 
             })
-            .catch((error) => console.log(error));
+            .catch(() => {
+                console.log('Assessment model errored');
+            });
     }
 
    //TODO: are any handlers needed for after actions
     private loadComment(studentId: number): void {
+        if (!studentId) {
+            console.log('You must pass a student id to use this feature');
+        }
+
         this.sptool
             .loadSpComment(studentId, this.isViewOnly)
             .then(() => {
-              
+                console.log('Comment Modal Closed');
+                if (this.isViewOnly) {
+                    return;
+                }
+
+                const updatedStudent = this.groupMembers.filter(mem => mem.studentId === studentId)[0];
+                updatedStudent.updateStatusOfStudent();
+                updatedStudent['commentText'] = updatedStudent.statusOfStudent.hasComment ? 'Edit' : 'Add';
             })
-            .catch((error) => console.log(error));
+            .catch(() => {
+                    console.log('Comment model errored');
+            });
     }
 }

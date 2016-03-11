@@ -27,17 +27,21 @@
                             <thead class="f-16">
                             <tr>
                                 <th class="header col-md-3 text-left f-16 f-400">
-                                    <button class="btn f-400 c-black btn-link f-16"
-                                            ng-click="wkl.sortList(wkl.sortOpt.flight)">
+                                    
                                         Flight
 
+                                        
+                                </th>
+
+                                <th class="header col-md-3 text-left f-400 f-16">
+                                    
+                                    <button class="btn f-400 c-black btn-link f-16"
+                                            ng-click="wkl.sortList(wkl.sortOpt.group)">
+                                        Group Type
                                         <i class="zmdi"
-                                           ng-if="wkl.activeSort.opt === wkl.sortOpt.flight"
+                                           ng-if="wkl.activeSort.opt === wkl.sortOpt.group"
                                            ng-class="wkl.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                                     </button>
-                                </th>
-                                <th class="header col-md-3 text-left f-400 f-16">
-                                        Group Type
                                 </th>
 
                                 <th class="header col-md-3  text-left">

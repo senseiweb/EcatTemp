@@ -24,14 +24,7 @@ interface ICrseStudExtended extends ecat.entity.ICrseStudInGroup {
             isDone: boolean;
             count: string;
         }
-    },
-    aggreg: {
-        he: any,
-        e: any,
-        nd: any,
-        ie: any,
     }
-    
 }
 
 export default class EcFacultyWgList {
@@ -40,7 +33,7 @@ export default class EcFacultyWgList {
     
     private mp = _mp.MpSpStatus;
     private activeCourse: ecat.entity.ICourse;
-    protected activeSort: {opt: string, desc: boolean} = { opt: 'defaultName', desc: false};
+    protected activeSort: {opt: string, desc: boolean} = { opt: 'mpCategory', desc: false};
     private canPublish = false;
     private courses: Array<ecat.entity.ICourse> = [];
     private filters: IWgCatFilter = {
@@ -51,7 +44,7 @@ export default class EcFacultyWgList {
 
     protected sortOpt = {
         status: 'mpSpStatus',
-        flight: 'defaultName'
+        group: 'mpCategory'
 
     }
 
@@ -154,8 +147,7 @@ export default class EcFacultyWgList {
 
             const peersStratCompletion = peers.map(mem => gm.statusOfPeer[mem.studentId].stratComplete);
 
-            gm['hasChartData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);
-
+            gm['hasChartData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);                    
 
             gm.check = {
                 isSelfDone: isSelfDone,

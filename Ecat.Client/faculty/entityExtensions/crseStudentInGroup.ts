@@ -50,30 +50,30 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
             switch (response.mpItemResponse) {
             case knownReponse.iea:
                 bo.IE += 1;
-                cummScore += 1;
+                cummScore += 0;
                 break;
             case knownReponse.ieu:
                 bo.IE += 1;
-                cummScore += 2;
+                cummScore += 1;
                 break;
             case knownReponse.nd:
-                cummScore += 3;
+                cummScore += 2;
                 bo.ND += 1;
+                break;
+            case knownReponse.eu:
+                cummScore += 3;
+                bo.E += 1;
                 break;
             case knownReponse.ea:
                 cummScore += 4;
                 bo.E += 1;
                 break;
-            case knownReponse.eu:
+            case knownReponse.heu:
                 cummScore += 5;
-                bo.E += 1;
+                bo.HE += 1;
                 break;
             case knownReponse.hea:
                 cummScore += 6;
-                bo.HE += 1;
-                break;
-            case knownReponse.heu:
-                cummScore += 7;
                 bo.HE += 1;
                 break;
             default:
@@ -91,8 +91,8 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
                         missingItems.push(inventoryItem.id);
                     }
                 });
-
-            composite = (cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 7) * 100);
+            //Divide by 6 values instead of 7 so if all scores are IEA the outcome is 0 and HEA is 100. 
+            composite = (cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 6) * 100);
             composite = Math.round(composite);
         }
 

@@ -7,8 +7,8 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
     private _effLevel: _mpe.SpEffectLevel = null;
 
 
-    compositeScore: number;
-    responseForAssessee: ecat.entity.ISpResponse | ecat.entity.IFacSpResponse;
+    compositeScore: number = 0;
+    responseForAssessee: ecat.entity.ISpResponse | ecat.entity.IFacSpResponse = null;
 ß
     get behaviorFreq(): _mpe.SpFreqLevel {
         if (!this.responseForAssessee) {

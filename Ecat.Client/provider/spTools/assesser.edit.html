@@ -47,8 +47,8 @@
         </div>
         <div>
             <div ng-if="item.behaviorDisplayed">
-                <div class="col-md-6 p-l-5 p-r-5 p-t-4">
-                    <div class="btn-group btn-group-xs">
+                <div class="col-md-7 p-l-15 p-r-0">
+                    <div class="btn-group btn-group-sm">
 
                         <button type="button"
                                 class="btn btn-default waves-effect"
@@ -77,8 +77,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 p-l-5 p-r-5 p-t-4">
-                    <div class="btn-group btn-group-xs">
+                <div class="col-md-3 p-l-0 p-r-0">
+                    <div class="btn-group btn-group-sm">
 
                         <button type="button"
                                 class="btn btn-default waves-effect"
@@ -100,15 +100,15 @@
             </div>
 
             <div ng-if="!item.behaviorDisplayed">
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <p class="lead text-center f-12 p-t-5">NOT DISPLAYED</p>
                 </div>
             </div>
 
-            <div class="col-md-2 p-l-30">
+            <div class="col-md-1 p-l-10">
                 <button class="btn btn-default waves-effect"
                         ng-click="assesser.closeEditAssessItem(item);"
-                        ng-disabled="" style="padding: 3px; padding-top: 1px; padding-bottom: 1px; margin-top: 4px;">
+                        ng-disabled="" style="padding: 3px; margin-top: 2px;">
                     <i class="zmdi zmdi-close"></i>
                 </button>
             </div>
