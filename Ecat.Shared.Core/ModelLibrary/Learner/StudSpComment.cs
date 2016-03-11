@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Ecat.Shared.Core.Interface;
 using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.School;
+using Ecat.Shared.Core.Utility;
 using Newtonsoft.Json;
 using TypeLite;
 
 namespace Ecat.Shared.Core.ModelLibrary.Learner
 {
     [TsClass(Module = "ecat.entity.s.learner")]
+    [DeletableGuard(AuthorizedDeleters = new[] {RoleMap.Student})]
     public class StudSpComment  : IAuditable
     {
         public string EntityId => $"{AuthorPersonId}|{RecipientPersonId}|{CourseId}|{WorkGroupId}";

@@ -25,14 +25,10 @@ namespace Ecat.FacMod.Core
             _efCtx = efCtx;
         }
 
-        SaveResult IFacRepo.ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards)
+        SaveResult IFacRepo.ClientSaveChanges(JObject saveBundle)
         {
-            if (!saveGuards.Any()) return _efCtx.SaveChanges(saveBundle);
-
-            foreach (var saveGuard in saveGuards)
-            {
+           
                 _efCtx.BeforeSaveEntitiesDelegate += saveGuard;
-            }
 
             return _efCtx.SaveChanges(saveBundle);
         }

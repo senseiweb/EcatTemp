@@ -1959,13 +1959,13 @@ INSERT INTO SpInventory([InstrumentId],[DisplayOrder],[IsScored],[IsDisplayed],[
 INSERT INTO SpInventory([InstrumentId],[DisplayOrder],[IsScored],[IsDisplayed],[Behavior],[ModifiedDate],[ModifiedById]) VALUES('5','9',1,1,'amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris','2016-02-18T08:59:30-08:00',1);
 INSERT INTO SpInventory([InstrumentId],[DisplayOrder],[IsScored],[IsDisplayed],[Behavior],[ModifiedDate],[ModifiedById]) VALUES('5','10',1,1,'massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit,','2016-02-13T12:39:28-08:00',1);
 
-Insert Into WorkGroupModel(AssignedInstrId,EdLevel,MpWgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'Senior NCO Academy', 'BC1',10,0,'true',10)
-Insert Into WorkGroupModel(AssignedInstrId,EdLevel,MpWgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (2,'Senior NCO Academy', 'BC2',25,10,'true',10)
-Insert Into WorkGroupModel(AssignedInstrId,EdLevel,MpWgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'Senior NCO Academy', 'BC3',30,25,'true',10)
-Insert Into WorkGroupModel(AssignedInstrId,EdLevel,MpWgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'NCO Academy','BC1',1.5,0,'true',10)
-Insert Into WorkGroupModel(AssignedInstrId,EdLevel,MpWgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (2,'NCO Academy','BC2',18.75,0,'true',10)
-Insert Into WorkGroupModel(AssignedInstrId,EdLevel,MpWgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (2,'NCO Academy','BC3',18.75,0,'true',10)
-Insert Into WorkGroupModel(AssignedInstrId,EdLevel,MpWgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'NCO Academy','B43',36,25,'true',10)
+Insert Into WorkGroupModel(AssignedSpInstrId,EdLevel,WgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'Senior NCO Academy', 'BC1',10,0,'true',10)
+Insert Into WorkGroupModel(AssignedSpInstrId,EdLevel,WgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (2,'Senior NCO Academy', 'BC2',25,10,'true',10)
+Insert Into WorkGroupModel(AssignedSpInstrId,EdLevel,WgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'Senior NCO Academy', 'BC3',30,25,'true',10)
+Insert Into WorkGroupModel(AssignedSpInstrId,EdLevel,WgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'NCO Academy','BC1',1.5,0,'true',10)
+Insert Into WorkGroupModel(AssignedSpInstrId,EdLevel,WgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (2,'NCO Academy','BC2',18.75,0,'true',10)
+Insert Into WorkGroupModel(AssignedSpInstrId,EdLevel,WgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (2,'NCO Academy','BC3',18.75,0,'true',10)
+Insert Into WorkGroupModel(AssignedSpInstrId,EdLevel,WgCategory,MaxStratStudent,MaxStratFaculty,IsActive,StratDivisor) VALUES (1,'NCO Academy','B43',36,25,'true',10)
 
 
 insert into WorkGroup (WgModelId, CourseId, BbGroupId, CustomName, ModifiedDate, GroupNumber, DefaultName, SpStatus, Category, AssignedSpInstrId, IsPrimary) values (1,6, '610346871-X', 'Meemm', '2016-02-22 17:23:24', 1, 'Flight 1', 'Open', 'BC1', 1, 'true');

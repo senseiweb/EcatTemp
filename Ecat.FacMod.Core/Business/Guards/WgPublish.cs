@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
-using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
@@ -12,60 +10,15 @@ using Ecat.Shared.Core.Utility;
 
 namespace Ecat.FacMod.Core
 {
-    using SaveMap = Dictionary<Type, List<EntityInfo>>;
-    public class GuardWg
+    public static class WorkGroupPublish
     {
-
-        public FacCtx FacCtx { get; set; }
-      
-        public SaveMap BeforeSaveEntities(SaveMap saveMap)
+        public static EntityInfo PublishWorkGroup(EntityInfo entityInfo, WorkGroup svrWorkGroup)
         {
-            var wgMapKey = saveMap.Keys.Single(sm => sm == typeof (WorkGroup));
-
-            if (wgMapKey == null)
-            {
-                return saveMap;
-            }
-
-            var workGroupInfos = saveMap[wgMapKey];
-
-            foreach (var info in workGroupInfos)
-            {
-                var wg = info.Entity as WorkGroup;
-
-                if (wg == null)
-                {
-                    continue;
-                }
-
-                if (info.OriginalValuesMap.ContainsKey("MpSpStatus") && wg.MpSpStatus == MpSpStatus.Published)
-                {
-                    PublishWorkGroup(wg, info);
-                }
-            }
-            return saveMap;
-        }
-
-        private void PublishWorkGroup(WorkGroup wg, EntityInfo entityInfo)
-        {
-            //Retrive our own version of the workgroup from the db with related items
-            var svrWg = FacCtx.WorkGroups
-                .Where(grp => grp.Id == wg.Id && wg.MpSpStatus == MpSpStatus.UnderReview)
-                .Include(grp => grp.WgModel)
-                .Include(grp => grp.SpResults)
-                .Include(grp => grp.SpStratResults)
-                .Include(grp => grp.GroupMembers)
-                .Include(grp => grp.SpResponses)
-                .Include(grp => grp.SpStratResponses)
-                .Include(grp => grp.FacSpResponses)
-                .Include(grp => grp.FacStratResponses)
-                .Single();
-
             //setup things to save later
             var wgSpAssessResults = new List<SpResult>();
 
             //Lets removed the deleted group members
-            var members = svrWg.GroupMembers.Where(gm => !gm.IsDeleted).ToList();
+            var members = svrWorkGroup.GroupMembers.Where(gm => !gm.IsDeleted).ToList();
 
             //Lets make sure that all the active members have been assessed and stratified
             foreach (var mySelf in members)
@@ -74,18 +27,18 @@ namespace Ecat.FacMod.Core
 
                 if (verificationError != null)
                 {
-                    var error = new EFEntityError(entityInfo,"Publication Error",verificationError, "MpSpStatus");
+                    var error = new EFEntityError(entityInfo, "Publication Error", verificationError, "MpSpStatus");
                     throw new EntityErrorsException(new List<EntityError> { error });
                 }
 
                 //Still here, good...lets start with calculating the assessment result
                 var existingResult =
-                    svrWg.SpResults.Single(result =>
+                    svrWorkGroup.SpResults.Single(result =>
                             result.StudentId == mySelf.StudentId &&
                             result.WorkGroupId == mySelf.WorkGroupId &&
                             result.CourseId == mySelf.CourseId);
 
-                var calcResult = CalculateSpAssessResult(mySelf, svrWg.FacSpResponses.ToList());
+                var calcResult = CalculateSpAssessResult(mySelf, svrWorkGroup.FacSpResponses.ToList());
 
                 if (existingResult != null)
                 {
@@ -99,10 +52,9 @@ namespace Ecat.FacMod.Core
             }
 
             //Now is the time to the all important stratification calculation
-            var wgStratScores = CalculateStratResult(svrWg.GroupMembers.ToList()).ToList();
-            var finalResult = CalculateLineup(wgStratScores, svrWg.WgModel.MaxStratStudent,
-                svrWg.WgModel.MaxStratFaculty, svrWg.WgModel.StratDivisor);
-
+            var wgStratScores = CalculateStratResult(svrWorkGroup.GroupMembers.ToList()).ToList();
+            var finalResult = CalculateLineup(wgStratScores, svrWorkGroup.WgModel.MaxStratStudent,
+                svrWorkGroup.WgModel.MaxStratFaculty, svrWorkGroup.WgModel.StratDivisor);
         }
 
         private static string ConvertScoreToOutcome(float score)
@@ -167,50 +119,22 @@ namespace Ecat.FacMod.Core
             var scoreInterval = 1m / wgMembers.Count;
 
             return (from member in wgMembers
-                let myStratsByPosition = member.AssesseeStratResponse.GroupBy(strat => strat.StratPosition)
-                let totalStratScore = 
-                (from strat in myStratsByPosition let multiplier = 1 - strat.Key*scoreInterval select multiplier*strat.ToList().Count).Sum()
-                select new StratResult
-                {
-                    StudentId = member.StudentId,
-                    CourseId = member.CourseId,
-                    WorkGroupId = member.WorkGroupId,
-                    StratCummScore = (float) totalStratScore,
-                }).ToList();
+                    let myStratsByPosition = member.AssesseeStratResponse.GroupBy(strat => strat.StratPosition)
+                    let totalStratScore =
+                    (from strat in myStratsByPosition let multiplier = 1 - strat.Key * scoreInterval select multiplier * strat.ToList().Count).Sum()
+                    select new StratResult
+                    {
+                        StudentId = member.StudentId,
+                        CourseId = member.CourseId,
+                        WorkGroupId = member.WorkGroupId,
+                        StratCummScore = (float)totalStratScore,
+                    }).ToList();
         }
 
         private static IEnumerable<StratResult> CalculateLineup(IEnumerable<StratResult> results, float topStudStrat, float topInstrStrat, int divisor)
-        {
-            var studInterval = topStudStrat / divisor;
-            var instrInterval = Math.Abs(topInstrStrat) < 0 ? 0 : topInstrStrat/divisor;
-            var studStratWorth = new Dictionary<int, float>();
-            var instrStratWorth = new Dictionary<int, float>();
-
-            var currentStratPosition = 1;
-            var currentStratWorth = topStudStrat;
-
-            do
-            {
-                studStratWorth.Add(currentStratPosition, currentStratWorth);
-                currentStratPosition += 1;
-                currentStratWorth -= studInterval;
-            } while (currentStratWorth >= 0);
-
-
-            if (Math.Abs(instrInterval) > 0)
-            {
-                currentStratPosition = 1;
-                currentStratWorth = topInstrStrat;
-                do
-                {
-                    instrStratWorth.Add(currentStratPosition, currentStratWorth);
-                    currentStratPosition += 1;
-                    currentStratWorth -= instrInterval;
-                } while (currentStratWorth >= 0);
-            }
-
+        {            
             var wgResults = results.ToList();
-            
+
             var resultsByScore = wgResults
                .GroupBy(result => result.StratCummScore)
                .OrderByDescending(result => result.Key)
@@ -237,20 +161,17 @@ namespace Ecat.FacMod.Core
             for (var i = 0; i <= resultsScoreAndInstr.Length; i++)
             {
                 var strat = i + 1;
-                var stratWorth = (float) 0m;
-                var instrWorth = (float) 0m;
-
-                studStratWorth.TryGetValue(strat, out stratWorth);
-                instrStratWorth.TryGetValue(strat, out instrWorth);
+               
 
                 resultsScoreAndInstr[i].FinalStratPosition = strat;
-                resultsScoreAndInstr[i].StratAwardedScore = (float)(stratWorth + instrWorth);
-
+                var awardStudPoints = topStudStrat - (topStudStrat/divisor)*i;
+                var awardFacPoints = topInstrStrat - (topInstrStrat/divisor)*i;
+                resultsScoreAndInstr[i].StratAwardedScore = awardStudPoints + awardFacPoints;
                 wgResults.Add(resultsScoreAndInstr[i]);
             }
 
             return wgResults;
-        } 
+        }
 
         private static string VerifyWgData(CrseStudentInGroup me, IReadOnlyCollection<CrseStudentInGroup> peers)
         {
@@ -278,8 +199,10 @@ namespace Ecat.FacMod.Core
                     peopleWhoIHaveNotAssess.Any() ||
                     peopleWhoIHaveNotStratified.Any() ||
                     myFacStrat == null) ? $"There was a problem validating necessary information . Status: [Them => Me] NA: {peopleWhoHaveNotAssessMe.Count}, NS: {peopleWhoHaveNotStratifiedMe.Count} | [Me => Them] NA: {peopleWhoIHaveNotAssess.Count}, NS: {peopleWhoIHaveNotStratified.Count} | FacStrat: {myFacStrat}" : null;
-        
+
         }
 
     }
+
+
 }
