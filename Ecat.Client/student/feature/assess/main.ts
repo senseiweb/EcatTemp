@@ -12,7 +12,7 @@ export default class EcStudentAssessments {
     //#region Controller Properties
     protected activeCrseId: number;
     protected activeView: number;
-    protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false}
+    protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false};
     protected assessmentForm: angular.IFormController;
     protected courses: ecat.entity.ICourse[];
     protected commentFlag = _mp.MpCommentFlag;

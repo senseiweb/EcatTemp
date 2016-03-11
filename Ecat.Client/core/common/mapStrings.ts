@@ -155,13 +155,6 @@ export class EcMapEntityType {
     static facStratResponse = 'FacStratResponse';
 }
 
-export class MpSpComment {
-    static pos = 'positive';
-    static neg = 'negative';
-    static neut = 'neutral';
-
-}
-
 export class SweetAlertTypes {
     static success = 'success';
     static warn = 'warning';

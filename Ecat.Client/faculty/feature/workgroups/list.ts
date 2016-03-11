@@ -40,12 +40,19 @@ export default class EcFacultyWgList {
     
     private mp = _mp.MpSpStatus;
     private activeCourse: ecat.entity.ICourse;
+    protected activeSort: {opt: string, desc: boolean} = { opt: 'defaultName', desc: false};
     private canPublish = false;
     private courses: Array<ecat.entity.ICourse> = [];
     private filters: IWgCatFilter = {
         cat: { optionList: [], filterWith: [] },
         status: { optionList: [], filterWith: [] },
         name: { optionList: [], filterWith: [] }
+    }
+
+    protected sortOpt = {
+        status: 'mpSpStatus',
+        flight: 'defaultName'
+
     }
 
     constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon) {
@@ -121,7 +128,17 @@ export default class EcFacultyWgList {
     private refreshInit(): void {
         this.activate(true);
     }
-    
+
+    protected sortList(sortOpt: string): void {
+        if (this.activeSort.opt === sortOpt) {
+            this.activeSort.desc = !this.activeSort.desc;
+            return;
+        }
+
+        this.activeSort.opt = sortOpt;
+        this.activeSort.desc = true;
+    }
+
     private statusModal($scope: any, $mi: angular.ui.bootstrap.IModalServiceInstance, wg: ecat.entity.IWorkGroup){
         $scope.wgName = (wg.customName) ? `${wg.customName} [${wg.defaultName}]` : wg.defaultName;
         const members = wg.groupMembers as Array<ICrseStudExtended>;
@@ -191,7 +208,7 @@ export default class EcFacultyWgList {
         });
 
         this.filters.status.optionList = uniqueStatusKeys.map(key => {
-            const count = groups.filter(g => g.mpCategory === key).length;
+            const count = groups.filter(g => g.mpSpStatus === key).length;
             return {
                 key: key,
                 count: count

@@ -229,6 +229,9 @@ export default class EcFacultyWgPublish {
                         uniques[comment.authorPersonId] = true;
                         //This creates a new property on the object, not changed tracked, only view can see it. 
                         comment.author['isAllCommentFlagged'] = !comment.author.authorOfComments.some(com => com.mpCommentFlagFac === null);
+                        comment.author['totalNegCount'] = comment.author.authorOfComments.filter(com => com.mpCommentFlagFac === _mp.MpCommentFlag.neg).length;
+                        comment.author['totalPosCount'] = comment.author.authorOfComments.filter(com => com.mpCommentFlagFac === _mp.MpCommentFlag.pos).length;
+                        comment.author['totalNeutCount'] = comment.author.authorOfComments.filter(com => com.mpCommentFlagFac === _mp.MpCommentFlag.neut).length;
                         return comment.author;
                     }
                 })

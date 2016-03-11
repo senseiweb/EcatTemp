@@ -50,13 +50,13 @@
                             <span class="badge" ng-if="author.numRemaining">{{author.numRemaining}}</span>
                             <span class="flag-breakdown" style="color: #D8D8D8">
                                 <span class="p-r-5">
-                                    <i class="zmdi zmdi-hc-fw zmdi-plus-circle-o"></i>3
+                                    <i class="zmdi zmdi-hc-fw zmdi-plus-circle-o"></i>{{author.totalPosCount}}
                                 </span>
                                 <span class="p-r-5">
-                                    <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline"></i>4
+                                    <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline"></i>{{author.totalNeutCount}}
                                 </span>
                                 <span>
-                                    <i class="zmdi zmdi-hc-fw zmdi-close-circle-o"></i>4
+                                    <i class="zmdi zmdi-hc-fw zmdi-close-circle-o"></i>{{author.totalNegCount}}
                                 </span>
                             </span>
                         </div>
