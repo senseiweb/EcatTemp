@@ -9,11 +9,14 @@ export default class EcFacultyStates {
 
     main: angular.ui.IState;
     workGroup: angular.ui.IState;
+    crseAd: angular.ui.IState;
     wgList: angular.ui.IState;
     wgAssess: angular.ui.IState;
     wgPublish: angular.ui.IState;
     wgCaps: angular.ui.IState;
     wgResult: angular.ui.IState;
+    crseAdCrses: angular.ui.IState;
+    crseAdGrps: angular.ui.IState;
 
     constructor() {
         this.main = {
@@ -43,6 +46,17 @@ export default class EcFacultyStates {
             parent: this.main.name,
             url: '/workGroup',
             templateUrl: '@[appFaculty]/feature/workgroups/workgroup.html',
+            resolve: {
+                facAppReady: ['dCtxReady', (dc) => dc]
+            }
+        }
+
+        this.crseAd = {
+            name: `${this.main.name}.crseAd`,
+            abstract: true,
+            parent: this.main.name,
+            url: '/courseAdmin',
+            templateUrl: '@[appFaculty]/feature/courseAdmin/crseAdmin.html',
             resolve: {
                 facAppReady: ['dCtxReady', (dc) => dc]
             }
@@ -86,6 +100,22 @@ export default class EcFacultyStates {
             url: '/results/{crseId:int}/{wgId:int}',
             templateUrl: '@[appFaculty]/feature/workgroups/result.html',
             controller: 'app.faculty.wkgrp.result as wkr'
+        }
+
+        this.crseAdCrses = {
+            name: `${this.crseAd.name}.courses`,
+            parent: this.crseAd.name,
+            url: '/courses',
+            templateUrl: '@[appFaculty]/feature/courseAdmin/courses.html',
+            controller: 'app.faculty.crseAd.courses as crses'
+        }
+
+        this.crseAdGrps = {
+            name: `${this.crseAd.name}.groups`,
+            parent: this.crseAd.name,
+            url: '/groups',
+            templateUrl: '@[appFaculty]/feature/courseAdmin/groups.html',
+            controller: 'app.faculty.crseAd.groups as grps'
         }
 
     }

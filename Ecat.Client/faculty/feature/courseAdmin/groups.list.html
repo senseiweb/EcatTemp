@@ -1,0 +1,48 @@
+﻿<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover table-vmiddle">
+                <thead>
+                    <tr>
+                        <th class="header">Flight</th>
+                        <th class="header">Group Type</th>
+                        <th class="header">Status</th>
+                        <th class="header">Last Modified By</th>
+                        <th class="header"></th>
+                    </tr>
+                    <tr table-filters>
+                        <th class="filter">
+                            <input type="text" ng-model="filterGroupName" />
+                        </th>
+                        <th class="filter">
+                            <select class="form-control" ng-model="filterGroupType">
+                                <option value="">All</option>
+                                <option value="{{type}}" ng-repeat="type in grps.groupTypes | orderBy:'type'">{{type}}</option>
+                            </select>
+                        </th>
+                        <th class="filter">
+                            <select class="form-control" ng-model="filterGroupStatus">
+                                <option value="">All</option>
+                                <option value="Open">Open</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Published">Published</option>
+                                <option value="!Published">Not Published</option>
+                            </select>
+                        </th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="group in grps.activeCourse.groups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } | orderBy: ['mpCategory','defaultName','mpSpStatus'] track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
+                    <td>{{group.defaultName}}</td>
+                    <td>{{group.mpCategory}}</td>
+                    <td>{{group.mpSpStatus}}</td>
+                    <td>{{grps.lastModifiedBy[group.id]}}</td>
+                    <td style="width: 350px">
+                        <button type="button" ng-if="group.isVisible" ng-click="grps.activeCourse=group; grps.view=2; grps.back=true; grps.enrollments=true" class="btn btn-link waves-effect">View Enrollments</button>
+
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>

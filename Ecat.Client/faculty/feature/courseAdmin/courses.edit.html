@@ -1,0 +1,30 @@
+﻿<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">Edit {{origName}}</h4>
+    </div>
+    <hr />
+</div>
+
+<div>
+    <div class="input-group">
+        <span class="input-group-addon" id="name">Class Number</span>
+        <input type="text" class="form-control" placeholder="16-A, 17-B, 18-C..." aria-describedby="classNumber" ng-model="crse.classNumber">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="name">Start Date</span>
+        <input type="text" class="form-control" placeholder="" aria-describedby="startDate" ng-model="crse.startDate">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="name">Grad Date</span>
+        <input type="text" class="form-control" placeholder="" aria-describedby="gradDate" ng-model="crse.gradDate">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="name">New Display Name</span>
+        <input type="text" class="form-control" placeholder="SNCOA, KENCOA, PENCOA..." aria-describedby="name" ng-model="crse.name">
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="save()">Save</button>
+    <button class="btn btn-link" type="button" ng-click="cancel()">Cancel</button>
+</div>

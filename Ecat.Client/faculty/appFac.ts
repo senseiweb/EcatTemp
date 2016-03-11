@@ -12,6 +12,8 @@ import wrkgrpAssess from 'faculty/feature/workgroups/assess'
 import wrkgrpPublish from 'faculty/feature/workgroups/publish'
 import wrkgrpCap from 'faculty/feature/workgroups/capstone'
 import wrkgrpResult from 'faculty/feature/workgroups/result'
+import crseAdCrses from 'faculty/feature/courseAdmin/courses'
+import crseAdGrps from 'faculty/feature/courseAdmin/groups'
 
 export default class EcFacilitatorModule {
     moduleId = 'faculty';
@@ -25,6 +27,8 @@ export default class EcFacilitatorModule {
             .controller(wrkgrpAssess.controllerId, wrkgrpAssess)
             .controller(wrkgrpPublish.controllerId, wrkgrpPublish)
             .controller(wrkgrpCap.controllerId, wrkgrpCap)
-            .controller(wrkgrpResult.controllerId, wrkgrpResult);
+            .controller(wrkgrpResult.controllerId, wrkgrpResult)
+            .controller(crseAdCrses.controllerId, crseAdCrses)
+            .controller(crseAdGrps.controllerId, crseAdGrps);
     }
 }
