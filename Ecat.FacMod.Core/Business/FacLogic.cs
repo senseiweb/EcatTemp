@@ -29,8 +29,9 @@ namespace Ecat.FacMod.Core
 
             if (FacultyPerson.MpInstituteRole != MpInstituteRoleName.HqAdmin)
             {
+                var wgGuard = new GuardWg();
                 //var userGuard = new GuardUserSave(User);
-                //neededSaveGuards.Add(userGuard.BeforeSaveEntities);
+                neededSaveGuards.Add(wgGuard.BeforeSaveEntities);
             }
 
             return _repo.ClientSaveChanges(saveBundle, neededSaveGuards);
@@ -104,13 +105,14 @@ namespace Ecat.FacMod.Core
             return facCrses.AsQueryable();
         }
 
-        IQueryable<SpComment> IFacLogic.GetSpComments()
+        IQueryable<StudSpComment> IFacLogic.GetStudSpComments()
         {
             return _repo.WgComments
                 .Where(comment => comment.WorkGroup
                     .Course
                     .Faculty
-                    .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId));
+                    .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId))
+                    .Include(p => p.Flag);
         }
     }
 }

@@ -20,11 +20,11 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public int FacultyPersonId  { get; set; }
         public Course Course { get; set; }
         public ProfileFaculty FacultyProfile { get; set; }
-
-        public ICollection<FacSpResponse> SpResponses { get; set; }
-        public ICollection<FacSpComment> SpComments { get; set; } 
-        public ICollection<FacStratResponse> StratResponse { get; set; }
-        public ICollection<SpComment> FlaggedComments { get; set; }
+            
+        public ICollection<FacSpResponse> FacSpResponses { get; set; }
+        public ICollection<FacSpComment> FacSpComments { get; set; } 
+        public ICollection<FacStratResponse> FacStratResponse { get; set; }
+        public ICollection<StudSpCommentFlag> FlaggedSpComments { get; set; }
 
         [JsonIgnore][TsIgnore]
         public bool IsDeleted { get; set; }

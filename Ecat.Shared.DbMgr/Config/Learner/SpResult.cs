@@ -14,6 +14,9 @@ namespace Ecat.Shared.DbMgr.Config
         {
             HasKey(p => new {p.StudentId, p.CourseId, p.WorkGroupId});
 
+            Ignore(p => p.SpResponses);
+            Ignore(p => p.FacultyResponses);
+
             HasRequired(p => p.AssignedInstrument)
                 .WithMany()
                 .HasForeignKey(p => p.AssignedInstrumentId)

@@ -8,7 +8,7 @@ using Ecat.Shared.Core.ModelLibrary.Learner;
 
 namespace Ecat.Shared.DbMgr.Config
 {
-    public class ConfigSpComment : EntityTypeConfiguration<SpComment>
+    public class ConfigSpComment : EntityTypeConfiguration<StudSpComment>
     {
         public ConfigSpComment()
         {
@@ -17,8 +17,7 @@ namespace Ecat.Shared.DbMgr.Config
                 p.AuthorPersonId,
                 p.RecipientPersonId,
                 p.CourseId,
-                p.WorkGroupId,
-                p.CommentVersion
+                p.WorkGroupId
             });
 
             Property(p => p.CommentText).IsMaxLength();
@@ -38,9 +37,10 @@ namespace Ecat.Shared.DbMgr.Config
                .HasForeignKey(p => p.WorkGroupId)
                .WillCascadeOnDelete(false);
 
-            HasOptional(p => p.CommentFlaggedBy)
-                .WithMany(p => p.FlaggedComments)
-                .HasForeignKey(p => new { p.FacultyPersonId, p.CourseId })
+        
+
+            HasOptional(p => p.Flag)
+                .WithRequired()
                 .WillCascadeOnDelete(false);
         }
     }

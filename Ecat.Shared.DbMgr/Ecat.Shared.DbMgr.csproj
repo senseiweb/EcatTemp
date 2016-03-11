@@ -50,10 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Designer\AssessMap.cs" />
+    <Compile Include="Config\Faculty\FacSpCommentFlag.cs" />
     <Compile Include="Config\Faculty\FacSpResponse.cs" />
     <Compile Include="Config\Faculty\FacStratResponse.cs" />
     <Compile Include="Config\Learner\KcResponse.cs" />
+    <Compile Include="Config\Learner\KcResult.cs" />
     <Compile Include="Config\Learner\SanitizedResults.cs" />
+    <Compile Include="Config\Learner\SpCommentFlag.cs" />
     <Compile Include="Config\Staff\Attendee.cs" />
     <Compile Include="Config\School\Course.cs" />
     <Compile Include="Config\Faculty\FacSpComment.cs" />
@@ -73,6 +76,10 @@
     <Compile Include="Config\User\Security.cs" />
     <Compile Include="Context\ContextBase.cs" />
     <Compile Include="Context\EcatContext.cs" />
+    <Compile Include="Migrations\201603101927175_Init.cs" />
+    <Compile Include="Migrations\201603101927175_Init.Designer.cs">
+      <DependentUpon>201603101927175_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +97,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\Cognitive\" />
-    <Folder Include="Migrations\" />
+    <Folder Include="Config\Common\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603101927175_Init.resx">
+      <DependentUpon>201603101927175_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

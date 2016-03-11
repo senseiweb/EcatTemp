@@ -22,12 +22,13 @@ export default class EcFacultyWgPublish {
     protected doneWithStrats = false;
     protected facultyStratResponses: Array<ecat.entity.IFacStratResponse>;
     protected gmWithComments: Array<ecat.entity.ICrseStudInGroup>;
+    private instructorId: number;
     protected isSaving = false;
     protected pubState = PubState.Loading;
     protected saveBtnText = 'Progress';
     protected selectedAuthor: ecat.entity.ICrseStudInGroup;
     protected selectedRecipient: ecat.entity.ICrseStudInGroup;
-    protected selectedComment: ecat.entity.ISpComment = null;
+    protected selectedComment: ecat.entity.IStudSpComment = null;
     protected workGroupName = 'Not Listed';
 
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
@@ -52,10 +53,13 @@ export default class EcFacultyWgPublish {
       
         this.dCtx.faculty.activeCourseId = courseId;
         this.dCtx.faculty.activeGroupId = wrkGrpId;
+        this.instructorId = this.dCtx.user.persona.personId;
         this.getActiveWorkGroup();
     }
 
     protected authorFlagReset(): void {
+        const _ = this;
+
         const alertSettings: SweetAlert.Settings = {
             title: 'Mass Update Pending',
             text: `This action will flagged ALL ${this.selectedAuthor.rankName} comments to neutral. Are you sure?`,
@@ -71,7 +75,8 @@ export default class EcFacultyWgPublish {
             if (confirmed) {
 
                 this.selectedAuthor.authorOfComments.forEach(aoc => {
-                    aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut;
+                    aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
+                    aoc.flag.flaggedByFacultyId = _.instructorId;
                 });
 
                 this.selectedAuthor["numRemaining"] = 0;
@@ -83,6 +88,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected authorFlagUnflagged(): void {
+        const _ = this;
         const alertSettings: SweetAlert.Settings = {
             title: 'Mass Update Pending',
             text: `This action will flag ALL ${this.selectedAuthor.rankName} unflagged comments to neutral. Are you sure?`,
@@ -96,7 +102,10 @@ export default class EcFacultyWgPublish {
 
         _swal(alertSettings, (confirmed?: boolean) => {
             if (confirmed) {
-                this.selectedAuthor.authorOfComments.forEach(aoc => aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut);
+                this.selectedAuthor.authorOfComments.forEach(aoc => {
+                    aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
+                    aoc.flag.flaggedByFacultyId = _.instructorId;
+                });
                 this.selectedAuthor["numRemaining"] = 0;
                 swal('Update Complete', 'Author\'s unflagged comments have been flagged', 'success');
                 this.$scope.$apply();
@@ -161,7 +170,7 @@ export default class EcFacultyWgPublish {
 
 
     protected massFlagReset(): void {
-
+        const _ = this;
         const alertSettings: SweetAlert.Settings = {
             title: 'Mass Update Pending',
             text: 'This action will flag ALL comments to neutral. Are you sure?',
@@ -176,7 +185,10 @@ export default class EcFacultyWgPublish {
         _swal(alertSettings, (confirmed?: boolean) => {
             if (confirmed) {
                 this.gmWithComments.forEach(gm => {
-                    gm.authorOfComments.forEach(aoc => aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut);
+                    gm.authorOfComments.forEach(aoc => {
+                        aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
+                        aoc.flag.flaggedByFacultyId = _.instructorId;
+                    });
                     gm['numRemaining'] = 0;
                 });
                 
@@ -188,6 +200,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected massFlagUnflagged(): void {
+        const _ = this;
         const alertSettings: SweetAlert.Settings = {
             title: 'Mass Update Pending',
             text: 'This action will flag ALL UNFLAGGED comments to neutral. Are you sure?',
@@ -203,8 +216,11 @@ export default class EcFacultyWgPublish {
             if (confirmed) {
                 this.gmWithComments.forEach(gm => {
                     gm.authorOfComments
-                        .filter(aoc => aoc.mpCommentFlagFac === null)
-                        .forEach(aoc => aoc.mpCommentFlagFac = _mp.MpCommentFlag.neut);
+                        .filter(aoc => aoc.flag.mpFacultyFlag === null)
+                        .forEach(aoc => {
+                            aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
+                            aoc.flag.flaggedByFacultyId = _.instructorId;
+                        });
                     gm['numRemaining'] = 0;
                     
                 });
@@ -223,15 +239,17 @@ export default class EcFacultyWgPublish {
             .then(procssWgComments)
             .catch(processWgCommentsErro);
 
-        function procssWgComments(comments: Array<ecat.entity.ISpComment>): void {
+        function procssWgComments(comments: Array<ecat.entity.IStudSpComment>): void {
             _.gmWithComments = comments.map(comment => {
                     if (!uniques.hasOwnProperty(comment.authorPersonId)) {
                         uniques[comment.authorPersonId] = true;
                         //This creates a new property on the object, not changed tracked, only view can see it. 
-                        comment.author['isAllCommentFlagged'] = !comment.author.authorOfComments.some(com => com.mpCommentFlagFac === null);
-                        comment.author['totalNegCount'] = comment.author.authorOfComments.filter(com => com.mpCommentFlagFac === _mp.MpCommentFlag.neg).length;
-                        comment.author['totalPosCount'] = comment.author.authorOfComments.filter(com => com.mpCommentFlagFac === _mp.MpCommentFlag.pos).length;
-                        comment.author['totalNeutCount'] = comment.author.authorOfComments.filter(com => com.mpCommentFlagFac === _mp.MpCommentFlag.neut).length;
+
+                        comment.author['isAllCommentFlagged'] = !comment.author.authorOfComments.some(com =>com.flag && com.flag.mpFacultyFlag === null);
+                        comment.author['totalNegCount'] = comment.author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.neg).length;
+                        comment.author['totalPosCount'] = comment.author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.pos).length;
+                        comment.author['totalNeutCount'] = comment.author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.neut).length;
+
                         return comment.author;
                     }
                 })
@@ -327,7 +345,7 @@ export default class EcFacultyWgPublish {
         this.updateRemaining(author);
     }
 
-    protected selectComment(comment: ecat.entity.ISpComment): void {
+    protected selectComment(comment: ecat.entity.IStudSpComment): void {
         comment['modDate'] = _moment(comment.modifiedDate).format('DD-MMM-YY: HHMM [hrs]') as any;
         this.selectedComment = comment;
     }
@@ -339,7 +357,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected switchTo(tab: string): void {
-        this.doneWithComments = !this.gmWithComments.some(gm => gm.authorOfComments.some(aoc => aoc.mpCommentFlagFac === null));
+        this.doneWithComments = !this.gmWithComments.some(gm => gm.authorOfComments.some(aoc => aoc.flag.mpFacultyFlag === null));
         
         if (tab === 'strat') {
             if (!this.facultyStratResponses) {
@@ -365,9 +383,9 @@ export default class EcFacultyWgPublish {
     }
 
     protected updateRemaining(author: ecat.entity.ICrseStudInGroup, flag?: string): void {
-        author['numRemaining'] = author.authorOfComments.filter(aoc => aoc.mpCommentFlagFac === null).length;
+        author['numRemaining'] = author.authorOfComments.filter(aoc => aoc.flag.mpFacultyFlag === null).length;
         if(flag) {
-            this.selectedComment.mpCommentFlagFac = flag;
+            this.selectedComment.flag.mpFacultyFlag = flag;
         }
     }
 }

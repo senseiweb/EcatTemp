@@ -34,7 +34,10 @@ namespace Ecat.StudMod.Core
                 typeof (ProfileStaff),
                 typeof (FacultyInCourse),
                 typeof (FacSpResponse),
-                typeof (FacStratResponse)
+                typeof (FacStratResponse),
+                typeof (FacSpComment),
+                typeof (KcResponse),
+                typeof (KcResult)
             });
 
             mb.Types()
@@ -63,7 +66,7 @@ namespace Ecat.StudMod.Core
         public IDbSet<StudentInCourse> StudentInCourses { get; set; }
         public IDbSet<SpResponse> SpResponses { get; set; }
         public IDbSet<SpResult> SpResults { get; set; }
-        public IDbSet<SpComment> SpComments { get; set; }
+        public IDbSet<StudSpComment> StudSpComments { get; set; }
         public IDbSet<StratResponse> StratRepoResponses { get; set; }
         public IDbSet<StratResult> StratResults { get; set; }
     }

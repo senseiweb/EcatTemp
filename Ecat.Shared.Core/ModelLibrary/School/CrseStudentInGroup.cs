@@ -27,13 +27,14 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public ICollection<CrseStudentInGroup> GroupPeers { get; set; }
         public ICollection<SpResponse> AssessorSpResponses { get; set; }
         public ICollection<SpResponse> AssesseeSpResponses { get; set; }
-        public ICollection<SpComment> AuthorOfComments { get; set; }
-        public ICollection<SpComment> RecipientOfComments { get; set; }
+        public ICollection<StudSpComment> AuthorOfComments { get; set; }
+        public ICollection<StudSpComment> RecipientOfComments { get; set; }
         public ICollection<StratResponse> AssessorStratResponse { get; set; }
         public ICollection<StratResponse> AssesseeStratResponse { get; set; }
 
         public SpResult SpResult { get; set; }
         public StratResult StratResult { get; set; }
+        public FacSpComment FacultyComment { get; set; }
         public FacStratResponse FacultyStrat { get; set; }
 
         public int NumberOfAuthorComments { get; set; }

@@ -147,11 +147,13 @@ export class EcMapEntityType {
     static spInventory = 'SpInventory';
     static kcResult = 'KcResult';
     static spResponse = 'SpResponse';
-    static spComment = 'SpComment';
+    static spComment = 'StudSpComment';
+    static spCommentFlag = 'StudSpCommentFlag';
     static spStrat = 'SpStrat';
     static spResult = 'SpResult';
     static facSpResponse = 'FacSpResponse';
     static facSpComment = 'FacSpComment';
+    static facSpCommentFlag = 'FacSpCommentFlag';
     static facStratResponse = 'FacStratResponse';
 }
 

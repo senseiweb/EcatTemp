@@ -78,9 +78,9 @@
 
                             <i class="zmdi zmdi-hc-fw"
                                style="display: inline"
-                               ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.mpCommentFlagFac === wkp.commentFlag.neut,
-                                                              'zmdi-close-circle-o sp-neg-comment p-r-5': comment.mpCommentFlagFac === wkp.commentFlag.neg,
-                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.mpCommentFlagFac === wkp.commentFlag.pos}"></i>
+                               ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.neut,
+                                                              'zmdi-close-circle-o sp-neg-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.neg,
+                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.pos}"></i>
                         </div>
                     </div>
                 </div>
@@ -102,24 +102,24 @@
                                 <div class="pull-right p-t-30 p-r-5">
                                     <div class="btn-group">
                                         <label class="btn btn-default"
-                                               ng-class="{'btn-primary': wkp.selectedComment.mpCommentFlagFac=== wkp.commentFlag.neg}"
-                                               ng-model="wkp.selectedComment.mpCommentFlagFac"
+                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFacultyFlag=== wkp.commentFlag.neg}"
+                                               ng-model="wkp.selectedComment.flag.mpFacultyFlag"
                                                ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.neg)"
                                                uib-btn-radio="wkp.commentFlag.neg">
                                             {{wkp.commentFlag.neg}}
                                         </label>
 
                                         <label class="btn btn-default"
-                                               ng-class="{'btn-primary': wkp.selectedComment.mpCommentFlagFac=== wkp.commentFlag.neut}"
-                                               ng-model="wkp.selectedComment.mpCommentFlagFac"
+                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFacultyFlag === wkp.commentFlag.neut}"
+                                               ng-model="wkp.selectedComment.flag.mpFacultyFlag"
                                                ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.neut)"
                                                uib-btn-radio="wkp.commentFlag.neut">
                                             {{wkp.commentFlag.neut}}
                                         </label>
 
                                         <label class="btn btn-default"
-                                               ng-class="{'btn-primary': wkp.selectedComment.mpCommentFlagFac=== wkp.commentFlag.pos}"
-                                               ng-model="wkp.selectedComment.mpCommentFlagFac"
+                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFacultyFlag=== wkp.commentFlag.pos}"
+                                               ng-model="wkp.selectedComment.flag.mpFacultyFlag"
                                                ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.pos)"
                                                uib-btn-radio="wkp.commentFlag.pos">
                                             {{wkp.commentFlag.pos}}

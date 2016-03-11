@@ -12,26 +12,23 @@ namespace Ecat.Shared.DbMgr.Config
     {
         public ConfigFacSpComment()
         {
-            HasKey(p => new {p.StudentPersonId, p.CourseId, p.WorkGroupId, p.Version});
+            HasKey(p => new {p.RecipientPersonId, p.CourseId, p.WorkGroupId});
 
             Property(p => p.CommentText).IsMaxLength();
 
             HasRequired(p => p.FacultyCourse)
-                 .WithMany(p => p.SpComments)
+                 .WithMany(p => p.FacSpComments)
                  .HasForeignKey(p => new { p.FacultyPersonId, p.CourseId })
                  .WillCascadeOnDelete(false);
 
-            HasRequired(p => p.Student)
-                .WithMany()
-                .HasForeignKey(p => new { p.StudentPersonId, p.CourseId, p.WorkGroupId })
+            HasRequired(p => p.Recipient)
+                .WithOptional(p => p.FacultyComment)
                 .WillCascadeOnDelete(false);
 
             HasRequired(p => p.WorkGroup)
                 .WithMany(p => p.FacSpComments)
                 .HasForeignKey(p => p.WorkGroupId)
                 .WillCascadeOnDelete(false);
-
-
         }
     }
 }

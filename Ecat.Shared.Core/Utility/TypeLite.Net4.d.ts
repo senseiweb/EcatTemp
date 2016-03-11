@@ -1,16 +1,8 @@
 ﻿
-
-
-
-
  
  
 
-
  
-
-
-
 
 /// <reference path="serverEnums.ts" />
 
@@ -69,6 +61,7 @@ declare module ecat.entity.s.school {
 		course: ecat.entity.s.school.Course;
 		student: ecat.entity.s.user.ProfileStudent;
 		workGroupEnrollments: ecat.entity.s.school.CrseStudentInGroup[];
+		kcResponses: ecat.entity.s.learner.KcResponse[];
 	}
 	interface Course {
 		id: number;
@@ -98,12 +91,13 @@ declare module ecat.entity.s.school {
 		groupPeers: ecat.entity.s.school.CrseStudentInGroup[];
 		assessorSpResponses: ecat.entity.s.learner.SpResponse[];
 		assesseeSpResponses: ecat.entity.s.learner.SpResponse[];
-		authorOfComments: ecat.entity.s.learner.SpComment[];
-		recipientOfComments: ecat.entity.s.learner.SpComment[];
+		authorOfComments: ecat.entity.s.learner.StudSpComment[];
+		recipientOfComments: ecat.entity.s.learner.StudSpComment[];
 		assessorStratResponse: ecat.entity.s.learner.StratResponse[];
 		assesseeStratResponse: ecat.entity.s.learner.StratResponse[];
 		spResult: ecat.entity.s.learner.SpResult;
 		stratResult: ecat.entity.s.learner.StratResult;
+		facultyComment: ecat.entity.s.faculty.FacSpComment;
 		facultyStrat: ecat.entity.s.faculty.FacStratResponse;
 		numberOfAuthorComments: number;
 	}
@@ -125,7 +119,7 @@ declare module ecat.entity.s.school {
 		facStratResponses: ecat.entity.s.faculty.FacStratResponse[];
 		facSpComments: ecat.entity.s.faculty.FacSpComment[];
 		groupMembers: ecat.entity.s.school.CrseStudentInGroup[];
-		spComments: ecat.entity.s.learner.SpComment[];
+		spComments: ecat.entity.s.learner.StudSpComment[];
 		spResponses: ecat.entity.s.learner.SpResponse[];
 		spResults: ecat.entity.s.learner.SpResult[];
 		spStratResponses: ecat.entity.s.learner.StratResponse[];
@@ -142,10 +136,10 @@ declare module ecat.entity.s.school {
 		facultyPersonId: number;
 		course: ecat.entity.s.school.Course;
 		facultyProfile: ecat.entity.s.user.ProfileFaculty;
-		spResponses: ecat.entity.s.faculty.FacSpResponse[];
-		spComments: ecat.entity.s.faculty.FacSpComment[];
-		stratResponse: ecat.entity.s.faculty.FacStratResponse[];
-		flaggedComments: ecat.entity.s.learner.SpComment[];
+		facSpResponses: ecat.entity.s.faculty.FacSpResponse[];
+		facSpComments: ecat.entity.s.faculty.FacSpComment[];
+		facStratResponse: ecat.entity.s.faculty.FacStratResponse[];
+		flaggedSpComments: ecat.entity.s.learner.StudSpCommentFlag[];
 	}
 	interface Academy {
 		id: string;
@@ -173,19 +167,27 @@ declare module ecat.entity.s.faculty {
 		facultyAssessor: ecat.entity.s.school.FacultyInCourse;
 		inventoryItem: ecat.entity.s.designer.SpInventory;
 	}
-	interface FacSpComment {
+	interface FacSpComment extends ecat.entity.s.common.SpCommentBase {
 		entityId: string;
-		courseId: number;
-		studentPersonId: number;
-		facultyPersonId: number;
+		recipientPersonId: number;
 		workGroupId: number;
-		version: number;
-		commentText: string;
-		mpCommentFlagRecipient: string;
-		mpCommentFlagAuthor: string;
-		student: ecat.entity.s.school.CrseStudentInGroup;
+		facultyPersonId: number;
+		courseId: number;
 		facultyCourse: ecat.entity.s.school.FacultyInCourse;
+		recipient: ecat.entity.s.school.CrseStudentInGroup;
 		workGroup: ecat.entity.s.school.WorkGroup;
+		course: ecat.entity.s.school.Course;
+		flag: ecat.entity.s.faculty.FacSpCommentFlag;
+	}
+	interface FacSpCommentFlag {
+		mpFaculty: string;
+		flaggedByFacultyId: number;
+		mpAuthor: string;
+		mpRecipient: string;
+		recipientPersonId: number;
+		courseId: number;
+		workGroupId: number;
+		comment: ecat.entity.s.faculty.FacSpComment;
 	}
 	interface FacStratResponse {
 		entityId: string;
@@ -202,28 +204,53 @@ declare module ecat.entity.s.faculty {
 		modifiedDate: Date;
 	}
 }
+declare module ecat.entity.s.common {
+	interface SpCommentBase {
+		createdDate: Date;
+		anonymity: boolean;
+		commentText: string;
+		modifiedById: number;
+		modifiedDate: Date;
+	}
+	interface AcademyCategory {
+		id: string;
+		bbCatId: string;
+		bbCatName: string;
+		relatedCoursesCount: number;
+	}
+	interface LoginToken {
+		personId: number;
+		authToken: string;
+		tokenExpireWarning: Date;
+		tokenExpire: Date;
+		person: ecat.entity.s.user.Person;
+	}
+}
 declare module ecat.entity.s.learner {
-	interface SpComment {
+	interface StudSpCommentFlag {
+		mpAuthorFlag: string;
+		mpRecipientFlag: string;
+		mpFacultyFlag: string;
+		authorPersonId: number;
+		recipientPersonId: number;
+		flaggedByFacultyId: number;
+		courseId: number;
+		workGroupId: number;
+		comment: ecat.entity.s.learner.StudSpComment;
+		flaggedByFaculty: ecat.entity.s.school.FacultyInCourse;
+	}
+	interface StudSpComment extends ecat.entity.s.common.SpCommentBase {
 		entityId: string;
 		authorPersonId: number;
 		recipientPersonId: number;
-		facultyPersonId: number;
 		workGroupId: number;
+		facultyPersonId: number;
 		courseId: number;
-		mpCommentType: string;
-		commentText: string;
-		mpCommentFlagFac: string;
-		mpCommentFlagAuthor: string;
-		mpCommentFlagRecipient: string;
 		author: ecat.entity.s.school.CrseStudentInGroup;
 		recipient: ecat.entity.s.school.CrseStudentInGroup;
-		commentFlaggedBy: ecat.entity.s.school.FacultyInCourse;
 		workGroup: ecat.entity.s.school.WorkGroup;
-		isDeleted: boolean;
-		deletedById: number;
-		deletedDate: Date;
-		modifiedById: number;
-		modifiedDate: Date;
+		course: ecat.entity.s.school.Course;
+		flag: ecat.entity.s.learner.StudSpCommentFlag;
 	}
 	interface SpResponse {
 		entityId: string;
@@ -311,11 +338,15 @@ declare module ecat.entity.s.learner {
 		modifiedDate: Date;
 	}
 	interface KcResult {
-		id: number;
+		inventoryId: number;
+		courseId: number;
+		studentId: number;
+		version: number;
 		instrumentId: number;
 		numberCorrect: number;
 		score: number;
 		instrument: ecat.entity.s.designer.KcInstrument;
+		responses: ecat.entity.s.learner.KcResponse[];
 	}
 	interface KcResponse {
 		entityId: string;
@@ -481,21 +512,5 @@ declare module ecat.entity.s.cog {
 		mpCogScore: number;
 	}
 }
-declare module ecat.entity.s.common {
-	interface AcademyCategory {
-		id: string;
-		bbCatId: string;
-		bbCatName: string;
-		relatedCoursesCount: number;
-	}
-	interface LoginToken {
-		personId: number;
-		authToken: string;
-		tokenExpireWarning: Date;
-		tokenExpire: Date;
-		person: ecat.entity.s.user.Person;
-	}
-}
-
 
 

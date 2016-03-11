@@ -24,6 +24,8 @@ namespace Ecat.FacMod.Core
             mb.Configurations.Add(new ConfigStratResponse());
             mb.Configurations.Add(new ConfigStratResult());
             mb.Configurations.Add(new ConfigSpComment());
+            mb.Configurations.Add(new ConfigFacSpCommentFlag());
+            mb.Configurations.Add(new ConfigSpCommentFlag());
             mb.Configurations.Add(new ConfigFacSpResponse());
             mb.Configurations.Add(new ConfigFacStratResponse());
             mb.Configurations.Add(new ConfigFacSpComment());
@@ -36,6 +38,8 @@ namespace Ecat.FacMod.Core
                typeof (ProfileExternal),
                 typeof (Security),
                 typeof (ProfileStaff),
+                typeof(KcResponse),
+                typeof(KcResult)
             });
 
             mb.Types()
@@ -67,7 +71,8 @@ namespace Ecat.FacMod.Core
         public IDbSet<SpResponse> SpResponses { get; set; }
         public IDbSet<FacStratResponse> FacStratResponses { get; set; }
         public IDbSet<StratResponse> StratResponses { get; set; }
-        public IDbSet<SpComment> SpComments { get; set; }
+        public IDbSet<FacSpComment> FacSpComments { get; set; }
+        public IDbSet<StudSpComment> StudSpComments { get; set; }
         public IDbSet<SpResult> SpResults { get; set; }
         public IDbSet<StratResult> SpStratResults { get; set; }
     }

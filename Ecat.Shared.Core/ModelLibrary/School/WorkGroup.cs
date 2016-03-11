@@ -18,20 +18,20 @@ namespace Ecat.Shared.Core.ModelLibrary.School
     {
         public int Id { get; set; }
         public int CourseId { get; set; }
+        public int WgModelId { get; set; }
         public string MpCategory { get; set; }
         public string GroupNumber { get; set; }
-
         public int? AssignedSpInstrId { get; set; }
         public int? AssignedKcInstrId { get; set; }
-       
+
         public string CustomName { get; set; }
         public string BbGroupId { get; set; }
         public string DefaultName { get; set; }
-        public float MaxStrat { get; set; }
         public string MpSpStatus { get; set; }
         public bool IsPrimary { get; set; }
 
         public Course Course { get; set; }
+        public WorkGroupModel WgModel { get; set; }
 
         public ICollection<FacSpResponse> FacSpResponses { get; set; }
         public ICollection<FacStratResponse> FacStratResponses { get; set; }
@@ -39,7 +39,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
 
         public ICollection<CrseStudentInGroup> GroupMembers { get; set; }
 
-        public ICollection<SpComment> SpComments { get; set; }
+        public ICollection<StudSpComment> SpComments { get; set; }
         public ICollection<SpResponse> SpResponses { get; set; }
         public ICollection<SpResult> SpResults { get; set; }
         public ICollection<StratResponse> SpStratResponses { get; set; }

@@ -233,7 +233,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             this.log.warn('Missing required information', { groupdId: this.activeGroupId, courseId: this.activeCourseId }, false);
         }
 
-        const spComments = this.manager.getEntities(_mp.EcMapEntityType.spComment) as Array<ecat.entity.ISpComment>;
+        const spComments = this.manager.getEntities(_mp.EcMapEntityType.spComment) as Array<ecat.entity.IStudSpComment>;
 
         let spComment = spComments.filter(comment => comment.authorPersonId === loggedUserId &&
             comment.recipientPersonId === recipientId &&
@@ -251,10 +251,20 @@ export default class EcStudentRepo extends IUtilityRepo {
             workGroupId: this.activeGroupId,
             commentVersion: 0,
             mpCommentFlagAuthor: _mp.MpCommentFlag.neut,
-            mpCommentType: _mp.MpCommentType.signed 
-        };
+            requestAnonymity: false
+    };
 
-        return this.manager.createEntity(_mp.EcMapEntityType.spComment, newComment) as ecat.entity.ISpComment;
+        const newFlag = {
+            authorPersonId: loggedUserId,
+            recipientPersonId: recipientId,
+            courseId: this.activeCourseId,
+            mpAuthorFlag: _mp.MpCommentFlag.neut
+        }
+
+        const comment = this.manager.createEntity(_mp.EcMapEntityType.spComment, newComment) as ecat.entity.IStudSpComment;
+        const flag = this.manager.createEntity(_mp.EcMapEntityType.spCommentFlag, newFlag) as ecat.entity.IStudSpCommentFlag;
+        comment.flag = flag;
+        return comment;
     }
 
     getSpInventory(assesseeId: number): Array<ecat.entity.ISpInventory> {

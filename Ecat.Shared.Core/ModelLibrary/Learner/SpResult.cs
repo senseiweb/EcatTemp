@@ -19,9 +19,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public int WorkGroupId { get; set; }
         public int StudentId { get; set; }
         public int? AssignedInstrumentId { get; set; }
-        public string MpStudentSpResult { get; set; }
+        public string MpAssessResult { get; set; }
         public float? SpResultScore { get; set; }
-        public bool IsScored { get; set; }
         public CrseStudentInGroup ResultFor { get; set; }
         public SpInstrument AssignedInstrument { get; set; }
         public ICollection<FacSpResponse> FacultyResponses { get; set; }

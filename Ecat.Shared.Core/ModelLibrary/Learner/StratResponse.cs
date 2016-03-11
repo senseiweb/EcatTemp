@@ -17,7 +17,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public int AssesseePersonId { get; set; }
         public int CourseId { get; set; }
         public int WorkGroupId { get; set; }
-
         public int StratPosition { get; set; }
 
         public CrseStudentInGroup Assessor { get; set; }

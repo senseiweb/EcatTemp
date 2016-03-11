@@ -41,7 +41,7 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
 
         const spResponses = facResponses.filter(response => response.assesseePersonId === this.studentId);
 
-        const hasComment = facComments.some(comment => comment.studentPersonId === this.studentId);
+        const hasComment = facComments.some(comment => comment.recipientPersonId === this.studentId);
 
         const knownReponse = _mp.EcSpItemResponse;
 

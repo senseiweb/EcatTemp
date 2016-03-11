@@ -14,8 +14,9 @@ namespace Ecat.Shared.DbMgr.Config
         {
             HasKey(p => new {p.AssesseePersonId, p.CourseId, p.WorkGroupId, p.InventoryItemId});
 
+
             HasRequired(p => p.FacultyAssessor)
-                .WithMany(p => p.SpResponses)
+                .WithMany(p => p.FacSpResponses)
                 .HasForeignKey(p => new { p.FacultyPersonId, p.CourseId })
                 .WillCascadeOnDelete(false);
 
@@ -33,6 +34,7 @@ namespace Ecat.Shared.DbMgr.Config
                 .WithMany(p => p.FacSpResponses)
                 .HasForeignKey(p => p.WorkGroupId)
                 .WillCascadeOnDelete(false);
+
         }
     }
 }

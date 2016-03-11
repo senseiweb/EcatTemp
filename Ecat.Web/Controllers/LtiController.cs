@@ -77,7 +77,7 @@ namespace Ecat.Web.Controllers
                             var peers = groupMembers;
                             List<int> inventoryList;
 
-                            if (wrkgrp.MpCategory == MpGroupType.Wg1 || wrkgrp.MpCategory == MpGroupType.Wg4)
+                            if (wrkgrp.MpCategory == MpGroupCategory.Wg1 || wrkgrp.MpCategory == MpGroupCategory.Wg4)
                             {
                                 inventoryList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
                             }
@@ -134,7 +134,7 @@ namespace Ecat.Web.Controllers
                                             MpItemResponse = mdlResponse
                                         };
 
-                                        if (wrkgrp.MpCategory !=  MpGroupType.Wg4)
+                                        if (wrkgrp.MpCategory !=  MpGroupCategory.Wg4)
                                         {
                                             writer.WriteLine($"INSERT INTO SpResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,InventoryItemId,ItemResponse,ItemModelScore,ModifiedDate) values ({spResponse.AssessorPersonId},{spResponse.AssesseePersonId},{6},{spResponse.WorkGroupId},{spResponse.InventoryItemId},'{spResponse.MpItemResponse}',{spResponse.ItemModelScore},'{DateTime.Now.ToUniversalTime()}');");
 
@@ -153,19 +153,17 @@ namespace Ecat.Web.Controllers
 
                                     };
 
-                                    if (wrkgrp.MpCategory == MpGroupType.Wg1 && member.StudentId != peer.StudentId)
+                                    if (wrkgrp.MpCategory == MpGroupCategory.Wg1 && member.StudentId != peer.StudentId)
                                     {
-                                        var comment = new SpComment
+                                        var comment = new StudSpComment
                                         {
-                                            CommentVersion = 0,
                                             CourseId = 6,
                                             WorkGroupId = member.WorkGroupId,
                                             AuthorPersonId = member.StudentId,
                                             RecipientPersonId = peer.StudentId,
-                                            MpCommentType =
-                                                (peer.StudentId%2 == 0) ? MpCommentType.Anon : MpCommentType.Signed,
+                                            RequestAnonymity = (peer.StudentId%2 == 0 || peer.StudentId%7 == 0) ,
                                             ModifiedDate = DateTime.Now,
-                                            IsDeleted = false,
+                                            CreatedDate = DateTime.Now,
                                             CommentText =
                                                 (peer.StudentId %2 == 0)
                                                     ? $"<p>Hi {peer.StudentId} -- I think ...Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>"
@@ -174,10 +172,10 @@ namespace Ecat.Web.Controllers
                                                         : $"<h4>What up {peer.StudentId}, what were you thinking when you r...habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo."
 
                                         };
-                                        writer.WriteLine($"INSERT INTO SpComment(CommentVersion,CourseId,WorkGroupId,AuthorPersonId,RecipientPersonId,CommentType,ModifiedDate,IsDeleted,CommentText)Values({comment.CommentVersion},{comment.CourseId},{comment.WorkGroupId},{comment.AuthorPersonId},{comment.RecipientPersonId},'{comment.MpCommentType}','{comment.ModifiedDate.ToUniversalTime()}','{comment.IsDeleted}','{comment.CommentText}');");
+                                        writer.WriteLine($"INSERT INTO StudSpComment(CourseId,WorkGroupId,AuthorPersonId,RecipientPersonId,RequestAnonymity,CreatedDate,ModifiedDate,CommentText)Values({comment.CourseId},{comment.WorkGroupId},{comment.AuthorPersonId},{comment.RecipientPersonId},'{comment.RequestAnonymity}','{comment.CreatedDate.ToUniversalTime()}','{comment.ModifiedDate?.ToUniversalTime()}','{comment.CommentText}');");
                                     }
 
-                                    if (wrkgrp.MpCategory != MpGroupType.Wg4)
+                                    if (wrkgrp.MpCategory != MpGroupCategory.Wg4)
                                     {
                                         writer.WriteLine(
                                             $"INSERT INTO StratResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,StratPosition,ModifiedDate) values ({stratResponse.AssessorPersonId},{stratResponse.AssesseePersonId},{6},{stratResponse.WorkGroupId},{stratResponse.StratPosition},'{DateTime.Now.ToUniversalTime()}');");

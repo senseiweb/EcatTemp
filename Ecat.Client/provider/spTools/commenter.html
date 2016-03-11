@@ -75,16 +75,16 @@
         <label class="btn btn-default waves-effect"
                ng-click="commenter.nf.$setDirty()"
                ng-disabled="commenter.isPublised" 
-               ng-class="{'btn-primary': commenter.comment.mpCommentFlagAuthor===commenter.commentFlag.neut}" 
-               ng-model="commenter.comment.mpCommentFlagAuthor" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthorFlag===commenter.commentFlag.neut}" 
+               ng-model="commenter.comment.flag.mpAuthorFlag" 
                uib-btn-radio="'{{commenter.commentFlag.neut}}'">
         {{commenter.commentFlag.neut}}
         </label>
         <label class="btn btn-default waves-effect"
                ng-click="commenter.nf.$setDirty()"
                 ng-disabled="commenter.isPublised" 
-               ng-class="{'btn-primary': commenter.comment.mpCommentFlagAuthor===commenter.commentFlag.pos}" 
-               ng-model="commenter.comment.mpCommentFlagAuthor" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthorFlag===commenter.commentFlag.pos}" 
+               ng-model="commenter.comment.flag.mpAuthorFlag" 
                uib-btn-radio="'{{commenter.commentFlag.pos}}'">
         {{commenter.commentFlag.pos}}
         </label>

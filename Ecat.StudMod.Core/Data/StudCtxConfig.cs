@@ -56,7 +56,7 @@ namespace Ecat.StudMod.Core
     {
         public StudConfigStudWrkGrp()
         {
-            Ignore(p => p.MaxStrat);
+            Ignore(p => p.WgModel);
             Ignore(p => p.FacSpComments);
             Ignore(p => p.FacSpResponses);
             Ignore(p => p.FacStratResponses);
@@ -133,7 +133,7 @@ namespace Ecat.StudMod.Core
         }
     }
 
-    internal class StudConfigSpComment : EntityTypeConfiguration<SpComment>
+    internal class StudConfigSpComment : EntityTypeConfiguration<StudSpComment>
     {
         public StudConfigSpComment()
         {
@@ -142,8 +142,7 @@ namespace Ecat.StudMod.Core
                 p.AuthorPersonId,
                 p.RecipientPersonId,
                 p.CourseId,
-                p.WorkGroupId,
-                p.CommentVersion
+                p.WorkGroupId
             });
 
             Property(p => p.CommentText).IsMaxLength();
@@ -163,8 +162,26 @@ namespace Ecat.StudMod.Core
                .HasForeignKey(p => p.WorkGroupId)
                .WillCascadeOnDelete(false);
 
-            Ignore(p => p.CommentFlaggedBy);
+        }
 
+        internal class ConfigSpCommentFlag : EntityTypeConfiguration<StudSpCommentFlag>
+        {
+            public ConfigSpCommentFlag()
+            {
+
+                HasKey(p => new
+                {
+                    p.AuthorPersonId,
+                    p.RecipientPersonId,
+                    p.CourseId,
+                    p.WorkGroupId
+                });
+
+                Ignore(p => p.FlaggedByFaculty);
+
+                HasRequired(p => p.Comment)
+                    .WithOptional(p => p.Flag);
+            }
         }
     }
 }

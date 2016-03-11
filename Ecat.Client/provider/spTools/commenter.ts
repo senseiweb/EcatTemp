@@ -12,7 +12,7 @@ export default class EcProviderSpToolCommenter {
     private authorName: string;
     private commentType = _mp.MpCommentType;
     private commentFlag = _mp.MpCommentFlag;
-    private comment: ecat.entity.ISpComment | ecat.entity.IFacSpComment;
+    private comment: ecat.entity.IStudSpComment | ecat.entity.IFacSpComment;
     private isInstructor = false;
     private isNew = false;
     private isPublished = false;
@@ -29,7 +29,7 @@ export default class EcProviderSpToolCommenter {
         let recipient: ecat.entity.IPerson;
 
         if (authorRole === _mp.EcMapInstituteRole.student) {
-            const spComment = this.dCtx.student.getOrAddComment(this.recipientId) as ecat.entity.ISpComment;
+            const spComment = this.dCtx.student.getOrAddComment(this.recipientId) as ecat.entity.IStudSpComment;
             author = spComment.author.studentProfile.person;
             recipient = spComment.recipient.studentProfile.person;
             this.comment = spComment;
@@ -37,7 +37,7 @@ export default class EcProviderSpToolCommenter {
         else {
             const facComment = this.dCtx.faculty.getFacSpComment(this.recipientId) as ecat.entity.IFacSpComment;
             author = this.dCtx.user.persona;
-            recipient = facComment.student.studentProfile.person;
+            recipient = facComment.recipient.studentProfile.person;
             facComment['mpCommentType'] = _mp.MpCommentType.signed;
             this.isInstructor = true;
             this.comment = facComment;

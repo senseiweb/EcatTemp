@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.Interface;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Newtonsoft.Json;
 using TypeLite;
@@ -21,7 +22,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public ProfileStudent Student { get; set; }
 
         public ICollection<CrseStudentInGroup> WorkGroupEnrollments { get; set; }
-
+        public ICollection<KcResponse> KcResponses { get; set; }
         [JsonIgnore][TsIgnore]
         public bool IsDeleted { get; set; }
 

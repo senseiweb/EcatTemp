@@ -155,7 +155,8 @@ declare module ecat.entity
 
     interface IWorkGroup extends breeze.Entity, s.school.WorkGroup {
         groupMembers: ICrseStudInGroup[];
-        spComments: ISpComment[];
+        spComments: IStudSpComment[];
+        facSpComments: IFacSpComment[];
         facStratResponses: IFacStratResponse[];
         spStratResponses: IStratResponse[];
     }
@@ -170,8 +171,8 @@ declare module ecat.entity
         studentProfile: IStudentProfile;
         assessorSpResponses: ISpResponse[];
         assesseeSpResponses: ISpResponse[];
-        authorOfComments: ISpComment[];
-        recipientOfComments: ISpComment[];
+        authorOfComments: IStudSpComment[];
+        recipientOfComments: IStudSpComment[];
         assessorStratResponse: IStratResponse[];
         assesseeStratResponse: IStratResponse[];
         course: ICourse;
@@ -187,6 +188,11 @@ declare module ecat.entity
 
     interface IStratResult extends breeze.Entity, s.learner.StratResult, ext.ICompositeKey {}
 
+    interface IStudSpCommentFlag extends breeze.Entity, s.learner.StudSpCommentFlag {
+        comment: IStudSpComment;
+        flaggedByFaculty: IFacInCrse;
+    }
+
     interface ISpResponse extends breeze.Entity, s.learner.SpResponse, ext.ICompositeKey {
         inventoryItem: IStudSpInventory | IFacSpInventory;
         assessResult: ISpResult;
@@ -194,11 +200,11 @@ declare module ecat.entity
         assessee: ICrseStudInGroup;
     }
 
-    interface ISpComment extends breeze.Entity, s.learner.SpComment, ext.ICompositeKey {
+    interface IStudSpComment extends breeze.Entity, s.learner.StudSpComment, ext.ICompositeKey {
         author: ICrseStudInGroup;
         recipient: ICrseStudInGroup;
-        commentFlaggedBy: IFacInCrse;
         workGroup: IWorkGroup;
+        flag: IStudSpCommentFlag;
     }
 
     interface IStratResponse extends breeze.Entity, s.learner.StratResponse, ext.ICompositeKey, ext.IStratEvaluator {
@@ -211,7 +217,11 @@ declare module ecat.entity
    //#region Model Owner Faculty
     interface IFacSpComment extends breeze.Entity, s.faculty.FacSpComment, ext.ICompositeKey {
         faculty: IFacInCrse;
-        student: ICrseStudInGroup;
+        recipient: ICrseStudInGroup;
+    }
+
+    interface IFacSpCommentFlag extends breeze.Entity, s.faculty.FacSpCommentFlag {
+        comment: IFacSpComment;
     }
 
     interface IFacSpResponse extends breeze.Entity, s.faculty.FacSpResponse, ext.ICompositeKey {

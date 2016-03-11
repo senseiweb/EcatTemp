@@ -12,7 +12,14 @@ namespace Ecat.Shared.DbMgr.Config
     {
         public ConfigKcResponse()
         {
-            HasKey(p => new {p.StudentId, p.CourseId, p.Version});
+            HasKey(p => new {p.StudentId, p.CourseId,p.InventoryId, p.Version});
+
+            Ignore(p => p.Result);
+
+            HasRequired(p => p.Student)
+                .WithMany()
+                .HasForeignKey(p => new {p.StudentId, p.CourseId})
+                .WillCascadeOnDelete(false);
         }
     }
 }

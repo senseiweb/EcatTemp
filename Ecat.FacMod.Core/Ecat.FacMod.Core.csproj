@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\FacLogic.cs" />
+    <Compile Include="Business\GuardWg.cs" />
     <Compile Include="Data\FacCtx.cs" />
     <Compile Include="Data\FacCtxConfig.cs" />
     <Compile Include="Data\FacRepo.cs" />

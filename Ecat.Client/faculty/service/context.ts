@@ -121,7 +121,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         }
     }
 
-    fetchActiveWgComments(): breeze.promises.IPromise<Array<ecat.entity.ISpComment> | angular.IPromise<void>> {
+    fetchActiveWgComments(): breeze.promises.IPromise<Array<ecat.entity.IStudSpComment> | angular.IPromise<void>> {
         if (!this.activeGroupId || !this.activeCourseId) {
             return this.c.$q.reject(this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false)) as any;
         }
@@ -132,7 +132,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const wgPred = new breeze.Predicate('workGroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
         const crsePred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
         if (this.isLoaded.wgComment[this.activeGroupId]) {
-            const cachedWgComment = this.queryLocal(resource, null, crsePred.and(wgPred)) as Array<ecat.entity.ISpComment>;
+            const cachedWgComment = this.queryLocal(resource, null, crsePred.and(wgPred)) as Array<ecat.entity.IStudSpComment>;
             if (cachedWgComment) {
                 log.success('Retrieved SpComments from local cache', cachedWgComment, false);
                 return this.c.$q.resolve(cachedWgComment);
@@ -146,8 +146,8 @@ export default class EcFacultyRepo extends IUtilityRepo {
             .then(fetchActiveWgCommentsResponse)
             .catch(this.queryFailed);
 
-        function fetchActiveWgCommentsResponse(data: breeze.QueryResult): Array<ecat.entity.ISpComment> {
-            const comments = data.results as Array<ecat.entity.ISpComment>;
+        function fetchActiveWgCommentsResponse(data: breeze.QueryResult): Array<ecat.entity.IStudSpComment> {
+            const comments = data.results as Array<ecat.entity.IStudSpComment>;
             if (!comments || comments.length === 0) {
                 return null;
             }
@@ -316,13 +316,14 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const facComments = this.manager.getEntities(_mp.EcMapEntityType.facSpComment) as Array<ecat.entity.IFacSpComment>;
 
         //Faculty comments are not tied to person, so do not search for faculty id when looking for faculty comments!
-        let facComment = facComments.filter(comment => comment.studentPersonId === assesseeId && comment.courseId === this.activeCourseId && comment.workGroupId === this.activeGroupId)[0];
+        let facComment = facComments.filter(comment => comment.recipientPersonId === assesseeId && comment.courseId === this.activeCourseId && comment.workGroupId === this.activeGroupId)[0];
 
         if (!facComment) {
-            facComment = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, { studentPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.IFacSpComment;
-            //this.manager.createEntity(_mp.EcMapEntityType.facCrseMember, { facultyPersonId: this.dCtx.user.persona.personId, courseId: this.activeCourseId }, breeze.EntityState.Unchanged);
+            facComment = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.IFacSpComment;
+            const flag = this.manager.createEntity(_mp.EcMapEntityType.facSpCommentFlag, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }, breeze.EntityState.Unchanged) as ecat.entity.IFacSpCommentFlag;
             facComment.facultyPersonId = this.dCtx.user.persona.personId;
-            facComment.mpCommentFlagAuthor = _mp.MpCommentFlag.neut;
+            facComment.flag = flag;
+            facComment.flag.mpFaculty = _mp.MpCommentFlag.neut;
         }
 
         return facComment;

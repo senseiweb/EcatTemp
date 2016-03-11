@@ -55,9 +55,9 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public IQueryable<SpComment> ActiveWgSpComment()
+        public IQueryable<StudSpComment> ActiveWgSpComment()
         {
-            return _facLogic.GetSpComments();
+            return _facLogic.GetStudSpComments();
         }
 
         [HttpGet]

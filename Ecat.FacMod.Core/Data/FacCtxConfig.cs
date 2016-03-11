@@ -29,7 +29,6 @@ namespace Ecat.FacMod.Core
     {
         public FacConfigStudWrkGrp()
         {
-            Ignore(p => p.MaxStrat);
             Ignore(p => p.BbGroupId);
         }
     }

@@ -30,6 +30,8 @@ namespace Ecat.Shared.DbMgr.Config
                 .WithMany(p => p.StudentsInCourse)
                 .HasForeignKey(p => p.CourseId)
                 .WillCascadeOnDelete(false);
+
+            Ignore(p => p.KcResponses);
         }
     }
 
@@ -38,6 +40,12 @@ namespace Ecat.Shared.DbMgr.Config
         public ConfigFacultyInCourse()
         {
             HasKey(p => new { p.FacultyPersonId, p.CourseId });
+
+            HasMany(p => p.FlaggedSpComments)
+                .WithOptional(p => p.FlaggedByFaculty)
+                .HasForeignKey(p => new {p.FlaggedByFacultyId, p.CourseId})
+                .WillCascadeOnDelete(false);
+
 
             HasRequired(p => p.FacultyProfile)
                 .WithMany(p => p.Courses)

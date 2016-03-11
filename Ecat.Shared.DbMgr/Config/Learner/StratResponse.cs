@@ -21,7 +21,7 @@ namespace Ecat.Shared.DbMgr.Config
                 p.CourseId,
                 p.WorkGroupId,
             });
-
+            
             HasRequired(p => p.Assessor)
                 .WithMany(p => p.AssessorStratResponse)
                 .HasForeignKey(p => new {p.AssessorPersonId, p.CourseId, p.WorkGroupId})

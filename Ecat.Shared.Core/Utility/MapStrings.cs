@@ -12,6 +12,26 @@
     //        Person = "Person";
     //}
 
+    public static class MpSpItemScore
+    {
+        public const int Hea = 4,
+            Heu = 3,
+            Ea = 2,
+            Eu = 1,
+            Nd = 0,
+            Ieu = -1,
+            Iea = -2;
+    }
+
+    public static class MpSpResultScore
+    {
+        public const int He = 4,
+            Aae = 3,
+            E = 2,
+            Bae = 1,
+            Nd = 0,
+            Ie = -2;
+    }
 
     public static class MpInstituteRoleId
     {
@@ -87,7 +107,7 @@
         }
     }
 
-    public static class MpGroupType
+    public static class MpGroupCategory
     {
         public const string Wg1 = "BC1",
               Wg2 = "BC2",
@@ -96,12 +116,7 @@
               None = "None";
     }
 
-    public static class MpCommentType
-    {
-        public const string Signed = "Signed",
-            Anon = "Anonymous";
-    }
-
+  
     public static class MpCommentFlag
     {
         public const string Pos = "Postiive",
@@ -117,7 +132,7 @@
             SysAdmin = "System Admin";
     }
 
-    public static class MpELevel
+    public static class MpEdLevel
     {
         public const string Cla = "Chief Leadership Academy",
               Sncoa = "Senior NCO Academy",
@@ -183,7 +198,7 @@
 
     public static class MpSpStatus
     {
-        public const string Und = "Udr",
+        public const string Unk = "Uknown",
             Open = "Open",
             UnderReview = "Under Review",
             Published = "Published",

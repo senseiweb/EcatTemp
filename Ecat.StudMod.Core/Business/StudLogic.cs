@@ -57,7 +57,8 @@ namespace Ecat.StudMod.Core
                 .Include(gm => gm.AssessorSpResponses)
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
-                .Include(gm => gm.AuthorOfComments).Single();
+                .Include(gm => gm.AuthorOfComments)
+                .Include(gm => gm.AuthorOfComments.Select(f => f.Flag)).Single();
 
 
             return groups.AsQueryable();
@@ -76,6 +77,7 @@ namespace Ecat.StudMod.Core
                 .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)
                 .Include(gm => gm.AssessorStratResponse)
                 .Include(gm => gm.AuthorOfComments)
+                .Include(gm => gm.AuthorOfComments.Select(f => f.Flag))
                 .Include(gm => gm.AssessorSpResponses)
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person));

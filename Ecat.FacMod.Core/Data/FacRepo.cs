@@ -86,8 +86,7 @@ namespace Ecat.FacMod.Core
                 .ToList();
         }
 
-        IQueryable<SpComment> IFacRepo.WgComments => _ctx.SpComments
-            .Where(comment => !comment.IsDeleted);
+        IQueryable<StudSpComment> IFacRepo.WgComments => _ctx.StudSpComments;
     }
 
 }
