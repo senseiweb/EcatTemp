@@ -1,33 +1,28 @@
 ﻿<div class="container animated fadeInRight">
-    <div class="block-header">
-        <h2>{{grps.activeCourse.classNumber}} {{grps.activeCourse.name}} Groups Center</h2>
-    </div>
-
     <div class="card" id="grps-main">
         <div class="listview lv-bordered lv-lg">
             <div class="lv-header-alt clearfix p-b-5">
-
-                <div class="btn-group clearfix m-r-25">
-                    <button type="button" class="btn btn-primary" ng-if="grps.back" ng-click="grps.view=1; grps.back=false; grps.enrollments=false"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Groups</button>
-                    <button type="button" class="btn btn-primary" ng-if="!grps.enrollments" ng-click="grps.pollLMS(grps.view)">Poll Bb Groups</button>
-                    <button type="button" class="btn btn-primary" ng-if="grps.enrollments" ng-click="grps.pollLMS(grps.view)">Poll Bb Enrollments</button>
+                <a href="javascript:void(0)" type="button" class="btn btn-link pull-left" ng-if="grps.view==1" ui-sref="{{stateMgr.faculty.crseAdCrses.name}}"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Courses</a>
+                <a href="javascript:void(0)" type="button" class="btn btn-link pull-left" ng-if="grps.view==2" ng-click="grps.view=1"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Groups</a>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-link waves-effect" ng-if="grps.view==1" ng-click="grps.pollLMS(grps.view)">Poll Bb Groups</button>
+                    <button type="button" class="btn btn-link waves-effect" ng-if="grps.view==2 || grps.view==3" ng-click="grps.pollLMS(grps.view)">Poll Bb Enrollments</button>
+                    <ul class="lv-actions actions">
+                        <li class="dropdown" uib-dropdown>
+                            <a href="" uib-dropdown-toggle>
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="grps.refreshData(group.view)">Refresh Data</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-
-                <ul class="lv-actions actions">
-                    <li class="dropdown" uib-dropdown>
-                        <a href="" uib-dropdown-toggle>
-                            <i class="zmdi zmdi-more-vert"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li>
-                                <a href="grps.refreshData(group.view)">Refresh Data</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
 
-            <div class="lv-body" ng-init="grps.view=0">
+            <div class="lv-body">
                 <div ng-switch="grps.view">
                     <div ng-switch-when="1">
                         <div ng-include="'@[appFaculty]/feature/courseAdmin/groups.list.html'"></div>

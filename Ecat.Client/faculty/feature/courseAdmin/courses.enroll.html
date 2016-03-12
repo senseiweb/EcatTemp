@@ -31,11 +31,11 @@
                     <td>{{student.person.component}}</td>
                     <td><a ng-repeat="groupMem in student.studGroupEnrollments">{{groupMem.group.groupNumber}}</a></td>
                 </tr>
-                <tr ng-repeat="facilitator in crses.facilitators | filter:{lastName: filterName} | orderBy:['lastName','firstName'] track by id" ng-if="crses.view==3" style="height: 50px">
-                    <td>{{facilitator.person.lastName}}, {{facilitator.person.firstName}}</td>
-                    <td>{{facilitator.person.rank}}</td>
-                    <td>{{facilitator.person.affiliation}}</td>
-                    <td>{{facilitator.person.component}}</td>
+                <tr ng-repeat="facilitator in crses.facilitators | filter:{facultyProfile.person.lastName: filterName} | orderBy:['facultyProfile.person.lastName','facultyProfile.person.firstName'] track by facilitator.id" ng-if="crses.view==3" style="height: 50px">
+                    <td>{{facilitator.facultyProfile.person.lastName}}, {{facilitator.facultyProfile.person.firstName}}</td>
+                    <td>{{facilitator.facultyProfile.person.rank}}</td>
+                    <td>{{facilitator.facultyProfile.person.affiliation}}</td>
+                    <td>{{facilitator.facultyProfile.person.component}}</td>
                 </tr>
             </table>
         </div>

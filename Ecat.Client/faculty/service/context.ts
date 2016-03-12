@@ -1,4 +1,4 @@
-import IUtilityRepo from 'core/service/data/utility'
+﻿import IUtilityRepo from 'core/service/data/utility'
 import {facCrseStudInGrpCfg}from 'faculty/entityExtensions/crseStudentInGroup'
 import {facWorkGrpEntityExt} from 'faculty/entityExtensions/workgroup'
 import {facPersonCfg} from 'faculty/entityExtensions/person'
@@ -13,7 +13,7 @@ interface IFacultyApiResources extends ecat.IApiResources {
     course: ecat.IApiResource;
     wgAssess: ecat.IApiResource;
     wgComment: ecat.IApiResource;
-    caCourses: ecat.IApiResource;
+    caCourse: ecat.IApiResource;
 }
 
 interface ICachcedFacultyData {
@@ -22,7 +22,7 @@ interface ICachcedFacultyData {
     workGroup: any;
     wgComment: any;
     spInstr: any;
-    caCourses: any;
+    caCourse: any;
 }
 
 export default class EcFacultyRepo extends IUtilityRepo {
@@ -54,9 +54,9 @@ export default class EcFacultyRepo extends IUtilityRepo {
             returnedEntityType: _mp.EcMapEntityType.spComment,
             resource: 'ActiveWgSpComment'
         },
-        caCourses: {
+        caCourse: {
             returnedEntityType: _mp.EcMapEntityType.course,
-            resource: 'GetAcadCourses'
+            resource: 'CourseMembers'
         }
     }
 
@@ -353,20 +353,16 @@ export default class EcFacultyRepo extends IUtilityRepo {
         return facStrat;
     }
 
-    getAcadCrses(academyId: string, forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.ICourse> | angular.IPromise<void>> {
-        academyId = 'SNCOA/GUNTER';
-
+    getCrseEnrolls(getNew?: boolean): breeze.promises.IPromise<ecat.entity.ICourse | angular.IPromise<void>> {
         const _ = this;
-        const resource = this.facultyApiResource.caCourses.resource;
+        const resource = this.facultyApiResource.caCourse.resource;
         const log = this.log;
-        const ordering = 'course.startDate desc';
-        let courses: Array<ecat.entity.ICourse>;
+        let course: ecat.entity.ICourse;
 
-        if (this.isLoaded.caCourses && !forceRefresh) {
-            const cachedCaCourses = this.queryLocal(resource) as Array<ecat.entity.ICourse>;
-            courses = cachedCaCourses.map(caCourse => caCourse);
-            this.log.success('Courses loaded from local cache', courses, false);
-            return this.c.$q.when(courses);
+        if (this.isLoaded.caCourse && !getNew) {
+            const cachedCaCourse = this.queryLocal(resource) as ecat.entity.ICourse;
+            this.log.success('Course loaded from local cache', course, false);
+            return this.c.$q.when(course);
         }
 
         return this.query.from(resource)
@@ -376,24 +372,14 @@ export default class EcFacultyRepo extends IUtilityRepo {
             .then(caCoursesReponse)
             .catch(this.queryFailed);
 
-        function caCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.ICourse> {
-            const caCourses = data.results as Array<ecat.entity.ICourse>;
+        function caCoursesReponse(data: breeze.QueryResult): ecat.entity.ICourse {
+            const caCourse = data.results[0] as ecat.entity.ICourse;
 
-            caCourses.sort((first: ecat.entity.ICourse, second: ecat.entity.ICourse) => {
-                if (first.startDate === undefined || first.startDate === null) { return -1 }
-                if (first.startDate < second.startDate) { return -1 }
-                if (first.startDate > second.startDate) { return 1 }
-                if (first.startDate === second.startDate) { return 0 }
-            });
-
-            caCourses.forEach(crse => {
-                _.isLoaded.caCourses[crse.id] = true;
-            });
-            courses = caCourses.map(caCourse => caCourse);
+            _.isLoaded.caCourses[caCourse.id] = true;
             log.success('Courses loaded from remote store', data, false);
             //_.activeCourseId = courses[0].id;
             _.isLoaded.initialize = true;
-            return courses;
+            return caCourse;
         }
     }
 }

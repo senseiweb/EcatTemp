@@ -2,42 +2,54 @@
     <div class="col-md-12 p-t-20">
         <div class="table-responsive">
             <table class="table table-hover table-vmiddle">
-                <thead>
+                <thead class="f-16">
                     <tr>
-                        <th class="header">Flight</th>
-                        <th class="header">Group Type</th>
-                        <th class="header">Status</th>
-                        <th class="header">Last Modified By</th>
-                        <th class="header"></th>
+                        <th class="header col-md-3 text-left f-16 f-400">Flight</th>
+                        <th class="header col-md-3 text-left f-400 f-16"><button class="btn f-400 c-black btn-link f-16" ng-click="grps.sortList(grps.sortOpt.group)">
+                            Group Type
+                            <i class="zmdi" ng-if="grps.activeSort.opt === grps.sortOpt.group" ng-class="grps.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i></button>
+                        </th>
+                        <th class="header col-md-3 text-left f-400 f-16">
+                            <button class="btn f-400 c-black btn-link f-16" ng-click="grps.sortList(grps.sortOpt.status)">
+                                Status <i class="zmdi" ng-if="grps.activeSort.opt === grps.sortOpt.status" ng-class="grps.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i></button>
+                        </th>
+                        <th class="header col-md-3 text-left f-400 f-16">Last Modified By</th>
+                        <th class="header col-md-3 text-left f-400">Enrollments</th>
                     </tr>
                     <tr table-filters>
-                        <th class="filter">
-                            <input type="text" ng-model="filterGroupName" />
-                        </th>
-                        <th class="filter">
-                            <select class="form-control" ng-model="filterGroupType">
-                                <option value="">All</option>
-                                <option value="{{type}}" ng-repeat="type in grps.groupTypes | orderBy:'type'">{{type}}</option>
-                            </select>
-                        </th>
-                        <th class="filter">
-                            <select class="form-control" ng-model="filterGroupStatus">
-                                <option value="">All</option>
-                                <option value="Open">Open</option>
-                                <option value="Under Review">Under Review</option>
-                                <option value="Published">Published</option>
-                                <option value="!Published">Not Published</option>
-                            </select>
-                        </th>
+                        <td class="filter">
+                            <ui-select multiple ng-model="grps.filters.name.filterWith" theme="select2" style="width: 100%">
+                                <ui-select-match placeholder="--Filter By Flight Number--">{{$item.key}}</ui-select-match>
+                                <ui-select-choices repeat="name.key as name in grps.filters.name.optionList | filter: $select.search">
+                                    <div><span> Name: <span ng-bind-html="' ' + name.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{name.count}} items</span></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </td>
+                        <td class="filter">
+                            <ui-select multiple ng-model="grps.filters.cat.filterWith" theme="select2" style="width: 100%">
+                                <ui-select-match placeholder="--Filter By Group Category--">{{$item.key}}</ui-select-match>
+                                <ui-select-choices repeat="cat.key as cat in grps.filters.cat.optionList | filter: $select.search">
+                                    <span>  Category: <span ng-bind-html="' ' + cat.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{cat.count}} items</span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </td>
+                        <td class="filter">
+                            <ui-select multiple ng-model="grps.filters.status.filterWith" theme="select2" style="width: 100%">
+                                <ui-select-match placeholder="--Filter By Pub Status--">{{$item.key}}</ui-select-match>
+                                <ui-select-choices repeat="status.key as status in grps.filters.status.optionList | filter: $select.search">
+                                    <span> Pub Status: <span ng-bind-html="' ' + status.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{status.count}} items</span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </td>
                     </tr>
                 </thead>
-                <tr ng-repeat="group in grps.activeCourse.groups | filter:{ mpCategory: filterGroupType, defaultName: filterGroupName, mpSpStatus: filterGroupStatus } | orderBy: ['mpCategory','defaultName','mpSpStatus'] track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
+                <tr ng-repeat="group in grps.activeCourse.workGroups | orderBy: grps.activeSort.opt:grps.activeSort.desc | filter: grps.filteredGrpFlight | filter: grps.filteredGrpCat | filter: grps.filteredGrpStatus track by group.id" ng-mouseover="group.isVisible = true" ng-mouseleave="group.isVisible = false" style="height: 50px">
                     <td>{{group.defaultName}}</td>
                     <td>{{group.mpCategory}}</td>
                     <td>{{group.mpSpStatus}}</td>
-                    <td>{{grps.lastModifiedBy[group.id]}}</td>
-                    <td style="width: 350px">
-                        <button type="button" ng-if="group.isVisible" ng-click="grps.activeCourse=group; grps.view=2; grps.back=true; grps.enrollments=true" class="btn btn-link waves-effect">View Enrollments</button>
+                    <td>{{group.lastModName}}</td>
+                    <td style="width: 100px">
+                        <button type="button" ng-if="group.isVisible" ng-click="grps.activeGroup=group; grps.view=2; group.isVisible=false;" class="btn btn-link waves-effect">Enrollments</button>
 
                     </td>
                 </tr>

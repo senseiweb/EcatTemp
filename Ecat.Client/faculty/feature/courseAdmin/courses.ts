@@ -73,21 +73,26 @@ export default class EcCrseAdCrseList {
     //}
 
     private selectCourse(course: ecat.entity.ICourse) {
-        this.selectedCourse = course;
-        this.faculty = this.selectedCourse.faculty;
-        this.students = this.selectedCourse.studentsInCourse;
+        this.dCtx.faculty.activeCourseId = course.id;
+        this.dCtx.faculty.getCrseEnrolls()
+            .then((course: ecat.entity.ICourse) => {
+                this.selectedCourse = course;
+                this.faculty = this.selectedCourse.faculty;
+                this.students = this.selectedCourse.studentsInCourse;
+            });
     }
 
     private goToGroups(course: ecat.entity.ICourse) {
         this.selectedCourse = course;
-        this.dCtx.courseAdmin.selectedCourse = this.selectedCourse;
+        this.dCtx.faculty.activeCourseId = this.selectedCourse.id;
     }
 
     private editInfo(course: ecat.entity.ICourse): void {
+        this.dCtx.faculty.activeCourseId = course.id;
         this.selectedCourse = course;
 
         const modalSettings: angular.ui.bootstrap.IModalSettings = {
-            controller: ['$scope', '$uibModalInstance', 'crse', 'origName'],
+            controller: ['$scope', '$uibModalInstance', 'crse', 'origName', 'dateOpts', this.editModal],
             backdrop: 'static',
             keyboard: true,
             templateUrl: '@[appFaculty]/feature/courseAdmin/courses.edit.html'
@@ -95,9 +100,26 @@ export default class EcCrseAdCrseList {
 
         const modal = this.$uim;
         const c = this.c;
-        this.selectedCourse = course;
-        modalSettings.resolve = { crse: this.selectedCourse, origName: this.selectedCourse.name };
+        const dateOptions = {
+            //dateDisabled: disabled,
+            formatYear: 'yy',
+            maxDate: new Date(2020, 5, 22),
+            minDate: new Date(),
+            startingDay: 1
+        }
+        modalSettings.resolve = { crse: () => this.selectedCourse, origName: () => this.selectedCourse.name, dateOpts: () => dateOptions };
         modal.open(modalSettings);
+    }
+
+    private editModal($scope: any, $mi: angular.ui.bootstrap.IModalServiceInstance, crse: ecat.entity.ICourse, origName: string, dateOpts: any) {
+        $scope.origName = origName;
+        $scope.crse = crse;
+        $scope.startPick = { opened: false };
+        $scope.gradPick = { opened: false };
+        $scope.cancel = () => { crse.entityAspect.rejectChanges(); $mi.dismiss('cancelled'); };
+        $scope.save = () => { this.save(); $mi.close(); };
+        $scope.openStart = () => { $scope.startPick.opened = true; };
+        $scope.openGrad = () => { $scope.gradPick.opened = true; };
     }
 
     private publishGradRpt(course: ecat.entity.ICourse): void {
@@ -113,8 +135,23 @@ export default class EcCrseAdCrseList {
             showCancelButton: true
         }
 
+        var nonPub: boolean;
+        if (course.workGroups.length === 0) { nonPub = true; } else {
+            nonPub = course.workGroups.some(grp => {
+                if (grp.mpSpStatus !== _mp.MpSpStatus.published) { return true; }
+            });
+        }
+
+        if (nonPub) {
+            alertSettings.title = 'Unpublished Groups';
+            alertSettings.text = 'Grad Report cannot be published until all Workgroups in this course have been Published';
+            alertSettings.type = 'error';
+            alertSettings.showCancelButton = false;
+            alertSettings.confirmButtonText = 'OK';
+        }
+
         function afterConfirmClose(confirmed: boolean) {
-            if (!confirmed) { return; }
+            if (!confirmed || nonPub) { return; }
             self.selectedCourse.gradReportPublished = true;
             this.save();
         }
@@ -125,24 +162,16 @@ export default class EcCrseAdCrseList {
     private pollLMS(view: number): void {
         switch (view) {
             case 1:
-                //this.dCtx.courseAdmin.pollCourses()
-                //    .then((retData: ecat.entity.ICourse[]) => {
-                //        retData = retData.sort((first: ecat.entity.ICourse, second: ecat.entity.ICourse) => this.sortCourses(first, second))
-                //        this.courses = retData;
-                //    });
+                this.dCtx.courseAdmin.pollCourses()
+                    .then((retData: ecat.entity.ICourse[]) => {
+                        this.courses = retData;
+                    });
             case 2 || 3:
                 this.dCtx.courseAdmin.pollCourseMembers()
                     .then((retData: ecat.entity.ICourse) => {
                         this.selectCourse(retData);
                     });
         }
-    }
-
-    private sortCourses(first: ecat.entity.ICourse, second: ecat.entity.ICourse) {
-        if (first.startDate === undefined || first.startDate === null) { return -1 }
-        if (first.startDate < second.startDate) { return 1 }
-        if (first.startDate > second.startDate) { return -1 }
-        if (first.startDate === second.startDate) { return 0 }
     }
 
     private refreshData(): void {

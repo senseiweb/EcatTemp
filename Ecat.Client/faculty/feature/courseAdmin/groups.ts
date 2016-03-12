@@ -25,6 +25,11 @@ export default class EcCrseAdGrpList {
         status: { optionList: [], filterWith: [] },
         name: { optionList: [], filterWith: [] }
     }
+    protected sortOpt = {
+        status: 'mpSpStatus',
+        group: 'mpCategory'
+    }
+    protected activeSort: { opt: string, desc: boolean } = { opt: 'mpCategory', desc: false };
     protected view = CrseAdGrpsViews.Loading;
 
     constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon) {
@@ -35,7 +40,6 @@ export default class EcCrseAdGrpList {
         const _ = this;
         this.dCtx.faculty.initializeCourses()
             .then((retData: Array<ecat.entity.ICourse>) => {
-                retData = retData.sort((first: ecat.entity.ICourse, second: ecat.entity.ICourse) => this.sortCourses(first, second));
                 this.courses = retData;
                 initResponse(this.courses);
                 this.view = CrseAdGrpsViews.List;
@@ -44,23 +48,31 @@ export default class EcCrseAdGrpList {
 
         function initResponse(courses: Array<ecat.entity.ICourse>) {
             _.courses = courses;
-            const activeCourse = courses[0];
-            if (activeCourse.workGroups) {
-                _._unwrapGrpFilterables(activeCourse.workGroups);
+            const activeCourse = courses.filter(crse => {
+                if (crse.id === _.dCtx.faculty.activeCourseId) { return true; }
+            });
+            if (activeCourse[0].workGroups) {
+                _._unwrapGrpFilterables(activeCourse[0].workGroups);
             }
-            _.activeCourse = activeCourse;
+            _.activeCourse = activeCourse[0];
+            _.activeCourse.workGroups.forEach(grp => {
+                if (grp.modifiedById !== null || grp.modifiedById !== undefined) {
+                    var findFac = _.activeCourse.faculty.filter(fac => {
+                        if (fac.facultyPersonId === grp.modifiedById) { return true; }
+                        return false;
+                    });
+
+                    if (findFac.length > 0) {
+                        grp['lastModName'] = findFac[0].facultyProfile.person.lastName + ', ' + findFac[0].facultyProfile.person.firstName;
+                    }
+                }
+            });
         }
        
         //TODO: Need to take of error
         function initError(reason: string) {
 
         }
-    }
-
-    private sortCourses(first: ecat.entity.ICourse, second: ecat.entity.ICourse) {
-        if (first.startDate < second.startDate) { return 1 }
-        if (first.startDate > second.startDate) { return -1 }
-        if (first.startDate === second.startDate) { return 0 }
     }
 
     private filteredGrpCat = (item: ecat.entity.IWorkGroup) => {
@@ -76,6 +88,16 @@ export default class EcCrseAdGrpList {
     private filteredGrpStatus = (item: ecat.entity.IWorkGroup) => {
 
         return this.filters.status.filterWith.length === 0 || this.filters.status.filterWith.some(e => item.mpSpStatus === e);
+    }
+
+    protected sortList(sortOpt: string): void {
+        if (this.activeSort.opt === sortOpt) {
+            this.activeSort.desc = !this.activeSort.desc;
+            return;
+        }
+
+        this.activeSort.opt = sortOpt;
+        this.activeSort.desc = true;
     }
 
     private _unwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
