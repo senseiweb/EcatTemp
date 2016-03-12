@@ -29,7 +29,20 @@ declare module ecat.entity
             stratedPosition: number;
             hasComment: boolean;
         }
-        
+
+        interface ICrseStudInGrpResult {
+            self: string;
+            peer: string;
+            faculty: string;
+            strat: number;
+        }
+
+        interface ISpInventoryStudResult {
+            aggregSelf: string;
+            aggregPeer: string;
+            aggregFac: string;
+        }
+
         interface IStratEvaluator {
             isValid: boolean;
             validationErrors: Array<{ cat: string, text: string }>;

@@ -19,6 +19,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         this.responseForAssessee = null;
     }
 
+    resultForAssessee: ecat.entity.ext.ISpInventoryStudResult;
 
     responseForAssessee: ecat.entity.ISpResponse | ecat.entity.IFacSpResponse = null;
 

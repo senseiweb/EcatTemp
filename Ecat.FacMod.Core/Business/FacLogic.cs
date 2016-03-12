@@ -106,5 +106,10 @@ namespace Ecat.FacMod.Core
                     .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId))
                     .Include(p => p.Flag);
         }
+
+        IQueryable<WorkGroup> IFacLogic.GetWorkGroupResults()
+        {
+            return null;
+        }
     }
 }

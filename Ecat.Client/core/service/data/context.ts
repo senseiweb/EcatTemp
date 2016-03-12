@@ -11,6 +11,7 @@ export default class EcDataContext {
     static $inject = ['$rootScope', _common.serviceId, IEmFactory.serviceId];
 
     loadedManagers: Array<{ module: string, mgr: breeze.EntityManager }> = [];
+    
     static: IStaticData;
     private repoNames = [
         'static',
@@ -82,7 +83,6 @@ export default class EcDataContext {
         localStorage.removeItem('ECAT:TOKEN');
         sessionStorage.removeItem('ECAT:TOKEN');
         this.user.isLoggedIn = false;
-        this.user;
     }
 
 }

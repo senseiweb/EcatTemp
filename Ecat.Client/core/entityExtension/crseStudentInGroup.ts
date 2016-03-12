@@ -12,7 +12,8 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected assessorSpResponses: Array<ecat.entity.ISpResponse>;
     protected workGroup: ecat.entity.IWorkGroup;
     protected _sop: ecat.entity.ext.IStatusOfPeer = null;
-    
+    protected _spResult: ecat.entity.ext.ICrseStudInGrpResult;
+
     updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         const groupPeers = this.workGroup.groupMembers;
 
@@ -119,6 +120,10 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
         return this._sop;
     }
 
+    updateSpResult(): ecat.entity.ext.ICrseStudInGrpResult {
+        return this._spResult;
+    }
+
     get rankName(): string {
         const p = (this.studentProfile) ? this.studentProfile.person : null;
         return (!p) ? 'Unk' : `${_staticDs.getSalutation(p.mpPaygrade, p.mpComponent, p.mpAffiliation)} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
@@ -129,6 +134,13 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
             last: (this.studentProfile && this.studentProfile.person) ? this.studentProfile.person.lastName : 'Unknown',
             first: (this.studentProfile && this.studentProfile.person) ? this.studentProfile.person.firstName : 'Unknown'
         }
+    }
+
+    get spResult(): ecat.entity.ext.ICrseStudInGrpResult {
+        if (this._spResult) {
+            return this._spResult;
+        }
+        return this.updateSpResult();
     }
 
     get statusOfPeer(): ecat.entity.ext.IStatusOfPeer {
