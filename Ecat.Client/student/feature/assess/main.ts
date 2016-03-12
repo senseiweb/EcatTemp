@@ -31,7 +31,8 @@ export default class EcStudentAssessments {
         student: 'rankName',
         assess: 'assessText',
         comment: 'commentText',
-        strat: 'stratText'
+        strat: 'stratText',
+        composite: 'composite'
     }
     protected stratInputVis: boolean;
     protected user: ecat.entity.IPerson;
@@ -61,6 +62,7 @@ export default class EcStudentAssessments {
        
         function activationResponse(crseStudInGrps: Array<ecat.entity.ICrseStudInGroup>) {
             _.courses = _.getUniqueCourses(crseStudInGrps);
+            _.courses.forEach(course => course['displayName'] = `${course.classNumber}: ${course.name}`);
             _.workGroups = _.courses[0]
                 .workGroups
                 .sort(_.sortWg);
@@ -92,6 +94,7 @@ export default class EcStudentAssessments {
             });
     }
 
+    //For when the group is published and is showing the results
     private getWgSpResults(): void {
         this.dCtx.student
             .getWgSpResult()
@@ -167,16 +170,16 @@ export default class EcStudentAssessments {
 
         this.dCtx.student.activeGroupId = workGroup.id;
         const myId = this.dCtx.user.persona.personId;
+
+        this.grpDisplayName = `${workGroup.mpCategory}: ${workGroup.customName || workGroup.defaultName}`;
         
         //TODO: Need to do something with the error
         this.dCtx.student.getActiveWorkGroup()
-            .then((wrkGrp: ecat.entity.IWorkGroup) => {
+            .then((wg: ecat.entity.IWorkGroup) => {
 
-                const grpMembers = wrkGrp.groupMembers;
-
-                this.isResultPublished = wrkGrp.mpSpStatus === _mp.MpSpStatus.published;
-
-                this.isViewOnly = this.isResultPublished || wrkGrp.mpSpStatus !== _mp.MpSpStatus.open;
+                const grpMembers = wg.groupMembers;
+                this.isResultPublished = wg.mpSpStatus === _mp.MpSpStatus.published;
+                this.isViewOnly = this.isResultPublished || wg.mpSpStatus !== _mp.MpSpStatus.open;
 
                 if (this.isResultPublished) {
                     //TODO: Check how this perform between group changes
@@ -188,10 +191,15 @@ export default class EcStudentAssessments {
                     //TODO: Address a condition if no members are in the group
                     return null;
                 }
-
+                
                 this.me = grpMembers.filter(gm => gm.studentId === myId)[0];
 
+                console.log(this.me);
+
                 grpMembers.forEach(gm => {
+
+                    gm['hasChartData'] = this.me.statusOfPeer[gm.studentId].breakOutChartData.some(cd => cd.data > 0);
+                    
                     if (this.isViewOnly) {
                         gm['assessText'] = (this.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
                         gm['commentText'] = (this.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
@@ -202,6 +210,8 @@ export default class EcStudentAssessments {
                         gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
                     }
                 });
+
+                
                 this.peers = grpMembers.filter(gm => gm.studentId !== myId);
                
             })

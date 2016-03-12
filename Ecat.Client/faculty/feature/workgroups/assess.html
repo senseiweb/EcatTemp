@@ -12,17 +12,6 @@
             <ul class="lv-actions actions">
 
                 <li class="dropdown" uib-dropdown>
-
-                    <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>{{assess.grpDisplayName}}</button>
-
-                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li ng-repeat="group in assess.workGroups track by group.id ">
-                            <a href="javascript:void(0)" ng-click="assess.setActiveGroup(group)">{{group.mpCategory}} - {{group.defaultName}}</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="dropdown" uib-dropdown>
                     <a href="" uib-dropdown-toggle>
                         <i class="zmdi zmdi-more-vert"></i>
                     </a>

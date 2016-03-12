@@ -138,12 +138,12 @@ export default class EcCrseAdCrseList {
         }
     }
 
-    //private sortCourses(first: ecat.entity.ICourse, second: ecat.entity.ICourse) {
-    //    if (first.startDate === undefined || first.startDate === null) { return -1 }
-    //    if (first.startDate < second.startDate) { return 1 }
-    //    if (first.startDate > second.startDate) { return -1 }
-    //    if (first.startDate === second.startDate) { return 0 }
-    //}
+    private sortCourses(first: ecat.entity.ICourse, second: ecat.entity.ICourse) {
+        if (first.startDate === undefined || first.startDate === null) { return -1 }
+        if (first.startDate < second.startDate) { return 1 }
+        if (first.startDate > second.startDate) { return -1 }
+        if (first.startDate === second.startDate) { return 0 }
+    }
 
     private refreshData(): void {
         this.activate(true);

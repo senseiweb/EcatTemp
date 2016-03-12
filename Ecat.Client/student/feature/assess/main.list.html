@@ -1,54 +1,47 @@
 ﻿<div class="row">
     <div class="col-md-12 p-t-20">
-        <div class="table-responsive">
+        <div>
             <table class="table table-hover tableCenterAlign">
-                <thead>
+                <thead class="f-16">
                     <tr>
-                        <th class="col-md-3"
+                        <th class="col-md-3 text-left f-400"
                              ng-click="assess.sortList(assess.sortOpt.student)">
-                            <a href="javascript:void(0)">
+                            
                                 Student
-                            </a>
-                            <i class="zmdi pull-right"
+                            
+                            <i class="zmdi"
                                ng-if="assess.activeSort.opt === assess.sortOpt.student" 
                                ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                         </th>
-                        <th class="col-md-3 text-center"
-                             ng-click="assess.sortList(assess.sortOpt.assess)">
-                            <a href="javascript:void(0)">
-                                Assessment
-                            </a>
-                            <i class="zmdi pull-right"
-                               ng-if="assess.activeSort.opt === assess.sortOpt.assess"
-                               ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
-                        </th>
-                        <th class="col-md-3 text-center"
-                             ng-click="assess.sortList(assess.sortOpt.comment)">
-                            <a href="javascript:void(0)">
-                                Comment
-                            </a>
-                            <i class="zmdi pull-right"
-                               ng-if="assess.activeSort.opt === assess.sortOpt.comment"
-                               ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
-                        </th>
-                        <th class="col-md-3 text-center"
-                              ng-click="assess.sortList(assess.sortOpt.strat)">
-                            <a href="javascript:void(0)">
+                        <th class="col-md-2 text-center f-400">Assessment</th>
+                        <th class="col-md-2 text-center f-400">Comments</th>
+                        <th class="col-md-2 text-center f-400"
+                            ng-click="assess.sortList(assess.sortOpt.strat)">
+                            
                                 Strat
-                            </a>
-                            <i class="zmdi pull-right"
+                           
+                            <i class="zmdi"
                                ng-if="assess.activeSort.opt === assess.sortOpt.strat"
+                               ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                        </th>
+                        <th class="col-md-4 text-center f-400"
+                            ng-click="assess.sortList(assess.sortOpt.breakout)">
+                            
+                                Composite/Breakout
+                            
+                            <i class="zmdi"
+                               ng-if="assess.activeSort.opt === assess.sortOpt.breakout"
                                ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="f-14">
                     <tr class="tableBottomBorder">
-                        <td>{{::assess.me.rankName}}</td>
+                        <td style="border-right: 1px solid #f0f0f0;">{{::assess.me.rankName}}</td>
                         <td class="text-center">
                             <a class="btn btn-link"
                                href="javascript:void(0)"
-                               ng-click="assess.loadAssessment(assess.me)">
+                               ng-click="assess.loadAssessment(assess.me.studentId)">
                                 {{::assess.me.assessText}}
                             </a>
                         </td>
@@ -58,10 +51,21 @@
                         <td class="text-center">
                             {{assess.me.stratText}}
                         </td>
+                        <td class="text-center p-b-0 p-t-0">
+                            <div id="sp-chart-data-{{$index}}" ng-if="assess.me.hasChartData">
+                                <span class="sp-graph-composite">{{assess.me.statusOfPeer[assess.me.studentId].compositeScore}}</span>
+                                <div pie-sp-break-out dataset="assess.me.statusOfPeer[assess.me.studentId].breakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                <div id="flotlegend{{$index}}" style="display: none"></div>
+                            </div>
+                            <div ng-if="!assess.me.hasChartData">
+                                No Data
+                            </div>
+                        </td>
+
                     </tr>
 
                     <tr ng-repeat="peer in assess.peers | orderBy :assess.activeSort.opt:assess.activeSort.desc track by peer.studentId">
-                        <td>{{::peer.rankName}}</td>
+                        <td style="border-right: 1px solid #f0f0f0">{{::peer.rankName}}</td>
                         <td class="text-center">
                             <a href="javascript:void(0)"
                                class="btn btn-link"
@@ -80,6 +84,16 @@
 
                         <td class="text-center">
                             {{assess.me.statusOfPeer[peer.studentId].stratPosition || 'Not Stratified'}}
+                        </td>
+                        <td class="text-center p-b-0 p-t-0">
+                            <div id="sp-chart-data-{{$index}}" ng-if="peer.hasChartData">
+                                <span class="sp-graph-composite">{{assess.me.statusOfPeer[peer.studentId].compositeScore}}</span>
+                                <div pie-sp-break-out dataset="assess.me.statusOfPeer[peer.studentId].breakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                <div id="flotlegend{{$index}}" style="display: none"></div>
+                            </div>
+                            <div ng-if="!peer.hasChartData">
+                                No Data
+                            </div>
                         </td>
                     </tr>
                 </tbody>

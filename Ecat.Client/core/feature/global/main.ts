@@ -19,7 +19,7 @@ export default class EcAppMain {
             .toString();
 
         if (changes) {
-            hasChangesPrompt = `You unsaved changees in the following modules ==> ${changes}\n Are you sure you would like to logout? [All changes will be lost]`;
+            hasChangesPrompt = `You unsaved changes in the following modules ==> ${changes}\n Are you sure you would like to logout? [All changes will be lost]`;
         }
 
         const standardPrompt = 'Are you sure you would like to logout?';

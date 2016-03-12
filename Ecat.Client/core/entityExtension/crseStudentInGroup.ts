@@ -99,7 +99,8 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
                     });
 
                 cummScore = (cummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 6)) * 100;
-                sigStatus.compositeScore = parseFloat(cummScore.toFixed(2));
+                //sigStatus.compositeScore = parseFloat(cummScore.toFixed(2));
+                sigStatus.compositeScore = Math.round(cummScore);
             }
 
             sigStatus.assessComplete = sigStatus.missingAssessItems.length === 0;
@@ -108,7 +109,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
 
             const { HE, E, IE, ND } = sigStatus.breakout;
 
-            sigStatus.breakOutChartData.push({ label: 'High Effective', data: HE, color: '#4166F5' });
+            sigStatus.breakOutChartData.push({ label: 'Highly Effective', data: HE, color: '#00308F' });
             sigStatus.breakOutChartData.push({ label: 'Effective', data: E, color: '#00AA58' });
             sigStatus.breakOutChartData.push({ label: 'Ineffective', data: IE, color: '#AA0000' });
             sigStatus.breakOutChartData.push({ label: 'Not Display', data: ND, color: '#AAAAAA' });

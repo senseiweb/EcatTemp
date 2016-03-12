@@ -77,7 +77,7 @@ export default class EcFacultyWgAssess {
 
             })
             .catch(() => {
-                console.log('Assessment model errored');
+                this.log.error('Assessment Model errored', '', true);
             });
     }
 

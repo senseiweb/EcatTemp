@@ -1,6 +1,8 @@
 ﻿import IDataCtx from 'core/service/data/context'
 import ICommon from 'core/common/commonService'
 import * as _mp from 'core/common/mapStrings'
+import ISpTools from "provider/spTools/sptool"
+import _swal from "sweetalert"
 
 interface IWgFilter {
     filterWith?: Array<string>;
@@ -29,18 +31,20 @@ interface ICrseStudExtended extends ecat.entity.ICrseStudInGroup {
 
 export default class EcFacultyWgList {
     static controllerId = 'app.faculty.wkgrp.list';
-    static $inject = ['$uibModal',IDataCtx.serviceId, ICommon.serviceId];
+    static $inject = ['$uibModal',IDataCtx.serviceId, ICommon.serviceId, ISpTools.serviceId];
     
     private mp = _mp.MpSpStatus;
     private activeCourse: ecat.entity.ICourse;
     protected activeSort: {opt: string, desc: boolean} = { opt: 'mpCategory', desc: false};
     private canPublish = false;
-    private courses: Array<ecat.entity.ICourse> = [];
+    protected courses: Array<ecat.entity.ICourse> = [];
     private filters: IWgCatFilter = {
         cat: { optionList: [], filterWith: [] },
         status: { optionList: [], filterWith: [] },
         name: { optionList: [], filterWith: [] }
     }
+
+    private loggers = this.c.getAllLoggers('Faculty Workgroup Module');
 
     protected sortOpt = {
         status: 'mpSpStatus',
@@ -48,18 +52,40 @@ export default class EcFacultyWgList {
 
     }
 
-    constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon) {
+    constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon, private sptool: ISpTools) {
         this.activate();
     }
     
     private activate(force?: boolean): void {
         const _ = this;
+
+        const swalSettings: SweetAlert.Settings = {
+            title: 'Oh no!, there was a problem initiazing the course. Please refresh and try this again later.',
+            type: 'warning',
+            allowEscapeKey: true,
+            confirmButtonText: 'Ok'
+        };
+
         this.dCtx.faculty.initializeCourses()
             .then(initResponse)
             .catch(initError);
 
        function initResponse(courses: Array<ecat.entity.ICourse>){
+           
+           courses.forEach((crs: ecat.entity.ICourse) => {
+               crs['displayName'] = `${crs.classNumber}: ${crs.name}`;
+           });
+
+           courses = courses.sort((crseA: ecat.entity.ICourse, crseB: ecat.entity.ICourse) => {
+               if (crseA.startDate < crseB.startDate) return 1;
+               if (crseA.startDate > crseB.startDate) return -1;
+               return 0;
+           });
+
            _.courses = courses;
+
+           console.log(_.courses);
+
            const activeCourse = courses[0];
            if (activeCourse.workGroups) {
                _._unwrapGrpFilterables(activeCourse.workGroups);
@@ -67,30 +93,39 @@ export default class EcFacultyWgList {
            _.activeCourse = activeCourse;
        }
        
-        //TODO: Need to take of error
         function initError(reason: string) {
-            
+            _swal(swalSettings);
         }
     }
     
     private changeActiveCourse(course: ecat.entity.ICourse): void {
-        let activeCourse = this.activeCourse;
-       activeCourse = course;
+        const _ = this;
+        const swalSettings: SweetAlert.Settings = {
+            title: 'Oh no!, there was a problem changing the course. Please refresh and try this again later.',
+            type: 'warning',
+            allowEscapeKey: true,
+            confirmButtonText: 'Ok'
+        };
        
-       this.dCtx.faculty
-            .activeCourseId = course.id;
+       this.dCtx.faculty.activeCourseId = course.id;
 
         this.dCtx.faculty
             .getActiveCourse()
             .then(getActiveCourseReponse)
             .catch(getActiveCourseError);
        
-       function getActiveCourseReponse(crse: ecat.entity.ICourse) {
-           activeCourse = crse;
+        function getActiveCourseReponse(crse: ecat.entity.ICourse) {
+
+            if (typeof crse.workGroups === 'undefined' || crse.workGroups === null || crse.workGroups.length === null || crse.workGroups.length === 0 ) {
+                _.loggers.warn('There are no WorkGroups for the Course you selected', '', true);
+                return;
+            }
+
+            _.activeCourse = crse;
        }
        
        function getActiveCourseError(response: ecat.IQueryError) {
-           
+           _swal(swalSettings);
        }
             
     }

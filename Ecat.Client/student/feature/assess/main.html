@@ -13,7 +13,7 @@
                            ng-click="assess.setActiveCourse(course)">
                             <i ng-if="course.id === assess.activeCrseId" 
                                class="zmdi zmdi-chevron-right"></i>
-                            {{course.name}}
+                            {{course.displayName}}
                         </a>
                     </li>
 
@@ -78,7 +78,7 @@
                     <li class="dropdown" uib-dropdown>
 
                         <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>
-                            {{assess.displayName}}
+                            {{assess.grpDisplayName}}
                         </button>
 
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
