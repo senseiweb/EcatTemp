@@ -24,21 +24,7 @@ export default class EcFacultyWgResult {
             this.activeWg = wg;
 
             wg.groupMembers.forEach(gm => {
-                //const hasComment = gm.statusOfStudent.hasComment;
-                //const assessComplete = gm.statusOfStudent.assessComplete;
-                //gm['hasChartData'] = gm.statusOfStudent.breakOutChartData.some(cd => cd.data > 0);
-                //let commentText = '';
-                //let assessText = '';
-
-                //if (this.isViewOnly) {
-                //    commentText = hasComment ? 'View' : 'Not Available';
-                //    assessText = assessComplete ? 'View' : 'Not Available';
-                //} else {
-                //    commentText = hasComment ? 'Edit' : 'Add';
-                //    assessText = assessComplete ? 'Edit' : 'Add';
-                //}
-                //gm['commentText'] = commentText;
-                //gm['assessText'] = assessText;
+                gm.spResult;
             });
             this.groupMembers = wg.groupMembers;
         });
