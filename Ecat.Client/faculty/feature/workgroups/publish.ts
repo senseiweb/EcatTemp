@@ -14,9 +14,8 @@ export default class EcFacultyWgPublish {
 
     protected activeWorkGroup: ecat.entity.IWorkGroup;
     protected commentFlag ={
-        neg: _mp.MpCommentFlag.neg,
-        neut: _mp.MpCommentFlag.neut,
-        pos: _mp.MpCommentFlag.pos
+        appr: _mp.MpCommentFlag.appr,
+        inappr: _mp.MpCommentFlag.inappr
     }
     protected doneWithComments = false;
     protected doneWithStrats = false;
@@ -151,6 +150,8 @@ export default class EcFacultyWgPublish {
                     showLoaderOnConfirm: true
                 }
                 _swal(alertSetting, toPublishOrNotToPublish);
+            } else if (wg.mpSpStatus === _mp.MpSpStatus.published) {
+                _.c.$state.go(_.c.stateMgr.faculty.wgResult.name);
             } else {
                 _.processActiveWg(wg);
             }
@@ -365,15 +366,16 @@ export default class EcFacultyWgPublish {
             .finally(() => {
                 this.isSaving = false;
             });
-                  
+
 
         function saveChangesResponse(): void {
             _.doneWithComments = !_.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
-            _.doneWithStrats = !_.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null); 
-                if (_.isPublishing) {
-                    swal('Hello World!', `Publishing WorkGroup ${_.workGroupName} Complete`, 'success');
-                }
+            _.doneWithStrats = !_.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null);
+            if (_.isPublishing) {
+                swal('Hello World!', `Publishing WorkGroup ${_.workGroupName} Complete`, 'success');
             }
+            _.c.$state.go(_.c.stateMgr.faculty.wgResult.name);
+        }
 
         //TODO: if no changes are exists, dCtx will throw an IQueryError that needs to be handled
         function saveChangesError(reason: string|ecat.IQueryError): void {

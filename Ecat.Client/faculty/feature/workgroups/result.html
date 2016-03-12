@@ -1,10 +1,92 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+﻿<div class="card" id="assessments-main">
+    <div class="listview lv-bordered lv-lg">
+        <div class="lv-header-alt clearfix p-b-15">
 
-</body>
-</html>
+            <a href="javascript:void(0)"
+               type="button"
+               class="btn btn-link pull-left"
+               ui-sref="{{stateMgr.faculty.wgList.name}}">
+                <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to WorkGroups
+            </a>
+
+            <ul class="lv-actions actions">
+
+                <li class="dropdown" uib-dropdown>
+
+                    <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>{{assess.grpDisplayName}}</button>
+
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li ng-repeat="group in assess.workGroups track by group.id ">
+                            <a href="javascript:void(0)" ng-click="assess.setActiveGroup(group)">{{group.mpCategory}} - {{group.defaultName}}</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown" uib-dropdown>
+                    <a href="" uib-dropdown-toggle>
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="">Refresh Data</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="lv-body">
+            <div class="row">
+                <div class="col-md-12 p-t-20">
+                    <div class="table-responsive">
+                        <table class="table table-hover tableCenterAlign">
+                            <thead>
+                                <tr class="f-16">
+                                    <th class="col-md-3 text-left f-400">Student</th>
+                                    <th class="col-md-2 text-center f-400">Assessments</th>
+                                    <th class="col-md-2 text-center f-400">Comments</th>
+                                    <th class="col-md-2 text-center f-400">Strat</th>
+                                    <th class="col-md-3 text-center f-400">Composite/Breakout</th>
+                                </tr>
+                            </thead>
+                            <tbody class="f-14">
+                                <tr ng-repeat="member in wka.groupMembers track by member.studentId">
+                                    <td style="border-right: 1px solid #f0f0f0;">{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-link f-14" href="javascript:void(0)" ng-click="wka.loadAssessment(member.studentId)">
+                                            {{member.assessText}}
+                                        </a>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="javascript:void(0)" class="btn btn-link f-14" ng-click="wka.loadComment(member.studentId)">{{member.commentText}}</a>
+
+                                    </td>
+                                    <td class="text-center">
+                                        {{member.statusOfStudent.stratedPosition || 'Not Stratified'}}
+                                    </td>
+                                    <td class="text-center p-b-0 p-t-0">
+                                        <div id="sp-chart-data-{{$index}}" ng-if="member.hasChartData">
+                                            <span class="sp-graph-composite">{{member.statusOfStudent.compositeScore}}</span>
+                                            <div pie-sp-break-out dataset="member.statusOfStudent.breakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                            <div id="flotlegend{{$index}}" style="display: none"></div>
+                                        </div>
+                                        <div ng-if="!member.hasChartData">
+                                            No Data
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

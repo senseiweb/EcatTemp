@@ -30,7 +30,7 @@ namespace Ecat.FacMod.Core
 
         public FacultyGuardian(FacCtx facCtx, EFContextProvider<FacCtx> efCtx,Person loggedInUser)
         {
-            _facCtx = facCtx;
+            //_facCtx = facCtx;
             _efCtx = efCtx;
             _loggedInUser = loggedInUser;
         }
@@ -69,31 +69,15 @@ namespace Ecat.FacMod.Core
                 .Where(wg => wg.MpSpStatus == MpSpStatus.Published).ToList();
 
             var wgSaveMap = new Dictionary<Type, List<EntityInfo>> {{ _tWg, workGroupInfos }} ;
-            var svrWgs = GetServerWorkGroup(publishingWgs.Select(wg => wg.Id));
 
             if (publishingWgs.Any())
             {
-              var publishResultMap = WorkGroupPublish.Publish(wgSaveMap, svrWgs, _loggedInUser.PersonId, _efCtx);
+                var svrWgIds = publishingWgs.Select(wg => wg.Id);
+                var publishResultMap = WorkGroupPublish.Publish(wgSaveMap, svrWgIds, _loggedInUser.PersonId, _efCtx);
                 wgSaveMap.MergeMap(publishResultMap);
             }
 
             return wgSaveMap;
         }
-
-
-        private IEnumerable<WorkGroup> GetServerWorkGroup(IEnumerable<int> wgIds)
-        {
-            return _facCtx.WorkGroups
-             .Where(grp => wgIds.Contains(grp.Id) && grp.MpSpStatus == MpSpStatus.UnderReview)
-             .Include(grp => grp.WgModel)
-             .Include(grp => grp.SpResults)
-             .Include(grp => grp.SpStratResults)
-             .Include(grp => grp.GroupMembers)
-             .Include(grp => grp.SpResponses)
-             .Include(grp => grp.SpStratResponses)
-             .Include(grp => grp.FacSpResponses)
-             .Include(grp => grp.FacStratResponses);
-        }
-      
     }
 }

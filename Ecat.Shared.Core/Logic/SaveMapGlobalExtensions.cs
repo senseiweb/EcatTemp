@@ -41,6 +41,8 @@ namespace Ecat.Shared.Core.Logic
                 auditable.ModifiedById = loggedInUserId;
                 auditable.ModifiedDate = DateTime.Now;
 
+                if (info.OriginalValuesMap == null) continue;
+
                 info.OriginalValuesMap["ModifiedById"] = null;
                 info.OriginalValuesMap["ModifiedDate"] = null;
             }
@@ -67,6 +69,8 @@ namespace Ecat.Shared.Core.Logic
                 softDeletable.DeletedById = loggedInUserId;
                 softDeletable.DeletedDate = DateTime.Now;
                 softDeletable.IsDeleted = true;
+
+                if (info.OriginalValuesMap == null) continue;
 
                 info.OriginalValuesMap["DeletedById"] = null;
                 info.OriginalValuesMap["DeletedDate"] = null;

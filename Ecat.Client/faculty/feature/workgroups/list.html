@@ -116,7 +116,7 @@
                                     <td style="width: 475px">
                                         <div ng-show="wg.isVisible">
 
-                                            <div role="group" ng-if="wg.mpSpStatus !== mp.MpSpStatus.published">
+                                            <div role="group" ng-if="wg.mpSpStatus !== wkl.mp.published">
 
                                                 <button ng-click="wkl.viewStatus(wg)"
                                                         type="button"
@@ -138,20 +138,26 @@
                                                 </a>
                                             </div>
 
-                                            <div class="btn-group btn-group-xs" role="group" ng-if="wg.mpSpStatus === mp.MpSpStatus.published">
+                                            <div role="group" ng-if="wg.mpSpStatus === wkl.mp.published">
 
-                                                <button ng-click="wkl.goToResults(wg)"
-                                                        type="button"
-                                                        class="btn btn-link btn-sm waves-effect">
-                                                    Group
-                                                </button>
+                                                <a href="javascript:void(0)"
+                                                   ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId:         {{wg.courseId}},wgId: {{wg.id}}})"
+                                                   class="btn btn-link btn-sm waves-effect btn-info f-14">
+                                                    Assess
+                                                </a>
 
-                                                <button ng-if="wkl.course.gradReportPublished"
-                                                        ng-click="wkl.goToCapstone(wg)"
-                                                        type="button"
-                                                        class="btn btn-link btn-sm waves-effect">
+                                                <a href="javascript:void(0)"
+                                                   ui-sref="{{stateMgr.faculty.wgResult.name}}({crseId:         {{wg.courseId}},wgId: {{wg.id}}})"
+                                                   class="btn btn-link btn-sm waves-effect btn-info f-14">
+                                                    Results
+                                                </a>
+
+                                                <a href="javascript:void(0)"
+                                                   ng-if="wkl.course.gradReportPublished"
+                                                   ui-sref="{{stateMgr.faculty.wgCapStone.name}}({crseId:         {{wg.courseId}},wgId: {{wg.id}}})"
+                                                   class="btn btn-link btn-sm waves-effect btn-info f-14">
                                                     Capstone
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
 

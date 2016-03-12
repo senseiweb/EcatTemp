@@ -44,6 +44,8 @@ export class MpCommentFlag {
     static pos = "Positive";
     static neg = "Negative";
     static neut = "Netural";
+    static appr = "Appropriate";
+    static inappr = "Inappropriate";
 }
 
 export class MpCommentType {

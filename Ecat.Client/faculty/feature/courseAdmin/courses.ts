@@ -125,11 +125,11 @@ export default class EcCrseAdCrseList {
     private pollLMS(view: number): void {
         switch (view) {
             case 1:
-                this.dCtx.courseAdmin.pollCourses()
-                    .then((retData: ecat.entity.ICourse[]) => {
-                        retData = retData.sort((first: ecat.entity.ICourse, second: ecat.entity.ICourse) => this.sortCourses(first, second))
-                        this.courses = retData;
-                    });
+                //this.dCtx.courseAdmin.pollCourses()
+                //    .then((retData: ecat.entity.ICourse[]) => {
+                //        retData = retData.sort((first: ecat.entity.ICourse, second: ecat.entity.ICourse) => this.sortCourses(first, second))
+                //        this.courses = retData;
+                //    });
             case 2 || 3:
                 this.dCtx.courseAdmin.pollCourseMembers()
                     .then((retData: ecat.entity.ICourse) => {
