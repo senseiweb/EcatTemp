@@ -294,9 +294,10 @@ export default class EcFacultyWgPublish {
         };
 
             _swal(alertSettings, (confirmed?: boolean) => {
-                if (confirmed) {
+                if (confirmed) {             
                     _.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.published;
                     _.isPublishing = true;
+                    //Why is clicking Publish calling save changes?
                     _.saveChanges();
                 }
 

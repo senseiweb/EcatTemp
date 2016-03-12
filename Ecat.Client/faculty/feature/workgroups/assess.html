@@ -66,7 +66,7 @@
                                     <td class="text-center">
                                         {{member.statusOfStudent.stratedPosition || 'Not Stratified'}}
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center p-b-0 p-t-0">
                                         <div id="sp-chart-data-{{$index}}" ng-if="member.hasChartData">
                                             <span class="sp-graph-composite">{{member.statusOfStudent.compositeScore}}</span>
                                             <div pie-sp-break-out dataset="member.statusOfStudent.breakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>

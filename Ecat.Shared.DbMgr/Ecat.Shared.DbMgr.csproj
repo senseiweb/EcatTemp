@@ -77,10 +77,6 @@
     <Compile Include="Config\User\Security.cs" />
     <Compile Include="Context\ContextBase.cs" />
     <Compile Include="Context\EcatContext.cs" />
-    <Compile Include="Migrations\201603120202193_NullableCommentFlaggedBy.cs" />
-    <Compile Include="Migrations\201603120202193_NullableCommentFlaggedBy.Designer.cs">
-      <DependentUpon>201603120202193_NullableCommentFlaggedBy.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,11 +95,7 @@
   <ItemGroup>
     <Folder Include="Config\Cognitive\" />
     <Folder Include="Config\Common\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603120202193_NullableCommentFlaggedBy.resx">
-      <DependentUpon>201603120202193_NullableCommentFlaggedBy.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
