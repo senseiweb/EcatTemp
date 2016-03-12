@@ -1,0 +1,34 @@
+﻿<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover tableCenterAlign">
+                <thead>
+                    <tr class="f-16">
+                        <th class="text-left f-400">Student</th>
+                        <th class="text-center f-400">Self</th>
+                        <th class="text-center f-400">Peer</th>
+                        <th class="text-center f-400">Fac</th>
+                        <th class="text-center f-400">Strat</th>
+                        <th class="text-center f-400">Fac Strat</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="f-14">
+                    <tr ng-repeat="member in res.groupMembers track by member.studentId" ng-mouseover="member.isVisible = true" ng-mouseleave="member.isVisible = false" style="height: 50px">
+                        <td style="border-right: 1px solid #f0f0f0;">{{member.person.firstName}} {{member.person.lastName}}</td>
+                        <td>{{member.spResult.self}}</td>
+                        <td>{{member.spResult.peer}}</td>
+                        <td>{{member.spResult.fac}}</td>
+                        <td>{{member.spResult.strat}}</td>
+                        <td>{{member.spResult.facStrat}}</td>
+                        <td style="width: 250px">
+                            <button type="button" ng-if="member.isVisible" ng-click="res.selStud=member; res.view=1; member.isVisible=false;" class="btn btn-link waves-effect">Behaviors</button>
+                            <button type="button" ng-if="member.isVisible" ng-click="res.selStud=member; res.view=2; member.isVisible=false;" class="btn btn-link waves-effect">Comments</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

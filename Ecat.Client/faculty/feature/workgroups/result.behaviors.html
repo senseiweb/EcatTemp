@@ -1,0 +1,35 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="text-center">
+            <h3 class="lead">{{res.selStud.lastName}}, {{res.selStud.firstName}} Group Results</h3>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover tableCenterAlign">
+                <thead>
+                    <tr>
+                        <th>Behavior</th>
+                        <th>Self</th>
+                        <th>Peer</th>
+                        <th>Instructor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="inv in res.selStud.workgroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
+                        <td>{{inv.behavior}}</td>
+                        <td>{{inv.resultForAssessee.aggSelf}}</td>
+                        <td>{{inv.resultForAssessee.aggPeer}}</td>
+                        <td>{{inv.resultForAssessee.aggFac}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
