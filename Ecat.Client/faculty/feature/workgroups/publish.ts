@@ -128,6 +128,8 @@ export default class EcFacultyWgPublish {
 
     private getActiveWorkGroup(): void {
         const _ = this;
+        let retrievedWg: ecat.entity.IWorkGroup;
+
         //TODO: handle the error handler
         this.dCtx.faculty.getActiveWorkGroup()
             .then(getActiveWgResponse)
@@ -135,30 +137,20 @@ export default class EcFacultyWgPublish {
 
         function getActiveWgResponse(wg: ecat.entity.IWorkGroup): void {
             if (wg.mpSpStatus === _mp.MpSpStatus.open) {
-
+                retrievedWg = wg;
                 const alertSetting: SweetAlert.Settings = {
-                    title: 'Locking it down',
+                    title: 'Publication Acknowledgement',
                     text: 'Be advised, you are preparing to start publishing this workgroup.\n\n Students will no longer be able to save changes to their assessment. Would you like to continue?',
                     confirmButtonText: 'Start Publication',
-                    type: 'warning',
+                    type: 'info',
                     showCancelButton: true,
                     showConfirmButton: true,
                     closeOnConfirm: false,
                     closeOnCancel: false,
-                    cancelButtonText: 'Cancel Request'
+                    cancelButtonText: 'Cancel Request',
+                    showLoaderOnConfirm: true
                 }
-
-                _swal(alertSetting, (continuePublish: boolean) => {
-                    if (continuePublish) {
-                        wg.mpSpStatus = _mp.MpSpStatus.underReview;
-                        _.saveChanges()
-                            .then(() => {_swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success')})
-                            .then(() => _.processActiveWg(wg));
-                    } else {
-                        _swal.close();
-                        _.c.$state.go(_.c.stateMgr.faculty.wgList.name);
-                    }
-                });
+                _swal(alertSetting, toPublishOrNotToPublish);
             } else {
                 _.processActiveWg(wg);
             }
@@ -167,6 +159,20 @@ export default class EcFacultyWgPublish {
         //TODO: Will throw error if a workgroup is not found, deal with it!
         function getActiveWgResponseErr(reason): void {
 
+        }
+
+        function toPublishOrNotToPublish(response: boolean) {
+            if (response) {
+                retrievedWg.mpSpStatus = _mp.MpSpStatus.underReview;
+                _.saveChanges()
+                    .then(() => {
+                        _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success');
+                    })
+                    .then(() => _.processActiveWg(retrievedWg));
+            } else {
+                _swal.close();
+                _.c.$state.go(_.c.stateMgr.faculty.wgList.name);
+            }
         }
     }
 
@@ -197,7 +203,6 @@ export default class EcFacultyWgPublish {
                 this.$scope.$apply();
             }
         });
-
     }
 
     protected massFlagUnflagged(): void {
@@ -314,7 +319,7 @@ export default class EcFacultyWgPublish {
 
     protected saveChanges(): angular.IPromise<void> {
         const _ = this;
-
+        let changedFlags = null;
         if (this.pubState === PubState.Strat && !this.isPublishing) {
 
             const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
@@ -342,11 +347,14 @@ export default class EcFacultyWgPublish {
                 .finally(() => { this.isSaving = false });
         }
 
-        const changedFlags = this.activeWorkGroup.spComments.map(comment => {
-            if (comment.flag && comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
-                return comment.flag;
-            }
-        });
+        if (this.pubState === PubState.Comment && ! this.isPublishing) {
+             changedFlags = this.activeWorkGroup.spComments.map(comment => {
+                if (comment.flag && comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
+                    return comment.flag;
+                }
+            });
+        }
+     
 
         this.isSaving = true;
 

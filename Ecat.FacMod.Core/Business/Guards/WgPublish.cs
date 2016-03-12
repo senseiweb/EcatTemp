@@ -224,30 +224,27 @@ namespace Ecat.FacMod.Core
 
         private static string VerifyWgData(CrseStudentInGroup me, IReadOnlyCollection<CrseStudentInGroup> peers)
         {
-            var peopleWhoHaveNotAssessMe =
-                  peers.Where(
-                      gm => gm.AssesseeSpResponses.Any(response => response.AssesseePersonId == me.StudentId)).ToList();
+            var numAssessMeOk =
+                  peers.Count(
+                      gm => gm.AssesseeSpResponses.Any(response => response.AssesseePersonId == me.StudentId)) != peers.Count;
 
-            var peopleWhoHaveNotStratifiedMe =
-               peers.Where(
-                   gm => gm.AssesseeStratResponse.Any(response => response.AssesseePersonId == me.StudentId)).ToList();
+            var numStratMeOk =
+               peers.Count(
+                   gm => gm.AssesseeStratResponse.Any(response => response.AssesseePersonId == me.StudentId)) != peers.Count;
 
-            var peopleWhoIHaveNotAssess =
-                peers.Where(
-                    gm => gm.AssessorSpResponses.Any(response => response.AssessorPersonId == me.StudentId)).ToList();
+            var numIAssessOk =
+                peers.Count(
+                    gm => gm.AssessorSpResponses.Any(response => response.AssessorPersonId == me.StudentId)) != peers.Count;
 
-            var peopleWhoIHaveNotStratified =
-               peers.Where(
-                   gm => gm.AssesseeStratResponse.Any(response => response.AssessorPersonId == me.StudentId)).ToList();
+            var numIStratOk =
+               peers.Count(
+                   gm => gm.AssesseeStratResponse.Any(response => response.AssessorPersonId == me.StudentId)) != peers.Count;
 
+            
             var myFacStrat = me.FacultyStrat?.StratPosition;
 
             //Go ahead and end everything if we are missing data
-            return (peopleWhoHaveNotAssessMe.Any() ||
-                    peopleWhoHaveNotStratifiedMe.Any() ||
-                    peopleWhoIHaveNotAssess.Any() ||
-                    peopleWhoIHaveNotStratified.Any() ||
-                    myFacStrat == null) ? $"There was a problem validating necessary information . Status: [Them => Me] NA: {peopleWhoHaveNotAssessMe.Count}, NS: {peopleWhoHaveNotStratifiedMe.Count} | [Me => Them] NA: {peopleWhoIHaveNotAssess.Count}, NS: {peopleWhoIHaveNotStratified.Count} | FacStrat: {myFacStrat}" : null;
+            return (!numAssessMeOk || !numStratMeOk || !numIAssessOk || !numIStratOk || myFacStrat  == null) ? $"There was a problem validating necessary information . Problem Flags Are: [Them => Me] NA: !{numAssessMeOk}, NS: {numStratMeOk} | [Me => Them] NA: {numIAssessOk}, NS: {numIStratOk} | FacStrat: {myFacStrat}" : null;
 
         }
 

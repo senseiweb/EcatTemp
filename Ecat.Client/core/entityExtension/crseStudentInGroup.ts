@@ -1,4 +1,5 @@
 ﻿import * as _mp from 'core/common/mapStrings'
+import _staticDs from "core/service/data/static"
 
 export class CrseStudInGrpInit {
     constructor(memberInGrpEntity: ecat.entity.ICrseStudInGroup) { }
@@ -118,7 +119,8 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     }
 
     get rankName(): string {
-        return (!this.studentProfile) ? 'Unknown' : `${this.studentProfile.person.salutation} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
+        const p = (this.studentProfile) ? this.studentProfile.person : null;
+        return (!p) ? 'Unk' : `${_staticDs.getSalutation(p.mpPaygrade, p.mpComponent, p.mpAffiliation)} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
     }
 
     get nameSorter() {

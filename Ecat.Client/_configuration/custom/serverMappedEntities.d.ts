@@ -101,7 +101,6 @@ declare module ecat.entity
             verifyPassword: string;
             defaultAvatarLocation: string;
             prettyInstituteRole: string;
-            updateSalutation(): string;
             salutation: string;
         }
 
