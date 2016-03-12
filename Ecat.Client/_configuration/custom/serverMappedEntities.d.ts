@@ -23,7 +23,6 @@ declare module ecat.entity
             isPeerAllComplete: boolean;
             stratComplete: boolean;
             breakout: ISpStatusBreakOut;
-            gaveBreakOut: ISpGaveStatusBreakOut;
             breakOutChartData: Array<any>;
             missingAssessItems: Array<number>;
             compositeScore: number;
@@ -74,6 +73,7 @@ declare module ecat.entity
         interface ISpInventoryExtBase {
             responseForAssessee: ISpResponse | IFacSpResponse;
             compositeScore: number;
+            reset(): void;
             behaviorFreq: number;
             behaviorEffect: number;
             behaviorDisplayed: boolean;
@@ -101,7 +101,7 @@ declare module ecat.entity
             verifyPassword: string;
             defaultAvatarLocation: string;
             prettyInstituteRole: string;
-            updateSalutation(): string
+            updateSalutation(): string;
             salutation: string;
         }
 

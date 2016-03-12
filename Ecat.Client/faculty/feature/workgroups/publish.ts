@@ -22,8 +22,10 @@ export default class EcFacultyWgPublish {
     protected doneWithStrats = false;
     protected facultyStratResponses: Array<ecat.entity.IFacStratResponse>;
     protected gmWithComments: Array<ecat.entity.ICrseStudInGroup>;
+    protected hasComments = true;
     private instructorId: number;
     protected isSaving = false;
+    protected isPublishing = false;
     protected pubState = PubState.Loading;
     protected saveBtnText = 'Progress';
     protected selectedAuthor: ecat.entity.ICrseStudInGroup;
@@ -168,7 +170,6 @@ export default class EcFacultyWgPublish {
         }
     }
 
-
     protected massFlagReset(): void {
         const _ = this;
         const alertSettings: SweetAlert.Settings = {
@@ -240,6 +241,12 @@ export default class EcFacultyWgPublish {
             .catch(processWgCommentsErro);
 
         function procssWgComments(comments: Array<ecat.entity.IStudSpComment>): void {
+            _.hasComments = !!comments;
+
+            if (!_.hasComments) {
+                return null;
+            }
+
             _.gmWithComments = comments.map(comment => {
                     if (!uniques.hasOwnProperty(comment.authorPersonId)) {
                         uniques[comment.authorPersonId] = true;
@@ -261,6 +268,8 @@ export default class EcFacultyWgPublish {
             });
             _.selectedAuthor = _.gmWithComments[0];
             _.selectComment(_.selectedAuthor.authorOfComments[0]);
+            _.doneWithComments = !_.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
+            _.doneWithStrats = !_.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null); 
         }
         //TODO: Handle get comment error
         function processWgCommentsErro(): void {
@@ -269,6 +278,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected publish(): void {
+        const _ = this;
 
         if (this.doneWithComments && this.doneWithStrats) {
             const alertSettings: SweetAlert.Settings = {
@@ -279,12 +289,15 @@ export default class EcFacultyWgPublish {
                 showConfirmButton: true,
                 closeOnCancel: true,
                 closeOnConfirm: false,
-                confirmButtonText: 'Publish'
-            };
+                confirmButtonText: 'Publish',
+                showLoaderOnConfirm: true
+        };
 
             _swal(alertSettings, (confirmed?: boolean) => {
                 if (confirmed) {
-                    swal('Complete', 'Publishing Complete', 'success');
+                    _.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.published;
+                    _.isPublishing = true;
+                    _.saveChanges();
                 }
 
             });
@@ -300,42 +313,64 @@ export default class EcFacultyWgPublish {
 
     protected saveChanges(): angular.IPromise<void> {
         const _ = this;
-        //if (this.pubState === PubState.Strat) {
 
-        //    const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
-        //    if (hasErrors) {
-        //        _swal('Not Ready', 'Your proposed stratification changes contain errors, please make ensure all proposed changes are valid before saving', 'warning');
-        //        return null;
-        //    }
+        if (this.pubState === PubState.Strat && !this.isPublishing) {
 
-        //    const changeSet = this.facultyStratResponses
-        //        .filter(response => response.proposedPosition !== null);
-        //    changeSet.forEach(response => response.stratPosition = response.proposedPosition);
-        //    this.isSaving = true;
-        //    return this.dCtx.faculty.saveChanges(changeSet)
-        //        .then(saveChangesResponse)
-        //        .catch(saveChangesError);
-        //}
+            const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
+
+            if (hasErrors) {
+                _swal('Not Ready', 'Your proposed stratification changes contain errors, please make ensure all proposed changes are valid before saving', 'warning');
+                return null;
+            }
+
+            const changeSet = this.facultyStratResponses.filter(response => response.proposedPosition !== null);
+
+            changeSet.forEach(response => response.stratPosition = response.proposedPosition);
+
+            this.isSaving = true;
+
+            return this.dCtx.faculty.saveChanges(changeSet)
+                .then(saveChangesResponse)
+                .then(() => {
+                    this.facultyStratResponses.forEach((response) => {
+                        response.validationErrors = [];
+                        response.isValid = true;
+                        response.proposedPosition = null;
+                    });
+                })
+                .finally(() => { this.isSaving = false });
+        }
+
+        const changedFlags = this.activeWorkGroup.spComments.map(comment => {
+            if (comment.flag && comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
+                return comment.flag;
+            }
+        });
+
+        this.isSaving = true;
 
         return this.dCtx.faculty
-            .saveChanges()
+            .saveChanges(changedFlags)
             .then(saveChangesResponse)
             .catch(saveChangesError)
-            .finally(() => { this.isSaving = false });
+            .finally(() => {
+                this.isSaving = false;
+            });
                   
 
         function saveChangesResponse(): void {
-            
-            _.facultyStratResponses.forEach((response) => {
-                response.validationErrors = [];
-                response.isValid = true;
-                response.proposedPosition = null;
-            });
-        }
+            _.doneWithComments = !_.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
+            _.doneWithStrats = !_.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null); 
+                if (_.isPublishing) {
+                    swal('Hello World!', `Publishing WorkGroup ${_.workGroupName} Complete`, 'success');
+                }
+            }
 
         //TODO: if no changes are exists, dCtx will throw an IQueryError that needs to be handled
         function saveChangesError(reason: string|ecat.IQueryError): void {
-
+            if (_.isPublishing) {
+                swal('Oh No!', `Something went wrong attempting to publish WorkGroup ${_.workGroupName}\n\n Please try again`, 'error');
+            }
         }
     }
 
@@ -357,8 +392,9 @@ export default class EcFacultyWgPublish {
     }
 
     protected switchTo(tab: string): void {
-        this.doneWithComments = !this.gmWithComments.some(gm => gm.authorOfComments.some(aoc => aoc.flag.mpFacultyFlag === null));
-        
+        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
+        this.doneWithStrats = !this.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null);
+
         if (tab === 'strat') {
             if (!this.facultyStratResponses) {
                 this.facultyStratResponses = this.dCtx.faculty.getAllActiveWgFacStrat();

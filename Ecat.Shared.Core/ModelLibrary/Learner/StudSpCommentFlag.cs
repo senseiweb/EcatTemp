@@ -19,7 +19,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
 
         public int AuthorPersonId { get; set; }
         public int RecipientPersonId { get; set; }
-        public int FlaggedByFacultyId { get; set; }
+        public int? FlaggedByFacultyId { get; set; }
         public int CourseId { get; set; }
         public int WorkGroupId { get; set; }
         public StudSpComment Comment { get; set; }

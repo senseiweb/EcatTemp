@@ -1,28 +1,32 @@
 ﻿import _staticDs from "core/service/data/static";
 import * as _mp from "core/common/mapStrings"
 
-export class PersonInitializer {
-    constructor(person: ecat.entity.IPerson) {
-        if (person.avatarLocation === null) {
-            const imgDirectory = '/Client/content/img/avatars/';
-            person.defaultAvatarLocation = `${imgDirectory}default.png`;
-        }
-        if (person.mpPaygrade) person.updateSalutation();
-    }
-}
+export class PersonInitializer implements ecat.entity.ext.PersonClientExtensions {
 
-export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
     private mpInstituteRole: string = null;
     private mpPaygrade: string = null;
     private mpComponent: string = null;
     private mpAffiliation: string = null;
-    private _salutation: string = null;
+
+    constructor(person: ecat.entity.IPerson) {
+        if (person.avatarLocation === null) {
+            const imgDirectory = '/Client/content/img/avatars/';
+            person.defaultAvatarLocation = `${imgDirectory}default.png`;
+
+            this.mpInstituteRole = person.mpInstituteRole;
+            this.mpPaygrade = person.mpPaygrade;
+            this.mpComponent = person.mpComponent;
+            this.mpAffiliation = person.mpAffiliation;
+            this.salutation = this.updateSalutation();
+        }
+    }
+
 
     updateSalutation(): string {
-        const paygradeList = _staticDs;
+        const paygradeList = _staticDs.milPaygradeGraft;
 
         if (!this.mpPaygrade) {
-            return null;
+            return "NPG";
         }
 
         if (this.mpPaygrade === _mp.EcMapPaygrade.civ) {
@@ -39,39 +43,32 @@ export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
 
         for (let paygrade in paygradeList) {
             if (!paygradeList.hasOwnProperty(paygrade)) {
-                return null;
+                return 'Udf';
             }
 
-            if (paygrade.designator === this.mpComponent) {
+            if (angular.isObject(paygradeList[paygrade]) && paygradeList[paygrade].designator === this.mpPaygrade) {
+                
                 switch (this.mpAffiliation) {
                     case _mp.EcMapAffiliation.usa:
-                        return paygrade.designator.usa.rankShortName;
+                        return paygradeList[paygrade].usa.rankShortName;
                     case _mp.EcMapAffiliation.usaf:
-                        return paygrade.designator.usaf.rankShortName;
+                      return paygradeList[paygrade].usaf.rankShortName;
                     case _mp.EcMapAffiliation.usn:
                     case _mp.EcMapAffiliation.uscg:
-                        return paygrade.designator.usn.rankShortName;
+                        return paygradeList[paygrade].usn.rankShortName;
                     case _mp.EcMapAffiliation.usmc:
-                        return paygrade.designator.usmc.rankShortName;
+                        return paygradeList[paygrade].usmc.rankShortName;
                     default:
-                        return null;
+                        return 'Unkown';
                 }
             }
         }
-        return this.mpPaygrade;
     }
 
     defaultAvatarLocation: string;
     verifyPassword: string;
-
-    get salutation(): string {
-        if (this._salutation) {
-            return this._salutation;
-        }
-        this.updateSalutation();
-        return this._salutation;
-    }
-
+    salutation: string;
+   
     get prettyInstituteRole(): string {
         switch (this.mpInstituteRole) {
             case _mp.EcMapInstituteRole.student:
@@ -84,6 +81,10 @@ export class PersonExtBase implements ecat.entity.ext.PersonClientExtensions {
                 return null;
         }
     }
+}
+
+export class PersonExtBase {
+  salutation = null;
 }
 
 class UserPersonExt extends PersonExtBase { }

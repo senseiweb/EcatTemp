@@ -12,7 +12,7 @@ using TypeLite;
 namespace Ecat.Shared.Core.ModelLibrary.Learner
 {
     [TsClass(Module = "ecat.entity.s.learner")]
-    public class SpResult : ICompositeEntity
+    public class SpResult : ICompositeEntity, IAuditable
     {
         public string EntityId => $"{StudentId}|{CourseId}|{WorkGroupId}";
         public int CourseId { get; set; }
@@ -27,5 +27,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public ICollection<SpResponse> SpResponses { get; set; }  
         public ICollection<SanitizedSpResponse> SanitizedResponses { get; set; }
         public ICollection<SanitizedSpComment> SanitizedComments { get; set; }
+
+        public int? ModifiedById { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

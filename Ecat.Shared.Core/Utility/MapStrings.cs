@@ -29,8 +29,7 @@
             Aae = 3,
             E = 2,
             Bae = 1,
-            Nd = 0,
-            Ie = -2;
+            Ie = 0;
     }
 
     public static class MpInstituteRoleId
@@ -144,10 +143,10 @@
 
     public static class MpAssessResult
     {
-        public const string He = "Highly Effective",
-            Aae = "Above Avg Effective",
-            Ae = "Average Effective",
-            Bae = "Below Avg Effective",
+        public const string He = "Highly Effectiveness",
+            Aae = "Above Avg Effectiveness",
+            E = "Effective",
+            Bae = "Below Avg Effectiveness",
             Ie = "Ineffective";
     }
 

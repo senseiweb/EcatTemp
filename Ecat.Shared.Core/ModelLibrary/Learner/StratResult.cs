@@ -11,7 +11,7 @@ using TypeLite;
 namespace Ecat.Shared.Core.ModelLibrary.Learner
 {
     [TsClass(Module = "ecat.entity.s.learner")]
-    public class StratResult : ICompositeEntity
+    public class StratResult : ICompositeEntity, IAuditable
     {
         public string EntityId => $"{StudentId}|{CourseId}|{WorkGroupId}";
         public int CourseId { get; set; }
@@ -28,6 +28,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public ICollection<StratResponse> StratResponses { get; set; }
 
         public int? ModifiedById { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

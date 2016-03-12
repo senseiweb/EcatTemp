@@ -61,6 +61,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         this.isLoaded.wgComment = {}
         this.isLoaded.course = {};
         this.isLoaded.spInstr = {};
+        this.isLoaded.initialize = false;
     }
 
     activate(): angular.IPromise<any> {
@@ -106,11 +107,11 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
                 _.isLoaded.course[facCrse.courseId] = true;
                 
-                facCrse.course.workGroups.reduce((loadedWg, wg) => {
+                facCrse.course.workGroups.forEach(wg => {
                     if (wg.groupMembers && wg.groupMembers.length > 0) {
-                        loadedWg[wg.id] = true;
+                        _.isLoaded.workGroup[wg.id] = true;
                     }
-                }, _.isLoaded.workGroup);
+                });
 
             });
             courses = facInCrses.map(facCrse => facCrse.course);
@@ -152,7 +153,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
                 return null;
             }
 
-            _.isLoaded.wgComment = true;
+            _.isLoaded.wgComment[_.activeGroupId] = true;
             log.success('Retrieved SpComment for local data source', comments, false);
             return comments;
         }
@@ -300,7 +301,8 @@ export default class EcFacultyRepo extends IUtilityRepo {
                 facSpReponse = this.manager.createEntity(_mp.EcMapEntityType.facSpResponse, key) as ecat.entity.IFacSpResponse;
                 facSpReponse.facultyPersonId = this.dCtx.user.persona.personId;
             }
-
+            //Since we are reusing the inventory item breeze will auto try the backing fields...need to reset them to ensure there is no carryover between assessments;
+            item.reset();
             item.responseForAssessee = facSpReponse;
 
             return item;

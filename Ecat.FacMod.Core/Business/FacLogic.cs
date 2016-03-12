@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.AccessControl;
 using Breeze.ContextProvider;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
@@ -25,16 +26,7 @@ namespace Ecat.FacMod.Core
 
         public SaveResult ClientSave(JObject saveBundle)
         {
-            var neededSaveGuards = new List<Guard>();
-
-            if (FacultyPerson.MpInstituteRole != MpInstituteRoleName.HqAdmin)
-            {
-                var wgGuard = new GuardWg();
-                //var userGuard = new GuardUserSave(User);
-                neededSaveGuards.Add(wgGuard.BeforeSaveEntities);
-            }
-
-            return _repo.ClientSaveChanges(saveBundle, neededSaveGuards);
+            return _repo.ClientSaveChanges(saveBundle, FacultyPerson);
         }
 
         public string GetMetadata => _repo.Metadata;

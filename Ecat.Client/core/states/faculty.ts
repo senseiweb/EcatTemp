@@ -75,7 +75,7 @@ export default class EcFacultyStates {
         this.wgCaps = {
             name: `${this.workGroup.name}.capstone`,
             parent: this.workGroup.name,
-            url: '/capstone',
+            url: '/capstone/{crseId:int}/{wgId:int}',
             templateUrl: '@[appFaculty]/feature/workgroups/capstone.html',
             controller: 'app.faculty.wkgrp.capstone as wkc'
         }
@@ -83,7 +83,7 @@ export default class EcFacultyStates {
         this.wgResult = {
             name: `${this.workGroup.name}.result`,
             parent: this.workGroup.name,
-            url: '/results',
+            url: '/results/{crseId:int}/{wgId:int}',
             templateUrl: '@[appFaculty]/feature/workgroups/result.html',
             controller: 'app.faculty.wkgrp.result as wkr'
         }

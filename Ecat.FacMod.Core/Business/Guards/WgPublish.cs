@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
+using Ecat.Shared.Core.Logic;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
@@ -10,51 +12,97 @@ using Ecat.Shared.Core.Utility;
 
 namespace Ecat.FacMod.Core
 {
+    using SaveMap = Dictionary<Type, List<EntityInfo>>;
     public static class WorkGroupPublish
     {
-        public static EntityInfo PublishWorkGroup(EntityInfo entityInfo, WorkGroup svrWorkGroup)
+        private static readonly Type tSpResult = typeof(SpResult);
+        private static readonly Type tStratResult = typeof(StratResult);
+        private static readonly Type tWg = typeof (WorkGroup);
+
+        public static SaveMap Publish(SaveMap wgSaveMap, IEnumerable<WorkGroup> svrWorkGroups, int loggedInPersonId, EFContextProvider<FacCtx> ctxProvider)
         {
-            //setup things to save later
-            var wgSpAssessResults = new List<SpResult>();
+            var infos = wgSaveMap.Single(map => map.Key == tWg).Value;
 
-            //Lets removed the deleted group members
-            var members = svrWorkGroup.GroupMembers.Where(gm => !gm.IsDeleted).ToList();
-
-            //Lets make sure that all the active members have been assessed and stratified
-            foreach (var mySelf in members)
+            foreach (var svrWorkGroup in svrWorkGroups)
             {
-                var verificationError = VerifyWgData(mySelf, members);
+                //Lets removed the deleted group members
+                var members = svrWorkGroup.GroupMembers.Where(gm => !gm.IsDeleted).ToList();
 
-                if (verificationError != null)
+                //Lets make sure that all the active members have been assessed and stratified
+                foreach (var mySelf in members)
                 {
-                    var error = new EFEntityError(entityInfo, "Publication Error", verificationError, "MpSpStatus");
-                    throw new EntityErrorsException(new List<EntityError> { error });
-                }
+                    var verificationError = VerifyWgData(mySelf, members);
 
-                //Still here, good...lets start with calculating the assessment result
-                var existingResult =
-                    svrWorkGroup.SpResults.Single(result =>
+                    if (verificationError != null)
+                    {
+                        var error =
+                            infos.Select(
+                                info => new EFEntityError(info, "Publication Error", verificationError, "MpSpStatus"));
+                        throw new EntityErrorsException(error);
+                    }
+
+                    //Still here, good...lets start with calculating the assessment result
+                    var existingSpResult =
+                        svrWorkGroup.SpResults.SingleOrDefault(result =>
                             result.StudentId == mySelf.StudentId &&
                             result.WorkGroupId == mySelf.WorkGroupId &&
                             result.CourseId == mySelf.CourseId);
 
-                var calcResult = CalculateSpAssessResult(mySelf, svrWorkGroup.FacSpResponses.ToList());
+                    var calcSpResult = CalculateSpAssessResult(mySelf, svrWorkGroup.FacSpResponses.ToList());
 
-                if (existingResult != null)
-                {
-                    existingResult.MpAssessResult = calcResult.MpAssessResult;
-                    existingResult.SpResultScore = calcResult.SpResultScore;
+                    if (existingSpResult != null)
+                    {
+                        existingSpResult.MpAssessResult = calcSpResult.MpAssessResult;
+                        existingSpResult.SpResultScore = calcSpResult.SpResultScore;
+                        existingSpResult.ModifiedById = loggedInPersonId;
+                        existingSpResult.ModifiedDate = DateTime.Now;
+                        var info = ctxProvider.CreateEntityInfo(existingSpResult, EntityState.Modified);
+                        info.ForceUpdate = true;
+                        wgSaveMap[tSpResult].Add(info);
+                    }
+                    else
+                    {
+                        var info = ctxProvider.CreateEntityInfo(calcSpResult);
+                        wgSaveMap[tSpResult].Add(info);
+                    }
                 }
-                else
+
+                //Now is the time to the all important stratification calculation
+
+                var wgStratScores = CalculateStratResult(svrWorkGroup.GroupMembers.ToList()).ToList();
+
+                var finalResults = CalculateLineup(wgStratScores, svrWorkGroup.WgModel.MaxStratStudent,
+                    svrWorkGroup.WgModel.MaxStratFaculty, svrWorkGroup.WgModel.StratDivisor);
+
+                foreach (var result in finalResults)
                 {
-                    wgSpAssessResults.Add(calcResult);
+                    var existingResult =
+                        svrWorkGroup.SpStratResults.SingleOrDefault(stratResult => stratResult.StudentId == result.StudentId);
+
+                    if (existingResult != null)
+                    {
+                        existingResult.StratAwardedScore = result.StratAwardedScore;
+                        existingResult.StratCummScore = result.StratCummScore;
+                        existingResult.FinalStratPosition = result.FinalStratPosition;
+                        existingResult.OriginalStratPosition = result.OriginalStratPosition;
+                        existingResult.ModifiedById = loggedInPersonId;
+                        existingResult.ModifiedDate = DateTime.Now;
+                        var info = ctxProvider.CreateEntityInfo(existingResult, EntityState.Modified);
+                        info.ForceUpdate = true;
+                        wgSaveMap[tSpResult].Add(info);
+                    }
+                    else
+                    {
+                        result.ModifiedById = loggedInPersonId;
+                        result.ModifiedDate = DateTime.Now;
+                        var info = ctxProvider.CreateEntityInfo(result);
+                        wgSaveMap[tSpResult].Add(info);
+                    }
+
                 }
             }
 
-            //Now is the time to the all important stratification calculation
-            var wgStratScores = CalculateStratResult(svrWorkGroup.GroupMembers.ToList()).ToList();
-            var finalResult = CalculateLineup(wgStratScores, svrWorkGroup.WgModel.MaxStratStudent,
-                svrWorkGroup.WgModel.MaxStratFaculty, svrWorkGroup.WgModel.StratDivisor);
+            return wgSaveMap;
         }
 
         private static string ConvertScoreToOutcome(float score)
@@ -64,17 +112,17 @@ namespace Ecat.FacMod.Core
                 return MpAssessResult.Ie;
             }
 
-            if (score <= MpSpResultScore.Bae)
+            if (score < MpSpResultScore.Bae)
             {
                 return MpAssessResult.Bae;
             }
 
-            if (score <= MpSpResultScore.E)
+            if (score < MpSpResultScore.E)
             {
-                return MpAssessResult.Ae;
+                return MpAssessResult.E;
             }
 
-            if (score <= MpSpResultScore.Aae)
+            if (score < MpSpResultScore.Aae)
             {
                 return MpAssessResult.Aae;
             }
@@ -121,7 +169,8 @@ namespace Ecat.FacMod.Core
             return (from member in wgMembers
                     let myStratsByPosition = member.AssesseeStratResponse.GroupBy(strat => strat.StratPosition)
                     let totalStratScore =
-                    (from strat in myStratsByPosition let multiplier = 1 - strat.Key * scoreInterval select multiplier * strat.ToList().Count).Sum()
+                    (from strat in myStratsByPosition
+                        let multiplier = 1 - strat.Key * scoreInterval select multiplier * strat.ToList().Count).Sum()
                     select new StratResult
                     {
                         StudentId = member.StudentId,

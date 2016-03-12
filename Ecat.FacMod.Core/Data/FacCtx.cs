@@ -33,13 +33,16 @@ namespace Ecat.FacMod.Core
             mb.Configurations.Add(new ConfigFacultyInCourse());
             mb.Configurations.Add(new ConfigStudentInCourse());
 
+
             mb.Ignore(new List<Type>
             {
-               typeof (ProfileExternal),
+                typeof (ProfileExternal),
                 typeof (Security),
                 typeof (ProfileStaff),
-                typeof(KcResponse),
-                typeof(KcResult)
+                typeof (KcResponse),
+                typeof (KcResult),
+                typeof (SanitizedSpComment),
+                typeof (SanitizedSpResponse)
             });
 
             mb.Types()
@@ -64,7 +67,7 @@ namespace Ecat.FacMod.Core
 
         public IDbSet<WorkGroup> WorkGroups { get; set; }
         public IDbSet<Course> Courses { get; set; }
-        public IDbSet<CrseStudentInGroup> CrseStudentInGroups { get; set; }
+        public IDbSet<CrseStudentInGroup> StudentInGroups { get; set; }
         public IDbSet<StudentInCourse> StudentInCourses { get; set; }
         public IDbSet<FacultyInCourse> FacultyInCourses { get; set; }
         public IDbSet<FacSpResponse> FacSpResponses { get; set; }

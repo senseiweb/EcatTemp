@@ -94,6 +94,8 @@ namespace Ecat.StudMod.Core
     {
         public StudConfigPerson()
         {
+            HasKey(p => p.PersonId);
+
             Ignore(p => p.BbUserId);
             Ignore(p => p.IsActive);
             Ignore(p => p.ModifiedById);

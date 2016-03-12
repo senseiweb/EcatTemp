@@ -69,9 +69,18 @@
     <Compile Include="Data\FacRepo.cs" />
     <Compile Include="Interface\IFacLogic.cs" />
     <Compile Include="Interface\IFacRepo.cs" />
+    <Compile Include="Migrations\201603112349051_fake.cs" />
+    <Compile Include="Migrations\201603112349051_fake.Designer.cs">
+      <DependentUpon>201603112349051_fake.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603112349051_fake.resx">
+      <DependentUpon>201603112349051_fake.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecat.Shared.Core\Ecat.Shared.Core.csproj">
       <Project>{d7f032f9-5296-4093-bb4a-ea9a924b08cf}</Project>

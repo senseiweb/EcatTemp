@@ -14,6 +14,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     
     updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         const groupPeers = this.workGroup.groupMembers;
+
         groupPeers.forEach((gm) => {
             let cummScore = 0;
 

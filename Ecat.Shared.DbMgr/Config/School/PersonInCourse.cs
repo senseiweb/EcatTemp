@@ -41,10 +41,12 @@ namespace Ecat.Shared.DbMgr.Config
         {
             HasKey(p => new { p.FacultyPersonId, p.CourseId });
 
-            HasMany(p => p.FlaggedSpComments)
-                .WithOptional(p => p.FlaggedByFaculty)
-                .HasForeignKey(p => new {p.FlaggedByFacultyId, p.CourseId})
-                .WillCascadeOnDelete(false);
+            Ignore(p => p.FlaggedSpComments);
+
+            //HasMany(p => p.FlaggedSpComments)
+            //    .WithOptional(p => p.FlaggedByFaculty)
+            //    .HasForeignKey(p => new {p.FlaggedByFacultyId, p.CourseId})
+            //    .WillCascadeOnDelete(false);
 
 
             HasRequired(p => p.FacultyProfile)

@@ -23,7 +23,7 @@ namespace Ecat.Shared.Core.Logic
             return saveMap;
         }
 
-        public static SaveMap AuditMaps(this SaveMap saveMap, int loggedInUserId)
+        public static SaveMap AuditMap(this SaveMap saveMap, int loggedInUserId)
         {
             var predicate =
                 saveMap
@@ -76,9 +76,28 @@ namespace Ecat.Shared.Core.Logic
             return saveMap;
         }
 
-        public static bool HasMap<T>(this SaveMap saveMap, T key)
+        public static SaveMap MergeMap(this SaveMap saveMap, SaveMap newMap)
         {
-            return saveMap[key.GetType()] != null;
-        } 
+            foreach (var map in newMap)
+            {
+                List<EntityInfo> infos;
+
+                var hasKey = saveMap.TryGetValue(map.Key, out infos);
+                if (hasKey)
+                {
+                    saveMap[map.Key].AddRange(infos);
+                }
+                else
+                {
+                    saveMap.Add(map.Key, map.Value);
+                }
+            }
+            return saveMap;
+        }
+
+        //public static bool HasMap<T>(this SaveMap saveMap, T key)
+        //{
+        //    return saveMap.ContainsKey(typeof(key));
+        //} 
     }
 }

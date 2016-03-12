@@ -15,80 +15,85 @@ using Ecat.Shared.Core.Utility;
 namespace Ecat.FacMod.Core
 {
     using SaveMap = Dictionary<Type, List<EntityInfo>>;
-    public partial class FacultyGuardian
+    public class FacultyGuardian
     {
 
         private readonly FacCtx _facCtx;
+        private readonly EFContextProvider<FacCtx> _efCtx; 
         private readonly Person _loggedInUser;
-        private Type tWg = typeof(WorkGroup);
-        private Type tFacComment = typeof (FacSpComment);
-        private Type tFacStratResp = typeof (FacStratResponse);
-        private Type tFacCommentFlag = typeof (FacSpCommentFlag);
-        private Type tStudCommentFlag = typeof (StudSpCommentFlag);
-        private Type tFacSpResp = typeof (FacSpResponse);
+        private readonly Type _tWg = typeof(WorkGroup);
+        private readonly Type _tFacComment = typeof (FacSpComment);
+        private readonly Type _tFacStratResp = typeof (FacStratResponse);
+        private readonly Type _tFacCommentFlag = typeof (FacSpCommentFlag);
+        private readonly Type _tStudCommentFlag = typeof (StudSpCommentFlag);
+        private readonly Type _tFacSpResp = typeof (FacSpResponse);
 
-        public FacultyGuardian(FacCtx facCtx, Person loggedInUser)
+        public FacultyGuardian(FacCtx facCtx, EFContextProvider<FacCtx> efCtx,Person loggedInUser)
         {
             _facCtx = facCtx;
+            _efCtx = efCtx;
             _loggedInUser = loggedInUser;
         }
       
         public SaveMap BeforeSaveEntities(SaveMap saveMap)
         {
 
-            var unAuthorizedMaps = saveMap.Where(map => map.Key != tWg &&
-                                                        map.Key != tFacComment &&
-                                                        map.Key != tFacStratResp &&
-                                                        map.Key != tFacSpResp &&
-                                                        map.Key != tStudCommentFlag &&
-                                                        map.Key != tFacCommentFlag)
+            var unAuthorizedMaps = saveMap.Where(map => map.Key != _tWg &&
+                                                        map.Key != _tFacComment &&
+                                                        map.Key != _tFacStratResp &&
+                                                        map.Key != _tFacSpResp &&
+                                                        map.Key != _tStudCommentFlag &&
+                                                        map.Key != _tFacCommentFlag)
                                                         .Select(map => map.Key);
 
-            if (saveMap.HasMap(tWg))
+            saveMap.RemoveMaps(unAuthorizedMaps);
+
+            if (saveMap.ContainsKey(_tWg))
             {
-                saveMap[tWg] = ProcessWorkGroup(saveMap[tWg]);
+                var workGroupMap = ProcessWorkGroup(saveMap[_tWg]);
+                saveMap.MergeMap(workGroupMap);
             }
 
-            var workGroupInfos = saveMap[wgMapKey];
-
-            saveMap.RemoveMaps(unAuthorizedMaps);
-            saveMap.AuditMaps(_loggedInUser.PersonId);
+            saveMap.AuditMap(_loggedInUser.PersonId);
             saveMap.SoftDeleteMap(_loggedInUser.PersonId);
             return saveMap;
         }
 
-        private List<EntityInfo> ProcessWorkGroup(List<EntityInfo> workGroupInfos)
+        private SaveMap ProcessWorkGroup(List<EntityInfo> workGroupInfos)
         {
-            foreach (var info in workGroupInfos)
+
+            var publishingWgs = workGroupInfos
+                .Where(info => info.OriginalValuesMap.ContainsKey("MpSpStatus"))
+                .Select(info => info.Entity)
+                .OfType<WorkGroup>()
+                .Where(wg => wg.MpSpStatus == MpSpStatus.Published).ToList();
+
+            var wgSaveMap = new Dictionary<Type, List<EntityInfo>> {{ _tWg, workGroupInfos }} ;
+            var svrWgs = GetServerWorkGroup(publishingWgs.Select(wg => wg.Id));
+
+            if (publishingWgs.Any())
             {
-                var wg = info.Entity as WorkGroup;
-
-                if (wg == null)
-                {
-                    continue;
-                }
-
-                if (info.OriginalValuesMap.ContainsKey("MpSpStatus") && wg.MpSpStatus == MpSpStatus.Published)
-                {
-                    PublishWorkGroup(wg, info);
-                }
+              var publishResultMap = WorkGroupPublish.Publish(wgSaveMap, svrWgs, _loggedInUser.PersonId, _efCtx);
+                wgSaveMap.MergeMap(publishResultMap);
             }
 
-
-            //Retrive our own version of the workgroup from the db with related items
-            var svrWg = _facCtx.WorkGroups
-                .Where(grp => grp.Id == wg.Id && wg.MpSpStatus == MpSpStatus.UnderReview)
-                .Include(grp => grp.WgModel)
-                .Include(grp => grp.SpResults)
-                .Include(grp => grp.SpStratResults)
-                .Include(grp => grp.GroupMembers)
-                .Include(grp => grp.SpResponses)
-                .Include(grp => grp.SpStratResponses)
-                .Include(grp => grp.FacSpResponses)
-                .Include(grp => grp.FacStratResponses)
-                .Single();
+            return wgSaveMap;
         }
 
+
+        private IEnumerable<WorkGroup> GetServerWorkGroup(IEnumerable<int> wgIds)
+        {
+            return _facCtx.WorkGroups
+             .Where(grp => wgIds.Contains(grp.Id) && grp.MpSpStatus == MpSpStatus.UnderReview)
+             .Include(grp => grp.WgModel)
+             .Include(grp => grp.SpResults)
+             .Include(grp => grp.SpStratResults)
+             .Include(grp => grp.GroupMembers)
+             .Include(grp => grp.SpResponses)
+             .Include(grp => grp.SpStratResponses)
+             .Include(grp => grp.FacSpResponses)
+             .Include(grp => grp.FacStratResponses);
+        }
       
     }
 }

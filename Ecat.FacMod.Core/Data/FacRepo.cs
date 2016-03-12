@@ -7,28 +7,27 @@ using Breeze.ContextProvider.EF6;
 using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
+using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.DbMgr.Context;
 using Newtonsoft.Json.Linq;
 
 namespace Ecat.FacMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
-
     public class FacRepo : IFacRepo
     {
-        private readonly EcatContext _ctx;
+        private readonly FacCtx _ctx;
         private readonly EFContextProvider<FacCtx> _efCtx;
 
-        public FacRepo(EcatContext ctx, EFContextProvider<FacCtx> efCtx)
+        public FacRepo(FacCtx ctx, EFContextProvider<FacCtx> efCtx)
         {
             _ctx = ctx;
             _efCtx = efCtx;
         }
 
-        SaveResult IFacRepo.ClientSaveChanges(JObject saveBundle)
+        SaveResult IFacRepo.ClientSaveChanges(JObject saveBundle, Person loggedInUser)
         {
-           
-                _efCtx.BeforeSaveEntitiesDelegate += saveGuard;
+           var guardian = new FacultyGuardian(_ctx, _efCtx, loggedInUser);
+            _efCtx.BeforeSaveEntitiesDelegate += guardian.BeforeSaveEntities;
 
             return _efCtx.SaveChanges(saveBundle);
         }

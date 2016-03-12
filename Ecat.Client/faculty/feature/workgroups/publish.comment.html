@@ -1,4 +1,6 @@
-﻿<div class="card m-b-0" id="messages-main">
+﻿<div class="card m-b-0" id="messages-main" ng-if="wkp.hasComments">
+
+
     <div class="row">
         <div class="col-md-3" style="padding-right: 0;">
             <div class="ms-menu">
@@ -144,4 +146,7 @@
 
 
 
+</div>
+<div ng-if="!wkp.hasComments">
+    <h1 class="text-center">Well this should be easy...there are no comments to evaluate!</h1>
 </div>

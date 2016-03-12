@@ -1,15 +1,27 @@
 ﻿import * as _mp from "core/common/mapStrings"
 import * as _mpe from "core/common/mapEnum"
 
+
 export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
     private _behaveDisplayed = true;
     private _freqLevel: _mpe.SpFreqLevel = null;
     private _effLevel: _mpe.SpEffectLevel = null;
 
+    constructor() { }
 
-    compositeScore: number = 0;
+    compositeScore: number = null;
+
+    reset(): void {
+        this._effLevel = null;
+        this._freqLevel = null;
+        this._behaveDisplayed = true;
+        this.compositeScore = null;
+        this.responseForAssessee = null;
+    }
+
+
     responseForAssessee: ecat.entity.ISpResponse | ecat.entity.IFacSpResponse = null;
-ß
+
     get behaviorFreq(): _mpe.SpFreqLevel {
         if (!this.responseForAssessee) {
             return null;

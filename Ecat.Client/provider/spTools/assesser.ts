@@ -80,7 +80,6 @@ export default class EcProviderSpToolAssessTaker {
                 return pager;
             }).sort(this.pagerSort);
 
-            this.activeInvent = this.pagers[0].item;
         }
 
         if (!this.isNewAssess) {
@@ -90,6 +89,7 @@ export default class EcProviderSpToolAssessTaker {
         this.assesseeName = `${this.assessee.firstName} ${this.assessee.lastName}`;
         this.avatar = this.assessee.avatarLocation || this.assessee.defaultAvatarLocation;
         this.assesseeGoByName = (this.assessee.goByName) ? `[${this.assessee.goByName}]` : null;
+        this.activeInvent = this.pagers[0].item;
     }
 
     private acknowledge(): void {
@@ -116,7 +116,10 @@ export default class EcProviderSpToolAssessTaker {
 
             _swal(alertSetting, (confirmed?: boolean) => {
                 if (confirmed) {
-                    this.inventoryList.forEach(item => item.responseForAssessee.entityAspect.rejectChanges());
+                    this.inventoryList.forEach(item => {
+                        item.responseForAssessee.entityAspect.rejectChanges();
+                        item['isChanged'] = false;
+                    });
                     this.$mi.dismiss();
                     _swal('Success!', 'Gotta it...changes canceled.', 'success');
                     _swal.close();

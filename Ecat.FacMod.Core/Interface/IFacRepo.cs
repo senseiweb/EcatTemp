@@ -5,16 +5,15 @@ using Breeze.ContextProvider;
 using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
+using Ecat.Shared.Core.ModelLibrary.User;
 using Newtonsoft.Json.Linq;
 
 namespace Ecat.FacMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
-
     public interface IFacRepo
     {
         string Metadata { get; }
-        SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards);
+        SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser);
         IQueryable<FacultyInCourse> GetFacultyCourses { get; }
         IQueryable<WorkGroup> GetCourseWorkGroups { get; }
         IQueryable<CrseStudentInGroup> GetWorkGroupMembers(bool addAssessment);

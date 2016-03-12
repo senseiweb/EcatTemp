@@ -2,8 +2,7 @@
 
 export default class EcLocalDataService {
     static serviceId = 'data.static';
-
-    milPaygradeGraft: ecat.local.IMilPayGrade = {
+    static milPaygradeGraft: ecat.local.IMilPayGrade = {
         civ: {
             designator: _mp.EcMapPaygrade.civ
         },
@@ -182,9 +181,13 @@ export default class EcLocalDataService {
             }
         }
     }
+    milPaygradeGraft: ecat.local.IMilPayGrade;
 
-    constructor() { }
+    constructor() {
+        this.milPaygradeGraft = EcLocalDataService.milPaygradeGraft;
+    }
 
+    
     get edLevels(): Array<string> {
         const edlevels = [];
         const lclEdLevel = _mp.EcMapEdLevel;

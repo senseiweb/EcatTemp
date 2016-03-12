@@ -293,6 +293,7 @@ export default class EcStudentRepo extends IUtilityRepo {
                 spResponse = this.manager.createEntity(_mp.EcMapEntityType.spResponse, key) as ecat.entity.ISpResponse;
             }
 
+            item.reset();
             item.responseForAssessee = spResponse;
             return item;
         });

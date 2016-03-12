@@ -30,6 +30,7 @@ namespace Ecat.FacMod.Core
         public FacConfigStudWrkGrp()
         {
             Ignore(p => p.BbGroupId);
+            Ignore(p => p.CanPublish);
         }
     }
 
@@ -47,10 +48,10 @@ namespace Ecat.FacMod.Core
         public FacConfigProfileBase()
         {
             ToTable("Profile");
-           
+
             HasKey(p => p.PersonId)
-                .HasRequired(p => p.Person)
-                .WithOptional(p => p.Student);
+              .HasRequired(p => p.Person)
+               .WithOptional(p => p.Profile);
         }
     }
 
@@ -61,7 +62,7 @@ namespace Ecat.FacMod.Core
 
             HasKey(p => p.PersonId)
                 .HasRequired(p => p.Person)
-                .WithOptional(p => p.Student);
+                .WithOptional(p => p.Student); ;
         }
     }
 
@@ -80,9 +81,15 @@ namespace Ecat.FacMod.Core
         public FacConfigPerson()
         {
             Ignore(p => p.BbUserId);
-            Ignore(p => p.IsActive);
-            Ignore(p => p.ModifiedById);
-            Ignore(p => p.MpInstituteRole);
+            HasKey(p => p.PersonId);
+
+            HasOptional(p => p.Student)
+                .WithRequired()
+               .WillCascadeOnDelete(false);
+
+            HasOptional(p => p.Faculty)
+                .WithRequired()
+                .WillCascadeOnDelete(false);
         }
     }
 }
