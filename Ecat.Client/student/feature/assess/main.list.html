@@ -42,7 +42,7 @@
                             <a class="btn btn-link"
                                href="javascript:void(0)"
                                ng-click="assess.loadAssessment(assess.me.studentId)">
-                                {{::assess.me.assessText}}
+                                {{assess.me.assessText}}
                             </a>
                         </td>
                         <td class="text-center">
@@ -83,7 +83,7 @@
                         </td>
 
                         <td class="text-center">
-                            {{assess.me.statusOfPeer[peer.studentId].stratPosition || 'Not Stratified'}}
+                            {{peer.stratText || 'Not Stratified'}}
                         </td>
                         <td class="text-center p-b-0 p-t-0">
                             <div id="sp-chart-data-{{$index}}" ng-if="peer.hasChartData">

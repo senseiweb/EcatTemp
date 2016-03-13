@@ -4,23 +4,47 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr class="f-16">
-                        <th class="col-md-3 f-400 text-left">Student</th>
-                        <th class="col-md-4 text-center f-400">Composite Ranking</th>
-                        <th class="col-md-2 text-center f-400">Current Strat</th>
+                        <th class="col-md-3 text-left f-400"
+                             ng-click="assess.sortList(assess.sortOpt.student)">
+                            
+                                Student
+                            
+                            <i class="zmdi"
+                               ng-if="assess.activeSort.opt === assess.sortOpt.student" 
+                               ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                        </th>
+                        <th class="col-md-4 text-center f-400"
+                            ng-click="assess.sortList(assess.sortOpt.breakout)">
+                            
+                                Composite/Breakout
+                            
+                            <i class="zmdi"
+                               ng-if="assess.activeSort.opt === assess.sortOpt.breakout"
+                               ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                        </th>
+                        <th class="col-md-2 text-center f-400"
+                            ng-click="assess.sortList(assess.sortOpt.strat)">
+                            
+                                Strat
+                           
+                            <i class="zmdi"
+                               ng-if="assess.activeSort.opt === assess.sortOpt.strat"
+                               ng-class="assess.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                        </th>
                         <th class="col-md-2 text-center f-400">Proposed Change</th>
                         <th class="col-md-2 text-center f-400">Validation</th>
                     </tr>
                 </thead>
                 <tbody class="f-14">
-                    <tr ng-repeat="strat in assess.facultyStratResponses | orderBy:'strat.studentAssessee.nameSorter.lastName' track by strat.studentAssessee.studentId">
+                    <tr ng-repeat="strat in assess.stratResponses | orderBy:'strat.studentAssessee.nameSorter.lastName' track by strat.studentAssessee.studentId">
                         <td style="border-right: 1px solid #f0f0f0;">{{::strat.studentAssessee.rankName}}</td>
                         <td class="text-center">
-                            <div ng-if="!strat.studentAssessee.hasChartData">
+                            <div ng-if="!strat.hasChartData">
                                 No Assessment
                             </div>
-                            <div id="sp-chart-data-{{$index}}" ng-if="::strat.studentAssessee.hasChartData">
-                                <span class="sp-graph-composite">{{::strat.studentAssessee.statusOfStudent.compositeScore}}</span>
-                                <div pie-sp-break-out dataset="strat.studentAssessee.statusOfStudent.breakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                            <div id="sp-chart-data-{{$index}}" ng-if="strat.hasChartData">
+                                <span class="sp-graph-composite">{{assess.me.statusOfPeer[strat.studentId].compositeScore}}</span>
+                                <div pie-sp-break-out dataset="{{assess.me.statusOfPeer[strat.studentId].breakOutChartData}}" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
                                 <div id="flotlegend{{$index}}" style="display: none"></div>
                             </div>
                         </td>
@@ -38,8 +62,8 @@
                                    style="width: 100px; font-size: 1.8em"
                                    min="1"
                                    max="groups.selectedGroup.groupMembers.length"
-                                   ng-change="wkp.evaluateStrat(strat)"
-                                   ng-disabled="wkp.isSaving"
+                                   ng-change="assess.evaluateStrat(strat)"
+                                   ng-disabled="assess.isSaving"
                                    ng-model="strat.proposedPosition"
                                    ng-model-options="{debounce: 1000}"
                                    tabindex="{{$index + 1}}" />

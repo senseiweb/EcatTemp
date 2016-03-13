@@ -428,7 +428,9 @@ export default class EcFacultyRepo extends IUtilityRepo {
         let facStrat = this.manager.getEntityByKey(_mp.EcMapEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
 
         if (!facStrat) {
-            facStrat = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, key) as ecat.entity.IFacStratResponse;
+            //Is this right?
+            //facStrat = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, key) as ecat.entity.IFacStratResponse;
+            facStrat = this.manager.createEntity(_mp.EcMapEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
         }
 
         return facStrat;

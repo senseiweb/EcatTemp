@@ -190,6 +190,7 @@ declare module ecat.entity
         course: ICourse;
         studentInCourse: IStudInCrse;
         facultyStrat: IFacStratResponse;
+        studentStrat: IStratResponse;
     }
 
     interface IAcademy extends breeze.Entity, s.school.Academy { }

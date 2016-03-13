@@ -10,7 +10,7 @@ export default class EcStudentAssessments {
     static $inject = ['$uibModal', ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     //#region Controller Properties
-    protected activeCrseId: number;
+    protected activeCourseId: number;
     protected activeView: number;
     protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false};
     protected assessmentForm: angular.IFormController;
@@ -35,6 +35,8 @@ export default class EcStudentAssessments {
         composite: 'composite'
     }
     protected stratInputVis: boolean;
+    protected stratResponses: Array<ecat.entity.IStratResponse>;
+    protected stratValComments: Array<ecat.entity.ICrseStudInGroup>;
     protected user: ecat.entity.IPerson;
     protected view = {
         peer: StudAssessViews.PeerList,
@@ -51,6 +53,8 @@ export default class EcStudentAssessments {
     }
 
     private activate(): void {
+        
+
         this.user = this.dCtx.user.persona;
         const _ = this;
 
@@ -68,7 +72,7 @@ export default class EcStudentAssessments {
                 .sort(_.sortWg);
 
             _.workGroups.forEach(wg => { wg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}` });
-            _.activeCrseId = _.dCtx.student.activeCourseId = _.courses[0].id;
+            _.activeCourseId = _.dCtx.student.activeCourseId = _.courses[0].id;
             _.activeView = _.workGroups[0].mpSpStatus === _mp.MpSpStatus.published ? StudAssessViews.ResultMyReport : StudAssessViews.PeerList;
             _.setActiveGroup(_.workGroups[0]);
         }
@@ -157,7 +161,7 @@ export default class EcStudentAssessments {
     }
 
     private setActiveCourse(course: ecat.entity.ICourse): void {
-        this.activeCrseId = this.dCtx.student.activeCourseId = course.id;
+        this.activeCourseId = this.dCtx.student.activeCourseId = course.id;
         this.dCtx.student.getActiveCourse()
             .then((crse: ecat.entity.ICourse) => {
                 const wrkGrp = crse.workGroups[0];
@@ -213,7 +217,17 @@ export default class EcStudentAssessments {
 
                 
                 this.peers = grpMembers.filter(gm => gm.studentId !== myId);
-               
+
+                if (!this.stratResponses) {
+                    this.stratResponses = this.dCtx.student.getAllStrats();
+                    this.stratResponses.forEach(response => {
+                        this.spTools.evaluateStratification(workGroup, false)
+                            .then((groupMembers) => {
+                                this.stratValComments = groupMembers;
+                            });
+                    });
+                }
+
             })
             .catch(() => null);
     }

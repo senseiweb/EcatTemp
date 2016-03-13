@@ -32,6 +32,7 @@
                             class="btn"
                             ng-class="assess.activeView === assess.view.peer ? 'btn-primary': 'btn-default'"
                             ng-click="assess.activeView = assess.view.peer">
+                            <i class="zmdi zmdi-check" ng-if="assess.doneWithAssessments"></i>
                         Assessments
                     </button>
 
@@ -40,6 +41,7 @@
                             ng-class="assess.activeView === assess.view.strat ? 'btn-primary': 'btn-default'"
                             ng-if="!assess.isResultPublished"
                             ng-click="assess.activeView = assess.view.strat">
+                            <i class="zmdi zmdi-check" ng-if="assess.doneWithStrats"></i>
                         Stratify Group
                     </button>
 
@@ -72,8 +74,16 @@
                         </ul>
                     </div>
                 </div>
+                
+                <div>
+                    <button class="btn btn link m-b-10"
+                            ng-if="assess.activeView === assess.view.strat">
+                        Save Stratification
+                    </button>
+                </div>
 
-                <ul class="lv-actions actions">
+                <ul class="lv-actions actions">                                    
+                    
 
                     <li class="dropdown" uib-dropdown>
 
