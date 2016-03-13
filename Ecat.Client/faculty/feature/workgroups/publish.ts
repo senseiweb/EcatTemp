@@ -130,7 +130,7 @@ export default class EcFacultyWgPublish {
         let retrievedWg: ecat.entity.IWorkGroup;
 
         //TODO: handle the error handler
-        this.dCtx.faculty.getActiveWorkGroup()
+        this.dCtx.faculty.fetchActiveWorkGroup()
             .then(getActiveWgResponse)
             .catch(getActiveWgResponseErr);
 

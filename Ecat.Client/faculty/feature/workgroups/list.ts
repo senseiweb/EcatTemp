@@ -110,7 +110,7 @@ export default class EcFacultyWgList {
        this.dCtx.faculty.activeCourseId = course.id;
 
         this.dCtx.faculty
-            .getActiveCourse()
+            .fetchActiveCourse()
             .then(getActiveCourseReponse)
             .catch(getActiveCourseError);
        
@@ -260,7 +260,7 @@ export default class EcFacultyWgList {
         const modal = this.$uim;
         const c = this.c;
         this.dCtx.faculty.activeGroupId = wg.id;
-        this.dCtx.faculty.getActiveWorkGroup()
+        this.dCtx.faculty.fetchActiveWorkGroup()
         .then(getActiveWgReponse)
         .catch(getActiveWgResponseError);
         

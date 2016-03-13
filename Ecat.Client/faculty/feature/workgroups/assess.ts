@@ -29,7 +29,7 @@ export default class EcFacultyWgAssess {
         }
         this.dCtx.faculty.activeGroupId = wgId;
         this.dCtx.faculty.activeCourseId = crseId;
-        this.dCtx.faculty.getActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {
+        this.dCtx.faculty.fetchActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {
             this.activeWg = wg;
 
             this.isViewOnly = wg.mpSpStatus === _mp.MpSpStatus.published || wg.mpSpStatus === _mp.MpSpStatus.arch;

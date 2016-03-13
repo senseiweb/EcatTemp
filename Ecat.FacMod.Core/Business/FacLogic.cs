@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Ecat.FacMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
 
     public class FacLogic : IFacLogic
     {
@@ -41,7 +40,7 @@ namespace Ecat.FacMod.Core
 
         IQueryable<CrseStudentInGroup> IFacLogic.GetWorkGroupSpData(int courseId, int workGroupId, bool addAssessment)
         {
-            var groupMembers = _repo.GetWorkGroupMembers(addAssessment)
+            var groupMembers = _repo.GetWorkGroupMembers(addAssessment, false)
                 .Where(gm => gm.WorkGroup.Course.Faculty
                     .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId && fac.FacultyProfile.Person.IsActive))
                 .Where(gm => gm.CourseId == courseId && gm.WorkGroupId == workGroupId)
@@ -107,9 +106,19 @@ namespace Ecat.FacMod.Core
                     .Include(p => p.Flag);
         }
 
-        IQueryable<WorkGroup> IFacLogic.GetWorkGroupResults()
+        IQueryable<CrseStudentInGroup> IFacLogic.GetWorkGroupResults(bool addAssessment, bool addComments)
         {
-            return null;
+            return _repo.GetWorkGroupMembers(addAssessment, addComments)
+                .Where(gm => gm.WorkGroup.MpSpStatus == MpSpStatus.Published)
+                .Where(gm => !gm.IsDeleted)
+                .Where(gm => gm.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId))
+                .Include(gm => gm.WorkGroup.SpResults)
+                .Include(gm => gm.WorkGroup.SpStratResults)
+                .Include(gm => gm.WorkGroup.FacSpResponses)
+                .Include(gm => gm.WorkGroup.FacStratResponses)
+                .Include(gm => gm.AssessorSpResponses)
+                .Include(gm => gm.AssessorStratResponse)
+                .Include(gm => gm.StudentProfile.Person);
         }
     }
 }

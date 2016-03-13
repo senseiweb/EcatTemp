@@ -39,8 +39,8 @@ export default class EcAppMain {
                 return;
             }
             self.dCtx.logoutUser();
-            self.c.$state.go(self.c.stateMgr.core.login.name, { mode: 'logout' });
-        }
+            self.c.$state.transitionTo(self.c.$state.current, null, { reload: true, inherit: true, notify: true });
+       }
 
         this.c.swal(alertSettings, afterConfirmClose);
     }

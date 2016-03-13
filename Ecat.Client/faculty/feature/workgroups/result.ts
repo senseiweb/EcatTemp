@@ -8,6 +8,7 @@ export default class EcFacultyWgResult {
 
     private activeWg: ecat.entity.IWorkGroup;
     private groupMembers: Array<ecat.entity.ICrseStudInGroup>;
+    private log = this.c.getAllLoggers('Faculty Wg Result');
     private selStud: ecat.entity.ICrseStudInGroup;
     protected view = WgResViews.Loading;
 
@@ -15,18 +16,23 @@ export default class EcFacultyWgResult {
         const wgId = this.c.$stateParams.wgId;
         const crseId = this.c.$stateParams.crseId;
         if (!wgId || !crseId) {
-            //this.log.warn('No active workgroup was selected', null, true);
-            return;
+            this.log.error('The required course ID and/or workgroup ID is missing. Try workgroup result option on the workgroup list screen', null, true);
+            c.$state.go(c.stateMgr.faculty.wgList.name);
+        } else {
+            dCtx.faculty.activeCourseId = crseId;
+            dCtx.faculty.activeGroupId = wgId;
+            this.activate();
         }
-        this.dCtx.faculty.activeGroupId = wgId;
-        this.dCtx.faculty.activeCourseId = crseId;
-        this.dCtx.faculty.getActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {
-            this.activeWg = wg;
+    }
 
-            wg.groupMembers.forEach(gm => {
+    private activate(): void {
+
+      this.dCtx.faculty.fetchActiveWgSpResults().then((crseStudInGrp: Array<ecat.entity.ICrseStudInGroup>) => {
+            this.activeWg = crseStudInGrp[0].workGroup;
+
+           crseStudInGrp.forEach(gm => {
                 gm.spResult;
             });
-            this.groupMembers = wg.groupMembers;
         });
     }
 }

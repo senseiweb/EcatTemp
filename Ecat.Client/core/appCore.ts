@@ -171,7 +171,7 @@ export default class EcAppCore {
                         closeOnConfirm: true
                     }
                     swal(regError, () => {
-                        $state.go(error.redirectTo, null, { notify: false });
+                        $state.go(error.redirectTo, {}, { notify: false });
                     });
                     break;
 
@@ -182,7 +182,9 @@ export default class EcAppCore {
                         type: 'error',
                         closeOnConfirm: true
                     }
-                    swal(promptSettings);
+                    swal(promptSettings,() => {
+                        $state.go(stateMgr.core.error.name, { redirect: fromState.url });
+                    });
                     console.log(error.message);
                 }
             }

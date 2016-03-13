@@ -39,7 +39,6 @@ namespace Ecat.Shared.Core.ModelLibrary.School
 
         public int NumberOfAuthorComments { get; set; }
 
-        [TsIgnore]
         public bool IsDeleted { get; set; }
         [TsIgnore]
         public int? DeletedById { get; set; }
