@@ -31,14 +31,14 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
             return this._freqLevel;
         }
         switch (this.responseForAssessee.mpItemResponse) {
-            case _mp.EcSpItemResponse.hea:
-            case _mp.EcSpItemResponse.iea:
-            case _mp.EcSpItemResponse.ea:
+            case _mp.MpSpItemResponse.hea:
+            case _mp.MpSpItemResponse.iea:
+            case _mp.MpSpItemResponse.ea:
                 return _mpe.SpFreqLevel.Always;
 
-            case _mp.EcSpItemResponse.heu:
-            case _mp.EcSpItemResponse.eu:
-            case _mp.EcSpItemResponse.ieu:
+            case _mp.MpSpItemResponse.heu:
+            case _mp.MpSpItemResponse.eu:
+            case _mp.MpSpItemResponse.ieu:
                 return _mpe.SpFreqLevel.Usually;
             default:
                 return null;
@@ -59,14 +59,14 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
             return this._effLevel;
         }
         switch (this.responseForAssessee.mpItemResponse) {
-            case _mp.EcSpItemResponse.hea:
-            case _mp.EcSpItemResponse.heu:
+            case _mp.MpSpItemResponse.hea:
+            case _mp.MpSpItemResponse.heu:
                 return _mpe.SpEffectLevel.HighlyEffective;
-            case _mp.EcSpItemResponse.eu:
-            case _mp.EcSpItemResponse.ea:
+            case _mp.MpSpItemResponse.eu:
+            case _mp.MpSpItemResponse.ea:
                 return _mpe.SpEffectLevel.Effective;
-            case _mp.EcSpItemResponse.iea:
-            case _mp.EcSpItemResponse.ieu:
+            case _mp.MpSpItemResponse.iea:
+            case _mp.MpSpItemResponse.ieu:
                 return _mpe.SpEffectLevel.Ineffective;
             default:
                 return null;
@@ -86,7 +86,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         if (!this.responseForAssessee.mpItemResponse) {
             return this._behaveDisplayed;
         }
-        return this.responseForAssessee.mpItemResponse !== _mp.EcSpItemResponse.nd;
+        return this.responseForAssessee.mpItemResponse !== _mp.MpSpItemResponse.nd;
     }
 
     set behaviorDisplayed(behaveDisplayed: boolean) {
@@ -98,7 +98,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
             this.responseForAssessee.mpItemResponse = null;
             this.compositeScore = null;
         } else {
-            this.responseForAssessee.mpItemResponse = _mp.EcSpItemResponse.nd;
+            this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.nd;
             this.compositeScore = _mpe.CompositeModelScore.nd;
         }
     }
@@ -121,30 +121,30 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
 
             case _mpe.SpEffectLevel.HighlyEffective:
                 if (this._freqLevel === _mpe.SpFreqLevel.Always) {
-                    this.responseForAssessee.mpItemResponse = _mp.EcSpItemResponse.hea;
+                    this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.hea;
                     this.compositeScore = _mpe.CompositeModelScore.hea;
                 } else {
-                    this.responseForAssessee.mpItemResponse = _mp.EcSpItemResponse.heu;
+                    this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.heu;
                     this.compositeScore = _mpe.CompositeModelScore.heu;
                 }
                 break;
 
             case _mpe.SpEffectLevel.Effective:
                 if (this._freqLevel === _mpe.SpFreqLevel.Always) {
-                    this.responseForAssessee.mpItemResponse = _mp.EcSpItemResponse.ea;
+                    this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.ea;
                     this.compositeScore = _mpe.CompositeModelScore.ea;
                 } else {
-                    this.responseForAssessee.mpItemResponse = _mp.EcSpItemResponse.eu;
+                    this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.eu;
                     this.compositeScore = _mpe.CompositeModelScore.eu;
                 }
                 break;
 
             case _mpe.SpEffectLevel.Ineffective:
                 if (this._freqLevel === _mpe.SpFreqLevel.Always) {
-                    this.responseForAssessee.mpItemResponse = _mp.EcSpItemResponse.iea;
+                    this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.iea;
                     this.compositeScore = _mpe.CompositeModelScore.iea;
                 } else {
-                    this.responseForAssessee.mpItemResponse = _mp.EcSpItemResponse.ieu;
+                    this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.ieu;
                     this.compositeScore = _mpe.CompositeModelScore.ieu;
                 }
                 break;

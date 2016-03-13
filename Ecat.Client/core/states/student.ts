@@ -18,7 +18,7 @@ export default class StudentStates {
             abstract: true,
             template: '<div ui-view></div>',
             data: {
-                authorized: [_mp.EcMapInstituteRole.student]
+                authorized: [_mp.MpInstituteRole.student]
             },
             resolve: {
                 moduleInit: ['$ocLazyLoad', this.loadModule],

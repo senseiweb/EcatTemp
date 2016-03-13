@@ -8,7 +8,7 @@ export class FacSpStratResponseExt implements ecat.entity.ext.IStratEvaluator {
 }
 
 export var facStratCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.facStratResponse,
+    entityName: _mp.MpEntityType.facStratResponse,
     ctorFunc: FacSpStratResponseExt,
     initFunc: null
 }

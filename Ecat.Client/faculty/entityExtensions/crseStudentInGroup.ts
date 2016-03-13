@@ -43,7 +43,7 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
 
         const hasComment = facComments.some(comment => comment.recipientPersonId === this.studentId);
 
-        const knownReponse = _mp.EcSpItemResponse;
+        const knownReponse = _mp.MpSpItemResponse;
 
         spResponses.forEach(response => {
 
@@ -167,7 +167,7 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
 
 
 export var facCrseStudInGrpCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.crseStudInGrp,
+    entityName: _mp.MpEntityType.crseStudInGrp,
     ctorFunc: FacCrseStudInGrpExt,
     initFunc: (crseStudInGrp: any) => new CrseStudInGrpInit(crseStudInGrp)
 }

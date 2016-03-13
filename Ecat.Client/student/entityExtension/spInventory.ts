@@ -6,7 +6,7 @@ import {SpInventoryExtBase} from "core/entityExtension/spInventory"
 class StudSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IStudSpInventoryExt {}
 
 export var studSpInventoryCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.spInventory,
+    entityName: _mp.MpEntityType.spInventory,
     ctorFunc: StudSpInventoryExt,
     initFunc: null
 }

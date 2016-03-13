@@ -27,13 +27,13 @@ class UserPersonExt extends PersonExtBase { }
 class StudPersonExt extends PersonExtBase  { }
 
 export var userPeronCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.person,
+    entityName: _mp.MpEntityType.person,
     ctorFunc: UserPersonExt,
     initFunc: (personEntity: ecat.entity.IPerson) => new PersonInitializer(personEntity)
 }
 
 export var studPersonCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.person,
+    entityName: _mp.MpEntityType.person,
     ctorFunc: StudPersonExt,
     initFunc: (personEntity: ecat.entity.IPerson) => new PersonInitializer(personEntity)
 }

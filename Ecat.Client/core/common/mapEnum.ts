@@ -77,6 +77,16 @@ export const enum CompositeModelScore {
     hea = 6
 }
 
+export const enum ItemModelScore {
+    iea = -2,
+    ieu = -1,
+    nd = 0,
+    ea = 1,
+    eu = 2,
+    heu = 3,
+    hea = 4
+}
+
 export const enum SpStratType {
     Instructor,
     Student

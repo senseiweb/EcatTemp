@@ -25,20 +25,20 @@ export default class EcUserRepo extends IUtilityRepo {
     isLoggedIn = false;
     private userApiResources: IUserApiResources = {
         checkEmail: {
-            returnedEntityType: _mp.EcMapEntityType.unk,
+            returnedEntityType: _mp.MpEntityType.unk,
             resource: 'CheckUserEmail'
         },
         login: {
-            returnedEntityType: _mp.EcMapEntityType.person,
+            returnedEntityType: _mp.MpEntityType.person,
             resource: 'Login'
         },
         profile: {
-            returnedEntityType: _mp.EcMapEntityType.unk,
+            returnedEntityType: _mp.MpEntityType.unk,
             resource:  'Profiles'
           },
         userToken: {
             resource: 'Token',
-            returnedEntityType: _mp.EcMapEntityType.unk
+            returnedEntityType: _mp.MpEntityType.unk
         }
     };
     persona: ecat.entity.IPerson;
@@ -62,7 +62,7 @@ export default class EcUserRepo extends IUtilityRepo {
     userServiceReady = false;
 
     constructor(private $http: angular.IHttpService, inj, public userStatic: ecat.entity.ILoginToken) {
-        super(inj, 'User Data Service', _mp.EcMapApiResource.user, [userPeronCfg]);
+        super(inj, 'User Data Service', _mp.MpApiResource.user, [userPeronCfg]);
         super.addResources(this.userApiResources);
         if (userStatic) {
             this.token.expire = new Date(this.userStatic.tokenExpire as any),
@@ -97,15 +97,15 @@ export default class EcUserRepo extends IUtilityRepo {
     createUserLocal(): ecat.entity.IPerson {
         const newPerson = {
             registrationComplete: false,
-            mpInstituteRole: _mp.EcMapInstituteRole.external
+            mpInstituteRole: _mp.MpInstituteRole.external
         };
 
-        const user = this.manager.createEntity(_mp.EcMapEntityType.person, newPerson) as ecat.entity.IPerson;
+        const user = this.manager.createEntity(_mp.MpEntityType.person, newPerson) as ecat.entity.IPerson;
 
-        user.mpAffiliation = _mp.EcMapAffiliation.unk;
-        user.mpComponent = _mp.EcMapComponent.unk;
-        user.mpPaygrade = _mp.EcMapPaygrade.unk;
-        user.mpGender = _mp.EcMapGender.unk;
+        user.mpAffiliation = _mp.MpAffiliation.unk;
+        user.mpComponent = _mp.MpComponent.unk;
+        user.mpPaygrade = _mp.MpPaygrade.unk;
+        user.mpGender = _mp.MpGender.unk;
 
         return user;
     }
@@ -113,7 +113,7 @@ export default class EcUserRepo extends IUtilityRepo {
 
     createUserToken(): ecat.entity.ILoginToken {
 
-        this.persona = this.manager.createEntity(_mp.EcMapEntityType.person, this.userStatic.person, breeze.EntityState.Unchanged) as ecat.entity.IPerson;
+        this.persona = this.manager.createEntity(_mp.MpEntityType.person, this.userStatic.person, breeze.EntityState.Unchanged) as ecat.entity.IPerson;
 
         const newToken = {
             personId: this.persona.personId,
@@ -123,7 +123,7 @@ export default class EcUserRepo extends IUtilityRepo {
             authToken: this.userStatic.authToken
         } as ecat.entity.ILoginToken;
 
-        const token = this.manager.createEntity(_mp.EcMapEntityType.loginTk,
+        const token = this.manager.createEntity(_mp.MpEntityType.loginTk,
             newToken, breeze.EntityState.Unchanged) as ecat.entity.ILoginToken;
 
         this.token.expire = token.tokenExpire;
@@ -171,27 +171,27 @@ export default class EcUserRepo extends IUtilityRepo {
             const profile = { personId: self.persona.personId }
             let profileEntity: ecat.entity.IProfile;
             const userRole = self.persona.mpInstituteRole;
-            const roles = _mp.EcMapInstituteRole;
+            const roles = _mp.MpInstituteRole;
 
             switch (userRole) {
                 case roles.student:
                     if (!self.persona.student) {
-                        profileEntity = self.manager.createEntity(_mp.EcMapEntityType.studProfile, profile) as ecat.entity.IProfile;
+                        profileEntity = self.manager.createEntity(_mp.MpEntityType.studProfile, profile) as ecat.entity.IProfile;
                     }
                     break;
                 case roles.faculty:
                     if (!self.persona.faculty) {
-                        profileEntity = self.manager.createEntity(_mp.EcMapEntityType.facProfile, profile) as ecat.entity.IProfile;
+                        profileEntity = self.manager.createEntity(_mp.MpEntityType.facProfile, profile) as ecat.entity.IProfile;
                     }
                     break;
                 case roles.hqAdmin:
                     if (!self.persona.hqStaff) {
-                        profileEntity = self.manager.createEntity(_mp.EcMapEntityType.hqStaffProfile, profile) as ecat.entity.IProfile;
+                        profileEntity = self.manager.createEntity(_mp.MpEntityType.hqStaffProfile, profile) as ecat.entity.IProfile;
                     }
                     break;
-                case _mp.EcMapInstituteRole.external:
+                case _mp.MpInstituteRole.external:
                     if (!self.persona.external) {
-                        profileEntity = self.manager.createEntity(_mp.EcMapEntityType.externalProfile, profile) as ecat.entity.IProfile;
+                        profileEntity = self.manager.createEntity(_mp.MpEntityType.externalProfile, profile) as ecat.entity.IProfile;
                     }
                     break;
                 default:
@@ -264,7 +264,7 @@ export default class EcUserRepo extends IUtilityRepo {
             const token = JSON.parse(result.data.loginToken) as ecat.entity.ILoginToken;
             const user = angular.copy(token.person);
 
-            self.persona = self.manager.createEntity(_mp.EcMapEntityType.person, user, breeze.EntityState.Unchanged, breeze.MergeStrategy.PreserveChanges) as ecat.entity.IPerson;
+            self.persona = self.manager.createEntity(_mp.MpEntityType.person, user, breeze.EntityState.Unchanged, breeze.MergeStrategy.PreserveChanges) as ecat.entity.IPerson;
 
             self.token.auth = result.data.access_token;
             self.token.expire = new Date(token.tokenExpire as any);

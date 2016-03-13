@@ -27,7 +27,7 @@ export default class EcFacultyStates {
             template: '<div ui-view></div>',
             data: {
                 validateToken: true,
-                authorized: [_mp.EcMapInstituteRole.faculty]
+                authorized: [_mp.MpInstituteRole.faculty]
             },
             resolve: {
                 moduleInit: ['$ocLazyLoad', this.loadModule],

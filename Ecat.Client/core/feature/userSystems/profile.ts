@@ -25,7 +25,7 @@ export default class EcUserProfile {
     editing_studentInfoForm = false;
     editing_externalUserForm = false;
     externalUserForm: angular.IFormController;
-    gender = _mp.EcMapGender;
+    gender = _mp.MpGender;
     inflight = false;
     isLtiRole = false;
     isSaving = false;
@@ -35,14 +35,14 @@ export default class EcUserProfile {
     pageTypeEnum = PageTypeEnum;
     page = this.pageTypeEnum.External;
     payGradeList = this.dCtx.static.milPaygradeList;
-    payGradeEnum = _mp.EcMapPaygrade;
+    payGradeEnum = _mp.MpPaygrade;
     showExternal = false;
     showStudent = false;
     showHq = false;
     showFaculty = false;
     studentInfoForm: angular.IFormController;
     user: ecat.entity.IPerson;
-    userRoles = _mp.EcMapInstituteRole;
+    userRoles = _mp.MpInstituteRole;
 
     constructor(private $scope, private c: ICommon, private dCtx: IDataCtx) {
         console.log('Profile Loaded');
@@ -51,7 +51,7 @@ export default class EcUserProfile {
         this.getProfile();
 
         switch (this.user.mpInstituteRole) {
-            case _mp.EcMapInstituteRole.student || _mp.EcMapInstituteRole.faculty:
+            case _mp.MpInstituteRole.student || _mp.MpInstituteRole.faculty:
                 this.isLtiRole = true;
                 break;
             default:
@@ -124,13 +124,13 @@ export default class EcUserProfile {
 
         if (formName === 'aboutMeForm') {
             switch (this.user.mpInstituteRole) {
-                case _mp.EcMapInstituteRole.student:
+                case _mp.MpInstituteRole.student:
                     this.user.student.bio = this.aboutMeText;
                     break;
-                case _mp.EcMapInstituteRole.faculty:
+                case _mp.MpInstituteRole.faculty:
                     this.user.faculty.bio = this.aboutMeText;
                     break;
-                case _mp.EcMapInstituteRole.external:
+                case _mp.MpInstituteRole.external:
                     this.user.external.bio = this.aboutMeText;
                     break;
                 default:

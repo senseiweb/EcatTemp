@@ -28,7 +28,7 @@ export default class EcProviderSpToolCommenter {
         let author: ecat.entity.IPerson;
         let recipient: ecat.entity.IPerson;
 
-        if (authorRole === _mp.EcMapInstituteRole.student) {
+        if (authorRole === _mp.MpInstituteRole.student) {
             const spComment = this.dCtx.student.getOrAddComment(this.recipientId) as ecat.entity.IStudSpComment;
             author = spComment.author.studentProfile.person;
             recipient = spComment.recipient.studentProfile.person;
@@ -115,7 +115,7 @@ export default class EcProviderSpToolCommenter {
         }
         this.isSaveInProgress = true;
 
-        const ctx = (this.authorRole === _mp.EcMapInstituteRole.student) ? 'student' : 'faculty';
+        const ctx = (this.authorRole === _mp.MpInstituteRole.student) ? 'student' : 'faculty';
         
         const saveCtx = this.dCtx[ctx] as IUtility;
         const swalSettings: SweetAlert.Settings = {

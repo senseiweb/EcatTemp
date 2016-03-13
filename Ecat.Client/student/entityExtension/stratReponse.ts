@@ -9,7 +9,7 @@ export class StudSpStratResponseExt implements ecat.entity.ext.IStratEvaluator {
 }
 
 export var studStratCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.spStrat,
+    entityName: _mp.MpEntityType.spStrat,
     ctorFunc: StudSpStratResponseExt,
     initFunc: null
 }

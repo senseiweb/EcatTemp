@@ -1,12 +1,12 @@
 ﻿
-export class EcMapGender {
+export class MpGender {
     static unk = 'Unknown';
     static male = 'Male';
     static female = 'Female';
     static other = 'Other';
 }
 
-export class EcMapAffiliation {
+export class MpAffiliation {
     static usaf = 'Air Force';
     static usa = 'Army';
     static uscg = 'Coast Guard';
@@ -17,7 +17,7 @@ export class EcMapAffiliation {
     static unk = 'Unknown';
 }
 
-export class EcMapComponent {
+export class MpComponent {
     static active = 'Active Duty';
     static reserve = 'Reserves';
     static guard = 'National Guard';
@@ -25,7 +25,7 @@ export class EcMapComponent {
     static unk = 'Unknown';
 }
 
-export class EcMapPaygrade {
+export class MpPaygrade {
     static e1 = 'E1';
     static e2 = 'E2';
     static e3 = 'E3';
@@ -53,7 +53,7 @@ export class MpCommentType {
     static anon = "Anonymous";
 }
 
-export class EcSpItemResponse {
+export class MpSpItemResponse {
     static iea = 'IEA';
     static ieu = 'IEU';
     static nd = 'ND';
@@ -63,7 +63,7 @@ export class EcSpItemResponse {
     static hea = 'HEA';
 }
 
-export class EcMapApiResource {
+export class MpApiResource {
     static user = 'User';
     static mock = 'Mock';
     static student = 'Student';
@@ -73,7 +73,7 @@ export class EcMapApiResource {
     static designer = 'Designer';
 }
 
-export class EcMapAlertStrings {
+export class MpAlertState {
     static info = 'info';
     static danger = 'danger';
     static success = 'success';
@@ -81,7 +81,7 @@ export class EcMapAlertStrings {
     static default = 'inverse';
 }
 
-export class EcMapEdLevel {
+export class MpEdLevel {
     static cla = 'Chief Leadership Academy';
     static sncoa = 'Senior NCO Academy';
     static ncoa = 'NCO Academy';
@@ -90,7 +90,7 @@ export class EcMapEdLevel {
     static none = 'None';
 }
 
-export class EcMapInstituteRole {
+export class MpInstituteRole {
     static hqAdmin = 'ECAT_01_HQ';
     static designer = 'ECAT_02_Designer';
     static courseAdmin = 'ECAT_03_CourseAdmin';
@@ -99,7 +99,7 @@ export class EcMapInstituteRole {
     static external = 'ECAT_06_External';
 }
 
-export class EcMapAnimationsEnum {
+export class MpAnimation {
     static fadeIn = 'fadeIn';
     static fadeInLeft = 'fadeInLeft';
     static fadeInRight = 'fadeInRight';
@@ -128,7 +128,7 @@ export class EcMapAnimationsEnum {
     static flipOutY = 'flipOutY';
 }
 
-export class EcMapEntityType {
+export class MpEntityType {
     static unk = 'Unknown';
     static person = 'Person';
     static security = 'Security';
@@ -159,17 +159,12 @@ export class EcMapEntityType {
     static facStratResponse = 'FacStratResponse';
 }
 
-export class SweetAlertTypes {
+export class MpSweetAlertType {
     static success = 'success';
     static warn = 'warning';
     static err = 'error';
     static info = 'info';
     static input = 'input';
-}
-
-export const enum AuthHeaderType {
-    CourseMember,
-    Facilitator
 }
 
 export class MpSpStatus {
@@ -179,4 +174,21 @@ export class MpSpStatus {
     static underReview = 'Under Review';
     static published = 'Published';
     static arch = 'ArchiveE';
+}
+
+export class MpSpResult {
+    static ie = 'Ineffective';
+    static bae ='Below Avg Effectiveness';
+    static e = 'Effective';
+    static aae = 'Above Avg Effectiveness';
+    static he = 'High Effective';
+}
+
+export class MpBehaviorResult {
+    static hea = 'Always: Highly Effective';
+    static heu = 'Usually: Highly Effective';
+    static ea = 'Always: Effective';
+    static eu = 'Usually: Effective';
+    static ieu = 'Usually: Ineffective';
+    static iea = 'Always: Ineffective';
 }

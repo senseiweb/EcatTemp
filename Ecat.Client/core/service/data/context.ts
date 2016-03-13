@@ -15,12 +15,12 @@ export default class EcDataContext {
     static: IStaticData;
     private repoNames = [
         'static',
-        this.fixUpResourceName(_mp.EcMapApiResource.user),
-        this.fixUpResourceName(_mp.EcMapApiResource.sa),
-        this.fixUpResourceName(_mp.EcMapApiResource.student),
-        this.fixUpResourceName(_mp.EcMapApiResource.courseAdmin),
-        this.fixUpResourceName(_mp.EcMapApiResource.designer),
-        this.fixUpResourceName(_mp.EcMapApiResource.faculty)
+        this.fixUpResourceName(_mp.MpApiResource.user),
+        this.fixUpResourceName(_mp.MpApiResource.sa),
+        this.fixUpResourceName(_mp.MpApiResource.student),
+        this.fixUpResourceName(_mp.MpApiResource.courseAdmin),
+        this.fixUpResourceName(_mp.MpApiResource.designer),
+        this.fixUpResourceName(_mp.MpApiResource.faculty)
     ];
 
     sysAdmin: any;

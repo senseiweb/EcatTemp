@@ -8,7 +8,7 @@ export default class EcGlobalLogin {
     static $inject = ['$scope', '$timeout', ICommon.serviceId, IDataCtx.serviceId];
 
     badAccount = false;
-    gender = _mp.EcMapGender;
+    gender = _mp.MpGender;
     inFlight = false;
     logSucceess = this.c.logSuccess('Login Controller');
     logWarning = this.c.logWarning('Login Controller');

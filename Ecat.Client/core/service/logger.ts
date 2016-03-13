@@ -55,8 +55,8 @@ export default class EcLoggerService {
             allow_dismiss: true,
             placement: { from: 'bottom', align: 'right' },
             animate: {
-                enter: _mp.EcMapAnimationsEnum.fadeInRight,
-                exit: _mp.EcMapAnimationsEnum.fadeOutRight
+                enter: _mp.MpAnimation.fadeInRight,
+                exit: _mp.MpAnimation.fadeOutRight
             }
         };
 
@@ -68,8 +68,8 @@ export default class EcLoggerService {
                     options.icon = `zmdi-alert-circle-o`;
                     settings.placement.from = 'top';
                     settings.placement.align = 'right';
-                    settings.animate.enter = _mp.EcMapAnimationsEnum.bounceInRight;
-                    settings.animate.exit = _mp.EcMapAnimationsEnum.bounceOutRight;
+                    settings.animate.enter = _mp.MpAnimation.bounceInRight;
+                    settings.animate.exit = _mp.MpAnimation.bounceOutRight;
                     settings.allow_dismiss = true;
                     settings.type = 'pastel-danger';
                     settings.delay = 10000;

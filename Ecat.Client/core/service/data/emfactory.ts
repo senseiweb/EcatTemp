@@ -17,7 +17,7 @@ export default class EcEmFactory {
         return repo;
     }
 
-    getNewManager(apiResourceName: _mp.EcMapApiResource, clientExtensions?: Array<ecat.entity.ext.IEntityExtension>): breeze.promises.IPromise<breeze.EntityManager | angular.IPromise<void>> {
+    getNewManager(apiResourceName: _mp.MpApiResource, clientExtensions?: Array<ecat.entity.ext.IEntityExtension>): breeze.promises.IPromise<breeze.EntityManager | angular.IPromise<void>> {
 
         breeze.NamingConvention.camelCase.setAsDefault();
         new breeze.ValidationOptions({ validateOnAttach: false }).setAsDefault();
@@ -70,7 +70,7 @@ export default class EcEmFactory {
 
                 const selectedResource = resourceToMap[resourceEntity];
 
-                if (selectedResource.returnedEntityType !== _mp.EcMapEntityType.unk) {
+                if (selectedResource.returnedEntityType !== _mp.MpEntityType.unk) {
                     metadataStore.setEntityTypeForResourceName(selectedResource.resource, selectedResource.returnedEntityType);
                 }
             }

@@ -13,6 +13,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected workGroup: ecat.entity.IWorkGroup;
     protected _sop: ecat.entity.ext.IStatusOfPeer = null;
     protected _spResult: ecat.entity.ext.ICrseStudInGrpResult;
+    protected _spRationaleResult: ecat.entity.ext.ICrseStudInGrpResult;
 
     updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         const groupPeers = this.workGroup.groupMembers;
@@ -45,7 +46,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
                 .filter(comment => comment.authorPersonId === this.studentId &&
                     comment.recipientPersonId === gm.studentId)[0];
 
-            const knownReponse = _mp.EcSpItemResponse;
+            const knownReponse = _mp.MpSpItemResponse;
 
             const responseList = gm.assesseeSpResponses
                 .filter(response => response.assessorPersonId === this.studentId &&
@@ -120,8 +121,13 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
         return this._sop;
     }
 
-    updateSpResult(): ecat.entity.ext.ICrseStudInGrpResult {
+    updateSpResult(spResponse: Array<ecat.entity.ISpResponse>): ecat.entity.ext.ICrseStudInGrpResult {
+        _staticDs.avgScore(spResponse);
         return this._spResult;
+    }
+
+    updateRationaleScore(spResponse: Array<ecat.entity.ISpResponse>): ecat.entity.ext.ICrseStudInGrpResult {
+        
     }
 
     get rankName(): string {

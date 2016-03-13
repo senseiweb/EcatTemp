@@ -28,21 +28,21 @@ export default class EcStudentRepo extends IUtilityRepo {
 
     private studentApiResources: IStudentApiResources = {
         courses: {
-            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
             resource: 'InitCourse'
         },
         course: {
-            returnedEntityType: _mp.EcMapEntityType.studCrseMember,
+            returnedEntityType: _mp.MpEntityType.studCrseMember,
             resource: 'ActiveCourse'
         },
         workGroup: {
-            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
             resource: 'ActiveWorkGroup'
         }
     }
 
     constructor(inj) {
-        super(inj, 'Student Data Service', _mp.EcMapApiResource.student, [studPersonCfg, studCrseStudInGrpCfg, studSpInventoryCfg, studStratCfg]);
+        super(inj, 'Student Data Service', _mp.MpApiResource.student, [studPersonCfg, studCrseStudInGrpCfg, studSpInventoryCfg, studStratCfg]);
         super.addResources(this.studentApiResources);
         this.isLoaded.course = {};
         this.isLoaded.workGroup = {};
@@ -268,7 +268,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             inventoryItem: inventory
         }
 
-        return this.manager.createEntity(_mp.EcMapEntityType.spResponse, newAssessResponse) as ecat.entity.ISpResponse;
+        return this.manager.createEntity(_mp.MpEntityType.spResponse, newAssessResponse) as ecat.entity.ISpResponse;
     }
 
     getOrAddComment(recipientId: number) {
@@ -278,7 +278,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             this.log.warn('Missing required information', { groupdId: this.activeGroupId, courseId: this.activeCourseId }, false);
         }
 
-        const spComments = this.manager.getEntities(_mp.EcMapEntityType.spComment) as Array<ecat.entity.IStudSpComment>;
+        const spComments = this.manager.getEntities(_mp.MpEntityType.spComment) as Array<ecat.entity.IStudSpComment>;
 
         let spComment = spComments.filter(comment => comment.authorPersonId === loggedUserId &&
             comment.recipientPersonId === recipientId &&
@@ -306,8 +306,8 @@ export default class EcStudentRepo extends IUtilityRepo {
             mpAuthorFlag: _mp.MpCommentFlag.neut
         }
 
-        const comment = this.manager.createEntity(_mp.EcMapEntityType.spComment, newComment) as ecat.entity.IStudSpComment;
-        const flag = this.manager.createEntity(_mp.EcMapEntityType.spCommentFlag, newFlag) as ecat.entity.IStudSpCommentFlag;
+        const comment = this.manager.createEntity(_mp.MpEntityType.spComment, newComment) as ecat.entity.IStudSpComment;
+        const flag = this.manager.createEntity(_mp.MpEntityType.spCommentFlag, newFlag) as ecat.entity.IStudSpCommentFlag;
         comment.flag = flag;
         return comment;
     }
@@ -320,7 +320,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             return null;
         }
 
-        const workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+        const workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
 
         if (!workGroup.assignedSpInstr) {
             this.log.warn('Missing an assigned instrument for this workgroup', workGroup, false);
@@ -332,10 +332,10 @@ export default class EcStudentRepo extends IUtilityRepo {
         return inventoryList.map(item => {
             const key = { assessorPersonId: loggedUserId, assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: item.id };
 
-            let spResponse = this.manager.getEntityByKey(_mp.EcMapEntityType.spResponse, [loggedUserId, assesseeId, this.activeCourseId, this.activeGroupId, item.id]) as ecat.entity.ISpResponse;
+            let spResponse = this.manager.getEntityByKey(_mp.MpEntityType.spResponse, [loggedUserId, assesseeId, this.activeCourseId, this.activeGroupId, item.id]) as ecat.entity.ISpResponse;
 
             if (!spResponse) {
-                spResponse = this.manager.createEntity(_mp.EcMapEntityType.spResponse, key) as ecat.entity.ISpResponse;
+                spResponse = this.manager.createEntity(_mp.MpEntityType.spResponse, key) as ecat.entity.ISpResponse;
             }
 
             item.reset();

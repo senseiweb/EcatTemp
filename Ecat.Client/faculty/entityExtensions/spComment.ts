@@ -6,7 +6,7 @@ import {SpCommentBase} from 'core/entityExtension/spComment'
 class FacSpCommentExt extends SpCommentBase { }
 
 export var facSpCommentCfg: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.EcMapEntityType.spComment,
+    entityName: _mp.MpEntityType.spComment,
     ctorFunc: FacSpCommentExt,
     initFunc: null
 }

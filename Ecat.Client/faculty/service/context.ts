@@ -48,23 +48,23 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
     private facultyApiResource: IFacultyApiResources = {
         courses: {
-            returnedEntityType: _mp.EcMapEntityType.facCrseMember,
+            returnedEntityType: _mp.MpEntityType.facCrseMember,
             resource: 'InitCourses'
         },
         course: {
-            returnedEntityType: _mp.EcMapEntityType.facCrseMember,
+            returnedEntityType: _mp.MpEntityType.facCrseMember,
             resource: 'ActiveCourse'
         },
         wgAssess: {
-            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
             resource: 'WorkGroupAssess'
         },
         getStudentCapstoneDetails: {
-            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
             resource: 'GetStudentCapstoneDetails'
         },
         wgComment: {
-            returnedEntityType: _mp.EcMapEntityType.spComment,
+            returnedEntityType: _mp.MpEntityType.spComment,
             resource: 'ActiveWgSpComment'
         },
         wgResult: {
@@ -72,13 +72,13 @@ export default class EcFacultyRepo extends IUtilityRepo {
             resource: 'WorkGroupResult'
         },
         caCourse: {
-            returnedEntityType: _mp.EcMapEntityType.course,
+            returnedEntityType: _mp.MpEntityType.course,
             resource: 'CourseMembers'
         }
     }
 
     constructor(inj) {
-        super(inj, 'Faculty Data Service', _mp.EcMapApiResource.faculty, [facSpInventoryCfg, facPersonCfg, facWorkGrpEntityExt, facCrseStudInGrpCfg, facSpCommentCfg, facStratCfg]);
+        super(inj, 'Faculty Data Service', _mp.MpApiResource.faculty, [facSpInventoryCfg, facPersonCfg, facWorkGrpEntityExt, facCrseStudInGrpCfg, facSpCommentCfg, facStratCfg]);
         super.addResources(this.facultyApiResource);
 
     }
@@ -185,8 +185,13 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const that = this;
         let course: ecat.entity.ICourse;
         
+<<<<<<< 675952bc0c6761da7fb54887642dd5842abefb91
         if (this.isLoaded.course[this.activeCourseId]) {
             const cachedFacInCourse = this.manager.getEntityByKey(_mp.EcMapEntityType.facCrseMember, [loggedInPersonId, this.activeCourseId]) as ecat.entity.IFacInCrse;
+=======
+        if (isLoaded.course[this.activeCourseId]) {
+            const cachedFacInCourse = this.manager.getEntityByKey(_mp.MpEntityType.facCrseMember, [loggedInPersonId, this.activeCourseId]) as ecat.entity.IFacInCrse;
+>>>>>>> -- Preparing client side scoring model
             if (cachedFacInCourse) {
                course = cachedFacInCourse.course;
                log.success('Course loaded from local cache', course, false);
@@ -228,7 +233,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const that = this;
         const loggedInPersonId = this.dCtx.user.persona.personId;
         let workGroup: ecat.entity.IWorkGroup;
-        const cachedWg = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+        const cachedWg = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
         
         //A loaded workgroup is a group that has group members on the client, not just the workgroup entity.
         if (this.isLoaded.workGroup[this.activeGroupId]) {
@@ -348,7 +353,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
 
-        const workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+        const workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
 
         return workGroup.groupMembers.map(gm => {
             const existingStrat = gm.facultyStrat;
@@ -357,7 +362,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
                 return existingStrat;
             }
 
-            return this.manager.createEntity(_mp.EcMapEntityType.facStratResponse, {
+            return this.manager.createEntity(_mp.MpEntityType.facStratResponse, {
                 assesseePersonId: gm.studentId,
                 facultyPersonId: this.dCtx.user.persona.personId,
                 courseId: this.activeCourseId,
@@ -371,7 +376,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
 
-        const workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+        const workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
 
         if (!workGroup.assignedSpInstr) {
             this.log.warn('Missing an assigned instrument for this workgroup', workGroup, false);
@@ -383,10 +388,10 @@ export default class EcFacultyRepo extends IUtilityRepo {
         return inventoryList.map((item: ecat.entity.IFacSpInventory) => {
             const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId, inventoryItemId: item.id };
 
-            let facSpReponse = this.manager.getEntityByKey(_mp.EcMapEntityType.facSpResponse, [assesseeId, this.activeCourseId, this.activeGroupId, item.id]) as ecat.entity.IFacSpResponse;
+            let facSpReponse = this.manager.getEntityByKey(_mp.MpEntityType.facSpResponse, [assesseeId, this.activeCourseId, this.activeGroupId, item.id]) as ecat.entity.IFacSpResponse;
 
             if (!facSpReponse) {
-                facSpReponse = this.manager.createEntity(_mp.EcMapEntityType.facSpResponse, key) as ecat.entity.IFacSpResponse;
+                facSpReponse = this.manager.createEntity(_mp.MpEntityType.facSpResponse, key) as ecat.entity.IFacSpResponse;
                 facSpReponse.facultyPersonId = this.dCtx.user.persona.personId;
             }
             //Since we are reusing the inventory item breeze will auto try the backing fields...need to reset them to ensure there is no carryover between assessments;
@@ -403,14 +408,14 @@ export default class EcFacultyRepo extends IUtilityRepo {
             this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
         }
 
-        const facComments = this.manager.getEntities(_mp.EcMapEntityType.facSpComment) as Array<ecat.entity.IFacSpComment>;
+        const facComments = this.manager.getEntities(_mp.MpEntityType.facSpComment) as Array<ecat.entity.IFacSpComment>;
 
         //Faculty comments are not tied to person, so do not search for faculty id when looking for faculty comments!
         let facComment = facComments.filter(comment => comment.recipientPersonId === assesseeId && comment.courseId === this.activeCourseId && comment.workGroupId === this.activeGroupId)[0];
 
         if (!facComment) {
-            facComment = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.IFacSpComment;
-            const flag = this.manager.createEntity(_mp.EcMapEntityType.facSpCommentFlag, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }, breeze.EntityState.Unchanged) as ecat.entity.IFacSpCommentFlag;
+            facComment = this.manager.createEntity(_mp.MpEntityType.facSpComment, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.IFacSpComment;
+            const flag = this.manager.createEntity(_mp.MpEntityType.facSpCommentFlag, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }, breeze.EntityState.Unchanged) as ecat.entity.IFacSpCommentFlag;
             facComment.facultyPersonId = this.dCtx.user.persona.personId;
             facComment.flag = flag;
             facComment.flag.mpFaculty = _mp.MpCommentFlag.neut;
@@ -425,7 +430,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         }
         const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId };
 
-        let facStrat = this.manager.getEntityByKey(_mp.EcMapEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
+        let facStrat = this.manager.getEntityByKey(_mp.MpEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
 
         if (!facStrat) {
             //Is this right?

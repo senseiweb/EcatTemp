@@ -55,7 +55,7 @@ export default class EcProviderSpToolAssessTaker {
     private activate(): void {
         this.role = this.dCtx.user.persona.mpInstituteRole;
         const myId = this.dCtx.user.persona.personId;
-        this.isStudent = this.role === _mp.EcMapInstituteRole.student;
+        this.isStudent = this.role === _mp.MpInstituteRole.student;
 
         if (this.isStudent) {
             this.inventoryList = this.dCtx.student.getSpInventory(this.assesseeId) as Array<ecat.entity.IStudSpInventory>;
@@ -172,19 +172,19 @@ export default class EcProviderSpToolAssessTaker {
     protected getFormattedResponse(item: ecat.entity.ISpInventory): string {
 
         switch (item.responseForAssessee.mpItemResponse) {
-        case _mp.EcSpItemResponse.iea:
+        case _mp.MpSpItemResponse.iea:
             return 'Always: Ineffective';
-        case _mp.EcSpItemResponse.ieu:
+        case _mp.MpSpItemResponse.ieu:
             return 'Usually: Ineffective';
-        case _mp.EcSpItemResponse.ea:
+        case _mp.MpSpItemResponse.ea:
             return 'Always: Effective';
-        case _mp.EcSpItemResponse.eu:
+        case _mp.MpSpItemResponse.eu:
             return 'Usually: Effective';
-        case _mp.EcSpItemResponse.heu:
+        case _mp.MpSpItemResponse.heu:
             return 'Usually: Highly Effective';
-        case _mp.EcSpItemResponse.hea:
+        case _mp.MpSpItemResponse.hea:
             return 'Always: Highly Effective';
-        case _mp.EcSpItemResponse.nd:
+        case _mp.MpSpItemResponse.nd:
             return 'Not Displayed';
         default:
             return 'Unknown';
