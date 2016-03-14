@@ -163,25 +163,6 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
     }
 
-    //getStrat(assesseeId: number): ecat.entity.IStratResponse {
-        
-    //    const loggedUserId = this.dCtx.user.persona.personId;
-        
-    //    if (!this.activeGroupId || !this.activeCourseId) {
-    //        this.log.warn('Missing required information', { groupId: this.activeCourseId, courseId: this.activeCourseId }, false);
-    //    }
-
-    //    const key = {assessorPersonId: loggedUserId, assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId };
-
-    //    let strat = this.manager.getEntityByKey(_mp.EcMapEntityType.spStrat, key) as ecat.entity.IStratResponse;
-
-    //    if (!strat) {
-    //        strat = this.manager.createEntity(_mp.EcMapEntityType.spStrat, key) as ecat.entity.IStratResponse;
-    //    }
-
-    //    return strat;
-    //}
-
     getAllStrats(): Array<ecat.entity.IStratResponse> {
 
         const loggedUserId = this.dCtx.user.persona.personId;

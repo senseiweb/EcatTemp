@@ -11,18 +11,15 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
     [TsClass(Module = "ecat.entity.s.learner")]
     public class SanitizedSpResponse
     {
-        public int Id { get; set; }
-        public string ResultEntityId { get; set; }
         public int CourseId { get; set; }
+        public int StudentId { get; set; }
+        public int AssessorId { get; set; }
         public int WorkGroupId { get; set; }
-        public bool IsInstructorResponse { get; set; }
         public bool IsSelfResponse { get; set; }
         public string PeerGenericName { get; set; }
         public string MpItemResponse { get; set; }
-        public float ItemModelScore { get; set; }
+        public int ItemModelScore { get; set; }
         public int InventoryItemId { get; set; }
-        public int AssessResultId { get; set; }
-
         public SpInventory InventoryItem { get; set; }
         public SpResult Result { get; set; }
     }

@@ -106,12 +106,12 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
     private calculateItemResponse(): void {
         const reponse = this.responseForAssessee.mpItemResponse;
         if (reponse) {
-            if (this._effLevel) this._effLevel = this.behaviorEffect;
-            if (this._freqLevel) this._freqLevel = this.behaviorFreq;
+            if (!this._effLevel) this._effLevel = this.behaviorEffect;
+            if (!this._freqLevel) this._freqLevel = this.behaviorFreq;
         }
 
 
-        if (this._effLevel || this._freqLevel) {
+        if (!this._effLevel || !this._freqLevel) {
             this.responseForAssessee.mpItemResponse = null;
             return;
         }

@@ -24,6 +24,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public SpResultBreakOut BreakOut { get; set; }
         public CrseStudentInGroup ResultFor { get; set; }
         public SpInstrument AssignedInstrument { get; set; }
+        public WorkGroup WorkGroup { get; set; }
+        public Course Course { get; set; }
         public ICollection<FacSpResponse> FacultyResponses { get; set; }
         public ICollection<SpResponse> SpResponses { get; set; }  
         public ICollection<SanitizedSpResponse> SanitizedResponses { get; set; }

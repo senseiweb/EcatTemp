@@ -17,6 +17,16 @@ namespace Ecat.Shared.DbMgr.Config
             Ignore(p => p.SpResponses);
             Ignore(p => p.FacultyResponses);
 
+            HasRequired(p => p.Course)
+              .WithMany(p => p.SpResults)
+              .HasForeignKey(p => p.CourseId)
+              .WillCascadeOnDelete(false);
+
+            HasRequired(p => p.WorkGroup)
+              .WithMany(p => p.SpResults)
+              .HasForeignKey(p => p.WorkGroupId)
+              .WillCascadeOnDelete(false);
+
             HasRequired(p => p.AssignedInstrument)
                 .WithMany()
                 .HasForeignKey(p => p.AssignedInstrumentId)

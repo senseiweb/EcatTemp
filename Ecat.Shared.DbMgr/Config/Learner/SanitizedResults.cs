@@ -8,23 +8,23 @@ using Ecat.Shared.Core.ModelLibrary.Learner;
 
 namespace Ecat.Shared.DbMgr.Config
 {
-    public class ConfigSanitizedResponse : EntityTypeConfiguration<SanitizedSpResponse>
-    {
-        public ConfigSanitizedResponse()
-        {
-            HasRequired(p => p.Result)
-                .WithMany(p => p.SanitizedResponses)
-                .HasForeignKey(p => p.ResultEntityId);
-        }
-    }
+    //public class ConfigSanitizedResponse : EntityTypeConfiguration<SanitizedSpResponse>
+    //{
+    //    public ConfigSanitizedResponse()
+    //    {
+    //        HasRequired(p => p.Result)
+    //            .WithMany(p => p.SanitizedResponses)
+    //            .HasForeignKey(p => p.ResultEntityId);
+    //    }
+    //}
 
-    public class ConfigSanitizedComment : EntityTypeConfiguration<SanitizedSpComment>
-    {
-        public ConfigSanitizedComment()
-        {
-            HasRequired(p => p.Result)
-                .WithMany(p => p.SanitizedComments)
-                .HasForeignKey(p => p.ResultEntityId);
-        }
-    }
+    //public class ConfigSanitizedComment : EntityTypeConfiguration<SanitizedSpComment>
+    //{
+    //    public ConfigSanitizedComment()
+    //    {
+    //        HasRequired(p => p.Result)
+    //            .WithMany(p => p.SanitizedComments)
+    //            .HasForeignKey(p => p.ResultEntityId);
+    //    }
+    //}
 }

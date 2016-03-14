@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
@@ -83,61 +84,81 @@ namespace Ecat.StudMod.Core
                 .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person));
         }
 
-        public Task<CrseStudentInGroup> Get()
+        async Task<SpResult> IStudLogic.GetWrkGrpResult(int wgId, bool addInstrument)
         {
-            throw new NotImplementedException();
+            var svrResult2 = await _repo.WorkGroups(addInstrument)
+                .Where(wg => wg.MpSpStatus == MpSpStatus.Published)
+                .Where(wg => wg.Id == wgId)
+                .Where(wg => wg.GroupMembers.Any(gm => !gm.IsDeleted && gm.StudentId == StudentPerson.PersonId))
+                .Select(wg => new SpResult
+                {
+                    CourseId = wg.CourseId,
+                    WorkGroupId = wg.Id,
+                    StudentId = StudentPerson.PersonId,
+                    AssignedInstrumentId = wg.AssignedSpInstrId,
+                    MpAssessResult =
+                        wg.SpResults.First(result => result.StudentId == StudentPerson.PersonId).MpAssessResult,
+                    CompositeScore =
+                        wg.SpResults.First(result => result.StudentId == StudentPerson.PersonId).CompositeScore,
+                    BreakOut =
+                        wg.SpResults.First(result => result.StudentId == StudentPerson.PersonId).BreakOut,
+                    FacultyResponses =
+                        wg.FacSpResponses.Where(facRespose => facRespose.AssesseePersonId == StudentPerson.PersonId)
+                            .ToList(),
+                    SanitizedResponses =
+                        wg.SpResponses.Where(
+                            response =>
+                                response.AssesseePersonId == StudentPerson.PersonId && !response.Assessor.IsDeleted)
+                            .Select(response => new SanitizedSpResponse
+                            {
+                                CourseId = wg.CourseId,
+                                WorkGroupId = wg.Id,
+                                StudentId = StudentPerson.PersonId,
+                                IsSelfResponse = response.AssessorPersonId == StudentPerson.PersonId,
+                                MpItemResponse = response.MpItemResponse,
+                                ItemModelScore = response.ItemModelScore,
+                                InventoryItemId = response.InventoryItemId
+                            }).ToList(),
+                    SanitizedComments =
+                        wg.SpComments.Where(
+                            comment =>
+                                comment.RecipientPersonId == StudentPerson.PersonId && !comment.Author.IsDeleted &&
+                                comment.Flag.MpFacultyFlag == MpCommentFlag.Appr)
+                            .Select(comment => new SanitizedSpComment
+                            {
+                                RecipientId = comment.RecipientPersonId,
+                                CourseId = wg.CourseId,
+                                WorkGroupId = wg.Id,
+                                AuthorName = (comment.RequestAnonymity) ? "Anonymous" : $"{comment.Author.StudentProfile.Person.FirstName} {comment.Author.StudentProfile.Person.LastName}",
+                                CommentText = comment.CommentText,
+                            }).ToList()
+                }).SingleOrDefaultAsync();
+
+            if (svrResult2 == null)
+            {
+                return null;
+            }
+
+            var index = 0;
+
+            foreach (var comment in svrResult2.SanitizedComments)
+            {
+                comment.AuthorId = index;
+                index += 1;
+            }
+
+            index = 0;
+
+            foreach (var response in svrResult2.SanitizedResponses)
+            {
+                response.AssessorId = index;
+                index += 1;
+            }
+
+            return svrResult2;
         }
 
-        //public async Task<List<MemberInCourse>> GetCrsesWithLastestGrpMem()
-        //{
-        //    var courseMems = await _repo.GetCrseMembership
-        //         .Where(cm => cm.PersonId == Student.PersonId)
-        //         .ToListAsync();
-
-        //    if (!courseMems.Any())
-        //    {
-        //        return null;
-        //    }
-
-        //    var latestCrseMem = courseMems.First();
-
-        //    var lastGroupMem = await _repo.GetSingleGrpMemberships
-        //        .Where(gm => gm.CourseEnrollmentId == latestCrseMem.Id).ToListAsync();
-
-        //    latestCrseMem.StudGroupEnrollments = lastGroupMem;
-
-        //    return courseMems;
-        //}
-
-        //public async Task<MemberInCourse> GetCrseMemById(int crseMemId)
-        //{
-        //    var crseMem = await _repo.GetCrseMembership
-        //        .Where(cm => cm.Id == crseMemId)
-        //        .Include(cm => cm.StudGroupEnrollments
-        //            .OrderByDescending(gm => gm.Group.MpCategory)
-        //            .FirstOrDefault())
-        //        .Include(cm => cm.StudGroupEnrollments.SelectMany(gm => gm.GroupPeers))
-        //        .SingleAsync();
-
-        //    return crseMem;
-        //}
-
-        //public async Task<MemberInGroup> GetGrpMemById(int grpMemId)
-        //{
-        //    var grpMem = await _repo.GetSingleGrpMemberships
-        //        .Where(gm => gm.Id == grpMemId)
-        //        .SingleAsync();
-
-        //    return grpMem;
-        //}
-
-
         public string GetMetadata => _repo.GetMetadata;
-
-
-
-
-
 
     }
 }

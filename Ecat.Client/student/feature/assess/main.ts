@@ -58,10 +58,8 @@ export default class EcStudentAssessments {
     }
 
     private activate(): void {
-        
-
         this.user = this.dCtx.user.persona;
-        const _ = this;
+        const that = this;
 
         //This unwraps the promise and retrieves the objects inside and stores it into a local variable
         //TODO: Whatif there are no courses??
@@ -70,20 +68,20 @@ export default class EcStudentAssessments {
             .catch(courseError);
        
         function activationResponse(crseStudInGrps: Array<ecat.entity.ICrseStudInGroup>) {
-            _.courses = _.getUniqueCourses(crseStudInGrps);
-            _.courses.forEach(course => course['displayName'] = `${course.classNumber}: ${course.name}`);
-            _.workGroups = _.courses[0]
+           that.courses = that.getUniqueCourses(crseStudInGrps);
+           that.courses.forEach(course => course['displayName'] = `${course.classNumber}: ${course.name}`);
+           that.workGroups = that.courses[0]
                 .workGroups
-                .sort(_.sortWg);
+                .sort(that.sortWg);
 
-            _.workGroups.forEach(wg => { wg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}` });
-            _.activeCourseId = _.dCtx.student.activeCourseId = _.courses[0].id;
-            _.activeView = _.workGroups[0].mpSpStatus === _mp.MpSpStatus.published ? StudAssessViews.ResultMyReport : StudAssessViews.PeerList;
-            _.setActiveGroup(_.workGroups[0]);
+           that.workGroups.forEach(wg => { wg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}` });
+           that.activeCourseId = that.dCtx.student.activeCourseId = that.courses[0].id;
+           that.activeView = that.workGroups[0].mpSpStatus === _mp.MpSpStatus.published ? StudAssessViews.ResultMyReport : StudAssessViews.PeerList;
+           that.setActiveGroup(that.workGroups[0]);
         }
 
         function courseError(error: any) {
-            _.log.warn('There was an error loading Courses', error, true);
+            that.log.warn('There was an error loading Courses', error, true);
         }
     }
 
@@ -213,7 +211,7 @@ export default class EcStudentAssessments {
     }
 
     private setActiveGroup(workGroup: ecat.entity.IWorkGroup): void {
-
+        const that = this;
         this.dCtx.student.activeGroupId = workGroup.id;
         const myId = this.dCtx.user.persona.personId;
 
@@ -221,58 +219,54 @@ export default class EcStudentAssessments {
         
         //TODO: Need to do something with the error
         this.dCtx.student.getActiveWorkGroup()
-            .then((wg: ecat.entity.IWorkGroup) => {
+            .then(setActiveGroupResponse)
+            .catch(setActiveGroupError);
 
-                const grpMembers = wg.groupMembers;
-                this.activeGroup = wg;
-                this.isResultPublished = wg.mpSpStatus === _mp.MpSpStatus.published;
-                this.isViewOnly = this.isResultPublished || wg.mpSpStatus !== _mp.MpSpStatus.open;
+        function setActiveGroupResponse(wg: ecat.entity.IWorkGroup): void {
+            const grpMembers = wg.groupMembers;
+                            this.activeGroup = wg;
 
-                if (this.isResultPublished) {
-                    //TODO: Check how this perform between group changes
-                    this.log.info('Retrieving results, standby...', null, true);
-                    //this.getWorkGroupResults();
-                }
+            that.isResultPublished = wg.mpSpStatus === _mp.MpSpStatus.published;
+            that.isViewOnly = that.isResultPublished || wg.mpSpStatus !== _mp.MpSpStatus.open;
 
-                if (!grpMembers || grpMembers.length === 0) {
-                    //TODO: Address a condition if no members are in the group
-                    return null;
-                }
-                
-                this.me = grpMembers.filter(gm => gm.studentId === myId)[0];
+            if (that.isResultPublished) {
+                //TODO: Check how this perform between group changes
+                that.log.info('Retrieving results, standby...', null, true);
+                //this.getWorkGroupResults();
+            }
 
-                grpMembers.forEach(gm => {
+            if (!grpMembers || grpMembers.length === 0) {
+                //TODO: Address a condition if no members are in the group
+                return null;
+            }
 
-                    gm['hasChartData'] = this.me.statusOfPeer[gm.studentId].breakOutChartData.some(cd => cd.data > 0);
+            that.me = grpMembers.filter(gm => gm.studentId === myId)[0];
+
+            grpMembers.forEach(gm => {
+
+                    gm['hasChartData'] = that.me.statusOfPeer[gm.studentId].breakOutChartData.some(cd => cd.data > 0);
                     
-                    if (this.isViewOnly) {
-                        gm['assessText'] = (this.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
-                        gm['commentText'] = (this.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
-                        gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
+                    if (that.isViewOnly) {
+                        gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
+                        gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
+                        gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
                     } else {
-                        gm['assessText'] = (this.me.statusOfPeer[gm.studentId].assessComplete) ? 'Edit' : 'Add';
-                        gm['commentText'] = (this.me.statusOfPeer[gm.studentId].hasComment) ? 'Edit' : 'Add';
-                        gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
+                        gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'Edit' : 'Add';
+                        gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'Edit' : 'Add';
+                        gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
                     }
                 });
             
-                this.peers = grpMembers.filter(gm => gm.studentId !== myId);
+                that.peers = grpMembers.filter(gm => gm.studentId !== myId);
 
-                this.stratResponses = this.dCtx.student.getAllStrats();
-                console.log(this.stratResponses);
-                this.stratResponses.forEach(response => {
-                    this.spTools.evaluateStratification(workGroup, false)
-                        .then((groupMembers) => {
-                            this.stratValComments = groupMembers;
-                        });
-                });
+                that.stratResponses = that.dCtx.student.getAllStrats();
+                that.evaluateStrat();
 
-                this.myStrat = this.stratResponses.filter(strat => strat.assessee.studentId === myId)[0];
-                this.peerStrats = this.stratResponses.filter(strat => strat.assessee.studentId !== myId);
+                that.myStrat = that.stratResponses.filter(strat => strat.assessee.studentId === myId)[0];
+                that.peerStrats = that.stratResponses.filter(strat => strat.assessee.studentId !== myId);
+        }
 
-
-            })
-            .catch(() => null);
+        function setActiveGroupError(reason): void {}
     }
 
     protected sortList(sortOpt: string): void {

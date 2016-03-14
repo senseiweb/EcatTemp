@@ -20,7 +20,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public bool GradReportPublished { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime GradDate { get; set; }
-
+        public ICollection<SpResult> SpResults { get; set; }
         public ICollection<StudentInCourse> StudentsInCourse { get; set; }
         public ICollection<CrseStudentInGroup> StudentInCrseGroups { get; set; }
         public ICollection<SpResponse> SpResponses { get; set; } 

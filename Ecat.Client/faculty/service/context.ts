@@ -420,23 +420,6 @@ export default class EcFacultyRepo extends IUtilityRepo {
         return facComment;
     }
 
-    getFacStrat(assesseeId: number): ecat.entity.IFacStratResponse {
-        if (!this.activeGroupId || !this.activeCourseId) {
-            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
-        }
-        const key = { assesseePersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId };
-
-        let facStrat = this.manager.getEntityByKey(_mp.MpEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
-
-        if (!facStrat) {
-            //Is this right?
-            //facStrat = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, key) as ecat.entity.IFacStratResponse;
-            facStrat = this.manager.createEntity(_mp.MpEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
-        }
-
-        return facStrat;
-    }
-
     getCrseEnrolls(getNew?: boolean): breeze.promises.IPromise<ecat.entity.ICourse | angular.IPromise<void>> {
         const that = this;
         const resource = this.facultyApiResource.caCourse.resource;

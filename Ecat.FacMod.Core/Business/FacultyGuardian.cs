@@ -70,12 +70,13 @@ namespace Ecat.FacMod.Core
 
             var wgSaveMap = new Dictionary<Type, List<EntityInfo>> {{ _tWg, workGroupInfos }} ;
 
-            if (publishingWgs.Any())
-            {
-                var svrWgIds = publishingWgs.Select(wg => wg.Id);
-                var publishResultMap = WorkGroupPublish.Publish(wgSaveMap, svrWgIds, _loggedInUser.PersonId, _efCtx);
-                wgSaveMap.MergeMap(publishResultMap);
-            }
+            if (!publishingWgs.Any()) return wgSaveMap;
+
+
+            var svrWgIds = publishingWgs.Select(wg => wg.Id);
+            var publishResultMap = WorkGroupPublish.Publish(wgSaveMap, svrWgIds, _loggedInUser.PersonId, _efCtx);
+
+            wgSaveMap.MergeMap(publishResultMap);
 
             return wgSaveMap;
         }

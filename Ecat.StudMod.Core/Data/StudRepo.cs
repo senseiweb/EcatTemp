@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Newtonsoft.Json.Linq;
 
@@ -39,6 +40,18 @@ namespace Ecat.StudMod.Core
         public CrseStudentInGroup FindStudInGrpById(int studentId, int courseId, int workGroupId)
         {
             return _ctx.StudentInGroups.Find(studentId, courseId, workGroupId);
+        }
+
+        IQueryable<SpResult> IStudRepo.SpResult => _ctx.SpResults;
+
+        IQueryable<WorkGroup> IStudRepo.WorkGroups(bool addInstrument)
+        {
+            var query = _ctx.WorkGroups;
+
+            return addInstrument
+                ? query.Include(wg => wg.AssignedSpInstr)
+                    .Include(wg => wg.AssignedSpInstr.InventoryCollection)
+                : query;
         }
 
         public IQueryable<CrseStudentInGroup> CrseStudentInGroups => _ctx.StudentInGroups

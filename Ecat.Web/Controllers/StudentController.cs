@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.OData.Query;
 using Breeze.ContextProvider;
 using Breeze.WebApi2;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
@@ -59,19 +60,12 @@ namespace Ecat.Web.Controllers
             return _studLogic.GetSingleWrkGrpMembers();
         }
 
-        //[HttpGet]
-        //public async Task<MemberInCourse> GetCrseGrpMembers(int crseMemId)
-        //{
-        //    return await _studLogic.GetCrseMemById(crseMemId);
+        [HttpGet]
+        public async Task<SpResult> GetCrseGrpMembers(int wgId, bool addInstrument)
+        {
+            return await _studLogic.GetWrkGrpResult(wgId, addInstrument);
 
-        //}
-
-        //[HttpGet]
-        //public async Task<MemberInGroup> GetGrpMember(int grpMemId)
-        //{
-        //    return await _studLogic.GetGrpMemById(grpMemId);
-
-        //}
+        }
 
         [HttpPost]
         public SaveResult SaveChanges(JObject saveBundle)

@@ -120,7 +120,9 @@
     {
         public const string Pos = "Postiive",
             Neg = "Negative",
-            Neut = "Netural";
+            Neut = "Netural",
+            Appr = "Appropriate",
+            Inappr = "Inappropriate";
     }
 
     public static class MpCourseRole

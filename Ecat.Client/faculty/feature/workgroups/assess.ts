@@ -59,7 +59,7 @@ export default class EcFacultyWgAssess {
     private loadAssessment(studentId: number): void {
         if (!studentId) {
             console.log('You must pass a student id to use this feature');
-            return null
+            return null;
         }
 
         this.sptool
@@ -76,7 +76,7 @@ export default class EcFacultyWgAssess {
                 updatedStudent['assessText'] = updatedStudent.statusOfStudent.assessComplete ? 'Edit' : 'Add';
 
             })
-            .catch(() => {
+            .catch((reason: string) => {
                 this.log.error('Assessment Model errored', '', true);
             });
     }

@@ -121,7 +121,7 @@ export default class EcProviderSpToolAssessTaker {
                         item.responseForAssessee.entityAspect.rejectChanges();
                         item['isChanged'] = false;
                     });
-                    this.$mi.dismiss();
+                    this.$mi.close('User canceled');
                     _swal('Success!', 'Gotta it...changes canceled.', 'success');
                     _swal.close();
                 } 

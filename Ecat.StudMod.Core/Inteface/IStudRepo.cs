@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Breeze.ContextProvider;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Newtonsoft.Json.Linq;
 
@@ -15,5 +16,8 @@ namespace Ecat.StudMod.Core
         SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards);
         IQueryable<CrseStudentInGroup> CrseStudentInGroups { get; }
         IQueryable<StudentInCourse> Courses { get; }
+        IQueryable<SpResult> SpResult { get; }
+        IQueryable<WorkGroup> WorkGroups(bool addInstrument);
+
     }
 }

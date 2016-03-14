@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
+using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Newtonsoft.Json.Linq;
@@ -14,6 +15,7 @@ namespace Ecat.StudMod.Core
         IQueryable<CrseStudentInGroup> GetInitalCourses();
         IQueryable<StudentInCourse> GetSingleCourse();
         IQueryable<CrseStudentInGroup> GetSingleWrkGrpMembers();
+        Task<SpResult> GetWrkGrpResult(int wgId, bool addInstrument); 
 
         string GetMetadata { get; }
     }
