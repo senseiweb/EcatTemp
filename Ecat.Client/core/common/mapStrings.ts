@@ -151,7 +151,7 @@ export class MpEntityType {
     static spResponse = 'SpResponse';
     static spComment = 'StudSpComment';
     static spCommentFlag = 'StudSpCommentFlag';
-    static spStrat = 'SpStrat';
+    static spStrat = 'StratResponse';
     static spResult = 'SpResult';
     static facSpResponse = 'FacSpResponse';
     static facSpComment = 'FacSpComment';

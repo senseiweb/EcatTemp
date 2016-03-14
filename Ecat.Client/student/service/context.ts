@@ -192,7 +192,7 @@ export default class EcStudentRepo extends IUtilityRepo {
         }
 
         return workGroup.groupMembers.map(gm => {
-            const existingStrat = gm.studentStrat;
+            const existingStrat = gm.assesseeStratResponse.filter(strat => strat.assessorPersonId === loggedUserId)[0];
 
             if (existingStrat) {
                 return existingStrat;

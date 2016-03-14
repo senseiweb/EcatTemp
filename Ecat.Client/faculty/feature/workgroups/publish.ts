@@ -6,8 +6,6 @@ import _moment from "moment"
 import * as _mp from "core/common/mapStrings"
 import * as _mpe from "core/common/mapEnum"
 
-
-
 export default class EcFacultyWgPublish {
     static controllerId = 'app.faculty.wkgrp.publish';
     static $inject = ['$scope',ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
@@ -334,7 +332,7 @@ export default class EcFacultyWgPublish {
             const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
 
             if (hasErrors) {
-                _swal('Not Ready', 'Your proposed stratification changes contain errors, please make ensure all proposed changes are valid before saving', 'warning');
+                _swal('Not Ready', 'Your proposed stratification changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
                 return null;
             }
 

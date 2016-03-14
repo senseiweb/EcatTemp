@@ -3,6 +3,7 @@ import ISpTools from "provider/spTools/sptool"
 import IDataCtx from 'core/service/data/context'
 import * as _mp from "core/common/mapStrings"
 import _moment from "moment"
+import _swal from "sweetalert"
 
 //TODO: Need to add logic if the workgroup status is published to make everything readonly
 export default class EcStudentAssessments {
@@ -12,6 +13,7 @@ export default class EcStudentAssessments {
     //#region Controller Properties
     protected activeCourseId: number;
     protected activeView: number;
+    protected activeGroup: ecat.entity.IWorkGroup;
     protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false};
     protected assessmentForm: angular.IFormController;
     protected courses: ecat.entity.ICourse[];
@@ -21,9 +23,12 @@ export default class EcStudentAssessments {
     protected hasComment = false;
     protected hasResultComment = false;
     protected isResultPublished = true;
+    protected isSaving = false;
     protected isViewOnly = true;
     private log = this.c.getAllLoggers('Assessment Center');
     protected me: ecat.entity.ICrseStudInGroup;
+    protected myStrat: ecat.entity.IStratResponse;
+    protected peerStrats: Array<ecat.entity.IStratResponse>;
     protected peers: Array<ecat.entity.ICrseStudInGroup>;
     protected radioEffectiveness: string;
     protected radioFreq: string;
@@ -32,7 +37,7 @@ export default class EcStudentAssessments {
         assess: 'assessText',
         comment: 'commentText',
         strat: 'stratText',
-        composite: 'composite'
+        composite: 'compositeScore'
     }
     protected stratInputVis: boolean;
     protected stratResponses: Array<ecat.entity.IStratResponse>;
@@ -98,6 +103,13 @@ export default class EcStudentAssessments {
             });
     }
 
+    private evaluateStrat(): void {
+        this.spTools.evaluateStratification(this.activeGroup, false)
+            .then((crseMems) => {
+                this.stratValComments = crseMems;
+            });
+    }
+
     //For when the group is published and is showing the results
     private getWgSpResults(): void {
         this.dCtx.student
@@ -160,6 +172,36 @@ export default class EcStudentAssessments {
             });
     }
 
+    protected saveChanges(): angular.IPromise<void> {
+        const hasErrors = this.stratResponses.some(response => !response.isValid);
+
+        if (hasErrors) {
+            _swal('Not ready', 'Your proposed changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
+        }
+
+        const changeSet = this.stratResponses.filter(response => response.proposedPosition !== null);
+
+        changeSet.forEach(response => response.stratPosition = response.proposedPosition);
+
+        this.isSaving = true;
+
+        return this.dCtx.student.saveChanges(changeSet)
+            .then(() => {
+                this.stratResponses.forEach((response) => {
+                    response.validationErrors = [];
+                    response.isValid = true;
+                    response.proposedPosition = null;
+                });
+            })
+            .then(saveChangesResponse)
+            .finally(() => { this.isSaving = false });
+
+        function saveChangesResponse(): void {
+            _swal('Changes Saved', 'Stratification has been saved', 'success');
+        }
+
+    }
+
     private setActiveCourse(course: ecat.entity.ICourse): void {
         this.activeCourseId = this.dCtx.student.activeCourseId = course.id;
         this.dCtx.student.getActiveCourse()
@@ -182,6 +224,7 @@ export default class EcStudentAssessments {
             .then((wg: ecat.entity.IWorkGroup) => {
 
                 const grpMembers = wg.groupMembers;
+                this.activeGroup = wg;
                 this.isResultPublished = wg.mpSpStatus === _mp.MpSpStatus.published;
                 this.isViewOnly = this.isResultPublished || wg.mpSpStatus !== _mp.MpSpStatus.open;
 
@@ -198,8 +241,6 @@ export default class EcStudentAssessments {
                 
                 this.me = grpMembers.filter(gm => gm.studentId === myId)[0];
 
-                console.log(this.me);
-
                 grpMembers.forEach(gm => {
 
                     gm['hasChartData'] = this.me.statusOfPeer[gm.studentId].breakOutChartData.some(cd => cd.data > 0);
@@ -214,19 +255,21 @@ export default class EcStudentAssessments {
                         gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
                     }
                 });
-
-                
+            
                 this.peers = grpMembers.filter(gm => gm.studentId !== myId);
 
-                if (!this.stratResponses) {
-                    this.stratResponses = this.dCtx.student.getAllStrats();
-                    this.stratResponses.forEach(response => {
-                        this.spTools.evaluateStratification(workGroup, false)
-                            .then((groupMembers) => {
-                                this.stratValComments = groupMembers;
-                            });
-                    });
-                }
+                this.stratResponses = this.dCtx.student.getAllStrats();
+                console.log(this.stratResponses);
+                this.stratResponses.forEach(response => {
+                    this.spTools.evaluateStratification(workGroup, false)
+                        .then((groupMembers) => {
+                            this.stratValComments = groupMembers;
+                        });
+                });
+
+                this.myStrat = this.stratResponses.filter(strat => strat.assessee.studentId === myId)[0];
+                this.peerStrats = this.stratResponses.filter(strat => strat.assessee.studentId !== myId);
+
 
             })
             .catch(() => null);
@@ -240,6 +283,12 @@ export default class EcStudentAssessments {
   
         this.activeSort.opt = sortOpt;
         this.activeSort.desc = true;
+    }
+
+    private sortByLastName(studentA: ecat.entity.ICrseStudInGroup, studentB: ecat.entity.ICrseStudInGroup) {
+        if (studentA['name'] < studentB['name']) return -1;
+        if (studentA['name'] > studentB['name']) return 1;
+        return 0;
     }
 
     private sortWg(wgA: ecat.entity.IWorkGroup, wgB: ecat.entity.IWorkGroup): number {
