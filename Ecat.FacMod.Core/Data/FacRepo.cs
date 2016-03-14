@@ -65,8 +65,12 @@ namespace Ecat.FacMod.Core
                 : query.Include(g => g.WorkGroup.AssignedSpInstr)
                     .Include(g => g.WorkGroup.AssignedSpInstr.InventoryCollection);
 
-           return !addComments ? query : query.Include(gm => gm.AuthorOfComments)
-                    .Include(gm => gm.FacultyComment);
+            return !addComments
+                ? query
+                : query.Include(gm => gm.AuthorOfComments)
+                    .Include(gm => gm.AuthorOfComments.Select(comment => comment.Flag))
+                    .Include(gm => gm.FacultyComment)
+                    .Include(gm => gm.FacultyComment.Flag);
 
         }
 

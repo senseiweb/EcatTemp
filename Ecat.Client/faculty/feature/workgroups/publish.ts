@@ -69,16 +69,16 @@ export default class EcFacultyWgPublish {
 
         if (!angular.isArray(author)) {
             const singularAuthor = author as ecat.entity.ICrseStudInGroup;
-            this.updateAuthorDynamics(singularAuthor)
+            this.updateAuthorDynamics(singularAuthor);
             if (flag) {
-                this.selectedComment.flag.mpFacultyFlag = flag
+                this.selectedComment.flag.mpFacultyFlag = flag;
             } else {
                 singularAuthor.authorOfComments
                     .filter(comment => all || (!!comment.flag && comment.flag.mpFacultyFlag == null))
                     .forEach(comment => {
                         comment.flag.mpFacultyFlag = _mp.MpCommentFlag.appr;
-                        comment.flag.flaggedByFacultyId = this.instructorId
-                    })
+                        comment.flag.flaggedByFacultyId = this.instructorId;
+                    });
             };
             this.updateAuthorDynamics(singularAuthor);
             this.checkPublishingReady();
@@ -91,10 +91,10 @@ export default class EcFacultyWgPublish {
                 .filter(comment => all || (!!comment.flag && comment.flag.mpFacultyFlag == null))
                 .forEach(comment => {
                     comment.flag.mpFacultyFlag = _mp.MpCommentFlag.appr;
-                    comment.flag.flaggedByFacultyId = this.instructorId
-                })
-            this.updateAuthorDynamics(a)
-        })
+                    comment.flag.flaggedByFacultyId = this.instructorId;
+                });
+            this.updateAuthorDynamics(a);
+        });
         this.checkPublishingReady();
     }
 
@@ -151,10 +151,8 @@ export default class EcFacultyWgPublish {
             if (response) {
                 that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.underReview;
                 that.saveChanges()
-                    .then(() => {
-                        _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success');
-                    })
-                    .then(() => that.processActiveWg(that.activeWorkGroup));
+                    .then(() => that.processActiveWg(that.activeWorkGroup))
+                    .then(() => _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success'));
             } else {
                 _swal.close();
                 that.c.$state.go(that.c.stateMgr.faculty.wgList.name);
@@ -278,7 +276,7 @@ export default class EcFacultyWgPublish {
                 .filter(author => !!author)
                 .sort(that.sortByLastName);
             that.pubState = PubState.Comment;
-            this.saveBtnText = 'Comments';
+            that.saveBtnText = 'Comments';
             that.gmWithComments.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
                 that.updateAuthorDynamics(crseStud);
             });

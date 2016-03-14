@@ -13,7 +13,6 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
     updateStatusOfStudent(): ecat.entity.ext.IFacCrseStudInGrpStatus {
 
         if (!this.workGroup) {
-            console.log('Unable to update status missing assign workgroup');
             return null;
         }
 
@@ -157,31 +156,38 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
     }
 
     private updateResult(): ecat.entity.ext.IStudentDetailResult {
+        const counts = {
+            h: this.spResult.breakOut.highEffA + this.spResult.breakOut.highEffU,
+            e: this.spResult.breakOut.effA + this.spResult.breakOut.effU,
+            i: this.spResult.breakOut.ineffA + this.spResult.breakOut.ineffU,
+            nd: this.spResult.breakOut.notDisplay
+        }
+        
         this._resultForStud.breakOutReceived = [];
         this._resultForStud.breakOutReceived.push({
-            label: 'Highly Effective',
-            color: '',
-            data: this.spResult.breakOut.highEffA + this.spResult.breakOut.highEffU
+            label: `Highly Effective [${counts.h}]`,
+            color: '#00308F',
+            data: counts.h  
         });
         this._resultForStud.breakOutReceived.push({
-            label: 'Effective',
-            color: '',
-            data: this.spResult.breakOut.effA + this.spResult.breakOut.effU
+            label: `Effective [${counts.e}]`,
+            color: '#00AA58',
+            data: counts.e
         });
         this._resultForStud.breakOutReceived.push({
-            label: 'Ineffective',
-            color: '',
-            data: this.spResult.breakOut.ineffA + this.spResult.breakOut.ineffU
+            label: `Ineffective [${counts.i}]`,
+            color: '#AA0000',
+            data: counts.i
         });
         this._resultForStud.breakOutReceived.push({
-            label: 'Not Displayed',
-            color: '',
-            data: this.spResult.breakOut.notDisplay
+            label: `Not Displayed [${counts.nd}]`,
+            color: '#AAAAAA',
+            data: counts.nd
         });
 
         this._resultForStud.outcome = this.spResult.mpAssessResult;
         this._resultForStud.finalStrat = this.stratResult.finalStratPosition;
-
+        this._resultForStud.compositeScore = this.spResult.compositeScore;
         return this._resultForStud;
     }
 

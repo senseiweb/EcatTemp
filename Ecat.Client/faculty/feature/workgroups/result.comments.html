@@ -1,1 +1,91 @@
-﻿
+﻿<div class="card m-b-0" id="messages-main" ng-if="wkr.hasComments">
+    <div class="row">
+        <div class="col-md-3" style="padding-right: 0;">
+            <div class="ms-menu">
+
+                <div class="ms-block">
+                    <div class="dropdown"
+                         uib-dropdown>
+                        <a class="btn btn-primary btn-block dropdown-toggle waves-effect"
+                           href="javascript:void(0)"
+                           uib-dropdown-toggle
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            Viewing As: {{wkr.commentPerspective}}
+                            <i class="caret m-l-5"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dm-icon w-100">
+                            <li>
+                                <a ng-click="wkr.changeCommentView('Author')">View As Author</a>
+                            </li>
+                            <li>
+                                <a ng-click="wkr.changeCommentView('Recipient')">View As Recipient</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="listview lv-user ecat-messages m-t-20">
+
+                    <div class="lv-item media"
+                         ng-class="{'active': wkr.selectedComment.studentId === comment.studentId}"
+                         ng-repeat="comment in wkr.studentComments track by comment.studentId"
+                         ng-click="wkr.selectComment(comment)">
+
+                        <div class="lv-avatar pull-left">
+                            {{comment.initials}}
+                        </div>
+
+                        <div class="media-body">
+                            <div class="lv-title">
+                                {{comment.rankName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="ms-body">
+                <div class="listview lv-message">
+                    <div class="lv-body">
+                        <div ng-if="wkr.selectedComment === null">
+                            <h2 class="text-center">Select a recipient...</h2>
+                        </div>
+                        <div ng-if="wkr.selectedComment !== null">
+                            <h4 class="f-400 p-l-20">
+                                <span class="pull-left">Comment type: {{wkr.selectedComment.commentType}}</span>
+                                <span class="pull-right">
+                                    Marked As:
+                                    <span class="label label-success" ng-if="wkr.selectedComment.isAppr">
+                                        Appropriate
+                                    </span>
+                                    <span class="label label-error" ng-if="!wkr.selectedComment.isAppr">
+                                        Inappropriate
+                                    </span>
+                                </span>
+                            </h4>
+                            <div class="clearfix"></div>
+                            <div class="p-20 media">
+                                <div class="media-body f-14">
+                                    <p ng-bind-html="wkr.selectedComment.commentText"></p>
+                                </div>
+                            </div>
+                            <div class="lv-footer">
+                                <div class="small f-12 pull-right p-r-15">
+                                    Last Modified: <i class="zmdi zmdi-time"></i> {{wkr.selectedComment.modDate}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div ng-if="!wkr.hasComments">
+    <h1 class="text-center">Well this should be easy...there are no comments to evaluate!</h1>
+</div>

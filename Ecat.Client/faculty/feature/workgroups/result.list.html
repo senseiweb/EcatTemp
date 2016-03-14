@@ -13,7 +13,7 @@
                 </thead>
                 <tbody class="f-14">
                     <tr ng-repeat="studResult in wkr.wgResults | orderBy:'result.nameSorter.lastName' track by studResult.studentId" 
-                        ng-class="{'success': studResult.studentId === wkr.activeStudResult}"
+                        ng-class="{'active': studResult.studentId === wkr.activeStudResult.studentId}"
                         ng-click="wkr.activeStudResult = studResult">
                         
                         <td style="border-right: 1px solid #f0f0f0;">

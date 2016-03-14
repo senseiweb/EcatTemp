@@ -1,4 +1,4 @@
-﻿<div class="card" id="assessments-main">
+﻿<div class="card  m-b-0">
     <div ng-if="wkr.viewState === 0">
         <h2 class="text-center">Preparing WorkGroup Results....</h2>
     </div>
@@ -24,21 +24,23 @@
 
                     <button type="button"
                             class="btn waves-effect"
-                            ng-if="wkr.wkr.activeStudResult"
+                            ng-if="wkr.activeStudResult"
                             ng-class="wkr.viewState === 2 ? 'btn-primary' : 'btn-default'"
                             ng-click="wkr.switchTo('behavior')">
                         View Behaviors
                     </button>
 
                     <button type="button"
-                            class="btn btn-link waves-effect"
-                            ng-if="wkr.wkr.activeStudResult"
+                            class="btn waves-effect"
+                            ng-if="wkr.activeStudResult"
                             ng-class="wkr.viewState === 3 ? 'btn-primary': 'btn-default'"
                             ng-click="wkr.switchTo('comment')">
                         View Comments
                     </button>
                 </div>
-
+                <span class="m-r-20" ng-if="wkr.activeStudResult">
+                    Active Student: {{wkr.activeStudResult.rankName}}
+                </span>
                 <ul class="lv-actions actions">
                     <li class="dropdown" uib-dropdown>
                         <a href="" uib-dropdown-toggle>
@@ -54,7 +56,7 @@
                 </ul>
             </div>
 
-            <div class="lv-body">
+            <div class="lv-body faculty">
                 <div ng-switch="wkr.viewState">
                     <div ng-switch-when="1">
                         <div ng-include="'@[appFaculty]/feature/workgroups/result.list.html'"></div>
@@ -69,7 +71,7 @@
             </div>
         </div>
     </div>
-      
+
 </div>
 
 
