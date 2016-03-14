@@ -7,6 +7,12 @@
     </tbody>
 </table>-->
 
-<div style="width:610px;height:160px;text-align:center;margin:10px">
-    <div id="flot-placeholder" style="width:600px;height:150px;"></div>
+<div id="sp-chart-data-{{$index}}" >
+    <span class="sp-graph-composite">{{::studResult.resultForStudent.compositeScore}}</span>
+    <div bar-sp-break-out dataset="studResult.resultForStudent.breakOutReceived" class="spflot-chart-bar" legend="flotlegend{{$index}}" style="height: 200px"> </div>
+    <div id="flotlegend{{$index}}" style="display: none"></div>
 </div>
+
+<!--<div style="width:610px;height:160px;text-align:center;margin:10px">
+    <div id="flot-placeholder" style="width:600px;height:150px;"></div>
+</div>-->

@@ -1,5 +1,5 @@
 ﻿import mcs from 'core/service/plugin/malihuScroll'
-import {IStateMgr} from "core/config/cfgProviders"
+import {IStateMgr} from 'core/config/cfgProviders'
 
 export abstract class EcMalihuScroll implements angular.IDirective {
     constructor(private mCustomScrollService: mcs, private $state: angular.ui.IStateService, private stateMgr: IStateMgr) { }

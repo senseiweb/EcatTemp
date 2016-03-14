@@ -26,17 +26,32 @@
                         <td>{{inv.behavior}}</td>
                         <td>{{inv.resultByBehavior.aggSelf}}</td>
                         <td>
-                            <a href="javascript:void(0)" popover-append-to-body="true" popover-placement="top" popover-trigger="mouseenter" popover-title="Recieved" uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behRec.tpl.html'" ng-mouseenter="wkr.getRespByBehav('rec', inv.id)">
+                            <a href="javascript:void(0)"
+                               popover-append-to-body="true"
+                               popover-placement="top"
+                               popover-trigger="click"
+                               popover-title="Recieved"
+                               uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behRec.tpl.html'">
                                 test
                             </a>
                         </td>
                         <td>
-                            <a href="javascript:void(0)" popover-append-to-body="true" popover-placement="left-top" popover-trigger="mouseenter" popover-title="Recieved" uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behRec.tpl.html'" ng-mouseenter="wkr.getRespByBehav('rec', inv.id)">
+                            <a href="javascript:void(0)"
+                               popover-append-to-body="true"
+                               popover-placement="left-top"
+                               popover-trigger="click"
+                               popover-title="Recieved" 
+                               uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behRec.tpl.html'">
                                 {{inv.resultByBehavior.aggPeerRec}}
                             </a>
                         </td>
                         <td>
-                            <a href="javascript:void(0)" popover-append-to-body="true" popover-placement="left-top" popover-trigger="mouseenter" popover-title="Given" uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behGiv.tpl.html'" ng-mouseenter="wkr.getRespByBehav('giv', inv.id)">
+                            <a href="javascript:void(0)"
+                               popover-append-to-body="true"
+                               popover-placement="left-top"
+                               popover-trigger="click"
+                               popover-title="Given" 
+                               uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behGiv.tpl.html'" ng-mouseenter="wkr.getRespByBehav('giv', inv.id)">
                                 {{inv.resultByBehavior.aggPeerGiv}}
                             </a>
                         </td>

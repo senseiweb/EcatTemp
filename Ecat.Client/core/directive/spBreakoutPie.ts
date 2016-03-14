@@ -1,4 +1,4 @@
-import "inputMask"
+import 'inputMask'
 
 interface ISpBreakOutPieAttrs extends angular.IAttributes {
     breakOut: {HE: number, E: number, ND: number, IE: number};
@@ -19,7 +19,7 @@ export default class EcDirSpBreakOutPie implements angular.IDirective {
             container: '.flc-pie',
             backgroundOpacity: 0.5,
             noColumns: 0,
-            backgroundColor: "white",
+            backgroundColor: 'white',
             lineWidth: 0
         },
         grid: {

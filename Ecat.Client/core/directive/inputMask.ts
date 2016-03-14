@@ -1,4 +1,4 @@
-﻿import "inputMask"
+﻿import 'inputMask'
 
 interface IInputMaskScope extends angular.IScope {
     inputMask: any;

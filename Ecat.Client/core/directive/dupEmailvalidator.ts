@@ -1,4 +1,4 @@
-﻿import IDataCtx from "core/service/data/context"
+﻿import IDataCtx from 'core/service/data/context'
 
 export default class EcEmailValidator {
     static directiveId = 'uniqueEmailValidator';
