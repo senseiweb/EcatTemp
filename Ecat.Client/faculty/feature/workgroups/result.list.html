@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12 p-t-20">
-        <div class="table-responsive">
+        <div>
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr class="f-16">
@@ -28,7 +28,7 @@
                             {{::studResult.resultForStudent.outcome}}
                         </td>
 
-                        <td class="text-center">
+                        <td class="text-center p-b-0 p-t-0">
                             <div ng-if="!studResult.hasReceivedCharData">
                                 No Assessment
                             </div>
@@ -39,13 +39,12 @@
                             </div>
                         </td>
 
-                        <td class="text-center">
+                        <td class="text-center p-b-0 p-t-0">
                             <div ng-if="!studResult.hasGivenCharData">
                                 No Assessment
                             </div>
                             <div id="sp-chart-data-{{$index}}" ng-if="::studResult.hasGivenChartData">
-                                <span class="sp-graph-composite">{{::studResult.statusOfStudent.compositeScore}}</span>
-                                <div pie-sp-break-out dataset="strat.studentAssessee.statusOfStudent.breakOutChartData" class="spflot-chart-bar" legend="flotlegend{{$index}}"> </div>
+                                <div pie-sp-break-out dataset="studResult.statusOfStudent.gaveBreakOutChartData" class="spflot-chart-bar" legend="flotlegend{{$index}}"> </div>
                                 <div id="flotlegend{{$index}}" style="display: none"></div>
                             </div>
                         </td>

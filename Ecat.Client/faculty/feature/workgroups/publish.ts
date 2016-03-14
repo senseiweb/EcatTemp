@@ -23,6 +23,7 @@ export default class EcFacultyWgPublish {
     private instructorId: number;
     protected isSaving = false;
     protected isPublishing = false;
+    private log = this.c.getAllLoggers('Faculty Publish')
     protected pubState = PubState.Loading;
     private routingParams = { crseId: 0, wgId: 0 };
     protected saveBtnText = 'Progress';
@@ -374,10 +375,14 @@ export default class EcFacultyWgPublish {
 
 
         function saveChangesResponse(): void {
+            
+            that.log.success('Save Stratification, Your changes have been made.', null, true);
+
             if (that.isPublishing) {
                 _swal('Hello World!', `Publishing WorkGroup ${that.workGroupName} Complete`, _mp.MpSweetAlertType.success);
                 that.c.$state.go(that.c.stateMgr.faculty.wgResult.name, { crseId: that.routingParams.crseId, wgId: that.routingParams.wgId });
             }
+
             that.checkPublishingReady();
         }
 

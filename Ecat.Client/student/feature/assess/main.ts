@@ -39,6 +39,15 @@ export default class EcStudentAssessments {
         strat: 'stratText',
         composite: 'compositeScore'
     }
+
+    protected sortStratOpt = {
+        student: 'rankName',
+        assess: 'assessText',
+        comment: 'commentText',
+        strat: 'stratText',
+        composite: 'compositeScore'
+    }
+
     protected stratInputVis: boolean;
     protected stratResponses: Array<ecat.entity.IStratResponse>;
     protected stratValComments: Array<ecat.entity.ICrseStudInGroup>;
@@ -139,6 +148,7 @@ export default class EcStudentAssessments {
                 }
                 const updatedPeer = this.peers.filter(peer => peer.studentId === assesseeId)[0];
                 this.me.updateStatusOfPeer();
+                updatedPeer['hasChartData'] = this.me.statusOfPeer[updatedPeer.studentId].breakOutChartData.some(cd => cd.data > 0);
                 updatedPeer['assessText'] = this.me.statusOfPeer[updatedPeer.studentId].assessComplete ? 'Edit' : 'Add';
             })
             
@@ -171,6 +181,7 @@ export default class EcStudentAssessments {
     }
 
     protected saveChanges(): angular.IPromise<void> {
+        const that = this;
         const hasErrors = this.stratResponses.some(response => !response.isValid);
 
         if (hasErrors) {
@@ -195,7 +206,7 @@ export default class EcStudentAssessments {
             .finally(() => { this.isSaving = false });
 
         function saveChangesResponse(): void {
-            _swal('Changes Saved', 'Stratification has been saved', 'success');
+            that.log.success('Save Stratification, Your changes have been made.', null, true);
         }
 
     }
@@ -319,7 +330,7 @@ const enum SortOpt {
     Student,
     Assess,
     Comment,
-    Strat
+    Strat,
 }
 
 const enum StudAssessViews {

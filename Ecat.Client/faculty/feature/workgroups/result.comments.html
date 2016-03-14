@@ -55,6 +55,7 @@
                         </div>
                         <div ng-if="wkr.selectedComment !== null">
                             <h4 class="f-400 p-l-20">
+                                <span class="pull-left">{{wkr.commentPerspective === 'Author' ? 'From:' : 'To:'}} </span>
                                 <span class="pull-left">Comment type: {{wkr.selectedComment.commentType}}</span>
                                 <span class="pull-right">
                                     Marked As:

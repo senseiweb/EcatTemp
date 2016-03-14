@@ -40,12 +40,14 @@
                                    max="groups.selectedGroup.groupMembers.length"
                                    ng-change="wkp.evaluateStrat(strat)"
                                    ng-disabled="wkp.isSaving"
-                                       tabindex="{{$index + 1}}" />
+                                   ng-model="strat.proposedPosition"
+                                   ng-model-options="{debounce: 500}"
+                                   tabindex="{{$index + 1}}" />
                         </td>
+                        
+                            
                         <td class="text-center">
-                            ng-model="strat.proposedPosition"
-                            ng-model-options="{debounce: 500}"
-      <span ng-if="strat.isValid">
+                            <span ng-if="strat.isValid">
                                 Valid
                             </span>
                             <span ng-if="!strat.isValid">

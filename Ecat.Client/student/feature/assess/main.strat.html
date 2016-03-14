@@ -80,7 +80,7 @@
                             </span>
                         </td>
                     </tr>
-                    <tr ng-repeat="strat in assess.peerStrats | orderBy:assess.activeSort.opt:assess.activeSort.desc track by strat.assessee.studentId">
+                    <tr ng-repeat="strat in assess.peerStrats | orderBy:'stratText':assess.activeSort.desc track by strat.assessee.studentId">
                         <td style="border-right: 1px solid #f0f0f0;">{{::strat.assessee.rankName}}</td>
                         <td class="text-center  p-b-0 p-t-0">
                             <div ng-if="!strat.assessee.hasChartData">
