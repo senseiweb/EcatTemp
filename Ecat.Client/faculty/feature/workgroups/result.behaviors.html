@@ -16,19 +16,37 @@
                     <tr>
                         <th>Behavior</th>
                         <th>Self</th>
-                        <th>Peer</th>
+                        <th>Recieved</th>
+                        <th>Given</th>
                         <th>Instructor</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="inv in res.selStud.workgroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
+                    <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
                         <td>{{inv.behavior}}</td>
-                        <td>{{inv.resultForAssessee.aggSelf}}</td>
-                        <td>{{inv.resultForAssessee.aggPeer}}</td>
-                        <td>{{inv.resultForAssessee.aggFac}}</td>
+                        <td>{{inv.resultByBehavior.aggSelf}}</td>
+                        <td>
+                            <a href="javascript:void(0)" popover-append-to-body="true" popover-placement="top" popover-trigger="mouseenter" popover-title="Recieved" uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behRec.tpl.html'" ng-mouseenter="wkr.getRespByBehav('rec', inv.id)">
+                                test
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" popover-append-to-body="true" popover-placement="left-top" popover-trigger="mouseenter" popover-title="Recieved" uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behRec.tpl.html'" ng-mouseenter="wkr.getRespByBehav('rec', inv.id)">
+                                {{inv.resultByBehavior.aggPeerRec}}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" popover-append-to-body="true" popover-placement="left-top" popover-trigger="mouseenter" popover-title="Given" uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/result/behGiv.tpl.html'" ng-mouseenter="wkr.getRespByBehav('giv', inv.id)">
+                                {{inv.resultByBehavior.aggPeerGiv}}
+                            </a>
+                        </td>
+                        <td>{{inv.resultByBehavior.aggFac}}</td>
                     </tr>
                 </tbody>
             </table>
+            <!--<div style="width:610px;height:160px;text-align:center;margin:10px">
+                <div id="flot-placeholder" style="width:600px;height:150px;"></div>
+            </div>-->
         </div>
     </div>
 </div>

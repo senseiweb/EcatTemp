@@ -1,0 +1,8 @@
+﻿<table>
+    <tbody>
+        <tr ng-repeat="resp in wkr.respByBehav | orderBy: 'resp.itemModelScore'">
+            <td>{{resp.assessee.studentProfile.person.lastName}}, {{resp.assessee.studentProfile.person.firstName}}</td>
+            <td>{{resp.mpItemResponse}}</td>
+        </tr>
+    </tbody>
+</table>
