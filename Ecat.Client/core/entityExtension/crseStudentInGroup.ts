@@ -14,6 +14,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected _sop: ecat.entity.ext.IStatusOfPeer = null;
     protected _spResult: ecat.entity.ext.ICrseStudInGrpResult;
     protected _spRationaleResult: ecat.entity.ext.ICrseStudInGrpResult;
+    protected _salutation: string;
 
     updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         const groupPeers = this.workGroup.groupMembers;
@@ -122,17 +123,21 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     }
 
     updateSpResult(spResponse: Array<ecat.entity.ISpResponse>): ecat.entity.ext.ICrseStudInGrpResult {
+        if (!spResponse) {
+            return null;
+        }
         _staticDs.avgScore(spResponse);
         return this._spResult;
     }
 
     updateRationaleScore(spResponse: Array<ecat.entity.ISpResponse>): ecat.entity.ext.ICrseStudInGrpResult {
-        
+        return null;
     }
 
     get rankName(): string {
         const p = (this.studentProfile) ? this.studentProfile.person : null;
-        return (!p) ? 'Unk' : `${_staticDs.getSalutation(p.mpPaygrade, p.mpComponent, p.mpAffiliation)} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
+        if (p && !this._salutation) this._salutation = _staticDs.getSalutation(p.mpPaygrade, p.mpComponent, p.mpAffiliation);
+        return (!p) ? 'Unk' : `${this._salutation} ${this.studentProfile.person.lastName}, ${this.studentProfile.person.firstName}`;
     }
 
     get nameSorter() {
@@ -142,19 +147,17 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
         }
     }
 
-    get spResult(): ecat.entity.ext.ICrseStudInGrpResult {
+    get resultBo(): ecat.entity.ext.ICrseStudInGrpResult {
         if (this._spResult) {
             return this._spResult;
         }
-        return this.updateSpResult();
+        return this.updateSpResult(null);
     }
 
     get statusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         if (!this.workGroup) {
-            console.log('Unable to update status missing assign workgroup');
             return null;
         }
-        console.log(`ran sop check for ${this.studentId}`);
         if (this._sop) {
             return this._sop;
         }

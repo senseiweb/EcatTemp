@@ -24,11 +24,12 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
     {
         public int StudentId { get; set; }
         public string Name { get; set; }
-        public float SpResponseTotalScore { get; set; }
+        public int SpResponseTotalScore { get; set; }
         public int FacStratPosition { get; set; }   
         public bool HasSpResult { get; set; }
         public bool HasStratResult { get; set; }
         public StratResult StratResult { get; set; }
+        public PubWgBreakOut BreakOut { get;  set;}
         public IEnumerable<int> PeersDidNotAssessMe { get; set; }
         public IEnumerable<int> PeersIdidNotAssess { get; set; }
         public IEnumerable<int> PeersDidNotStratMe { get; set; }
@@ -42,4 +43,14 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
         public int Count { get; set; }  
     }
     
+    public class PubWgBreakOut
+    {
+        public int NotDisplayed { get; set; }
+        public int IneffA { get; set; }
+        public int IneffU { get; set; }
+        public int EffA { get; set; }
+        public int EffU { get; set; }
+        public int HighEffU { get; set; }
+        public int HighEffA { get; set; }
+    }
 }

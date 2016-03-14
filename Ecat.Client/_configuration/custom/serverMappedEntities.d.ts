@@ -77,9 +77,17 @@ declare module ecat.entity
             rankName: string;
         }
 
+        interface IStudentDetailResult {
+            outcome: string;
+            finalStrat: number;
+            compositeScore: number;
+            breakOutReceived: Array<{ label: string; data: number; color: string }>;
+        }
+
         interface IFacCrseStudInGrpExt extends ICrseStudInGrpExt {
             updateStatusOfStudent(): IFacCrseStudInGrpStatus;
             numberOfAuthorComments: number;
+            resultForStudent: IStudentDetailResult;
             statusOfStudent: IFacCrseStudInGrpStatus;
         }
 

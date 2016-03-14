@@ -185,7 +185,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     getAllStrats(): Array<ecat.entity.IStratResponse> {
 
         const loggedUserId = this.dCtx.user.persona.personId;
-        const workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup; 
+        const workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup; 
 
         if (!this.activeGroupId || !this.activeCourseId) {
             this.log.warn('Missing required information', { groupId: this.activeCourseId, courseId: this.activeCourseId }, false);
@@ -198,7 +198,7 @@ export default class EcStudentRepo extends IUtilityRepo {
                 return existingStrat;
             }
 
-            return this.manager.createEntity(_mp.EcMapEntityType.spStrat, {
+            return this.manager.createEntity(_mp.MpEntityType.spStrat, {
                 assesseePersonId: gm.studentId,
                 assessorPersonId: loggedUserId,
                 courseId: this.activeCourseId,

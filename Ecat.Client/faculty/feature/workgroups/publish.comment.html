@@ -25,10 +25,10 @@
                                 <a data-ng-click="wkp.massFlagReset()">Reset All</a>
                             </li>
                             <li>
-                                <a data-ng-click="wkp.authorFlagUnflagged()">Set Selected Author's</a>
+                                <a data-ng-click="wkp.massAuthorFlagUnflagged()">Set Selected Author's</a>
                             </li>
                             <li>
-                                <a data-ng-click="wkp.authorFlagReset()">Reset Selected Author's</a>
+                                <a data-ng-click="wkp.massAuthorFlagReset()">Reset Selected Author's</a>
                             </li>
                         </ul>
                     </div>
@@ -52,13 +52,10 @@
                             <span class="badge" ng-if="author.numRemaining">{{author.numRemaining}}</span>
                             <span class="flag-breakdown" style="color: #D8D8D8">
                                 <span class="p-r-5">
-                                    <i class="zmdi zmdi-hc-fw zmdi-plus-circle-o"></i>{{author.totalPosCount}}
+                                    <i class="zmdi zmdi-hc-fw zmdi-plus-circle-o"></i>{{author.totalApprCount}}
                                 </span>
                                 <span class="p-r-5">
-                                    <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline"></i>{{author.totalNeutCount}}
-                                </span>
-                                <span>
-                                    <i class="zmdi zmdi-hc-fw zmdi-close-circle-o"></i>{{author.totalNegCount}}
+                                    <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline"></i>{{author.totalInapprCount}}
                                 </span>
                             </span>
                         </div>
@@ -80,9 +77,8 @@
 
                             <i class="zmdi zmdi-hc-fw"
                                style="display: inline"
-                               ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.neut,
-                                                              'zmdi-close-circle-o sp-neg-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.neg,
-                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.pos}"></i>
+                               ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.inappr,
+                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.appr}"></i>
                         </div>
                     </div>
                 </div>
@@ -106,7 +102,7 @@
                                 <label class="btn btn-default"
                                                ng-class="{'btn-primary': wkp.selectedComment.flag.mpFacultyFlag === wkp.commentFlag.appr}"
                                                ng-model="wkp.selectedComment.flag.mpFacultyFlag"
-                                               ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.appr)"
+                                               ng-click="wkp.changeFlag(wkp.selectedComment.author, wkp.commentFlag.appr)"
                                                uib-btn-radio="wkp.commentFlag.appr">
                                             {{wkp.commentFlag.appr}}
                                         </label>
@@ -114,7 +110,7 @@
                                         <label class="btn btn-default"
                                                ng-class="{'btn-primary': wkp.selectedComment.flag.mpFacultyFlag=== wkp.commentFlag.inappr}"
                                                ng-model="wkp.selectedComment.flag.mpFacultyFlag"
-                                               ng-click="wkp.updateRemaining(wkp.selectedComment.author, wkp.commentFlag.inappr)"
+                                               ng-click="wkp.changeFlag(wkp.selectedComment.author, wkp.commentFlag.inappr)"
                                                uib-btn-radio="wkp.commentFlag.inappr">
                                             {{wkp.commentFlag.inappr}}
                                         </label>

@@ -57,12 +57,14 @@ export const enum QueryError {
 }
 
 export const enum SpEffectLevel {
+    Unknown,
     Ineffective,
     Effective,
     HighlyEffective
 }
 
 export const enum SpFreqLevel {
+    Unknown,
     Always,
     Usually
 }
@@ -75,16 +77,6 @@ export const enum CompositeModelScore {
     eu = 4,
     heu = 5,
     hea = 6
-}
-
-export const enum ItemModelScore {
-    iea = -2,
-    ieu = -1,
-    nd = 0,
-    ea = 1,
-    eu = 2,
-    heu = 3,
-    hea = 4
 }
 
 export const enum SpStratType {

@@ -186,7 +186,7 @@ export default class EcLocalDataService {
 
     static getSalutation(paygrade: string, component: string, affiliation: string): string {
         const paygradeList = EcLocalDataService.milPaygradeGraft;
-
+        
         if (!paygrade) {
             return "NPG";
         }
@@ -203,27 +203,29 @@ export default class EcLocalDataService {
             return paygrade;
         }
 
-        if (!paygradeList.hasOwnProperty(paygrade.toLowerCase())) {
+        const pg = paygrade.toLowerCase();
+
+        if (!paygradeList.hasOwnProperty(pg)) {
             return 'Udf';
         }
 
-        if (angular.isObject(paygradeList[paygrade]) && paygradeList[paygrade].designator === paygrade) {
+        if (angular.isObject(paygradeList[pg]) && paygradeList[pg].designator === paygrade) {
 
             switch (affiliation) {
             case _mp.MpAffiliation.usa:
-                return paygradeList[paygrade].usa.rankShortName;
+                    return paygradeList[pg].usa.rankShortName;
             case _mp.MpAffiliation.usaf:
-                return paygradeList[paygrade].usaf.rankShortName;
+                    return paygradeList[pg].usaf.rankShortName;
             case _mp.MpAffiliation.usn:
             case _mp.MpAffiliation.uscg:
-                return paygradeList[paygrade].usn.rankShortName;
+                    return paygradeList[pg].usn.rankShortName;
             case _mp.MpAffiliation.usmc:
-                return paygradeList[paygrade].usmc.rankShortName;
+                    return paygradeList[pg].usmc.rankShortName;
             default:
                 return 'Unkown';
             }
-
         }
+        return 'Udf'
     }
 
     static prettyInstituteRole(role: string): string {
@@ -269,22 +271,22 @@ export default class EcLocalDataService {
         }
         myResponses.forEach(response => {
             switch (response.itemModelScore) {
-            case _mpe.ItemModelScore.iea:
+            case _mpe.CompositeModelScore.iea:
                 breakdown.iea += 1;
                 break;
-            case _mpe.ItemModelScore.ieu:
+            case _mpe.CompositeModelScore.ieu:
                 breakdown.ieu += 1;
                 break;
-            case _mpe.ItemModelScore.eu:
+            case _mpe.CompositeModelScore.eu:
                 breakdown.eu += 1;
                 break;
-            case _mpe.ItemModelScore.ea:
+            case _mpe.CompositeModelScore.ea:
                 breakdown.ea += 1;
                 break;
-            case _mpe.ItemModelScore.heu:
+            case _mpe.CompositeModelScore.heu:
                 breakdown.heu += 1;
                 break;
-            case _mpe.ItemModelScore.hea:
+            case _mpe.CompositeModelScore.hea:
                 breakdown.hea += 1;
                 break;
             }

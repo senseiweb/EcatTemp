@@ -33,7 +33,6 @@ namespace Ecat.FacMod.Core
             mb.Configurations.Add(new ConfigFacultyInCourse());
             mb.Configurations.Add(new ConfigStudentInCourse());
 
-
             mb.Ignore(new List<Type>
             {
                 typeof (ProfileExternal),
@@ -44,14 +43,6 @@ namespace Ecat.FacMod.Core
                 typeof (SanitizedSpComment),
                 typeof (SanitizedSpResponse)
             });
-
-            mb.Types()
-               .Where(t => typeof(IAuditable).IsAssignableFrom(t))
-               .Configure(p => p.Ignore("ModifiedById"));
-
-            mb.Types()
-                .Where(t => typeof(IAuditable).IsAssignableFrom(t))
-                .Configure(p => p.Ignore("ModifiedDate"));
 
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(type => !string.IsNullOrEmpty(type.Namespace))

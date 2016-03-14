@@ -68,7 +68,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             resource: 'ActiveWgSpComment'
         },
         wgResult: {
-            returnedEntityType: _mp.EcMapEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
             resource: 'WorkGroupResult'
         },
         caCourse: {
@@ -185,13 +185,9 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const that = this;
         let course: ecat.entity.ICourse;
         
-<<<<<<< 675952bc0c6761da7fb54887642dd5842abefb91
         if (this.isLoaded.course[this.activeCourseId]) {
-            const cachedFacInCourse = this.manager.getEntityByKey(_mp.EcMapEntityType.facCrseMember, [loggedInPersonId, this.activeCourseId]) as ecat.entity.IFacInCrse;
-=======
-        if (isLoaded.course[this.activeCourseId]) {
             const cachedFacInCourse = this.manager.getEntityByKey(_mp.MpEntityType.facCrseMember, [loggedInPersonId, this.activeCourseId]) as ecat.entity.IFacInCrse;
->>>>>>> -- Preparing client side scoring model
+
             if (cachedFacInCourse) {
                course = cachedFacInCourse.course;
                log.success('Course loaded from local cache', course, false);
@@ -297,7 +293,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
         const params = {addAssessment: false, addComments: false };
 
-        let workGroup = this.manager.getEntityByKey(_mp.EcMapEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+        let workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
 
         if (!this.isLoaded.wgSpComment[this.activeGroupId]) {
             params.addComments = true;
@@ -435,7 +431,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         if (!facStrat) {
             //Is this right?
             //facStrat = this.manager.createEntity(_mp.EcMapEntityType.facSpComment, key) as ecat.entity.IFacStratResponse;
-            facStrat = this.manager.createEntity(_mp.EcMapEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
+            facStrat = this.manager.createEntity(_mp.MpEntityType.facStratResponse, key) as ecat.entity.IFacStratResponse;
         }
 
         return facStrat;

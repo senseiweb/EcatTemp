@@ -26,6 +26,7 @@ export default class EcFacultyWgPublish {
     protected isSaving = false;
     protected isPublishing = false;
     protected pubState = PubState.Loading;
+    private routingParams = { crseId: 0, wgId: 0 };
     protected saveBtnText = 'Progress';
     protected selectedAuthor: ecat.entity.ICrseStudInGroup;
     protected selectedRecipient: ecat.entity.ICrseStudInGroup;
@@ -33,13 +34,14 @@ export default class EcFacultyWgPublish {
     protected workGroupName = 'Not Listed';
 
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
-        
-        this.activate(c.$stateParams.crseId, c.$stateParams.wgId);
+        this.routingParams.crseId = c.$stateParams.crseId;
+        this.routingParams.wgId = c.$stateParams.wgId;
+        this.activate();
     }
 
-    private activate(courseId: number, wrkGrpId: number): void {
+    private activate(): void {
 
-        if (!courseId || !wrkGrpId) {
+        if (!this.routingParams.crseId || !this.routingParams.wgId) {
             const alertSettings: SweetAlert.Settings = {
                 title: 'Missing Parameter',
                 text: 'Unable to determine the approprate course and/or workgroup to publish. Please try selecting on from the workgroup list',
@@ -52,70 +54,53 @@ export default class EcFacultyWgPublish {
             });
         }
       
-        this.dCtx.faculty.activeCourseId = courseId;
-        this.dCtx.faculty.activeGroupId = wrkGrpId;
+        this.dCtx.faculty.activeCourseId = this.routingParams.crseId;
+        this.dCtx.faculty.activeGroupId = this.routingParams.wgId;
         this.instructorId = this.dCtx.user.persona.personId;
         this.getActiveWorkGroup();
     }
 
-    protected authorFlagReset(): void {
-        const _ = this;
-
-        const alertSettings: SweetAlert.Settings = {
-            title: 'Mass Update Pending',
-            text: `This action will flagged ALL ${this.selectedAuthor.rankName} comments to neutral. Are you sure?`,
-            type: 'warning',
-            showCancelButton: true,
-            showConfirmButton: true,
-            closeOnCancel: true,
-            closeOnConfirm: false,
-            confirmButtonText: 'Reset Author\'s Comments'
-        };
-
-        _swal(alertSettings, (confirmed?: boolean) => {
-            if (confirmed) {
-
-                this.selectedAuthor.authorOfComments.forEach(aoc => {
-                    aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
-                    aoc.flag.flaggedByFacultyId = _.instructorId;
-                });
-
-                this.selectedAuthor["numRemaining"] = 0;
-                swal('Update Complete', 'All Author comment have been set to Netural', 'success');
-                this.$scope.$apply();
-            }
-        });
-
-    }
-
-    protected authorFlagUnflagged(): void {
-        const _ = this;
-        const alertSettings: SweetAlert.Settings = {
-            title: 'Mass Update Pending',
-            text: `This action will flag ALL ${this.selectedAuthor.rankName} unflagged comments to neutral. Are you sure?`,
-            type: 'warning',
-            showCancelButton: true,
-            showConfirmButton: true,
-            closeOnCancel: true,
-            closeOnConfirm: false,
-            confirmButtonText: 'Flag Author\'s Comments'
-        };
-
-        _swal(alertSettings, (confirmed?: boolean) => {
-            if (confirmed) {
-                this.selectedAuthor.authorOfComments.forEach(aoc => {
-                    aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
-                    aoc.flag.flaggedByFacultyId = _.instructorId;
-                });
-                this.selectedAuthor["numRemaining"] = 0;
-                swal('Update Complete', 'Author\'s unflagged comments have been flagged', 'success');
-                this.$scope.$apply();
-            }
-        });
-    }
-
+    //TODO: show confirmation message and then change workgroup back to open
     protected cancelPublish(): void {
+        
+    }
 
+    protected changeFlag(author: ecat.entity.ICrseStudInGroup | Array<ecat.entity.ICrseStudInGroup>, flag?: string, all?: boolean): void {
+
+        if (!angular.isArray(author)) {
+            const singularAuthor = author as ecat.entity.ICrseStudInGroup;
+            this.updateAuthorDynamics(singularAuthor)
+            if (flag) {
+                this.selectedComment.flag.mpFacultyFlag = flag
+            } else {
+                singularAuthor.authorOfComments
+                    .filter(comment => all || (!!comment.flag && comment.flag.mpFacultyFlag == null))
+                    .forEach(comment => {
+                        comment.flag.mpFacultyFlag = _mp.MpCommentFlag.appr;
+                        comment.flag.flaggedByFacultyId = this.instructorId
+                    })
+            };
+            this.updateAuthorDynamics(singularAuthor);
+            this.checkPublishingReady();
+            return null;
+        }
+
+        const authors = author as Array<ecat.entity.ICrseStudInGroup>;
+        authors.forEach(a => {
+            a.authorOfComments
+                .filter(comment => all || (!!comment.flag && comment.flag.mpFacultyFlag == null))
+                .forEach(comment => {
+                    comment.flag.mpFacultyFlag = _mp.MpCommentFlag.appr;
+                    comment.flag.flaggedByFacultyId = this.instructorId
+                })
+            this.updateAuthorDynamics(a)
+        })
+        this.checkPublishingReady();
+    }
+
+    private checkPublishingReady(): void {
+        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
+        this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => strat.stratPosition && strat.proposedPosition === null);
     }
 
     protected evaluateStrat(strat: ecat.entity.IFacStratResponse) {
@@ -126,8 +111,7 @@ export default class EcFacultyWgPublish {
     }
 
     private getActiveWorkGroup(): void {
-        const _ = this;
-        let retrievedWg: ecat.entity.IWorkGroup;
+        const that = this;
 
         //TODO: handle the error handler
         this.dCtx.faculty.fetchActiveWorkGroup()
@@ -135,8 +119,9 @@ export default class EcFacultyWgPublish {
             .catch(getActiveWgResponseErr);
 
         function getActiveWgResponse(wg: ecat.entity.IWorkGroup): void {
+            that.activeWorkGroup = wg;
+
             if (wg.mpSpStatus === _mp.MpSpStatus.open) {
-                retrievedWg = wg;
                 const alertSetting: SweetAlert.Settings = {
                     title: 'Publication Acknowledgement',
                     text: 'Be advised, you are preparing to start publishing this workgroup.\n\n Students will no longer be able to save changes to their assessment. Would you like to continue?',
@@ -151,9 +136,9 @@ export default class EcFacultyWgPublish {
                 }
                 _swal(alertSetting, toPublishOrNotToPublish);
             } else if (wg.mpSpStatus === _mp.MpSpStatus.published) {
-                _.c.$state.go(_.c.stateMgr.faculty.wgResult.name);
+                that.c.$state.go(that.c.stateMgr.faculty.wgResult.name, {crseId: that.routingParams.crseId, wgId: that.routingParams.wgId});
             } else {
-                _.processActiveWg(wg);
+                that.processActiveWg(wg);
             }
         }
 
@@ -164,24 +149,71 @@ export default class EcFacultyWgPublish {
 
         function toPublishOrNotToPublish(response: boolean) {
             if (response) {
-                retrievedWg.mpSpStatus = _mp.MpSpStatus.underReview;
-                _.saveChanges()
+                that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.underReview;
+                that.saveChanges()
                     .then(() => {
                         _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success');
                     })
-                    .then(() => _.processActiveWg(retrievedWg));
+                    .then(() => that.processActiveWg(that.activeWorkGroup));
             } else {
                 _swal.close();
-                _.c.$state.go(_.c.stateMgr.faculty.wgList.name);
+                that.c.$state.go(that.c.stateMgr.faculty.wgList.name);
             }
         }
     }
 
-    protected massFlagReset(): void {
-        const _ = this;
+    protected massAuthorFlagReset(): void {
+        const that = this;
+
         const alertSettings: SweetAlert.Settings = {
             title: 'Mass Update Pending',
-            text: 'This action will flag ALL comments to neutral. Are you sure?',
+            text: `This action will flagged ALL ${this.selectedAuthor.rankName} comments to appropriate. Are you sure?`,
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: true,
+            closeOnConfirm: false,
+            confirmButtonText: 'Reset Author\'s Comments'
+        };
+
+        _swal(alertSettings, (confirmed?: boolean) => {
+
+            if (confirmed) {
+                that.changeFlag(that.selectedAuthor, null, true)
+                _swal('Update Complete', 'All Author comment have been set to appropriate', 'success');
+                this.$scope.$apply();
+            }
+        });
+
+    }
+
+    protected massAuthorFlagUnflagged(): void {
+        const that = this;
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Mass Update Pending',
+            text: `This action will flag ALL ${this.selectedAuthor.rankName} unflagged comments to appropriate. Are you sure?`,
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: true,
+            closeOnConfirm: false,
+            confirmButtonText: 'Flag Author\'s Comments'
+        };
+
+        _swal(alertSettings, (confirmed?: boolean) => {
+            if (confirmed) {
+                that.changeFlag(that.selectedAuthor)
+                _swal('Update Complete', 'Author\'s unflagged comments have been flagged', 'success');
+                this.$scope.$apply();
+            }
+        });
+    }
+
+    protected massFlagReset(): void {
+        const that = this;
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Mass Update Pending',
+            text: 'This action will flag ALL comments to appropriate. Are you sure?',
             type: 'warning',
             showCancelButton: true,
             showConfirmButton: true,
@@ -192,25 +224,18 @@ export default class EcFacultyWgPublish {
 
         _swal(alertSettings, (confirmed?: boolean) => {
             if (confirmed) {
-                this.gmWithComments.forEach(gm => {
-                    gm.authorOfComments.forEach(aoc => {
-                        aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
-                        aoc.flag.flaggedByFacultyId = _.instructorId;
-                    });
-                    gm['numRemaining'] = 0;
-                });
-                
-                swal('Update Complete', 'All comments have been flagged as neutral', 'success');
+                that.changeFlag(this.gmWithComments, null, true);
+                _swal('Update Complete', 'All comments have been flagged as appropriate', 'success');
                 this.$scope.$apply();
             }
         });
     }
 
     protected massFlagUnflagged(): void {
-        const _ = this;
+        const that = this;
         const alertSettings: SweetAlert.Settings = {
             title: 'Mass Update Pending',
-            text: 'This action will flag ALL UNFLAGGED comments to neutral. Are you sure?',
+            text: 'This action will flag ALL UNFLAGGED comments to appropriate. Are you sure?',
             type: 'warning',
             showCancelButton: true,
             showConfirmButton: true,
@@ -221,70 +246,54 @@ export default class EcFacultyWgPublish {
 
         _swal(alertSettings, (confirmed?: boolean) => {
             if (confirmed) {
-                this.gmWithComments.forEach(gm => {
-                    gm.authorOfComments
-                        .filter(aoc => aoc.flag.mpFacultyFlag === null)
-                        .forEach(aoc => {
-                            aoc.flag.mpFacultyFlag = _mp.MpCommentFlag.neut;
-                            aoc.flag.flaggedByFacultyId = _.instructorId;
-                        });
-                    gm['numRemaining'] = 0;
-                    
-                });
-                swal('Update Complete', 'All unflagged comments have been flagged as Neutral', 'success');
+                that.changeFlag(this.gmWithComments);
+                _swal('Update Complete', 'All unflagged comments have been flagged as appropriate', 'success');
                 this.$scope.$apply();
             }
         });
     }
 
     protected processActiveWg(wg: ecat.entity.IWorkGroup): void {
-        const _ = this;
+        const that = this;
         this.activeWorkGroup = wg;
         const uniques = {} as any;
 
         this.dCtx.faculty.fetchActiveWgComments()
             .then(procssWgComments)
-            .catch(processWgCommentsErro);
+            .catch(processWgCommentsError);
 
         function procssWgComments(comments: Array<ecat.entity.IStudSpComment>): void {
-            _.hasComments = !!comments;
+            that.hasComments = !!comments;
 
-            if (!_.hasComments) {
+            if (!that.hasComments) {
                 return null;
             }
 
-            _.gmWithComments = comments.map(comment => {
+            that.gmWithComments = comments.map(comment => {
                     if (!uniques.hasOwnProperty(comment.authorPersonId)) {
                         uniques[comment.authorPersonId] = true;
-                        //This creates a new property on the object, not changed tracked, only view can see it. 
-
-                        comment.author['isAllCommentFlagged'] = !comment.author.authorOfComments.some(com =>com.flag && com.flag.mpFacultyFlag === null);
-                        comment.author['totalNegCount'] = comment.author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.neg).length;
-                        comment.author['totalPosCount'] = comment.author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.pos).length;
-                        comment.author['totalNeutCount'] = comment.author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.neut).length;
-
                         return comment.author;
                     }
                 })
                 .filter(author => !!author)
-                .sort(_.sortByLastName);
-            _.pubState = PubState.Comment;
-            _.gmWithComments.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
-                _.updateRemaining(crseStud);
+                .sort(that.sortByLastName);
+            that.pubState = PubState.Comment;
+            this.saveBtnText = 'Comments';
+            that.gmWithComments.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
+                that.updateAuthorDynamics(crseStud);
             });
-            _.selectedAuthor = _.gmWithComments[0];
-            _.selectComment(_.selectedAuthor.authorOfComments[0]);
-            _.doneWithComments = !_.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
-            _.doneWithStrats = !_.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null); 
+            that.selectedAuthor = that.gmWithComments[0];
+            that.selectComment(that.selectedAuthor.authorOfComments[0]);
+            that.checkPublishingReady();
         }
         //TODO: Handle get comment error
-        function processWgCommentsErro(): void {
+        function processWgCommentsError(): void {
 
         }
     }
 
     protected publish(): void {
-        const _ = this;
+        const that = this;
 
         if (this.doneWithComments && this.doneWithStrats) {
             const alertSettings: SweetAlert.Settings = {
@@ -301,15 +310,15 @@ export default class EcFacultyWgPublish {
 
             _swal(alertSettings, (confirmed?: boolean) => {
                 if (confirmed) {             
-                    _.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.published;
-                    _.isPublishing = true;
+                    that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.published;
+                    that.isPublishing = true;
                     //Why is clicking Publish calling save changes?
-                    _.saveChanges();
+                    that.saveChanges();
                 }
 
             });
         } else {
-            swal('Not Complete', 'You have unfinished work, you must flag all comments and provide stratification for all members before publishing', 'error');
+            _swal('Not Complete', 'You have unfinished work, you must flag all comments and provide stratification for all members before publishing', _mp.MpSweetAlertType.err);
         }
 
     }
@@ -319,8 +328,9 @@ export default class EcFacultyWgPublish {
     }
 
     protected saveChanges(): angular.IPromise<void> {
-        const _ = this;
+        const that = this;
         let changedFlags = null;
+
         if (this.pubState === PubState.Strat && !this.isPublishing) {
 
             const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
@@ -337,7 +347,6 @@ export default class EcFacultyWgPublish {
             this.isSaving = true;
 
             return this.dCtx.faculty.saveChanges(changeSet)
-                .then(saveChangesResponse)
                 .then(() => {
                     this.facultyStratResponses.forEach((response) => {
                         response.validationErrors = [];
@@ -345,10 +354,11 @@ export default class EcFacultyWgPublish {
                         response.proposedPosition = null;
                     });
                 })
+                .then(saveChangesResponse)
                 .finally(() => { this.isSaving = false });
         }
 
-        if (this.pubState === PubState.Comment && ! this.isPublishing) {
+        if (this.pubState === PubState.Comment && !this.isPublishing) {
              changedFlags = this.activeWorkGroup.spComments.map(comment => {
                 if (comment.flag && comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
                     return comment.flag;
@@ -356,7 +366,6 @@ export default class EcFacultyWgPublish {
             });
         }
      
-
         this.isSaving = true;
 
         return this.dCtx.faculty
@@ -369,18 +378,17 @@ export default class EcFacultyWgPublish {
 
 
         function saveChangesResponse(): void {
-            _.doneWithComments = !_.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
-            _.doneWithStrats = !_.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null);
-            if (_.isPublishing) {
-                swal('Hello World!', `Publishing WorkGroup ${_.workGroupName} Complete`, 'success');
+            if (that.isPublishing) {
+                _swal('Hello World!', `Publishing WorkGroup ${that.workGroupName} Complete`, _mp.MpSweetAlertType.success);
+                that.c.$state.go(that.c.stateMgr.faculty.wgResult.name, { crseId: that.routingParams.crseId, wgId: that.routingParams.wgId });
             }
-            _.c.$state.go(_.c.stateMgr.faculty.wgResult.name);
+            that.checkPublishingReady();
         }
 
         //TODO: if no changes are exists, dCtx will throw an IQueryError that needs to be handled
         function saveChangesError(reason: string|ecat.IQueryError): void {
-            if (_.isPublishing) {
-                swal('Oh No!', `Something went wrong attempting to publish WorkGroup ${_.workGroupName}\n\n Please try again`, 'error');
+            if (that.isPublishing) {
+                _swal('Oh No!', `Something went wrong attempting to publish WorkGroup ${that.workGroupName}\n\n Please try again`, _mp.MpSweetAlertType.err);
             }
         }
     }
@@ -388,7 +396,7 @@ export default class EcFacultyWgPublish {
     protected selectAuthor(author: ecat.entity.ICrseStudInGroup): void {
         this.selectedAuthor = author;
         this.selectedComment = author.authorOfComments[0];
-        this.updateRemaining(author);
+        this.updateAuthorDynamics(author);
     }
 
     protected selectComment(comment: ecat.entity.IStudSpComment): void {
@@ -403,9 +411,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected switchTo(tab: string): void {
-        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
-        this.doneWithStrats = !this.activeWorkGroup.facStratResponses.some(strat => strat.stratPosition === null || strat.proposedPosition !== null);
-
+        this.checkPublishingReady();
         if (tab === 'strat') {
             if (!this.facultyStratResponses) {
                 this.facultyStratResponses = this.dCtx.faculty.getAllActiveWgFacStrat();
@@ -429,11 +435,11 @@ export default class EcFacultyWgPublish {
         }
     }
 
-    protected updateRemaining(author: ecat.entity.ICrseStudInGroup, flag?: string): void {
+    private updateAuthorDynamics(author: ecat.entity.ICrseStudInGroup): void {
+        author['isAllCommentFlagged'] = !author.authorOfComments.some(com => com.flag && com.flag.mpFacultyFlag === null);
+        author['totalApprCount'] = author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.appr).length;
+        author['totalInapprCount'] = author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.inappr).length;
         author['numRemaining'] = author.authorOfComments.filter(aoc => aoc.flag.mpFacultyFlag === null).length;
-        if(flag) {
-            this.selectedComment.flag.mpFacultyFlag = flag;
-        }
     }
 }
 

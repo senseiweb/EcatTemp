@@ -25,11 +25,11 @@
 
     public static class MpSpResultScore
     {
-        public const int He = 4,
-            Aae = 3,
-            E = 2,
-            Bae = 1,
-            Ie = 0;
+        public const int He = 90,
+            Aae = 80,
+            E = 60,
+            Bae = 40,
+            Ie = 20;
     }
 
     public static class MpInstituteRoleId

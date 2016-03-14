@@ -47,14 +47,24 @@ namespace Ecat.FacMod.Core
                         throw new EntityErrorsException(error);
                     }
                     var peerCount = countOfGrp - 1;
-                    var resultScore = me.SpResponseTotalScore/(peerCount*wg.CountInventory);
+                    var resultScore = me.SpResponseTotalScore;
                     var spResult = new SpResult
                     {
                         CourseId = wg.CourseId,
                         WorkGroupId = wg.Id,
                         StudentId = me.StudentId,
                         AssignedInstrumentId = wg.InstrumentId,
-                        SpResultScore = resultScore,
+                        CompositeScore = resultScore, 
+                        BreakOut = new SpResultBreakOut
+                        {
+                            NotDisplay = me.BreakOut.NotDisplayed,
+                            IneffA = me.BreakOut.IneffA,
+                            IneffU = me.BreakOut.IneffU,
+                            EffA = me.BreakOut.EffA,
+                            EffU = me.BreakOut.EffU,
+                            HighEffA = me.BreakOut.HighEffA,
+                            HighEffU = me.BreakOut.HighEffU
+                        },
                         MpAssessResult = ConvertScoreToOutcome(resultScore),
                     };
 
@@ -138,36 +148,35 @@ namespace Ecat.FacMod.Core
                         wgSaveMap[tStratResult].Add(info);
                     }
 
-
                     fi += 1;
                 }
             }
             return wgSaveMap;
         }
 
-        private static string ConvertScoreToOutcome(float score)
+        private static string ConvertScoreToOutcome(int avgCompositeScore)
         {
-            if (score <= MpSpResultScore.Ie)
+            if (avgCompositeScore <= MpSpResultScore.Ie)
             {
                 return MpAssessResult.Ie;
             }
 
-            if (score < MpSpResultScore.Bae)
+            if (avgCompositeScore < MpSpResultScore.Bae)
             {
                 return MpAssessResult.Bae;
             }
 
-            if (score < MpSpResultScore.E)
+            if (avgCompositeScore < MpSpResultScore.E)
             {
                 return MpAssessResult.E;
             }
 
-            if (score < MpSpResultScore.Aae)
+            if (avgCompositeScore < MpSpResultScore.Aae)
             {
                 return MpAssessResult.Aae;
             }
 
-            return score <= MpSpResultScore.He ? MpAssessResult.He : "Out of Range";
+            return avgCompositeScore <= MpSpResultScore.He ? MpAssessResult.He : "Out of Range";
         }
 
         private static IEnumerable<PubWg> GetPublishingWgData(IEnumerable<int> wgIds, EFContextProvider<FacCtx> efCtx)
@@ -186,7 +195,6 @@ namespace Ecat.FacMod.Core
                     WgSpTopStrat = wg.WgModel.MaxStratStudent,
                     WgFacTopStrat = wg.WgModel.MaxStratFaculty,
                     StratDivisor = wg.WgModel.StratDivisor,
-
                     PubWgMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new PubWgMember
                     {
                         StudentId = gm.StudentId,
@@ -195,9 +203,18 @@ namespace Ecat.FacMod.Core
                             .Where(response => response.AssessorPersonId != gm.StudentId)
                             .Sum(response => response.ItemModelScore),
                         FacStratPosition = gm.FacultyStrat.StratPosition,
-
                         HasSpResult = wg.SpResults.Any(result => result.StudentId == gm.StudentId),
                         HasStratResult = wg.SpStratResults.Any(result => result.StudentId == gm.StudentId),
+                        BreakOut = new PubWgBreakOut
+                        {
+                            NotDisplayed = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Nd),
+                            IneffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Iea),
+                            IneffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Ieu),
+                            EffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Ea),
+                            EffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Eu),
+                            HighEffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Hea),
+                            HighEffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Heu)
+                        },
                         StratTable =
                             gm.AssesseeStratResponse
                                 .Where(response => response.AssessorPersonId != gm.StudentId)

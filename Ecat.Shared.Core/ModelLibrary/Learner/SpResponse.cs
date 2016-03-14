@@ -22,7 +22,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public int InventoryItemId { get; set; }
 
         public string MpItemResponse { get; set; }
-        public float ItemModelScore { get; set; }
+        public int ItemModelScore { get; set; }
 
         public SpInventory InventoryItem { get; set; }
         public WorkGroup WorkGroup { get; set; }

@@ -9,13 +9,14 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
 
     constructor() { }
 
-    compositeScore: number = null;
+    get compositeScore(): number {
+        return this.responseForAssessee ? this.responseForAssessee.itemModelScore : null;
+    };
 
     reset(): void {
         this._effLevel = null;
         this._freqLevel = null;
         this._behaveDisplayed = true;
-        this.compositeScore = null;
         this.responseForAssessee = null;
     }
 
@@ -99,21 +100,19 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
             this.compositeScore = null;
         } else {
             this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.nd;
-            this.compositeScore = _mpe.CompositeModelScore.nd;
         }
     }
 
     private calculateItemResponse(): void {
         const reponse = this.responseForAssessee.mpItemResponse;
         if (reponse) {
-            if (this._effLevel === null || this._effLevel === undefined) this._effLevel = this.behaviorEffect;
-            if (this._freqLevel === null || this._freqLevel === undefined) this._freqLevel = this.behaviorFreq;
+            if (this._effLevel) this._effLevel = this.behaviorEffect;
+            if (this._freqLevel) this._freqLevel = this.behaviorFreq;
         }
 
 
-        if ((this._effLevel === null || this._effLevel === undefined) || (this._freqLevel === null  || this._freqLevel === undefined)) {
+        if (this._effLevel || this._freqLevel) {
             this.responseForAssessee.mpItemResponse = null;
-            this.compositeScore = null;
             return;
         }
 
@@ -122,36 +121,36 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
             case _mpe.SpEffectLevel.HighlyEffective:
                 if (this._freqLevel === _mpe.SpFreqLevel.Always) {
                     this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.hea;
-                    this.compositeScore = _mpe.CompositeModelScore.hea;
+                    this.responseForAssessee.itemModelScore = _mpe.CompositeModelScore.hea;
                 } else {
                     this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.heu;
-                    this.compositeScore = _mpe.CompositeModelScore.heu;
+                    this.responseForAssessee.itemModelScore  = _mpe.CompositeModelScore.heu;
                 }
                 break;
 
             case _mpe.SpEffectLevel.Effective:
                 if (this._freqLevel === _mpe.SpFreqLevel.Always) {
                     this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.ea;
-                    this.compositeScore = _mpe.CompositeModelScore.ea;
+                    this.responseForAssessee.itemModelScore  = _mpe.CompositeModelScore.ea;
                 } else {
                     this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.eu;
-                    this.compositeScore = _mpe.CompositeModelScore.eu;
+                    this.responseForAssessee.itemModelScore  = _mpe.CompositeModelScore.eu;
                 }
                 break;
 
             case _mpe.SpEffectLevel.Ineffective:
                 if (this._freqLevel === _mpe.SpFreqLevel.Always) {
                     this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.iea;
-                    this.compositeScore = _mpe.CompositeModelScore.iea;
+                    this.responseForAssessee.itemModelScore  = _mpe.CompositeModelScore.iea;
                 } else {
                     this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.ieu;
-                    this.compositeScore = _mpe.CompositeModelScore.ieu;
+                    this.responseForAssessee.itemModelScore  = _mpe.CompositeModelScore.ieu;
                 }
                 break;
 
             default:
                 this.responseForAssessee.mpItemResponse = null;
-                this.compositeScore = null;
+                this.responseForAssessee.itemModelScore = null;
         }
 
 

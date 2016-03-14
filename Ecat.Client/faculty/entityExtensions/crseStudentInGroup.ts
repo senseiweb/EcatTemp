@@ -1,9 +1,14 @@
 ﻿import * as _mp from 'core/common/mapStrings'
+import _staticDs from 'core/service/data/static'
+
 import {CrseStudInGrpExtBase, CrseStudInGrpInit} from 'core/entityExtension/crseStudentInGroup'
 
 class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ext.IFacCrseStudInGrpExt {
 
+    private spResult: ecat.entity.ISpResult
+    private stratResult: ecat.entity.IStratResult
     private _statusOfStudent: ecat.entity.ext.IFacCrseStudInGrpStatus = null;
+    private _resultForStud: ecat.entity.ext.IStudentDetailResult = null;
 
     updateStatusOfStudent(): ecat.entity.ext.IFacCrseStudInGrpStatus {
 
@@ -31,7 +36,6 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
             gaveE: null,
             gaveND: null
         };
-
 
         const studStrat = facStats.filter(strat => strat.assesseePersonId === this.studentId && !!strat.stratPosition)[0];
 
@@ -152,8 +156,44 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         }
     }
 
+    private updateResult(): ecat.entity.ext.IStudentDetailResult {
+        this._resultForStud.breakOutReceived = [];
+        this._resultForStud.breakOutReceived.push({
+            label: 'Highly Effective',
+            color: '',
+            data: this.spResult.breakOut.highEffA + this.spResult.breakOut.highEffU
+        });
+        this._resultForStud.breakOutReceived.push({
+            label: 'Effective',
+            color: '',
+            data: this.spResult.breakOut.effA + this.spResult.breakOut.effU
+        });
+        this._resultForStud.breakOutReceived.push({
+            label: 'Ineffective',
+            color: '',
+            data: this.spResult.breakOut.ineffA + this.spResult.breakOut.ineffU
+        });
+        this._resultForStud.breakOutReceived.push({
+            label: 'Not Displayed',
+            color: '',
+            data: this.spResult.breakOut.notDisplay
+        });
+
+        this._resultForStud.outcome = this.spResult.mpAssessResult;
+        this._resultForStud.finalStrat = this.stratResult.finalStratPosition;
+
+        return this._resultForStud;
+    }
+
     numberOfAuthorComments = null;
     
+    get resultForStudent(): ecat.entity.ext.IStudentDetailResult {
+        if (!this.spResult) return null;
+        if (this._resultForStud) return this._resultForStud
+        this._resultForStud = {} as any;
+        return this.updateResult();
+    }
+
     get statusOfStudent(): ecat.entity.ext.IFacCrseStudInGrpStatus {
 
         if (this._statusOfStudent) {

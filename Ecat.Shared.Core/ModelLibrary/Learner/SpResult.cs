@@ -20,7 +20,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public int StudentId { get; set; }
         public int? AssignedInstrumentId { get; set; }
         public string MpAssessResult { get; set; }
-        public float? SpResultScore { get; set; }
+        public int CompositeScore { get; set; }
+        public SpResultBreakOut BreakOut { get; set; }
         public CrseStudentInGroup ResultFor { get; set; }
         public SpInstrument AssignedInstrument { get; set; }
         public ICollection<FacSpResponse> FacultyResponses { get; set; }
@@ -30,5 +31,16 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
 
         public int? ModifiedById { get; set; }
         public DateTime? ModifiedDate { get; set; }
+    }
+
+    public class SpResultBreakOut
+    {
+        public int IneffA { get; set; }
+        public int IneffU { get; set; }
+        public int EffA { get; set; }
+        public int EffU { get; set; }
+        public int HighEffU { get; set; }
+        public int HighEffA { get; set; }
+        public int NotDisplay { get; set; }
     }
 }
