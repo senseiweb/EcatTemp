@@ -39,7 +39,7 @@ export default class EcAppMain {
                 return;
             }
             self.dCtx.logoutUser();
-            self.c.$state.transitionTo(self.c.$state.current, null, { reload: true, inherit: true, notify: true });
+            location.replace(location.hostname);
        }
 
         this.c.swal(alertSettings, afterConfirmClose);

@@ -224,7 +224,7 @@ export default class EcStudentAssessments {
 
         function setActiveGroupResponse(wg: ecat.entity.IWorkGroup): void {
             const grpMembers = wg.groupMembers;
-                            this.activeGroup = wg;
+                            that.activeGroup = wg;
 
             that.isResultPublished = wg.mpSpStatus === _mp.MpSpStatus.published;
             that.isViewOnly = that.isResultPublished || wg.mpSpStatus !== _mp.MpSpStatus.open;

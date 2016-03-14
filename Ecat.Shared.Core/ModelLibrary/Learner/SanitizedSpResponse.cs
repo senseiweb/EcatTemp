@@ -14,6 +14,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public int CourseId { get; set; }
         public int StudentId { get; set; }
         public int AssessorId { get; set; }
+        public int AssesseeId { get; set; }
         public int WorkGroupId { get; set; }
         public bool IsSelfResponse { get; set; }
         public string PeerGenericName { get; set; }

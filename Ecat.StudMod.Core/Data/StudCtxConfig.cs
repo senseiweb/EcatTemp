@@ -6,26 +6,30 @@ using Ecat.Shared.Core.ModelLibrary.User;
 
 namespace Ecat.StudMod.Core
 {
-   
-    //public class StudConfigSanitizedComment : EntityTypeConfiguration<SanitizedSpComment>
-    //{
-    //    public StudConfigSanitizedComment()
-    //    {
-    //        HasRequired(p => p.Result)
-    //            .WithMany(p => p.SanitizedComments)
-    //            .HasForeignKey(p => new {p.Id, p.CourseId,p.WorkGroupId});
-    //    }
-    //}
 
-    //public class StudConfigSanitizedResponse : EntityTypeConfiguration<SanitizedSpResponse>
-    //{
-    //    public StudConfigSanitizedResponse()
-    //    {
-    //        HasRequired(p => p.Result)
-    //            .WithMany(p => p.SanitizedResponses)
-    //            .HasForeignKey(p => new { p.Id, p.CourseId, p.WorkGroupId });
-    //    }
-    //}
+    public class StudConfigSanitizedComment : EntityTypeConfiguration<SanitizedSpComment>
+    {
+        public StudConfigSanitizedComment()
+        {
+            HasKey(p => new {p.AuthorId, p.RecipientId, p.CourseId, p.WorkGroupId});
+
+            HasRequired(p => p.Result)
+                .WithMany(p => p.SanitizedComments)
+                .HasForeignKey(p => new { p.AuthorId, p.CourseId, p.WorkGroupId });
+        }
+    }
+
+    public class StudConfigSanitizedResponse : EntityTypeConfiguration<SanitizedSpResponse>
+    {
+        public StudConfigSanitizedResponse()
+        {
+            HasKey(p => new { p.AssessorId, p.AssesseeId, p.CourseId, p.WorkGroupId });
+
+            HasRequired(p => p.Result)
+                .WithMany(p => p.SanitizedResponses)
+                .HasForeignKey(p => new {p.AssessorId, p.CourseId, p.WorkGroupId});
+        }
+    }
 
     public class StudConfigSpInstrument : EntityTypeConfiguration<SpInstrument>
     {
