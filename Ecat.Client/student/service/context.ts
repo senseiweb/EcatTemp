@@ -4,18 +4,13 @@ import {studPersonCfg} from "core/entityExtension/person"
 import {studSpInventoryCfg} from 'student/entityExtension/spInventory'
 import {studStratCfg} from "student/entityExtension/stratReponse"
 import * as _mp from "core/common/mapStrings"
+import * as _mpe from "core/common/mapEnum"
 
 interface IStudentApiResources extends ecat.IApiResources {
     courses: ecat.IApiResource;
     course: ecat.IApiResource;
     workGroup: ecat.IApiResource;
-}
-
-interface ICachedStudentData {
-    courses: boolean;
-    course: {};
-    crseInStudGroup: {}
-    workGroup: {};
+    wgResult: ecat.IApiResource;
 }
 
 export default class EcStudentRepo extends IUtilityRepo {
@@ -25,7 +20,14 @@ export default class EcStudentRepo extends IUtilityRepo {
     activated = false;
     activeCourseId: number;
     activeGroupId: number;
-
+    isLoaded = {
+        courses: false,
+        course: {},
+        crseInStudGroup: {},
+        workGroup: {},
+        wgResult: {},
+        spInventory: {}
+    }
     private studentApiResources: IStudentApiResources = {
         courses: {
             returnedEntityType: _mp.MpEntityType.crseStudInGrp,
@@ -38,6 +40,10 @@ export default class EcStudentRepo extends IUtilityRepo {
         workGroup: {
             returnedEntityType: _mp.MpEntityType.crseStudInGrp,
             resource: 'ActiveWorkGroup'
+        },
+        wgResult: {
+            returnedEntityType: _mp.MpEntityType.spResult,
+            resource: 'GetMyWgResult'
         }
     }
 
@@ -61,13 +67,13 @@ export default class EcStudentRepo extends IUtilityRepo {
     }
 
     initCrseStudGroup(forceRefresh: boolean): breeze.promises.IPromise<Array<ecat.entity.ICrseStudInGroup> | angular.IPromise<void>> {
+        const that = this;
         const api = this.studentApiResources;
-        const isLoaded: ICachedStudentData = this.isLoaded;
         const log = this.log;
 
         const orderBy = 'course.startDate desc';
 
-        if (isLoaded.courses && !forceRefresh) {
+        if (this.isLoaded.courses && !forceRefresh) {
             const courseMems = this.queryLocal(api.courses.resource, orderBy) as Array<ecat.entity.ICrseStudInGroup>;
             this.log.success('Courses loaded from local cache', courseMems, false);
             return this.c.$q.when(courseMems);
@@ -83,18 +89,18 @@ export default class EcStudentRepo extends IUtilityRepo {
         function initCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.ICrseStudInGroup> {
             const crseStudInGroups = data.results as Array<ecat.entity.ICrseStudInGroup>;
 
-            isLoaded.courses = crseStudInGroups.length > 0;
+            that.isLoaded.courses = crseStudInGroups.length > 0;
 
             crseStudInGroups.forEach(crseStudInGroup => {
 
-                isLoaded.crseInStudGroup[crseStudInGroup.entityId] = true;
+                that.isLoaded.crseInStudGroup[crseStudInGroup.entityId] = true;
 
                 if (crseStudInGroup.course) {
-                    isLoaded[crseStudInGroup.courseId] = true;
+                    that.isLoaded[crseStudInGroup.courseId] = true;
                 }
 
                 if (crseStudInGroup.workGroup && crseStudInGroup.workGroup.groupMembers.length > 1) {
-                        isLoaded.workGroup[crseStudInGroup.workGroupId] = true;
+                        that.isLoaded.workGroup[crseStudInGroup.workGroupId] = true;
                     }
             });
 
@@ -120,9 +126,8 @@ export default class EcStudentRepo extends IUtilityRepo {
         const log = this.log;
         const api = this.studentApiResources;
         const pred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
-        const isLoaded = this.isLoaded as ICachedStudentData;
 
-        if (isLoaded.course[this.activeCourseId]) {
+        if (this.isLoaded.course[this.activeCourseId]) {
             const studInCourse = this.queryLocal(api.course.resource, null, pred) as ecat.entity.IStudInCrse;
             course = studInCourse.course;
             log.success('Course loaded from local cache', course, false);
@@ -137,26 +142,27 @@ export default class EcStudentRepo extends IUtilityRepo {
             .catch(this.queryFailed);
 
         function getActiveCrseReponse(data: breeze.QueryResult) {
+            const that = this;
             const studInCrse = data.results[0] as ecat.entity.IStudInCrse;
 
             if (!studInCrse) {
                 return _common.$q.reject(() => log.warn('Query succeeded, but the course membership did not return a result', data, false)) as any;
             }
             course = studInCrse.course;
-            isLoaded.course[course.id] = true;
+            that.isLoaded.course[course.id] = true;
 
             if (course.workGroups) {
                 const groups = course.workGroups;
 
                 groups.forEach(grp => {
-                    isLoaded.workGroup[grp.id] = true;
+                    that.isLoaded.workGroup[grp.id] = true;
                 });
             }
 
             if (course.studentInCrseGroups && course.studentInCrseGroups.length > 1) {
                 const crseStudInGroups = course.studentInCrseGroups;
                 crseStudInGroups.forEach(stud => {
-                    isLoaded.crseInStudGroup[stud.entityId] = true;
+                    that.isLoaded.crseInStudGroup[stud.entityId] = true;
                 });
             }
             return course;
@@ -190,6 +196,7 @@ export default class EcStudentRepo extends IUtilityRepo {
     }
 
     getActiveWorkGroup(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
+        const that = this;
         if (!this.activeGroupId || !this.activeCourseId) {
             this.c.$q.reject(() => {
                 this.log.warn('Not active course/workgroup selected!', null, false);
@@ -203,9 +210,8 @@ export default class EcStudentRepo extends IUtilityRepo {
         const groupPred = new breeze.Predicate('workGroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
         const coursePred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
         const predKey = breeze.Predicate.and([coursePred, groupPred]);
-        const isLoaded = this.isLoaded as ICachedStudentData;
 
-        if (isLoaded.workGroup[this.activeGroupId]) {
+        if (that.isLoaded.workGroup[this.activeGroupId]) {
             const studInGroup = this.queryLocal(api.workGroup.resource, null, predKey) as Array<ecat.entity.ICrseStudInGroup>;
             workGroup = studInGroup[0].workGroup;
             log.success('Workgroup loaded from local cache', studInGroup, false);
@@ -228,13 +234,13 @@ export default class EcStudentRepo extends IUtilityRepo {
                 return _common.$q.reject(() => log.warn('Query succeeded, but the course membership did not return a result', data, false)) as any;
             }
 
-            isLoaded.workGroup[workGroup.id] = true;
+            that.isLoaded.workGroup[workGroup.id] = true;
 
             if (workGroup.groupMembers) {
                 const members = workGroup.groupMembers;
 
                 members.forEach(member => {
-                    isLoaded.workGroup[member.entityId] = true;
+                    that.isLoaded.workGroup[member.entityId] = true;
                 });
             }
 
@@ -325,7 +331,54 @@ export default class EcStudentRepo extends IUtilityRepo {
         });
     }
 
-    getWgSpResult(): breeze.promises.IPromise<ecat.entity.ISpResult | angular.IPromise<void>> {
-        return null;
+    getWgSpResult(): breeze.promises.IPromise<Array<ecat.entity.ISpInventory> | angular.IPromise<void>> {
+        const that = this;
+        const resource = this.studentApiResources.wgResult.resource;
+
+        if (this.isLoaded.wgResult[this.activeGroupId]) {
+            const workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+            const inventory = workGroup.assignedSpInstr.inventoryCollection;
+            if (inventory) {
+                return this.c.$q.when(inventory);
+            }
+        }
+
+        const params = { wgId: this.activeGroupId, addInstrument: false };
+
+        if (!this.isLoaded.spInventory[this.activeGroupId]) {
+            params.addInstrument = true;
+        }
+
+        return this.query.from(resource)
+            .withParameters(params)
+            .using(this.manager)
+            .using(breeze.MergeStrategy.PreserveChanges)
+            .execute()
+            .then(getWgSpResultResonse)
+            .catch(this.queryFailed);
+
+        function getWgSpResultResonse(data: breeze.QueryResult): Array<ecat.entity.ISpInventory> {
+            const result = data.results[0] as ecat.entity.ISpResult;
+            if (!result) {
+                const queryError: ecat.IQueryError = {
+                    errorMessage: 'No sp result was returned from the server',
+                    errorType: _mpe.QueryError.UnexpectedNoResult
+                }
+                return that.c.$q.reject(queryError) as any;
+            }
+            const workGroup = that.manager.getEntityByKey(_mp.MpEntityType.workGroup, that.activeGroupId) as ecat.entity.IWorkGroup;
+            
+            const inventory = workGroup.assignedSpInstr.inventoryCollection;
+
+            inventory.forEach(item => {
+                item.spResult = result;
+                if (item.id === 2) {
+                    console.log(item);
+                }
+                var dummyResult = item.resultBreakOut;
+                return item;
+            });
+            return inventory;
+        }
     }
 }

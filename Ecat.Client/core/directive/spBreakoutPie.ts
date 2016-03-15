@@ -1,8 +1,3 @@
-import 'inputMask'
-
-interface ISpBreakOutPieAttrs extends angular.IAttributes {
-    breakOut: {HE: number, E: number, ND: number, IE: number};
-}
 
 export default class EcDirSpBreakOutPie implements angular.IDirective {
     static directiveId = 'pieSpBreakOut';

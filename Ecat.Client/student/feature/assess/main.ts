@@ -32,6 +32,7 @@ export default class EcStudentAssessments {
     protected peers: Array<ecat.entity.ICrseStudInGroup>;
     protected radioEffectiveness: string;
     protected radioFreq: string;
+    protected resultInventory: Array<ecat.entity.ISpInventory>;
     protected sortOpt = {
         student: 'rankName',
         assess: 'assessText',
@@ -39,7 +40,6 @@ export default class EcStudentAssessments {
         strat: 'stratText',
         composite: 'compositeScore'
     }
-
     protected sortStratOpt = {
         student: 'rankName',
         assess: 'assessText',
@@ -47,7 +47,6 @@ export default class EcStudentAssessments {
         strat: 'stratText',
         composite: 'compositeScore'
     }
-
     protected stratInputVis: boolean;
     protected stratResponses: Array<ecat.entity.IStratResponse>;
     protected stratValComments: Array<ecat.entity.ICrseStudInGroup>;
@@ -118,14 +117,16 @@ export default class EcStudentAssessments {
     }
 
     //For when the group is published and is showing the results
-    private getWgSpResults(): void {
+    private getWgSpResults(): any {
+        const that = this;
         this.dCtx.student
             .getWgSpResult()
             .then(getWgSpResultResponse)
             .catch(getWgSpResultError);
 
-        function getWgSpResultResponse(result: ecat.entity.ISpResult): void {
-            
+        function getWgSpResultResponse(result: Array<ecat.entity.ISpInventory>): void {
+            that.resultInventory = result;
+            that.activeView = StudAssessViews.ResultMyReport;
         }
 
         function getWgSpResultError(reason: ecat.IQueryError): void {
@@ -242,8 +243,9 @@ export default class EcStudentAssessments {
 
             if (that.isResultPublished) {
                 //TODO: Check how this perform between group changes
-                that.log.info('Retrieving results, standby...', null, true);
-                //this.getWorkGroupResults();
+                that.log.success('Retrieving results, standby...', null, true);
+                that.getWgSpResults();
+                console.log();
             }
 
             if (!grpMembers || grpMembers.length === 0) {

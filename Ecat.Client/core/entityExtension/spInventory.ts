@@ -8,6 +8,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
     private _effLevel: _mpe.SpEffectLevel = null;
     private _resultBreakOut: any;
     private id; 
+    private behavior: string;
     constructor() { }
 
     get compositeScore(): number {
@@ -157,7 +158,22 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
 
     }
 
+    get behaviorEllipse(): string {
+        if (this.behavior) {
+            return this.behavior.substr(0, 25);
+        }
+        return null;
+    }
+
     get resultBreakOut(): any {
+        if (this._resultBreakOut) {
+            return this._resultBreakOut;
+        }
+
+        if (!this.spResult) {
+            return null;
+        }
+
         const breakOut = {
             selfResult: '',
             peersResult: '',
@@ -166,19 +182,10 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         }
 
         const responsesForItem = this.spResult.sanitizedResponses.filter(response => response.inventoryItemId === this.id);
-        const peerAnonymousIds = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
-
-        responsesForItem.forEach((response, index) => {
-            const plot = `[Peer ${peerAnonymousIds[index]},${response.itemModelScore}]`;
-            breakOut.peerBoChart.push(plot);
-        });
-
-        const selfResponse = this.spResult.sanitizedResponses.filter(response => response.isSelfResponse)[0];
-        breakOut.selfResult = _staticDs.prettifyItemResponse(selfResponse.mpItemResponse);
 
         const compositeBreakOut = {};
 
-        this.spResult.sanitizedResponses
+        responsesForItem
             .filter(response => !response.isSelfResponse)
             .forEach(response => {
                 if (compositeBreakOut[response.mpItemResponse]) {
@@ -187,6 +194,34 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
                     compositeBreakOut[response.mpItemResponse] = 1;
                 }
             });
+
+        const dataSet = [];
+
+        for (let bo in compositeBreakOut) {
+            if (compositeBreakOut.hasOwnProperty(bo)) {
+                if (bo === 'IEA') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#AA0000' });
+                if (bo === 'IEU') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#FE6161' });
+                if (bo === 'ND') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#AAAAAA' });
+                if (bo === 'EA') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#00AA58' });
+                if (bo === 'EU') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#73FFBB' });
+                if (bo === 'HEA') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#9f9f9f' });
+                if (bo === 'HEU') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#7CA8FF' });
+            }
+        }
+
+        breakOut.peerBoChart = dataSet;
+        breakOut.peersResult = _staticDs.breakDownCalculation(compositeBreakOut);
+
+        const selfResponse = responsesForItem.filter(response => response.isSelfResponse && response.inventoryItemId === this.id)[0];
+
+        const facResponse = (this.spResult.facultyResponses) ?  this.spResult.facultyResponses.filter(response => response.inventoryItemId === this.id)[0] : null;
+
+        breakOut.selfResult = _staticDs.prettifyItemResponse(selfResponse.mpItemResponse);
+
+        breakOut.facultyResult = (facResponse) ? _staticDs.prettyInstituteRole(facResponse.mpItemResponse) : 'Not Assessed';
+       
+        this._resultBreakOut = breakOut;
+        return breakOut;
     }
 }
 

@@ -13,17 +13,46 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr>
-                        <th class="col-md-4">Behavior</th>
-                        <th class="col-md-2">Self<br/>Perspective</th>
-                        <th class="col-md-2">Peers<br />Perspective</th>
-                        <th class="col-md-2">Faculty<br/>Perspective</th>
+                        <th class="col-md-3">Behavior</th>
+                        <th class="col-md-3 text-center">Self<br/>Perspective</th>                               
+                        <th class="col-md-3 text-center">Peers<br />Perspective</th>                             
+                        <th class="col-md-3 text-center">Faculty<br/>Perspective</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in assess.resultInventory track by item.id">
-                        <td>{{question.question}}</td>
-                        <td>{{question.assessAvg}}</td>
-                        <td>{{question.counts}}</td>
+                        <td>
+                            <span ng-show="!item.showBehavior">
+                                {{::item.behaviorEllipse}}
+                            </span>
+                            <span ng-show="item.showBehavior">
+                                {{::item.behavior}}
+                            </span> &nbsp;
+                            <a href="javascript:void(0)" class="f-500"
+                               ng-click="item.showBehavior = !item.showBehavior">
+                                ...
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="javascript:void(0)">
+                                {{::item.resultBreakOut.selfResult}}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="javascript:void(0)"
+                               popover-append-to-body="true"
+                               popover-placement="top"
+                               popover-trigger="click"
+                               popover-title="Behavior Breakout"
+                               uib-popover-template="'@[appCore]/common/tpls/resultBoPopover.tpl.html'">
+                                {{::item.resultBreakOut.peersResult}}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="javascript:void(0)">
+                                {{::item.resultBreakOut.facultyResult}}
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

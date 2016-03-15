@@ -16,6 +16,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public int WorkGroupId { get; set; }
         public string AuthorName { get; set; }
         public string CommentText { get; set; }
+        public StudSpCommentFlag Flag { get; set; }
         public string MpCommentFlagRecipient { get; set; }
 
         public SpResult Result { get; set; }

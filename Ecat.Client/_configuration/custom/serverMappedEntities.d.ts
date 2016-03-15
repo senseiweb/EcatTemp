@@ -94,11 +94,18 @@ declare module ecat.entity
 
         interface ISpInventoryExtBase {
             responseForAssessee: ISpResponse | IFacSpResponse;
+            spResult: ISpResult;
             compositeScore: number;
             reset(): void;
             behaviorFreq: number;
             behaviorEffect: number;
             behaviorDisplayed: boolean;
+            resultBreakOut: {
+                selfResult: string;
+                peersResult: string;
+                facultyResult: string;
+                peerBoChart: Array<any>;
+            }
         }
 
         interface IFacSpInventoryExt extends ISpInventoryExtBase { }
@@ -180,6 +187,7 @@ declare module ecat.entity
         facSpComments: IFacSpComment[];
         facStratResponses: IFacStratResponse[];
         spStratResponses: IStratResponse[];
+        assignedSpInstr: ISpInstrument;
     }
 
     interface ICourse extends breeze.Entity, s.school.Course {
@@ -259,7 +267,9 @@ declare module ecat.entity
     //#endregion
 
    //#region Model Owner Designer
-    interface ISpInstrument extends breeze.Entity, s.designer.SpInstrument { }
+    interface ISpInstrument extends breeze.Entity, s.designer.SpInstrument {
+        inventoryCollection: ISpInventory[];
+    }
 
     interface ISpInventory extends breeze.Entity, s.designer.SpInventory, ext.ISpInventoryExtBase { }
 

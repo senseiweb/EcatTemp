@@ -17,16 +17,6 @@ interface IFacultyApiResources extends ecat.IApiResources {
     wgResult: ecat.IApiResource;
 }
 
-interface ICachcedFacultyData {
-    initialize: boolean;
-    course: any;
-    workGroup: any;
-    wgSpComment: any;
-    wgFacComment: any;
-    spInstr: any;
-    caCourse: any;
-    result: any;
-}
 
 export default class EcFacultyRepo extends IUtilityRepo {
     static serviceId = 'data.faculty';

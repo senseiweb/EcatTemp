@@ -225,7 +225,7 @@ export default class EcLocalDataService {
                 return 'Unkown';
             }
         }
-        return 'Udf'
+        return 'Udf';
     }
 
     static prettyInstituteRole(role: string): string {
@@ -244,10 +244,19 @@ export default class EcLocalDataService {
     static prettifyItemResponse(itemResponse: string): string {
         switch (itemResponse) {
         case 'IEA':
-                return 'Always: Effective';
+            return 'Always: Ineffective';
         case 'IEU':
+            return 'Usually: Ineffective';
+        case 'EA':
+            return 'Always: Effective';
+        case 'EU':
             return 'Usually: Effective';
+        case 'HEU':
+            return 'Usually: Highly Effective';
+        case 'HEA':
+            return 'Always: Highly Effective';
         default:
+            return 'Unknown';
         }
     }
 
@@ -267,6 +276,71 @@ export default class EcLocalDataService {
         if (score < 4) return _mp.MpSpResult.he;
         return 'Out of range';
     }
+
+    static breakDownCalculation(boItem: any): string {
+        let totalBo = 0;
+        let totalCount = 0;
+
+        if (boItem.IEA) {
+            totalBo += _mpe.CompositeModelScore.iea * boItem.IEA;
+            totalCount += boItem.IEA;
+        }
+        if (boItem.IEU) {
+            totalBo += _mpe.CompositeModelScore.ieu * boItem.IEU;
+            totalCount += boItem.IEU;
+        }
+        if (boItem.EA) {
+            totalBo += _mpe.CompositeModelScore.ea * boItem.EA;
+            totalCount += boItem.EA;
+        }
+        if (boItem.EU) {
+            totalBo += _mpe.CompositeModelScore.eu * boItem.EU;
+            totalCount += boItem.EU;
+        }
+        if (boItem.HEA) {
+            totalBo += _mpe.CompositeModelScore.hea * boItem.HEA;
+            totalCount += boItem.HEA;
+        }
+        if (boItem.HEU) {
+            totalBo += _mpe.CompositeModelScore.heu * boItem.HEU;
+            totalCount += boItem.HEU;
+        }
+        if (boItem.ND) {
+            totalBo += _mpe.CompositeModelScore.nd * boItem.ND;
+            totalCount += boItem.ND;
+        }
+
+        const response = Math.round(totalBo / totalCount);
+        let itemResponse = '';
+        switch (response) {
+        case  _mpe.CompositeModelScore.ieu:
+                itemResponse = _mp.MpSpItemResponse.ieu;
+                break;
+        case _mpe.CompositeModelScore.iea:
+            itemResponse = _mp.MpSpItemResponse.iea;
+            break;
+        case _mpe.CompositeModelScore.ea:
+            itemResponse = _mp.MpSpItemResponse.ea;
+            break;
+        case _mpe.CompositeModelScore.eu:
+            itemResponse = _mp.MpSpItemResponse.eu;
+            break;
+        case _mpe.CompositeModelScore.hea:
+            itemResponse = _mp.MpSpItemResponse.hea;
+            break;
+        case _mpe.CompositeModelScore.heu:
+            itemResponse = _mp.MpSpItemResponse.heu;
+            break;
+        case _mpe.CompositeModelScore.nd:
+            itemResponse = _mp.MpSpItemResponse.nd;
+            break;
+        default:
+            itemResponse = null;
+        }
+
+        return (itemResponse) ? EcLocalDataService.prettifyItemResponse(itemResponse) : 'Out of Range';
+    }
+
 
     static rationaleScore(myResponses: Array<ecat.entity.ISpResponse>): string {
         const totalCount = myResponses.length;

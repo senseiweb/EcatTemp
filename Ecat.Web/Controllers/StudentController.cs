@@ -61,10 +61,9 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<SpResult> GetCrseGrpMembers(int wgId, bool addInstrument)
+        public async Task<SpResult> GetMyWgResult(int wgId, bool addInstrument)
         {
             return await _studLogic.GetWrkGrpResult(wgId, addInstrument);
-
         }
 
         [HttpPost]
