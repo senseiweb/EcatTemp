@@ -1,18 +1,3 @@
-﻿<!--<table>
-    <tbody>
-        <tr ng-repeat="resp in wkr.respByBehav | orderBy: '-itemModelScore'">
-            <td>{{resp.assessor.studentProfile.person.lastName}}, {{resp.assessor.studentProfile.person.firstName}}</td>
-            <td>{{resp.mpItemResponse}}</td>
-        </tr>
-    </tbody>
-</table>-->
-
-<div id="sp-chart-data-{{$index}}" >
-    <span class="sp-graph-composite">{{::studResult.resultForStudent.compositeScore}}</span>
-    <div bar-sp-break-out dataset="studResult.resultForStudent.breakOutReceived" class="spflot-chart-bar" legend="flotlegend{{$index}}" style="height: 200px"> </div>
-    <div id="flotlegend{{$index}}" style="display: none"></div>
+﻿<div id="sp-chart-data">
+    <div bar-sp-behavior-results dataset="inv.recData" xticks="wkr.recXTicks" yticks="wkr.yTicks" class="spflot-chart-bar" style="height: 200px"> </div>
 </div>
-
-<!--<div style="width:610px;height:160px;text-align:center;margin:10px">
-    <div id="flot-placeholder" style="width:600px;height:150px;"></div>
-</div>-->

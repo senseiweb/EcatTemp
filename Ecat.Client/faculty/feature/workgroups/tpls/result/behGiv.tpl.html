@@ -1,8 +1,3 @@
-﻿<table>
-    <tbody>
-        <tr ng-repeat="resp in wkr.respByBehav | orderBy: 'resp.itemModelScore'">
-            <td>{{resp.assessee.studentProfile.person.lastName}}, {{resp.assessee.studentProfile.person.firstName}}</td>
-            <td>{{resp.mpItemResponse}}</td>
-        </tr>
-    </tbody>
-</table>
+﻿<div id="sp-chart-data">
+    <div bar-sp-behavior-results dataset="inv.givData" xticks="wkr.givXTicks" yticks="wkr.yTicks" class="spflot-chart-bar" style="height: 200px"> </div>
+</div>

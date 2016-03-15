@@ -17,11 +17,9 @@ export default class EcFacultyWgResult {
     protected selectedComment: IResultComment;
     private studentComments: Array<IResultComment>;
     protected viewState = WgResViews.Loading;
-    private respByBehav: Array<ecat.entity.ISpResponse> = [];
-    private data = [];
-    private dataset = [];
-    private ticks = [];
-    private options = {};
+    protected recXTicks = [];
+    protected givXTicks = [];
+    protected yTicks = [];
 
     constructor(private dCtx: IDataCtx, private c: ICommon) {
         this.routingParams.wgId = this.c.$stateParams.wgId;
@@ -132,87 +130,44 @@ export default class EcFacultyWgResult {
         return 0;
     }
 
-    private getRespByBehav(type: string, invId: number): void {
-        ////var data = [];
-        ////var ticks = [];
-        //this.data = [];
-        //this.ticks = [];
-        //this.dataset = [];
-        //this.options = {};
-        //if (type === 'rec') {
-        //    this.respByBehav = this.activeStudResult.assesseeSpResponses.filter(resp => {
-        //        if (resp.inventoryItemId === invId) { return true; }
-        //    });
-        //    var sort = this.respByBehav.sort((a: ecat.entity.ISpResponse, b: ecat.entity.ISpResponse) => {
-        //        if (a.assessor.studentProfile.person.lastName < a.assessor.studentProfile.person.lastName) { return -1; }
-        //        if (a.assessor.studentProfile.person.lastName > a.assessor.studentProfile.person.lastName) { return 1; }
-        //        if (a.assessor.studentProfile.person.lastName == a.assessor.studentProfile.person.lastName) { return 0; }
-        //    });
-        //    for (var i = 0; i < this.respByBehav.length; i++) {
-        //        this.ticks.push([i, sort[i].assessor.studentProfile.person.lastName]);
-        //        this.data.push([i, sort[i].itemModelScore]);
-        //    };
-        //} else {
-        //    this.respByBehav = this.activeStudResult.assessorSpResponses.filter(resp => {
-        //        if (resp.inventoryItemId === invId) { return true; }
-        //    });
-        //    var sort = this.respByBehav.sort((a: ecat.entity.ISpResponse, b: ecat.entity.ISpResponse) => {
-        //        if (a.assessee.studentProfile.person.lastName < a.assessee.studentProfile.person.lastName) { return -1; }
-        //        if (a.assessee.studentProfile.person.lastName > a.assessee.studentProfile.person.lastName) { return 1; }
-        //        if (a.assessee.studentProfile.person.lastName == a.assessee.studentProfile.person.lastName) { return 0; }
-        //    });
-        //    for (var i = 0; i < this.respByBehav.length; i++) {
-        //        this.ticks.push([i, sort[i].assessee.studentProfile.person.lastName]);
-        //        this.data.push([i, sort[i].itemModelScore]);
-        //    };
-        //}
+    private fillBehaviorData(): void {
+        this.yTicks = [[-2, 'IEA'], [-1, 'IEU'], [0, 'ND'], [1, 'EU'], [2, 'EA'], [3, 'HEU'], [4, 'HEA']];
 
-        //this.dataset = [{ data: this.data, color: "#5482FF" }];
-        ////var ticks = [[0, "London"], [1, "New York"], [2, "New Delhi"], [3, "Taipei"], [4, "Beijing"], [5, "Sydney"]];
-        //var respWPs = [[-2, 'IEA'], [-1, 'IEU'], [0, 'ND'], [1, 'EU'], [2, 'EA'], [3, 'HEU'], [4, 'HEA']];
+        this.activeStudResult.workGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
+            var recDataset = [];
+            var givDataset = [];
+            var respByBehav = this.activeStudResult.assesseeSpResponses.filter(resp => {
+                if (resp.inventoryItemId === inv.id) { return true; }
+            });
+            var sort = respByBehav.sort((a: ecat.entity.ISpResponse, b: ecat.entity.ISpResponse) => {
+                if (a.assessor.studentProfile.person.lastName < b.assessor.studentProfile.person.lastName) { return -1; }
+                if (a.assessor.studentProfile.person.lastName > b.assessor.studentProfile.person.lastName) { return 1; }
+                if (a.assessor.studentProfile.person.lastName == b.assessor.studentProfile.person.lastName) { return 0; }
+            });
+            for (var i = 0; i < respByBehav.length; i++) {
+                if (this.recXTicks === undefined || this.recXTicks.length < respByBehav.length) {
+                    this.recXTicks.push([i, sort[i].assessor.studentProfile.person.lastName]);
+                }
+                recDataset.push([i, sort[i].itemModelScore]);
+            };
+            inv['recData'] = recDataset;
 
-        //this.options = {
-        //    series: {
-        //        bars: {
-        //            show: true
-        //        }
-        //    },
-        //    bars: {
-        //        align: "center",
-        //        barWidth: 0.5
-        //    },
-        //    xaxis: {
-        //        //axisLabel: "World Cities",
-        //        axisLabelUseCanvas: true,
-        //        axisLabelFontSizePixels: 8,
-        //        //axisLabelFontFamily: 'Verdana, Arial',
-        //        //axisLabelPadding: 10,
-        //        ticks: this.ticks
-        //    },
-        //    yaxis: {
-        //        //axisLabel: "Average Temperature",
-        //        axisLabelUseCanvas: true,
-        //        axisLabelFontSizePixels: 8,
-        //        //axisLabelFontFamily: 'Verdana, Arial',
-        //        //axisLabelPadding: 3,
-        //        //tickFormatter: function (v, axis) {
-        //        //    return v + "test";
-        //        ticks: respWPs
-        //        //}
-        //    },
-        //    legend: {
-        //        noColumns: 0,
-        //        labelBoxBorderColor: "#000000",
-        //        position: "nw"
-        //    },
-        //    grid: {
-        //        //hoverable: true,
-        //        borderWidth: 2,
-        //        backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
-        //    }
-        //};
-
-        //jQuery.plot($("#flot-placeholder"), this.dataset, this.options);
+            var respByBehavGiv = this.activeStudResult.assessorSpResponses.filter(resp => {
+                if (resp.inventoryItemId === inv.id) { return true; }
+            });
+            var sortGiv = respByBehavGiv.sort((a: ecat.entity.ISpResponse, b: ecat.entity.ISpResponse) => {
+                if (a.assessee.studentProfile.person.lastName < b.assessee.studentProfile.person.lastName) { return -1; }
+                if (a.assessee.studentProfile.person.lastName > b.assessee.studentProfile.person.lastName) { return 1; }
+                if (a.assessee.studentProfile.person.lastName == b.assessee.studentProfile.person.lastName) { return 0; }
+            });
+            for (var i = 0; i < respByBehavGiv.length; i++) {
+                if (this.givXTicks === undefined || this.givXTicks.length < respByBehavGiv.length) {
+                    this.givXTicks.push([i, sortGiv[i].assessee.studentProfile.person.lastName]);
+                }
+                givDataset.push([i, sortGiv[i].itemModelScore]);
+            };
+            inv['givData'] = givDataset;
+        });
     }
 
     protected switchTo(state: string) {
@@ -224,6 +179,7 @@ export default class EcFacultyWgResult {
 
         case 'behavior':
             this.viewState = WgResViews.Behavior;
+            this.fillBehaviorData();
             break;
 
         case 'comment':
