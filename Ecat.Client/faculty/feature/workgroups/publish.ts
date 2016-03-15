@@ -59,9 +59,33 @@ export default class EcFacultyWgPublish {
         this.getActiveWorkGroup();
     }
 
-    //TODO: show confirmation message and then change workgroup back to open
     protected cancelPublish(): void {
-        
+        const that = this;
+
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Cancel Publish',
+                text: `This action will cancel publication and allow students to make changes. Are you sure?`,
+                type: 'warning',
+                showCancelButton: true,
+                showConfirmButton: true,
+                closeOnCancel: false,
+                closeOnConfirm: false,
+                confirmButtonText: 'Cancel Publish',
+                showLoaderOnConfirm: true
+            };
+
+            _swal(alertSettings, (confirmed?: boolean) => {
+                if (confirmed) {
+                    that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.open;
+                    that.dCtx.faculty.saveChanges()
+                        .then(() => _swal('Publishing Workflow cancelled...', 'This workgroup is now in open status', 'success'))
+                        .catch(() => {})
+                        .finally(() => {that.c.$state.go(that.c.stateMgr.faculty.wgList.name);});
+                } else {
+                    _swal.close();               
+                }
+
+            });
     }
 
     protected changeFlag(author: ecat.entity.ICrseStudInGroup | Array<ecat.entity.ICrseStudInGroup>, flag?: string, all?: boolean): void {
@@ -125,15 +149,25 @@ export default class EcFacultyWgPublish {
                     title: 'Publication Acknowledgement',
                     text: 'Be advised, you are preparing to start publishing this workgroup.\n\n Students will no longer be able to save changes to their assessment. Would you like to continue?',
                     confirmButtonText: 'Start Publication',
+                    cancelButtonText: 'Cancel Request',
                     type: 'info',
                     showCancelButton: true,
                     showConfirmButton: true,
                     closeOnConfirm: false,
-                    closeOnCancel: false,
-                    cancelButtonText: 'Cancel Request',
+                    closeOnCancel: true,
                     showLoaderOnConfirm: true
-                }
-                _swal(alertSetting, toPublishOrNotToPublish);
+                };
+                _swal(alertSetting, (response?: boolean) => {
+                    if (response) {
+                        that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.underReview;
+                        that.saveChanges()
+                            .then(() => that.processActiveWg(that.activeWorkGroup))
+                            .then(() => _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success'));
+                    } else {
+                        _swal.close();
+                        that.c.$state.go(that.c.stateMgr.faculty.wgList.name);
+                    }
+                });
             } else if (wg.mpSpStatus === _mp.MpSpStatus.published) {
                 that.c.$state.go(that.c.stateMgr.faculty.wgResult.name, {crseId: that.routingParams.crseId, wgId: that.routingParams.wgId});
             } else {
@@ -143,19 +177,7 @@ export default class EcFacultyWgPublish {
 
         //TODO: Will throw error if a workgroup is not found, deal with it!
         function getActiveWgResponseErr(reason): void {
-
-        }
-
-        function toPublishOrNotToPublish(response: boolean) {
-            if (response) {
-                that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.underReview;
-                that.saveChanges()
-                    .then(() => that.processActiveWg(that.activeWorkGroup))
-                    .then(() => _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success'));
-            } else {
-                _swal.close();
-                that.c.$state.go(that.c.stateMgr.faculty.wgList.name);
-            }
+            
         }
     }
 
@@ -309,7 +331,7 @@ export default class EcFacultyWgPublish {
                 if (confirmed) {             
                     that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.published;
                     that.isPublishing = true;
-                    //Why is clicking Publish calling save changes?
+   
                     that.saveChanges();
                 }
 
@@ -351,38 +373,38 @@ export default class EcFacultyWgPublish {
                         response.proposedPosition = null;
                     });
                 })
-                .then(saveChangesResponse)
+                .then(stratSaveChangesResponse)
                 .finally(() => { this.isSaving = false });
         }
 
         if (this.pubState === PubState.Comment && !this.isPublishing) {
-             changedFlags = this.activeWorkGroup.spComments.map(comment => {
+            changedFlags = this.activeWorkGroup.spComments.map(comment => {
                 if (comment.flag && comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
                     return comment.flag;
                 }
             });
+
+            this.isSaving = true;
+
+            return this.dCtx.faculty
+                .saveChanges(changedFlags)
+                .then(commentSaveChangesResponse)
+                .catch(saveChangesError)
+                .finally(() => {
+                    this.isSaving = false;
+                });
         }
-     
-        this.isSaving = true;
-
-        return this.dCtx.faculty
-            .saveChanges(changedFlags)
-            .then(saveChangesResponse)
-            .catch(saveChangesError)
-            .finally(() => {
-                this.isSaving = false;
-            });
 
 
-        function saveChangesResponse(): void {
-            
+        function stratSaveChangesResponse(): void {
+
             that.log.success('Save Stratification, Your changes have been made.', null, true);
+            that.checkPublishingReady();
+        }
 
-            if (that.isPublishing) {
-                _swal('Hello World!', `Publishing WorkGroup ${that.workGroupName} Complete`, _mp.MpSweetAlertType.success);
-                that.c.$state.go(that.c.stateMgr.faculty.wgResult.name, { crseId: that.routingParams.crseId, wgId: that.routingParams.wgId });
-            }
+        function commentSaveChangesResponse(): void {
 
+            that.log.success('Save Comments, Your changes have been made.', null, true);
             that.checkPublishingReady();
         }
 

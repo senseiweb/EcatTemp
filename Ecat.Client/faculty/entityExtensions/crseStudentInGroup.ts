@@ -5,8 +5,8 @@ import {CrseStudInGrpExtBase, CrseStudInGrpInit} from 'core/entityExtension/crse
 
 class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ext.IFacCrseStudInGrpExt {
 
-    private spResult: ecat.entity.ISpResult
-    private stratResult: ecat.entity.IStratResult
+    private spResult: ecat.entity.ISpResult;
+    private stratResult: ecat.entity.IStratResult;
     private _statusOfStudent: ecat.entity.ext.IFacCrseStudInGrpStatus = null;
     private _resultForStud: ecat.entity.ext.IStudentDetailResult = null;
 
@@ -17,8 +17,10 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         }
 
         let cummScore = 0;
+        let gaveCummScore = 0;
         const missingItems = [];
         let composite = null;
+        let gaveComposite = null;
         const facResponses = this.workGroup.facSpResponses;
         const facComments = this.workGroup.facSpComments;
         const facStats = this.workGroup.facStratResponses;
@@ -123,10 +125,46 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
             totalE += c.E;
             totalHe += c.HE;
             totalIe += c.IE;
-            totalNd += c.ND;
+            totalNd += c.ND;         
+
+            const spGaveResponses = mem.assesseeSpResponses.filter(response => response.assessorPersonId === this.studentId);
+
+            spGaveResponses.forEach(response => {
+
+                switch (response.mpItemResponse) {
+                    case knownReponse.iea:
+                        gaveCummScore += 0;
+                        break;
+                    case knownReponse.ieu:
+                        gaveCummScore += 1;
+                        break;
+                    case knownReponse.nd:
+                        gaveCummScore += 2;
+                        break;
+                    case knownReponse.eu:
+                        gaveCummScore += 3;
+                        break;
+                    case knownReponse.ea:
+                        gaveCummScore += 4;
+                        break;
+                    case knownReponse.heu:
+                        gaveCummScore += 5;
+                        break;
+                    case knownReponse.hea:
+                        gaveCummScore += 6;
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+
 
         });
 
+        gaveComposite = ((gaveCummScore / (this.workGroup.assignedSpInstr.inventoryCollection.length * 6 * peers.length)) * 100);
+        gaveComposite = Math.round(gaveComposite);
+ 
         gaveBo.gaveHE = (totalHe / totalMarkings * 100);
         gaveBo.gaveE = (totalE / totalMarkings * 100);
         gaveBo.gaveIE = (totalIe / totalMarkings * 100);
@@ -141,6 +179,8 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         gaveChartData.push({ label: 'Ineffective', data: gaveIE, color: '#AA0000' });
         gaveChartData.push({ label: 'Not Display', data: gaveND, color: '#AAAAAA' });
 
+
+
         this._statusOfStudent =  {
             assessComplete: missingItems.length === 0,
             stratComplete: stratComplete,
@@ -151,6 +191,7 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
             breakOutChartData: chartData,
             gaveBreakOutChartData: gaveChartData,
             compositeScore: composite,
+            gaveCompositeScore: gaveComposite,
             stratedPosition: stratedPosition
         }
     }

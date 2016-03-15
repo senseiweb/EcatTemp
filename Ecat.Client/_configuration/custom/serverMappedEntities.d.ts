@@ -58,6 +58,7 @@ declare module ecat.entity
             breakOutChartData: Array<any>;
             gaveBreakOutChartData: Array<any>;
             compositeScore: number;
+            gaveCompositeScore: number;
             stratedPosition: number;
             hasComment: boolean;
         }

@@ -244,6 +244,7 @@ export default class EcFacultyWgList {
     }
 
     private viewStatus(wg: ecat.entity.IWorkGroup): void {
+        const that = this;
         const modalSettings: angular.ui.bootstrap.IModalSettings = {
             controller: ['$scope','$uibModalInstance', 'wg', this.statusModal],
             backdrop: 'static',
@@ -266,7 +267,7 @@ export default class EcFacultyWgList {
         
         function getActiveWgReponse(wg:ecat.entity.IWorkGroup) {
             if (wg === null){
-                  c.swal(error);
+                  that.loggers.warn('Could not locate any members for this group', 'Could not locate any members for this group', true);
             }
             
             modalSettings.resolve = {wg: wg};

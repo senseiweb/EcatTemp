@@ -28,6 +28,7 @@ export default class EcFacultyWgResult {
     }
 
     private activate(): void {
+
         const that = this;
         if (!this.routingParams.wgId || !this.routingParams.crseId) {
             this.log.error('The required course ID and/or workgroup ID is missing. Try workgroup result option on the workgroup list screen', null, true);
@@ -51,7 +52,7 @@ export default class EcFacultyWgResult {
 
             groupMembers.forEach(gm => {
                 gm['hasReceivedCharData'] = gm.resultForStudent.breakOutReceived.some(cd => cd.data > 0);
-                gm['hasGivenCharData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);
+                gm['hasGivenChartData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);
             });
 
             that.wgResults = groupMembers;

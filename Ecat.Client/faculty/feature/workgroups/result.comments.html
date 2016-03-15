@@ -46,29 +46,36 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 p-l-0">
             <div class="ms-body">
                 <div class="listview lv-message">
-                    <div class="lv-body">
+                    <div class="lv-body p-20">
                         <div ng-if="wkr.selectedComment === null">
                             <h2 class="text-center">Select a recipient...</h2>
                         </div>
                         <div ng-if="wkr.selectedComment !== null">
-                            <h4 class="f-400 p-l-20">
-                                <span class="pull-left">{{wkr.commentPerspective === 'Author' ? 'From:' : 'To:'}} </span>
-                                <span class="pull-left">Comment type: {{wkr.selectedComment.commentType}}</span>
-                                <span class="pull-right">
-                                    Marked As:
-                                    <span class="label label-success" ng-if="wkr.selectedComment.isAppr">
-                                        Appropriate
-                                    </span>
-                                    <span class="label label-error" ng-if="!wkr.selectedComment.isAppr">
-                                        Inappropriate
-                                    </span>
-                                </span>
-                            </h4>
+                            <div class="text-center p-b-5">
+                                <h3 class="f-300 m-t-0">{{wkr.commentPerspective === 'Author' ? 'From:' : 'To:'}} {{wkr.activeStudResult.rankName}}</h3>
+                            </div>
                             <div class="clearfix"></div>
-                            <div class="p-20 media">
+                            <div class="pull-left">
+                                <h4 class="f-400">Comment type: {{wkr.selectedComment.commentType}}</h4>
+                            </div>
+                            <div class="pull-right">
+                                <h4 class="f-400">
+                                    <span>
+                                        Marked As:
+                                        <span class="label label-success" ng-if="wkr.selectedComment.isAppr">
+                                            Appropriate
+                                        </span>
+                                        <span class="label label-danger" ng-if="!wkr.selectedComment.isAppr">
+                                            Inappropriate
+                                        </span>
+                                    </span>
+                                </h4>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="media">
                                 <div class="media-body f-14">
                                     <p ng-bind-html="wkr.selectedComment.commentText"></p>
                                 </div>
