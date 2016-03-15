@@ -205,6 +205,8 @@ declare module ecat.entity
     //#endregion
 
    //#region Model Owner Learner
+    interface ISantiziedResponse extends breeze.Entity, s.learner.SanitizedSpResponse { }
+
     interface ISpResult extends breeze.Entity, s.learner.SpResult { }
 
     interface IStratResult extends breeze.Entity, s.learner.StratResult, ext.ICompositeKey {}
@@ -239,6 +241,7 @@ declare module ecat.entity
     interface IFacSpComment extends breeze.Entity, s.faculty.FacSpComment, ext.ICompositeKey {
         faculty: IFacInCrse;
         recipient: ICrseStudInGroup;
+        flag: IFacSpCommentFlag;
     }
 
     interface IFacSpCommentFlag extends breeze.Entity, s.faculty.FacSpCommentFlag {

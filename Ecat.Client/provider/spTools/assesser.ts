@@ -123,10 +123,13 @@ export default class EcProviderSpToolAssessTaker {
                     });
                     this.$mi.close('User canceled');
                     _swal('Success!', 'Gotta it...changes canceled.', 'success');
-                    _swal.close();
                 } 
             });
         } else {
+            this.inventoryList.forEach(item => {
+                item.responseForAssessee.entityAspect.rejectChanges();
+                item['isChanged'] = false;
+            });
             this.$mi.close('User canceled');
         }
     }

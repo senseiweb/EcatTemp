@@ -241,6 +241,16 @@ export default class EcLocalDataService {
         }
     }
 
+    static prettifyItemResponse(itemResponse: string): string {
+        switch (itemResponse) {
+        case 'IEA':
+                return 'Always: Effective';
+        case 'IEU':
+            return 'Usually: Effective';
+        default:
+        }
+    }
+
     static avgScore(myResponses: Array<ecat.entity.ISpResponse>): string {
         let sumOfReponses = 0;
 

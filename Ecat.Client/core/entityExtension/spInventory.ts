@@ -1,12 +1,13 @@
 ﻿import * as _mp from "core/common/mapStrings"
 import * as _mpe from "core/common/mapEnum"
-
+import _staticDs from "core/service/data/static"
 
 export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
     private _behaveDisplayed = true;
     private _freqLevel: _mpe.SpFreqLevel = null;
     private _effLevel: _mpe.SpEffectLevel = null;
-
+    private _resultBreakOut: any;
+    private id; 
     constructor() { }
 
     get compositeScore(): number {
@@ -20,7 +21,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         this.responseForAssessee = null;
     }
 
-    resultForAssessee: ecat.entity.ext.ISpInventoryStudResult;
+    spResult: ecat.entity.ISpResult;
 
     responseForAssessee: ecat.entity.ISpResponse | ecat.entity.IFacSpResponse = null;
 
@@ -154,6 +155,38 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         }
 
 
+    }
+
+    get resultBreakOut(): any {
+        const breakOut = {
+            selfResult: '',
+            peersResult: '',
+            facultyResult: '',
+            peerBoChart: []
+        }
+
+        const responsesForItem = this.spResult.sanitizedResponses.filter(response => response.inventoryItemId === this.id);
+        const peerAnonymousIds = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
+
+        responsesForItem.forEach((response, index) => {
+            const plot = `[Peer ${peerAnonymousIds[index]},${response.itemModelScore}]`;
+            breakOut.peerBoChart.push(plot);
+        });
+
+        const selfResponse = this.spResult.sanitizedResponses.filter(response => response.isSelfResponse)[0];
+        breakOut.selfResult = _staticDs.prettifyItemResponse(selfResponse.mpItemResponse);
+
+        const compositeBreakOut = {};
+
+        this.spResult.sanitizedResponses
+            .filter(response => !response.isSelfResponse)
+            .forEach(response => {
+                if (compositeBreakOut[response.mpItemResponse]) {
+                    compositeBreakOut[response.mpItemResponse] += 1;
+                } else {
+                    compositeBreakOut[response.mpItemResponse] = 1;
+                }
+            });
     }
 }
 

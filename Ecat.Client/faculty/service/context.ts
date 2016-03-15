@@ -411,9 +411,17 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
         if (!facComment) {
             facComment = this.manager.createEntity(_mp.MpEntityType.facSpComment, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }) as ecat.entity.IFacSpComment;
-            const flag = this.manager.createEntity(_mp.MpEntityType.facSpCommentFlag, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }, breeze.EntityState.Unchanged) as ecat.entity.IFacSpCommentFlag;
+
+            const commentFlags = this.manager.getEntities(_mp.MpEntityType.facSpCommentFlag) as Array<ecat.entity.IFacSpCommentFlag>;
+
+            let commentFlag = commentFlags.filter(flag => flag.recipientPersonId === assesseeId && flag.courseId === this.activeCourseId && flag.workGroupId === this.activeGroupId)[0];
+
+            if (!commentFlag) {
+                 commentFlag = this.manager.createEntity(_mp.MpEntityType.facSpCommentFlag, { recipientPersonId: assesseeId, courseId: this.activeCourseId, workGroupId: this.activeGroupId }, breeze.EntityState.Unchanged) as ecat.entity.IFacSpCommentFlag;
+            }
+        
             facComment.facultyPersonId = this.dCtx.user.persona.personId;
-            facComment.flag = flag;
+            facComment.flag = commentFlag;
             facComment.flag.mpFaculty = _mp.MpCommentFlag.neut;
         }
 

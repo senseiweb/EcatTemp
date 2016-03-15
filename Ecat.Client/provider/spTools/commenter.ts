@@ -10,6 +10,10 @@ export default class EcProviderSpToolCommenter {
     private authorRole: string;
     private authorAvatar: string;
     private authorName: string;
+    protected anonymityFlag = {
+        true: true,
+        false: false
+    }
     private commentType = _mp.MpCommentType;
     private commentFlag = _mp.MpCommentFlag;
     private comment: ecat.entity.IStudSpComment | ecat.entity.IFacSpComment;
@@ -38,7 +42,7 @@ export default class EcProviderSpToolCommenter {
             const facComment = this.dCtx.faculty.getFacSpComment(this.recipientId) as ecat.entity.IFacSpComment;
             author = this.dCtx.user.persona;
             recipient = facComment.recipient.studentProfile.person;
-            facComment['mpCommentType'] = _mp.MpCommentType.signed;
+            facComment['requestAnonymity'] = false;
             this.isInstructor = true;
             this.comment = facComment;
         }
@@ -64,8 +68,15 @@ export default class EcProviderSpToolCommenter {
         if (this.isPublished) {
            return this.$mi.close();
         }
+
+        //TODO: Check why the comment flag is created in a modified start vs added!!!
+        if (this.comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
+            this.comment.flag.entityAspect.rejectChanges();
+        }
+
         if (this.comment.entityAspect.entityState.isAddedModifiedOrDeleted()) {
             this.comment.entityAspect.rejectChanges();
+            
         }
 
         this.$mi.dismiss('canceled');
@@ -76,6 +87,12 @@ export default class EcProviderSpToolCommenter {
 
         const self = this;
         this.isSaveInProgress = true;
+
+        if (this.comment.entityAspect.entityState.isAdded()) {
+            this.cancel();
+            return null;
+        }
+
        
         const swalSettings: SweetAlert.Settings = {
             title: 'Are you sure?',

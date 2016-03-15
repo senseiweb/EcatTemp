@@ -32,14 +32,14 @@
             <div class="col-md-8">
                 <div class="fg-line">
                     <div class="select">
-                        <select ng-model="commenter.comment.mpCommentType"
+                        <select ng-model="commenter.comment.requestAnonymity"
                                 name="from"
                                 required
                                 ng-readonly="commenter.isPublished"
                                 ng-disabled="commenter.isInstructor"
                                 class="form-control f-18">
-                            <option value="{{commenter.commentType.signed}}">{{commenter.authorName}}</option>
-                            <option value="{{commenter.commentType.anon}}">Annonymous</option>
+                            <option ng-value="commenter.anonymityFlag.false" ng-selected="!commenter.comment.requestAnonymity">{{commenter.authorName}}</option>
+                            <option ng-value="commenter.anonymityFlag.true"  ng-selected="commenter.comment.requestAnonymity">Anonymous</option>
                         </select>
                     </div>
                 </div>
@@ -67,8 +67,8 @@
         <label class="btn btn-default waves-effect"
                ng-disabled="commenter.isPublised" 
                ng-click="commenter.nf.$setDirty()" 
-               ng-class="{'btn-primary': commenter.comment.mpCommentFlagAuthor===commenter.commentFlag.neg}" 
-               ng-model="commenter.comment.mpCommentFlagAuthor" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthorFlag===commenter.commentFlag.neg}" 
+               ng-model="commenter.comment.flag.mpAuthorFlag" 
                uib-btn-radio="'{{commenter.commentFlag.neg}}'">
         {{commenter.commentFlag.neg}}
         </label>
@@ -90,7 +90,7 @@
         </label>
     </div>
 
-    <button class="btn btn-danger" type="button" ng-if="!commenter.isNew || !commenter.isPublished" ng-click="commenter.delete()">Delete</button>
+    <button class="btn btn-danger" type="button" ng-if="!commenter.isNew && !commenter.isPublished" ng-click="commenter.delete()">Delete</button>
     <button class="btn btn-link" type="button" ng-if="commenter.nf.$dirty  && commenter.nf.$valid && !commenter.isPublished" ng-disable="!commenter.isSaveInProgress" ng-click="commenter.save()">Save</button>
 
     <button class="btn btn-link" type="button" ng-click="commenter.cancel()">

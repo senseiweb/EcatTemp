@@ -1,16 +1,8 @@
 
-
-
-
-
  
  
 
-
  
-
-
-
 
 /// <reference path="serverEnums.ts" />
 
@@ -81,6 +73,7 @@ declare module ecat.entity.s.school {
 		gradReportPublished: boolean;
 		startDate: Date;
 		gradDate: Date;
+		spResults: ecat.entity.s.learner.SpResult[];
 		studentsInCourse: ecat.entity.s.school.StudentInCourse[];
 		studentInCrseGroups: ecat.entity.s.school.CrseStudentInGroup[];
 		spResponses: ecat.entity.s.learner.SpResponse[];
@@ -159,6 +152,161 @@ declare module ecat.entity.s.school {
 		base: Ecat.Shared.Core.Utility.AcademyBase;
 		bbCategoryId: string;
 		parentBbCategoryId: string;
+	}
+}
+declare module ecat.entity.s.learner {
+	interface SpResult {
+		entityId: string;
+		courseId: number;
+		workGroupId: number;
+		studentId: number;
+		assignedInstrumentId: number;
+		mpAssessResult: string;
+		compositeScore: number;
+		breakOut: Ecat.Shared.Core.ModelLibrary.Learner.SpResultBreakOut;
+		resultFor: ecat.entity.s.school.CrseStudentInGroup;
+		assignedInstrument: ecat.entity.s.designer.SpInstrument;
+		workGroup: ecat.entity.s.school.WorkGroup;
+		course: ecat.entity.s.school.Course;
+		facultyResponses: ecat.entity.s.faculty.FacSpResponse[];
+		spResponses: ecat.entity.s.learner.SpResponse[];
+		sanitizedResponses: ecat.entity.s.learner.SanitizedSpResponse[];
+		sanitizedComments: ecat.entity.s.learner.SanitizedSpComment[];
+		modifiedById: number;
+		modifiedDate: Date;
+	}
+	interface SpResponse {
+		entityId: string;
+		assessorPersonId: number;
+		assesseePersonId: number;
+		workGroupId: number;
+		courseId: number;
+		inventoryItemId: number;
+		mpItemResponse: string;
+		itemModelScore: number;
+		inventoryItem: ecat.entity.s.designer.SpInventory;
+		workGroup: ecat.entity.s.school.WorkGroup;
+		course: ecat.entity.s.school.Course;
+		assessor: ecat.entity.s.school.CrseStudentInGroup;
+		assessee: ecat.entity.s.school.CrseStudentInGroup;
+		modifiedById: number;
+		modifiedDate: Date;
+	}
+	interface KcResult {
+		inventoryId: number;
+		courseId: number;
+		studentId: number;
+		version: number;
+		instrumentId: number;
+		numberCorrect: number;
+		score: number;
+		instrument: ecat.entity.s.designer.KcInstrument;
+		responses: ecat.entity.s.learner.KcResponse[];
+	}
+	interface KcResponse {
+		entityId: string;
+		inventoryId: number;
+		courseId: number;
+		studentId: number;
+		resultId: number;
+		isCorrect: boolean;
+		version: number;
+		allowNewAttempt: boolean;
+		student: ecat.entity.s.school.StudentInCourse;
+		result: ecat.entity.s.learner.KcResult;
+		inventory: ecat.entity.s.designer.KcInventory;
+	}
+	interface StudSpCommentFlag {
+		mpAuthorFlag: string;
+		mpRecipientFlag: string;
+		mpFacultyFlag: string;
+		authorPersonId: number;
+		recipientPersonId: number;
+		flaggedByFacultyId: number;
+		courseId: number;
+		workGroupId: number;
+		comment: ecat.entity.s.learner.StudSpComment;
+		flaggedByFaculty: ecat.entity.s.school.FacultyInCourse;
+	}
+	interface StudSpComment {
+		entityId: string;
+		authorPersonId: number;
+		recipientPersonId: number;
+		workGroupId: number;
+		facultyPersonId: number;
+		courseId: number;
+		requestAnonymity: boolean;
+		commentText: string;
+		createdDate: Date;
+		modifiedById: number;
+		modifiedDate: Date;
+		author: ecat.entity.s.school.CrseStudentInGroup;
+		recipient: ecat.entity.s.school.CrseStudentInGroup;
+		workGroup: ecat.entity.s.school.WorkGroup;
+		course: ecat.entity.s.school.Course;
+		flag: ecat.entity.s.learner.StudSpCommentFlag;
+	}
+	interface StratResponse {
+		entityId: string;
+		assessorPersonId: number;
+		assesseePersonId: number;
+		courseId: number;
+		workGroupId: number;
+		stratPosition: number;
+		assessor: ecat.entity.s.school.CrseStudentInGroup;
+		assessee: ecat.entity.s.school.CrseStudentInGroup;
+		modifiedById: number;
+		modifiedDate: Date;
+	}
+	interface StratResult {
+		entityId: string;
+		courseId: number;
+		studentId: number;
+		workGroupId: number;
+		originalStratPosition: number;
+		finalStratPosition: number;
+		stratCummScore: number;
+		stratAwardedScore: number;
+		resultFor: ecat.entity.s.school.CrseStudentInGroup;
+		facStrat: ecat.entity.s.faculty.FacStratResponse;
+		stratResponses: ecat.entity.s.learner.StratResponse[];
+		modifiedById: number;
+		modifiedDate: Date;
+	}
+	interface SanitizedSpResponse {
+		courseId: number;
+		studentId: number;
+		assessorId: number;
+		assesseeId: number;
+		workGroupId: number;
+		isSelfResponse: boolean;
+		peerGenericName: string;
+		mpItemResponse: string;
+		itemModelScore: number;
+		inventoryItemId: number;
+		inventoryItem: ecat.entity.s.designer.SpInventory;
+		result: ecat.entity.s.learner.SpResult;
+	}
+	interface SanitizedSpComment {
+		authorId: number;
+		recipientId: number;
+		courseId: number;
+		workGroupId: number;
+		authorName: string;
+		commentText: string;
+		mpCommentFlagRecipient: string;
+		result: ecat.entity.s.learner.SpResult;
+	}
+}
+declare module Ecat.Shared.Core.ModelLibrary.Learner {
+	interface SpResultBreakOut {
+		ineffA: number;
+		ineffU: number;
+		effA: number;
+		effU: number;
+		highEffU: number;
+		highEffA: number;
+		notDisplay: number;
 	}
 }
 declare module Ecat.Shared.Core.ModelLibrary.Designer {
@@ -264,150 +412,6 @@ declare module ecat.entity.s.designer {
 		modifiedDate: Date;
 	}
 }
-declare module ecat.entity.s.learner {
-	interface SpResponse {
-		entityId: string;
-		assessorPersonId: number;
-		assesseePersonId: number;
-		workGroupId: number;
-		courseId: number;
-		inventoryItemId: number;
-		mpItemResponse: string;
-		itemModelScore: number;
-		inventoryItem: ecat.entity.s.designer.SpInventory;
-		workGroup: ecat.entity.s.school.WorkGroup;
-		course: ecat.entity.s.school.Course;
-		assessor: ecat.entity.s.school.CrseStudentInGroup;
-		assessee: ecat.entity.s.school.CrseStudentInGroup;
-		modifiedById: number;
-		modifiedDate: Date;
-	}
-	interface KcResult {
-		inventoryId: number;
-		courseId: number;
-		studentId: number;
-		version: number;
-		instrumentId: number;
-		numberCorrect: number;
-		score: number;
-		instrument: ecat.entity.s.designer.KcInstrument;
-		responses: ecat.entity.s.learner.KcResponse[];
-	}
-	interface KcResponse {
-		entityId: string;
-		inventoryId: number;
-		courseId: number;
-		studentId: number;
-		resultId: number;
-		isCorrect: boolean;
-		version: number;
-		allowNewAttempt: boolean;
-		student: ecat.entity.s.school.StudentInCourse;
-		result: ecat.entity.s.learner.KcResult;
-		inventory: ecat.entity.s.designer.KcInventory;
-	}
-	interface StudSpCommentFlag {
-		mpAuthorFlag: string;
-		mpRecipientFlag: string;
-		mpFacultyFlag: string;
-		authorPersonId: number;
-		recipientPersonId: number;
-		flaggedByFacultyId: number;
-		courseId: number;
-		workGroupId: number;
-		comment: ecat.entity.s.learner.StudSpComment;
-		flaggedByFaculty: ecat.entity.s.school.FacultyInCourse;
-	}
-	interface StudSpComment {
-		entityId: string;
-		authorPersonId: number;
-		recipientPersonId: number;
-		workGroupId: number;
-		facultyPersonId: number;
-		courseId: number;
-		requestAnonymity: boolean;
-		commentText: string;
-		createdDate: Date;
-		modifiedById: number;
-		modifiedDate: Date;
-		author: ecat.entity.s.school.CrseStudentInGroup;
-		recipient: ecat.entity.s.school.CrseStudentInGroup;
-		workGroup: ecat.entity.s.school.WorkGroup;
-		course: ecat.entity.s.school.Course;
-		flag: ecat.entity.s.learner.StudSpCommentFlag;
-	}
-	interface SpResult {
-		entityId: string;
-		courseId: number;
-		workGroupId: number;
-		studentId: number;
-		assignedInstrumentId: number;
-		mpAssessResult: string;
-		compositeScore: number;
-		breakOut: Ecat.Shared.Core.ModelLibrary.Learner.SpResultBreakOut;
-		resultFor: ecat.entity.s.school.CrseStudentInGroup;
-		assignedInstrument: ecat.entity.s.designer.SpInstrument;
-		facultyResponses: ecat.entity.s.faculty.FacSpResponse[];
-		spResponses: ecat.entity.s.learner.SpResponse[];
-		sanitizedResponses: ecat.entity.s.learner.SanitizedSpResponse[];
-		sanitizedComments: ecat.entity.s.learner.SanitizedSpComment[];
-		modifiedById: number;
-		modifiedDate: Date;
-	}
-	interface SanitizedSpResponse {
-		id: number;
-		resultEntityId: string;
-		courseId: number;
-		workGroupId: number;
-		isInstructorResponse: boolean;
-		isSelfResponse: boolean;
-		peerGenericName: string;
-		mpItemResponse: string;
-		itemModelScore: number;
-		inventoryItemId: number;
-		assessResultId: number;
-		inventoryItem: ecat.entity.s.designer.SpInventory;
-		result: ecat.entity.s.learner.SpResult;
-	}
-	interface SanitizedSpComment {
-		id: number;
-		resultEntityId: number;
-		courseId: number;
-		workGroupId: number;
-		authorName: string;
-		commentText: string;
-		mpCommentFlagAuthor: string;
-		mpCommentFlagRecipient: string;
-		result: ecat.entity.s.learner.SpResult;
-	}
-	interface StratResponse {
-		entityId: string;
-		assessorPersonId: number;
-		assesseePersonId: number;
-		courseId: number;
-		workGroupId: number;
-		stratPosition: number;
-		assessor: ecat.entity.s.school.CrseStudentInGroup;
-		assessee: ecat.entity.s.school.CrseStudentInGroup;
-		modifiedById: number;
-		modifiedDate: Date;
-	}
-	interface StratResult {
-		entityId: string;
-		courseId: number;
-		studentId: number;
-		workGroupId: number;
-		originalStratPosition: number;
-		finalStratPosition: number;
-		stratCummScore: number;
-		stratAwardedScore: number;
-		resultFor: ecat.entity.s.school.CrseStudentInGroup;
-		facStrat: ecat.entity.s.faculty.FacStratResponse;
-		stratResponses: ecat.entity.s.learner.StratResponse[];
-		modifiedById: number;
-		modifiedDate: Date;
-	}
-}
 declare module ecat.entity.s.faculty {
 	interface FacSpResponse {
 		entityId: string;
@@ -463,17 +467,6 @@ declare module ecat.entity.s.faculty {
 		facultyAssessor: ecat.entity.s.school.FacultyInCourse;
 		modifiedById: number;
 		modifiedDate: Date;
-	}
-}
-declare module Ecat.Shared.Core.ModelLibrary.Learner {
-	interface SpResultBreakOut {
-		ineffA: number;
-		ineffU: number;
-		effA: number;
-		effU: number;
-		highEffU: number;
-		highEffA: number;
-		notDisplay: number;
 	}
 }
 declare module ecat.entity.s.staff {
@@ -561,6 +554,5 @@ declare module ecat.entity.s.common {
 		person: ecat.entity.s.user.Person;
 	}
 }
-
 
 

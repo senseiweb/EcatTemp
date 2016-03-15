@@ -1,4 +1,3 @@
-
 module Ecat.Shared.Core.Utility {
 	export const enum EdLevel {
 		None = 0,
