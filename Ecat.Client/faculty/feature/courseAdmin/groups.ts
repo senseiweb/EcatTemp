@@ -38,23 +38,19 @@ export default class EcCrseAdGrpList {
 
     private activate(force?: boolean): void {
         const _ = this;
-        this.dCtx.faculty.initializeCourses()
-            .then((retData: Array<ecat.entity.ICourse>) => {
-                this.courses = retData;
-                initResponse(this.courses);
+        this.dCtx.faculty.getCrseEnrolls()
+            .then((retData: ecat.entity.ICourse) => {
+                initResponse(retData);
                 this.view = CrseAdGrpsViews.List;
             })
             .catch(initError);
 
-        function initResponse(courses: Array<ecat.entity.ICourse>) {
-            _.courses = courses;
-            const activeCourse = courses.filter(crse => {
-                if (crse.id === _.dCtx.faculty.activeCourseId) { return true; }
-            });
-            if (activeCourse[0].workGroups) {
-                _._unwrapGrpFilterables(activeCourse[0].workGroups);
+        function initResponse(course: ecat.entity.ICourse) {
+            _.activeCourse = course;
+            if (_.activeCourse.workGroups) {
+                _._unwrapGrpFilterables(_.activeCourse.workGroups);
             }
-            _.activeCourse = activeCourse[0];
+            //_.activeCourse = _.activeCourse;
             _.activeCourse.workGroups.forEach(grp => {
                 if (grp.modifiedById !== null || grp.modifiedById !== undefined) {
                     var findFac = _.activeCourse.faculty.filter(fac => {

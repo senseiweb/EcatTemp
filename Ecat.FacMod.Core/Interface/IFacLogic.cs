@@ -17,5 +17,6 @@ namespace Ecat.FacMod.Core
         IQueryable<FacultyInCourse> GetActiveCourseData(int courseId);
         IQueryable<StudSpComment> GetStudSpComments();
         IQueryable<CrseStudentInGroup> GetWorkGroupResults(bool addAssessment, bool addComments);
+        IQueryable<Course> CourseMembers(int courseId);
     }
 }

@@ -30,7 +30,10 @@
                     <div ng-switch-when="1">
                         <div ng-include="'@[appFaculty]/feature/courseAdmin/courses.list.html'"></div>
                     </div>
-                    <div ng-switch-when="2 || 3">
+                    <div ng-switch-when="2">
+                        <div ng-include="'@[appFaculty]/feature/courseAdmin/courses.enroll.html'"></div>
+                    </div>
+                    <div ng-switch-when="3">
                         <div ng-include="'@[appFaculty]/feature/courseAdmin/courses.enroll.html'"></div>
                     </div>
                 </div>

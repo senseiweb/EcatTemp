@@ -18,13 +18,13 @@
                         <th class="header col-md-3 text-left f-16 f-400">View Info Card</th>
                     </tr>
                 </thead>
-                <tr ng-repeat="student in grps.activeGroup.groupMembers track by id" ng-mouseover="student.isVisible = true" ng-mouseleave="student.isVisible = false" style="height: 50px">
-                    <td>{{student.person.lastName}}, {{student.person.firstName}}</td>
-                    <td>{{student.person.rank}}</td>
-                    <td>{{student.person.affiliation}}</td>
-                    <td>{{student.person.component}}</td>
+                <tr ng-repeat="gm in grps.activeGroup.groupMembers | orderBy:'studentProfile.person.lastName' track by gm.studentId" ng-mouseover="gm.isVisible = true" ng-mouseleave="gm.isVisible = false" style="height: 50px">
+                    <td>{{gm.studentProfile.person.lastName}}, {{gm.studentProfile.person.firstName}}</td>
+                    <td>{{gm.studentProfile.person.rank}}</td>
+                    <td>{{gm.studentProfile.person.affiliation}}</td>
+                    <td>{{gm.studentProfile.person.component}}</td>
                     <td>
-                        <button ng-show="student.isVisible" type="button" class="btn btn-link btn-sm waves-effect btn-info f-14" ng-click="">View Info Card</button>
+                        <button ng-show="gm.isVisible" type="button" class="btn btn-link btn-sm waves-effect btn-info f-14" ng-click="">View Info Card</button>
                     </td> 
                 </tr>
             </table>

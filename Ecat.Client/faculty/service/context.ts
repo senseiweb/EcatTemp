@@ -434,7 +434,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const log = this.log;
         let course: ecat.entity.ICourse;
 
-        if (this.isLoaded.caCourse && !getNew) {
+        if (this.isLoaded.caCourse[this.activeCourseId] && !getNew) {
             const cachedCaCourse = this.queryLocal(resource) as ecat.entity.ICourse;
             this.log.success('Course loaded from local cache', course, false);
             return this.c.$q.when(course);
@@ -442,6 +442,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
         return this.query.from(resource)
             .using(this.manager)
+            .withParameters({ courseId: this.activeCourseId })
             //.orderBy(ordering)
             .execute()
             .then(caCoursesReponse)

@@ -21,5 +21,6 @@ namespace Ecat.FacMod.Core
         IQueryable<CommentCount> AuthorCommentCounts(List<int> authorIds, int workGroupId);
         List<int> CanWgPublish(List<int> wgIds);
         IQueryable<StudSpComment> WgComments { get; }
+        IQueryable<Course> CourseMembers(int courseId);
     }
 }

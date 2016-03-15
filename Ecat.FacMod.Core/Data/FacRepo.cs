@@ -90,6 +90,16 @@ namespace Ecat.FacMod.Core
         }
 
         IQueryable<StudSpComment> IFacRepo.WgComments => _ctx.StudSpComments;
+
+        IQueryable<Course> IFacRepo.CourseMembers(int courseId)
+        {
+            return _ctx.Courses
+                .Where(c => c.Id == courseId)
+                .Include(c => c.StudentsInCourse.Select(sic => sic.Student.Person))
+                .Include(c => c.Faculty)
+                .Include(c => c.WorkGroups)
+                .Include(c => c.StudentInCrseGroups);
+        }
     }
 
 }

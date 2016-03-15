@@ -71,5 +71,11 @@ namespace Ecat.Web.Controllers
         {
             return _facLogic.GetWorkGroupResults(addAssessment, addComments);
         }
+
+        [HttpGet]
+        public IQueryable<Course> CourseMembers(int courseId)
+        {
+            return _facLogic.CourseMembers(courseId);
+        }
     }
 }

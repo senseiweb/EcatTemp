@@ -24,19 +24,19 @@
                         </th>
                     </tr>
                 </thead>
-                <tr ng-repeat="student in crses.students | filter:{lastName: filterName} | orderBy:['lastName','firstName'] track by student.id" ng-if="crses.view==2" style="height: 50px">
-                    <td>{{student.person.lastName}}, {{student.person.firstName}}</td>
-                    <td>{{student.person.rank}}</td>
-                    <td>{{student.person.affiliation}}</td>
-                    <td>{{student.person.component}}</td>
-                    <td><a ng-repeat="groupMem in student.studGroupEnrollments">{{groupMem.group.groupNumber}}</a></td>
+                <tr ng-repeat="student in crses.students | orderBy:['student.person.lastName','student.person.firstName'] track by student.studentPersonId" ng-if="crses.view==2" style="height: 50px">
+                    <td>{{student.student.person.lastName}}, {{student.student.person.firstName}}</td>
+                    <td>{{student.student.person.rank}}</td>
+                    <td>{{student.student.person.affiliation}}</td>
+                    <td>{{student.student.person.component}}</td>
+                    <td><label ng-repeat="groupMem in student.workGroupEnrollments">{{groupMem.workGroup.mpCategory}}</label></td>
                 </tr>
-                <tr ng-repeat="facilitator in crses.facilitators | filter:{facultyProfile.person.lastName: filterName} | orderBy:['facultyProfile.person.lastName','facultyProfile.person.firstName'] track by facilitator.id" ng-if="crses.view==3" style="height: 50px">
+                <!--<tr ng-repeat="facilitator in crses.facilitators | filter:{facultyProfile.person.lastName: filterName} | orderBy:['facultyProfile.person.lastName','facultyProfile.person.firstName'] track by facilitator.facultyProfile.person.id" ng-if="crses.view==3" style="height: 50px">
                     <td>{{facilitator.facultyProfile.person.lastName}}, {{facilitator.facultyProfile.person.firstName}}</td>
                     <td>{{facilitator.facultyProfile.person.rank}}</td>
                     <td>{{facilitator.facultyProfile.person.affiliation}}</td>
                     <td>{{facilitator.facultyProfile.person.component}}</td>
-                </tr>
+                </tr>-->
             </table>
         </div>
     </div>

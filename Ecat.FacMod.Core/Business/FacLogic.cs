@@ -120,5 +120,10 @@ namespace Ecat.FacMod.Core
                 .Include(gm => gm.AssessorStratResponse)
                 .Include(gm => gm.StudentProfile.Person);
         }
+
+        IQueryable<Course> IFacLogic.CourseMembers(int courseId)
+        {
+            return _repo.CourseMembers(courseId);
+        }
     }
 }
