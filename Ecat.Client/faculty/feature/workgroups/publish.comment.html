@@ -75,8 +75,8 @@
 
                             <i class="zmdi zmdi-hc-fw"
                                style="display: inline"
-                               ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.inappr,
-                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.flag.mpFacultyFlag === wkp.commentFlag.appr}"></i>
+                               ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.flag.mpFaculty === wkp.commentFlag.inappr,
+                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.flag.mpFaculty === wkp.commentFlag.appr}"></i>
                         </div>
                     </div>
                 </div>
@@ -98,16 +98,16 @@
                                 <div class="pull-right p-t-30 p-r-5">
                                     <div class="btn-group">
                                 <label class="btn btn-default"
-                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFacultyFlag === wkp.commentFlag.appr}"
-                                               ng-model="wkp.selectedComment.flag.mpFacultyFlag"
+                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFaculty === wkp.commentFlag.appr}"
+                                               ng-model="wkp.selectedComment.flag.mpFaculty"
                                                ng-click="wkp.changeFlag(wkp.selectedComment.author, wkp.commentFlag.appr)"
                                                uib-btn-radio="wkp.commentFlag.appr">
                                             {{wkp.commentFlag.appr}}
                                         </label>
 
                                         <label class="btn btn-default"
-                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFacultyFlag=== wkp.commentFlag.inappr}"
-                                               ng-model="wkp.selectedComment.flag.mpFacultyFlag"
+                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFaculty=== wkp.commentFlag.inappr}"
+                                               ng-model="wkp.selectedComment.flag.mpFaculty"
                                                ng-click="wkp.changeFlag(wkp.selectedComment.author, wkp.commentFlag.inappr)"
                                                uib-btn-radio="wkp.commentFlag.inappr">
                                             {{wkp.commentFlag.inappr}}

@@ -67,24 +67,24 @@
         <label class="btn btn-default waves-effect"
                ng-disabled="commenter.isPublised" 
                ng-click="commenter.nf.$setDirty()" 
-               ng-class="{'btn-primary': commenter.comment.flag.mpAuthorFlag===commenter.commentFlag.neg}" 
-               ng-model="commenter.comment.flag.mpAuthorFlag" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.neg}" 
+               ng-model="commenter.comment.flag.mpAuthor" 
                uib-btn-radio="'{{commenter.commentFlag.neg}}'">
         {{commenter.commentFlag.neg}}
         </label>
         <label class="btn btn-default waves-effect"
                ng-click="commenter.nf.$setDirty()"
                ng-disabled="commenter.isPublised" 
-               ng-class="{'btn-primary': commenter.comment.flag.mpAuthorFlag===commenter.commentFlag.neut}" 
-               ng-model="commenter.comment.flag.mpAuthorFlag" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.neut}" 
+               ng-model="commenter.comment.flag.mpAuthor" 
                uib-btn-radio="'{{commenter.commentFlag.neut}}'">
         {{commenter.commentFlag.neut}}
         </label>
         <label class="btn btn-default waves-effect"
                ng-click="commenter.nf.$setDirty()"
                 ng-disabled="commenter.isPublised" 
-               ng-class="{'btn-primary': commenter.comment.flag.mpAuthorFlag===commenter.commentFlag.pos}" 
-               ng-model="commenter.comment.flag.mpAuthorFlag" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.pos}" 
+               ng-model="commenter.comment.flag.mpAuthor" 
                uib-btn-radio="'{{commenter.commentFlag.pos}}'">
         {{commenter.commentFlag.pos}}
         </label>

@@ -13,9 +13,9 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
 
     public class StudSpCommentFlag
     {
-        public string MpAuthorFlag { get; set; }
-        public string MpRecipientFlag { get; set; }
-        public string MpFacultyFlag { get; set; }
+        public string MpAuthor { get; set; }
+        public string MpRecipient { get; set; }
+        public string MpFaculty { get; set; }
 
         public int AuthorPersonId { get; set; }
         public int RecipientPersonId { get; set; }

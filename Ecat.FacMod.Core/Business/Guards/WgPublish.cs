@@ -185,7 +185,7 @@ namespace Ecat.FacMod.Core
                 .Where(
                     wg => wgIds.Contains(wg.Id) &&
                           wg.MpSpStatus == MpSpStatus.UnderReview &&
-                          wg.SpComments.All(comment => comment.Flag.MpFacultyFlag != null))
+                          wg.SpComments.All(comment => comment.Flag.MpFaculty != null))
                 .Select(wg => new PubWg
                 {
                     Id = wg.Id,

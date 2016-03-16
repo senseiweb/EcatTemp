@@ -94,12 +94,12 @@ export default class EcFacultyWgPublish {
             const singularAuthor = author as ecat.entity.ICrseStudInGroup;
             this.updateAuthorDynamics(singularAuthor);
             if (flag) {
-                this.selectedComment.flag.mpFacultyFlag = flag;
+                this.selectedComment.flag.mpFaculty = flag;
             } else {
                 singularAuthor.authorOfComments
-                    .filter(comment => all || (!!comment.flag && comment.flag.mpFacultyFlag == null))
+                    .filter(comment => all || (!!comment.flag && comment.flag.mpFaculty == null))
                     .forEach(comment => {
-                        comment.flag.mpFacultyFlag = _mp.MpCommentFlag.appr;
+                        comment.flag.mpFaculty = _mp.MpCommentFlag.appr;
                         comment.flag.flaggedByFacultyId = this.instructorId;
                     });
             };
@@ -111,9 +111,9 @@ export default class EcFacultyWgPublish {
         const authors = author as Array<ecat.entity.ICrseStudInGroup>;
         authors.forEach(a => {
             a.authorOfComments
-                .filter(comment => all || (!!comment.flag && comment.flag.mpFacultyFlag == null))
+                .filter(comment => all || (!!comment.flag && comment.flag.mpFaculty == null))
                 .forEach(comment => {
-                    comment.flag.mpFacultyFlag = _mp.MpCommentFlag.appr;
+                    comment.flag.mpFaculty = _mp.MpCommentFlag.appr;
                     comment.flag.flaggedByFacultyId = this.instructorId;
                 });
             this.updateAuthorDynamics(a);
@@ -122,7 +122,7 @@ export default class EcFacultyWgPublish {
     }
 
     private checkPublishingReady(): void {
-        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFacultyFlag === null);
+        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null);
         this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => strat.stratPosition && strat.proposedPosition === null);
     }
 
@@ -473,10 +473,10 @@ export default class EcFacultyWgPublish {
     }
 
     private updateAuthorDynamics(author: ecat.entity.ICrseStudInGroup): void {
-        author['isAllCommentFlagged'] = !author.authorOfComments.some(com => com.flag && com.flag.mpFacultyFlag === null);
-        author['totalApprCount'] = author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.appr).length;
-        author['totalInapprCount'] = author.authorOfComments.filter(com => com.flag && com.flag.mpFacultyFlag === _mp.MpCommentFlag.inappr).length;
-        author['numRemaining'] = author.authorOfComments.filter(aoc => aoc.flag.mpFacultyFlag === null).length;
+        author['isAllCommentFlagged'] = !author.authorOfComments.some(com => com.flag && com.flag.mpFaculty === null);
+        author['totalApprCount'] = author.authorOfComments.filter(com => com.flag && com.flag.mpFaculty === _mp.MpCommentFlag.appr).length;
+        author['totalInapprCount'] = author.authorOfComments.filter(com => com.flag && com.flag.mpFaculty === _mp.MpCommentFlag.inappr).length;
+        author['numRemaining'] = author.authorOfComments.filter(aoc => aoc.flag.mpFaculty === null).length;
     }
 }
 

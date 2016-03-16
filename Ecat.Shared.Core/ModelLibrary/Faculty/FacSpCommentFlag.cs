@@ -11,8 +11,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Faculty
     [TsClass(Module = "ecat.entity.s.faculty")]
     public class FacSpCommentFlag 
     {
-        public string MpFaculty { get; set; }
-        public int FlaggedByFacultyId { get; set; }
+        public int FacultyId { get; set; }
         public string MpAuthor { get; set; }
         public string MpRecipient { get; set; }
         public int RecipientPersonId { get; set; }

@@ -217,9 +217,9 @@ declare module ecat.entity.s.learner {
 		inventory: ecat.entity.s.designer.KcInventory;
 	}
 	interface StudSpCommentFlag {
-		mpAuthorFlag: string;
-		mpRecipientFlag: string;
-		mpFacultyFlag: string;
+		mpAuthor: string;
+		mpRecipient: string;
+		mpFaculty: string;
 		authorPersonId: number;
 		recipientPersonId: number;
 		flaggedByFacultyId: number;
@@ -294,6 +294,7 @@ declare module ecat.entity.s.learner {
 		workGroupId: number;
 		authorName: string;
 		commentText: string;
+		flag: ecat.entity.s.learner.StudSpCommentFlag;
 		mpCommentFlagRecipient: string;
 		result: ecat.entity.s.learner.SpResult;
 	}
@@ -445,8 +446,7 @@ declare module ecat.entity.s.faculty {
 		modifiedDate: Date;
 	}
 	interface FacSpCommentFlag {
-		mpFaculty: string;
-		flaggedByFacultyId: number;
+		facultyId: number;
 		mpAuthor: string;
 		mpRecipient: string;
 		recipientPersonId: number;

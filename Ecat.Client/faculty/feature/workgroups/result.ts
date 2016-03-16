@@ -73,7 +73,7 @@ export default class EcFacultyWgResult {
                     rankName: comment.recipient.rankName,
                     commentType: comment.requestAnonymity ? 'Anonymous' : 'Signed',
                     commentText: comment.commentText,
-                    isAppr: comment.flag.mpFacultyFlag === _mp.MpCommentFlag.appr,
+                    isAppr: comment.flag.mpFaculty === _mp.MpCommentFlag.appr,
                 }))
                 .sort(this.sortsComment);
             this.selectedComment = this.studentComments[0];
@@ -90,7 +90,7 @@ export default class EcFacultyWgResult {
                 rankName: comment.author.rankName,
                 commentType: comment.requestAnonymity ? 'Anonymous' : 'Signed',
                 commentText: comment.commentText,
-                isAppr: comment.flag.mpFacultyFlag === _mp.MpCommentFlag.appr,
+                isAppr: comment.flag.mpFaculty === _mp.MpCommentFlag.appr
             }))
             .sort(this.sortsComment);
 

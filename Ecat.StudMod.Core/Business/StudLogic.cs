@@ -161,7 +161,7 @@ namespace Ecat.StudMod.Core
                         comment.RecipientPersonId == StudentPerson.PersonId &&
                         !comment.Author.IsDeleted &&
                         comment.Flag != null &&
-                        comment.Flag.MpFacultyFlag == MpCommentFlag.Appr)
+                        comment.Flag.MpFaculty == MpCommentFlag.Appr)
                     .Select(comment => new SanitizedSpComment
                     {
                         RecipientId = comment.RecipientPersonId,
