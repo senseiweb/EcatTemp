@@ -39,7 +39,7 @@
                     <button type="button"
                             class="btn"
                             ng-class="assess.activeView === assess.view.strat ? 'btn-primary': 'btn-default'"
-                            ng-if="!assess.isResultPublished"
+                            ng-if="assess.isGroupOpen"
                             ng-click="assess.changeActiveView('strat')">
                         <i class="zmdi zmdi-check" ng-if="assess.doneWithStrats"></i>
                         Stratify Group
@@ -76,15 +76,7 @@
                 </div>
 
                 <div class="pull-right">
-                    <button class="btn btn-link"
-                            ng-click="assess.saveChanges()"
-                            ng-if="assess.activeView === assess.view.strat"
-                            style="margin-top: 3px"
-                            ng-disabled="assess.isSaving">
-                        <span ng-if="assess.isSaving">Saving...</span>
-                        <span ng-if="!assess.isSaving"> Save Stratification</span>
-                    </button>
-
+                    
                     <ul class="lv-actions actions">
 
                         <li class="dropdown" uib-dropdown>

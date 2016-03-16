@@ -15,6 +15,8 @@ export default class EcStudAssess {
     protected courses: ecat.entity.ICourse[];
     protected grpDisplayName = 'Not Set';
     protected isResultPublished = false;
+    protected isGroupUnderReview = false;
+    protected isGroupOpen = false;
     private log = this.c.getAllLoggers('Assessment Center');
     protected routingParams = { crseId: 0, wgId: 0 }
     protected view = {
@@ -160,7 +162,10 @@ export default class EcStudAssess {
         function setActiveGroupResponse(wg: ecat.entity.IWorkGroup): void {
             that.activeGroup = wg;
 
+            that.isGroupOpen = wg.mpSpStatus === _mp.MpSpStatus.open;
             that.isResultPublished = wg.mpSpStatus === _mp.MpSpStatus.published;
+            //Enum may be wrong
+            that.isGroupUnderReview = wg.mpSpStatus === _mp.MpSpStatus.underReview;
 
             if (that.isResultPublished) {
                 //TODO: Check how this perform between group changes
