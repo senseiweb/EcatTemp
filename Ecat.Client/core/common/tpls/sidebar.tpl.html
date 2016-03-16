@@ -114,7 +114,7 @@
                 Student
             </a>
             <ul>
-                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.student.assessment.name}}" ng-click="main.sidebarStat($event)">Assessments</a></li>
+                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.student.assessment.name}}({crseId:0,wgId:0})" ng-click="main.sidebarStat($event)">Assessments</a></li>
             </ul>
         </li>
         <li class="sub-menu" ng-class="{ 'active toggled': main.$state.includes('charts') }">

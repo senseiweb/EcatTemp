@@ -29,9 +29,7 @@ import btnWave from "core/directive/btnWave"
 import iMask from 'core/directive/inputMask'
 import compareTo from "core/directive/compareToValidator"
 import emailValidator from "core/directive/dupEmailvalidator"
-import spBoPieDirective from "core/directive/spBreakoutPie"
-import spBoBarDirective from "core/directive/spBreakoutBar"
-
+import spBoChart from "core/directive/spBreakoutChart"
 //#endregion 
 
 //#region Import Module Services/Factory/Providers
@@ -221,8 +219,7 @@ export default class EcAppCore {
             .directive(ecToggleSub.directiveId, () => new ecToggleSub())
             .directive(btnWave.directiveId, () => new btnWave())
             .directive(compareTo.directiveId, () => new compareTo())
-            .directive(spBoPieDirective.directiveId, () => new spBoPieDirective())
-            .directive(spBoBarDirective.directiveId, () => new spBoBarDirective())
+            .directive(spBoChart.directiveId, () => new spBoChart())
             .directive(iMask.directiveId, () => new iMask)
             .directive(emailValidator.directiveId, ['$q', dataCtx.serviceId, ($q, dataCtx) => new emailValidator($q, dataCtx)])
             .directive(ecMalihuScrollDirective.EcOverFlowMalihuScroll.directiveId, [ecMalihuScrollService.serviceId, '$state', cfgProvider.stateConfigProvider.id, (nss, $state, stateMgr) => new ecMalihuScrollDirective.EcOverFlowMalihuScroll(nss, $state, stateMgr)])

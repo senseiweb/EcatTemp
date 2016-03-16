@@ -11,7 +11,7 @@
                     <li ng-repeat="course in assess.courses track by course.id">
                         <a href="javascript:void(0)"
                            ng-click="assess.setActiveCourse(course)">
-                            <i ng-if="course.id === assess.activeCrseId" 
+                            <i ng-if="course.id === assess.activeCrseId"
                                class="zmdi zmdi-chevron-right"></i>
                             {{course.displayName}}
                         </a>
@@ -31,17 +31,17 @@
                     <button type="button"
                             class="btn"
                             ng-class="assess.activeView === assess.view.peer ? 'btn-primary': 'btn-default'"
-                            ng-click="assess.activeView = assess.view.peer">
-                            <i class="zmdi zmdi-check" ng-if="assess.doneWithAssessments"></i>
-                        Assessments
+                            ng-click="assess.changeActiveView('assess')">
+                        <i class="zmdi zmdi-check" ng-if="assess.doneWithStrats"></i>
+                        Assess Peers
                     </button>
 
                     <button type="button"
                             class="btn"
                             ng-class="assess.activeView === assess.view.strat ? 'btn-primary': 'btn-default'"
                             ng-if="!assess.isResultPublished"
-                            ng-click="assess.activeView = assess.view.strat">
-                            <i class="zmdi zmdi-check" ng-if="assess.doneWithStrats"></i>
+                            ng-click="assess.changeActiveView('strat')">
+                        <i class="zmdi zmdi-check" ng-if="assess.doneWithStrats"></i>
                         Stratify Group
                     </button>
 
@@ -49,11 +49,11 @@
                          ng-if="assess.isResultPublished"
                          uib-dropdown>
 
-                        <button class="btn  dropdown-toggle btn-icon-text waves-effect"
-                                ng-class="assess.activeView === assess.view.myReport ? 'btn-primary': 'btn-default'"
+                        <button class="btn dropdown-toggle btn-icon-text waves-effect"
+                                ng-class="assess.activeView === assess.view.myReport || assess.activeView === assess.view.comment  ? 'btn-primary': 'btn-default'"
                                 uib-dropdown-toggle>
                             <i class="zmdi zmdi-menu"></i>
-                           View Results - {{assess.activeView === assess.view.myReport ? 'My Report' : 'Comments'}}
+                            View Results - {{assess.activeView === assess.view.myReport ? 'My Report' : 'Comments'}}
                         </button>
 
                         <ul class="dropdown-menu dropdown-menu-left"
@@ -61,20 +61,20 @@
 
                             <li>
                                 <a href="javascript:void(0)"
-                                   ng-click="assess.activeView = assess.view.myReport">
+                                   ng-click="assess.changeActiveView('myReport')">
                                     My Report
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:void(0)"
-                                   ng-click="assess.activeView = assess.view.comment">
+                                   ng-click="assess.changeActiveView('comment')">
                                     Comments
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="pull-right">
                     <button class="btn btn-link"
                             ng-click="assess.saveChanges()"
@@ -119,20 +119,7 @@
             </div>
 
             <div class="lv-body">
-                <div ng-switch="assess.activeView">
-                    <div ng-switch-when="0">
-                        <div ng-include="'@[appStudent]/feature/assess/main.list.html'"></div>
-                    </div>
-                    <div ng-switch-when="1">
-                        <div ng-include="'@[appStudent]/feature/assess/main.strat.html'"></div>
-                    </div>
-                    <div ng-switch-when="2">
-                        <div ng-include="'@[appStudent]/feature/assess/main.result.html'"></div>
-                    </div>
-                    <div ng-switch-when="3">
-                        <div ng-include="'@[appStudent]/feature/assess/main.comment.html'"></div>
-                    </div>
-                </div>
+                <div ui-view></div>
             </div>
         </div>
     </div>

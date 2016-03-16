@@ -1,4 +1,4 @@
-﻿<div class="row">
+﻿<div ng-if="assess.activeView === assess.view.myReport"><div class="row">
     <div class="col-md-12">
         <div class="text-center">
             <h3 class="lead">Who Knows</h3>
@@ -7,20 +7,20 @@
 </div>
 
 <hr />
-<div class="row">
-    <div class="col-md-12 p-t-20">
-        <div class="table-responsive">
-            <table class="table table-hover tableCenterAlign">
-                <thead>
+    <div class="row">
+        <div class="col-md-12 p-t-20">
+            <div class="table-responsive">
+                <table class="table table-hover tableCenterAlign">
+                    <thead>
                     <tr>
                         <th class="col-md-3">Behavior</th>
-                        <th class="col-md-3 text-center">Self<br/>Perspective</th>                               
-                        <th class="col-md-3 text-center">Peers<br />Perspective</th>                             
+                        <th class="col-md-3 text-center">Self<br/>Perspective</th>
+                        <th class="col-md-3 text-center">Peers<br/>Perspective</th>
                         <th class="col-md-3 text-center">Faculty<br/>Perspective</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in assess.resultInventory track by item.id">
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in ar.resultInventory track by item.id">
                         <td>
                             <span ng-show="!item.showBehavior">
                                 {{::item.behaviorEllipse}}
@@ -44,7 +44,7 @@
                                popover-placement="top"
                                popover-trigger="click"
                                popover-title="Behavior Breakout"
-                               uib-popover-template="'@[appCore]/common/tpls/resultBoPopover.tpl.html'">
+                               uib-popover-template="'@[appStudent]/feature/assess/tpls/resultBoPopover.tpl.html'">
                                 {{::item.resultBreakOut.peersResult}}
                             </a>
                         </td>
@@ -54,9 +54,12 @@
                             </a>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+    </div>
+
+
 

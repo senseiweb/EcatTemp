@@ -216,7 +216,12 @@ declare module ecat.entity
    //#region Model Owner Learner
     interface ISantiziedResponse extends breeze.Entity, s.learner.SanitizedSpResponse { }
 
-    interface ISpResult extends breeze.Entity, s.learner.SpResult { }
+    interface ISantiziedComment extends breeze.Entity, s.learner.SanitizedSpComment {}
+
+    interface ISpResult extends breeze.Entity, s.learner.SpResult {
+        assignedInstrument: ISpInstrument;
+        sanitizedComments: ISantiziedComment[];
+    }
 
     interface IStratResult extends breeze.Entity, s.learner.StratResult, ext.ICompositeKey {}
 

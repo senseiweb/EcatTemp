@@ -115,10 +115,10 @@ export default class EcStudentRepo extends IUtilityRepo {
      */
     getActiveCourse(): breeze.promises.IPromise<ecat.entity.ICourse | angular.IPromise<void>> {
         if (!this.activeCourseId) {
-            this.c.$q.reject(() => {
-                this.log.warn('Not active course selected!', null, false);
+            this.log.warn('Not active course selected!', null, false);
+            return this.c.$q.reject(() => {
                 return 'A course must be selected';
-            });
+            });;
         }
 
         let course: ecat.entity.ICourse;
@@ -331,15 +331,16 @@ export default class EcStudentRepo extends IUtilityRepo {
         });
     }
 
-    getWgSpResult(): breeze.promises.IPromise<Array<ecat.entity.ISpInventory> | angular.IPromise<void>> {
+    getWgSpResult(): breeze.promises.IPromise<ecat.entity.ISpResult | angular.IPromise<void>> {
         const that = this;
         const resource = this.studentApiResources.wgResult.resource;
 
         if (this.isLoaded.wgResult[this.activeGroupId]) {
-            const workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
-            const inventory = workGroup.assignedSpInstr.inventoryCollection;
-            if (inventory) {
-                return this.c.$q.when(inventory);
+            const cachedResult = this.manager.getEntities(_mp.MpEntityType.spResult) as Array<ecat.entity.ISpResult>;
+
+            const result = cachedResult.filter(cr => cr.workGroupId === this.activeGroupId)[0];
+            if (result) {
+                return this.c.$q.when(result);
             }
         }
 
@@ -357,7 +358,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             .then(getWgSpResultResonse)
             .catch(this.queryFailed);
 
-        function getWgSpResultResonse(data: breeze.QueryResult): Array<ecat.entity.ISpInventory> {
+        function getWgSpResultResonse(data: breeze.QueryResult): ecat.entity.ISpResult {
             const result = data.results[0] as ecat.entity.ISpResult;
             if (!result) {
                 const queryError: ecat.IQueryError = {
@@ -369,7 +370,10 @@ export default class EcStudentRepo extends IUtilityRepo {
             const workGroup = that.manager.getEntityByKey(_mp.MpEntityType.workGroup, that.activeGroupId) as ecat.entity.IWorkGroup;
             
             const inventory = workGroup.assignedSpInstr.inventoryCollection;
+            if (!inventory) return that.c.$q.reject('Then required inventory for this result was not in the returned set;') as any;
 
+            that.isLoaded.spInventory[workGroup.id] = true;
+            that.isLoaded.wgResult[workGroup.id] = true;
             inventory.forEach(item => {
                 item.spResult = result;
                 if (item.id === 2) {
@@ -378,7 +382,7 @@ export default class EcStudentRepo extends IUtilityRepo {
                 var dummyResult = item.resultBreakOut;
                 return item;
             });
-            return inventory;
+            return result;
         }
     }
 }

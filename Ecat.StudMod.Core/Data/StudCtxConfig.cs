@@ -11,11 +11,11 @@ namespace Ecat.StudMod.Core
     {
         public StudConfigSanitizedComment()
         {
-            HasKey(p => new {p.AuthorId, p.RecipientId, p.CourseId, p.WorkGroupId});
+            HasKey(p => p.AuthorId);
 
             HasRequired(p => p.Result)
                 .WithMany(p => p.SanitizedComments)
-                .HasForeignKey(p => new { p.AuthorId, p.CourseId, p.WorkGroupId });
+                .HasForeignKey(p => new { p.RecipientId, p.CourseId, p.WorkGroupId });
         }
     }
 
@@ -23,11 +23,11 @@ namespace Ecat.StudMod.Core
     {
         public StudConfigSanitizedResponse()
         {
-            HasKey(p => new { p.AssessorId, p.AssesseeId, p.CourseId, p.WorkGroupId });
+            HasKey(p => p.AssessorId);
 
             HasRequired(p => p.Result)
                 .WithMany(p => p.SanitizedResponses)
-                .HasForeignKey(p => new {p.AssessorId, p.CourseId, p.WorkGroupId});
+                .HasForeignKey(p => new {p.AssesseeId, p.CourseId, p.WorkGroupId});
         }
     }
 

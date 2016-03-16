@@ -144,10 +144,11 @@ namespace Ecat.StudMod.Core
                 SanitizedResponses = svrWg.SpResponses
                     .Where(response => response.AssesseePersonId == StudentPerson.PersonId)
                     .Where(response => !response.Assessor.IsDeleted)
-                    .Select((response, index) => new SanitizedSpResponse
+                    .Select(response => new SanitizedSpResponse
                     {
                         StudentId = StudentPerson.PersonId,
-                        AssessorId = index,
+                        AssessorId = 0,
+                        AssesseeId = StudentPerson.PersonId,
                         CourseId = svrWg.CourseId,
                         WorkGroupId = svrWg.Id,
                         IsSelfResponse = response.AssessorPersonId == StudentPerson.PersonId,
@@ -161,10 +162,10 @@ namespace Ecat.StudMod.Core
                         !comment.Author.IsDeleted &&
                         comment.Flag != null &&
                         comment.Flag.MpFacultyFlag == MpCommentFlag.Appr)
-                    .Select((comment, index) => new SanitizedSpComment
+                    .Select(comment => new SanitizedSpComment
                     {
                         RecipientId = comment.RecipientPersonId,
-                        AuthorId = index,
+                        AuthorId = 0,
                         CourseId = svrWg.CourseId,
                         WorkGroupId = svrWg.Id,
                         AuthorName =
@@ -175,6 +176,19 @@ namespace Ecat.StudMod.Core
                     }).ToList()
             };
 
+            var i = 1;
+            foreach (var response in spResult.SanitizedResponses)
+            {
+                response.AssessorId = i;
+                i += 13;
+            }
+
+            i = 1;
+            foreach (var comment in spResult.SanitizedComments)
+            {
+                comment.AuthorId = i;
+                i += 21;
+            }
             return spResult;
         }
 

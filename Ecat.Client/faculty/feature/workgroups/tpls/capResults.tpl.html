@@ -14,10 +14,7 @@
                     <tr>
                         <th></th>
                         <th colspan="4" class="text-center" ng-repeat="groupType in groups.groupTypes | orderBy: 'groupType'">{{groupType}}</th>
-                        <!--<th colspan="4" class="text-center">Group2</th>
-                        <th colspan="4" class="text-center">Group3</th>
-                        <th colspan="4" class="text-center">Group4</th>-->
-                    </tr>
+                  </tr>
                     <tr></tr>
                     <tr>
                         <th>Student</th>
@@ -25,18 +22,7 @@
                         <th>Self</th>
                         <th>Peer</th>
                         <th ng-repeat-end>Inst</th>
-                        <!--<th>Strat</th>
-                        <th>Self</th>
-                        <th>Peer</th>
-                        <th>Inst</th>
-                        <th>Strat</th>
-                        <th>Self</th>
-                        <th>Peer</th>
-                        <th>Inst</th>
-                        <th>Strat</th>
-                        <th>Self</th>
-                        <th>Peer</th>
-                        <th>Inst</th>-->
+                   
                     </tr>
 
                 </thead>
@@ -48,84 +34,6 @@
                         <td>{{groups.groupCapstoneData[studentCM.id].studentCapstoneData[groupType].peer}}</td>
                         <td ng-repeat-end>{{groups.groupCapstoneData[studentCM.id].studentCapstoneData[groupType].fac}}</td>
                     </tr>
-                    <!--<tr>
-                        <td><a ng-click="groups.viewCapstoneStudentDetails()" href="">Bob Anderson</a></td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                    </tr>
-                    <tr>
-                        <td>Bob Anderson</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                    </tr>
-                    <tr>
-                        <td>Bob Anderson</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>1</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                        <td>HAE</td>
-                    </tr>
-                        <tr>
-                            <td>Bob Anderson</td>
-                            <td>1</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                            <td>1</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                            <td>1</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                            <td>1</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                            <td>HAE</td>
-                        </tr>-->
-
-
                 </tbody>
             </table>
         </div>

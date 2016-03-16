@@ -16,7 +16,6 @@ export default class EcDirSpBehaviorResBar implements angular.IDirective {
 
     spBreakoutOptions = {
         series: {
-<<<<<<< c9589c61cd696531c458a4b2ab9c2b3483977ccd
             bars: {
                 show: true
             }
@@ -43,9 +42,10 @@ export default class EcDirSpBehaviorResBar implements angular.IDirective {
         grid: {
             borderWidth: 2,
             borderColor: '#eee',
+        }
+    }
 
-
-  spBreakoutOptionsDonut = {
+    spBreakoutOptionsDonut = {
         series: {
             pie: {
                 innerRadius: 0.5,
@@ -88,7 +88,7 @@ export default class EcDirSpBehaviorResBar implements angular.IDirective {
         element.plot(this.newdata, this.spBreakoutOptions);
 
 
-        this.spBreakoutOptions.legend.container = `#${scope.legend}`;
+        //this.spBreakoutOptions.legend.container = `#${scope.legend}`;
         console.log(scope.dataset);
         element.plot(scope.dataset, this.spBreakoutOptions);
     }

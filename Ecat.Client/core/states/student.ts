@@ -9,7 +9,7 @@ export default class StudentStates {
     main: angular.ui.IState;
     assessment: angular.ui.IState;
     assess: angular.ui.IState;
-
+    result: angular.ui.IState;
     constructor() {
         this.main = {
             name: `${_core.mainRefState.name}.student`,
@@ -36,12 +36,33 @@ export default class StudentStates {
             name: `${this.main.name}.assessment`,
             parent: this.main.name,
             url: '/assessment',
-            templateUrl: '@[appStudent]/feature/assess/main.html',
+            templateUrl: '@[appStudent]/feature/assess/assess.html',
             controller: 'app.student.assessment as assess',
             resolve: {
-                moduleLoad: ['moduleInit', (moduleInit) => moduleInit]
+                moduleLoad: ['dCtxReady', (dCtxReady) => dCtxReady],
+                courseInit: ['moduleLoad',IDataCtx.serviceId,(module,dCtx: IDataCtx) => {dCtx.student.initCrseStudGroup(false)}]
             }
         }
+
+        this.assess = {
+            name: `${this.main.name}.list`,
+            parent: this.assessment.name,
+            url: '/list/{crseId:int}/{wgId:int}',
+            templateUrl: '@[appStudent]/feature/assess/list.html',
+            controller: 'app.student.assessment.list as al',
+            resolve: {
+                courseInit: ['courseInit',(courseInit)=>courseInit]
+            }
+        }
+
+        this.result = {
+            name: `${this.main.name}.result`,
+            url:'/results/{crseId:int}/{wgId:int}',
+            parent: this.assessment.name,
+            templateUrl: '@[appStudent]/feature/assess/result.html',
+            controller: 'app.student.assessment.result as ar'
+        }
+        
     }
 
     private loadModule = ($ocLl: oc.ILazyLoad): void => System.import('app/student/appStudent.js')

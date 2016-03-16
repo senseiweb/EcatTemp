@@ -6,8 +6,9 @@ import 'flotResize'
 import 'flotTooltip'
 import studCtx from "student/service/context"
 import modSpTools from "provider/spTools/modSptools"
-import assessMaain from "student/feature/assess/main"
-
+import assess from "student/feature/assess/assess"
+import assessList from "student/feature/assess/list"
+import assessResult from "student/feature/assess/result"
 
 export default class EcStudentModule {
     moduleId = 'app.student';
@@ -16,13 +17,9 @@ export default class EcStudentModule {
         const spToolMod = new modSpTools();
 
         angular.module(this.moduleId, ['ui.select',spToolMod.moduleId])
-            .controller(assessMaain.controllerId, assessMaain)
+            .controller(assessList.controllerId, assessList)
+            .controller(assess.controllerId, assess)
+            .controller(assessResult.controllerId, assessResult)
             .service(studCtx.serviceId, studCtx);
-            //.config(studConfig)
-            //.provider(studCfgProvider.id, studCfgProvider)
-            //.controller(assessments.controllerId, assessments)
-            //.controller(addAssess.controllerId, addAssess)
-            //.controller(addComment.controllerId, addComment)
-            //.controller(editAssess.controllerId, editAssess)
     }
 }
