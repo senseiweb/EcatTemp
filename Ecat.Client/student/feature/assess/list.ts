@@ -69,7 +69,7 @@ export default class EcStudAssessList {
             that.activeGroup = wg;
             const myId = that.dCtx.user.persona.personId;
 
-            that.isViewOnly = that.isResultPublished || wg.mpSpStatus !== _mp.MpSpStatus.open;
+            that.isViewOnly = wg.mpSpStatus !== _mp.MpSpStatus.open;
 
             that.me = grpMembers.filter(gm => gm.studentId === myId)[0];
             grpMembers.forEach(gm => {

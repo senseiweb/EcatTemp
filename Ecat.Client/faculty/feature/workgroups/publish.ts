@@ -64,13 +64,13 @@ export default class EcFacultyWgPublish {
 
             const alertSettings: SweetAlert.Settings = {
                 title: 'Cancel Publish',
-                text: `This action will cancel publication and allow students to make changes. Are you sure?`,
+                text: `This action will Stop the publication workflow and allow students to make changes. Are you sure?`,
                 type: 'warning',
                 showCancelButton: true,
                 showConfirmButton: true,
                 closeOnCancel: false,
                 closeOnConfirm: false,
-                confirmButtonText: 'Cancel Publish',
+                confirmButtonText: 'Stop Publishing',
                 showLoaderOnConfirm: true
             };
 
@@ -160,9 +160,10 @@ export default class EcFacultyWgPublish {
                 _swal(alertSetting, (response?: boolean) => {
                     if (response) {
                         that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.underReview;
-                        that.saveChanges()
+                        that.dCtx.faculty.saveChanges()
                             .then(() => that.processActiveWg(that.activeWorkGroup))
-                            .then(() => _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success'));
+                            .then(() => _swal('Publishing Workflow Started...', 'This workgroup is now in review status', 'success'))
+                            .catch(() => {});
                     } else {
                         _swal.close();
                         that.c.$state.go(that.c.stateMgr.faculty.wgList.name);
@@ -313,7 +314,7 @@ export default class EcFacultyWgPublish {
 
     protected publish(): void {
         const that = this;
-
+        this.checkPublishingReady();
         if (this.doneWithComments && this.doneWithStrats) {
             const alertSettings: SweetAlert.Settings = {
                 title: 'Publish Results',
@@ -321,18 +322,19 @@ export default class EcFacultyWgPublish {
                 type: 'warning',
                 showCancelButton: true,
                 showConfirmButton: true,
-                closeOnCancel: true,
+                closeOnCancel: false,
                 closeOnConfirm: false,
                 confirmButtonText: 'Publish',
                 showLoaderOnConfirm: true
         };
 
             _swal(alertSettings, (confirmed?: boolean) => {
-                if (confirmed) {             
+                if (confirmed) {
                     that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.published;
                     that.isPublishing = true;
-   
                     that.saveChanges();
+                } else {
+                    _swal.close();  
                 }
 
             });
@@ -395,6 +397,17 @@ export default class EcFacultyWgPublish {
                 });
         }
 
+        if (this.isPublishing) {
+            this.checkPublishingReady();
+
+            if (this.doneWithComments && this.doneWithStrats) {
+                return this.dCtx.faculty.saveChanges()
+                    .then(() => _swal('Publishing Workflow...', 'This workgroup is now Published.', 'success'))
+                    .catch(saveChangesError)
+                    .finally(() => { that.c.$state.go(that.c.stateMgr.faculty.wgList.name);});
+            }
+        }
+
 
         function stratSaveChangesResponse(): void {
 
@@ -403,9 +416,10 @@ export default class EcFacultyWgPublish {
         }
 
         function commentSaveChangesResponse(): void {
-
-            that.log.success('Save Comments, Your changes have been made.', null, true);
+            
             that.checkPublishingReady();
+            that.log.success('Save Comments, Your changes have been made.', null, true);
+            
         }
 
         //TODO: if no changes are exists, dCtx will throw an IQueryError that needs to be handled

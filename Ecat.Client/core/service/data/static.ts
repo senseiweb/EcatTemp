@@ -222,7 +222,7 @@ export default class EcLocalDataService {
             case _mp.MpAffiliation.usmc:
                     return paygradeList[pg].usmc.rankShortName;
             default:
-                return 'Unkown';
+                return 'Unknown';
             }
         }
         return 'Udf';
