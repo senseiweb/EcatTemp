@@ -101,6 +101,7 @@ export default class EcStudAssessList {
 
                 if (that.isViewOnly) {
                     gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
+                    gm['disableComment'] = !(that.me.statusOfPeer[gm.studentId].hasComment);
                     gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
                     gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
                 } else {

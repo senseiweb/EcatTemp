@@ -3,84 +3,84 @@
         <div>
             <table class="table table-hover tableCenterAlign">
                 <thead>
-                    <tr class="f-16">
-                        <th class="col-md-3 text-left f-400"
-                            ng-click="al.sortList(al.sortOpt.student)">
+                <tr class="f-16">
+                    <th class="col-md-3 text-left f-400"
+                        ng-click="al.sortList(al.sortOpt.student)">
 
-                            Student
+                        Student
 
-                            <i class="zmdi"
-                               ng-if="al.activeSort.opt === al.sortOpt.student"
-                               ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
-                        </th>
-                        <th class="col-md-3 text-center f-400"
-                            ng-click="al.sortList(al.sortOpt.breakout)">
+                        <i class="zmdi"
+                           ng-if="al.activeSort.opt === al.sortOpt.student"
+                           ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                    </th>
+                    <th class="col-md-3 text-center f-400"
+                        ng-click="al.sortList(al.sortOpt.breakout)">
 
-                            Composite/Breakout
+                        Composite/Breakout
 
-                            <i class="zmdi"
-                               ng-if="al.activeSort.opt === al.sortOpt.breakout"
-                               ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
-                        </th>
-                        <th class="col-md-2 text-center f-400"
-                            ng-click="al.sortList(al.sortOpt.strat)">
+                        <i class="zmdi"
+                           ng-if="al.activeSort.opt === al.sortOpt.breakout"
+                           ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                    </th>
+                    <th class="col-md-2 text-center f-400"
+                        ng-click="al.sortList(al.sortOpt.strat)">
 
-                            Strat
+                        Strat
 
-                            <i class="zmdi"
-                               ng-if="al.activeSort.opt === al.sortOpt.strat"
-                               ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
-                        </th>
-                        <th class="col-md-2 text-center f-400">Proposed Change</th>
-                        <th class="col-md-2 text-center f-400">Validation</th>
-                    </tr>
+                        <i class="zmdi"
+                           ng-if="al.activeSort.opt === al.sortOpt.strat"
+                           ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                    </th>
+                    <th class="col-md-2 text-center f-400">Proposed Change</th>
+                    <th class="col-md-2 text-center f-400">Validation</th>
+                </tr>
                 </thead>
                 <tbody class="f-14">
 
-                    <tr class="tableBottomBorder">
-                        <td style="border-right: 1px solid #f0f0f0;">{{::al.myStrat.assessee.rankName}}</td>
-                        <td class="text-center  p-b-0 p-t-0">
-                            <div ng-if="!al.myStrat.assessee.hasChartData">
-                                No Assessment
-                            </div>
-                            <div id="sp-chart-data-{{$index}}"
-                                 ng-if="al.myStrat.assessee.hasChartData">
+                <tr class="tableBottomBorder">
+                    <td style="border-right: 1px solid #f0f0f0;">{{::al.myStrat.assessee.rankName}}</td>
+                    <td class="text-center  p-b-0 p-t-0">
+                        <div ng-if="!al.myStrat.assessee.hasChartData">
+                            No Assessment
+                        </div>
+                        <div id="sp-chart-data-{{$index}}"
+                             ng-if="al.myStrat.assessee.hasChartData">
 
-                                <span class="sp-graph-composite">{{al.me.statusOfPeer[al.myStrat.assessee.studentId].compositeScore}}</span>
+                            <span class="sp-graph-composite">{{al.me.statusOfPeer[al.myStrat.assessee.studentId].compositeScore}}</span>
 
-                                <div sp-break-out-chart
-                                     charttype="pie"
-                                     dataset="al.me.statusOfPeer[al.myStrat.assessee.studentId].breakOutChartData"
-                                     class="spflot-chart-pie" 
-                                     legend="flotlegend{{$index}}"> </div>
-                                <div id="flotlegend{{$index}}" style="display: none"></div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <span ng-if="al.myStrat.stratPosition" style="width: 100px; font-size: 1.6em">
+                            <div sp-break-out-chart
+                                 charttype="pie"
+                                 dataset="al.me.statusOfPeer[al.myStrat.assessee.studentId].breakOutChartData"
+                                 class="spflot-chart-pie"
+                                 legend="flotlegend{{$index}}"> </div>
+                            <div id="flotlegend{{$index}}" style="display: none"></div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span ng-if="al.myStrat.stratPosition" style="width: 100px; font-size: 1.6em">
                                 {{al.myStrat.stratPosition}}
                             </span>
-                            <span ng-if="!al.myStrat.stratPosition">
+                        <span ng-if="!al.myStrat.stratPosition">
                                 None
                             </span>
-                        </td>
-                        <td class="text-center">
-                            <input class="form-control text-center"
-                                   type="number"
-                                   style="width: 100px; font-size: 1.6em"
-                                   min="1"
-                                   max="groups.selectedGroup.groupMembers.length"
-                                   ng-change="al.evaluateStrat()"
-                                   ng-disabled="al.isSaving"
-                                   ng-model="al.myStrat.proposedPosition"
-                                   ng-model-options="{debounce: 1000}"
-                                   tabindex="{{$index + 1}}" />
-                        </td>
-                        <td class="text-center">
-                            <span ng-if="al.myStrat.isValid">
+                    </td>
+                    <td class="text-center">
+                        <input class="form-control text-center"
+                               type="number"
+                               style="width: 100px; font-size: 1.6em"
+                               min="1"
+                               max="groups.selectedGroup.groupMembers.length"
+                               ng-change="al.evaluateStrat()"
+                               ng-disabled="al.isSaving"
+                               ng-model="al.myStrat.proposedPosition"
+                               ng-model-options="{debounce: 1000}"
+                               tabindex="{{$index + 1}}"/>
+                    </td>
+                    <td class="text-center">
+                        <span ng-if="al.myStrat.isValid">
                                 Valid
                             </span>
-                            <span ng-if="!al.myStrat.isValid">
+                        <span ng-if="!al.myStrat.isValid">
                                 <a href="javascript:void(0)"
                                    popover-append-to-body="true"
                                    popover-placement="left-top"
@@ -90,49 +90,49 @@
                                     Invalid
                                 </a>
                             </span>
-                        </td>
-                    </tr>
-                    <tr ng-repeat="strat in al.peerStrats | orderBy:'stratText':al.activeSort.desc track by strat.assessee.studentId">
-                        <td style="border-right: 1px solid #f0f0f0;">{{::strat.assessee.rankName}}</td>
-                        <td class="text-center  p-b-0 p-t-0">
-                            <div ng-if="!strat.assessee.hasChartData">
-                                No Assessment
-                            </div>
-                            <div id="sp-chart-data-{{$index}}" ng-if="strat.assessee.hasChartData">
-                                <span class="sp-graph-composite">{{al.me.statusOfPeer[strat.assessee.studentId].compositeScore}}</span>
-                                <div sp-break-out-chart
-                                     charttype="pie"
-                                     dataset="al.me.statusOfPeer[strat.assessee.studentId].breakOutChartData"
-                                     class="spflot-chart-pie" 
-                                     legend="flotlegend{{$index}}"> </div>
-                                <div id="flotlegend{{$index}}" style="display: none"></div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <span ng-if="strat.stratPosition" style="width: 100px; font-size: 1.6em">
+                    </td>
+                </tr>
+                <tr ng-repeat="strat in al.peerStrats | orderBy:'stratText':al.activeSort.desc track by strat.assessee.studentId">
+                    <td style="border-right: 1px solid #f0f0f0;">{{::strat.assessee.rankName}}</td>
+                    <td class="text-center  p-b-0 p-t-0">
+                        <div ng-if="!strat.assessee.hasChartData">
+                            No Assessment
+                        </div>
+                        <div id="sp-chart-data-{{$index}}" ng-if="strat.assessee.hasChartData">
+                            <span class="sp-graph-composite">{{al.me.statusOfPeer[strat.assessee.studentId].compositeScore}}</span>
+                            <div sp-break-out-chart
+                                 charttype="pie"
+                                 dataset="al.me.statusOfPeer[strat.assessee.studentId].breakOutChartData"
+                                 class="spflot-chart-pie"
+                                 legend="flotlegend{{$index}}"> </div>
+                            <div id="flotlegend{{$index}}" style="display: none"></div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span ng-if="strat.stratPosition" style="width: 100px; font-size: 1.6em">
                                 {{strat.stratPosition}}
                             </span>
-                            <span ng-if="!strat.stratPosition">
+                        <span ng-if="!strat.stratPosition">
                                 None
                             </span>
-                        </td>
-                        <td class="text-center">
-                            <input class="form-control text-center"
-                                   type="number"
-                                   style="width: 100px; font-size: 1.6em"
-                                   min="1"
-                                   max="groups.selectedGroup.groupMembers.length"
-                                   ng-change="al.evaluateStrat()"
-                                   ng-disabled="al.isSaving"
-                                   ng-model="strat.proposedPosition"
-                                   ng-model-options="{debounce: 1000}"
-                                   tabindex="{{$index + 1}}" />
-                        </td>
-                        <td class="text-center">
-                            <span ng-if="strat.isValid">
+                    </td>
+                    <td class="text-center">
+                        <input class="form-control text-center"
+                               type="number"
+                               style="width: 100px; font-size: 1.6em"
+                               min="1"
+                               max="groups.selectedGroup.groupMembers.length"
+                               ng-change="al.evaluateStrat()"
+                               ng-disabled="al.isSaving"
+                               ng-model="strat.proposedPosition"
+                               ng-model-options="{debounce: 1000}"
+                               tabindex="{{$index + 1}}"/>
+                    </td>
+                    <td class="text-center">
+                        <span ng-if="strat.isValid">
                                 Valid
                             </span>
-                            <span ng-if="!strat.isValid">
+                        <span ng-if="!strat.isValid">
                                 <a href="javascript:void(0)" 
                                    popover-append-to-body="true" 
                                    popover-placement="left-top" 
@@ -142,12 +142,23 @@
                                     Invalid
                                 </a>
                             </span>
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
 
                 </tbody>
             </table>
 
         </div>
+
+        <div class="text-center p-t-5 p-b-20">
+            <button class="btn btn-primary"
+                    ng-click="al.saveChanges()"
+                    style="margin-top: 3px"
+                    ng-disabled="al.isSaving || al.isGroupUnderReview">
+                <span ng-if="al.isSaving">Saving...</span>
+                <span ng-if="!al.isSaving"> Save Stratification</span>
+            </button>
+        </div>
+
     </div>
 </div>

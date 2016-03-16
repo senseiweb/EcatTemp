@@ -80,8 +80,14 @@
 
                         <td class="text-center">
                             <a href="javascript:void(0)"
+                               ng-if="!peer.disableComment"
                                class="btn btn-link f-14"
                                ng-click="al.loadComment(peer.studentId)">
+                                {{peer.commentText}}
+                            </a>
+                            <a href="javascript:void(0)"
+                               ng-if="peer.disableComment"
+                               class="btn btn-link f-14">
                                 {{peer.commentText}}
                             </a>
                         </td>
