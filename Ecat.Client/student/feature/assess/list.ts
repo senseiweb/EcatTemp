@@ -38,7 +38,7 @@ export default class EcStudAssessList {
     protected stratResponses: Array<ecat.entity.IStratResponse>;
     protected stratValComments: Array<ecat.entity.ICrseStudInGroup>;
     protected user: ecat.entity.IPerson;
-   
+
     protected workGroups: ecat.entity.IWorkGroup[];
     //#endregion
 
@@ -194,7 +194,7 @@ export default class EcStudAssessList {
 
         //TODO: Need to write error handler
         function saveChangesError(reason: string): void {
-      
+
         }
 
     }

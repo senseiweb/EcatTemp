@@ -63,6 +63,7 @@ export default class EcDirSpBreakOutPie implements angular.IDirective {
             cssClass: 'flot-tooltip'
         }
     }
+
     breakOptsBar = {
         series: {
             bars: {
@@ -108,9 +109,10 @@ export default class EcDirSpBreakOutPie implements angular.IDirective {
         let chartOps = null;
         switch (attrs.charttype) {
         case 'bar':
-                this.breakOptsBar.xaxis.ticks = scope.xticks;
-                chartOps = this.breakOptsBar;
-                break;
+            this.breakOptsBar.xaxis.ticks = scope.xticks;
+            scope.dataset = [{ data: scope.dataset, color: '#3B4769' }];
+            chartOps = this.breakOptsBar;
+            break;
         case 'pie':
             chartOps = this.breakOptsPie;
             break;
@@ -118,9 +120,9 @@ export default class EcDirSpBreakOutPie implements angular.IDirective {
             chartOps = this.breakOptsDonut;
             break;
         }
-      
+
         if (chartOps) chartOps.legend.container = `#${scope.legend}`;
-        element.plot(scope.dataset,chartOps );
+        element.plot(scope.dataset,chartOps);
     }
         
 

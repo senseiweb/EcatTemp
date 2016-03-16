@@ -217,7 +217,6 @@ export default class EcFacultyRepo extends IUtilityRepo {
     fetchActiveWorkGroup(): breeze.promises.IPromise<ecat.entity.IWorkGroup | angular.IPromise<void>> {
         const log = this.log;
         const that = this;
-        const loggedInPersonId = this.dCtx.user.persona.personId;
         let workGroup: ecat.entity.IWorkGroup;
         const cachedWg = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
         
@@ -267,7 +266,8 @@ export default class EcFacultyRepo extends IUtilityRepo {
     fetchActiveWgSpResults(): breeze.promises.IPromise<Array<ecat.entity.ICrseStudInGroup> | angular.IPromise<void>> {
         const that = this;
         if (!this.activeGroupId || !this.activeCourseId) {
-            return this.c.$q.reject(this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false)) as any;
+            this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
+            return this.c.$q.reject('Missing result id information') as any;
         }
         const resource = this.facultyApiResource.wgResult.resource;
         const wgPred = new breeze.Predicate('workGroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
@@ -328,9 +328,17 @@ export default class EcFacultyRepo extends IUtilityRepo {
 
             that.isLoaded.spResult[that.activeGroupId] = true;
 
+            const cachedInventory = that.manager
+                .getEntities(_mp.MpEntityType.spInventory) as Array<ecat.entity.IFacSpInventory>;
+
+            cachedInventory
+                .filter(inv => inv.instrument.id === workGroup.assignedSpInstrId)
+                .forEach(inv => {
+                    inv.workGroup = workGroup;
+                });
+
             that.log.info('Fetched course student in groups result from the remote data store', crseStudInGrps, false);
             return crseStudInGrps;
-
         }      
     }
 

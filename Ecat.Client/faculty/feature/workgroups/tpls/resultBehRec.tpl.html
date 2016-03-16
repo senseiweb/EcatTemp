@@ -1,3 +1,8 @@
 ﻿<div id="sp-chart-data">
-    <div bar-sp-behavior-results dataset="inv.recData" xticks="wkr.recXTicks" yticks="wkr.yTicks" class="spflot-chart-bar" style="height: 200px"> </div>
+    <div sp-break-out-chart
+         charttype="bar"
+         dataset="inv.behaveResultForStudent[wkr.activeStudResult.studentId].chart.rcxdDataset"
+         xticks="inv.behaveResultForStudent[wkr.activeStudResult.studentId].chart.rcvdTicks"
+         class="spflot-chart-bar" 
+         style="height: 200px"> </div>
 </div>

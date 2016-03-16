@@ -133,6 +133,7 @@ export default class EcFacultyWgResult {
 
     private fillBehaviorData(): void {
         this.activeStudResult.workGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
+            inv['abbrText'] = inv.behavior.substr(25);
             var recDataset = [];
             var givDataset = [];
             var respByBehav = this.activeStudResult.assesseeSpResponses.filter(resp => {

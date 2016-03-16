@@ -376,10 +376,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             that.isLoaded.wgResult[workGroup.id] = true;
             inventory.forEach(item => {
                 item.spResult = result;
-                if (item.id === 2) {
-                    console.log(item);
-                }
-                var dummyResult = item.resultBreakOut;
+
                 return item;
             });
             return result;

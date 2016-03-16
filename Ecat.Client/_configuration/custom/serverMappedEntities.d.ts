@@ -108,7 +108,22 @@ declare module ecat.entity
             }
         }
 
-        interface IFacSpInventoryExt extends ISpInventoryExtBase { }
+        interface IFacSpInventoryExt extends ISpInventoryExtBase {
+            workGroup: IWorkGroup;
+            behaveResultForStudent: IBehaveResultForStud;
+        }
+
+        interface IBehaveResultForStud {
+            gvnOutcome: string;
+            rcvdOutcome: string;
+            facOutcome: string;
+            chart: {
+                gvnTicks: Array<Array<any>>;
+                rcvdTicks: Array<Array<any>>;
+                gvnDataset: Array<Array<number>>;
+                rcxdDataset: Array<Array<number>>;
+            }
+        }
 
         interface IStudSpInventoryExt extends ISpInventoryExtBase {}
 

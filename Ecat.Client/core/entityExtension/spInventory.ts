@@ -7,8 +7,9 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
     private _freqLevel: _mpe.SpFreqLevel = null;
     private _effLevel: _mpe.SpEffectLevel = null;
     private _resultBreakOut: any;
-    private id; 
+    protected id = null; 
     private behavior: string;
+    private commentText: string;
     constructor() { }
 
     get compositeScore(): number {
@@ -165,6 +166,11 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         return null;
     }
 
+    get abbrivateText(): string {
+        if (this.commentText) return this.commentText.substr(30);
+        return null;
+    }
+
     get resultBreakOut(): any {
         if (this._resultBreakOut) {
             return this._resultBreakOut;
@@ -223,6 +229,8 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         this._resultBreakOut = breakOut;
         return breakOut;
     }
+
+
 }
 
 

@@ -4,17 +4,28 @@
             <table class="table table-hover tableCenterAlign">
                 <thead>
                     <tr>
-                        <th>Behavior</th>
-                        <th>Self</th>
-                        <th>Recieved</th>
-                        <th>Given</th>
-                        <th>Instructor</th>
+                        <th class="col-md-4">Behavior</th>
+                        <th class="col-md-2">Self</th>
+                        <th class="col-md-2">Received</th>
+                        <th class="col-md-2">Given</th>
+                        <th class="col-md-2">Instructor</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
-                        <td>{{inv.behavior}}</td>
-                        <td>{{inv.resultByBehavior.aggSelf}}</td>
+                        <td>
+                            <span ng-show="!inv.showBehavior">
+                                {{::inv.abbrText}}
+                            </span>
+                            <span ng-show="inv.showBehavior">
+                                {{::inv.behavior}}
+                            </span> &nbsp;
+                            <a href="javascript:void(0)" class="f-500"
+                               ng-click="inv.showBehavior = !inv.showBehavior">
+                                ...
+                            </a>
+                        </td>
+                        <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].selfOutcome}}</td>
                         <td>
                             <a href="javascript:void(0)"
                                popover-append-to-body="true"
@@ -22,7 +33,7 @@
                                popover-trigger="click"
                                popover-title="Recieved From"
                                uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehRec.tpl.html'">
-                                test
+                                {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].rcvdOutcome}}
                             </a>
                         </td>
                         <td>
@@ -32,10 +43,10 @@
                                popover-trigger="click"
                                popover-title="Given To"
                                uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehGiv.tpl.html'">
-                                test
+                                {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].gvnOutcome}}
                             </a>
                         </td>
-                        <td>{{inv.resultByBehavior.aggFac}}</td>
+                        <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].facOutcome}}</td>
                     </tr>
                 </tbody>
             </table>

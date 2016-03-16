@@ -25,7 +25,7 @@ export default class EcStudAssessResult {
     }
     //#endregion
 
-    constructor( private c: ICommon, private dCtx: IDataCtx) {
+    constructor(private c: ICommon, private dCtx: IDataCtx) {
         if (c.$stateParams.crseId) {
             this.routingParams.crseId = c.$stateParams.crseId;
             dCtx.student.activeCourseId = c.$stateParams.crseId;
@@ -56,7 +56,7 @@ export default class EcStudAssessResult {
                     comment['initials'] = parts[0].charAt(0) + parts[1].charAt(0);
                 }
             });
-            that.studentComments = result.sanitizedComments
+            that.studentComments = result.sanitizedComments;
             that.activeView = StudAssessViews.ResultMyReport;
         }
 
@@ -70,7 +70,7 @@ export default class EcStudAssessResult {
         this.selectedComment = comment;
     }
 
- }
+}
 
 const enum StudAssessViews {
     PeerList,
