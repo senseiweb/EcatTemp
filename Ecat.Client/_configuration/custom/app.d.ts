@@ -69,6 +69,7 @@ declare module ecat {
             managerLoaded?: string;
             managerCreated?: string;
             addManager?: string;
+            stratStateAbandon?: string;
         }
     }
 

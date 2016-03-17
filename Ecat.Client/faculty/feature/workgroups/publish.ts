@@ -35,6 +35,9 @@ export default class EcFacultyWgPublish {
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
         this.routingParams.crseId = c.$stateParams.crseId;
         this.routingParams.wgId = c.$stateParams.wgId;
+        $scope.$on('$destroy', () => {
+            this.deleteStrat();
+        })
         this.activate();
     }
 
@@ -77,6 +80,7 @@ export default class EcFacultyWgPublish {
             _swal(alertSettings, (confirmed?: boolean) => {
                 if (confirmed) {
                     that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.open;
+                    this.deleteStrat();
                     that.dCtx.faculty.saveChanges()
                         .then(() => _swal('Publishing Workflow cancelled...', 'This workgroup is now in open status', 'success'))
                         .catch(() => {})
@@ -124,6 +128,31 @@ export default class EcFacultyWgPublish {
     private checkPublishingReady(): void {
         this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null);
         this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => strat.stratPosition && strat.proposedPosition === null);
+    }
+
+    private deleteStrat(): void {
+        if (this.facultyStratResponses.some(strat => strat.proposedPosition !== null)) {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Wait a minute!',
+                text: 'There are unsaved changes that will be lost if you continue.\n\n Are you sure?',
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                showConfirmButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Continue'
+            }
+
+            _swal(alertSettings, (confirmed?) => {
+                if (confirmed) this.facultyStratResponses.forEach(strat => {
+                    if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
+                });
+            });
+        } else {
+           this.facultyStratResponses.forEach(strat => {
+                if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
+            });
+        }
     }
 
     protected evaluateStrat(strat: ecat.entity.IFacStratResponse) {

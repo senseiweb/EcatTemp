@@ -79,28 +79,30 @@ export default class EcStudAssess {
     }
 
     private changeActiveView(view: string) {
+        if (this.activeView === StudAssessViews.StratList && view !== 'strat') {
+            this.c.broadcast(this.c.coreCfg.coreApp.events.stratStateAbandon, {});
+        }
+            
         switch (view) {
         case 'assess':
             this.activeView = StudAssessViews.PeerList;
-            if (this.c.$state.current.name === this.c.stateMgr.student.assess) return null;
+            if (this.c.$state.current.name === this.c.stateMgr.student.assess.name) return null;
             this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
             break;
         case 'strat':
             this.activeView = StudAssessViews.StratList;
-            if (this.c.$state.current.name === this.c.stateMgr.student.assess ||
+            if (this.c.$state.current.name === this.c.stateMgr.student.assess.name ||
                 this.activeGroup.mpSpStatus === _mp.MpSpStatus.published) return null;
             this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
             break;
         case 'myReport':
             this.activeView = StudAssessViews.ResultMyReport;
-            if (this.c.$state.current.name === this.c.stateMgr.student.result ||
-                this.activeGroup.mpSpStatus !== _mp.MpSpStatus.published) return null;
+            if (this.c.$state.current.name === this.c.stateMgr.student.result.name) return null;
             this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
             break;
         case 'comment':
             this.activeView = StudAssessViews.ResultComment;
-            if (this.c.$state.current.name === this.c.stateMgr.student.result ||
-                this.activeGroup.mpSpStatus === _mp.MpSpStatus.published) return null;
+            if (this.c.$state.current.name === this.c.stateMgr.student.result.name) return null;
             this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
             break;
         default:

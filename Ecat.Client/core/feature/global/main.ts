@@ -25,7 +25,7 @@ export default class EcAppMain {
         const standardPrompt = 'Are you sure you would like to logout?';
         const alertSettings: SweetAlert.Settings = {
             title: 'Confirmation',
-            text: hasChangesPrompt || standardPrompt,
+            text:  standardPrompt,
             type: 'warning',
             confirmButtonText: 'Logout',
             closeOnConfirm: true,

@@ -7,7 +7,7 @@ import _swal from "sweetalert"
 //TODO: Need to add logic if the workgroup status is published to make everything readonly
 export default class EcStudAssessList {
     static controllerId = 'app.student.assessment.list';
-    static $inject = [ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
+    static $inject = ['$scope', ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     //#region Controller Properties
     protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false };
@@ -42,7 +42,8 @@ export default class EcStudAssessList {
     protected workGroups: ecat.entity.IWorkGroup[];
     //#endregion
 
-    constructor(private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
+    constructor($scope: angular.IScope,private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
+
         if (c.$stateParams.crseId) {
             this.routingParams.crseId = c.$stateParams.crseId;
             dCtx.student.activeCourseId = c.$stateParams.crseId;
@@ -52,6 +53,28 @@ export default class EcStudAssessList {
             dCtx.student.activeGroupId = c.$stateParams.wgId;
         }
         this.activate();
+
+        $scope.$on(c.coreCfg.coreApp.events.stratStateAbandon, () => {
+            if (this.stratResponses.some(strat => strat.proposedPosition !== null)) {
+                const alertSettings: SweetAlert.Settings = {
+                    title: 'Wait a minute!',
+                    text: 'There are unsaved changes that will be lost if you continue.\n\n Are you sure?',
+                    closeOnConfirm: false,
+                    closeOnCancel: true,
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancel',
+                    confirmButtonText: 'Continue'
+                }
+
+                _swal(alertSettings, (confirmed?) => {
+                    if (confirmed) this.deleteStrats();
+                });
+            } else {
+                this.deleteStrats();
+            }
+            
+        });
     }
 
     private activate(): void {
@@ -98,6 +121,12 @@ export default class EcStudAssessList {
         function activationError(error: any) {
             that.log.warn('There was an error loading Courses', error, true);
         }
+    }
+
+    private deleteStrats(): void {
+        this.stratResponses.forEach(strat => {
+            if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
+        });
     }
 
     private evaluateStrat(): void {

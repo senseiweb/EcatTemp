@@ -7,7 +7,8 @@ export default class EcCoreConfig {
         saveChangesEventId: 'global.data.saveChanges',
         managerCreatedId: 'global.data.mangerCreated',
         managerLoadedId: 'global.data.managerLoaded',
-        addManagerId: 'global.data.addManager'
+        addManagerId: 'global.data.addManager',
+        stratStateAbandon: 'glabal.assess.stratState'
     }
 
     constructor($httpProvider: angular.IHttpProvider,
@@ -24,7 +25,8 @@ export default class EcCoreConfig {
                     saveChangesEvent: this.globalEvents.saveChangesEventId,
                     managerCreated: this.globalEvents.managerCreatedId,
                     managerLoaded:  this.globalEvents.managerLoadedId,
-                    addManager: this.globalEvents.addManagerId
+                    addManager: this.globalEvents.addManagerId,
+                    stratStateAbandon: this.globalEvents.stratStateAbandon
                 }
         }
 
