@@ -40,7 +40,6 @@ export default class EcCoreConfig {
             '$delegate', '$timeout', (taOptions, $timeout) => {
                 taOptions.toolbar = [
                     ['p', 'quote', 'bold', 'italics', 'underline', 'ul', 'ol', 'clear'],
-                    ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent'],
                     ['insertLink', 'charcount']
                 ];
 
