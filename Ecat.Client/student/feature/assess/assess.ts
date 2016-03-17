@@ -71,7 +71,7 @@ export default class EcStudAssess {
             }
 
             that.activeView = activeWorkGroup.mpSpStatus === _mp.MpSpStatus.published ? StudAssessViews.ResultMyReport : StudAssessViews.PeerList;
-            that.setActiveGroup(activeWorkGroup);
+            that.setActiveGroup(activeWorkGroup, true);
         }
 
         function courseError(error: any) {
@@ -79,32 +79,45 @@ export default class EcStudAssess {
         }
     }
 
-    private changeActiveView(view: string) {
+    private changeActiveView(view?: string, isReloading?: boolean) {
         if (this.activeView === StudAssessViews.StratList && view !== 'strat') {
             this.c.broadcast(this.c.coreCfg.coreApp.events.stratStateAbandon, {});
         }
-            
+        let requireReload = false;
+
+        if (!view) {
+            switch (this.activeView) {
+                case StudAssessViews.PeerList:
+                    return this.changeActiveView('assess', true);
+                case StudAssessViews.StratList:
+                    return this.changeActiveView('strat', true);
+                case StudAssessViews.ResultMyReport:
+                    return this.changeActiveView('myReport', true);
+                case StudAssessViews.ResultComment:
+                    return this.changeActiveView('comment', true);
+            }
+        }
+
         switch (view) {
         case 'assess':
             this.activeView = StudAssessViews.PeerList;
-            if (this.c.$state.current.name === this.c.stateMgr.student.assess.name) return null;
-            this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
+            requireReload = this.c.$state.current.name === this.c.stateMgr.student.assess.name && isReloading;
+            this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload });
             break;
         case 'strat':
             this.activeView = StudAssessViews.StratList;
-            if (this.c.$state.current.name === this.c.stateMgr.student.assess.name ||
-                this.activeGroup.mpSpStatus === _mp.MpSpStatus.published) return null;
-            this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
+            requireReload = this.c.$state.current.name === this.c.stateMgr.student.assess.name && isReloading;
+            this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload });
             break;
         case 'myReport':
             this.activeView = StudAssessViews.ResultMyReport;
-            if (this.c.$state.current.name === this.c.stateMgr.student.result.name) return null;
-            this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
+            requireReload = this.c.$state.current.name === this.c.stateMgr.student.result.name && isReloading;
+            this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload });
             break;
         case 'comment':
             this.activeView = StudAssessViews.ResultComment;
-            if (this.c.$state.current.name === this.c.stateMgr.student.result.name) return null;
-            this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id });
+            requireReload = this.c.$state.current.name === this.c.stateMgr.student.result.name && isReloading;
+            this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload});
             break;
         default:
             return null;
@@ -147,33 +160,19 @@ export default class EcStudAssess {
         }
     }
 
-    private setActiveGroup(workGroup: ecat.entity.IWorkGroup): void {
-        const that = this;
+    private setActiveGroup(workGroup: ecat.entity.IWorkGroup, isActivating?: boolean): void {
         this.dCtx.student.activeGroupId = workGroup.id;
-
         this.grpDisplayName = `${workGroup.mpCategory}: ${workGroup.customName || workGroup.defaultName}`;
+        this.activeGroup = workGroup;
+        this.isGroupOpen = workGroup.mpSpStatus === _mp.MpSpStatus.open;
+        this.isResultPublished = workGroup.mpSpStatus === _mp.MpSpStatus.published;
 
-        //TODO: Need to do something with the error
-        this.dCtx.student.getActiveWorkGroup()
-            .then(setActiveGroupResponse)
-            .catch(setActiveGroupError);
-
-        function setActiveGroupResponse(wg: ecat.entity.IWorkGroup): void {
-            that.activeGroup = wg;
-
-            that.isGroupOpen = wg.mpSpStatus === _mp.MpSpStatus.open;
-            that.isResultPublished = wg.mpSpStatus === _mp.MpSpStatus.published;
-
-            if (that.isResultPublished) {
-                //TODO: Check how this perform between group changes
-                that.log.success('Retrieving results, standby...', null, true);
-                that.changeActiveView('myReport');
-            } else {
-                that.changeActiveView('assess');
-            }
+        if (isActivating) {
+            this.changeActiveView('assess');
+        } else {
+            this.changeActiveView();
         }
-        function setActiveGroupError(reason): void { }
-
+            
     }
 
     private sortWg(wgA: ecat.entity.IWorkGroup, wgB: ecat.entity.IWorkGroup): number {

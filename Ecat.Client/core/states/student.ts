@@ -24,7 +24,6 @@ export default class StudentStates {
                 moduleInit: ['$ocLazyLoad', this.loadModule],
                 tokenValid: ['tokenValid', (tokenValid) => tokenValid],
                 dCtxReady: ['moduleInit', 'tokenValid', IDataCtx.serviceId, (m, t, dCtx: IDataCtx) => {
-                    console.log(dCtx.student.activeCourseId);
                     return dCtx.student.activate().then(() =>
                         console.log('Student Manager Ready'));
                 }]
