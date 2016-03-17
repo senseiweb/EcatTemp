@@ -59,7 +59,7 @@ export default class EcSpTools {
                 if (!response.stratPosition && !response.proposedPosition) {
                     response.validationErrors.push({
                         cat: 'Required',
-                        text: 'Without a current strat, a numerical value gt 0 must be entered in proposed change.'
+                        text: 'Without a current strat, a numerical value greater than 0 must be entered in proposed change.'
                     });
                 }
 
@@ -74,7 +74,7 @@ export default class EcSpTools {
                     if (response.proposedPosition > array.length) {
                         response.validationErrors.push({
                             cat: 'Invalid Value',
-                            text: 'The proposed change should be greater than the number of group members.'
+                            text: 'The proposed change should not be greater than the number of group members.'
                         });
                     }
 
