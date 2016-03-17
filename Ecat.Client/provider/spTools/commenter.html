@@ -65,7 +65,7 @@
 <div class="modal-footer">
     <div class="btn-group btn-group-xs pull-left m-t-10">
         <label class="btn btn-default waves-effect"
-               ng-disabled="commenter.isPublised" 
+               ng-disabled="commenter.isPublished" 
                ng-click="commenter.nf.$setDirty()" 
                ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.neg}" 
                ng-model="commenter.comment.flag.mpAuthor" 
@@ -74,7 +74,7 @@
         </label>
         <label class="btn btn-default waves-effect"
                ng-click="commenter.nf.$setDirty()"
-               ng-disabled="commenter.isPublised" 
+               ng-disabled="commenter.isPublished" 
                ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.neut}" 
                ng-model="commenter.comment.flag.mpAuthor" 
                uib-btn-radio="'{{commenter.commentFlag.neut}}'">
@@ -82,7 +82,7 @@
         </label>
         <label class="btn btn-default waves-effect"
                ng-click="commenter.nf.$setDirty()"
-                ng-disabled="commenter.isPublised" 
+               ng-disabled="commenter.isPublished" 
                ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.pos}" 
                ng-model="commenter.comment.flag.mpAuthor" 
                uib-btn-radio="'{{commenter.commentFlag.pos}}'">

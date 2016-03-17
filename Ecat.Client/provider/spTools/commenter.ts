@@ -2,10 +2,11 @@
 import ICommon from 'core/common/commonService'
 import IUtility from 'core/service/data/utility'
 import * as _mp from 'core/common/mapStrings'
+import _swal from "sweetalert"
 
 export default class EcProviderSpToolCommenter {
     static controllerId = 'app.provider.sptools.commenter';
-    static $inject = ['$uibModalInstance', '$scope', IDataCtx.serviceId, ICommon.serviceId, 'recipientId'];
+    static $inject = ['$uibModalInstance', '$scope', IDataCtx.serviceId, ICommon.serviceId, 'recipientId', 'viewOnly'];
 
     private authorRole: string;
     private authorAvatar: string;
@@ -65,24 +66,47 @@ export default class EcProviderSpToolCommenter {
     }
 
     cancel(): void {
+
+        const that = this;
+
         if (this.isPublished) {
-           return this.$mi.close();
+            this.$mi.close('Results are Published');
         }
 
-        //TODO: Check why the comment flag is created in a modified start vs added!!!
-        if (this.comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
-            this.comment.flag.entityAspect.rejectChanges();
-        }
+        if (this.nf.$dirty) {
+            const alertSetting: SweetAlert.Settings = {
+                title: 'Caution, Unsaved Changes',
+                text: 'You have made changes to this comment that have not been saved.\n\n Are you sure you want to cancel them?',
+                type: 'warning',
+                showCancelButton: true,
+                showConfirmButton: true,
+                closeOnCancel: true,
+                closeOnConfirm: true,
+                confirmButtonColor: '#F44336',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            };
 
-        if (this.comment.entityAspect.entityState.isAddedModifiedOrDeleted()) {
-            this.comment.entityAspect.rejectChanges();
-            
-        }
+            _swal(alertSetting, (confirmed?: boolean) => {
+                if (confirmed) {
+                    if (this.comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
+                        this.comment.flag.entityAspect.rejectChanges();
+                    }
 
-        this.$mi.dismiss('canceled');
+                    if (this.comment.entityAspect.entityState.isAddedModifiedOrDeleted()) {
+                        this.comment.entityAspect.rejectChanges();
+
+                    }
+
+                    this.$mi.dismiss('Changes not saved');
+                } 
+            });
+
+        } else {
+            this.$mi.dismiss('Canceled');
+        }
     }
 
-    //TODO: need to write this!
     delete(): void {
 
         const self = this;
