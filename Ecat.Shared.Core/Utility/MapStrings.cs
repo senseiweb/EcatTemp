@@ -14,13 +14,13 @@
 
     public static class MpSpItemScore
     {
-        public const int Hea = 4,
-            Heu = 3,
-            Ea = 2,
-            Eu = 1,
-            Nd = 0,
-            Ieu = -1,
-            Iea = -2;
+        public const int Hea = 6,
+            Heu = 5,
+            Ea = 4,
+            Eu = 3,
+            Nd = 2,
+            Ieu = 1,
+            Iea = 0;
     }
 
     public static class MpSpResultScore
@@ -216,6 +216,14 @@
             Ea = "EA",
             Heu = "HEU",
             Hea = "HEA";
+    }
+
+    public static class MpAcadCat
+    {
+        public const string AFSNCOA = "",
+            NCOA = "",
+            KNCOA = "";
+
     }
 
     public static class MpToken

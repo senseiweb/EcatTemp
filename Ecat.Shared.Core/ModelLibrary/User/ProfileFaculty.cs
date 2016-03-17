@@ -12,7 +12,7 @@ namespace Ecat.Shared.Core.ModelLibrary.User
     {
         public bool IsCourseAdmin { get; set; }
         public bool IsReportViewer   { get; set; }
-
+        public string AcademyId { get; set; }
         public ICollection<FacultyInCourse> Courses { get; set; }
     }
 }

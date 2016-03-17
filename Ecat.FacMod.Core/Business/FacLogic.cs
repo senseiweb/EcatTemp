@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.AccessControl;
+using System.Threading.Tasks;
 using Breeze.ContextProvider;
+using Ecat.Shared.Core.Logic;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
@@ -124,6 +128,16 @@ namespace Ecat.FacMod.Core
         IQueryable<Course> IFacLogic.CourseMembers(int courseId)
         {
             return _repo.CourseMembers(courseId);
+        }
+
+        async Task<Course> IFacLogic.PollBbCourse()
+        {
+            var faculty = await _repo.LoadFacultyProfile(FacultyPerson);
+
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+
+            var catId = StaticAcademy.AcadLookup.Select(acad => acad.Key == faculty.Faculty.AcademyId)
+
         }
     }
 }

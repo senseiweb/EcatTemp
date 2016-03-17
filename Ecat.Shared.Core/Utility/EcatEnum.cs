@@ -76,4 +76,58 @@ namespace Ecat.Shared.Core.Utility
         Kadena,
         Kisling
     }
+
+
+    public enum CourseFilterType
+    {
+        LoadAll = 0,
+        LoadByCourseId,
+        LoadByBatchUid,
+        LoadById,
+        LoadByCatId,
+        LoadBySearchKey
+    }
+
+    public enum MembershipFilterType
+    {
+        LoadById = 1,
+        LoadByCourseId = 2,
+        LoadByUserId = 5,
+        LoadByCourseAndUserId = 6,
+        LoadByCourseAndRole = 7
+    }
+
+    public enum UserFilterType
+    {
+        AllUsersWithAvailability = 1,
+        UserByIdWithAvailability,
+        UserByBatchIdWithAvailability,
+        UserByCourseIdWithAvailability,
+        UseByGroupIdWithAvailability,
+        UserByNameWithAvailability,
+        UserBySystemRole
+    }
+
+    public enum CourseSearchKey
+    {
+        CourseId,
+        CourseName,
+        CourseDescription,
+        CourseInstructor
+    }
+
+    public enum SearchOperator
+    {
+        Equals,
+        Constains,
+        StartsWith,
+        IsNotBlank
+    }
+
+    public enum SearchDateOperator
+    {
+        GreaterThan,
+        LessThan
+    }
+
 }
