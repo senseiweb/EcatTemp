@@ -160,7 +160,12 @@ export default class EcFacultyWgPublish {
                 _swal(alertSettings, (confirmed?) => {
                     if (confirmed) {
                         this.facultyStratResponses.forEach(strat => {
-                            if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
+                            if (strat.entityAspect.entityState.isAdded()) {
+                                 strat.entityAspect.setDeleted();
+                            }
+
+                            strat.proposedPosition = null;
+                     
                         });
 
                         this.c.$state.go(this.c.stateMgr.faculty.wgList.name);
