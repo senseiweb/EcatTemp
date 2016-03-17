@@ -180,7 +180,7 @@ export default class EcFacultyWgList {
 
             const peersSpCompletion = peers.map(mem => gm.statusOfPeer[mem.studentId].assessComplete);
 
-            const peersStratCompletion = peers.map(mem => gm.statusOfPeer[mem.studentId].stratComplete);
+            const stratCompletion = members.map(mem => gm.statusOfPeer[mem.studentId].stratComplete);
 
             gm['hasChartData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);                    
 
@@ -191,8 +191,8 @@ export default class EcFacultyWgList {
                     count: `${peersSpCompletion.filter(complete => complete).length} / ${peersSpCompletion.length}`
                 },
                 strat: {
-                    isDone: !peersStratCompletion.some(complete => !complete),
-                    count: `${peersStratCompletion.filter(complete => complete).length} / ${peersStratCompletion.length}`
+                    isDone: !stratCompletion.some(complete => !complete),
+                    count: `${stratCompletion.filter(complete => complete).length} / ${stratCompletion.length}`
                 }
             }
 
