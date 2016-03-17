@@ -22,39 +22,8 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
             const givenBo = {};
             const receivedBo = {};
             const selfBo = {};
-            const givenXticks = [];
-            const rcvdXticks = [];
-            const givenDataset = [];
-            const rcvdDataset = [];
-            let uniques = {};
-
-            const aor = gmArray
-                .filter(peer => peer.studentId !== gm.studentId)
-                .map(m => m.assessorSpResponses)[0];
-
-            aor.filter(r => r.inventoryItemId === this.id)
-                .forEach((ar, ii) => {
-                if (!uniques[ar.assesseePersonId]) {
-                    uniques[ar.assesseePersonId] = true;
-                    givenDataset.push([ii, ar.itemModelScore]);
-                    givenXticks.push(ii, ar.assessee.nameSorter.last);
-                }
-            });
-
-            uniques = {};
-
-            const ror = gmArray
-                .filter(peer => peer.studentId === gm.studentId)
-                .map(m => m.assesseeSpResponses)[0];
-
-            ror.filter(r => r.inventoryItemId === this.id)
-                .forEach((ar, ii) => {
-                if (!uniques[ar.assessorPersonId]) {
-                    rcvdXticks.push(ii, ar.assessor.nameSorter.last);
-                    uniques[ar.assessorPersonId] = true;
-                    rcvdDataset.push([ii, ar.itemModelScore]);
-                }
-            });
+            const givenResp = [];
+            const rcvdResp = [];
 
             gm.assesseeSpResponses
                 .filter(response => response.inventoryItemId === this.id &&
@@ -68,7 +37,7 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
                 .filter(response => response.inventoryItemId === this.id &&
                     response.assesseePersonId !== response.assessorPersonId)
                 .forEach(response => {
-
+                    rcvdResp.push({ name: response.assessor.studentProfile.person.lastName, itemResp: response.mpItemResponse, score: response.itemModelScore, color: '#000000' });
                     if (receivedBo[response.mpItemResponse]) receivedBo[response.mpItemResponse] += 1;
                     if (!receivedBo[response.mpItemResponse]) receivedBo[response.mpItemResponse] = 1;
                 });
@@ -77,7 +46,7 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
                 .filter(response => response.inventoryItemId === this.id &&
                     response.assesseePersonId !== response.assessorPersonId)
                 .forEach(response => {
-
+                    givenResp.push({ name: response.assessee.studentProfile.person.lastName, itemResp: response.mpItemResponse, score: response.itemModelScore, color: '#000000' });
                     if (givenBo[response.mpItemResponse]) givenBo[response.mpItemResponse] += 1;
                     if (!givenBo[response.mpItemResponse]) givenBo[response.mpItemResponse] = 1;
 
@@ -88,11 +57,33 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
             current.gvnOutcome = _staticDs.breakDownCalculation(givenBo);
             current.rcvdOutcome = _staticDs.breakDownCalculation(receivedBo);
             current.facOutcome = facResponse || 'Not Assessed';
-            current.chart = {
-                gvnTicks: givenXticks,
-                rcvdTicks: rcvdXticks,
-                gvnDataset: givenDataset,
-                rcxdDataset: rcvdDataset
+
+            givenResp.forEach(resp => {
+                switch (resp.itemResp) {
+                    case 'IEA': resp.color = '#AA0000'; break;
+                    case 'IEU': resp.color = '#FE6161'; break;
+                    case 'ND': resp.color = '#AAAAAA'; break;
+                    case 'EA': resp.color = '#00AA58'; break;
+                    case 'EU': resp.color = '#73FFBB'; break;
+                    case 'HEA': resp.color = '#9f9f9f'; break;
+                    case 'HEU': resp.color = '#7CA8FF'; break;
+                }
+            });
+            rcvdResp.forEach(resp => {
+                switch (resp.itemResp) {
+                    case 'IEA': resp.color = '#AA0000'; break;
+                    case 'IEU': resp.color = '#FE6161'; break;
+                    case 'ND': resp.color = '#AAAAAA'; break;
+                    case 'EA': resp.color = '#00AA58'; break;
+                    case 'EU': resp.color = '#73FFBB'; break;
+                    case 'HEA': resp.color = '#9f9f9f'; break;
+                    case 'HEU': resp.color = '#7CA8FF'; break;
+                }
+            });
+
+            current.respByBehav = {
+                gvnResp: givenResp,
+                rcvdResp: rcvdResp
             }
 
             if (this._facSpResultForStudent) {

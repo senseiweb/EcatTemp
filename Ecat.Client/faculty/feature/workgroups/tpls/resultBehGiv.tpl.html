@@ -1,3 +1,6 @@
-﻿<div id="sp-chart-data">
-    <div bar-sp-behavior-results dataset="inv.givData" xticks="wkr.givXTicks" yticks="wkr.yTicks" class="spflot-chart-bar" style="height: 200px"> </div>
-</div>
+﻿<table class="table table-condensed">
+    <tr ng-repeat="resp in inv.behaveResultForStudent[wkr.activeStudResult.studentId].respByBehav.gvnResp | orderBy: '-score'">
+        <td style="padding:2px">{{resp.name}}</td>
+        <td style="padding:2px"><font color="{{resp.color}}">{{resp.itemResp}}</font></td>
+    </tr>
+</table>

@@ -134,39 +134,6 @@ export default class EcFacultyWgResult {
     private fillBehaviorData(): void {
         this.activeStudResult.workGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
             inv['abbrText'] = inv.behavior.substr(25);
-            var recDataset = [];
-            var givDataset = [];
-            var respByBehav = this.activeStudResult.assesseeSpResponses.filter(resp => {
-                if (resp.inventoryItemId === inv.id) { return true; }
-            });
-            var sort = respByBehav.sort((a: ecat.entity.ISpResponse, b: ecat.entity.ISpResponse) => {
-                if (a.assessor.studentProfile.person.lastName < b.assessor.studentProfile.person.lastName) { return -1; }
-                if (a.assessor.studentProfile.person.lastName > b.assessor.studentProfile.person.lastName) { return 1; }
-                if (a.assessor.studentProfile.person.lastName === b.assessor.studentProfile.person.lastName) { return 0; }
-            });
-            for (let i = 0; i < respByBehav.length; i++) {
-                if (this.recXTicks === undefined || this.recXTicks.length < respByBehav.length) {
-                    this.recXTicks.push([i, sort[i].assessor.studentProfile.person.lastName]);
-                }
-                recDataset.push([i, sort[i].itemModelScore]);
-            };
-            inv['recData'] = recDataset;
-
-            var respByBehavGiv = this.activeStudResult.assessorSpResponses.filter(resp => {
-                if (resp.inventoryItemId === inv.id) { return true; }
-            });
-            var sortGiv = respByBehavGiv.sort((a: ecat.entity.ISpResponse, b: ecat.entity.ISpResponse) => {
-                if (a.assessee.studentProfile.person.lastName < b.assessee.studentProfile.person.lastName) { return -1; }
-                if (a.assessee.studentProfile.person.lastName > b.assessee.studentProfile.person.lastName) { return 1; }
-                if (a.assessee.studentProfile.person.lastName === b.assessee.studentProfile.person.lastName) { return 0; }
-            });
-            for (let i = 0; i < respByBehavGiv.length; i++) {
-                if (this.givXTicks === undefined || this.givXTicks.length < respByBehavGiv.length) {
-                    this.givXTicks.push([i, sortGiv[i].assessee.studentProfile.person.lastName]);
-                }
-                givDataset.push([i, sortGiv[i].itemModelScore]);
-            };
-            inv['givData'] = givDataset;
         });
     }
 
