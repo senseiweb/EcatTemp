@@ -39,6 +39,7 @@ export default class EcFacultyWgPublish {
         //$scope.$on('$destroy', () => {
         //    this.deleteStrat();
         //});
+
         this.activate();
     }
 

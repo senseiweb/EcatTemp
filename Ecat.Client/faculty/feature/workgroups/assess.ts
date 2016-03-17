@@ -42,8 +42,8 @@ export default class EcFacultyWgAssess {
                 let assessText = '';
 
                 if (this.isViewOnly) {
-                    commentText = hasComment ? 'View' : 'Not Available';
-                    assessText = assessComplete ? 'View' : 'Not Available';
+                    commentText = hasComment ? 'View' : 'None';
+                    assessText = assessComplete ? 'View' : 'None';
                 } else {
                     commentText = hasComment ? 'Edit' : 'Add';
                     assessText = assessComplete ? 'Edit' : 'Add';
