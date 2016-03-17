@@ -16,6 +16,8 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected _spRationaleResult: ecat.entity.ext.ICrseStudInGrpResult;
     protected _salutation: string;
 
+    proposedStrat: number = null;
+
     updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         const groupPeers = this.workGroup.groupMembers;
 
