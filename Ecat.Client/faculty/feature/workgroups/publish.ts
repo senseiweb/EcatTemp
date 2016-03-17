@@ -35,9 +35,10 @@ export default class EcFacultyWgPublish {
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
         this.routingParams.crseId = c.$stateParams.crseId;
         this.routingParams.wgId = c.$stateParams.wgId;
-        $scope.$on('$destroy', () => {
-            this.deleteStrat();
-        })
+
+        //$scope.$on('$destroy', () => {
+        //    this.deleteStrat();
+        //});
         this.activate();
     }
 
@@ -92,6 +93,12 @@ export default class EcFacultyWgPublish {
             });
     }
 
+    protected backToWg(): void {
+        console.log("it got called");
+        this.deleteStrat();
+
+    }
+
     protected changeFlag(author: ecat.entity.ICrseStudInGroup | Array<ecat.entity.ICrseStudInGroup>, flag?: string, all?: boolean): void {
 
         if (!angular.isArray(author)) {
@@ -126,32 +133,44 @@ export default class EcFacultyWgPublish {
     }
 
     private checkPublishingReady(): void {
-        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null);
+        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null || comment.flag.mpFaculty === undefined);
         this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => strat.stratPosition && strat.proposedPosition === null);
     }
 
     private deleteStrat(): void {
-        if (this.facultyStratResponses.some(strat => strat.proposedPosition !== null)) {
-            const alertSettings: SweetAlert.Settings = {
-                title: 'Wait a minute!',
-                text: 'There are unsaved changes that will be lost if you continue.\n\n Are you sure?',
-                closeOnConfirm: false,
-                closeOnCancel: true,
-                showConfirmButton: true,
-                showCancelButton: true,
-                cancelButtonText: 'Cancel',
-                confirmButtonText: 'Continue'
-            }
 
-            _swal(alertSettings, (confirmed?) => {
-                if (confirmed) this.facultyStratResponses.forEach(strat => {
-                    if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
-                });
-            });
+        if (this.facultyStratResponses === null || this.facultyStratResponses === undefined || this.facultyStratResponses.length < 0) {
+
+            this.c.$state.go(this.c.stateMgr.faculty.wgList.name);
+
         } else {
-           this.facultyStratResponses.forEach(strat => {
-                if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
-            });
+
+            if (this.facultyStratResponses.some(strat => strat.proposedPosition !== null)) {
+                const alertSettings: SweetAlert.Settings = {
+                    title: 'Wait a minute!',
+                    text: 'There are unsaved changes that will be lost if you continue.\n\n Are you sure?',
+                    closeOnConfirm: true,
+                    closeOnCancel: true,
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancel',
+                    confirmButtonText: 'Continue'
+                }
+
+                _swal(alertSettings, (confirmed?) => {
+                    if (confirmed) {
+                        this.facultyStratResponses.forEach(strat => {
+                            if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
+                        });
+
+                        this.c.$state.go(this.c.stateMgr.faculty.wgList.name);
+                    }
+                });
+            } else {
+
+                this.c.$state.go(this.c.stateMgr.faculty.wgList.name);
+            }
+            
         }
     }
 

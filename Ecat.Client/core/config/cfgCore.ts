@@ -8,7 +8,7 @@ export default class EcCoreConfig {
         managerCreatedId: 'global.data.mangerCreated',
         managerLoadedId: 'global.data.managerLoaded',
         addManagerId: 'global.data.addManager',
-        stratStateAbandon: 'glabal.assess.stratState'
+        stratStateAbandon: 'global.assess.stratState'
     }
 
     constructor($httpProvider: angular.IHttpProvider,
