@@ -177,7 +177,7 @@ namespace Ecat.Web.Controllers
 
 
                                         writer.WriteLine(
-                                            $"INSERT INTO StudSpCommentFlag(CourseId,WorkGroupId,AuthorPersonId,RecipientPersonId,RecipientFlag)Values({comment.CourseId},{comment.WorkGroupId},{comment.AuthorPersonId},{comment.RecipientPersonId},'{MpCommentFlag.Neut}');");
+                                            $"INSERT INTO StudSpCommentFlag(CourseId,WorkGroupId,AuthorPersonId,RecipientPersonId,Recipient)Values({comment.CourseId},{comment.WorkGroupId},{comment.AuthorPersonId},{comment.RecipientPersonId},'{MpCommentFlag.Neut}');");
                                     }
 
                                     if (wrkgrp.MpCategory != MpGroupCategory.Wg4)
