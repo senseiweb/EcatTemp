@@ -1,5 +1,9 @@
 ﻿<div>
-    <dl ng-repeat="err in strat.validationErrors">
+    <dl ng-repeat="err in strat.validationErrors" ng-if="strat">
+        <dt>{{err.cat}}</dt>
+        <dd>{{err.text}}</dd>
+    </dl>
+    <dl ng-repeat="err in al.myStrat.validationErrors" ng-if="!strat">
         <dt>{{err.cat}}</dt>
         <dd>{{err.text}}</dd>
     </dl>
