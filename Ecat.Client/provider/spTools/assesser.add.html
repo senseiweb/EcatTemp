@@ -1,24 +1,8 @@
 ﻿<div>
-    <div ng-if="!assesser.hasAcknowledge">
+    <div>
         <div class="row">
             <div class="col-md-12">
-                <div class="text-center">
-                    <h3 class="lead m-t-0 m-b-0">Acknowledgment</h3>
-                </div>
-            </div>
-        </div>
-
-        <hr />
-        <div class="row">
-            <div class="col-md-12 p-t-20">
-                <div ng-bind-html="assesser.instructions"></div>
-            </div>
-        </div>
-    </div>
-    <div ng-if="assesser.hasAcknowledge">
-        <div class="row">
-            <div class="col-md-12">
-                <p class="lead">{{assesser.activeInvent.behavior}}</p>
+                <p class="lead">With regards to displaying the behavior <span class="lead f-400 c-blue">{{assesser.activeInvent.behavior}}</span> how effective {{assesser.perspective}}</p>
             </div>
         </div>
 

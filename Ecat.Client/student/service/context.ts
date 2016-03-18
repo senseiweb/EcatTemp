@@ -280,7 +280,6 @@ export default class EcStudentRepo extends IUtilityRepo {
             courseId: this.activeCourseId,
             workGroupId: this.activeGroupId,
             commentVersion: 0,
-            mpCommentFlagAuthor: _mp.MpCommentFlag.neut,
             requestAnonymity: false
     };
 
@@ -288,7 +287,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             authorPersonId: loggedUserId,
             recipientPersonId: recipientId,
             courseId: this.activeCourseId,
-            mpAuthorFlag: _mp.MpCommentFlag.neut
+            mpAuthor: _mp.MpCommentFlag.neut
         }
 
         const comment = this.manager.createEntity(_mp.MpEntityType.spComment, newComment) as ecat.entity.IStudSpComment;

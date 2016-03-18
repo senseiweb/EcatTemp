@@ -31,7 +31,6 @@ export default class EcProviderSpToolAssessTaker {
         alw: _mpe.SpFreqLevel.Always
     }
     private groupName: string;
-    private hasAcknowledge = false;
     protected hasChanges = false;
     private instructions: string;
     private inventoryList: Array<ecat.entity.ISpInventory> = [];
@@ -41,6 +40,7 @@ export default class EcProviderSpToolAssessTaker {
     private isSelf = false;
     private isStudent = true;
     private pagers: Array<IAssessPager> = [];
+    private perspective = '';
     private readyToSave = false;
     private role: string;
 
@@ -58,8 +58,14 @@ export default class EcProviderSpToolAssessTaker {
         this.isStudent = this.role === _mp.MpInstituteRole.student;
 
         if (this.isStudent) {
+            if (this.isSelf) {
+                this.perspective = 'were you'
+            } else {
+                this.perspective = 'was your peer'            
+            }
             this.inventoryList = this.dCtx.student.getSpInventory(this.assesseeId) as Array<ecat.entity.IStudSpInventory>;
         } else {
+            this.perspective = 'was your student';
             this.inventoryList = this.dCtx.faculty.getFacSpInventory(this.assesseeId) as Array<ecat.entity.IFacSpInventory>;
         }
 
@@ -83,25 +89,17 @@ export default class EcProviderSpToolAssessTaker {
             this.activeInvent = this.pagers[0].item;
         }
 
-        if (!this.isNewAssess) {
-            this.hasAcknowledge = true;
-        }
-
         this.assesseeName = `${this.assessee.firstName} ${this.assessee.lastName}`;
         this.avatar = this.assessee.avatarLocation || this.assessee.defaultAvatarLocation;
         this.assesseeGoByName = (this.assessee.goByName) ? `[${this.assessee.goByName}]` : null;
         
     }
 
-    private acknowledge(): void {
-        this.hasAcknowledge = true;
-    }
-
     protected cancel($event?: angular.IAngularEvent): void {
 
         const hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isAddedModifiedOrDeleted());
 
-        if (hasChanges && this.hasAcknowledge) {
+        if (hasChanges) {
             const alertSetting: SweetAlert.Settings = {
                 title: 'Caution, Unsaved Changes',
                 text: 'You have made changes to this assessment that have not been saved.\n\n Are you sure you want to cancel them?',
@@ -165,11 +163,17 @@ export default class EcProviderSpToolAssessTaker {
         }
     }
 
-    protected closeEditAssessItem(inventoryItem: ecat.entity.ISpInventory): void {
+    protected closeEditAssessItem(inventoryItem: ecat.entity.ISpInventory, save: boolean): void {
+
+        if (save) {
+            inventoryItem['isChanged'] = inventoryItem.responseForAssessee.entityAspect.entityState.isModified();
+            this.hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isModified());
+        } else {
+            this.rejectBehaviorChanges();
+        }
+
         inventoryItem['rowShow'] = false;
         inventoryItem['showBehavior'] = false;
-        inventoryItem['isChanged'] = inventoryItem.responseForAssessee.entityAspect.entityState.isModified();
-        this.hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isModified());
     }
 
     protected getFormattedResponse(item: ecat.entity.ISpInventory): string {
@@ -198,6 +202,8 @@ export default class EcProviderSpToolAssessTaker {
         inventoryItem['rowShow'] = true;
         inventoryItem['showBehavior'] = true;
     }
+
+    protected rejectBehaviorChanges(): void{}
 
     private save(): void {
         if (this.isPublished) {

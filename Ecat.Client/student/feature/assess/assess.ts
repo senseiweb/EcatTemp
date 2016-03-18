@@ -13,7 +13,9 @@ export default class EcStudAssess {
     protected activeView: number;
     protected activeGroup: ecat.entity.IWorkGroup;
     protected courses: ecat.entity.ICourse[];
+    protected me: ecat.entity.ICrseStudInGroup;
     protected grpDisplayName = 'Not Set';
+    protected hasAcknowledged = true;
     protected isResultPublished = false;
     protected isGroupOpen = false;
     private log = this.c.getAllLoggers('Assessment Center');
@@ -139,6 +141,10 @@ export default class EcStudAssess {
         });
     }
 
+    private setAcknowledge(): void {
+        this.me.hasAcknowledged = this.hasAcknowledged = true;
+    }
+
     private setActiveCourse(course: ecat.entity.ICourse): void {
         const that = this;
         this.activeCourseId = this.dCtx.student.activeCourseId = course.id;
@@ -158,6 +164,8 @@ export default class EcStudAssess {
         this.activeGroup = workGroup;
         this.isGroupOpen = workGroup.mpSpStatus === _mp.MpSpStatus.open;
         this.isResultPublished = workGroup.mpSpStatus === _mp.MpSpStatus.published;
+        this.me = workGroup.groupMembers.filter(gm => gm.studentId === this.dCtx.user.persona.personId)[0];
+        //this.hasAcknowledged = this.me.hasAcknowledged;
 
         if (isActivating) {
             this.changeActiveView('assess');
@@ -172,8 +180,6 @@ export default class EcStudAssess {
         if (wgA.mpCategory > wgB.mpCategory) return -1;
         return 0;
     }
-
-
 
 }
 

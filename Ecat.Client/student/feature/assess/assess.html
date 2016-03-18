@@ -110,8 +110,17 @@
                 </div>
             </div>
 
-            <div class="lv-body">
+            <div class="lv-body" ng-if="assess.hasAcknowledged">
                 <div ui-view></div>
+            </div>
+
+            <div ng-if="!assess.hasAcknowledged" class="lv-body p-20">
+                <div ng-bind-html="assess.activeGroup.assignedSpInstr.studentInstructions" class="p-b-20"></div>
+                <div class="text-center">
+                    <button class="btn btn-primary" ng-click="assess.setAcknowledged()">
+                        I Agree
+                    </button>
+                </div>
             </div>
         </div>
     </div>

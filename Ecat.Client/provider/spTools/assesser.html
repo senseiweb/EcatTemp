@@ -30,8 +30,8 @@
         <div ng-include="'@[modProvider]/spTools/assesser.add.html'"></div>
     </div>
     <div class="modal-footer">
-        <div class="row" ng-if="assesser.hasAcknowledge">
-            <div ng-if="assesser.hasAcknowledge">
+        <div class="row">
+            <div>
                 <button class="btn btn-link"
                         type="button"
                         ng-if="assesser.readyToSave"
@@ -43,11 +43,6 @@
                 </button>
             </div>
         </div>
-        <div ng-if="!assesser.hasAcknowledge">
-            <button class="btn btn-link" type="button" ng-click="assesser.acknowledge()">I Agree</button>
-            <button class="btn btn-link" type="button" ng-click="assesser.cancel()">Cancel</button>
-        </div>
-
     </div>
 </div>
 

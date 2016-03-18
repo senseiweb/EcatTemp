@@ -41,15 +41,17 @@
                         <td class="text-center">
                             <a class="btn btn-link f-14"
                                href="javascript:void(0)"
-                               ng-click="al.loadAssessment(assess.me.studentId)">
+                               ng-click="al.loadAssessment(al.me.studentId)">
                                 {{al.me.assessText}}
                             </a>
                         </td>
                         <td class="text-center">
                             Not Available
                         </td>
-                        <td class="text-center" style="font-size: 1.6em;">
-                            {{al.me.stratText}}
+                        <td class="text-center">
+                            <span style="font-size: 1.6em" ng-if="al.me.stratText !== 'None'">{{al.me.stratText}}</span>
+                            <span ng-if="al.me.stratText === 'None'">{{al.me.stratText}}</span>
+                            
                         </td>
                         <td class="text-center p-b-0 p-t-0">
                             <div id="sp-chart-data-{{$index}}" ng-if="al.me.hasChartData">
@@ -80,20 +82,27 @@
 
                         <td class="text-center">
                             <a href="javascript:void(0)"
-                               ng-if="al.me.statusOfPeer[peer.studentId].hasComment"
+                               ng-if="!al.isViewOnly"
                                class="btn btn-link f-14"
                                ng-click="al.loadComment(peer.studentId)">
                                 {{peer.commentText}}
                             </a>
                             <a href="javascript:void(0)"
-                               ng-if="!al.me.statusOfPeer[peer.studentId].hasComment"
+                               ng-if="al.isViewOnly && al.me.statusOfPeer[peer.studentId].hasComment"
+                               class="btn btn-link f-14"
+                               ng-click="al.loadComment(peer.studentId)">
+                                {{peer.commentText}}
+                            </a>
+                            <a href="javascript:void(0)"
+                               ng-if="al.isViewOnly && !al.me.statusOfPeer[peer.studentId].hasComment"
                                class="btn btn-link f-14">
                                 {{peer.commentText}}
                             </a>
                         </td>
 
-                        <td class="text-center" style="font-size: 1.6em;">
-                            {{peer.stratText}}
+                        <td class="text-center">
+                            <span style="font-size: 1.6em" ng-if="peer.stratText !== 'None'">{{peer.stratText}}</span>
+                            <span ng-if="peer.stratText === 'None'">{{peer.stratText}}</span>
                         </td>
                         <td class="text-center p-b-0 p-t-0">
                             <div id="sp-chart-data-{{$index}}" ng-if="peer.hasChartData">
