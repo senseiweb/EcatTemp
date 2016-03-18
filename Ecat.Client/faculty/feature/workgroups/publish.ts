@@ -34,7 +34,6 @@ export default class EcFacultyWgPublish {
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
         this.routingParams.crseId = c.$stateParams.crseId;
         this.routingParams.wgId = c.$stateParams.wgId;
-        this.groupMembers[0].stratValidationErrors
         $scope.$on('stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => {
 
             const alertSettings: SweetAlert.Settings = {
@@ -165,25 +164,12 @@ export default class EcFacultyWgPublish {
         const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition === null);
         const hasUnsavedComments = this.groupMembers.some(gm => gm.authorOfComments.some(aoc => aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()));
 
-<<<<<<< 2c0550d526cf57f65b34331f6f43bae318677021
-                _swal(alertSettings, (confirmed?) => {
-                    if (confirmed) {
-                        this.facultyStratResponses.forEach(strat => {
-                            if (strat.entityAspect.entityState.isAdded()) {
-                                 strat.entityAspect.setDeleted();
-                            }
-
-                            strat.proposedPosition = null;
-                     
-                        });
-=======
         if (hasUnsavedStrats)
             this.groupMembers.forEach(gm => {
                 gm.stratIsValid = true;
                 gm.stratValidationErrors = [];
                 gm.proposedStratPosition = null;
             });
->>>>>>> -- The struggle is real [DO NOT PULL ME] -- rabbit holes for days. Not sure what works in this release!
 
         if (hasUnsavedComments)
             this.groupMembers

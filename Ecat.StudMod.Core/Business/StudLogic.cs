@@ -52,15 +52,18 @@ namespace Ecat.StudMod.Core
                     GroupMembers = gm,
                     Instrument = latestGrp.AssignedSpInstr,
                     Inventories = latestGrp.AssignedSpInstr.InventoryCollection,
+                    GroupPeersPerson =gm.Select(mem => mem.StudentProfile.Person),
+                    GroupPeersProfile = gm.Select(mem => mem.StudentProfile),
                     MyAssesses =
                         gm.SelectMany(g => g.AssessorSpResponses)
-                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
+                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId) ,
                     MyStrats =
                         gm.SelectMany(g => g.AssessorStratResponse)
                             .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
                     MyComments =
-                        gm.SelectMany(g => g.AuthorOfComments).Where(g => g.AuthorPersonId == StudentPerson.PersonId)
-                }).ToList();
+                        gm.SelectMany(g => g.AuthorOfComments)
+                        .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
+                }).Take(1).ToList();
 
 
             var groupMembers = studentCourseInit.Select(csig => new CrseStudentInGroup
@@ -80,7 +83,11 @@ namespace Ecat.StudMod.Core
             latestWorkgroup.SpStratResponses = studentCourseInit.SelectMany(sp => sp.MyStrats).ToList();
             latestWorkgroup.AssignedSpInstr = studentCourseInit.First().Instrument;
             latestWorkgroup.AssignedSpInstr.InventoryCollection = studentCourseInit.First().Inventories.ToList();
-          
+            foreach (var grpMem in latestWorkgroup.GroupMembers)
+            {
+                grpMem.StudentProfile = studentCourseInit.SelectMany(g =>g.GroupPeersProfile).First(g => g.PersonId == grpMem.StudentId);
+                grpMem.StudentProfile.Person = studentCourseInit.SelectMany(g => g.GroupPeersPerson).First(g => g.PersonId == grpMem.StudentId);
+            }
             return groupMembers.AsQueryable();
         }
 
