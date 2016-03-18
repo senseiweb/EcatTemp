@@ -34,7 +34,13 @@ export default class EcFacultyWgPublish {
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
         this.routingParams.crseId = c.$stateParams.crseId;
         this.routingParams.wgId = c.$stateParams.wgId;
-        $scope.$on('stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => {
+
+        this.activate();
+    }
+
+    private activate(): void {
+
+        this.$scope.$on('$stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => {
 
             const alertSettings: SweetAlert.Settings = {
                 title: 'Wait a minute!',
@@ -47,26 +53,25 @@ export default class EcFacultyWgPublish {
                 confirmButtonText: 'Continue'
             }
 
-            const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition === null);
+            if (!this.groupMembers) {
+                return null;
+            }
+            const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition !== null);
             const hasUnsavedComments = this.groupMembers.some(gm => gm.authorOfComments.some(aoc => aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()));
 
             //TODO: Jason fix up text
             alertSettings.text = `${alertSettings.text}`;
 
             if (hasUnsavedComments || hasUnsavedStrats)
-                _swal(alertSettings, (confirmed?: boolean) => {
-                    if (confirmed) {
-                        this.deleteUnsavedChanges();
-                    } else {
-                        $event.preventDefault();
-                    }
-
-                });
+                $event.preventDefault();
+            _swal(alertSettings, (confirmed?: boolean) => {
+                if (confirmed) {
+                    this.deleteUnsavedChanges();
+                    c.$state.go(to, toParams);
+                }
+            });
         });
-        this.activate();
-    }
 
-    private activate(): void {
 
         if (!this.routingParams.crseId || !this.routingParams.wgId) {
             const alertSettings: SweetAlert.Settings = {
@@ -406,7 +411,6 @@ export default class EcFacultyWgPublish {
 
     protected saveChanges(): angular.IPromise<void> {
         const that = this;
-        let changedFlags = null;
 
         if (this.pubState === PubState.Strat && !this.isPublishing) {
             this.evaluateStrat(true);
@@ -425,29 +429,22 @@ export default class EcFacultyWgPublish {
                 stratResponse.stratPosition = member.proposedStratPosition;
             });
 
-
             this.isSaving = true;
 
             return this.dCtx.faculty.saveChanges(changeSet)
-                .then(() => {
-                    this.groupMembers.forEach(gm => {
-                        gm.stratValidationErrors = [];
-                        gm.stratIsValid = true;
-                        gm.proposedStratPosition = null;
-                    });
-                })
                 .then(stratSaveChangesResponse)
                 .finally(() => { this.isSaving = false });
         }
 
         if (this.pubState === PubState.Comment && !this.isPublishing) {
+            let changedFlags = null;
             changedFlags = this.activeWorkGroup.spComments.map(comment => {
                 if (comment.flag && comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
                     return comment.flag;
                 }
             });
 
-            this.isSaving = true;
+        this.isSaving = true;
 
             return this.dCtx.faculty
                 .saveChanges(changedFlags)
@@ -471,9 +468,17 @@ export default class EcFacultyWgPublish {
 
 
         function stratSaveChangesResponse(): void {
-
             that.log.success('Save Stratification, Your changes have been made.', null, true);
             that.checkPublishingReady();
+
+            that.groupMembers.forEach(gm => {
+                gm.stratValidationErrors = [];
+                gm.stratIsValid = true;
+                gm.proposedStratPosition = null;
+                gm.updateStatusOfStudent();
+            });
+           
+
         }
 
         function commentSaveChangesResponse(): void {

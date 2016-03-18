@@ -32,9 +32,14 @@
                             <div ng-if="!studResult.hasReceivedCharData">
                                 No Assessment
                             </div>
-                            <div id="sp-chart-data-{{$index}}" ng-if="::studResult.hasReceivedCharData">
+                            <div id="sp-chart-data-{{$index}}" 
+                                 ng-if="::studResult.hasReceivedCharData">
                                 <span class="sp-graph-inst-composite">{{::studResult.resultForStudent.compositeScore}}</span>
-                                <div pie-sp-break-out dataset="studResult.resultForStudent.breakOutReceived" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                <div sp-break-out-chart
+                                     charttype="pie"
+                                     dataset="studResult.resultForStudent.breakOutReceived"
+                                     class="spflot-chart-pie" 
+                                     legend="flotlegend{{$index}}"> </div>
                                 <div id="flotlegend{{$index}}" style="display: none"></div>
                             </div>
                         </td>
@@ -43,9 +48,15 @@
                             <div ng-if="!studResult.hasGivenChartData">
                                 No Assessment
                             </div>
-                            <div id="sp-chart-data-{{$index}}" ng-if="::studResult.hasGivenChartData">
-                                <span class="sp-graph-inst-composite">{{::studResult.statusOfStudent.gaveCompositeScore}}</span>
-                                <div pie-sp-break-out dataset="studResult.statusOfStudent.gaveBreakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                            <div id="sp-chart-data-{{$index}}"
+                                 ng-if="::studResult.hasGivenChartData">
+                                <span class="sp-graph-inst-composite">
+                                    {{::studResult.statusOfStudent.gaveCompositeScore}}
+                                </span>
+                                <div sp-break-out-chart
+                                     charttype="pie"
+                                     dataset="studResult.statusOfStudent.gaveBreakOutChartData" 
+                                     class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
                                 <div id="flotlegend{{$index}}" style="display: none"></div>
                             </div>
                         </td>

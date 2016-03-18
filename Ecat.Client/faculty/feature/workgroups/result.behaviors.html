@@ -15,7 +15,7 @@
                     <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
                         <td>
                             <span ng-show="!inv.showBehavior">
-                                {{::inv.abbrText}}
+                                {{::inv.behaviorEllipse}}
                             </span>
                             <span ng-show="inv.showBehavior">
                                 {{::inv.behavior}}
@@ -29,8 +29,8 @@
                         <td>
                             <a href="javascript:void(0)"
                                popover-append-to-body="true"
-                               popover-placement="left-top"
-                               popover-trigger="click"
+                               popover-placement="left"
+                               popover-trigger="mouseenter"
                                popover-title="Recieved From"
                                uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehRec.tpl.html'">
                                 {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].rcvdOutcome}}
@@ -39,8 +39,8 @@
                         <td>
                             <a href="javascript:void(0)"
                                popover-append-to-body="true"
-                               popover-placement="left-top"
-                               popover-trigger="click"
+                               popover-placement="right"
+                               popover-trigger="mouseenter"
                                popover-title="Given To"
                                uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehGiv.tpl.html'">
                                 {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].gvnOutcome}}

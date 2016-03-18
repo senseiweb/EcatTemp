@@ -131,12 +131,6 @@ export default class EcFacultyWgResult {
         return 0;
     }
 
-    private fillBehaviorData(): void {
-        this.activeStudResult.workGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
-            inv['abbrText'] = inv.behavior.substr(25);
-        });
-    }
-
     protected switchTo(state: string) {
         switch (state) {
 
@@ -146,7 +140,6 @@ export default class EcFacultyWgResult {
 
         case 'behavior':
             this.viewState = WgResViews.Behavior;
-            this.fillBehaviorData();
             break;
 
         case 'comment':

@@ -31,11 +31,11 @@ export default class EcStudentRepo extends IUtilityRepo {
     private studentApiResources: IStudentApiResources = {
         courses: {
             returnedEntityType: _mp.MpEntityType.crseStudInGrp,
-            resource: 'InitCourse'
+            resource: 'GetCourse'
         },
         course: {
             returnedEntityType: _mp.MpEntityType.studCrseMember,
-            resource: 'ActiveCourse'
+            resource: 'GetCourse'
         },
         workGroup: {
             returnedEntityType: _mp.MpEntityType.crseStudInGrp,
@@ -134,7 +134,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         return this.query.from(api.course.resource)
             .using(this.manager)
-            .where(pred)
+            .withParameters({crseId: this.activeCourseId})
             .execute()
             .then(getActiveCrseReponse)
             .catch(this.queryFailed);

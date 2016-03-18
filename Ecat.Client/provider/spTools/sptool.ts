@@ -62,11 +62,21 @@ export default class EcSpTools {
                 //}
                 members.forEach((member: ecat.entity.ICrseStudInGroup, i, array: Array<ecat.entity.ICrseStudInGroup>) => {
                     member.stratValidationErrors = [];
-                    if (!member.assesseeStratResponse[0] && !member.proposedStratPosition) {
-                        member.stratValidationErrors.push({
-                            cat: 'Required',
-                            text: 'Without a current strat, a numerical value greater than 0 must be entered in proposed change.'
-                        });
+
+                    if (!isInstructor) {
+                        if (!member.assesseeStratResponse[0] && !member.proposedStratPosition) {
+                            member.stratValidationErrors.push({
+                                cat: 'Required',
+                                text: 'Without a current strat, a numerical value greater than 0 must be entered in proposed change.'
+                            });
+                        }
+                    } else {
+                        if ((!member.facultyStrat || !member.facultyStrat.stratPosition) && !member.proposedStratPosition) {
+                            member.stratValidationErrors.push({
+                                cat: 'Required',
+                                text: 'Proposed strat must be greater than 0'
+                            });
+                        }
                     }
 
                     if (member.proposedStratPosition) {
@@ -100,16 +110,29 @@ export default class EcSpTools {
                                 });
                             });
 
-                           
+                        if (!isInstructor) {
                             array
-                                .filter(p => p.assesseeStratResponse.some(response => response.stratPosition === member.proposedStratPosition && p.proposedStratPosition === null))
+                                .filter(p => p.assesseeStratResponse.some(response => response.stratPosition === member.proposedStratPosition &&
+                                    response.stratPosition !== null &&
+                                    p.proposedStratPosition === null))
                                 .forEach(pp => {
                                     member.stratValidationErrors.push({
                                         cat: 'Duplicate',
                                         text: `${pp.rankName}: is currently at this position without a proposed change.`
                                     });
                                 });
-
+                        }
+                    } else {
+                      array
+                          .filter(p => p.facultyStrat && p.facultyStrat.stratPosition === member.proposedStratPosition &&
+                              p.facultyStrat.stratPosition !== null &&
+                              p.proposedStratPosition === null)
+                            .forEach(pp => {
+                                member.stratValidationErrors.push({
+                                    cat: 'Duplicate',
+                                    text: `${pp.rankName}: is currently at this position without a proposed change.`
+                                });
+                            });
                     }
                     member.stratIsValid = member.stratValidationErrors.length === 0;
                 });

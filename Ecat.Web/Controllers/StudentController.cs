@@ -41,18 +41,11 @@ namespace Ecat.Web.Controllers
 
         [HttpGet]
         [EnableBreezeQuery(MaxExpansionDepth = 1, AllowedArithmeticOperators = AllowedArithmeticOperators.None)]
-        public IQueryable<CrseStudentInGroup> InitCourse()
+        public IQueryable<CrseStudentInGroup> GetCourses(int? crseId = null)
         {
-            return _studLogic.GetInitalCourses();
+            return _studLogic.GetCourses(crseId);
         }
-
-        [HttpGet]
-        [EnableBreezeQuery(MaxExpansionDepth = 1, AllowedArithmeticOperators = AllowedArithmeticOperators.None)]
-        public IQueryable<StudentInCourse> ActiveCourse()
-        {
-            return _studLogic.GetSingleCourse();
-        }
-
+  
         [HttpGet]
         public async Task<CrseStudentInGroup> ActiveWorkGroup(int wgId)
         {

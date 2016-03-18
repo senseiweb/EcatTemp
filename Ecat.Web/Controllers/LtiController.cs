@@ -71,13 +71,18 @@ namespace Ecat.Web.Controllers
                                 groupMembers.Add(newMember);
                                 studentMix.Remove(newMember.StudentId);
 
-                                writer.WriteLine($"INSERT INTO CrseStudentInGroup(CourseId,WorkGroupId,StudentId,IsDeleted,ModifiedDate) values ({6},{newMember.WorkGroupId},{newMember.StudentId},'false','{DateTime.Now.ToUniversalTime()}');");
+                                writer.WriteLine($"INSERT INTO CrseStudentInGroup(CourseId,WorkGroupId,StudentId,IsDeleted,HasAcknowledged,ModifiedDate) values ({6},{newMember.WorkGroupId},{newMember.StudentId},'false','false','{DateTime.Now.ToUniversalTime()}');");
+                            }
+
+                            if (wrkgrp.MpCategory == MpGroupCategory.Wg2)
+                            {
+                                continue;
                             }
 
                             var peers = groupMembers;
                             List<int> inventoryList;
 
-                            if (wrkgrp.MpCategory == MpGroupCategory.Wg1 || wrkgrp.MpCategory == MpGroupCategory.Wg4)
+                            if (wrkgrp.MpCategory == MpGroupCategory.Wg1 || wrkgrp.MpCategory == MpGroupCategory.Wg3)
                             {
                                 inventoryList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
                             }
@@ -96,30 +101,30 @@ namespace Ecat.Web.Controllers
                                 {
                                     foreach (var item in inventoryList)
                                     {
-                                        var mdlScore = rand.Next(-2, 4);
+                                        var mdlScore = rand.Next(0,6);
                                         var mdlResponse = "";
                                         switch (mdlScore)
                                         {
-                                            case -2:
+                                            case 0:
                                                 mdlResponse = MpSpItemResponse.Iea;
                                                 break;
-                                            case -1:
-                                                mdlResponse = MpSpItemResponse.Ieu;
-                                                break;
-                                            case 0:
-                                                mdlResponse = MpSpItemResponse.Nd;
-                                                break;
                                             case 1:
-                                                mdlResponse = MpSpItemResponse.Eu;
+                                                mdlResponse = MpSpItemResponse.Ieu;
                                                 break;
                                             case 2:
-                                                mdlResponse = MpSpItemResponse.Ea;
+                                                mdlResponse = MpSpItemResponse.Nd;
                                                 break;
                                             case 3:
-                                                mdlResponse = MpSpItemResponse.Heu;
+                                                mdlResponse = MpSpItemResponse.Eu;
                                                 break;
                                             case 4:
-                                                mdlResponse = MpSpItemResponse.Ieu;
+                                                mdlResponse = MpSpItemResponse.Ea;
+                                                break;
+                                            case 5:
+                                                mdlResponse = MpSpItemResponse.Heu;
+                                                break;
+                                            case 6:
+                                                mdlResponse = MpSpItemResponse.Hea;
                                                 break;
                                         }
 
@@ -133,13 +138,9 @@ namespace Ecat.Web.Controllers
                                             ItemModelScore = mdlScore,
                                             MpItemResponse = mdlResponse
                                         };
-
-                                        if (wrkgrp.MpCategory !=  MpGroupCategory.Wg4)
-                                        {
                                             writer.WriteLine($"INSERT INTO SpResponse(AssessorPersonId,AssesseePersonId,CourseId,WorkGroupId,InventoryItemId,ItemResponse,ItemModelScore,ModifiedDate) values ({spResponse.AssessorPersonId},{spResponse.AssesseePersonId},{6},{spResponse.WorkGroupId},{spResponse.InventoryItemId},'{spResponse.MpItemResponse}',{spResponse.ItemModelScore},'{DateTime.Now.ToUniversalTime()}');");
 
                                             Debug.WriteLine($"Member {member.StudentId} ==> Peer {peer.StudentId} ==> InventoryItem {item} Done with response {mdlResponse}");
-                                        }
                                     }
                                       
                                     var currentStrat = stratMix.First();

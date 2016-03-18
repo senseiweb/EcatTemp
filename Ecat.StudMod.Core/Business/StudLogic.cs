@@ -30,9 +30,8 @@ namespace Ecat.StudMod.Core
             return _repo.ClientSaveChanges(saveBundle);
         }
 
-        public IQueryable<CrseStudentInGroup> GetInitalCourses()
+        public IQueryable<CrseStudentInGroup> GetCourses(int? crseId)
         {
-
             var studentCourseInit = (from csig in _repo.CrseStudentInGroups
                 where csig.StudentId == StudentPerson.PersonId &&
                       !csig.IsDeleted
@@ -56,15 +55,19 @@ namespace Ecat.StudMod.Core
                     GroupPeersProfile = gm.Select(mem => mem.StudentProfile),
                     MyAssesses =
                         gm.SelectMany(g => g.AssessorSpResponses)
-                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId) ,
+                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
                     MyStrats =
                         gm.SelectMany(g => g.AssessorStratResponse)
                             .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
                     MyComments =
                         gm.SelectMany(g => g.AuthorOfComments)
+                        .Where(g => g.AuthorPersonId == StudentPerson.PersonId),
+                   MyFlags =
+                        gm.SelectMany(g => g.AuthorOfComments.Select(aoc => aoc.Flag))
                         .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
-                }).ToList();
+                });
 
+          var studInCrseList = crseId != null ? studentCourseInit.Where(crse => crse.CourseId == crseId).ToList() : studentCourseInit.ToList();
 
             var groupMembers = studentCourseInit.Select(csig => new CrseStudentInGroup
             {
@@ -83,17 +86,18 @@ namespace Ecat.StudMod.Core
             latestWorkgroup.SpStratResponses = studentCourseInit.SelectMany(sp => sp.MyStrats).ToList();
             latestWorkgroup.AssignedSpInstr = studentCourseInit.First().Instrument;
             latestWorkgroup.AssignedSpInstr.InventoryCollection = studentCourseInit.First().Inventories.ToList();
+
+            foreach (var comment in latestWorkgroup.SpComments)
+            {
+                comment.Flag = studentCourseInit.SelectMany(g =>g.MyFlags).First(c => c.AuthorPersonId == comment.AuthorPersonId && c.RecipientPersonId == comment.RecipientPersonId);
+            }
+
             foreach (var grpMem in latestWorkgroup.GroupMembers)
             {
-                grpMem.StudentProfile = studentCourseInit.SelectMany(g =>g.GroupPeersProfile).First(g => g.PersonId == grpMem.StudentId);
+                grpMem.StudentProfile = studentCourseInit.SelectMany(g => g.GroupPeersProfile).First(g => g.PersonId == grpMem.StudentId);
                 grpMem.StudentProfile.Person = studentCourseInit.SelectMany(g => g.GroupPeersPerson).First(g => g.PersonId == grpMem.StudentId);
             }
             return groupMembers.AsQueryable();
-        }
-
-        public IQueryable<StudentInCourse> GetSingleCourse()
-        {
-            throw new NotImplementedException();
         }
 
         async Task<CrseStudentInGroup> IStudLogic.GetSingleWrkGrpMembers(int wgId)
@@ -123,7 +127,9 @@ namespace Ecat.StudMod.Core
                             .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
                     MyComments =
                         peers.SelectMany(g => g.AuthorOfComments)
-                            .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
+                            .Where(g => g.AuthorPersonId == StudentPerson.PersonId),
+                    MyFlags = peers.SelectMany(g => g.AuthorOfComments.Select(aoc => aoc.Flag))
+                        .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
                 }).SingleAsync();
 
             var crseStudInGroup = new CrseStudentInGroup
@@ -139,6 +145,11 @@ namespace Ecat.StudMod.Core
             crseStudInGroup.WorkGroup.SpResponses = singleGroup.MyAssesses.ToList();
             crseStudInGroup.WorkGroup.SpStratResponses = singleGroup.MyStrats.ToList();
             crseStudInGroup.WorkGroup.SpComments = singleGroup.MyComments.ToList();
+
+            foreach (var comment in crseStudInGroup.WorkGroup.SpComments)
+            {
+                comment.Flag = singleGroup.MyFlags.First(c => c.AuthorPersonId == comment.AuthorPersonId && c.RecipientPersonId == comment.RecipientPersonId);
+            }
 
             return crseStudInGroup;
         }

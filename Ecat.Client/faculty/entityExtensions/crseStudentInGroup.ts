@@ -179,8 +179,6 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
         gaveChartData.push({ label: 'Ineffective', data: gaveIE, color: '#AA0000' });
         gaveChartData.push({ label: 'Not Display', data: gaveND, color: '#AAAAAA' });
 
-
-
         this._statusOfStudent =  {
             assessComplete: missingItems.length === 0,
             stratComplete: stratComplete,

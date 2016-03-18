@@ -40,9 +40,12 @@
             </td>
             <td class="text-center f-18">{{gm.numberOfAuthorComments}}</td>
             <td class="text-center p-t-0 p-b-0">
-                <div id="sp-chart-gave-data-{{$index}}" ng-if="gm.hasChartData">
+                <div id="sp-chart-gave-data-{{$index}}" 
+                     ng-if="gm.hasChartData">
                     <span class="sp-graph-composite">{{::gm.statusOfStudent.gaveCompositeScore}}</span>
-                    <div pie-sp-break-out dataset="gm.statusOfStudent.gaveBreakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                    <div sp-break-out-chart
+                         charttype="pie"
+                         dataset="gm.statusOfStudent.gaveBreakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
                     <div id="flotlegend{{$index}}" style="display: none"></div>
                 </div>
                 <div ng-if="!gm.hasChartData" class="text-center">
