@@ -456,4 +456,24 @@ export default class EcFacultyRepo extends IUtilityRepo {
             return caCourse;
         }
     }
+
+    getSingleStrat(studentId: number) {
+        
+        const loggedUserId = this.dCtx.user.persona.personId;
+
+        if (!this.activeGroupId || !this.activeCourseId) {
+            this.log.warn('Missing required information', { groupId: this.activeCourseId, courseId: this.activeCourseId }, false);
+            return null;
+        }
+
+        const existingStrat = this.manager.getEntityByKey(_mp.MpEntityType.facStratResponse, [loggedUserId, studentId, this.activeCourseId, this.activeGroupId]) as ecat.entity.IFacStratResponse;
+
+        return (existingStrat) ? existingStrat :
+            this.manager.createEntity(_mp.MpEntityType.facStratResponse, {
+                assesseePersonId: studentId,
+                assessorPersonId: loggedUserId,
+                courseId: this.activeCourseId,
+                workGroupId: this.activeGroupId
+            }) as ecat.entity.IFacStratResponse;
+    }
 }

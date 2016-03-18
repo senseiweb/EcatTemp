@@ -44,9 +44,9 @@ declare module ecat.entity
         }
 
         interface IStratEvaluator {
-            isValid: boolean;
-            validationErrors: Array<{ cat: string, text: string }>;
-            proposedPosition: number;
+            stratIsValid: boolean;
+            stratValidationErrors: Array<{ cat: string, text: string }>;
+            proposedStratPosition: number;
         }
 
         interface IFacCrseStudInGrpStatus {
@@ -71,7 +71,7 @@ declare module ecat.entity
             [studentId: number]: IFacCrseStudInGrpStatus;
         }
 
-        interface ICrseStudInGrpExt {
+        interface ICrseStudInGrpExt extends IStratEvaluator {
             statusOfPeer: IStatusOfPeer;
             updateStatusOfPeer(): IStatusOfPeer;
             nameSorter: {last:string; first: string}
@@ -259,7 +259,7 @@ declare module ecat.entity
         flag: IStudSpCommentFlag;
     }
 
-    interface IStratResponse extends breeze.Entity, s.learner.StratResponse, ext.ICompositeKey, ext.IStratEvaluator {
+    interface IStratResponse extends breeze.Entity, s.learner.StratResponse, ext.ICompositeKey {
         assessor: ICrseStudInGroup;
         assessee: ICrseStudInGroup;
         stratResult: IStratResult;
@@ -281,7 +281,7 @@ declare module ecat.entity
         assessee: ICrseStudInGroup;
     }
 
-    interface IFacStratResponse extends breeze.Entity, s.faculty.FacStratResponse, ext.ICompositeKey, ext.IStratEvaluator {
+    interface IFacStratResponse extends breeze.Entity, s.faculty.FacStratResponse, ext.ICompositeKey {
         studentAssessee: ICrseStudInGroup;
     }
     //#endregion

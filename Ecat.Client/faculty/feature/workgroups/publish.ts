@@ -17,13 +17,12 @@ export default class EcFacultyWgPublish {
     }
     protected doneWithComments = false;
     protected doneWithStrats = false;
-    protected facultyStratResponses: Array<ecat.entity.IFacStratResponse>;
-    protected gmWithComments: Array<ecat.entity.ICrseStudInGroup>;
+    protected groupMembers: Array<ecat.entity.ICrseStudInGroup>;
     protected hasComments = true;
     private instructorId: number;
     protected isSaving = false;
     protected isPublishing = false;
-    private log = this.c.getAllLoggers('Faculty Publish')
+    private log = this.c.getAllLoggers('Faculty Publish');
     protected pubState = PubState.Loading;
     private routingParams = { crseId: 0, wgId: 0 };
     protected saveBtnText = 'Progress';
@@ -35,11 +34,36 @@ export default class EcFacultyWgPublish {
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private sptool: ISpTools) {
         this.routingParams.crseId = c.$stateParams.crseId;
         this.routingParams.wgId = c.$stateParams.wgId;
+        this.groupMembers[0].stratValidationErrors
+        $scope.$on('stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => {
 
-        //$scope.$on('$destroy', () => {
-        //    this.deleteStrat();
-        //});
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Wait a minute!',
+                text: 'You have unsaved changes in the following areas: \n\n',
+                closeOnConfirm: true,
+                closeOnCancel: true,
+                showConfirmButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Continue'
+            }
 
+            const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition === null);
+            const hasUnsavedComments = this.groupMembers.some(gm => gm.authorOfComments.some(aoc => aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()));
+
+            //TODO: Jason fix up text
+            alertSettings.text = `${alertSettings.text}`;
+
+            if (hasUnsavedComments || hasUnsavedStrats)
+                _swal(alertSettings, (confirmed?: boolean) => {
+                    if (confirmed) {
+                        this.deleteUnsavedChanges();
+                    } else {
+                        $event.preventDefault();
+                    }
+
+                });
+        });
         this.activate();
     }
 
@@ -67,37 +91,36 @@ export default class EcFacultyWgPublish {
     protected cancelPublish(): void {
         const that = this;
 
-            const alertSettings: SweetAlert.Settings = {
-                title: 'Cancel Publish',
-                text: `This action will Stop the publication workflow and allow students to make changes. Are you sure?`,
-                type: 'warning',
-                showCancelButton: true,
-                showConfirmButton: true,
-                closeOnCancel: false,
-                closeOnConfirm: false,
-                confirmButtonText: 'Stop Publishing',
-                showLoaderOnConfirm: true
-            };
+        //TODO: Update message to include the unsaved changes.
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Cancel Publish',
+            text: `This action will Stop the publication workflow and allow students to make changes. Are you sure?`,
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: false,
+            closeOnConfirm: false,
+            confirmButtonText: 'Stop Publishing',
+            showLoaderOnConfirm: true
+        };
 
-            _swal(alertSettings, (confirmed?: boolean) => {
-                if (confirmed) {
-                    that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.open;
-                    this.deleteStrat();
-                    that.dCtx.faculty.saveChanges()
-                        .then(() => _swal('Publishing Workflow cancelled...', 'This workgroup is now in open status', 'success'))
-                        .catch(() => {})
-                        .finally(() => {that.c.$state.go(that.c.stateMgr.faculty.wgList.name);});
-                } else {
-                    _swal.close();               
-                }
+        _swal(alertSettings, (confirmed?: boolean) => {
+            if (confirmed) {
 
-            });
-    }
+                that.activeWorkGroup.mpSpStatus = _mp.MpSpStatus.open;
 
-    protected backToWg(): void {
-        console.log("it got called");
-        this.deleteStrat();
+                that.dCtx.faculty.saveChanges()
+                    .then(() => {
+                        this.deleteUnsavedChanges();
+                        this.c.$state.go(that.c.stateMgr.faculty.wgList.name);
+                        _swal('Publishing Workflow cancelled...', 'This workgroup is now in open status', 'success');
+                    })
+                    .catch(() => {});
+            } else {
+                _swal.close();
+            }
 
+        });
     }
 
     protected changeFlag(author: ecat.entity.ICrseStudInGroup | Array<ecat.entity.ICrseStudInGroup>, flag?: string, all?: boolean): void {
@@ -135,29 +158,14 @@ export default class EcFacultyWgPublish {
 
     private checkPublishingReady(): void {
         this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null || comment.flag.mpFaculty === undefined);
-        this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => strat.stratPosition && strat.proposedPosition === null);
+        this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => !!strat.stratPosition && strat.studentAssessee.proposedStratPosition === null);
     }
 
-    private deleteStrat(): void {
+    private deleteUnsavedChanges(): void {
+        const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition === null);
+        const hasUnsavedComments = this.groupMembers.some(gm => gm.authorOfComments.some(aoc => aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()));
 
-        if (this.facultyStratResponses === null || this.facultyStratResponses === undefined || this.facultyStratResponses.length < 0) {
-
-            this.c.$state.go(this.c.stateMgr.faculty.wgList.name);
-
-        } else {
-
-            if (this.facultyStratResponses.some(strat => strat.proposedPosition !== null)) {
-                const alertSettings: SweetAlert.Settings = {
-                    title: 'Wait a minute!',
-                    text: 'There are unsaved changes that will be lost if you continue.\n\n Are you sure?',
-                    closeOnConfirm: true,
-                    closeOnCancel: true,
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                    cancelButtonText: 'Cancel',
-                    confirmButtonText: 'Continue'
-                }
-
+<<<<<<< 2c0550d526cf57f65b34331f6f43bae318677021
                 _swal(alertSettings, (confirmed?) => {
                     if (confirmed) {
                         this.facultyStratResponses.forEach(strat => {
@@ -168,21 +176,29 @@ export default class EcFacultyWgPublish {
                             strat.proposedPosition = null;
                      
                         });
+=======
+        if (hasUnsavedStrats)
+            this.groupMembers.forEach(gm => {
+                gm.stratIsValid = true;
+                gm.stratValidationErrors = [];
+                gm.proposedStratPosition = null;
+            });
+>>>>>>> -- The struggle is real [DO NOT PULL ME] -- rabbit holes for days. Not sure what works in this release!
 
-                        this.c.$state.go(this.c.stateMgr.faculty.wgList.name);
-                    }
-                });
-            } else {
-                this.c.$state.go(this.c.stateMgr.faculty.wgList.name);
-            }
-            
-        }
+        if (hasUnsavedComments)
+            this.groupMembers
+                .forEach(gm => gm.authorOfComments
+                    .forEach(aoc => {
+                        if (aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
+                            aoc.flag.entityAspect.rejectChanges();
+                        }
+                    }));
     }
 
-    protected evaluateStrat(strat: ecat.entity.IFacStratResponse) {
-        this.sptool.evaluateStratification(this.activeWorkGroup, true)
+    protected evaluateStrat(force: boolean) {
+        this.sptool.evaluateStratification(this.activeWorkGroup, true, force)
             .then((crseMems) => {
-                this.gmWithComments = crseMems;
+                this.groupMembers = crseMems;
             });
     }
 
@@ -297,7 +313,7 @@ export default class EcFacultyWgPublish {
 
         _swal(alertSettings, (confirmed?: boolean) => {
             if (confirmed) {
-                that.changeFlag(this.gmWithComments, null, true);
+                that.changeFlag(this.groupMembers, null, true);
                 _swal('Update Complete', 'All comments have been flagged as appropriate', 'success');
                 this.$scope.$apply();
             }
@@ -319,7 +335,7 @@ export default class EcFacultyWgPublish {
 
         _swal(alertSettings, (confirmed?: boolean) => {
             if (confirmed) {
-                that.changeFlag(this.gmWithComments);
+                that.changeFlag(this.groupMembers);
                 _swal('Update Complete', 'All unflagged comments have been flagged as appropriate', 'success');
                 this.$scope.$apply();
             }
@@ -342,7 +358,7 @@ export default class EcFacultyWgPublish {
                 return null;
             }
 
-            that.gmWithComments = comments.map(comment => {
+            that.groupMembers = comments.map(comment => {
                     if (!uniques.hasOwnProperty(comment.authorPersonId)) {
                         uniques[comment.authorPersonId] = true;
                         return comment.author;
@@ -352,10 +368,10 @@ export default class EcFacultyWgPublish {
                 .sort(that.sortByLastName);
             that.pubState = PubState.Comment;
             that.saveBtnText = 'Comments';
-            that.gmWithComments.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
+            that.groupMembers.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
                 that.updateAuthorDynamics(crseStud);
             });
-            that.selectedAuthor = that.gmWithComments[0];
+            that.selectedAuthor = that.groupMembers[0];
             that.selectComment(that.selectedAuthor.authorOfComments[0]);
             that.checkPublishingReady();
         }
@@ -397,6 +413,7 @@ export default class EcFacultyWgPublish {
 
     }
 
+    //TODO: Need to write the refresh data!
     protected refreshData(): void {
         
     }
@@ -406,26 +423,31 @@ export default class EcFacultyWgPublish {
         let changedFlags = null;
 
         if (this.pubState === PubState.Strat && !this.isPublishing) {
+            this.evaluateStrat(true);
 
-            const hasErrors = this.facultyStratResponses.some(response => !response.isValid);
+            const hasErrors = this.groupMembers.some(member => !member.stratIsValid);
 
             if (hasErrors) {
                 _swal('Not Ready', 'Your proposed stratification changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
                 return null;
             }
 
-            const changeSet = this.facultyStratResponses.filter(response => response.proposedPosition !== null);
+            const changeSet = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
 
-            changeSet.forEach(response => response.stratPosition = response.proposedPosition);
+            changeSet.forEach(member => {
+                const stratResponse = this.dCtx.faculty.getSingleStrat(member.studentId);
+                stratResponse.stratPosition = member.proposedStratPosition;
+            });
+
 
             this.isSaving = true;
 
             return this.dCtx.faculty.saveChanges(changeSet)
                 .then(() => {
-                    this.facultyStratResponses.forEach((response) => {
-                        response.validationErrors = [];
-                        response.isValid = true;
-                        response.proposedPosition = null;
+                    this.groupMembers.forEach(gm => {
+                        gm.stratValidationErrors = [];
+                        gm.stratIsValid = true;
+                        gm.proposedStratPosition = null;
                     });
                 })
                 .then(stratSaveChangesResponse)
@@ -503,19 +525,7 @@ export default class EcFacultyWgPublish {
     protected switchTo(tab: string): void {
         this.checkPublishingReady();
         if (tab === 'strat') {
-            if (!this.facultyStratResponses) {
-                this.facultyStratResponses = this.dCtx.faculty.getAllActiveWgFacStrat();
-                this.facultyStratResponses.forEach(response => {
-                    response.studentAssessee['hasChartData'] = response.studentAssessee
-                        .statusOfStudent
-                        .breakOutChartData
-                        .some(cd => cd.data > 0);
-                    this.sptool.evaluateStratification(this.activeWorkGroup, true)
-                        .then((crseMembers) => {
-                            this.gmWithComments = crseMembers;
-                        });
-                });
-            }
+            this.evaluateStrat(false);
             this.pubState = PubState.Strat;
             this.saveBtnText = 'Stratifications';
         }

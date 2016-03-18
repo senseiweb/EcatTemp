@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
 using Ecat.Shared.Core.ModelLibrary.Common;
+using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
@@ -14,7 +15,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Ecat.StudMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
     
     public class StudRepo : IStudRepo
     {
@@ -29,14 +29,8 @@ namespace Ecat.StudMod.Core
             _mainCtx = mainContext;
         }
 
-        public SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards)
-        {
-            if (!saveGuards.Any()) return _efCtx.SaveChanges(saveBundle);
-
-            foreach (var saveGuard in saveGuards)
-            {
-                _efCtx.BeforeSaveEntitiesDelegate += saveGuard;
-            }
+        public SaveResult ClientSaveChanges(JObject saveBundle)
+        { 
 
             return _efCtx.SaveChanges(saveBundle);
         }
@@ -59,6 +53,19 @@ namespace Ecat.StudMod.Core
                     .Include(wg => wg.AssignedSpInstr.InventoryCollection)
                 : query;
         }
+
+        void IStudRepo.LoadGroupPeers(CrseStudentInGroup groupMember)
+        {
+             _ctx.Entry(groupMember)
+                .Collection(gm => gm.WorkGroup.GroupMembers)
+                .Query()
+                .Where(gm => !gm.IsDeleted)
+                .Load();
+        }
+
+        IQueryable<SpInventory> IStudRepo.Inventories => _ctx.Inventories
+            .Where(inv => inv.IsDisplayed)
+            .Include(inv => inv.Instrument);
 
         async Task<FacResultForStudent> IStudRepo.GetFacSpResult(int studId, int wgId)
         {

@@ -50,14 +50,13 @@ namespace Ecat.FacMod.Core
                 .Where(gm => gm.CourseId == courseId && gm.WorkGroupId == workGroupId)
                 .Include(fc => fc.Course.WorkGroups)
                 .Include(gm => gm.WorkGroup)
-                .Include(gm => gm.WorkGroup.GroupMembers)
-                .Include(gm => gm.WorkGroup.FacSpComments)
-                .Include(gm => gm.WorkGroup.FacSpResponses)
-                .Include(gm => gm.WorkGroup.FacStratResponses)
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.AssessorSpResponses))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.AssessorStratResponse));
+                .Include(gm => gm.FacultyComment)
+                .Include(gm => gm.FacultyStrat)
+                .Include(gm => gm.FacultySpResponses)
+                .Include(gm => gm.StudentInCourse.Student)
+                .Include(gm => gm.StudentInCourse.Student.Person)
+                .Include(gm => gm.AssessorSpResponses)
+                .Include(gm => gm.AssessorStratResponse);
 
             var groupMembersId = groupMembers.Select(gm => gm.StudentId).ToList();
 
@@ -85,7 +84,7 @@ namespace Ecat.FacMod.Core
 
             var latestCourse = facCrses.Select(fc => fc.Course).First();
 
-            _repo.AddCourseWorkgroups(latestCourse);
+            //_repo.AddCourseWorkgroups(latestCourse);
 
             var crseWgNotPublish =
                 latestCourse.WorkGroups.Where(wg => wg.MpSpStatus == MpSpStatus.Open).Select(wg => wg.Id);
@@ -130,14 +129,14 @@ namespace Ecat.FacMod.Core
             return _repo.CourseMembers(courseId);
         }
 
-        async Task<Course> IFacLogic.PollBbCourse()
-        {
-            var faculty = await _repo.LoadFacultyProfile(FacultyPerson);
+        //async Task<Course> IFacLogic.PollBbCourse()
+        //{
+        //    var faculty = await _repo.LoadFacultyProfile(FacultyPerson);
 
-            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        //    throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
-            var catId = StaticAcademy.AcadLookup.Select(acad => acad.Key == faculty.Faculty.AcademyId)
+        //    var catId = StaticAcademy.AcadLookup.Select(acad => acad.Key == faculty.Faculty.AcademyId)
 
-        }
+        //}
     }
 }

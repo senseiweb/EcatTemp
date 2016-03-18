@@ -31,6 +31,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public ICollection<StudSpComment> RecipientOfComments { get; set; }
         public ICollection<StratResponse> AssessorStratResponse { get; set; }
         public ICollection<StratResponse> AssesseeStratResponse { get; set; }
+        public ICollection<FacSpResponse> FacultySpResponses { get; set; }
 
         public SpResult SpResult { get; set; }
         public StratResult StratResult { get; set; }

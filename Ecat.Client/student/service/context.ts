@@ -93,8 +93,6 @@ export default class EcStudentRepo extends IUtilityRepo {
 
             crseStudInGroups.forEach(crseStudInGroup => {
 
-                that.isLoaded.crseInStudGroup[crseStudInGroup.entityId] = true;
-
                 if (crseStudInGroup.course) {
                     that.isLoaded[crseStudInGroup.courseId] = true;
                 }
@@ -381,5 +379,26 @@ export default class EcStudentRepo extends IUtilityRepo {
             });
             return result;
         }
+    }
+
+    getSingleStrat(studentId: number): ecat.entity.IStratResponse {
+
+        const loggedUserId = this.dCtx.user.persona.personId;
+
+        if (!this.activeGroupId || !this.activeCourseId) {
+            this.log.warn('Missing required information', { groupId: this.activeCourseId, courseId: this.activeCourseId }, false);
+            return null;
+        }
+
+        const existingStrat = this.manager.getEntityByKey(_mp.MpEntityType.spStrat, [loggedUserId, studentId, this.activeCourseId, this.activeGroupId]) as ecat.entity.IStratResponse;
+
+        return (existingStrat) ? existingStrat :
+            this.manager.createEntity(_mp.MpEntityType.spStrat, {
+                assesseePersonId: studentId,
+                assessorPersonId: loggedUserId,
+                courseId: this.activeCourseId,
+                workGroupId: this.activeGroupId
+            }) as ecat.entity.IStratResponse;
+
     }
 }

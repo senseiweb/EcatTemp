@@ -7,7 +7,7 @@ import _swal from "sweetalert"
 //TODO: Need to add logic if the workgroup status is published to make everything readonly
 export default class EcStudAssessList {
     static controllerId = 'app.student.assessment.list';
-    static $inject = ['$scope', ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
+    static $inject =  [ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     //#region Controller Properties
     protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false };
@@ -16,8 +16,6 @@ export default class EcStudAssessList {
     protected isViewOnly = false;
     private log = this.c.getAllLoggers('Assessment Center');
     protected me: ecat.entity.ICrseStudInGroup;
-    protected myStrat: ecat.entity.IStratResponse;
-    protected peerStrats: Array<ecat.entity.IStratResponse>;
     protected peers: Array<ecat.entity.ICrseStudInGroup>;
     protected routingParams = { crseId: 0, wgId: 0 }
     protected sortOpt = {
@@ -35,14 +33,14 @@ export default class EcStudAssessList {
         composite: 'compositeScore'
     }
     protected stratInputVis: boolean;
-    protected stratResponses: Array<ecat.entity.IStratResponse>;
     protected stratValComments: Array<ecat.entity.ICrseStudInGroup>;
     protected user: ecat.entity.IPerson;
+   
 
     protected workGroups: ecat.entity.IWorkGroup[];
     //#endregion
 
-    constructor($scope: angular.IScope,private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
+    constructor(private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
 
         if (c.$stateParams.crseId) {
             this.routingParams.crseId = c.$stateParams.crseId;
@@ -53,28 +51,6 @@ export default class EcStudAssessList {
             dCtx.student.activeGroupId = c.$stateParams.wgId;
         }
         this.activate();
-
-        $scope.$on(c.coreCfg.coreApp.events.stratStateAbandon, () => {
-            if (this.stratResponses.some(strat => strat.proposedPosition !== null)) {
-                const alertSettings: SweetAlert.Settings = {
-                    title: 'Wait a minute!',
-                    text: 'There are unsaved changes that will be lost if you continue.\n\n Are you sure?',
-                    closeOnConfirm: false,
-                    closeOnCancel: true,
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                    cancelButtonText: 'Cancel',
-                    confirmButtonText: 'Continue'
-                }
-
-                _swal(alertSettings, (confirmed?) => {
-                    if (confirmed) this.deleteStrats();
-                });
-            } else {
-                this.deleteStrats();
-            }
-            
-        });
     }
 
     private activate(): void {
@@ -111,11 +87,8 @@ export default class EcStudAssessList {
             });
             that.peers = grpMembers.filter(gm => gm.studentId !== myId);
 
-            that.stratResponses = that.dCtx.student.getAllStrats();
             that.evaluateStrat();
 
-            that.myStrat = that.stratResponses.filter(strat => strat.assessee.studentId === myId)[0];
-            that.peerStrats = that.stratResponses.filter(strat => strat.assessee.studentId !== myId);
         }
 
         function activationError(error: any) {
@@ -123,14 +96,8 @@ export default class EcStudAssessList {
         }
     }
 
-    private deleteStrats(): void {
-        this.stratResponses.forEach(strat => {
-            if (strat.entityAspect.entityState.isAdded()) strat.entityAspect.setDeleted();
-        });
-    }
-
-    private evaluateStrat(): void {
-        this.spTools.evaluateStratification(this.activeGroup, false)
+    private evaluateStrat(force?: boolean): void {
+        this.spTools.evaluateStratification(this.activeGroup, false, force)
             .then((crseMems) => {
                 this.stratValComments = crseMems;
             });
@@ -197,26 +164,31 @@ export default class EcStudAssessList {
 
     protected saveChanges(): angular.IPromise<void> {
         const that = this;
-        const hasErrors = this.stratResponses.some(response => !response.isValid);
+        this.evaluateStrat(true);
+
+        const hasErrors = this.peers.some(peer => !peer.stratIsValid);
 
         if (hasErrors) {
             _swal('Not ready', 'Your proposed changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
+            return null;
         }
 
-        const changeSet = this.stratResponses.filter(response => response.proposedPosition !== null);
+        const changeSet = this.peers.filter(peers => peers.proposedStratPosition !== null);
 
-        changeSet.forEach(response => response.stratPosition = response.proposedPosition);
-
+        changeSet.forEach(peer => {
+            const stratResponse = this.dCtx.student.getSingleStrat(peer.studentId);
+            stratResponse.stratPosition = peer.proposedStratPosition;
+        });
 
         return this.dCtx.student.saveChanges(changeSet)
             .then(saveChangesResponse)
             .catch(saveChangesError);
 
         function saveChangesResponse(): void {
-            that.stratResponses.forEach((response) => {
-                response.validationErrors = [];
-                response.isValid = true;
-                response.proposedPosition = null;
+            that.peers.forEach((peer) => {
+                peer.stratValidationErrors = [];
+                peer.stratIsValid = true;
+                peer.proposedStratPosition = null;
             });
             that.log.success('Save Stratification, Your changes have been made.', null, true);
         }

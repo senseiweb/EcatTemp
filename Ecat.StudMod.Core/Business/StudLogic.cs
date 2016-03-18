@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Ecat.StudMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
 
     public class StudLogic : IStudLogic
     {
@@ -27,42 +26,62 @@ namespace Ecat.StudMod.Core
 
         public SaveResult ClientSave(JObject saveBundle)
         {
-            var neededSaveGuards = new List<Guard>();
-
-            if (StudentPerson.MpInstituteRole != MpInstituteRoleName.HqAdmin)
-            {
-                //var userGuard = new GuardUserSave(User);
-                //neededSaveGuards.Add(userGuard.BeforeSaveEntities);
-            }
-
-            return _repo.ClientSaveChanges(saveBundle, neededSaveGuards);
+           
+            return _repo.ClientSaveChanges(saveBundle);
         }
 
         public IQueryable<CrseStudentInGroup> GetInitalCourses()
         {
-            var groups =  _repo.CrseStudentInGroups
-                .Where(gm => gm.StudentId == StudentPerson.PersonId)
-                .OrderByDescending(p => p.Course.StartDate)
-                .Include(gm => gm.Course)
-                .Include(gm => gm.WorkGroup).ToList();
 
-            var latestGroup = groups.OrderByDescending(gm => gm.WorkGroup.MpCategory).First();
+            var studentCourseInit = (from csig in _repo.CrseStudentInGroups
+                where csig.StudentId == StudentPerson.PersonId &&
+                      !csig.IsDeleted
+                let latestGrp = csig.Course.WorkGroups
+                    .Where(wg => wg.GroupMembers.Any(mem => mem.StudentId == StudentPerson.PersonId && !mem.IsDeleted))
+                    .OrderByDescending(grp => grp.MpCategory)
+                    .FirstOrDefault()
+                let gm = latestGrp.GroupMembers.Where(gm => !gm.IsDeleted)
+                select new
+                {
+                    csig.StudentId,
+                    csig.CourseId,
+                    csig.WorkGroupId,
+                    LatestGrpId = latestGrp.Id,
+                    csig.Course,
+                    csig.WorkGroup,
+                    GroupMembers = gm,
+                    Instrument = latestGrp.AssignedSpInstr,
+                    Inventories = latestGrp.AssignedSpInstr.InventoryCollection,
+                    MyAssesses =
+                        gm.SelectMany(g => g.AssessorSpResponses)
+                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
+                    MyStrats =
+                        gm.SelectMany(g => g.AssessorStratResponse)
+                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
+                    MyComments =
+                        gm.SelectMany(g => g.AuthorOfComments).Where(g => g.AuthorPersonId == StudentPerson.PersonId)
+                }).ToList();
 
-            var groupId = latestGroup.WorkGroupId;
 
-            latestGroup = _repo.CrseStudentInGroups
-                .Where(gm => gm.WorkGroupId == groupId && gm.StudentId == StudentPerson.PersonId)
-                .Include(gm => gm.WorkGroup.AssignedSpInstr)
-                .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)
-                .Include(gm => gm.AssessorStratResponse)
-                .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person))
-                .Include(gm => gm.AuthorOfComments)
-                .Include(gm => gm.AuthorOfComments.Select(f => f.Flag)).Single();
+            var groupMembers = studentCourseInit.Select(csig => new CrseStudentInGroup
+            {
+                StudentId = csig.StudentId,
+                CourseId = csig.Course.Id,
+                WorkGroupId = csig.WorkGroupId,
+                Course = csig.Course,
+                WorkGroup = csig.WorkGroup,
+            }).ToList();
 
-
-            return groups.AsQueryable();
+            var latestGrpId = studentCourseInit.FirstOrDefault()?.LatestGrpId;
+            var latestWorkgroup = groupMembers.Single(gm => gm.WorkGroupId == latestGrpId).WorkGroup;
+            latestWorkgroup.GroupMembers = studentCourseInit.SelectMany(g => g.GroupMembers).ToList();
+            latestWorkgroup.SpComments = studentCourseInit.SelectMany(sp => sp.MyComments).ToList();
+            latestWorkgroup.SpResponses = studentCourseInit.SelectMany(sp => sp.MyAssesses).ToList();
+            latestWorkgroup.SpStratResponses = studentCourseInit.SelectMany(sp => sp.MyStrats).ToList();
+            latestWorkgroup.AssignedSpInstr = studentCourseInit.First().Instrument;
+            latestWorkgroup.AssignedSpInstr.InventoryCollection = studentCourseInit.First().Inventories.ToList();
+          
+            return groupMembers.AsQueryable();
         }
 
         public IQueryable<StudentInCourse> GetSingleCourse()
@@ -70,18 +89,32 @@ namespace Ecat.StudMod.Core
             throw new NotImplementedException();
         }
 
+
+        //private IQueryable<WorkGroup> GetSingleWrkGrp(int groupId)
+        //{
+        //    var completeWorkgroup =  _repo.WorkGroups(false)
+        //        .Where(wg=> wg.Id == groupId)
+        //        .Include(gm => gm.GroupMembers)
+        //        .Include()
+        //}
+
         public IQueryable<CrseStudentInGroup> GetSingleWrkGrpMembers()
         {
+
             return _repo.CrseStudentInGroups
-                .Where(gm => gm.StudentId == StudentPerson.PersonId)
+                .Where(
+                    gm => gm.AssessorSpResponses.Any(assessor => assessor.AssessorPersonId == StudentPerson.PersonId) ||
+                          gm.AuthorOfComments.Any(aoc => aoc.AuthorPersonId == StudentPerson.PersonId) ||
+                          gm.AssessorStratResponse.Any(aos => aos.AssessorPersonId == StudentPerson.PersonId))
+                .Include(gm => gm.AssessorSpResponses)
                 .Include(gm => gm.WorkGroup.AssignedSpInstr)
                 .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)
                 .Include(gm => gm.AssessorStratResponse)
                 .Include(gm => gm.AuthorOfComments)
                 .Include(gm => gm.AuthorOfComments.Select(f => f.Flag))
                 .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student))
-                .Include(gm => gm.WorkGroup.GroupMembers.Select(p => p.StudentInCourse.Student.Person));
+                .Include(gm => gm.AssesseeSpResponses.Select(stud => stud.Assessee.StudentProfile.Person))
+                .Include(gm => gm.AssesseeSpResponses.Select(stud => stud.Assessee.StudentProfile));
         }
 
         async Task<SpResult> IStudLogic.GetWrkGrpResult(int wgId, bool addInstrument)

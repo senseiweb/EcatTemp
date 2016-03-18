@@ -5,6 +5,7 @@ using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Reflection;
 using Ecat.Shared.Core.Interface;
+using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
@@ -69,6 +70,7 @@ namespace Ecat.StudMod.Core
         public IDbSet<StudSpComment> StudSpComments { get; set; }
         public IDbSet<StratResponse> StratRepoResponses { get; set; }
         public IDbSet<StratResult> StratResults { get; set; }
+        public IDbSet<SpInventory> Inventories { get; set; } 
     }
 
 }

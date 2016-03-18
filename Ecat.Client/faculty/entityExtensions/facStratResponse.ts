@@ -1,11 +1,6 @@
 ﻿import * as _mp from 'core/common/mapStrings'
 
-export class FacSpStratResponseExt implements ecat.entity.ext.IStratEvaluator {
-    isValid = false;
-    validationErrors: Array<{ cat: string, text: string }>;
-    proposedPosition: number = null;
-
-}
+export class FacSpStratResponseExt {}
 
 export var facStratCfg: ecat.entity.ext.IEntityExtension = {
     entityName: _mp.MpEntityType.facStratResponse,

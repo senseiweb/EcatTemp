@@ -5,7 +5,7 @@ export class CrseStudInGrpInit {
     constructor(memberInGrpEntity: ecat.entity.ICrseStudInGroup) { }
 }
 
-export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
+export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt, ecat.entity.ext.IStratEvaluator {
     protected entityId: string;
     protected studentId: number;
     protected studentProfile: ecat.entity.IStudentProfile;
@@ -16,7 +16,9 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt {
     protected _spRationaleResult: ecat.entity.ext.ICrseStudInGrpResult;
     protected _salutation: string;
 
-    proposedStrat: number = null;
+    proposedStratPosition: number = null;
+    stratIsValid = false;
+    stratValidationErrors: Array<{ cat: string, text: string }>;
 
     updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
         const groupPeers = this.workGroup.groupMembers;
