@@ -86,17 +86,9 @@ export default class EcStudAssess {
         let requireReload = false;
 
         if (!view) {
-            switch (this.activeView) {
-                case StudAssessViews.PeerList:
-                    return this.changeActiveView('assess', true);
-                case StudAssessViews.StratList:
-                    return this.changeActiveView('strat', true);
-                case StudAssessViews.ResultMyReport:
-                    return this.changeActiveView('myReport', true);
-                case StudAssessViews.ResultComment:
-                    return this.changeActiveView('comment', true);
-            }
+            return this.changeActiveView('assess', true);
         }
+
 
         switch (view) {
         case 'assess':

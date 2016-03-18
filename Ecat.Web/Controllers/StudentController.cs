@@ -54,9 +54,9 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<CrseStudentInGroup> ActiveWorkGroup(int grpId)
+        public async Task<CrseStudentInGroup> ActiveWorkGroup(int wgId)
         {
-            return await _studLogic.GetSingleWrkGrpMembers(grpId);
+            return await _studLogic.GetSingleWrkGrpMembers(wgId);
         }
 
         [HttpGet]

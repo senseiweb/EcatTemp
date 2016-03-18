@@ -218,7 +218,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         return this.query.from(api.workGroup.resource)
             .using(this.manager)
-            .where(predKey)
+            .withParameters({wgId: this.activeGroupId})
             .execute()
             .then(getActiveWorkGrpResponse)
             .catch(this.queryFailed);

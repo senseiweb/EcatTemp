@@ -1,12 +1,14 @@
-﻿<div ng-if="assess.activeView === assess.view.myReport"><div class="row">
-    <div class="col-md-12">
-        <div class="text-center">
-            <h3 class="lead">Who Knows</h3>
+﻿<div ng-if="assess.activeView === assess.view.myReport">
+    
+    <!--<div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h3 class="lead">Who Knows</h3>
+            </div>
         </div>
     </div>
-</div>
 
-    <hr/>
+    <hr/>-->
 
     <div class="row">
         <div class="col-md-12 p-t-20">
@@ -35,9 +37,8 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            <a href="javascript:void(0)">
-                                {{::item.resultBreakOut.selfResult}}
-                            </a>
+                            {{::item.resultBreakOut.selfResult}}
+
                         </td>
                         <td class="text-center">
                             <a href="javascript:void(0)"
@@ -50,9 +51,7 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            <a href="javascript:void(0)">
-                                {{::item.resultBreakOut.facultyResult}}
-                            </a>
+                            {{::item.resultBreakOut.facultyResult}}
                         </td>
                     </tr>
                     </tbody>
@@ -60,7 +59,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 
 

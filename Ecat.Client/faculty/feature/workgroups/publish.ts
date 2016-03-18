@@ -161,7 +161,7 @@ export default class EcFacultyWgPublish {
     }
 
     private deleteUnsavedChanges(): void {
-        const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition === null);
+        const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition !== null);
         const hasUnsavedComments = this.groupMembers.some(gm => gm.authorOfComments.some(aoc => aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()));
 
         if (hasUnsavedStrats)

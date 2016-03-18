@@ -50,17 +50,17 @@
 
                             <div sp-break-out-chart
                                  charttype="pie"
-                                 dataset="al.me.statusOfPeer[al.myStrat.assessee.studentId].breakOutChartData"
+                                 dataset="al.me.statusOfPeer[al.me.studentId].breakOutChartData"
                                  class="spflot-chart-pie"
                                  legend="flotlegend{{$index}}"> </div>
                             <div id="flotlegend{{$index}}" style="display: none"></div>
                         </div>
                     </td>
                     <td class="text-center">
-                        <span ng-if="al.me.statusOfPeer[al.me.studentId].stratPosition" style="width: 100px; font-size: 1.6em">
-                                {{al.me.statusOfPeer[al.me.studentId].stratPosition}}
+                        <span ng-if="al.me.statusOfPeer[al.me.studentId].stratedPosition" style="width: 100px; font-size: 1.6em">
+                                {{al.me.statusOfPeer[al.me.studentId].stratedPosition}}
                             </span>
-                        <span ng-if="!al.me.statusOfPeer[al.me.studentId].stratPosition">
+                        <span ng-if="!al.me.statusOfPeer[al.me.studentId].stratedPosition">
                                 None
                             </span>
                     </td>
@@ -72,7 +72,7 @@
                                max="groups.selectedGroup.groupMembers.length"
                                ng-change="al.evaluateStrat()"
                                ng-disabled="al.isSaving"
-                               ng-model="al.me.proposedPosition"
+                               ng-model="al.me.proposedStratPosition"
                                ng-model-options="{debounce: 1000}"
                                tabindex="{{$index + 1}}"/>
                     </td>
@@ -102,7 +102,7 @@
                             <span class="sp-graph-composite">{{al.me.statusOfPeer[peer.studentId].compositeScore}}</span>
                             <div sp-break-out-chart
                                  charttype="pie"
-                                 dataset="al.me.statusOfPeer[strat.assessee.studentId].breakOutChartData"
+                                 dataset="al.me.statusOfPeer[peer.studentId].breakOutChartData"
                                  class="spflot-chart-pie"
                                  legend="flotlegend{{$index}}"> </div>
                             <div id="flotlegend{{$index}}" style="display: none"></div>

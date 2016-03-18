@@ -58,6 +58,7 @@ export default class EcStudAssessResult {
             });
 
             that.selectedComment = result.sanitizedComments[0];
+            that.studentComments = result.sanitizedComments;
             that.activeView = StudAssessViews.ResultMyReport;
         }
 

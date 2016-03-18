@@ -46,14 +46,20 @@ export default class EcSpTools {
     }
 
     evaluateStratification(workGroup: ecat.entity.IWorkGroup, isInstructor?: boolean, force?: boolean): angular.IPromise<Array<ecat.entity.ICrseStudInGroup>> {
-
+        const that = this;
         if (this.off) {
             this.$to.cancel(this.off);
         }
 
         function evaluate(): Array<ecat.entity.ICrseStudInGroup>{
-                const members = workGroup.groupMembers;
-
+            const members = workGroup.groupMembers;
+            if (members.length > 12) console.log('I have more than 12', members);
+                //if (!isInstructor) {
+                //    that.dCtx.student.getActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {
+                //        members = wg.groupMembers;
+                //    });
+                //} else {
+                //}
                 members.forEach((member: ecat.entity.ICrseStudInGroup, i, array: Array<ecat.entity.ICrseStudInGroup>) => {
                     member.stratValidationErrors = [];
                     if (!member.assesseeStratResponse[0] && !member.proposedStratPosition) {
@@ -98,7 +104,7 @@ export default class EcSpTools {
                             array
                                 .filter(p => p.assesseeStratResponse.some(response => response.stratPosition === member.proposedStratPosition && p.proposedStratPosition === null))
                                 .forEach(pp => {
-                                    pp.stratValidationErrors.push({
+                                    member.stratValidationErrors.push({
                                         cat: 'Duplicate',
                                         text: `${pp.rankName}: is currently at this position without a proposed change.`
                                     });

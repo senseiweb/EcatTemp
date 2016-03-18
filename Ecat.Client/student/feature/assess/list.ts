@@ -7,7 +7,7 @@ import _swal from "sweetalert"
 //TODO: Need to add logic if the workgroup status is published to make everything readonly
 export default class EcStudAssessList {
     static controllerId = 'app.student.assessment.list';
-    static $inject =  [ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
+    static $inject =  ['$scope',ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     //#region Controller Properties
     protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false };
@@ -40,7 +40,7 @@ export default class EcStudAssessList {
     protected workGroups: ecat.entity.IWorkGroup[];
     //#endregion
 
-    constructor(private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
+    constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
 
         if (c.$stateParams.crseId) {
             this.routingParams.crseId = c.$stateParams.crseId;
@@ -50,6 +50,41 @@ export default class EcStudAssessList {
             this.routingParams.wgId = c.$stateParams.wgId;
             dCtx.student.activeGroupId = c.$stateParams.wgId;
         }
+
+        $scope.$on('$stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => {
+
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Wait a minute!',
+                text: 'You have unsaved changes',
+                closeOnConfirm: true,
+                closeOnCancel: true,
+                showConfirmButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Continue'
+            }
+
+            const hasUnsavedStrats = this.activeGroup.groupMembers.some(gm => gm.proposedStratPosition !== null);
+
+            //TODO: Jason fix up text
+            alertSettings.text = `${alertSettings.text}`;
+
+            if (hasUnsavedStrats) {
+                $event.preventDefault();
+                _swal(alertSettings, (confirmed?: boolean) => {
+                    if (confirmed) {
+                        this.activeGroup.groupMembers
+                            .filter(gm => gm.proposedStratPosition !== null)
+                            .forEach(gm => {
+                                gm.proposedStratPosition = null;
+                                gm.stratValidationErrors = [];
+                                gm.stratIsValid = true;
+                            });
+                       c.$state.go(to.name,toParams);
+                    }
+                });
+            }
+        });
         this.activate();
     }
 
@@ -86,9 +121,7 @@ export default class EcStudAssessList {
                 }
             });
             that.peers = grpMembers.filter(gm => gm.studentId !== myId);
-
             that.evaluateStrat();
-
         }
 
         function activationError(error: any) {
@@ -166,18 +199,18 @@ export default class EcStudAssessList {
         const that = this;
         this.evaluateStrat(true);
 
-        const hasErrors = this.peers.some(peer => !peer.stratIsValid);
+        const hasErrors = this.activeGroup.groupMembers.some(gm => !gm.stratIsValid);
 
         if (hasErrors) {
             _swal('Not ready', 'Your proposed changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
             return null;
         }
 
-        const changeSet = this.peers.filter(peers => peers.proposedStratPosition !== null);
+        const changeSet = this.activeGroup.groupMembers.filter(gm => gm.proposedStratPosition !== null);
 
-        changeSet.forEach(peer => {
-            const stratResponse = this.dCtx.student.getSingleStrat(peer.studentId);
-            stratResponse.stratPosition = peer.proposedStratPosition;
+        changeSet.forEach(gm => {
+            const stratResponse = this.dCtx.student.getSingleStrat(gm.studentId);
+            stratResponse.stratPosition = gm.proposedStratPosition;
         });
 
         return this.dCtx.student.saveChanges(changeSet)
@@ -185,11 +218,12 @@ export default class EcStudAssessList {
             .catch(saveChangesError);
 
         function saveChangesResponse(): void {
-            that.peers.forEach((peer) => {
-                peer.stratValidationErrors = [];
-                peer.stratIsValid = true;
-                peer.proposedStratPosition = null;
+            that.activeGroup.groupMembers.forEach(gm => {
+                gm.stratValidationErrors = [];
+                gm.stratIsValid = true;
+                gm.proposedStratPosition = null;
             });
+            that.me.updateStatusOfPeer();
             that.log.success('Save Stratification, Your changes have been made.', null, true);
         }
 

@@ -105,8 +105,10 @@ export default class EcDirSpBreakOutPie implements angular.IDirective {
         xticks: '='
     };
    
-    link = (scope, element: angular.IAugmentedJQuery, attrs) => {
+    link = (scope: ISpBoChartScope, element: angular.IAugmentedJQuery, attrs) => {
         let chartOps = null;
+
+       
         switch (attrs.charttype) {
         case 'bar':
             this.breakOptsBar.xaxis.ticks = scope.xticks;
@@ -122,8 +124,20 @@ export default class EcDirSpBreakOutPie implements angular.IDirective {
         }
 
         if (chartOps) chartOps.legend.container = `#${scope.legend}`;
-        element.plot(scope.dataset,chartOps);
+
+        element.plot(scope.dataset, chartOps);
+
+        scope.$watch('dataset', (newValue: any, oldValue: any) => {
+            element.plot(newValue, chartOps);
+        });
+
     }
         
 
+}
+
+interface ISpBoChartScope extends angular.IScope {
+    dataset: any;
+    legend: any;
+    xticks: any;
 }
