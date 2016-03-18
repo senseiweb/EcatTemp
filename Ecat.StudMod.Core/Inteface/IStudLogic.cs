@@ -14,9 +14,8 @@ namespace Ecat.StudMod.Core
         SaveResult ClientSave(JObject saveBundle);
         IQueryable<CrseStudentInGroup> GetInitalCourses();
         IQueryable<StudentInCourse> GetSingleCourse();
-        IQueryable<CrseStudentInGroup> GetSingleWrkGrpMembers();
-        Task<SpResult> GetWrkGrpResult(int wgId, bool addInstrument); 
-
+        Task<SpResult> GetWrkGrpResult(int wgId, bool addInstrument);
+        Task<CrseStudentInGroup> GetSingleWrkGrpMembers(int wgId);
         string GetMetadata { get; }
     }
 }

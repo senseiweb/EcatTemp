@@ -63,7 +63,7 @@ namespace Ecat.StudMod.Core
                     MyComments =
                         gm.SelectMany(g => g.AuthorOfComments)
                         .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
-                }).Take(1).ToList();
+                }).ToList();
 
 
             var groupMembers = studentCourseInit.Select(csig => new CrseStudentInGroup
@@ -96,32 +96,51 @@ namespace Ecat.StudMod.Core
             throw new NotImplementedException();
         }
 
-
-        //private IQueryable<WorkGroup> GetSingleWrkGrp(int groupId)
-        //{
-        //    var completeWorkgroup =  _repo.WorkGroups(false)
-        //        .Where(wg=> wg.Id == groupId)
-        //        .Include(gm => gm.GroupMembers)
-        //        .Include()
-        //}
-
-        public IQueryable<CrseStudentInGroup> GetSingleWrkGrpMembers()
+        async Task<CrseStudentInGroup> IStudLogic.GetSingleWrkGrpMembers(int wgId)
         {
+            var singleGroup = await (from csig in _repo.CrseStudentInGroups
+                where csig.StudentId == StudentPerson.PersonId &&
+                      !csig.IsDeleted &&
+                      csig.WorkGroupId == wgId
+                let peers = csig.WorkGroup.GroupMembers.Where(gm => !gm.IsDeleted)
+                select new
+                {
+                    csig.StudentId,
+                    csig.CourseId,
+                    csig.WorkGroupId,
+                    csig.Course,
+                    csig.WorkGroup,
+                    GroupMembers = peers,
+                    Instrument = csig.WorkGroup.AssignedSpInstr,
+                    Inventories = csig.WorkGroup.AssignedSpInstr.InventoryCollection,
+                    GroupPeersPerson = peers.Select(mem => mem.StudentProfile.Person),
+                    GroupPeersProfile = peers.Select(mem => mem.StudentProfile),
+                    MyAssesses =
+                        peers.SelectMany(g => g.AssessorSpResponses)
+                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
+                    MyStrats =
+                        peers.SelectMany(g => g.AssessorStratResponse)
+                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
+                    MyComments =
+                        peers.SelectMany(g => g.AuthorOfComments)
+                            .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
+                }).SingleAsync();
 
-            return _repo.CrseStudentInGroups
-                .Where(
-                    gm => gm.AssessorSpResponses.Any(assessor => assessor.AssessorPersonId == StudentPerson.PersonId) ||
-                          gm.AuthorOfComments.Any(aoc => aoc.AuthorPersonId == StudentPerson.PersonId) ||
-                          gm.AssessorStratResponse.Any(aos => aos.AssessorPersonId == StudentPerson.PersonId))
-                .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.WorkGroup.AssignedSpInstr)
-                .Include(gm => gm.WorkGroup.AssignedSpInstr.InventoryCollection)
-                .Include(gm => gm.AssessorStratResponse)
-                .Include(gm => gm.AuthorOfComments)
-                .Include(gm => gm.AuthorOfComments.Select(f => f.Flag))
-                .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.AssesseeSpResponses.Select(stud => stud.Assessee.StudentProfile.Person))
-                .Include(gm => gm.AssesseeSpResponses.Select(stud => stud.Assessee.StudentProfile));
+            var crseStudInGroup = new CrseStudentInGroup
+            {
+                StudentId = singleGroup.StudentId,
+                CourseId = singleGroup.CourseId,
+                WorkGroupId = singleGroup.WorkGroupId,
+                Course = singleGroup.Course,
+                WorkGroup = singleGroup.WorkGroup,
+            };
+
+            crseStudInGroup.WorkGroup.GroupMembers = singleGroup.GroupMembers.ToList();
+            crseStudInGroup.WorkGroup.SpResponses = singleGroup.MyAssesses.ToList();
+            crseStudInGroup.WorkGroup.SpStratResponses = singleGroup.MyStrats.ToList();
+            crseStudInGroup.WorkGroup.SpComments = singleGroup.MyComments.ToList();
+
+            return crseStudInGroup;
         }
 
         async Task<SpResult> IStudLogic.GetWrkGrpResult(int wgId, bool addInstrument)
