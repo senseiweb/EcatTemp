@@ -86,7 +86,7 @@ namespace Ecat.FacMod.Core
             //_repo.AddCourseWorkgroups(latestCourse);
 
             var crseWgNotPublish =
-                latestCourse.WorkGroups.Where(wg => wg.MpSpStatus == MpSpStatus.Open).Select(wg => wg.Id);
+                latestCourse.WorkGroups.Where(wg => wg.MpSpStatus == MpSpStatus.Open || wg.MpSpStatus == MpSpStatus.UnderReview).Select(wg => wg.Id);
 
             var grpIdsReadyForPublish = _repo.CanWgPublish(crseWgNotPublish.ToList());
 
