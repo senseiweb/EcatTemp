@@ -147,7 +147,13 @@ export default class EcStudAssessList {
                 if (this.isViewOnly) {
                     return;
                 }
-                const updatedPeer = this.peers.filter(peer => peer.studentId === assesseeId)[0];
+
+                let updatedPeer = this.peers.filter(peer => peer.studentId === assesseeId)[0];
+
+                if (!updatedPeer) {
+                    updatedPeer = this.me;
+                }
+
                 this.me.updateStatusOfPeer();
                 updatedPeer['hasChartData'] = this.me.statusOfPeer[updatedPeer.studentId].breakOutChartData.some(cd => cd.data > 0);
                 updatedPeer['assessText'] = this.me.statusOfPeer[updatedPeer.studentId].assessComplete ? 'Edit' : 'Add';

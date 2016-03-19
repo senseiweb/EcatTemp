@@ -89,6 +89,7 @@
                                 <li ng-repeat="wg in assess.workGroups track by wg.id ">
                                     <a href="javascript:void(0)"
                                        ng-click="assess.setActiveGroup(wg, false)">
+                                        <i ng-if="wg.id === assess.activeGroup.id" class="zmdi zmdi-toys zmdi-hc-fw"></i>
                                         {{wg.displayName}}
                                     </a>
                                 </li>
