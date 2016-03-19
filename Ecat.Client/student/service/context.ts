@@ -236,7 +236,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             const studInGroup = data.results[0] as ecat.entity.ICrseStudInGroup;
 
             workGroup = studInGroup.workGroup;
-
+            
             if (!workGroup) {
                 return _common.$q.reject(() => log.warn('Query succeeded, but the course membership did not return a result', data, false)) as any;
             }

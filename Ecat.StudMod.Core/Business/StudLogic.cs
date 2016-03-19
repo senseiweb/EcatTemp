@@ -141,7 +141,7 @@ namespace Ecat.StudMod.Core
                 WorkGroup = singleGroup.WorkGroup,
             };
 
-            crseStudInGroup.WorkGroup.GroupMembers = singleGroup.GroupMembers.ToList();
+            crseStudInGroup.WorkGroup.GroupMembers = singleGroup.GroupMembers.Where(gm => gm.StudentId != StudentPerson.PersonId).ToList();
             crseStudInGroup.WorkGroup.SpResponses = singleGroup.MyAssesses.ToList();
             crseStudInGroup.WorkGroup.SpStratResponses = singleGroup.MyStrats.ToList();
             crseStudInGroup.WorkGroup.SpComments = singleGroup.MyComments.ToList();
