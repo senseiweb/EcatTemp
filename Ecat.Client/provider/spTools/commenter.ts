@@ -89,6 +89,8 @@ export default class EcProviderSpToolCommenter {
 
             _swal(alertSetting, (confirmed?: boolean) => {
                 if (confirmed) {
+
+
                     if (this.comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
                         this.comment.flag.entityAspect.rejectChanges();
                     }

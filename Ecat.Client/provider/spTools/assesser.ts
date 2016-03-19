@@ -107,7 +107,7 @@ export default class EcProviderSpToolAssessTaker {
                 showCancelButton: true,
                 showConfirmButton: true,
                 closeOnCancel: true,
-                closeOnConfirm: false,
+                closeOnConfirm: true,
                 confirmButtonColor: '#F44336',
                 confirmButtonText: 'Yes',
                 cancelButtonText: 'No'
@@ -120,7 +120,7 @@ export default class EcProviderSpToolAssessTaker {
                         item['isChanged'] = false;
                     });
                     this.$mi.close('User canceled');
-                    _swal('Success!', 'Gotta it...changes canceled.', 'success');
+                    //_swal('Success!', 'Gotta it...changes canceled.', 'success');
                 } 
             });
         } else {
