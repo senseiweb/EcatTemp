@@ -171,7 +171,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
 
     get behaviorEllipse(): string {
         if (this.behavior) {
-            return this.behavior.substr(0, 25);
+            return this.behavior.substr(0, 50);
         }
         return null;
     }

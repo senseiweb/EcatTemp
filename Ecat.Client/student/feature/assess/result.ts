@@ -55,6 +55,10 @@ export default class EcStudAssessResult {
 
                     comment['initials'] = parts[0].charAt(0) + parts[1].charAt(0);
                 }
+            });        
+            
+            result.assignedInstrument.inventoryCollection.forEach(inv => {
+                inv['needsEllipse'] = inv.behavior.length <= 50;
             });
 
             that.selectedComment = result.sanitizedComments[0];

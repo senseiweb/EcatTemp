@@ -3,9 +3,9 @@
 export class FacWorkGroupInitizer {
 
     constructor(facWorkGrouppEntity:any) {
-        if (facWorkGrouppEntity.assignedSpInstr && facWorkGrouppEntity.groupMembers) {
-            facWorkGrouppEntity.getFacAssessStatus();
-        }
+        //if (facWorkGrouppEntity.assignedSpInstr && facWorkGrouppEntity.groupMembers) {
+        //    facWorkGrouppEntity.getFacAssessStatus();
+        //}
     }
 
 }

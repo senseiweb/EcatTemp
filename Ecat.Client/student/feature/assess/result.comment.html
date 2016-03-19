@@ -2,12 +2,7 @@
     <div class="row">
         <div class="col-md-3" style="padding-right: 0;">
             <div class="ms-menu">
-                <!--TODO: What are doing here, anything?-->
-                <div class="ms-block">
-                    Add member picture...perhaps
-                </div>
-
-                <div class="listview lv-user ecat-messages m-t-20">
+                <div class="listview lv-user ecat-messages m-t-0">
                     <div class="lv-item media"
                          ng-class="{'active': ar.selectedComment.authorId === comment.authorId}"
                          ng-repeat="comment in ar.studentComments track by comment.authorId"
@@ -35,11 +30,7 @@
                         </div>
                         <div ng-if="ar.selectedComment !== null">
                             <div class="text-center p-b-5">
-                                <h3 class="f-300 m-t-0">From {{ar.selectedComment.authorName}}</h3>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="pull-left">
-                                <h4 class="f-400">Comment type: {{ar.selectedComment.commentType}}</h4>
+                                <h3 class="f-300 m-t-0">From: {{ar.selectedComment.authorName}}</h3>
                             </div>
                             <div class="clearfix"></div>
                             <div class="media">
@@ -62,5 +53,5 @@
     </div>
 </div>
 <div ng-if="!ar.hasComments">
-    <p class="text-center lead f-400">You didn't recieve any comments</p>
+    <p class="text-center lead f-400 p-30">You didn't recieve any comments</p>
 </div>

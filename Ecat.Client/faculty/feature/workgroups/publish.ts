@@ -40,6 +40,7 @@ export default class EcFacultyWgPublish {
 
     private activate(): void {
 
+
         this.$scope.$on('$stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => {
 
             const alertSettings: SweetAlert.Settings = {
@@ -60,18 +61,28 @@ export default class EcFacultyWgPublish {
             const hasUnsavedComments = this.groupMembers.some(gm => gm.authorOfComments.some(aoc => aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()));
 
             //TODO: Jason fix up text
-            alertSettings.text = `${alertSettings.text}`;
 
-            if (hasUnsavedComments || hasUnsavedStrats)
+            if (hasUnsavedComments) {
+                alertSettings.text = `${alertSettings.text} Comments \n\n`;    
+            }
+            
+            if (hasUnsavedStrats) {
+                alertSettings.text = `${alertSettings.text} Stratify\n\n`;
+            }
+
+            alertSettings.text = `${alertSettings.text} Are you sure you want to continue?`;
+
+
+            if (hasUnsavedComments || hasUnsavedStrats) {
                 $event.preventDefault();
-            _swal(alertSettings, (confirmed?: boolean) => {
-                if (confirmed) {
-                    this.deleteUnsavedChanges();
-                    this.c.$state.go(to, toParams);
-                }
-            });
+                _swal(alertSettings, (confirmed?: boolean) => {
+                    if (confirmed) {
+                        this.deleteUnsavedChanges();
+                        this.c.$state.go(to, toParams);
+                    }
+                });
+            }
         });
-
 
         if (!this.routingParams.crseId || !this.routingParams.wgId) {
             const alertSettings: SweetAlert.Settings = {
@@ -418,7 +429,6 @@ export default class EcFacultyWgPublish {
 
         if (this.pubState === PubState.Strat && !this.isPublishing) {
             this.evaluateStrat(true);
-
             const hasErrors = this.groupMembers.some(member => !member.stratIsValid);
 
             if (hasErrors) {
@@ -437,7 +447,10 @@ export default class EcFacultyWgPublish {
 
             return this.dCtx.faculty.saveChanges(changeSet)
                 .then(stratSaveChangesResponse)
-                .finally(() => { this.isSaving = false });
+                .finally(() => {
+                    this.checkPublishingReady();
+                    this.isSaving = false;
+                });
         }
 
         if (this.pubState === PubState.Comment && !this.isPublishing) {
@@ -455,6 +468,7 @@ export default class EcFacultyWgPublish {
                 .then(commentSaveChangesResponse)
                 .catch(saveChangesError)
                 .finally(() => {
+                    this.checkPublishingReady();
                     this.isSaving = false;
                 });
         }

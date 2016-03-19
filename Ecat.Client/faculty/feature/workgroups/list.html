@@ -43,11 +43,8 @@
                         <table class="table table-hover table-vmiddle">
                             <thead class="f-16">
                             <tr>
-                                <th class="header col-md-3 text-left f-16 f-400">
-                                    
-                                        Flight
-
-                                        
+                                <th class="header col-md-3 text-left f-16 f-400">                                  
+                                        Flight                                    
                                 </th>
 
                                 <th class="header col-md-3 text-left f-400 f-16">
@@ -108,7 +105,7 @@
 
                                 </tr>
 
-                                <tr class="text-left" ng-repeat="wg in wkl.activeCourse.workGroups | orderBy: wkl.activeSort.opt:wkl.activeSort.desc | orderBy: 'defaultName' | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.id"
+                                <tr class="text-left" ng-repeat="wg in wkl.activeCourse.workGroups | orderBy: wkl.activeSort.opt:wkl.activeSort.desc | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.id"
                                     ng-mouseover="wg.isVisible = true" ng-mouseleave="wg.isVisible = false" style="height: 55px">
                                     <td>{{wg.defaultName}}</td>
                                     <td>{{wg.mpCategory}}</td>

@@ -51,7 +51,7 @@ export default class EcFacultyWgResult {
             }
 
             groupMembers.forEach(gm => {
-                gm['hasReceivedCharData'] = gm.resultForStudent.breakOutReceived.some(cd => cd.data > 0);
+                gm['hasReceivedChartData'] = gm.resultForStudent.breakOutReceived.some(cd => cd.data > 0);
                 gm['hasGivenChartData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);
             });
 

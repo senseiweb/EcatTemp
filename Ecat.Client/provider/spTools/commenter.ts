@@ -73,7 +73,7 @@ export default class EcProviderSpToolCommenter {
             this.$mi.close('Results are Published');
         }
 
-        if (this.nf.$dirty) {
+        if (this.nf.$dirty && !this.isPublished) {
             const alertSetting: SweetAlert.Settings = {
                 title: 'Caution, Unsaved Changes',
                 text: 'You have made changes to this comment that have not been saved.\n\n Are you sure you want to cancel them?',

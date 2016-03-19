@@ -14,15 +14,15 @@
         <div class="col-md-12 p-t-20">
             <div class="table-responsive">
                 <table class="table table-hover tableCenterAlign">
-                    <thead>
+                    <thead class="f-16">
                     <tr>
-                        <th class="col-md-3">Behavior</th>
-                        <th class="col-md-3 text-center">Self<br/>Perspective</th>
-                        <th class="col-md-3 text-center">Peers<br/>Perspective</th>
-                        <th class="col-md-3 text-center">Faculty<br/>Perspective</th>
+                        <th class="col-md-4 f-400">Behavior</th>
+                        <th class="col-md-2 f-400 text-center">Self<br/>Perspective</th>
+                        <th class="col-md-2 f-400 text-center">Peers<br/>Perspective</th>
+                        <th class="col-md-2 f-400 text-center">Faculty<br/>Perspective</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="f-14">
                     <tr ng-repeat="item in ar.resultInventory track by item.id">
                         <td>
                             <span ng-show="!item.showBehavior">
@@ -31,7 +31,7 @@
                             <span ng-show="item.showBehavior">
                                 {{::item.behavior}}
                             </span> &nbsp;
-                            <a href="javascript:void(0)" class="f-500"
+                            <a ng-if="!item.needsEllipse" href="javascript:void(0)" class="f-500"
                                ng-click="item.showBehavior = !item.showBehavior">
                                 ...
                             </a>
