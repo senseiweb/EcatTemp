@@ -32,6 +32,7 @@ export default class EcFacultyWgAssess {
         this.dCtx.faculty.fetchActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {
             this.activeWg = wg;
 
+            this.activeWg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}`
             this.isViewOnly = wg.mpSpStatus === _mp.MpSpStatus.published || wg.mpSpStatus === _mp.MpSpStatus.arch;
 
             wg.groupMembers.forEach(gm => {

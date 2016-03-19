@@ -21,6 +21,7 @@
                             <div id="sp-chart-data-{{$index}}" ng-if="::member.hasChartData">
                                 <span class="sp-graph-composite">{{::member.statusOfStudent.compositeScore}}</span>
                                 <div sp-break-out-chart
+                                     charttype="pie"
                                      dataset="member.statusOfStudent.breakOutChartData"
                                      class="spflot-chart-pie" 
                                      legend="flotlegend{{$index}}"> </div>

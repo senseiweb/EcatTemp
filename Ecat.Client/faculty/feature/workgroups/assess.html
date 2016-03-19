@@ -1,28 +1,37 @@
 ﻿<div class="card" id="assessments-main">
     <div class="listview lv-bordered lv-lg">
         <div class="lv-header-alt clearfix p-b-15">
-
-            <a href="javascript:void(0)"
-               type="button"
-               class="btn btn-link pull-left"
-               ui-sref="{{stateMgr.faculty.wgList.name}}">
-                <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to WorkGroups
-            </a>
-
-            <ul class="lv-actions actions">
-
-                <li class="dropdown" uib-dropdown>
-                    <a href="" uib-dropdown-toggle>
-                        <i class="zmdi zmdi-more-vert"></i>
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="javascript:void(0)"
+                       type="button"
+                       class="btn btn-link pull-left"
+                       ui-sref="{{stateMgr.faculty.wgList.name}}">
+                        <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to WorkGroups
                     </a>
+                </div>
 
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li>
-                            <a href="">Refresh Data</a>
+                <div class="col-md-4">
+                    <h4 class="f-400 text-center">{{wka.activeWg.displayName}}</h4>
+                </div>
+
+                <div class="col-md-4">
+                    <ul class="lv-actions actions">
+
+                        <li class="dropdown" uib-dropdown>
+                            <a href="" uib-dropdown-toggle>
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Refresh Data</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
 
         <div class="lv-body">
@@ -89,6 +98,7 @@
                                         <div id="sp-chart-data-{{$index}}" ng-if="member.hasChartData">
                                             <span class="sp-graph-composite">{{member.statusOfStudent.compositeScore}}</span>
                                             <div sp-break-out-chart
+                                                 charttype="pie"
                                                  dataset="member.statusOfStudent.breakOutChartData"
                                                  class="spflot-chart-pie" 
                                                  legend="flotlegend{{$index}}"> </div>
