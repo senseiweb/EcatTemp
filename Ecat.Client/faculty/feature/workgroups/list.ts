@@ -35,8 +35,8 @@ export default class EcFacultyWgList {
     
     private mp = _mp.MpSpStatus;
     private activeCourse: ecat.entity.ICourse;
-    protected activeSort: {opt: string, desc: boolean} = { opt: 'mpCategory', desc: false};
-    private canPublish = false;
+    protected activeSort: { opt: string, desc: boolean } = { opt: 'mpCategory', desc: false };
+    //private canPublish: boolean;
     protected courses: Array<ecat.entity.ICourse> = [];
     private filters: IWgCatFilter = {
         cat: { optionList: [], filterWith: [] },

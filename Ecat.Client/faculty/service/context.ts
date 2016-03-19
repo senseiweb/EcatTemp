@@ -219,7 +219,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const that = this;
         let workGroup: ecat.entity.IWorkGroup;
         const cachedWg = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
-        
+        let canPub = cachedWg.canPublish;
         //A loaded workgroup is a group that has group members on the client, not just the workgroup entity.
         if (this.isLoaded.workGroup[this.activeGroupId]) {
             if (cachedWg) {
@@ -256,6 +256,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             workGroup = groupMembers[0].workGroup;
             
             that.isLoaded.workGroup[workGroup.id] = true;
+            workGroup.canPublish = canPub;
             const inventory = workGroup.assignedSpInstr.inventoryCollection;
             
             if (inventory && inventory.length > 0 ) {

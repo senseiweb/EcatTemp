@@ -48,7 +48,6 @@ namespace Ecat.FacMod.Core
                 .Where(gm => gm.WorkGroup.Course.Faculty
                     .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId && fac.FacultyProfile.Person.IsActive))
                 .Where(gm => gm.CourseId == courseId && gm.WorkGroupId == workGroupId)
-                .Include(fc => fc.Course.WorkGroups)
                 .Include(gm => gm.WorkGroup)
                 .Include(gm => gm.FacultyComment)
                 .Include(gm => gm.FacultyStrat)
