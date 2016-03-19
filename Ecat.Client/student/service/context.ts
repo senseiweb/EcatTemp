@@ -31,11 +31,11 @@ export default class EcStudentRepo extends IUtilityRepo {
     private studentApiResources: IStudentApiResources = {
         courses: {
             returnedEntityType: _mp.MpEntityType.crseStudInGrp,
-            resource: 'GetCourse'
+            resource: 'GetCourses'
         },
         course: {
             returnedEntityType: _mp.MpEntityType.studCrseMember,
-            resource: 'GetCourse'
+            resource: 'GetCourses'
         },
         workGroup: {
             returnedEntityType: _mp.MpEntityType.crseStudInGrp,

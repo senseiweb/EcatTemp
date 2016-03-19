@@ -69,7 +69,7 @@ namespace Ecat.StudMod.Core
 
           var studInCrseList = crseId != null ? studentCourseInit.Where(crse => crse.CourseId == crseId).ToList() : studentCourseInit.ToList();
 
-            var groupMembers = studentCourseInit.Select(csig => new CrseStudentInGroup
+            var groupMembers = studInCrseList.Select(csig => new CrseStudentInGroup
             {
                 StudentId = csig.StudentId,
                 CourseId = csig.Course.Id,
