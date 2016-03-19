@@ -120,7 +120,7 @@
     {
         public const string Pos = "Postiive",
             Neg = "Negative",
-            Neut = "Netural",
+            Neut = "Neutral",
             Appr = "Appropriate",
             Inappr = "Inappropriate";
     }

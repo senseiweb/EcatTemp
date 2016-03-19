@@ -43,7 +43,7 @@ export class MpPaygrade {
 export class MpCommentFlag {
     static pos = "Positive";
     static neg = "Negative";
-    static neut = "Netural";
+    static neut = "Neutral";
     static appr = "Appropriate";
     static inappr = "Inappropriate";
 }
