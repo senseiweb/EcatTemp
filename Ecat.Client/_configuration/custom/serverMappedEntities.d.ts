@@ -97,6 +97,7 @@ declare module ecat.entity
             spResult: ISpResult;
             compositeScore: number;
             reset(): void;
+            rejectChanges(): void;
             behaviorFreq: number;
             behaviorEffect: number;
             behaviorDisplayed: boolean;

@@ -166,10 +166,14 @@ export default class EcProviderSpToolAssessTaker {
     protected closeEditAssessItem(inventoryItem: ecat.entity.ISpInventory, save: boolean): void {
 
         if (save) {
+            if (inventoryItem.behaviorDisplayed === true && (inventoryItem.behaviorEffect === null || inventoryItem.behaviorFreq === null)) {
+                return;
+            }
             inventoryItem['isChanged'] = inventoryItem.responseForAssessee.entityAspect.entityState.isModified();
             this.hasChanges = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState.isModified());
         } else {
-            this.rejectBehaviorChanges();
+            inventoryItem['isChanged'] = false;
+            inventoryItem.rejectChanges();
         }
 
         inventoryItem['rowShow'] = false;
@@ -203,8 +207,6 @@ export default class EcProviderSpToolAssessTaker {
         inventoryItem['showBehavior'] = true;
     }
 
-    protected rejectBehaviorChanges(): void{}
-
     private save(): void {
         if (this.isPublished) {
             const swalPubSettings: SweetAlert.Settings = {
@@ -226,6 +228,10 @@ export default class EcProviderSpToolAssessTaker {
             allowEscapeKey: true,
             confirmButtonText: 'Ok'
         }
+
+        this.inventoryList.forEach(item => {
+            if (item['showBehavior']) { this.closeEditAssessItem(item, false) }
+        });
         //TODO: need to write a finally method for canceling saveinprogress
         saveCtx.saveChanges()
             .then(() => {

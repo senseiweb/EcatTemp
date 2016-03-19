@@ -20,7 +20,10 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         this.responseForAssessee.entityAspect.rejectChanges();
         this._effLevel = null;
         this._freqLevel = null;
-        this.calculateItemResponse();
+        this._behaveDisplayed = this.behaviorDisplayed;
+        if (this._behaveDisplayed === true) {
+            this.calculateItemResponse();
+        }
     }
 
     reset(): void {
