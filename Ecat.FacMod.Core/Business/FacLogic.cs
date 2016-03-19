@@ -8,6 +8,7 @@ using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Ecat.Shared.Core.Logic;
+using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
@@ -42,32 +43,65 @@ namespace Ecat.FacMod.Core
                 .Include(fc => fc.Course.WorkGroups);
         }
 
-        IQueryable<CrseStudentInGroup> IFacLogic.GetWorkGroupSpData(int courseId, int workGroupId, bool addAssessment)
+        WorkGroup IFacLogic.GetWorkGroupSpData(int courseId, int workGroupId, bool addAssessment)
         {
-            var groupMembers = _repo.GetWorkGroupMembers(addAssessment, false)
-                .Where(gm => gm.WorkGroup.Course.Faculty
-                    .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId && fac.FacultyProfile.Person.IsActive))
-                .Where(gm => gm.CourseId == courseId && gm.WorkGroupId == workGroupId)
-                .Include(gm => gm.WorkGroup)
-                .Include(gm => gm.FacultyComment)
-                .Include(gm => gm.FacultyStrat)
-                .Include(gm => gm.FacultySpResponses)
-                .Include(gm => gm.StudentInCourse.Student)
-                .Include(gm => gm.StudentInCourse.Student.Person)
-                .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.AssessorStratResponse);
+            var requestedWg = (from wg in _repo.GetCourseWorkGroups
+                where wg.Id == workGroupId &&
+                      wg.CourseId == courseId &&
+                      wg.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId)
+                select new
+                {
+                    ActiveWg = wg,
+                    Assessment = (!addAssessment) ? null : new
+                    {
+                        Instrument= wg.AssignedSpInstr,
+                        Inventory= wg.AssignedSpInstr.InventoryCollection
+                    },
+                    GroupMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new
+                    {
+                        gm.CourseId,
+                        gm.StudentId,
+                        gm.WorkGroupId,
+                        SpRepsonses = gm.AssessorSpResponses.Where(aos => !aos.Assessee.IsDeleted),
+                        CommentCount = gm.AuthorOfComments.Count(aos => !aos.Recipient.IsDeleted),
+                        FacComment = gm.FacultyComment,
+                        FacResponse = gm.FacultySpResponses,
+                        FacStrats = gm.FacultyStrat,
+                        StudProfile = gm.StudentProfile,
+                        StudPerson = gm.StudentProfile.Person,
+                        MissingStratCount = wg.GroupMembers.Count(
+                            peer => peer.AssesseeStratResponse.Count(strat => strat.AssessorPersonId == gm.StudentId) == 0)
+                    })
+                }).Single();
 
-            var groupMembersId = groupMembers.Select(gm => gm.StudentId).ToList();
-
-            var commentCount = _repo.AuthorCommentCounts(groupMembersId, workGroupId).ToList();
-
-            foreach (var cc in commentCount)
+            var group = requestedWg.GroupMembers.Select(gm => new CrseStudentInGroup
             {
-                var member = groupMembers.Single(gm => gm.StudentId == cc.AuthorId);
-                member.NumberOfAuthorComments = cc.NumOfComments;
+                CourseId = gm.CourseId,
+                WorkGroupId = gm.WorkGroupId,
+                StudentId =  gm.StudentId,
+                StudentProfile = gm.StudProfile,
+                NumberOfAuthorComments = gm.CommentCount,
+                NumOfStratIncomplete = gm.MissingStratCount,
+                FacultyComment = gm.FacComment,
+                FacultySpResponses = gm.FacResponse,
+                FacultyStrat = gm.FacStrats,
+                AssessorSpResponses = gm.SpRepsonses.ToList()
+            }).ToList();
+            
+            foreach (var gm in group)
+            {
+                gm.StudentProfile.Person = requestedWg.GroupMembers.Single(g => g.StudentId == gm.StudentId).StudPerson;
             }
 
-            return groupMembers.AsQueryable();
+            var workGroup = requestedWg.ActiveWg;
+            workGroup.GroupMembers = group;
+
+            if (!addAssessment) return workGroup;
+
+            workGroup.AssignedSpInstr = requestedWg.Assessment.Instrument;
+            workGroup.AssignedSpInstr.InventoryCollection = requestedWg.Assessment.Inventory;
+            workGroup.CanPublish = _repo.CanWgPublish(new List<int> {workGroupId}).Contains(workGroupId);
+            return workGroup;
         }
 
         IQueryable<FacultyInCourse> IFacLogic.GetCrsesWithLastestGrpMem()
@@ -110,17 +144,18 @@ namespace Ecat.FacMod.Core
 
         IQueryable<CrseStudentInGroup> IFacLogic.GetWorkGroupResults(bool addAssessment, bool addComments)
         {
-            return _repo.GetWorkGroupMembers(addAssessment, addComments)
-                .Where(gm => gm.WorkGroup.MpSpStatus == MpSpStatus.Published)
-                .Where(gm => !gm.IsDeleted)
-                .Where(gm => gm.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId))
-                .Include(gm => gm.WorkGroup.SpResults)
-                .Include(gm => gm.WorkGroup.SpStratResults)
-                .Include(gm => gm.WorkGroup.FacSpResponses)
-                .Include(gm => gm.WorkGroup.FacStratResponses)
-                .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.AssessorStratResponse)
-                .Include(gm => gm.StudentProfile.Person);
+            return null;
+            //return _repo.GetWorkGroupMembers(addAssessment, addComments)
+            //    .Where(gm => gm.WorkGroup.MpSpStatus == MpSpStatus.Published)
+            //    .Where(gm => !gm.IsDeleted)
+            //    .Where(gm => gm.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId))
+            //    .Include(gm => gm.WorkGroup.SpResults)
+            //    .Include(gm => gm.WorkGroup.SpStratResults)
+            //    .Include(gm => gm.WorkGroup.FacSpResponses)
+            //    .Include(gm => gm.WorkGroup.FacStratResponses)
+            //    .Include(gm => gm.AssessorSpResponses)
+            //    .Include(gm => gm.AssessorStratResponse)
+            //    .Include(gm => gm.StudentProfile.Person);
         }
 
         IQueryable<Course> IFacLogic.CourseMembers(int courseId)

@@ -10,6 +10,8 @@ class FacCrseStudInGrpExt extends CrseStudInGrpExtBase implements ecat.entity.ex
     private _statusOfStudent: ecat.entity.ext.IFacCrseStudInGrpStatus = null;
     private _resultForStud: ecat.entity.ext.IStudentDetailResult = null;
 
+    numOfStratIncomplete = null;
+
     updateStatusOfStudent(): ecat.entity.ext.IFacCrseStudInGrpStatus {
 
         if (!this.workGroup) {

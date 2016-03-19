@@ -88,23 +88,7 @@ namespace Ecat.FacMod.Core
 
         IQueryable<WorkGroup> IFacRepo.GetCourseWorkGroups => _ctx.WorkGroups;
 
-        IQueryable<CrseStudentInGroup> IFacRepo.GetWorkGroupMembers(bool addAssessment, bool addComments)
-        {
-            var query = _ctx.StudentInGroups.Where(sig => !sig.IsDeleted);
-            query = !addAssessment
-                ? query
-                : query.Include(g => g.WorkGroup.AssignedSpInstr)
-                    .Include(g => g.WorkGroup.AssignedSpInstr.InventoryCollection);
-
-            return !addComments
-                ? query
-                : query.Include(gm => gm.AuthorOfComments)
-                    .Include(gm => gm.AuthorOfComments.Select(comment => comment.Flag))
-                    .Include(gm => gm.FacultyComment)
-                    .Include(gm => gm.FacultyComment.Flag);
-
-        }
-
+        
         List<int> IFacRepo.CanWgPublish(List<int> wgIds)
         {
             return _ctx.WorkGroups

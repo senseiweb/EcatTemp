@@ -45,6 +45,7 @@ declare module ecat.entity.s.user {
 	interface ProfileFaculty extends ecat.entity.s.user.ProfileBase {
 		isCourseAdmin: boolean;
 		isReportViewer: boolean;
+		academyId: string;
 		courses: ecat.entity.s.school.FacultyInCourse[];
 	}
 	interface ProfileExternal extends ecat.entity.s.user.ProfileBase {
@@ -85,6 +86,8 @@ declare module ecat.entity.s.school {
 		studentId: number;
 		courseId: number;
 		workGroupId: number;
+		hasAcknowledged: boolean;
+		numOfStratIncomplete: number;
 		workGroup: ecat.entity.s.school.WorkGroup;
 		studentProfile: ecat.entity.s.user.ProfileStudent;
 		course: ecat.entity.s.school.Course;
@@ -96,6 +99,7 @@ declare module ecat.entity.s.school {
 		recipientOfComments: ecat.entity.s.learner.StudSpComment[];
 		assessorStratResponse: ecat.entity.s.learner.StratResponse[];
 		assesseeStratResponse: ecat.entity.s.learner.StratResponse[];
+		facultySpResponses: ecat.entity.s.faculty.FacSpResponse[];
 		spResult: ecat.entity.s.learner.SpResult;
 		stratResult: ecat.entity.s.learner.StratResult;
 		facultyComment: ecat.entity.s.faculty.FacSpComment;

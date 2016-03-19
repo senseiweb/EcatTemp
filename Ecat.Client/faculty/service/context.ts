@@ -46,7 +46,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             resource: 'ActiveCourse'
         },
         wgAssess: {
-            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.workGroup,
             resource: 'WorkGroupAssess'
         },
         getStudentCapstoneDetails: {
@@ -244,8 +244,8 @@ export default class EcFacultyRepo extends IUtilityRepo {
             .catch(this.queryFailed);
                 
         function getActiveWorkGroupResponse(data: breeze.QueryResult): ecat.entity.IWorkGroup {
-            const groupMembers = data.results as Array<ecat.entity.ICrseStudInGroup>;
-            if (!groupMembers || !(groupMembers.length > 0)) {
+            workGroup = data.results[0] as ecat.entity.IWorkGroup;
+            if (workGroup.groupMembers.length === 0) {
                 const queryError: ecat.IQueryError = {
                     errorMessage: 'The active workgroup did not return any results',
                     errorType: _mpe.QueryError.UnexpectedNoResult
@@ -253,13 +253,11 @@ export default class EcFacultyRepo extends IUtilityRepo {
                 return that.c.$q.reject(queryError) as any;
             }
             
-            workGroup = groupMembers[0].workGroup;
-            
             that.isLoaded.workGroup[workGroup.id] = true;
             workGroup.canPublish = canPub;
             const inventory = workGroup.assignedSpInstr.inventoryCollection;
-            
-            if (inventory && inventory.length > 0 ) {
+
+            if (inventory && inventory.length > 0) {
                 that.isLoaded.spInstr[workGroup.assignedSpInstrId] = true;
             }
             
