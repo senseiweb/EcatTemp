@@ -38,8 +38,7 @@ export default class StudentStates {
             templateUrl: '@[appStudent]/feature/assess/assess.html',
             controller: 'app.student.assessment as assess',
             resolve: {
-                moduleLoad: ['dCtxReady', (dCtxReady) => dCtxReady],
-                courseInit: ['moduleLoad',IDataCtx.serviceId,(module,dCtx: IDataCtx) => {dCtx.student.initCrseStudGroup(false)}]
+                moduleLoad: ['dCtxReady', (dCtxReady) => dCtxReady]
             }
         }
 
@@ -48,10 +47,7 @@ export default class StudentStates {
             parent: this.assessment.name,
             url: '/list/{crseId:int}/{wgId:int}',
             templateUrl: '@[appStudent]/feature/assess/list.html',
-            controller: 'app.student.assessment.list as al',
-            resolve: {
-                courseInit: ['courseInit',(courseInit)=>courseInit]
-            }
+            controller: 'app.student.assessment.list as al'
         }
 
         this.result = {

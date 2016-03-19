@@ -20,6 +20,8 @@ export default class EcStudentRepo extends IUtilityRepo {
     activated = false;
     activeCourseId: number;
     activeGroupId: number;
+    activationPromise: breeze.promises.IPromise<Array<ecat.entity.ICrseStudInGroup> | angular.IPromise<void>>;
+    isActiving = false;
     isLoaded = {
         courses: false,
         course: {},
@@ -74,17 +76,24 @@ export default class EcStudentRepo extends IUtilityRepo {
         const orderBy = 'course.startDate desc';
 
         if (this.isLoaded.courses && !forceRefresh) {
-            const courseMems = this.queryLocal(api.courses.resource, orderBy) as Array<ecat.entity.ICrseStudInGroup>;
-            this.log.success('Courses loaded from local cache', courseMems, false);
-            return this.c.$q.when(courseMems);
+            const allCrseStudInGroup = this.manager.getEntities(_mp.MpEntityType.crseStudInGrp) as Array<ecat.entity.ICrseStudInGroup>;
+            const activeCourseMems = allCrseStudInGroup.filter(csig => csig.courseId === this.activeCourseId && csig.workGroupId === this.activeGroupId); 
+            this.log.success('Courses loaded from local cache', activeCourseMems, false);
+            return this.c.$q.when(activeCourseMems);
+        }
+        
+        if (this.activationPromise) {
+            return this.activationPromise;
         }
 
-        return this.query.from(api.courses.resource)
+        this.activationPromise = this.query.from(api.courses.resource)
             .using(this.manager)
             .orderBy(orderBy)
             .execute()
             .then(initCoursesReponse)
             .catch(this.queryFailed);
+
+        return this.activationPromise;
 
         function initCoursesReponse(data: breeze.QueryResult): Array<ecat.entity.ICrseStudInGroup> {
             const crseStudInGroups = data.results as Array<ecat.entity.ICrseStudInGroup>;
@@ -92,9 +101,9 @@ export default class EcStudentRepo extends IUtilityRepo {
             that.isLoaded.courses = crseStudInGroups.length > 0;
 
             crseStudInGroups.forEach(crseStudInGroup => {
-
-                if (crseStudInGroup.course) {
-                    that.isLoaded[crseStudInGroup.courseId] = true;
+                var course = crseStudInGroup.course;
+                if (course && course.workGroups && course.workGroups.length > 0) {
+                    that.isLoaded[course.id] = true;
                 }
 
                 if (crseStudInGroup.workGroup && crseStudInGroup.workGroup.groupMembers.length > 1) {
