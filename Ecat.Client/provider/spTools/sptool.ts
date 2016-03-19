@@ -6,7 +6,7 @@ import _assesser from "provider/spTools/assesser"
 
 export default class EcSpTools {
     static serviceId = 'app.service.sptools';
-    static $inject = ['$q','$timeout','$uibModal', IDataCtx.serviceId];
+    static $inject = ['$q','$timeout','$uibModal',ICommon.serviceId, IDataCtx.serviceId];
     private off: angular.IPromise<Array<ecat.entity.ICrseStudInGroup>>;
     private commentModalOptions: angular.ui.bootstrap.IModalSettings = {
         controller: _commenter.controllerId,
@@ -28,7 +28,7 @@ export default class EcSpTools {
 
     };
 
-    constructor(private $q: angular.IQService, private $to: angular.ITimeoutService, private $uim: angular.ui.bootstrap.IModalService,c:ICommon, private dCtx: IDataCtx) {
+    constructor(private $q: angular.IQService, private $to: angular.ITimeoutService, private $uim: angular.ui.bootstrap.IModalService,c :ICommon, private dCtx: IDataCtx) {
        
     }
 
@@ -51,8 +51,9 @@ export default class EcSpTools {
             this.$to.cancel(this.off);
         }
 
-        function evaluate(): Array<ecat.entity.ICrseStudInGroup>{
-            const members = workGroup.groupMembers;
+        function evaluate(): Array<ecat.entity.ICrseStudInGroup> {
+            const members = (isInstructor) ? that.dCtx.faculty.getActiveWgMembers() : that.dCtx.student.getActiveWgMembers();
+       
             if (members.length > 12) console.log('I have more than 12', members);
                 //if (!isInstructor) {
                 //    that.dCtx.student.getActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {

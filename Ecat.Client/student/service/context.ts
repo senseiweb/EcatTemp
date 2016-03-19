@@ -337,6 +337,11 @@ export default class EcStudentRepo extends IUtilityRepo {
         });
     }
 
+    getActiveWgMembers(): Array<ecat.entity.ICrseStudInGroup> {
+        const cachedGroupMembers = this.manager.getEntities(_mp.MpEntityType.crseStudInGrp) as Array<ecat.entity.ICrseStudInGroup> ;
+        return cachedGroupMembers.filter(gm => gm.courseId === this.activeCourseId && gm.workGroupId === this.activeGroupId);
+    }
+
     getWgSpResult(): breeze.promises.IPromise<ecat.entity.ISpResult | angular.IPromise<void>> {
         const that = this;
         const resource = this.studentApiResources.wgResult.resource;

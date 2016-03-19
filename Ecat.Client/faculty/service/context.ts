@@ -346,6 +346,11 @@ export default class EcFacultyRepo extends IUtilityRepo {
         }      
     }
 
+    getActiveWgMembers(): Array<ecat.entity.ICrseStudInGroup> {
+        const cachedGroupMembers = this.manager.getEntities(_mp.MpEntityType.crseStudInGrp) as Array<ecat.entity.ICrseStudInGroup>;
+        return cachedGroupMembers.filter(gm => gm.courseId === this.activeCourseId && gm.workGroupId === this.activeGroupId);
+    }
+
     getAllActiveWgFacStrat(): Array<ecat.entity.IFacStratResponse> {
         if (!this.activeGroupId || !this.activeCourseId) {
             this.log.warn('Missing required information', { groupdId: this.activeCourseId, courseId: this.activeCourseId }, false);
