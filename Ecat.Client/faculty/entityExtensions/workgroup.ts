@@ -11,11 +11,11 @@ export class FacWorkGroupInitizer {
 }
 
 export class FacWorkGroupExt  {
-   canPublish: boolean;
+   canPublish: boolean = null;
 }
 
 export var facWorkGrpEntityExt: ecat.entity.ext.IEntityExtension = {
-    entityName: _mp.MpEntityType.crseStudInGrp,
+    entityName: _mp.MpEntityType.workGroup,
     ctorFunc: FacWorkGroupExt,
     initFunc: (facWorkGrpEntity: any) => new FacWorkGroupInitizer(facWorkGrpEntity)
 }

@@ -246,7 +246,11 @@ export default class EcFacultyRepo extends IUtilityRepo {
         function getActiveWorkGroupResponse(data: breeze.QueryResult): ecat.entity.IWorkGroup {
             const groupMembers = data.results as Array<ecat.entity.ICrseStudInGroup>;
             if (!groupMembers || !(groupMembers.length > 0)) {
-                return null;
+                const queryError: ecat.IQueryError = {
+                    errorMessage: 'The active workgroup did not return any results',
+                    errorType: _mpe.QueryError.UnexpectedNoResult
+                }
+                return that.c.$q.reject(queryError) as any;
             }
             
             workGroup = groupMembers[0].workGroup;

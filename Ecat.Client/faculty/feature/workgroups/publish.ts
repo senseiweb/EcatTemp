@@ -67,7 +67,7 @@ export default class EcFacultyWgPublish {
             _swal(alertSettings, (confirmed?: boolean) => {
                 if (confirmed) {
                     this.deleteUnsavedChanges();
-                    c.$state.go(to, toParams);
+                    this.c.$state.go(to, toParams);
                 }
             });
         });
@@ -161,7 +161,7 @@ export default class EcFacultyWgPublish {
     }
 
     private checkPublishingReady(): void {
-        this.doneWithComments = !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null || comment.flag.mpFaculty === undefined);
+        this.doneWithComments = !this.hasComments || !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null || comment.flag.mpFaculty === undefined);
         this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => !!strat.stratPosition && strat.studentAssessee.proposedStratPosition === null);
     }
 
@@ -345,26 +345,30 @@ export default class EcFacultyWgPublish {
         function procssWgComments(comments: Array<ecat.entity.IStudSpComment>): void {
             that.hasComments = !!comments;
 
-            if (!that.hasComments) {
-                return null;
-            }
+            //if (!that.hasComments) {
+            //    return null;
+            //}
 
-            that.groupMembers = comments.map(comment => {
-                    if (!uniques.hasOwnProperty(comment.authorPersonId)) {
-                        uniques[comment.authorPersonId] = true;
-                        return comment.author;
-                    }
-                })
-                .filter(author => !!author)
-                .sort(that.sortByLastName);
+            //that.groupMembers = comments.map(comment => {
+            //        if (!uniques.hasOwnProperty(comment.authorPersonId)) {
+            //            uniques[comment.authorPersonId] = true;
+            //            return comment.author;
+            //        }
+            //    })
+            //    .filter(author => !!author)
+            that.groupMembers = wg.groupMembers.sort(that.sortByLastName);
             that.pubState = PubState.Comment;
             that.saveBtnText = 'Comments';
             that.groupMembers.forEach((crseStud: ecat.entity.ICrseStudInGroup) => {
                 that.updateAuthorDynamics(crseStud);
             });
-            that.selectedAuthor = that.groupMembers[0];
-            that.selectComment(that.selectedAuthor.authorOfComments[0]);
-            that.checkPublishingReady();
+
+            if (that.hasComments) {
+                that.selectedAuthor = that.groupMembers[0];
+                that.selectComment(that.selectedAuthor.authorOfComments[0]);
+                that.checkPublishingReady();
+            }
+           
         }
         //TODO: Handle get comment error
         function processWgCommentsError(): void {

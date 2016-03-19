@@ -29,7 +29,6 @@ namespace Ecat.FacMod.Core
 
             foreach (var wg in pubWgs)
             {
-
                 var stratScoreInterval = 1m/wg.PubWgMembers.Count();
                 var stratKeeper = new List<PubWgMember>();
                 var countOfGrp = (float) wg.PubWgMembers.Count();
@@ -40,7 +39,6 @@ namespace Ecat.FacMod.Core
                     {
                         var errorMessage =
                             $"There was a problem validating necessary information . Problem Flags Are: [Them => Me] NA: !{me.PeersDidNotAssessMe.Count()}, NS: {me.PeersDidNotStratMe.Any()} | [Me => Them] NA: {me.PeersIdidNotAssess.Count()}, NS: {me.PeersIdidNotStrat.Any()} | FacStrat: {me.FacStratPosition}";
-
 
                         var error = infos.Select(
                             info => new EFEntityError(info, "Publication Error", errorMessage, "MpSpStatus"));
@@ -80,7 +78,6 @@ namespace Ecat.FacMod.Core
                     {
                         wgSaveMap[tSpResult].Add(resultInfo);
                     }
-
 
                     var stratResult = new StratResult
                     {
@@ -200,8 +197,9 @@ namespace Ecat.FacMod.Core
                         StudentId = gm.StudentId,
                         Name = gm.StudentProfile.Person.LastName + gm.StudentProfile.Person.FirstName,
                         SpResponseTotalScore = gm.AssesseeSpResponses
-                            .Where(response => response.AssessorPersonId != gm.StudentId)
-                            .Sum(response => response.ItemModelScore),
+                            .Where(response => response.AssessorPersonId != gm.StudentId) 
+                            .Sum(response => response.ItemModelScore) / gm.AssesseeSpResponses
+                            .Count(response => response.AssessorPersonId != gm.StudentId),
                         FacStratPosition = gm.FacultyStrat.StratPosition,
                         HasSpResult = wg.SpResults.Any(result => result.StudentId == gm.StudentId),
                         HasStratResult = wg.SpStratResults.Any(result => result.StudentId == gm.StudentId),

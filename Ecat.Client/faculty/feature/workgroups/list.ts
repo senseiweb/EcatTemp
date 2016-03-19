@@ -146,7 +146,23 @@ export default class EcFacultyWgList {
     }
     
     private goToPublish(wg: ecat.entity.IWorkGroup): void {
-        //TODO: Check if all work is done, if not error;
+        if (!wg.canPublish) {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Not Yet!',
+                text: 'Publishing is not possible at this time, all students in this workgroup have not completed all required' +
+                    'self/peers and stratification. \n\n Check the group status for more information',
+                type: _mp.MpSweetAlertType.warn,
+                closeOnConfirm: true,
+                showConfirmButton: true
+
+            }
+            _swal(alertSettings);
+        } else {
+            this.c.$state.go(this.c.stateMgr.faculty.wgPublish, {
+                crseId: wg.courseId,
+                wgId: wg.id
+            });
+        }
     }
 
     private goToResults(wg: ecat.entity.IWorkGroup): void {
