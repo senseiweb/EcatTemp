@@ -111,6 +111,7 @@ declare module ecat.entity
 
         interface IFacSpInventoryExt extends ISpInventoryExtBase {
             workGroup: IWorkGroup;
+            resetResults(): void;
             behaveResultForStudent: IBehaveResultForStud;
         }
 

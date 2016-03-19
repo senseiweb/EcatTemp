@@ -57,6 +57,11 @@ export default class EcFacultyWgResult {
 
             that.wgResults = groupMembers;
             that.activeStudResult = that.wgResults[0];
+            for (let i = 0; i < that.activeStudResult.workGroup.assignedSpInstr.inventoryCollection.length; i++) {
+                let inv = that.activeStudResult.workGroup.assignedSpInstr.inventoryCollection[i] as ecat.entity.IFacSpInventory;
+                inv.workGroup = that.activeWg;
+                inv.resetResults();
+            }
             that.commentPerspective = 'Author';
         }
     }

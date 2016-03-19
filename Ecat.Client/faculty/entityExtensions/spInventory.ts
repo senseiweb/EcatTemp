@@ -9,6 +9,9 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
     private _facSpResultForStudent: ecat.entity.ext.IBehaveResultForStud = null;
     workGroup: ecat.entity.IWorkGroup;
 
+    resetResults(): void {
+        this._facSpResultForStudent = null;
+    }
 
     get behaveResultForStudent(): ecat.entity.ext.IBehaveResultForStud {
         if (this._facSpResultForStudent) return this._facSpResultForStudent;
@@ -96,6 +99,7 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
         return this._facSpResultForStudent;
     };
 
+ 
     private sortPeersByLastName(a: ecat.entity.ICrseStudInGroup, b: ecat.entity.ICrseStudInGroup) {
         if (a.nameSorter.last < b.nameSorter.last) return -1;
         if (a.nameSorter.last > b.nameSorter.last) return 1;

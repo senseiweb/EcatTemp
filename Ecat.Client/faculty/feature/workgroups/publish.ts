@@ -128,6 +128,7 @@ export default class EcFacultyWgPublish {
                     .then(() => {
                         this.deleteUnsavedChanges();
                         this.c.$state.go(that.c.stateMgr.faculty.wgList.name);
+                        this.activeWorkGroup.canPublish = true;
                         _swal('Publishing Workflow cancelled...', 'This workgroup is now in open status', 'success');
                     })
                     .catch(() => {});
@@ -379,7 +380,7 @@ export default class EcFacultyWgPublish {
                 that.selectComment(that.selectedAuthor.authorOfComments[0]);
                 that.checkPublishingReady();
             }
-           
+            that.activeWorkGroup.canPublish = true;
         }
         //TODO: Handle get comment error
         function processWgCommentsError(): void {
