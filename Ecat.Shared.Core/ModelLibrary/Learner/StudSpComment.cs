@@ -29,7 +29,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
         public int? ModifiedById { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
-
         public CrseStudentInGroup Author { get; set; }
         public CrseStudentInGroup Recipient { get; set; }
         public WorkGroup WorkGroup { get; set; }

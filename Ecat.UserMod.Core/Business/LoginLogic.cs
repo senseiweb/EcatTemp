@@ -46,10 +46,12 @@ namespace Ecat.UserMod.Core
         {
             var user = await _repo.GetSecurityUserByEmail(request.LisPersonEmailPrimary);
 
-            if (user == default(Person))
+            if (user == null)
             {
                 var roleArray = request.Parameters["ext_institution_roles"]?.Split(',');
                 var selectedRole = default(string);
+                var roles = request.GetRoles();
+                
 
                 if (roleArray != null)
                 {

@@ -99,7 +99,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DbDevSeed.sql" />
     <None Include="Service References\BbWs.BbCourse\Course.wsdl" />
     <None Include="Service References\BbWs.BbCourse\Ecat.Shared.DbMgr.BbWs.BbCourse.addCourseToTermResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

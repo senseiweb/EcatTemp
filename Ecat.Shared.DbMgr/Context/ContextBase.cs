@@ -19,7 +19,7 @@ namespace Ecat.Shared.DbMgr.Context
             Database.SetInitializer<TContext>(null);
         }
 
-        protected ContextBase() : base("EcatSqlServer")
+        protected ContextBase() : base("ecat")
         {
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;

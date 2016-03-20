@@ -18,7 +18,7 @@ namespace Ecat.Shared.DbMgr.Context
 {
     public class EcatContext : DbContext
     {
-        public EcatContext() : base("EcatSqlServer")
+        public EcatContext() : base("ecat")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<EcatContext, EcatCtxConfig>());
             Configuration.LazyLoadingEnabled = false;

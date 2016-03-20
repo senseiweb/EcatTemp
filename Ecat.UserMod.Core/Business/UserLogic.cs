@@ -37,7 +37,8 @@ namespace Ecat.UserMod.Core
 
         public Task<Person> ProcessLtiUser(ILtiRequest parsedRequest)
         {
-            throw new NotImplementedException();
+            _loginLogic = _loginLogic ?? new LoginLogic(_repo);
+            return _loginLogic.ProcessLtiUser(parsedRequest);
         }
 
         public Task<bool> UniqueEmailCheck(string email)
