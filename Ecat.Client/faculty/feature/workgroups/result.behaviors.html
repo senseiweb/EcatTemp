@@ -2,25 +2,25 @@
     <div class="col-md-12 p-t-20">
         <div class="table-responsive">
             <table class="table table-hover tableCenterAlign">
-                <thead>
+                <thead class="f-16">
                     <tr>
-                        <th class="col-md-4">Behavior</th>
-                        <th class="col-md-2">Self</th>
-                        <th class="col-md-2">Received</th>
-                        <th class="col-md-2">Given</th>
-                        <th class="col-md-2">Instructor</th>
+                        <th class="col-md-4 f-400">Behavior</th>
+                        <th class="col-md-2 f-400">Self</th>
+                        <th class="col-md-2 f-400">Received</th>
+                        <th class="col-md-2 f-400">Given</th>
+                        <th class="col-md-2 f-400">Instructor</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="f-14">
                     <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
-                        <td>
+                        <td class="f-12">
                             <span ng-show="!inv.showBehavior">
                                 {{::inv.behaviorEllipse}}
                             </span>
                             <span ng-show="inv.showBehavior">
                                 {{::inv.behavior}}
                             </span> &nbsp;
-                            <a href="javascript:void(0)" class="f-500"
+                            <a ng-if="!inv.needsEllipse" href="javascript:void(0)" class="f-500"
                                ng-click="inv.showBehavior = !inv.showBehavior">
                                 ...
                             </a>

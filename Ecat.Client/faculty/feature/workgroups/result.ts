@@ -53,10 +53,15 @@ export default class EcFacultyWgResult {
             groupMembers.forEach(gm => {
                 gm['hasReceivedChartData'] = gm.resultForStudent.breakOutReceived.some(cd => cd.data > 0);
                 gm['hasGivenChartData'] = gm.statusOfStudent.gaveBreakOutChartData.some(cd => cd.data > 0);
-            });
+            });          
 
             that.wgResults = groupMembers;
             that.activeStudResult = that.wgResults[0];
+
+            that.activeStudResult.workGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
+                inv['needsEllipse'] = inv.behavior.length <= 50;
+            });
+
             that.commentPerspective = 'Author';
         }
     }

@@ -15,7 +15,7 @@ export default class EcStudAssess {
     protected courses: ecat.entity.ICourse[];
     protected me: ecat.entity.ICrseStudInGroup;
     protected grpDisplayName = 'Not Set';
-    protected hasAcknowledged = true;
+    protected hasAcknowledged = false;
     protected isResultPublished = false;
     protected isGroupOpen = false;
     private log = this.c.getAllLoggers('Assessment Center');
@@ -141,8 +141,9 @@ export default class EcStudAssess {
         });
     }
 
-    private setAcknowledge(): void {
+    private setAcknowledged(): void {
         this.me.hasAcknowledged = this.hasAcknowledged = true;
+        this.changeActiveView('assess');
     }
 
     private setActiveCourse(course: ecat.entity.ICourse): void {
@@ -165,7 +166,7 @@ export default class EcStudAssess {
         this.isGroupOpen = workGroup.mpSpStatus === _mp.MpSpStatus.open;
         this.isResultPublished = workGroup.mpSpStatus === _mp.MpSpStatus.published;
         this.me = workGroup.groupMembers.filter(gm => gm.studentId === this.dCtx.user.persona.personId)[0];
-        //this.hasAcknowledged = this.me.hasAcknowledged;
+        this.hasAcknowledged = this.me.hasAcknowledged;
 
         if (isActivating) {
             this.changeActiveView('assess');

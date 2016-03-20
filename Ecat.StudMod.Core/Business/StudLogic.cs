@@ -48,6 +48,7 @@ namespace Ecat.StudMod.Core
                     LatestGrpId = latestGrp.Id,
                     csig.Course,
                     csig.WorkGroup,
+                    csig.HasAcknowledged,
                     GroupMembers = gm,
                     Instrument = latestGrp.AssignedSpInstr,
                     Inventories = latestGrp.AssignedSpInstr.InventoryCollection,
@@ -73,6 +74,7 @@ namespace Ecat.StudMod.Core
             {
                 StudentId = csig.StudentId,
                 CourseId = csig.Course.Id,
+                HasAcknowledged = csig.HasAcknowledged,
                 WorkGroupId = csig.WorkGroupId,
                 Course = csig.Course,
                 WorkGroup = csig.WorkGroup,
@@ -114,6 +116,7 @@ namespace Ecat.StudMod.Core
                     csig.WorkGroupId,
                     csig.Course,
                     csig.WorkGroup,
+                    csig.HasAcknowledged,
                     GroupMembers = peers,
                     Instrument = csig.WorkGroup.AssignedSpInstr,
                     Inventories = csig.WorkGroup.AssignedSpInstr.InventoryCollection,
@@ -136,6 +139,7 @@ namespace Ecat.StudMod.Core
             {
                 StudentId = singleGroup.StudentId,
                 CourseId = singleGroup.CourseId,
+                HasAcknowledged = singleGroup.HasAcknowledged,
                 WorkGroupId = singleGroup.WorkGroupId,
                 Course = singleGroup.Course,
                 WorkGroup = singleGroup.WorkGroup,

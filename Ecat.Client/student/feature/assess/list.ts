@@ -10,7 +10,7 @@ export default class EcStudAssessList {
     static $inject =  ['$scope',ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     //#region Controller Properties
-    protected activeSort: { opt: string, desc: boolean } = { opt: 'rankName', desc: false };
+    protected activeSort: { opt: string, desc: boolean } = { opt: 'nameSorter.last', desc: false };
     protected activeGroup: ecat.entity.IWorkGroup;
     protected isResultPublished = true;
     protected isViewOnly = false;
@@ -19,14 +19,14 @@ export default class EcStudAssessList {
     protected peers: Array<ecat.entity.ICrseStudInGroup>;
     protected routingParams = { crseId: 0, wgId: 0 }
     protected sortOpt = {
-        student: 'rankName',
+        student: 'nameSorter.last',
         assess: 'assessText',
         comment: 'commentText',
         strat: 'stratText',
         composite: 'compositeScore'
     }
     protected sortStratOpt = {
-        student: 'rankName',
+        student: 'nameSorter.last',
         assess: 'assessText',
         comment: 'commentText',
         strat: 'stratText',
