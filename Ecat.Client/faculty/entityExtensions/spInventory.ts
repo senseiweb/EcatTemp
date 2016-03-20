@@ -59,7 +59,7 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
             current.selfOutcome = _staticDs.breakDownCalculation(selfBo);
             current.gvnOutcome = _staticDs.breakDownCalculation(givenBo);
             current.rcvdOutcome = _staticDs.breakDownCalculation(receivedBo);
-            current.facOutcome = facResponse || 'Not Assessed';
+            current.facOutcome = (facResponse) ? _staticDs.prettifyItemResponse(facResponse.mpItemResponse) : 'Not Assessed';
 
             givenResp.forEach(resp => {
                 switch (resp.itemResp) {

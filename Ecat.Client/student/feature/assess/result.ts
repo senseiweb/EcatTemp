@@ -50,6 +50,8 @@ export default class EcStudAssessResult {
             result.sanitizedComments.forEach(comment => {
                 if (comment.authorName === 'Anonymous') {
                     comment['initials'] = 'A';
+                } else if (comment.authorName === 'Instructor') {
+                    comment['initials'] = 'I';
                 } else {
                     const parts = comment.authorName.split(' ');
 

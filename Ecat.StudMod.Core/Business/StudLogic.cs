@@ -259,6 +259,20 @@ namespace Ecat.StudMod.Core
                 comment.AuthorId = i;
                 i += 21;
             }
+
+            if (facResults.FacSpComments != null) {
+                var comment = facResults.FacSpComments.FirstOrDefault();
+                spResult.SanitizedComments.Add(new SanitizedSpComment
+                {
+                    RecipientId = comment.RecipientPersonId,
+                    AuthorId = 0,
+                    CourseId = svrWg.CourseId,
+                    WorkGroupId = svrWg.Id,
+                    AuthorName = "Instructor",
+                    CommentText = comment.CommentText
+                });
+            }
+            
             return spResult;
         }
 

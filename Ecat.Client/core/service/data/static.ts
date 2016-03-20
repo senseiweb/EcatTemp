@@ -255,6 +255,8 @@ export default class EcLocalDataService {
             return 'Usually: Highly Effective';
         case 'HEA':
             return 'Always: Highly Effective';
+        case 'ND':
+            return 'Not Displayed';
         default:
             return 'Unknown';
         }

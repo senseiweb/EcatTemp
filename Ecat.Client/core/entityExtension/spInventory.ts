@@ -229,12 +229,12 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         breakOut.peersResult = _staticDs.breakDownCalculation(compositeBreakOut);
 
         const selfResponse = responsesForItem.filter(response => response.isSelfResponse && response.inventoryItemId === this.id)[0];
-
-        const facResponse = (this.spResult.facultyResponses) ?  this.spResult.facultyResponses.filter(response => response.inventoryItemId === this.id)[0] : null;
+        //TODO: fix facultyResponses coming back non camel cased
+        const facResponse = (this.spResult.facultyResponses) ? this.spResult.facultyResponses.filter(response => response["InventoryItemId"] === this.id)[0] : null;
 
         breakOut.selfResult = _staticDs.prettifyItemResponse(selfResponse.mpItemResponse);
-
-        breakOut.facultyResult = (facResponse) ? _staticDs.prettyInstituteRole(facResponse.mpItemResponse) : 'Not Assessed';
+        //TODO: fix facultyResponses coming back non camel cased
+        breakOut.facultyResult = (facResponse) ? _staticDs.prettifyItemResponse(facResponse["MpItemResponse"]) : 'Not Assessed';
        
         this._resultBreakOut = breakOut;
         return breakOut;
