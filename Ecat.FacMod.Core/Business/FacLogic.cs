@@ -93,7 +93,8 @@ namespace Ecat.FacMod.Core
             {
                 var groupMember = requestedWg.GroupMembers.Single(g => g.StudentId == gm.StudentId);
                 gm.StudentProfile.Person = groupMember.StudPerson;
-                if (groupMember.FacFlag != null) gm.FacultyComment.Flag = groupMember.FacFlag;
+                if (groupMember.FacFlag != null)
+                    gm.FacultyComment.Flag = groupMember.FacFlag;
             }
 
             var workGroup = requestedWg.ActiveWg;

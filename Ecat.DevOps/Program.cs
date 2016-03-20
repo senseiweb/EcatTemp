@@ -368,8 +368,6 @@ namespace Ecat.DevOps
                                 spResponseSb.Append(spResponsePreamble);
                             }
 
-                            if (!isSelf)
-                            {
                                 var spComment = new StudSpComment
                                 {
                                     CourseId = wg.Key.CourseId,
@@ -398,8 +396,9 @@ namespace Ecat.DevOps
 
                                 spCommentFlagResponseSb.Append(
                                     $"({spCommentFlag.CourseId},{spCommentFlag.WorkGroupId},{spCommentFlag.AuthorPersonId},{spCommentFlag.RecipientPersonId},'{spCommentFlag.MpAuthor}'),");
-                            }
-                            var peerStrat = strats.First();
+
+
+                                var peerStrat = strats.First();
                             var stratResponse = new StratResponse
                             {
                                 AssesseePersonId = peer.StudentId,

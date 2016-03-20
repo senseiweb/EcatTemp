@@ -120,7 +120,9 @@ export default class EcStudAssessList {
                     gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
                 }
             });
-            that.peers = grpMembers.filter(gm => gm.studentId !== myId);
+            that.peers = grpMembers
+                .filter(gm => !gm.entityAspect.entityState.isDetached())
+                .filter(gm => gm.studentId !== myId);
             that.evaluateStrat();
         }
 
@@ -205,14 +207,18 @@ export default class EcStudAssessList {
         const that = this;
         this.evaluateStrat(true);
 
-        const hasErrors = this.activeGroup.groupMembers.some(gm => !gm.stratIsValid);
+        const hasErrors = this.activeGroup.groupMembers
+            .filter(gm => !gm.entityAspect.entityState.isDetached())
+            .some(gm => !gm.stratIsValid);
 
         if (hasErrors) {
             _swal('Not ready', 'Your proposed changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
             return null;
         }
 
-        const changeSet = this.activeGroup.groupMembers.filter(gm => gm.proposedStratPosition !== null);
+        const changeSet = this.activeGroup.groupMembers
+            .filter(gm => !gm.entityAspect.entityState.isDetached())
+            .filter(gm => gm.proposedStratPosition !== null);
 
         changeSet.forEach(gm => {
             const stratResponse = this.dCtx.student.getSingleStrat(gm.studentId);
@@ -224,11 +230,14 @@ export default class EcStudAssessList {
             .catch(saveChangesError);
 
         function saveChangesResponse(): void {
-            that.activeGroup.groupMembers.forEach(gm => {
-                gm.stratValidationErrors = [];
-                gm.stratIsValid = true;
-                gm.proposedStratPosition = null;
-            });
+            that.activeGroup
+                .groupMembers
+                .filter(gm => !gm.entityAspect.entityState.isDetached())
+                .forEach(gm => {
+                    gm.stratValidationErrors = [];
+                    gm.stratIsValid = true;
+                    gm.proposedStratPosition = null;
+                });
             that.me.updateStatusOfPeer();
             that.log.success('Save Stratification, Your changes have been made.', null, true);
         }
