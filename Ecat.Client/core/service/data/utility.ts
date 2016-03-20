@@ -48,33 +48,18 @@ export default class EcUtilityRepoServices {
     }
 
     protected getManager = (factory: IEmFactory): breeze.promises.IPromise<any | angular.IPromise<void>> => {
-        const _ = this;
+        const that = this;
         return factory
             .getNewManager(this.endPoint, this.entityExtCfgs)
             .then(getManagerResponse)
             .catch(this.queryFailed);
 
         function getManagerResponse(mgr: breeze.EntityManager) {
-            _.manager = mgr;
-            _.registerTypes(_.apiResources);
-            _.dCtx.loadedManagers.push({ module: _.endPoint, mgr: mgr });
-            //this.c.$rootScope.$on(this.c.coreCfg.coreApp.events.managerLoaded, (event, data) => {
-            //    if (data[0].mgrName === this.endPoint) {
-            //        this.mgrReady = true;
-            //        this.registerTypes(this.apiResources);
-            //    }
-            //});
+           that.manager = mgr;
+           that.registerTypes(that.apiResources);
+           that.dCtx.loadedManagers.push({ module: that.endPoint, mgr: mgr });
         }
     }
-
-
-//protected loadManager(apiResources: ecat.IApiResources): breeze.promises.IPromise<boolean | angular.IPromise<void>> {
-    //    return this.manager.fetchMetadata()
-    //        .then(() => {
-    //            this.registerTypes(apiResources);
-    //        })
-    //        .catch(this.queryFailed);
-    //}
 
     protected queryLocal = (resource: string, ordering?: string, predicate?: breeze.Predicate): breeze.Entity | breeze.Entity[]=> {
         return this.query.from(resource)
@@ -111,7 +96,7 @@ export default class EcUtilityRepoServices {
         this.c.broadcast(this.c.coreCfg.coreApp.events.saveChangesEvent, { inflight: true });
         this.saveInProgress = true;
         console.log(this.manager.getChanges());
-        return this.manager.saveChanges()
+        return this.manager.saveChanges(entities)
             .then((result: breeze.SaveResult) => {
                 this.log.info('Save Results', result, false);
                 return result;

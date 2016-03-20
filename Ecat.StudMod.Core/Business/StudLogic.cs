@@ -30,7 +30,7 @@ namespace Ecat.StudMod.Core
             return _repo.ClientSaveChanges(saveBundle);
         }
 
-        public IQueryable<CrseStudentInGroup> GetCourses(int? crseId)
+        async Task<List<Course>> IStudLogic.GetCourses(int? crseId)
         {
             var studentCourseInit = (from csig in _repo.CrseStudentInGroups
                 where csig.StudentId == StudentPerson.PersonId &&
@@ -52,7 +52,7 @@ namespace Ecat.StudMod.Core
                     GroupMembers = gm,
                     Instrument = latestGrp.AssignedSpInstr,
                     Inventories = latestGrp.AssignedSpInstr.InventoryCollection,
-                    GroupPeersPerson =gm.Select(mem => mem.StudentProfile.Person),
+                    GroupPeersPerson = gm.Select(mem => mem.StudentProfile.Person),
                     GroupPeersProfile = gm.Select(mem => mem.StudentProfile),
                     MyAssesses =
                         gm.SelectMany(g => g.AssessorSpResponses)
@@ -68,20 +68,39 @@ namespace Ecat.StudMod.Core
                         .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
                 });
 
-          var studInCrseList = crseId != null ? studentCourseInit.Where(crse => crse.CourseId == crseId).ToList() : studentCourseInit.ToList();
+          var studInCrseList = crseId != null ? await studentCourseInit.Where(crse => crse.CourseId == crseId).ToListAsync() : await studentCourseInit.ToListAsync();
 
-            var groupMembers = studInCrseList.Select(csig => new CrseStudentInGroup
+            var courses = studInCrseList.GroupBy(csig => csig.Course);
+            var studentCourses = new List<Course>();
+
+            foreach (var course in courses)
             {
-                StudentId = csig.StudentId,
-                CourseId = csig.Course.Id,
-                HasAcknowledged = csig.HasAcknowledged,
-                WorkGroupId = csig.WorkGroupId,
-                Course = csig.Course,
-                WorkGroup = csig.WorkGroup,
-            }).ToList();
+                var c = course.Key;
+
+                c.StudentsInCourse = course.Select(csig => new StudentInCourse
+                {
+                    CourseId = c.Id,
+                    StudentPersonId = csig.StudentId
+                }).ToList();
+
+                c.WorkGroups = course.Select(csig => csig.WorkGroup).ToList();
+                studentCourses.Add(c);
+            }
+
+            //.Select(csig => new Course
+            //{
+            //    StudentInCrseGroups = new CrseStudentInGroup { 
+            //    StudentId = csig.StudentId,
+            //    CourseId = csig.Course.Id,
+            //    WorkGroupId = csig.WorkGroupId,
+            //    Course = csig.Course,
+            //    WorkGroup = csig.WorkGroup,
+            //    }
+            //}).ToList();
+
 
             var latestGrpId = studentCourseInit.FirstOrDefault()?.LatestGrpId;
-            var latestWorkgroup = groupMembers.Single(gm => gm.WorkGroupId == latestGrpId).WorkGroup;
+            var latestWorkgroup = studentCourses.SelectMany(sc => sc.WorkGroups).Single(wg => wg.Id == latestGrpId);
             latestWorkgroup.GroupMembers = studentCourseInit.SelectMany(g => g.GroupMembers).ToList();
             latestWorkgroup.SpComments = studentCourseInit.SelectMany(sp => sp.MyComments).ToList();
             latestWorkgroup.SpResponses = studentCourseInit.SelectMany(sp => sp.MyAssesses).ToList();
@@ -91,18 +110,25 @@ namespace Ecat.StudMod.Core
 
             foreach (var comment in latestWorkgroup.SpComments)
             {
-                comment.Flag = studentCourseInit.SelectMany(g =>g.MyFlags).First(c => c.AuthorPersonId == comment.AuthorPersonId && c.RecipientPersonId == comment.RecipientPersonId);
+                comment.Flag = studentCourseInit.SelectMany(g => g.MyFlags)
+                    .First(c => c.AuthorPersonId == comment.AuthorPersonId && c.RecipientPersonId == comment.RecipientPersonId);
             }
 
             foreach (var grpMem in latestWorkgroup.GroupMembers)
             {
-                grpMem.StudentProfile = studentCourseInit.SelectMany(g => g.GroupPeersProfile).First(g => g.PersonId == grpMem.StudentId);
-                grpMem.StudentProfile.Person = studentCourseInit.SelectMany(g => g.GroupPeersPerson).First(g => g.PersonId == grpMem.StudentId);
+                grpMem.StudentProfile = studentCourseInit
+                    .SelectMany(g => g.GroupPeersProfile)
+                    .First(g => g.PersonId == grpMem.StudentId);
+
+                grpMem.StudentProfile.Person = studentCourseInit
+                    .SelectMany(g => g.GroupPeersPerson)
+                    .Where(gp => gp.PersonId != StudentPerson.PersonId)
+                    .First(g => g.PersonId == grpMem.StudentId);
             }
-            return groupMembers.AsQueryable();
+            return studentCourses;
         }
 
-        async Task<CrseStudentInGroup> IStudLogic.GetSingleWrkGrpMembers(int wgId)
+        async Task<WorkGroup> IStudLogic.GetWorkGroup(int wgId)
         {
             var singleGroup = await (from csig in _repo.CrseStudentInGroups
                 where csig.StudentId == StudentPerson.PersonId &&
@@ -135,27 +161,20 @@ namespace Ecat.StudMod.Core
                         .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
                 }).SingleAsync();
 
-            var crseStudInGroup = new CrseStudentInGroup
-            {
-                StudentId = singleGroup.StudentId,
-                CourseId = singleGroup.CourseId,
-                HasAcknowledged = singleGroup.HasAcknowledged,
-                WorkGroupId = singleGroup.WorkGroupId,
-                Course = singleGroup.Course,
-                WorkGroup = singleGroup.WorkGroup,
-            };
 
-            crseStudInGroup.WorkGroup.GroupMembers = singleGroup.GroupMembers.Where(gm => gm.StudentId != StudentPerson.PersonId).ToList();
-            crseStudInGroup.WorkGroup.SpResponses = singleGroup.MyAssesses.ToList();
-            crseStudInGroup.WorkGroup.SpStratResponses = singleGroup.MyStrats.ToList();
-            crseStudInGroup.WorkGroup.SpComments = singleGroup.MyComments.ToList();
+            var requestedWorkGroup = singleGroup.WorkGroup;
 
-            foreach (var comment in crseStudInGroup.WorkGroup.SpComments)
+            requestedWorkGroup.GroupMembers = singleGroup.GroupMembers.Where(gm => gm.StudentId != StudentPerson.PersonId).ToList();
+            requestedWorkGroup.SpResponses = singleGroup.MyAssesses.ToList();
+            requestedWorkGroup.SpStratResponses = singleGroup.MyStrats.ToList();
+            requestedWorkGroup.SpComments = singleGroup.MyComments.ToList();
+
+            foreach (var comment in requestedWorkGroup.SpComments)
             {
                 comment.Flag = singleGroup.MyFlags.First(c => c.AuthorPersonId == comment.AuthorPersonId && c.RecipientPersonId == comment.RecipientPersonId);
             }
 
-            return crseStudInGroup;
+            return requestedWorkGroup;
         }
 
         async Task<SpResult> IStudLogic.GetWrkGrpResult(int wgId, bool addInstrument)
@@ -201,8 +220,6 @@ namespace Ecat.StudMod.Core
             svrWg.GroupMembers = groupMembers;
 
             var facResults = await _repo.GetFacSpResult(StudentPerson.PersonId, wgId);
-
-            var rand = new Random();
 
             var spResult = new SpResult
             {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Ecat.Shared.Core.ModelLibrary.Learner;
@@ -9,12 +10,12 @@ using Newtonsoft.Json.Linq;
 namespace Ecat.StudMod.Core
 {
     public interface IStudLogic
-    {
+    {   
         Person StudentPerson { get; set; }
         SaveResult ClientSave(JObject saveBundle);
-        IQueryable<CrseStudentInGroup> GetCourses(int? crseId);
+        Task<List<Course>> GetCourses(int? crseId);
         Task<SpResult> GetWrkGrpResult(int wgId, bool addInstrument);
-        Task<CrseStudentInGroup> GetSingleWrkGrpMembers(int wgId);
+        Task<WorkGroup> GetWorkGroup(int wgId);
         string GetMetadata { get; }
     }
 }

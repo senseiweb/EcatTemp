@@ -32,7 +32,7 @@
                 <tbody class="f-14">
 
                 <tr class="tableBottomBorder">
-                    <td style="border-right: 1px solid #f0f0f0;">{{::al.me.rankName}}</td>
+                    <td style="border-right: 1px solid #f0f0f0;">{{al.me.rankName}}</td>
                     <td class="text-center  p-b-0 p-t-0">
                         <div ng-if="!al.me.hasChartData">
                             No Assessment
@@ -63,7 +63,7 @@
                                type="number"
                                style="width: 100px; font-size: 1.6em"
                                min="1"
-                               max="groups.selectedGroup.groupMembers.length"
+                               max="{{al.groupCount }}"
                                ng-change="al.evaluateStrat()"
                                ng-disabled="al.isSaving"
                                ng-model="al.me.proposedStratPosition"
@@ -115,7 +115,7 @@
                                type="number"
                                style="width: 100px; font-size: 1.6em"
                                min="1"
-                               max="groups.selectedGroup.groupMembers.length"
+                               max="{{al.groupCount}}"
                                ng-change="al.evaluateStrat()"
                                ng-disabled="al.isSaving"
                                ng-model="peer.proposedStratPosition"
@@ -146,7 +146,7 @@
 
         <div class="text-center p-t-5 p-b-20">
             <button class="btn btn-primary"
-                    ng-click="al.saveChanges()"
+                    ng-click="al.saveChangesStrat()"
                     style="margin-top: 3px"
                     ng-disabled="al.isSaving || al.isGroupUnderReview">
                 <span ng-if="al.isSaving">Saving...</span>

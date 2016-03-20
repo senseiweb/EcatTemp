@@ -79,7 +79,9 @@ export default class EcStudAssessResult {
     }
 
 }
-
+gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
+gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
+gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
 const enum StudAssessViews {
     PeerList,
     StratList,

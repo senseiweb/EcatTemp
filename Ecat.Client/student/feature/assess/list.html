@@ -1,6 +1,44 @@
-﻿<div ng-if="assess.activeView === assess.view.peer">
-    <div ng-include="'@[appStudent]/feature/assess/list.group.html'"></div>
-</div>
-<div ng-if="assess.activeView === assess.view.strat">
-    <div ng-include="'@[appStudent]/feature/assess/list.strat.html'"></div>
+﻿<div class="listview lv-bordered lv-lg">
+    <div class="lv-header-alt clearfix p-b-5">
+        <div class="btn-group clearfix m-l-5">
+
+            <button type="button"
+                    class="btn"
+                    ng-class="al.activeView === al.view.peers ? 'btn-primary': 'btn-default'"
+                    ng-click="al.switchView(al.view.peers)">
+                <i class="zmdi zmdi-check" ng-if="al.doneWithAssess"></i>
+                Assessments
+            </button>
+
+            <button type="button"
+                    class="btn"
+                    ng-class="al.activeView === al.view.strats ? 'btn-primary': 'btn-default'"
+                    ng-click="al.switchView(al.view.strats)">
+                <i class="zmdi zmdi-check" ng-if="assess.doneWithStrats"></i>
+                Stratifciations
+            </button>
+        </div>
+
+        <div class="lv-body"
+             ng-class="'p-20': !al.me.hasAcknowledged">
+            
+            <div ng-if="al.me.hasAcknowledged">
+                <div ng-if="al.activeView === al.view.peers">
+                    <div ng-include="'@[appStudent]/feature/assess/list.assess.html'"></div>
+                </div>
+                <div ng-if="al.activeView === al.view.strats">
+                    <div ng-include="'@[appStudent]/feature/assess/list.strat.html'"></div>
+                </div>
+            </div>
+            <div ng-if="!al.me.hasAcknowledged">
+                <div ng-bind-html="assess.instructions" class="p-b-20"></div>
+                <div class="text-center">
+                    <button class="btn btn-primary" 
+                            ng-click="al.me.hasAcknowledged = true">
+                        I Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

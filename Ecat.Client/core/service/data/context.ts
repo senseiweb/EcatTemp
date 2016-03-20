@@ -45,11 +45,6 @@ export default class EcDataContext {
                 }
             });
         });
-
-        //$rs.$on(c.coreCfg.coreApp.events.addManager, (event: angular.IAngularEvent, data: Array<any>) => {
-        //    this.loadedManagers.push({ module: data[0].data.module, mgr: data[0].data.mgr });
-        //    event.preventDefault();
-        //});
     }
 
     private clearManagers(): void {

@@ -129,7 +129,7 @@ namespace Ecat.DevOps
                             $"There are {numOfGroups} WorkGroups in Wg Category {wgCat.Key} in Course {currentCourse.Name} [ID: {crse.Key}]");
 
                         var numberPerGroup = studIds.Count/numOfGroups;
-                        var studentMix = studIds.OrderBy(id => Rand.Next(studIds.Min(), studIds.Max())).ToList();
+                        var studentMix = studIds.OrderBy(id => Rand.Next(studIds.Min(), studIds.Max() + 1)).ToList();
                         var groupMembers = new List<CrseStudentInGroup>();
 
                         foreach (var grp in wgCat)
@@ -325,7 +325,7 @@ namespace Ecat.DevOps
                                 CourseId = wg.Key.CourseId,
                                 WorkGroupId = wg.Key.Id,
                                 InventoryItemId = item,
-                                ItemModelScore = Rand.Next(0, 6),
+                                ItemModelScore = Rand.Next(0, 7),
                                 ModifiedById = member.StudentId,
                                 ModifiedDate = DateTime.Now.ToUniversalTime()
                             }))
@@ -374,8 +374,8 @@ namespace Ecat.DevOps
                                     AuthorPersonId = member.StudentId,
                                     RecipientPersonId = peer.StudentId,
                                     WorkGroupId = wg.Key.Id,
-                                    RequestAnonymity = Rand.Next(0, 1) == 1,
-                                    CommentText = CommentList[Rand.Next(1, 20)],
+                                    RequestAnonymity = Rand.Next(0, 2) == 1,
+                                    CommentText = CommentList[Rand.Next(1, 21)],
                                     CreatedDate = DateTime.Now.ToUniversalTime(),
                                     ModifiedDate = DateTime.Now.ToUniversalTime(),
                                     ModifiedById = member.StudentId
@@ -387,7 +387,7 @@ namespace Ecat.DevOps
                                 //Console.WriteLine($"Student {spComment.AuthorPersonId} ==> Recipient {spComment.RecipientPersonId} in Course {wg.Key.CourseId} WorkGroup {wg.Key.Id}");
                                 var spCommentFlag = new StudSpCommentFlag
                                 {
-                                    MpAuthor = FlagList[Rand.Next(1, 3)],
+                                    MpAuthor = FlagList[Rand.Next(1, 4)],
                                     CourseId = wg.Key.CourseId,
                                     AuthorPersonId = member.StudentId,
                                     RecipientPersonId = peer.StudentId,

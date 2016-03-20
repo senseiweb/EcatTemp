@@ -40,12 +40,11 @@ export default class EcEmFactory {
             .then((): breeze.EntityManager => {
                 this.common.broadcast(this.common.coreCfg.coreApp.events.managerLoaded,
                     { loaded: true, mgrName: apiResourceName });
-                this.common.logger.log(`${apiResourceName} Manager created and loaded`, mgr, 'EM Factory', false);
                this.isMgrLoading[apiResourceName as any] = false;
                return mgr;
            })
             .catch((error) => {
-                this.common.logger.logError(`${apiResourceName} Manager could not be loaded. This is a critical error.\n Please attempt reload the application`, this.isMgrLoading, 'EM-Factory', true);
+                this.common.logger.logError(`${apiResourceName} Manager could not be loaded. This is a critical error.\n Please attempt to reload the application`, this.isMgrLoading, 'EM-Factory', true);
                 this.common.$state.go(this.common.stateMgr.core.error.name);
                return this.common.$q.reject(error);
            });

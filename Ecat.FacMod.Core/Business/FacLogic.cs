@@ -203,8 +203,12 @@ namespace Ecat.FacMod.Core
             {
                 var lclWgId = wgId;
                 var commentsNeed = group.Select(g => g.StudentId).ToList();
-                var svrComments = _repo.WgComments.Where(comment => commentsNeed.Contains(comment.RecipientPersonId) && comment.WorkGroupId == lclWgId).Include(c => c.Flag);
+                var svrComments = _repo.WgComments
+                    .Where(comment => commentsNeed.Contains(comment.RecipientPersonId) && 
+                    comment.WorkGroupId == lclWgId)
+                    .Include(c => c.Flag).ToList();
 
+           
                 foreach (var comment in svrComments.GroupBy(c => c.RecipientPersonId))
                 {
                     var grpMember = group.Single(grp => grp.StudentId == comment.Key);

@@ -10,22 +10,12 @@ export default class EcStudAssess {
 
     //#region Controller Properties
     protected activeCourseId: number;
-    protected activeView: number;
     protected activeGroup: ecat.entity.IWorkGroup;
     protected courses: ecat.entity.ICourse[];
-    protected me: ecat.entity.ICrseStudInGroup;
     protected grpDisplayName = 'Not Set';
-    protected hasAcknowledged = false;
     protected isResultPublished = false;
-    protected isGroupOpen = false;
     private log = this.c.getAllLoggers('Assessment Center');
     protected routingParams = { crseId: 0, wgId: 0 }
-    protected view = {
-        peer: StudAssessViews.PeerList,
-        strat: StudAssessViews.StratList,
-        myReport: StudAssessViews.ResultMyReport,
-        comment: StudAssessViews.ResultComment
-    }
     protected workGroups: ecat.entity.IWorkGroup[];
 
     //#endregion
@@ -33,7 +23,6 @@ export default class EcStudAssess {
     constructor(private c: ICommon, private dCtx: IDataCtx) {
         if (c.$stateParams.crseId) this.routingParams.crseId = c.$stateParams.crseId;
         if (c.$stateParams.wgId) this.routingParams.wgId = c.$stateParams.wgId;
-
         this.activate();
     }
 
@@ -42,13 +31,20 @@ export default class EcStudAssess {
 
         //This unwraps the promise and retrieves the objects inside and stores it into a local variable
         //TODO: Whatif there are no courses??
-        this.dCtx.student.initCrseStudGroup(false)
+        this.dCtx.student.initStudentCourses()
             .then(activationResponse)
             .catch(courseError);
 
-        function activationResponse(crseStudInGrps: Array<ecat.entity.ICrseStudInGroup>) {
-            that.courses = that.getUniqueCourses(crseStudInGrps);
-            that.courses.forEach(course => course['displayName'] = `${course.classNumber}: ${course.name}`);
+        function activationResponse(courses: Array<ecat.entity.ICourse>) {
+
+            courses.sort((crseA: ecat.entity.ICourse, crseB: ecat.entity.ICourse) => {
+                if (crseA.startDate < crseB.startDate) return 1;
+                if (crseA.startDate > crseB.startDate) return -1;
+                return 0;
+            });
+
+             courses.forEach(course => course['displayName'] = `${course.classNumber}: ${course.name}`);
+
             let activeCourse: ecat.entity.ICourse;
 
             if (that.routingParams.crseId) {
@@ -62,6 +58,7 @@ export default class EcStudAssess {
                 .sort(that.sortWg);
 
             that.workGroups.forEach(wg => { wg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}` });
+
             that.activeCourseId = that.dCtx.student.activeCourseId = activeCourse.id;
 
             let activeWorkGroup: ecat.entity.IWorkGroup;
@@ -72,78 +69,13 @@ export default class EcStudAssess {
                 activeWorkGroup = that.workGroups[0];
             }
 
-            that.activeView = activeWorkGroup.mpSpStatus === _mp.MpSpStatus.published ? StudAssessViews.ResultMyReport : StudAssessViews.PeerList;
-            that.setActiveGroup(activeWorkGroup, true);
+            that.courses = courses;
+            that.setActiveGroup(activeWorkGroup);
         }
 
         function courseError(error: any) {
             that.log.warn('There was an error loading Courses', error, true);
         }
-    }
-
-    private changeActiveView(view?: string, isReloading?: boolean) {
-        if (this.activeView === StudAssessViews.StratList && view !== 'strat') {
-            this.c.broadcast(this.c.coreCfg.coreApp.events.stratStateAbandon, {});
-        }
-        let requireReload = false;
-
-        if (!view) {
-            return this.changeActiveView('assess', true);
-        }
-
-
-        switch (view) {
-        case 'assess':
-            this.activeView = StudAssessViews.PeerList;
-            requireReload = this.c.$state.current.name === this.c.stateMgr.student.assess.name && isReloading;
-            this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload });
-            break;
-        case 'strat':
-            this.activeView = StudAssessViews.StratList;
-            requireReload = this.c.$state.current.name === this.c.stateMgr.student.assess.name && isReloading;
-            this.c.$state.go(this.c.stateMgr.student.assess.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload });
-            break;
-        case 'myReport':
-            this.activeView = StudAssessViews.ResultMyReport;
-            requireReload = this.c.$state.current.name === this.c.stateMgr.student.result.name && isReloading;
-            this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload });
-            break;
-        case 'comment':
-            this.activeView = StudAssessViews.ResultComment;
-            requireReload = this.c.$state.current.name === this.c.stateMgr.student.result.name && isReloading;
-            this.c.$state.go(this.c.stateMgr.student.result.name, { crseId: this.activeGroup.courseId, wgId: this.activeGroup.id }, { reload: requireReload});
-            break;
-        default:
-            return null;
-        }
-    }
-
-    private getUniqueCourses(crseStudInGrp: Array<ecat.entity.ICrseStudInGroup>): Array<ecat.entity.ICourse> {
-        const uniqueCourses = {};
-        const courses: Array<ecat.entity.ICourse> = [];
-
-        crseStudInGrp.forEach(crseStud => {
-            uniqueCourses[crseStud.courseId] = crseStud.course;
-        });
-
-        for (let course in uniqueCourses) {
-            if (uniqueCourses.hasOwnProperty(course)) {
-                courses.push(uniqueCourses[course]);
-            }
-        }
-        courses.forEach((crse: ecat.entity.ICourse) => {
-            crse['name'] = crse.classNumber || crse.name;
-        });
-        return courses.sort((crseA: ecat.entity.ICourse, crseB: ecat.entity.ICourse) => {
-            if (crseA.startDate < crseB.startDate) return 1;
-            if (crseA.startDate > crseB.startDate) return -1;
-            return 0;
-        });
-    }
-
-    private setAcknowledged(): void {
-        this.me.hasAcknowledged = this.hasAcknowledged = true;
-        this.changeActiveView('assess');
     }
 
     private setActiveCourse(course: ecat.entity.ICourse): void {
@@ -159,21 +91,14 @@ export default class EcStudAssess {
         }
     }
 
-    private setActiveGroup(workGroup: ecat.entity.IWorkGroup, isActivating?: boolean): void {
+    private setActiveGroup(workGroup: ecat.entity.IWorkGroup): void {
         this.dCtx.student.activeGroupId = workGroup.id;
         this.grpDisplayName = `${workGroup.mpCategory}: ${workGroup.customName || workGroup.defaultName}`;
         this.activeGroup = workGroup;
-        this.isGroupOpen = workGroup.mpSpStatus === _mp.MpSpStatus.open;
         this.isResultPublished = workGroup.mpSpStatus === _mp.MpSpStatus.published;
-        this.me = workGroup.groupMembers.filter(gm => gm.studentId === this.dCtx.user.persona.personId)[0];
-        this.hasAcknowledged = this.me.hasAcknowledged;
 
-        if (isActivating) {
-            this.changeActiveView('assess');
-        } else {
-            this.changeActiveView();
-        }
-            
+        !this.isResultPublished ? this.c.$state.go(this.c.stateMgr.student.assess.name) : this.c.$state.go(this.c.stateMgr.student.result.name);
+
     }
 
     private sortWg(wgA: ecat.entity.IWorkGroup, wgB: ecat.entity.IWorkGroup): number {

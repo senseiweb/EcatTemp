@@ -40,16 +40,21 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        [EnableBreezeQuery(MaxExpansionDepth = 1, AllowedArithmeticOperators = AllowedArithmeticOperators.None)]
-        public IQueryable<CrseStudentInGroup> GetCourses(int? crseId = null)
+        public Task<List<Course>> GetCourses()
+        {
+            return _studLogic.GetCourses(null);
+        }
+
+        [HttpGet]
+        public Task<List<Course>> ActiveCourse(int crseId)
         {
             return _studLogic.GetCourses(crseId);
         }
-  
+
         [HttpGet]
-        public async Task<CrseStudentInGroup> ActiveWorkGroup(int wgId)
+        public async Task<WorkGroup> ActiveWorkGroup(int wgId)
         {
-            return await _studLogic.GetSingleWrkGrpMembers(wgId);
+            return await _studLogic.GetWorkGroup(wgId);
         }
 
         [HttpGet]

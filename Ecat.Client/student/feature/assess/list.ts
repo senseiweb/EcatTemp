@@ -10,11 +10,14 @@ export default class EcStudAssessList {
     static $inject =  ['$scope',ICommon.serviceId, IDataCtx.serviceId, ISpTools.serviceId];
 
     //#region Controller Properties
+
     protected activeSort: { opt: string, desc: boolean } = { opt: 'nameSorter.last', desc: false };
-    protected activeGroup: ecat.entity.IWorkGroup;
-    protected isResultPublished = true;
-    protected isViewOnly = false;
-    private log = this.c.getAllLoggers('Assessment Center');
+    protected activeView = StudListViews.None;
+    protected doneWithAssess = false;
+    protected doneWithStrats = false;
+    protected groupCount= 0;
+    protected instructions: string;
+    private log = this.c.getAllLoggers('Assessment Center [LV]');
     protected me: ecat.entity.ICrseStudInGroup;
     protected peers: Array<ecat.entity.ICrseStudInGroup>;
     protected routingParams = { crseId: 0, wgId: 0 }
@@ -32,12 +35,11 @@ export default class EcStudAssessList {
         strat: 'stratText',
         composite: 'compositeScore'
     }
-    protected stratInputVis: boolean;
-    protected stratValComments: Array<ecat.entity.ICrseStudInGroup>;
-    protected user: ecat.entity.IPerson;
-   
-
-    protected workGroups: ecat.entity.IWorkGroup[];
+    private user: ecat.entity.IPerson;
+    protected view = {
+        peers: StudListViews.PeerList,
+        strats: StudListViews.StratList
+    }
     //#endregion
 
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
@@ -51,40 +53,8 @@ export default class EcStudAssessList {
             dCtx.student.activeGroupId = c.$stateParams.wgId;
         }
 
-        $scope.$on('$stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => {
+        $scope.$on('$stateChangeStart', ($event: angular.IAngularEvent, to: angular.ui.IState, toParams: {}, from: angular.ui.IState, fromParams: {}) => this.handleUnsavedStrats().catch(() => $event.preventDefault()));
 
-            const alertSettings: SweetAlert.Settings = {
-                title: 'Wait a minute!',
-                text: 'You have unsaved changes',
-                closeOnConfirm: true,
-                closeOnCancel: true,
-                showConfirmButton: true,
-                showCancelButton: true,
-                cancelButtonText: 'Cancel',
-                confirmButtonText: 'Continue'
-            }
-
-            const hasUnsavedStrats = this.activeGroup.groupMembers.some(gm => gm.proposedStratPosition !== null);
-
-            //TODO: Jason fix up text
-            alertSettings.text = `${alertSettings.text}`;
-
-            if (hasUnsavedStrats) {
-                $event.preventDefault();
-                _swal(alertSettings, (confirmed?: boolean) => {
-                    if (confirmed) {
-                        this.activeGroup.groupMembers
-                            .filter(gm => gm.proposedStratPosition !== null)
-                            .forEach(gm => {
-                                gm.proposedStratPosition = null;
-                                gm.stratValidationErrors = [];
-                                gm.stratIsValid = true;
-                            });
-                       c.$state.go(to.name,toParams);
-                    }
-                });
-            }
-        });
         this.activate();
     }
 
@@ -99,31 +69,23 @@ export default class EcStudAssessList {
             .catch(activationError);
 
         function activationResponse(wg: ecat.entity.IWorkGroup) {
-            const grpMembers = wg.groupMembers;
-            that.activeGroup = wg;
+            const grpMembers = that.dCtx.student.getActiveWgMemberships();
+            that.groupCount = grpMembers.length;
             const myId = that.dCtx.user.persona.personId;
-
-            that.isViewOnly = wg.mpSpStatus !== _mp.MpSpStatus.open;
-
             that.me = grpMembers.filter(gm => gm.studentId === myId)[0];
+
+            if (!that.me.hasAcknowledged) that.instructions = wg.assignedSpInstr.studentInstructions;
+
+            that.me.updateStatusOfPeer();
+
             grpMembers.forEach(gm => {
-
                 gm['hasChartData'] = that.me.statusOfPeer[gm.studentId].breakOutChartData.some(cd => cd.data > 0);
-
-                if (that.isViewOnly) {
-                    gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
-                    gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
-                    gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
-                } else {
-                    gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'Edit' : 'Add';
-                    gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'Edit' : 'Add';
-                    gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
-                }
+                gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'Edit' : 'Add';
+                gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'Edit' : 'Add';
+                gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
             });
-            that.peers = grpMembers
-                .filter(gm => !gm.entityAspect.entityState.isDetached())
-                .filter(gm => gm.studentId !== myId);
-            that.evaluateStrat();
+
+            that.peers = grpMembers.filter(gm => gm.studentId !== myId);
         }
 
         function activationError(error: any) {
@@ -133,9 +95,54 @@ export default class EcStudAssessList {
 
     private evaluateStrat(force?: boolean): void {
         this.spTools.evaluateStratification(this.activeGroup, false, force)
-            .then((crseMems) => {
-                this.stratValComments = crseMems;
+            .then(() => {
+                this.peers = this.dCtx.student.getActiveWgMembers()
+                    .filter(gm => gm.studentId !== this.me.studentId);
+                this.me = this.dCtx.student.getActiveWgMembers()
+                    .filter(gm => !gm.entityAspect.entityState.isDetached())
+                    .filter(gm => gm.studentId === this.me.studentId)[0];
             });
+    }
+    
+    private handleUnsavedStrats(): angular.IPromise<any> {
+        const deferred = this.c.$q.defer();
+
+        const alertSettings: SweetAlert.Settings = {
+            title: 'Wait a minute!',
+            text: 'You have unsaved changes',
+            closeOnConfirm: true,
+            closeOnCancel: true,
+            showConfirmButton: true,
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Continue'
+        }
+
+        const gmWithUnsavedStrats = this.dCtx.student
+            .getActiveWgMemberships()
+            .filter(gm => gm.proposedStratPosition !== null);
+
+        //TODO: Jason fix up text
+        alertSettings.text = `${alertSettings.text}`;
+
+        if (gmWithUnsavedStrats.length === 0) {
+            deferred.resolve();
+        }
+
+        _swal(alertSettings, (confirmed?: boolean) => {
+
+            if (!confirmed) {
+                deferred.reject('User Canceled');
+            };
+
+            gmWithUnsavedStrats.forEach(gm => {
+                gm.proposedStratPosition = null;
+                gm.stratValidationErrors = [];
+                gm.stratIsValid = true;
+            });
+            deferred.resolve();
+        });
+        return deferred.promise;
     }
 
     protected loadAssessment(assesseeId): void {
@@ -144,12 +151,8 @@ export default class EcStudAssessList {
         }
 
         //TODO: Add succes or failure logger
-        this.spTools.loadSpAssessment(assesseeId, this.isViewOnly)
+        this.spTools.loadSpAssessment(assesseeId, false)
             .then(() => {
-                if (this.isViewOnly) {
-                    return;
-                }
-
                 let updatedPeer = this.peers.filter(peer => peer.studentId === assesseeId)[0];
 
                 if (!updatedPeer) {
@@ -203,43 +206,16 @@ export default class EcStudAssessList {
         return 0;
     }
 
-    protected saveChanges(): angular.IPromise<void> {
+    protected saveChanges(changeSet?: Array<ecat.entity.IStratResponse>): angular.IPromise<void> {
         const that = this;
-        this.evaluateStrat(true);
-
-        const hasErrors = this.activeGroup.groupMembers
-            .filter(gm => !gm.entityAspect.entityState.isDetached())
-            .some(gm => !gm.stratIsValid);
-
-        if (hasErrors) {
-            _swal('Not ready', 'Your proposed changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
-            return null;
-        }
-
-        const changeSet = this.activeGroup.groupMembers
-            .filter(gm => !gm.entityAspect.entityState.isDetached())
-            .filter(gm => gm.proposedStratPosition !== null);
-
-        changeSet.forEach(gm => {
-            const stratResponse = this.dCtx.student.getSingleStrat(gm.studentId);
-            stratResponse.stratPosition = gm.proposedStratPosition;
-        });
 
         return this.dCtx.student.saveChanges(changeSet)
             .then(saveChangesResponse)
             .catch(saveChangesError);
 
         function saveChangesResponse(): void {
-            that.activeGroup
-                .groupMembers
-                .filter(gm => !gm.entityAspect.entityState.isDetached())
-                .forEach(gm => {
-                    gm.stratValidationErrors = [];
-                    gm.stratIsValid = true;
-                    gm.proposedStratPosition = null;
-                });
             that.me.updateStatusOfPeer();
-            that.log.success('Save Stratification, Your changes have been made.', null, true);
+            that.log.success('Success, Your changes have been made.', null, true);
         }
 
         //TODO: Need to write error handler
@@ -247,6 +223,58 @@ export default class EcStudAssessList {
 
         }
 
+    }
+
+    protected saveChangesStrats(): angular.IPromise<void> {
+        this.evaluateStrat(true);
+
+        const hasErrors = this.dCtx.student.getActiveWgMembers()
+            .some(gm => !gm.stratIsValid);
+
+        if (hasErrors) {
+            _swal('Not ready', 'Your proposed changes contain errors, please ensure all proposed changes are valid before saving', 'warning');
+            return null;
+        }
+
+        const gmWithChanges = this.dCtx.student.getActiveWgMembers()
+            .filter(gm => gm.proposedStratPosition !== null);
+
+        const changeSet = [] as Array<ecat.entity.IStratResponse>;
+
+        gmWithChanges.forEach(gm => {
+            const stratResponse = this.dCtx.student.getSingleStrat(gm.studentId);
+            stratResponse.stratPosition = gm.proposedStratPosition;
+            changeSet.push(stratResponse);
+        });
+
+        return this.saveChanges(changeSet).then(() => {
+            this.dCtx.student.getActiveWgMembers()
+                .filter(gm => changeSet.some(cs => cs.assesseePersonId === gm.studentId))
+                .forEach(gm => {
+                    gm.stratValidationErrors = [];
+                    gm.stratIsValid = true;
+                    gm.proposedStratPosition = null;
+                });
+            this.log.success('Stratifications Updated!', null, true);
+        });
+    }
+
+    protected switchView(view: StudListViews): void {
+
+        if (view === StudListViews.None) return null;
+
+        if (view === StudListViews.StratList) {
+            if (this.activeView === StudListViews.StratList) return null;
+            this.evaluateStrat();
+            this.activeView = StudListViews.StratList;
+        }
+
+        if (view !== StudListViews.StratList && this.activeView === StudListViews.StratList) {
+            this.handleUnsavedStrats()
+                .then(() => this.activeView = view);
+        }
+
+        this.activeView = view;
     }
 }
 
@@ -257,9 +285,8 @@ const enum SortOpt {
     Strat,
 }
 
-const enum StudAssessViews {
+const enum StudListViews {
+    None,
     PeerList,
-    StratList,
-    ResultMyReport,
-    ResultComment
+    StratList
 }
