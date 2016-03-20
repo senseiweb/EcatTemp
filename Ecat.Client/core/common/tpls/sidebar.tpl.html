@@ -117,7 +117,7 @@
                 <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.student.assessment.name}}({crseId:0,wgId:0})" ng-click="main.sidebarStat($event)">Assessments</a></li>
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{ 'active toggled': main.$state.includes('charts') }">
+        <li ng-hide="true" class="sub-menu" ng-class="{ 'active toggled': main.$state.includes('charts') }">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-trending-up"></i>
                 Cognitive Assessment
@@ -127,7 +127,7 @@
                 <li><a data-ui-sref-active="active" data-ui-sref="charts.other-charts" data-ng-click="main.sidebarStat($event)">Other Charts</a></li>
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': main.$state.includes('photo-gallery') }">
+        <li ng-hide="true" class="sub-menu" ng-class="{'active toggled': main.$state.includes('photo-gallery') }">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-image"></i>
                 Group Assessment
