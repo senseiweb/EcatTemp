@@ -117,6 +117,7 @@ namespace Ecat.StudMod.Core
                 .WithRequired(p => p.ResultFor);
 
             Ignore(p => p.GroupPeers);
+            Ignore(p => p.NumOfStratIncomplete);
             Ignore(p => p.NumberOfAuthorComments);
 
             HasKey(p => new { p.StudentId, p.CourseId, p.WorkGroupId });

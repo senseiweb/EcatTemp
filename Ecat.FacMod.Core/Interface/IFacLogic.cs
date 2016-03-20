@@ -16,7 +16,7 @@ namespace Ecat.FacMod.Core
         WorkGroup GetWorkGroupSpData(int courseId, int workGroupId, bool addAssessment);
         IQueryable<FacultyInCourse> GetActiveCourseData(int courseId);
         IQueryable<StudSpComment> GetStudSpComments();
-        IQueryable<CrseStudentInGroup> GetWorkGroupResults(bool addAssessment, bool addComments);
+        WorkGroup GetWorkGroupResults(int wgId, bool addAssessment, bool addComments);
         IQueryable<Course> CourseMembers(int courseId);
     }
 }

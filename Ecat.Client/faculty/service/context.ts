@@ -58,7 +58,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             resource: 'ActiveWgSpComment'
         },
         wgResult: {
-            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.workGroup,
             resource: 'WorkGroupResult'
         },
         caCourse: {
@@ -219,10 +219,11 @@ export default class EcFacultyRepo extends IUtilityRepo {
         const that = this;
         let workGroup: ecat.entity.IWorkGroup;
         const cachedWg = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
-        let canPub = cachedWg.canPublish;
+        let canPub;
         //A loaded workgroup is a group that has group members on the client, not just the workgroup entity.
         if (this.isLoaded.workGroup[this.activeGroupId]) {
             if (cachedWg) {
+               canPub =  cachedWg.canPublish;
                workGroup = cachedWg;
                log.success('WorkGroup loaded from local cache', workGroup, false);
                return this.c.$q.when(workGroup);
@@ -254,7 +255,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             }
             
             that.isLoaded.workGroup[workGroup.id] = true;
-            workGroup.canPublish = canPub;
+            workGroup.canPublish = !!canPub;
             const inventory = workGroup.assignedSpInstr.inventoryCollection;
 
             if (inventory && inventory.length > 0) {
@@ -273,20 +274,30 @@ export default class EcFacultyRepo extends IUtilityRepo {
             return this.c.$q.reject('Missing result id information') as any;
         }
         const resource = this.facultyApiResource.wgResult.resource;
-        const wgPred = new breeze.Predicate('workGroupId', breeze.FilterQueryOp.Equals, this.activeGroupId);
-        const crsePred = new breeze.Predicate('courseId', breeze.FilterQueryOp.Equals, this.activeCourseId);
-        
+
+        let workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+
         if (this.isLoaded.spResult[this.activeGroupId]) {
-            const resultCached = this.queryLocal(resource, null, wgPred) as Array<ecat.entity.ICrseStudInGroup>;
+            const resultCached = this.manager.getEntities(_mp.MpEntityType.crseStudInGrp) as Array<ecat.entity.ICrseStudInGroup>;
+
             if (resultCached) {
-                this.log.info('Retrieved workgroup result from the local cache', resultCached, false);
-                return this.c.$q.when(resultCached);
+                const members = resultCached.filter(gm => gm.workGroupId === this.activeGroupId && gm.courseId === this.activeCourseId);
+                if (members && members.length !== 0) {
+                    const cachedInventory = that.manager
+                        .getEntities(_mp.MpEntityType.spInventory) as Array<ecat.entity.IFacSpInventory>;
+                    cachedInventory
+                        .filter(inv => inv.instrument.id === workGroup.assignedSpInstrId)
+                        .forEach(inv => {
+                            inv.resetResults();
+                            inv.workGroup = workGroup;
+                        });
+                    this.log.info('Retrieved workgroup result from the local cache', resultCached, false);
+                    return this.c.$q.when(members);
+                }
             }
         }
 
-        const params = {addAssessment: false, addComments: false };
-
-        let workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
+        const params = {wgId: this.activeGroupId,  addAssessment: false, addComments: false };
 
         if (!this.isLoaded.wgSpComment[this.activeGroupId]) {
             params.addComments = true;
@@ -299,23 +310,20 @@ export default class EcFacultyRepo extends IUtilityRepo {
         return this.query.from(resource)
             .using(this.manager)
             .withParameters(params)
-            .where(wgPred.and(crsePred))
             .execute()
             .then(activeWgResultResponse)
             .catch(this.queryFailed);
         
         function activeWgResultResponse(data: breeze.QueryResult): Array<ecat.entity.ICrseStudInGroup> {
-             const crseStudInGrps = data.results as Array<ecat.entity.ICrseStudInGroup>;
+             workGroup = data.results[0] as ecat.entity.IWorkGroup;
            
-             if (!crseStudInGrps || crseStudInGrps.length === 0) {
+             if (!workGroup.groupMembers || workGroup.groupMembers.length === 0) {
                 const queryError: ecat.IQueryError = {
                     errorMessage: 'No published data was found for this workgroup',
                     errorType: _mpe.QueryError.UnexpectedNoResult
                 }
                  that.c.$q.reject(queryError);
              }
-
-            workGroup = crseStudInGrps[0].workGroup;
 
             if (workGroup.assignedSpInstr) {
                 that.isLoaded.spInstr[workGroup.assignedSpInstrId] = true;
@@ -340,8 +348,8 @@ export default class EcFacultyRepo extends IUtilityRepo {
                     inv.workGroup = workGroup;
                 });
 
-            that.log.info('Fetched course student in groups result from the remote data store', crseStudInGrps, false);
-            return crseStudInGrps;
+            that.log.info('Fetched course student in groups result from the remote data store', workGroup.groupMembers, false);
+            return workGroup.groupMembers;
         }      
     }
 
