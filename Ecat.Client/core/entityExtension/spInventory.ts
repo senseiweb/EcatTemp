@@ -220,7 +220,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
                 if (bo === 'ND') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#AAAAAA' });
                 if (bo === 'EA') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#00AA58' });
                 if (bo === 'EU') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#73FFBB' });
-                if (bo === 'HEA') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#9f9f9f' });
+                if (bo === 'HEA') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#00308F' });
                 if (bo === 'HEU') dataSet.push({ data: compositeBreakOut[bo], label: bo, color: '#7CA8FF' });
             }
         }

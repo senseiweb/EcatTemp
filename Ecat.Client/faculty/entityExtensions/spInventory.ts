@@ -68,7 +68,7 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
                     case 'ND': resp.color = '#AAAAAA'; break;
                     case 'EA': resp.color = '#00AA58'; break;
                     case 'EU': resp.color = '#73FFBB'; break;
-                    case 'HEA': resp.color = '#9f9f9f'; break;
+                    case 'HEA': resp.color = '#00308F'; break;
                     case 'HEU': resp.color = '#7CA8FF'; break;
                 }
             });
@@ -79,7 +79,7 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
                     case 'ND': resp.color = '#AAAAAA'; break;
                     case 'EA': resp.color = '#00AA58'; break;
                     case 'EU': resp.color = '#73FFBB'; break;
-                    case 'HEA': resp.color = '#9f9f9f'; break;
+                    case 'HEA': resp.color = '#00308F'; break;
                     case 'HEU': resp.color = '#7CA8FF'; break;
                 }
             });
