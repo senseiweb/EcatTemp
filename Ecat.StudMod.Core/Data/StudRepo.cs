@@ -43,17 +43,9 @@ namespace Ecat.StudMod.Core
         }
 
         IQueryable<SpResult> IStudRepo.SpResult => _mainCtx.SpResults;
-
-        IQueryable<WorkGroup> IStudRepo.WorkGroups(bool addInstrument)
-        {
-            var query = _ctx.WorkGroups;
-
-            return addInstrument
-                ? query.Include(wg => wg.AssignedSpInstr)
-                    .Include(wg => wg.AssignedSpInstr.InventoryCollection)
-                : query;
-        }
-
+         
+        IQueryable<WorkGroup> IStudRepo.WorkGroups => _ctx.WorkGroups;
+        
         void IStudRepo.LoadGroupPeers(CrseStudentInGroup groupMember)
         {
              _ctx.Entry(groupMember)
@@ -88,9 +80,7 @@ namespace Ecat.StudMod.Core
             }
         }
 
-        public IQueryable<CrseStudentInGroup> CrseStudentInGroups => _ctx.StudentInGroups
-            .Where(sg => !sg.IsDeleted)
-            .Include(gm => gm.WorkGroup);
+         IQueryable<Course> IStudRepo.Courses => _ctx.Courses;
 
         public IQueryable<StudentInCourse> Courses => _ctx.StudentInCourses
             .Where(course => !course.IsDeleted);

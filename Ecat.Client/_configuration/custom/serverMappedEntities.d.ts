@@ -238,6 +238,7 @@ declare module ecat.entity
     interface ISpResult extends breeze.Entity, s.learner.SpResult {
         assignedInstrument: ISpInstrument;
         sanitizedComments: ISantiziedComment[];
+        resultFor: ICrseStudInGroup;
     }
 
     interface IStratResult extends breeze.Entity, s.learner.StratResult, ext.ICompositeKey {}

@@ -86,6 +86,7 @@ export default class EcStudAssessList {
             });
 
             that.peers = grpMembers.filter(gm => gm.studentId !== myId);
+            that.activeView = StudListViews.PeerList;
         }
 
         function activationError(error: any) {
@@ -94,11 +95,11 @@ export default class EcStudAssessList {
     }
 
     private evaluateStrat(force?: boolean): void {
-        this.spTools.evaluateStratification(this.activeGroup, false, force)
+        this.spTools.evaluateStratification(false, force)
             .then(() => {
-                this.peers = this.dCtx.student.getActiveWgMembers()
+                this.peers = this.dCtx.student.getActiveWgMemberships()
                     .filter(gm => gm.studentId !== this.me.studentId);
-                this.me = this.dCtx.student.getActiveWgMembers()
+                this.me = this.dCtx.student.getActiveWgMemberships()
                     .filter(gm => !gm.entityAspect.entityState.isDetached())
                     .filter(gm => gm.studentId === this.me.studentId)[0];
             });
@@ -127,6 +128,7 @@ export default class EcStudAssessList {
 
         if (gmWithUnsavedStrats.length === 0) {
             deferred.resolve();
+            return deferred.promise;
         }
 
         _swal(alertSettings, (confirmed?: boolean) => {
@@ -175,11 +177,8 @@ export default class EcStudAssessList {
         }
 
         //TODO: Add succes or failure logger
-        this.spTools.loadSpComment(recipientId, this.isViewOnly)
+        this.spTools.loadSpComment(recipientId, false)
             .then(() => {
-                if (this.isViewOnly) {
-                    return;
-                }
                 const updatedPeer = this.peers.filter(peer => peer.studentId === recipientId)[0];
                 this.me.updateStatusOfPeer();
                 updatedPeer['commentText'] = this.me.statusOfPeer[updatedPeer.studentId].hasComment ? 'Edit' : 'Add';
@@ -228,7 +227,7 @@ export default class EcStudAssessList {
     protected saveChangesStrats(): angular.IPromise<void> {
         this.evaluateStrat(true);
 
-        const hasErrors = this.dCtx.student.getActiveWgMembers()
+        const hasErrors = this.dCtx.student.getActiveWgMemberships()
             .some(gm => !gm.stratIsValid);
 
         if (hasErrors) {
@@ -236,7 +235,7 @@ export default class EcStudAssessList {
             return null;
         }
 
-        const gmWithChanges = this.dCtx.student.getActiveWgMembers()
+        const gmWithChanges = this.dCtx.student.getActiveWgMemberships()
             .filter(gm => gm.proposedStratPosition !== null);
 
         const changeSet = [] as Array<ecat.entity.IStratResponse>;
@@ -248,7 +247,7 @@ export default class EcStudAssessList {
         });
 
         return this.saveChanges(changeSet).then(() => {
-            this.dCtx.student.getActiveWgMembers()
+            this.dCtx.student.getActiveWgMemberships()
                 .filter(gm => changeSet.some(cs => cs.assesseePersonId === gm.studentId))
                 .forEach(gm => {
                     gm.stratValidationErrors = [];

@@ -48,9 +48,9 @@ export default class EcStudAssess {
             let activeCourse: ecat.entity.ICourse;
 
             if (that.routingParams.crseId) {
-                activeCourse = that.courses.filter(crse => crse.id === that.routingParams.crseId)[0];
+                activeCourse = courses.filter(crse => crse.id === that.routingParams.crseId)[0];
             } else {
-                activeCourse = that.courses[0];
+                activeCourse = courses[0];
             }
 
             that.workGroups = activeCourse
@@ -65,6 +65,7 @@ export default class EcStudAssess {
 
             if (that.routingParams.wgId) {
                 activeWorkGroup = that.workGroups.filter(wg => wg.id === that.routingParams.wgId)[0];
+                if (!activeWorkGroup) activeWorkGroup = that.workGroups[0];
             } else {
                 activeWorkGroup = that.workGroups[0];
             }
@@ -96,8 +97,9 @@ export default class EcStudAssess {
         this.grpDisplayName = `${workGroup.mpCategory}: ${workGroup.customName || workGroup.defaultName}`;
         this.activeGroup = workGroup;
         this.isResultPublished = workGroup.mpSpStatus === _mp.MpSpStatus.published;
-
-        !this.isResultPublished ? this.c.$state.go(this.c.stateMgr.student.assess.name) : this.c.$state.go(this.c.stateMgr.student.result.name);
+        const wId = (workGroup) ? workGroup.id : 0;
+        const params = {crseId: this.activeCourseId, wgId:wId }
+        !this.isResultPublished ? this.c.$state.go(this.c.stateMgr.student.assess.name,params ) : this.c.$state.go(this.c.stateMgr.student.result.name, params);
 
     }
 

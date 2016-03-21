@@ -199,7 +199,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected evaluateStrat(force: boolean) {
-        this.sptool.evaluateStratification(this.activeWorkGroup, true, force)
+        this.sptool.evaluateStratification(true, force)
             .then((crseMems) => {
                 this.groupMembers = crseMems;
             });

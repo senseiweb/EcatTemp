@@ -45,14 +45,14 @@ export default class EcSpTools {
         return this.$uim.open(this.assssModalOption).result;
     }
 
-    evaluateStratification(workGroup: ecat.entity.IWorkGroup, isInstructor?: boolean, force?: boolean): angular.IPromise<Array<ecat.entity.ICrseStudInGroup>> {
+    evaluateStratification(isInstructor?: boolean, force?: boolean): angular.IPromise<Array<ecat.entity.ICrseStudInGroup>> {
         const that = this;
         if (this.off) {
             this.$to.cancel(this.off);
         }
 
         function evaluate(): Array<ecat.entity.ICrseStudInGroup> {
-            const members = (isInstructor) ? that.dCtx.faculty.getActiveWgMembers() : that.dCtx.student.getActiveWgMembers();
+            const members = (isInstructor) ? that.dCtx.faculty.getActiveWgMembers() : that.dCtx.student.getActiveWgMemberships();
        
             if (members.length > 12) console.log('I have more than 12', members);
                 //if (!isInstructor) {
@@ -137,7 +137,7 @@ export default class EcSpTools {
                     }
                     member.stratIsValid = member.stratValidationErrors.length === 0;
                 });
-                return workGroup.groupMembers;
+                return members;
             
         }
 

@@ -21,6 +21,7 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt, 
     stratValidationErrors: Array<{ cat: string, text: string }>;
 
     updateStatusOfPeer(): ecat.entity.ext.IStatusOfPeer {
+        if (!this._sop) this._sop = {};
         const groupMembers = this.workGroup.groupMembers.filter(gm => !gm.entityAspect.entityState.isDetached());
 
         groupMembers.forEach((gm) => {

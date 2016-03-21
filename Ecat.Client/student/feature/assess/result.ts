@@ -13,10 +13,26 @@ export default class EcStudAssessResult {
     protected activeView: StudAssessViews;
     protected hasComments = false;
     private log = this.c.getAllLoggers('Assessment Center');
+    protected me: ecat.entity.ICrseStudInGroup;
+    protected peers: Array<ecat.entity.ICrseStudInGroup>;
     protected resultInventory: Array<ecat.entity.ISpInventory>;
     protected routingParams = { crseId: 0, wgId: 0 }
     protected selectedComment: ecat.entity.ISantiziedComment;
     protected studentComments: Array<ecat.entity.ISantiziedComment>;
+    protected sortOpt = {
+        student: 'nameSorter.last',
+        assess: 'assessText',
+        comment: 'commentText',
+        strat: 'stratText',
+        composite: 'compositeScore'
+    }
+    protected sortStratOpt = {
+        student: 'nameSorter.last',
+        assess: 'assessText',
+        comment: 'commentText',
+        strat: 'stratText',
+        composite: 'compositeScore'
+    }
     protected view = {
         peer: StudAssessViews.PeerList,
         strat: StudAssessViews.StratList,
@@ -45,8 +61,20 @@ export default class EcStudAssessResult {
             .catch(activationError);
 
         function activationResponse(result: ecat.entity.ISpResult) {
+            const groupMembers = that.dCtx.student.getActiveWgMemberships();
+            that.me = groupMembers.filter(gm => gm.studentId === result.studentId)[0];
+
+            groupMembers.forEach(gm => {
+                gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
+                gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
+                gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
+            });
+
+            that.peers = groupMembers.filter(gm => gm.studentId !== result.studentId);
+
             that.resultInventory = result.assignedInstrument.inventoryCollection;
             that.hasComments = result.sanitizedComments && result.sanitizedComments.length > 0;
+
             result.sanitizedComments.forEach(comment => {
                 if (comment.authorName === 'Anonymous') {
                     comment['initials'] = 'A';
@@ -79,9 +107,7 @@ export default class EcStudAssessResult {
     }
 
 }
-gm['assessText'] = (that.me.statusOfPeer[gm.studentId].assessComplete) ? 'View' : 'None';
-gm['commentText'] = (that.me.statusOfPeer[gm.studentId].hasComment) ? 'View' : 'None';
-gm['stratText'] = (that.me.statusOfPeer[gm.studentId].stratComplete) ? that.me.statusOfPeer[gm.studentId].stratedPosition : 'None';
+
 const enum StudAssessViews {
     PeerList,
     StratList,

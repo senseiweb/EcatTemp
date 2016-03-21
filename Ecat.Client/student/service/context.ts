@@ -42,7 +42,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             resource: 'ActiveCourse'
         },
         workGroup: {
-            returnedEntityType: _mp.MpEntityType.crseStudInGrp,
+            returnedEntityType: _mp.MpEntityType.workGroup,
             resource: 'ActiveWorkGroup'
         },
         wgResult: {
@@ -75,8 +75,6 @@ export default class EcStudentRepo extends IUtilityRepo {
         const api = this.studentApiResources;
         const log = this.log;
 
-        const orderBy = 'course.startDate desc';
-
         if (this.isLoaded.initCourses && !forceRefresh) {
             const allCourses = this.manager.getEntities(_mp.MpEntityType.course) as Array<ecat.entity.ICourse>;
             this.log.success('Courses loaded from local cache', allCourses, false);
@@ -89,7 +87,6 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         this.activationPromise = this.query.from(api.initCourses.resource)
             .using(this.manager)
-            .orderBy(orderBy)
             .execute()
             .then(initCoursesReponse)
             .catch(this.queryFailed);
@@ -215,7 +212,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
         return this.query.from(api.workGroup.resource)
             .using(this.manager)
-            .withParameters({wgId: this.activeGroupId})
+            .withParameters({wgId: this.activeGroupId, addAssessment: false})
             .execute()
             .then(getActiveWorkGrpResponse)
             .catch(this.queryFailed);
@@ -282,10 +279,10 @@ export default class EcStudentRepo extends IUtilityRepo {
             mpAuthor: _mp.MpCommentFlag.neut
         }
 
-        const comment = this.manager.createEntity(_mp.MpEntityType.spComment, newComment) as ecat.entity.IStudSpComment;
+        const returnedComment = this.manager.createEntity(_mp.MpEntityType.spComment, newComment) as ecat.entity.IStudSpComment;
         const flag = this.manager.createEntity(_mp.MpEntityType.spCommentFlag, newFlag) as ecat.entity.IStudSpCommentFlag;
-        comment.flag = flag;
-        return comment;
+        returnedComment.flag = flag;
+        return returnedComment;
     }
 
     getSpInventory(assesseeId: number): Array<ecat.entity.ISpInventory> {

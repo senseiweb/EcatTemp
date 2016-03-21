@@ -52,9 +52,9 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<WorkGroup> ActiveWorkGroup(int wgId)
+        public async Task<WorkGroup> ActiveWorkGroup(int wgId,bool addAssessment = false)
         {
-            return await _studLogic.GetWorkGroup(wgId);
+            return await _studLogic.GetWorkGroup(wgId, addAssessment);
         }
 
         [HttpGet]

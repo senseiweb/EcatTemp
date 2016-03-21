@@ -32,146 +32,78 @@ namespace Ecat.StudMod.Core
 
         async Task<List<Course>> IStudLogic.GetCourses(int? crseId)
         {
-            var studentCourseInit = (from csig in _repo.CrseStudentInGroups
-                where csig.StudentId == StudentPerson.PersonId &&
-                      !csig.IsDeleted
-                let latestGrp = csig.Course.WorkGroups
-                    .Where(wg => wg.GroupMembers.Any(mem => mem.StudentId == StudentPerson.PersonId && !mem.IsDeleted))
-                    .OrderByDescending(grp => grp.MpCategory)
-                    .FirstOrDefault()
-                let gm = latestGrp.GroupMembers.Where(gm => !gm.IsDeleted)
+            var query = crseId != null ? _repo.Courses.Where(c => c.Id == crseId) : _repo.Courses;
+
+            var studCourseInit = await (from crse in query
+                where crse.StudentsInCourse.Any(sic => sic.StudentPersonId == StudentPerson.PersonId && !sic.IsDeleted)
                 select new
                 {
-                    csig.StudentId,
-                    csig.CourseId,
-                    csig.WorkGroupId,
-                    LatestGrpId = latestGrp.Id,
-                    csig.Course,
-                    csig.WorkGroup,
-                    csig.HasAcknowledged,
-                    GroupMembers = gm,
-                    Instrument = latestGrp.AssignedSpInstr,
-                    Inventories = latestGrp.AssignedSpInstr.InventoryCollection,
-                    GroupPeersPerson = gm.Select(mem => mem.StudentProfile.Person),
-                    GroupPeersProfile = gm.Select(mem => mem.StudentProfile),
-                    MyAssesses =
-                        gm.SelectMany(g => g.AssessorSpResponses)
-                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
-                    MyStrats =
-                        gm.SelectMany(g => g.AssessorStratResponse)
-                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
-                    MyComments =
-                        gm.SelectMany(g => g.AuthorOfComments)
-                        .Where(g => g.AuthorPersonId == StudentPerson.PersonId),
-                   MyFlags =
-                        gm.SelectMany(g => g.AuthorOfComments.Select(aoc => aoc.Flag))
-                        .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
-                });
+                    crse,
+                    workGroups = crse.WorkGroups.Where(wg => wg.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId)),
+                    StudentCoures = crse.StudentsInCourse
+                        .Where(sic => sic.StudentPersonId == StudentPerson.PersonId),
+                }).ToListAsync();
+            
 
-          var studInCrseList = crseId != null ? await studentCourseInit.Where(crse => crse.CourseId == crseId).ToListAsync() : await studentCourseInit.ToListAsync();
+            var requestedCourses = new List<Course>();
 
-            var courses = studInCrseList.GroupBy(csig => csig.Course);
-            var studentCourses = new List<Course>();
-
-            foreach (var course in courses)
+            foreach (var sci in studCourseInit)
             {
-                var c = course.Key;
-
-                c.StudentsInCourse = course.Select(csig => new StudentInCourse
-                {
-                    CourseId = c.Id,
-                    StudentPersonId = csig.StudentId
-                }).ToList();
-
-                c.WorkGroups = course.Select(csig => csig.WorkGroup).ToList();
-                studentCourses.Add(c);
+                var course = sci.crse;
+                if (requestedCourses.Contains(course)) continue;
+                course.WorkGroups = sci.workGroups.ToList();
+                course.StudentsInCourse = sci.StudentCoures.ToList();
+                requestedCourses.Add(course);
             }
 
-            //.Select(csig => new Course
-            //{
-            //    StudentInCrseGroups = new CrseStudentInGroup { 
-            //    StudentId = csig.StudentId,
-            //    CourseId = csig.Course.Id,
-            //    WorkGroupId = csig.WorkGroupId,
-            //    Course = csig.Course,
-            //    WorkGroup = csig.WorkGroup,
-            //    }
-            //}).ToList();
+            var activeCourse = requestedCourses.OrderByDescending(crse => crse.StartDate).First();
+            var activeGroup = activeCourse.WorkGroups.OrderByDescending(wg => wg.MpCategory).FirstOrDefault();
+            if (crseId != null) requestedCourses = requestedCourses.Where(crse => crse.Id == crseId).ToList();
 
+            if (activeGroup == null) return requestedCourses;
 
-            var latestGrpId = studentCourseInit.FirstOrDefault()?.LatestGrpId;
-            var latestWorkgroup = studentCourses.SelectMany(sc => sc.WorkGroups).Single(wg => wg.Id == latestGrpId);
-            latestWorkgroup.GroupMembers = studentCourseInit.SelectMany(g => g.GroupMembers).ToList();
-            latestWorkgroup.SpComments = studentCourseInit.SelectMany(sp => sp.MyComments).ToList();
-            latestWorkgroup.SpResponses = studentCourseInit.SelectMany(sp => sp.MyAssesses).ToList();
-            latestWorkgroup.SpStratResponses = studentCourseInit.SelectMany(sp => sp.MyStrats).ToList();
-            latestWorkgroup.AssignedSpInstr = studentCourseInit.First().Instrument;
-            latestWorkgroup.AssignedSpInstr.InventoryCollection = studentCourseInit.First().Inventories.ToList();
-
-            foreach (var comment in latestWorkgroup.SpComments)
-            {
-                comment.Flag = studentCourseInit.SelectMany(g => g.MyFlags)
-                    .First(c => c.AuthorPersonId == comment.AuthorPersonId && c.RecipientPersonId == comment.RecipientPersonId);
-            }
-
-            foreach (var grpMem in latestWorkgroup.GroupMembers)
-            {
-                grpMem.StudentProfile = studentCourseInit
-                    .SelectMany(g => g.GroupPeersProfile)
-                    .First(g => g.PersonId == grpMem.StudentId);
-
-                grpMem.StudentProfile.Person = studentCourseInit
-                    .SelectMany(g => g.GroupPeersPerson)
-                    .Where(gp => gp.PersonId != StudentPerson.PersonId)
-                    .First(g => g.PersonId == grpMem.StudentId);
-            }
-            return studentCourses;
+            activeGroup = await GetWorkGroup(activeGroup.Id, false);
+            activeCourse.WorkGroups.Add(activeGroup);
+            return requestedCourses;
         }
 
-        async Task<WorkGroup> IStudLogic.GetWorkGroup(int wgId)
+        public async Task<WorkGroup> GetWorkGroup(int wgId, bool addInstrument)
         {
-            var singleGroup = await (from csig in _repo.CrseStudentInGroups
-                where csig.StudentId == StudentPerson.PersonId &&
-                      !csig.IsDeleted &&
-                      csig.WorkGroupId == wgId
-                let peers = csig.WorkGroup.GroupMembers.Where(gm => !gm.IsDeleted)
+            var workGroup = await (from wg in _repo.WorkGroups
+                where wg.Id == wgId &&
+                      wg.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId && !gm.IsDeleted)
+                let prundedGm = wg.GroupMembers.Where(gm => !gm.IsDeleted)
+                let myPrunded = prundedGm.FirstOrDefault(gm => gm.StudentId == StudentPerson.PersonId)
                 select new
                 {
-                    csig.StudentId,
-                    csig.CourseId,
-                    csig.WorkGroupId,
-                    csig.Course,
-                    csig.WorkGroup,
-                    csig.HasAcknowledged,
-                    GroupMembers = peers,
-                    Instrument = csig.WorkGroup.AssignedSpInstr,
-                    Inventories = csig.WorkGroup.AssignedSpInstr.InventoryCollection,
-                    GroupPeersPerson = peers.Select(mem => mem.StudentProfile.Person),
-                    GroupPeersProfile = peers.Select(mem => mem.StudentProfile),
-                    MyAssesses =
-                        peers.SelectMany(g => g.AssessorSpResponses)
-                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
-                    MyStrats =
-                        peers.SelectMany(g => g.AssessorStratResponse)
-                            .Where(g => g.AssessorPersonId == StudentPerson.PersonId),
-                    MyComments =
-                        peers.SelectMany(g => g.AuthorOfComments)
-                            .Where(g => g.AuthorPersonId == StudentPerson.PersonId),
-                    MyFlags = peers.SelectMany(g => g.AuthorOfComments.Select(aoc => aoc.Flag))
-                        .Where(g => g.AuthorPersonId == StudentPerson.PersonId)
-                }).SingleAsync();
-
-
-            var requestedWorkGroup = singleGroup.WorkGroup;
-
-            requestedWorkGroup.GroupMembers = singleGroup.GroupMembers.Where(gm => gm.StudentId != StudentPerson.PersonId).ToList();
-            requestedWorkGroup.SpResponses = singleGroup.MyAssesses.ToList();
-            requestedWorkGroup.SpStratResponses = singleGroup.MyStrats.ToList();
-            requestedWorkGroup.SpComments = singleGroup.MyComments.ToList();
+                    wg,
+                    wg.AssignedSpInstr,
+                    wg.AssignedSpInstr.InventoryCollection,
+                    PrunedGroupMembers = prundedGm,
+                    myPrunded.AssessorSpResponses,
+                    myPrunded.AssessorStratResponse,
+                    myPrunded.AuthorOfComments,
+                    Flags = myPrunded.AuthorOfComments.Select(aoc => aoc.Flag),
+                    Profiles = prundedGm.Select(gm => gm.StudentProfile).Distinct(),
+                    Persons = prundedGm.Select(gm => gm.StudentProfile.Person).Distinct()
+                }).SingleOrDefaultAsync();
+            
+            var requestedWorkGroup = workGroup.wg;
+            if (addInstrument)
+            {
+                requestedWorkGroup.AssignedSpInstr = workGroup.wg.AssignedSpInstr;
+                requestedWorkGroup.AssignedSpInstr.InventoryCollection =
+                    workGroup.wg.AssignedSpInstr.InventoryCollection;
+            }
+            requestedWorkGroup.GroupMembers = workGroup.PrunedGroupMembers.ToList();
+            requestedWorkGroup.SpResponses = workGroup.AssessorSpResponses.ToList();
+            requestedWorkGroup.SpStratResponses = workGroup.AssessorStratResponse.ToList();
+            requestedWorkGroup.SpComments = workGroup.AuthorOfComments.ToList();
 
             foreach (var comment in requestedWorkGroup.SpComments)
             {
-                comment.Flag = singleGroup.MyFlags.First(c => c.AuthorPersonId == comment.AuthorPersonId && c.RecipientPersonId == comment.RecipientPersonId);
+                comment.Flag = workGroup.Flags.First(c => c.AuthorPersonId == comment.AuthorPersonId && 
+                c.RecipientPersonId == comment.RecipientPersonId);
             }
 
             return requestedWorkGroup;
@@ -179,122 +111,117 @@ namespace Ecat.StudMod.Core
 
         async Task<SpResult> IStudLogic.GetWrkGrpResult(int wgId, bool addInstrument)
         {
-            var grpId = wgId;
+            var myResult = await (from result in _repo.SpResult
+                where result.WorkGroup.MpSpStatus == MpSpStatus.Published &&
+                      result.WorkGroup.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId) &&
+                      result.WorkGroupId == wgId
 
-            var svrWg = await _repo
-                .WorkGroups(addInstrument)
-                .Where(wg => wg.MpSpStatus == MpSpStatus.Published)
-                .Where(wg => wg.Id == grpId)
-                .SingleOrDefaultAsync(
-                    wg => wg.GroupMembers.Any(gm => !gm.IsDeleted && gm.StudentId == StudentPerson.PersonId));
+                from facSpResponse in _repo.WorkGroups.Where(wg => wg.Id == wgId).Select(fac => fac.FacSpResponses)
+                where facSpResponse.Any(fr => fr.AssesseePersonId == StudentPerson.PersonId)
 
+                from facComment in _repo.WorkGroups.FirstOrDefault(wg => wg.Id == wgId).FacSpComments
+                where facComment.RecipientPersonId == StudentPerson.PersonId
 
-            if (svrWg == null)
-            {
-                return null;
-            }
-
-            var pubResult =
-                await
-                    _repo.SpResult.Where(
-                        result => result.WorkGroupId == wgId && result.StudentId == StudentPerson.PersonId)
-                        .SingleOrDefaultAsync();
-
-            if (pubResult == null)
-            {
-                return null;
-            }
-
-            var groupMembers = await _repo.CrseStudentInGroups
-                .Where(gm => gm.WorkGroupId == grpId)
-                .Include(comment => comment.RecipientOfComments)
-                .Include(comment => comment.AuthorOfComments.Select(aoc => aoc.Author.StudentProfile.Person))
-                .Include(c => c.RecipientOfComments.Select(cf => cf.Flag))
-                .Include(gm => gm.AssesseeSpResponses)
-                .Include(gm => gm.AssessorSpResponses)
-                .Include(gm => gm.AuthorOfComments)
-                .Include(gm => gm.RecipientOfComments)
-                .Include(gm => gm.RecipientOfComments.Select(roc => roc.Flag))
-                .ToListAsync();
-
-            svrWg.GroupMembers = groupMembers;
-
-            var facResults = await _repo.GetFacSpResult(StudentPerson.PersonId, wgId);
-
-            var spResult = new SpResult
-            {
-                CourseId = svrWg.CourseId,
-                WorkGroupId = wgId,
-                StudentId = StudentPerson.PersonId,
-                AssignedInstrumentId = svrWg.AssignedSpInstrId,
-                MpAssessResult = pubResult.MpAssessResult,
-                CompositeScore = pubResult.CompositeScore,
-                BreakOut = pubResult.BreakOut,
-                WorkGroup = svrWg,
-                FacultyResponses = facResults?.FacResponses,
-                SanitizedResponses = svrWg.SpResponses
-                    .Where(response => response.AssesseePersonId == StudentPerson.PersonId)
-                    .Where(response => !response.Assessor.IsDeleted)
-                    .Select(response => new SanitizedSpResponse
-                    {
-                        StudentId = StudentPerson.PersonId,
-                        AssessorId = 0,
-                        AssesseeId = StudentPerson.PersonId,
-                        CourseId = svrWg.CourseId,
-                        WorkGroupId = svrWg.Id,
-                        IsSelfResponse = response.AssessorPersonId == StudentPerson.PersonId,
-                        MpItemResponse = response.MpItemResponse,
-                        ItemModelScore = response.ItemModelScore,
-                        InventoryItemId = response.InventoryItemId
-                    }).ToList(),
-                SanitizedComments = svrWg.SpComments.Where(
-                    comment =>
-                        comment.RecipientPersonId == StudentPerson.PersonId &&
-                        !comment.Author.IsDeleted &&
-                        comment.Flag != null &&
-                        comment.Flag.MpFaculty == MpCommentFlag.Appr)
-                    .Select(comment => new SanitizedSpComment
-                    {
-                        RecipientId = comment.RecipientPersonId,
-                        AuthorId = 0,
-                        CourseId = svrWg.CourseId,
-                        WorkGroupId = svrWg.Id,
-                        AuthorName =
-                            (comment.RequestAnonymity)
-                                ? "Anonymous"
-                                : $"{comment.Author.StudentProfile.Person.FirstName} {comment.Author.StudentProfile.Person.LastName}",
-                        CommentText = comment.CommentText,
-                    }).ToList()
-            };
-
-            var i = 1;
-            foreach (var response in spResult.SanitizedResponses)
-            {
-                response.AssessorId = i;
-                i += 13;
-            }
-
-            i = 1;
-            foreach (var comment in spResult.SanitizedComments)
-            {
-                comment.AuthorId = i;
-                i += 21;
-            }
-
-            if (facResults.FacSpComments != null) {
-                var comment = facResults.FacSpComments.FirstOrDefault();
-                spResult.SanitizedComments.Add(new SanitizedSpComment
+                let prundedGm = result.WorkGroup.GroupMembers.Where(gm => !gm.IsDeleted)
+                let myPrunded = prundedGm.FirstOrDefault(gm => gm.StudentId == StudentPerson.PersonId)
+                select new
                 {
-                    RecipientId = comment.RecipientPersonId,
-                    AuthorId = 0,
-                    CourseId = svrWg.CourseId,
-                    WorkGroupId = svrWg.Id,
-                    AuthorName = "Instructor",
-                    CommentText = comment.CommentText
-                });
+                    result,
+                    result.CourseId,
+                    result.WorkGroup,
+                    result.WorkGroup.AssignedSpInstr,
+                    result.WorkGroup.AssignedSpInstr.InventoryCollection,
+                    result.WorkGroup.GroupMembers,
+                    SpAssessorGmProfiles =
+                        myPrunded.AssessorSpResponses.Select(p => p.Assessee.StudentProfile),
+                    SpAssessorGmPerson =
+                        myPrunded.AssessorSpResponses.Select(p => p.Assessee.StudentProfile.Person),
+                    SpAssessorResponses = myPrunded.AssessorSpResponses,
+                    SpAssesseeResponses = myPrunded.AssesseeSpResponses,
+                    SpStratResponse = myPrunded.AssessorStratResponse,
+                    AuthorComments = myPrunded.AuthorOfComments,
+                    RecipientComments = myPrunded.RecipientOfComments,
+                    facSpResponse,
+                    facComment,
+                    facComment.Flag,
+                    AuthorFlags = myPrunded.AuthorOfComments.Select(aoc => aoc.Flag),
+                    RecipientFlags = myPrunded.AuthorOfComments.Select(aoc => aoc.Flag)
+                }).SingleOrDefaultAsync();
+
+            var requestedResult = myResult.result;
+
+            if (addInstrument)
+            {
+                requestedResult.AssignedInstrument = myResult.result.WorkGroup.AssignedSpInstr;
+                requestedResult.AssignedInstrument.InventoryCollection =
+                    myResult.result.WorkGroup.AssignedSpInstr.InventoryCollection;
             }
-            
-            return spResult;
+
+            requestedResult.WorkGroup = myResult.WorkGroup;
+            requestedResult.WorkGroup.GroupMembers = myResult.WorkGroup.GroupMembers;
+            requestedResult.WorkGroup.SpComments = myResult.AuthorComments;
+            requestedResult.WorkGroup.SpResponses = myResult.SpAssessorResponses;
+            requestedResult.WorkGroup.SpStratResponses = myResult.SpStratResponse;
+
+            foreach (var comment in requestedResult.WorkGroup.SpComments)
+            {
+                comment.Flag =
+                    myResult.AuthorFlags.SingleOrDefault(
+                        flag =>
+                            flag.CourseId == comment.CourseId && flag.AuthorPersonId == comment.AuthorPersonId &&
+                            flag.RecipientPersonId == comment.RecipientPersonId);
+            }
+
+            requestedResult.SanitizedResponses = myResult.SpAssesseeResponses.Select(ar => new SanitizedSpResponse
+            {
+                StudentId = StudentPerson.PersonId,
+                AssessorId = ar.AssessorPersonId == StudentPerson.PersonId ? ar.AssessorPersonId : ar.AssessorPersonId * 6,
+                AssesseeId = StudentPerson.PersonId,
+                CourseId = ar.CourseId,
+                WorkGroupId = ar.WorkGroupId,
+                IsSelfResponse = ar.AssessorPersonId == StudentPerson.PersonId,
+                MpItemResponse = ar.MpItemResponse,
+                ItemModelScore = ar.ItemModelScore,
+                InventoryItemId = ar.InventoryItemId
+            }).ToList();
+
+            requestedResult.SanitizedComments = myResult.RecipientComments.Select(rc => new SanitizedSpComment
+            {
+                RecipientId = rc.RecipientPersonId,
+                AuthorId = rc.AuthorPersonId == StudentPerson.PersonId ? rc.AuthorPersonId : rc.AuthorPersonId * 13,
+                CourseId = rc.CourseId,
+                WorkGroupId = rc.WorkGroupId,
+                AuthorName =
+                            (rc.RequestAnonymity)
+                                ? "Anonymous"
+                                : $"{rc.Author.StudentProfile.Person.FirstName} {rc.Author.StudentProfile.Person.LastName}",
+                CommentText = rc.CommentText,
+                Flag = myResult.RecipientFlags.SingleOrDefault(flag => flag.AuthorPersonId == rc.AuthorPersonId && flag.RecipientPersonId == rc.RecipientPersonId)
+            }).ToList();
+
+            foreach (var flag in requestedResult.SanitizedComments.Select(sc =>sc.Flag))
+            {
+                flag.AuthorPersonId = flag.AuthorPersonId == StudentPerson.PersonId
+                    ? flag.AuthorPersonId
+                    : flag.AuthorPersonId*13;
+            }
+
+            requestedResult.FacultyResponses = myResult.facSpResponse;
+
+            if (myResult.facSpResponse == null) return requestedResult;
+
+
+            requestedResult.SanitizedComments.Add(new SanitizedSpComment
+            {
+                RecipientId = myResult.facComment.RecipientPersonId,
+                AuthorId = myResult.facComment.FacultyPersonId,
+                CourseId = myResult.CourseId,
+                WorkGroupId = myResult.WorkGroup.Id,
+                AuthorName = "Instructor",
+                CommentText = myResult.facComment.CommentText
+            });
+
+            return requestedResult;
         }
 
         public string GetMetadata => _repo.GetMetadata;

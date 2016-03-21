@@ -20,7 +20,7 @@
         </div>
 
         <div class="lv-body"
-             ng-class="'p-20': !al.me.hasAcknowledged">
+             ng-class="{'p-20': !al.me.hasAcknowledged}">
             
             <div ng-if="al.me.hasAcknowledged">
                 <div ng-if="al.activeView === al.view.peers">
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div ng-if="!al.me.hasAcknowledged">
-                <div ng-bind-html="assess.instructions" class="p-b-20"></div>
+                <div ng-bind-html="al.instructions" class="p-b-20"></div>
                 <div class="text-center">
                     <button class="btn btn-primary" 
                             ng-click="al.me.hasAcknowledged = true">

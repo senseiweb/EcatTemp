@@ -16,13 +16,11 @@ namespace Ecat.StudMod.Core
     {
         string GetMetadata { get; }
         SaveResult ClientSaveChanges(JObject saveBundle);
-        IQueryable<CrseStudentInGroup> CrseStudentInGroups { get; }
-        IQueryable<StudentInCourse> Courses { get; }
+        IQueryable<Course> Courses { get; }
+        //IQueryable<StudentInCourse> Courses { get; }
         IQueryable<SpResult> SpResult { get; }
-
         IQueryable<SpInventory> Inventories { get; }
-
-        IQueryable<WorkGroup> WorkGroups(bool addInstrument);
+        IQueryable<WorkGroup> WorkGroups { get; }
         Task<FacResultForStudent> GetFacSpResult(int studId, int wgId);
         void LoadGroupPeers(CrseStudentInGroup groupMember);
     }

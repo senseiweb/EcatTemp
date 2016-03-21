@@ -5,24 +5,24 @@
                 <thead class="f-16">
                     <tr>
                         <th class="col-md-3 text-left f-400"
-                            ng-click="al.sortList(al.sortOpt.student)">
+                            ng-click="ar.sortList(ar.sortOpt.student)">
 
                             Student
 
                             <i class="zmdi"
-                               ng-if="al.activeSort.opt === al.sortOpt.student"
-                               ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                               ng-if="ar.activeSort.opt === ar.sortOpt.student"
+                               ng-class="ar.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                         </th>
                         <th class="col-md-2 text-center f-400">Assessment</th>
                         <th class="col-md-2 text-center f-400">Comments</th>
                         <th class="col-md-2 text-center f-400"
-                            ng-click="al.sortList(al.sortOpt.strat)">
+                            ng-click="ar.sortList(ar.sortOpt.strat)">
 
                             Strat
 
                             <i class="zmdi"
-                               ng-if="al.activeSort.opt === al.sortOpt.strat"
-                               ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                               ng-if="ar.activeSort.opt === ar.sortOpt.strat"
+                               ng-class="ar.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                         </th>
                         <th class="col-md-4 text-center f-400">
                             Composite/Breakout
@@ -31,24 +31,24 @@
                 </thead>
                 <tbody class="f-14">
                     <tr class="tableBottomBorder" style="height: 56px;">
-                        <td style="border-right: 1px solid #f0f0f0;">{{al.me.rankName}}</td>
+                        <td style="border-right: 1px solid #f0f0f0;">{{ar.me.rankName}}</td>
                         <td class="text-center">
                             <a class="btn btn-link f-14"
                                href="javascript:void(0)"
-                               ng-click="al.loadAssessment(al.me.studentId)">
-                                {{al.me.assessText}}
+                               ng-click="ar.loadAssessment(ar.me.studentId)">
+                                {{ar.me.assessText}}
                             </a>
                         </td>
                         <td class="text-center">
                             Not Available
                         </td>
                         <td class="text-center">
-                            <span style="font-size: 1.6em" ng-if="al.me.stratText !== 'None'">{{al.me.stratText}}</span>
-                            <span ng-if="al.me.stratText === 'None'">{{al.me.stratText}}</span>
+                            <span style="font-size: 1.6em" ng-if="ar.me.stratText !== 'None'">{{ar.me.stratText}}</span>
+                            <span ng-if="ar.me.stratText === 'None'">{{ar.me.stratText}}</span>
                         </td>
                         <td class="text-center p-b-0 p-t-0">
-                            <div id="sp-chart-data-{{$index}}" ng-if="al.me.hasChartData">
-                                <span class="sp-graph-composite">{{al.me.statusOfPeer[al.me.studentId].compositeScore}}</span>
+                            <div id="sp-chart-data-{{$index}}" ng-if="ar.me.hasChartData">
+                                <span class="sp-graph-composite">{{ar.me.statusOfPeer[al.me.studentId].compositeScore}}</span>
                                 <div sp-break-out-chart
                                      charttype="pie"
                                      dataset="al.me.statusOfPeer[al.me.studentId].breakOutChartData"
@@ -63,32 +63,20 @@
 
                     </tr>
 
-                    <tr style="height: 56px" ng-repeat="peer in al.peers | orderBy:al.activeSort.opt:al.activeSort.desc track by peer.studentId">
-                        <td style="border-right: 1px solid #f0f0f0">{{::peer.rankName}}</td>
+                    <tr style="height: 56px" ng-repeat="peer in ar.peers | orderBy:ar.activeSort.opt:ar.activeSort.desc track by peer.studentId">
+                        <td style="border-right: 1px solid #f0f0f0">{{peer.rankName}}</td>
                         <td class="text-center">
                             <a href="javascript:void(0)"
                                class="btn btn-link f-14"
-                               ng-click="al.loadAssessment(peer.studentId)">
+                               ng-click="ar.loadAssessment(peer.studentId)">
                                 {{peer.assessText}}
                             </a>
                         </td>
 
                         <td class="text-center">
                             <a href="javascript:void(0)"
-                               ng-if="!al.isViewOnly"
                                class="btn btn-link f-14"
-                               ng-click="al.loadComment(peer.studentId)">
-                                {{peer.commentText}}
-                            </a>
-                            <a href="javascript:void(0)"
-                               ng-if="al.isViewOnly && al.me.statusOfPeer[peer.studentId].hasComment"
-                               class="btn btn-link f-14"
-                               ng-click="al.loadComment(peer.studentId)">
-                                {{peer.commentText}}
-                            </a>
-                            <a href="javascript:void(0)"
-                               ng-if="al.isViewOnly && !al.me.statusOfPeer[peer.studentId].hasComment"
-                               class="btn btn-link f-14">
+                               ng-click="ar.loadComment(peer.studentId)">
                                 {{peer.commentText}}
                             </a>
                         </td>
@@ -98,11 +86,13 @@
                             <span ng-if="peer.stratText === 'None'">{{peer.stratText}}</span>
                         </td>
                         <td class="text-center p-b-0 p-t-0">
-                            <div id="sp-chart-data-{{$index}}" ng-if="peer.hasChartData">
-                                <span class="sp-graph-composite">{{al.me.statusOfPeer[peer.studentId].compositeScore}}</span>
+                            <div id="sp-chart-data-{{$index}}"
+                                 ng-if="peer.hasChartData">
+                                
+                                <span class="sp-graph-composite">{{ar.me.statusOfPeer[peer.studentId].compositeScore}}</span>
                                 <div sp-break-out-chart
                                      charttype="pie"
-                                     dataset="al.me.statusOfPeer[peer.studentId].breakOutChartData"
+                                     dataset="ar.me.statusOfPeer[peer.studentId].breakOutChartData"
                                      class="spflot-chart-pie"
                                      legend="flotlegend{{$index}}"></div>
                                 <div id="flotlegend{{$index}}" style="display: none"></div>
