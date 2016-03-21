@@ -380,6 +380,11 @@ export default class EcFacultyWgPublish {
                 that.selectComment(that.selectedAuthor.authorOfComments[0]);
                 that.checkPublishingReady();
             }
+            that.groupMembers.forEach(gm => {
+                let hasData = gm.statusOfStudent.breakOutChartData.some(bocd => { if (bocd.data !== null) { return true; } });
+                gm['hasChartData'] = hasData;
+            });
+
             that.activeWorkGroup.canPublish = true;
         }
         //TODO: Handle get comment error
