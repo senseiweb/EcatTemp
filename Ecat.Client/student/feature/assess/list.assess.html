@@ -5,7 +5,7 @@
                 <thead class="f-16">
                     <tr>
                         <th class="col-md-3 text-left f-400"
-                            ng-click="al.sortList(assess.sortOpt.student)">
+                            ng-click="al.sortList(al.sortOpt.student)">
 
                             Student
 
@@ -16,7 +16,7 @@
                         <th class="col-md-2 text-center f-400">Assessment</th>
                         <th class="col-md-2 text-center f-400">Comments</th>
                         <th class="col-md-2 text-center f-400"
-                            ng-click="al.sortList(assess.sortOpt.strat)">
+                            ng-click="al.sortList(al.sortOpt.strat)">
 
                             Strat
 
@@ -24,14 +24,8 @@
                                ng-if="al.activeSort.opt === al.sortOpt.strat"
                                ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                         </th>
-                        <th class="col-md-4 text-center f-400"
-                            ng-click="al.sortList(assess.sortOpt.breakout)">
-
+                        <th class="col-md-4 text-center f-400">
                             Composite/Breakout
-
-                            <i class="zmdi"
-                               ng-if="al.activeSort.opt === al.sortOpt.breakout"
-                               ng-class="al.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                         </th>
                     </tr>
                 </thead>
