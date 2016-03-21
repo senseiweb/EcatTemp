@@ -463,11 +463,15 @@ export default class EcFacultyWgPublish {
         }
 
         if (this.pubState === PubState.Comment && !this.isPublishing) {
-            let changedFlags = null;
-            changedFlags = this.activeWorkGroup.spComments.map(comment => {
+            let changedFlags = [];
+            let commWithFlagChange = this.activeWorkGroup.spComments.filter(comment => {
                 if (comment.flag && comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
-                    return comment.flag;
+                    return true;
                 }
+            });
+
+            commWithFlagChange.forEach(com => {
+                changedFlags.push(com.flag);
             });
 
         this.isSaving = true;
