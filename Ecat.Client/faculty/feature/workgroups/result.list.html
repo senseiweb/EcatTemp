@@ -29,11 +29,11 @@
                         </td>
 
                         <td class="text-center p-b-0 p-t-0">
-                            <div ng-if="!studResult.hasReceivedCharData">
+                            <div ng-if="!studResult.hasReceivedChartData">
                                 No Assessment
                             </div>
                             <div id="sp-chart-data-{{$index}}" 
-                                 ng-if="::studResult.hasReceivedCharData">
+                                 ng-if="::studResult.hasReceivedChartData">
                                 <span class="sp-graph-inst-composite">{{::studResult.resultForStudent.compositeScore}}</span>
                                 <div sp-break-out-chart
                                      charttype="pie"
