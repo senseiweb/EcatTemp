@@ -51,7 +51,7 @@
         <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.hq.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.hq.main)">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-widgets"></i>
-                Headquaters
+                Headquarters
             </a>
             <ul>
                 <li>
@@ -103,7 +103,7 @@
                 <li>
                     <a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.wgList.name}}" ng-click="main.sidebarStat($event)">Groups</a>
                 </li>
-                <li>
+                <li ng-hide="true">
                     <a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.crseAdCrses.name}}" ng-click="main.sidebarStat($event)">Course Admin</a>
                 </li>
             </ul>

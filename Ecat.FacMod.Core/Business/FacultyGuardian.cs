@@ -44,7 +44,8 @@ namespace Ecat.FacMod.Core
                                                         map.Key != _tFacSpResp &&
                                                         map.Key != _tStudCommentFlag &&
                                                         map.Key != _tFacCommentFlag)
-                                                        .Select(map => map.Key);
+                                                        .ToList();
+            //.Select(map => map.Key);
 
             saveMap.RemoveMaps(unAuthorizedMaps);
 

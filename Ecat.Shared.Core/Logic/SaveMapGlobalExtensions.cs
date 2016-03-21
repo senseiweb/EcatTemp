@@ -13,11 +13,11 @@ namespace Ecat.Shared.Core.Logic
 
     public static class SaveMapGlobalExtensions
     {
-        public static SaveMap RemoveMaps(this SaveMap saveMap, IEnumerable<Type> unauthorizedTypes)
+        public static SaveMap RemoveMaps(this SaveMap saveMap, List<KeyValuePair<Type, List<EntityInfo>>> unauthorizedTypes)
         {
             foreach (var uat in unauthorizedTypes)
             {
-                saveMap.Remove(uat);
+                saveMap.Remove(uat.Key);
             }
 
             return saveMap;

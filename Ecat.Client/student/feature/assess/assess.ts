@@ -87,6 +87,8 @@ export default class EcStudAssess {
             .catch(() => {});
 
         function setActiveCourseResponse(crse: ecat.entity.ICourse) {
+            that.workGroups = crse.workGroups;
+            that.workGroups.forEach(wg => { wg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}` });
             const wrkGrp = crse.workGroups[0];
             that.setActiveGroup(wrkGrp);
         }
