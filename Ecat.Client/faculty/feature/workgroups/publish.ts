@@ -199,7 +199,7 @@ export default class EcFacultyWgPublish {
     }
 
     protected evaluateStrat(force: boolean) {
-        this.sptool.evaluateStratification(true, force)
+        this.sptool.evaluateStratification( true, force)
             .then((crseMems) => {
                 this.groupMembers = crseMems;
             });
@@ -380,9 +380,9 @@ export default class EcFacultyWgPublish {
                 that.selectComment(that.selectedAuthor.authorOfComments[0]);
                 that.checkPublishingReady();
             }
+
             that.groupMembers.forEach(gm => {
-                let hasData = gm.statusOfStudent.breakOutChartData.some(bocd => { if (bocd.data !== null) { return true; } });
-                gm['hasChartData'] = hasData;
+                   gm['hasChartData'] = gm.statusOfStudent.breakOutChartData.some(bocd => bocd.data !== null);
             });
 
             that.activeWorkGroup.canPublish = true;
@@ -442,15 +442,12 @@ export default class EcFacultyWgPublish {
                 return null;
             }
 
-            let members = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
-            let responses = [];
-            members.forEach(member => {
+            const changeSet = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
+
+            changeSet.forEach(member => {
                 const stratResponse = this.dCtx.faculty.getSingleStrat(member.studentId);
                 stratResponse.stratPosition = member.proposedStratPosition;
-                responses.push(stratResponse);
             });
-
-            const changeSet = responses;
 
             this.isSaving = true;
 

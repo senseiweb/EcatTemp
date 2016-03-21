@@ -481,7 +481,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
             return null;
         }
 
-        const existingStrat = this.manager.getEntityByKey(_mp.MpEntityType.facStratResponse, [loggedUserId, studentId, this.activeCourseId, this.activeGroupId]) as ecat.entity.IFacStratResponse;
+        const existingStrat = this.manager.getEntityByKey(_mp.MpEntityType.facStratResponse, [studentId, this.activeCourseId, this.activeGroupId]) as ecat.entity.IFacStratResponse;
 
         return (existingStrat) ? existingStrat :
             this.manager.createEntity(_mp.MpEntityType.facStratResponse, {
