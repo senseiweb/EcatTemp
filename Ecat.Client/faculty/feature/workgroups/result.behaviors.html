@@ -1,53 +1,56 @@
 ﻿<div class="row">
     <div class="col-md-12 p-t-20">
+
+        <h1 class="lead m-t-0 text-center">{{wkr.activeStudResult.rankName}}</h1>
+
         <div class="table-responsive">
             <table class="table table-hover tableCenterAlign">
                 <thead class="f-16">
-                    <tr>
-                        <th class="col-md-4 f-400">Behavior</th>
-                        <th class="col-md-2 f-400">Self</th>
-                        <th class="col-md-2 f-400">Received</th>
-                        <th class="col-md-2 f-400">Given</th>
-                        <th class="col-md-2 f-400">Instructor</th>
-                    </tr>
+                <tr>
+                    <th class="col-md-4 f-400">Behavior</th>
+                    <th class="col-md-2 f-400">Self</th>
+                    <th class="col-md-2 f-400">Received</th>
+                    <th class="col-md-2 f-400">Given</th>
+                    <th class="col-md-2 f-400">Instructor</th>
+                </tr>
                 </thead>
                 <tbody class="f-14">
-                    <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
-                        <td class="f-12">
-                            <span ng-show="!inv.showBehavior">
+                <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
+                    <td class="f-12">
+                        <span ng-show="!inv.showBehavior">
                                 {{::inv.behaviorEllipse}}
                             </span>
-                            <span ng-show="inv.showBehavior">
+                        <span ng-show="inv.showBehavior">
                                 {{::inv.behavior}}
                             </span> &nbsp;
-                            <a ng-if="!inv.needsEllipse" href="javascript:void(0)" class="f-500"
-                               ng-click="inv.showBehavior = !inv.showBehavior">
-                                ...
-                            </a>
-                        </td>
-                        <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].selfOutcome}}</td>
-                        <td>
-                            <a href="javascript:void(0)"
-                               popover-append-to-body="true"
-                               popover-placement="left"
-                               popover-trigger="mouseenter"
-                               popover-title="Recieved From"
-                               uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehRec.tpl.html'">
-                                {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].rcvdOutcome}}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="javascript:void(0)"
-                               popover-append-to-body="true"
-                               popover-placement="right"
-                               popover-trigger="mouseenter"
-                               popover-title="Given To"
-                               uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehGiv.tpl.html'">
-                                {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].gvnOutcome}}
-                            </a>
-                        </td>
-                        <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].facOutcome}}</td>
-                    </tr>
+                        <a ng-if="!inv.needsEllipse" href="javascript:void(0)" class="f-500"
+                           ng-click="inv.showBehavior = !inv.showBehavior">
+                            ...
+                        </a>
+                    </td>
+                    <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].selfOutcome}}</td>
+                    <td>
+                        <a href="javascript:void(0)"
+                           popover-append-to-body="true"
+                           popover-placement="left"
+                           popover-trigger="mouseenter"
+                           popover-title="Recieved From"
+                           uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehRec.tpl.html'">
+                            {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].rcvdOutcome}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)"
+                           popover-append-to-body="true"
+                           popover-placement="right"
+                           popover-trigger="mouseenter"
+                           popover-title="Given To"
+                           uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehGiv.tpl.html'">
+                            {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].gvnOutcome}}
+                        </a>
+                    </td>
+                    <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].facOutcome}}</td>
+                </tr>
                 </tbody>
             </table>
         </div>

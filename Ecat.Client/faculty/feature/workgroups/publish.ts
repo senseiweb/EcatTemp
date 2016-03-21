@@ -174,7 +174,7 @@ export default class EcFacultyWgPublish {
     }
 
     private checkPublishingReady(): void {
-        this.doneWithComments = !this.hasComments || !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null || comment.flag.mpFaculty === undefined);
+        this.doneWithComments = !this.hasComments || !this.activeWorkGroup.spComments.some(comment => comment.flag.mpFaculty === null || comment.flag.mpFaculty === undefined || !comment.flag.entityAspect.entityState.isUnchanged()) ;
         this.doneWithStrats = this.activeWorkGroup.facStratResponses.length !== 0 && this.activeWorkGroup.facStratResponses.every(strat => !!strat.stratPosition && strat.studentAssessee.proposedStratPosition === null);
     }
 
@@ -422,7 +422,7 @@ export default class EcFacultyWgPublish {
 
             });
         } else {
-            _swal('Not Complete', 'You have unfinished work, you must flag all comments and provide stratification for all members before publishing', _mp.MpSweetAlertType.err);
+            _swal('You have unfinished work!', 'Comments must be flagged and saved. \n\n Stratification must be complete for all members and saved before publishing', _mp.MpSweetAlertType.err);
         }
 
     }

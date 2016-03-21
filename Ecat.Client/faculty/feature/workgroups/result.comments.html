@@ -7,6 +7,7 @@
                     <div class="dropdown"
                          uib-dropdown>
                         <a class="btn btn-primary btn-block dropdown-toggle waves-effect"
+                           ng-class="{'orange': wkr.commentPerspective !== 'Author'}"
                            href="javascript:void(0)"
                            uib-dropdown-toggle
                            aria-haspopup="true"
@@ -29,7 +30,7 @@
                 <div class="listview lv-user ecat-messages m-t-20">
 
                     <div class="lv-item media"
-                         ng-class="{'active': wkr.selectedComment.studentId === comment.studentId}"
+                         ng-class="{'active': wkr.selectedComment.studentId === comment.studentId, 'active-orange' : wkr.commentPerspective !== 'Author'}"
                          ng-repeat="comment in wkr.studentComments track by comment.studentId"
                          ng-click="wkr.selectComment(comment)">
 
@@ -55,7 +56,15 @@
                         </div>
                         <div ng-if="wkr.selectedComment !== null">
                             <div class="text-center p-b-5">
-                                <h3 class="f-300 m-t-0">{{wkr.commentPerspective === 'Author' ? 'From:' : 'To:'}} {{wkr.activeStudResult.rankName}}</h3>
+                                <h3 ng-class="{'c-blue' : wkr.commentPerspective === 'Author', 'c-deeporange' : wkr.commentPerspective !== 'Author'}"
+                                    class="f-300 m-t-0">From: {{wkr.commentPerspective === 'Author' ? wkr.activeStudResult.rankName : wkr.selectedComment.rankName}}
+                                </h3>
+
+                                <h3 ng-class="{'c-blue' : wkr.commentPerspective !== 'Author', 'c-deeporange' : wkr.commentPerspective === 'Author'}"
+                                    class="f-300 m-t-0">
+                                    To: {{wkr.commentPerspective === 'Author' ? wkr.selectedComment.rankName : wkr.activeStudResult.rankName}}
+                                </h3>
+
                             </div>
                             <div class="clearfix"></div>
                             <div class="pull-left">

@@ -56,6 +56,7 @@ export default class EcFacultyWgResult {
             });          
 
             that.wgResults = groupMembers;
+            that.wgResults = that.wgResults.sort(that.sortByLastName);
             that.activeStudResult = that.wgResults[0];
 
             that.activeStudResult.workGroup.assignedSpInstr.inventoryCollection.forEach(inv => {
@@ -124,6 +125,12 @@ export default class EcFacultyWgResult {
 
     protected selectComment(comment: IResultComment): void {
         this.selectedComment = comment;
+    }
+
+    private sortByLastName(studentA: ecat.entity.ICrseStudInGroup, studentB: ecat.entity.ICrseStudInGroup) {
+        if (studentA.nameSorter.last < studentB.nameSorter.last) return -1;
+        if (studentA.nameSorter.last > studentB.nameSorter.last) return 1;
+        return 0;
     }
 
     private sortsComment(studentA: IResultComment, studentB: IResultComment) {
