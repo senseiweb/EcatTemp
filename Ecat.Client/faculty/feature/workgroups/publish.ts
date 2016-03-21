@@ -442,12 +442,15 @@ export default class EcFacultyWgPublish {
                 return null;
             }
 
-            const changeSet = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
-
-            changeSet.forEach(member => {
+            let members = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
+            let responses = [];
+            members.forEach(member => {
                 const stratResponse = this.dCtx.faculty.getSingleStrat(member.studentId);
                 stratResponse.stratPosition = member.proposedStratPosition;
+                responses.push(stratResponse);
             });
+
+            const changeSet = responses;
 
             this.isSaving = true;
 
