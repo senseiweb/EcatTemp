@@ -122,19 +122,19 @@ export default class EcSpTools {
                                         text: `${pp.rankName}: is currently at this position without a proposed change.`
                                     });
                                 });
-                        }
-                    } else {
-                      array
-                          .filter(p => p.facultyStrat && p.facultyStrat.stratPosition === member.proposedStratPosition &&
-                              p.facultyStrat.stratPosition !== null &&
-                              p.proposedStratPosition === null)
-                            .forEach(pp => {
-                                member.stratValidationErrors.push({
-                                    cat: 'Duplicate',
-                                    text: `${pp.rankName}: is currently at this position without a proposed change.`
+                        } else {
+                            array
+                                .filter(p => p.facultyStrat && p.facultyStrat.stratPosition === member.proposedStratPosition &&
+                                    p.facultyStrat.stratPosition !== null &&
+                                    p.proposedStratPosition === null)
+                                .forEach(pp => {
+                                    member.stratValidationErrors.push({
+                                        cat: 'Duplicate',
+                                        text: `${pp.rankName}: is currently at this position without a proposed change.`
+                                    });
                                 });
-                            });
-                    }
+                        }
+                    } 
                     member.stratIsValid = member.stratValidationErrors.length === 0;
                 });
                 return members;
