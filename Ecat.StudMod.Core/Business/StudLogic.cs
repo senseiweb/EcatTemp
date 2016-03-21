@@ -100,15 +100,8 @@ namespace Ecat.StudMod.Core
         {
             var myResult = await (from result in _repo.SpResult
                 where result.WorkGroup.MpSpStatus == MpSpStatus.Published &&
-                      result.WorkGroup.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId) &&
+                      result.StudentId == StudentPerson.PersonId &&
                       result.WorkGroupId == wgId
-
-                from facSpResponse in _repo.WorkGroups.Where(wg => wg.Id == wgId).Select(fac => fac.FacSpResponses)
-                where facSpResponse.Any(fr => fr.AssesseePersonId == StudentPerson.PersonId)
-
-                from facComment in _repo.WorkGroups.FirstOrDefault(wg => wg.Id == wgId).FacSpComments
-                where facComment.RecipientPersonId == StudentPerson.PersonId
-
                 let prundedGm = result.WorkGroup.GroupMembers.Where(gm => !gm.IsDeleted)
                 let myPrunded = prundedGm.FirstOrDefault(gm => gm.StudentId == StudentPerson.PersonId)
                 select new
@@ -118,57 +111,57 @@ namespace Ecat.StudMod.Core
                     result.WorkGroup,
                     result.WorkGroup.AssignedSpInstr,
                     result.WorkGroup.AssignedSpInstr.InventoryCollection,
-                    result.WorkGroup.GroupMembers,
-                    SpAssessorGmProfiles =
-                        myPrunded.AssessorSpResponses.Select(p => p.Assessee.StudentProfile),
-                    SpAssessorGmPerson =
-                        myPrunded.AssessorSpResponses.Select(p => p.Assessee.StudentProfile.Person),
+                    prundedGm,
+                    Profiles = prundedGm.Select(gm => gm.StudentProfile).Distinct(),
+                    Persons = prundedGm.Select(gm => gm.StudentProfile.Person).Distinct(),
                     SpAssessorResponses = myPrunded.AssessorSpResponses,
                     SpAssesseeResponses = myPrunded.AssesseeSpResponses,
                     SpStratResponse = myPrunded.AssessorStratResponse,
                     AuthorComments = myPrunded.AuthorOfComments,
                     RecipientComments = myPrunded.RecipientOfComments,
-                    facSpResponse,
-                    facComment,
-                    facComment.Flag,
                     AuthorFlags = myPrunded.AuthorOfComments.Select(aoc => aoc.Flag),
-                    RecipientFlags = myPrunded.AuthorOfComments.Select(aoc => aoc.Flag)
+                    RecipientFlags = myPrunded.RecipientOfComments.Select(aoc => aoc.Flag)
                 }).SingleOrDefaultAsync();
+
+            if (myResult == null) return null;
 
             var requestedResult = myResult.result;
 
-            //requestedResult.WorkGroup = myResult.WorkGroup;
-            //requestedResult.WorkGroup.GroupMembers = myResult.WorkGroup.GroupMembers;
-            //requestedResult.WorkGroup.SpComments = myResult.AuthorComments;
-            //requestedResult.WorkGroup.SpResponses = myResult.SpAssessorResponses;
-            //requestedResult.WorkGroup.SpStratResponses = myResult.SpStratResponse;
+            requestedResult.WorkGroup.SpResponses =
+                requestedResult.WorkGroup.SpResponses.Where(
+                    response => response.AssessorPersonId == StudentPerson.PersonId).ToList();
 
-            //foreach (var comment in requestedResult.WorkGroup.SpComments)
-            //{
-            //    comment.Flag =
-            //        myResult.AuthorFlags.SingleOrDefault(
-            //            flag =>
-            //                flag.CourseId == comment.CourseId && flag.AuthorPersonId == comment.AuthorPersonId &&
-            //                flag.RecipientPersonId == comment.RecipientPersonId);
-            //}
+            requestedResult.WorkGroup.SpStratResponses =
+              requestedResult.WorkGroup.SpStratResponses.Where(
+                  response => response.AssessorPersonId == StudentPerson.PersonId).ToList();
+
+
+            if (addInstrument)
+            {
+                requestedResult.AssignedInstrument.InventoryCollection = null;
+                requestedResult.AssignedInstrument = null;
+            }
+
+            var facResultData = await _repo.GetFacSpResult(StudentPerson.PersonId, wgId);
 
             requestedResult.SanitizedResponses = myResult.SpAssesseeResponses.Select(ar => new SanitizedSpResponse
             {
-                StudentId = StudentPerson.PersonId,
-                AssessorId = ar.AssessorPersonId == StudentPerson.PersonId ? ar.AssessorPersonId : ar.AssessorPersonId * 6,
+                //StudentId = StudentPerson.PersonId,
+                Id = Guid.NewGuid(),
                 AssesseeId = StudentPerson.PersonId,
-                CourseId = ar.CourseId,
-                WorkGroupId = ar.WorkGroupId,
+                CourseId = myResult.WorkGroup.CourseId,
+                WorkGroupId = myResult.WorkGroup.Id,
                 IsSelfResponse = ar.AssessorPersonId == StudentPerson.PersonId,
                 MpItemResponse = ar.MpItemResponse,
                 ItemModelScore = ar.ItemModelScore,
-                InventoryItemId = ar.InventoryItemId
+                InventoryItemId = ar.InventoryItemId,
+                Result = requestedResult
             }).ToList();
 
             requestedResult.SanitizedComments = myResult.RecipientComments.Select(rc => new SanitizedSpComment
             {
                 RecipientId = rc.RecipientPersonId,
-                AuthorId = rc.AuthorPersonId == StudentPerson.PersonId ? rc.AuthorPersonId : rc.AuthorPersonId * 13,
+                Id = Guid.NewGuid(),
                 CourseId = rc.CourseId,
                 WorkGroupId = rc.WorkGroupId,
                 AuthorName =
@@ -176,7 +169,7 @@ namespace Ecat.StudMod.Core
                                 ? "Anonymous"
                                 : $"{rc.Author.StudentProfile.Person.FirstName} {rc.Author.StudentProfile.Person.LastName}",
                 CommentText = rc.CommentText,
-                Flag = myResult.RecipientFlags.SingleOrDefault(flag => flag.AuthorPersonId == rc.AuthorPersonId && flag.RecipientPersonId == rc.RecipientPersonId)
+                Flag = myResult.RecipientFlags.Single(flag => flag.AuthorPersonId == rc.AuthorPersonId && flag.RecipientPersonId == rc.RecipientPersonId)
             }).ToList();
 
             foreach (var flag in requestedResult.SanitizedComments.Select(sc =>sc.Flag))
@@ -186,25 +179,24 @@ namespace Ecat.StudMod.Core
                     : flag.AuthorPersonId*13;
             }
 
-            requestedResult.FacultyResponses = myResult.facSpResponse;
+            requestedResult.FacultyResponses = facResultData.FacResponses.ToList();
 
-            if (myResult.facSpResponse == null) return requestedResult;
+            if (!requestedResult.FacultyResponses.Any()) return requestedResult;
 
-
-            requestedResult.SanitizedComments.Add(new SanitizedSpComment
+            if (facResultData.FacSpComment != null)
             {
-                RecipientId = myResult.facComment.RecipientPersonId,
-                AuthorId = myResult.facComment.FacultyPersonId,
-                CourseId = myResult.CourseId,
-                WorkGroupId = myResult.WorkGroup.Id,
-                AuthorName = "Instructor",
-                CommentText = myResult.facComment.CommentText
-            });
+                requestedResult.SanitizedComments.Add(new SanitizedSpComment
+                {
+                    Id = Guid.NewGuid(),
+                    RecipientId = facResultData.FacSpComment.RecipientPersonId,
+                    CourseId = myResult.CourseId,
+                    WorkGroupId = myResult.WorkGroup.Id,
+                    AuthorName = "Instructor",
+                    CommentText = facResultData.FacSpComment.CommentText,
+                    FacFlag = facResultData.FacSpCommentFlag
+                });
+            }
 
-            if (addInstrument) return requestedResult;
-                requestedResult.AssignedInstrument.InventoryCollection = null;
-                requestedResult.AssignedInstrument = null;
-            
             return requestedResult;
         }
 

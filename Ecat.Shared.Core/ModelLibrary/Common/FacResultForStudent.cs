@@ -11,7 +11,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
     {
         public int StudentId  { get; set; }
         public ICollection<FacSpResponse> FacResponses   { get; set; }
-        public ICollection<FacSpComment> FacSpComments { get; set; }
-        public ICollection<FacSpCommentFlag> FacSpCommentFlag { get; set; } 
+        public FacSpComment FacSpComment { get; set; }
+        public FacSpCommentFlag FacSpCommentFlag { get; set; } 
     }
 }

@@ -4,8 +4,8 @@
             <div class="ms-menu">
                 <div class="listview lv-user ecat-messages m-t-0">
                     <div class="lv-item media"
-                         ng-class="{'active': ar.selectedComment.authorId === comment.authorId}"
-                         ng-repeat="comment in ar.studentComments track by comment.authorId"
+                         ng-class="{'active': ar.selectedComment.id === comment.id}"
+                         ng-repeat="comment in ar.studentComments track by comment.id"
                          ng-click="ar.selectComment(comment)">
 
                         <div class="lv-avatar pull-left">

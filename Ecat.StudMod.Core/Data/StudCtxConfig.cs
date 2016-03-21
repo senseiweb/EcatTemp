@@ -11,7 +11,7 @@ namespace Ecat.StudMod.Core
     {
         public StudConfigSanitizedComment()
         {
-            HasKey(p => p.AuthorId);
+            HasKey(p => p.Id);
 
             HasRequired(p => p.Result)
                 .WithMany(p => p.SanitizedComments)
@@ -23,7 +23,7 @@ namespace Ecat.StudMod.Core
     {
         public StudConfigSanitizedResponse()
         {
-            HasKey(p => p.AssessorId);
+            HasKey(p => p.Id);
 
             HasRequired(p => p.Result)
                 .WithMany(p => p.SanitizedResponses)

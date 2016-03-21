@@ -63,20 +63,18 @@ namespace Ecat.StudMod.Core
         {
             using (var mainCtx = new EcatContext())
             {
-                var responses = await mainCtx.WorkGroups
+                var result = await mainCtx.WorkGroups
                     .Where(wg => wg.Id == wgId)
                     .Select(wg => new FacResultForStudent
                     {
                         FacSpCommentFlag = wg.FacSpComments
-                            .Where(comment => comment.RecipientPersonId == studId)
-                            .Select(comment => comment.Flag).ToList(),
-                        FacSpComments = wg.FacSpComments
-                            .Where(comment => comment.RecipientPersonId == studId).ToList(),
+                            .FirstOrDefault(comment => comment.RecipientPersonId == studId).Flag,
+                        FacSpComment = wg.FacSpComments.FirstOrDefault(comment => comment.RecipientPersonId == studId),
                         FacResponses = wg.FacSpResponses
                             .Where(response => !response.IsDeleted &&
                                                response.AssesseePersonId == studId).ToList()
                     }).SingleOrDefaultAsync();
-                return responses;
+                return result;
             }
         }
 

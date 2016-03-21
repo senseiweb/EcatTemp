@@ -13,7 +13,6 @@ export default class EcStudAssess {
     protected activeGroup: ecat.entity.IWorkGroup;
     protected courses: ecat.entity.ICourse[];
     protected grpDisplayName = 'Not Set';
-    protected isResultPublished = false;
     private log = this.c.getAllLoggers('Assessment Center');
     protected routingParams = { crseId: 0, wgId: 0 }
     protected workGroups: ecat.entity.IWorkGroup[];
@@ -98,11 +97,10 @@ export default class EcStudAssess {
         this.dCtx.student.activeGroupId = workGroup.id;
         this.grpDisplayName = `${workGroup.mpCategory}: ${workGroup.customName || workGroup.defaultName}`;
         this.activeGroup = workGroup;
-        this.isResultPublished = workGroup.mpSpStatus === _mp.MpSpStatus.published;
+        const viewOnly = workGroup.mpSpStatus !== _mp.MpSpStatus.open;
         const wId = (workGroup) ? workGroup.id : 0;
-        const params = {crseId: this.activeCourseId, wgId:wId }
-        !this.isResultPublished ? this.c.$state.go(this.c.stateMgr.student.assess.name,params ) : this.c.$state.go(this.c.stateMgr.student.result.name, params);
-
+        const params = { crseId: this.activeCourseId, wgId: wId }
+        viewOnly ? this.c.$state.go(this.c.stateMgr.student.result.name, params) : this.c.$state.go(this.c.stateMgr.student.assess.name, params);
     }
 
     private sortWg(wgA: ecat.entity.IWorkGroup, wgB: ecat.entity.IWorkGroup): number {

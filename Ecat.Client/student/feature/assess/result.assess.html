@@ -48,15 +48,15 @@
                         </td>
                         <td class="text-center p-b-0 p-t-0">
                             <div id="sp-chart-data-{{$index}}" ng-if="ar.me.hasChartData">
-                                <span class="sp-graph-composite">{{ar.me.statusOfPeer[al.me.studentId].compositeScore}}</span>
+                                <span class="sp-graph-composite">{{ar.me.statusOfPeer[ar.me.studentId].compositeScore}}</span>
                                 <div sp-break-out-chart
                                      charttype="pie"
-                                     dataset="al.me.statusOfPeer[al.me.studentId].breakOutChartData"
+                                     dataset="ar.me.statusOfPeer[ar.me.studentId].breakOutChartData"
                                      class="spflot-chart-pie"
                                      legend="flotlegend{{$index}}"></div>
                                 <div id="flotlegend{{$index}}" style="display: none"></div>
                             </div>
-                            <div ng-if="!al.me.hasChartData">
+                            <div ng-if="!ar.me.hasChartData">
                                 No Data
                             </div>
                         </td>

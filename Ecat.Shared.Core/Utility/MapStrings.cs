@@ -118,7 +118,7 @@
   
     public static class MpCommentFlag
     {
-        public const string Pos = "Postiive",
+        public const string Pos = "Positive",
             Neg = "Negative",
             Neut = "Neutral",
             Appr = "Appropriate",
