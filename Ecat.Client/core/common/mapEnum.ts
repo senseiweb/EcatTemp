@@ -73,8 +73,8 @@ export const enum CompositeModelScore {
     iea = 0,
     ieu = 1,
     nd = 2,
-    ea = 3,
-    eu = 4,
+    eu = 3,
+    ea = 4,
     heu = 5,
     hea = 6
 }
