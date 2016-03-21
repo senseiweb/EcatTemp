@@ -203,16 +203,22 @@ export default class EcStudentRepo extends IUtilityRepo {
         let workGroup: ecat.entity.IWorkGroup;
         const api = this.studentApiResources;
     
-        if (this.isLoaded.workGroup[this.activeGroupId]) {
+        if (this.isLoaded.workGroup[this.activeGroupId] && this.isLoaded.spInventory[this.activeGroupId]) {
              workGroup = this.manager.getEntityByKey(_mp.MpEntityType.workGroup, this.activeGroupId) as ecat.entity.IWorkGroup;
 
              that.log.success('Workgroup loaded from local cache', workGroup, false);
              return this.c.$q.when(workGroup);
         }
 
+        const params = { wgId: this.activeGroupId, addAssessment: false };
+
+        if (!this.isLoaded.spInventory[this.activeGroupId]) {
+            params.addAssessment = true;
+        }
+
         return this.query.from(api.workGroup.resource)
             .using(this.manager)
-            .withParameters({wgId: this.activeGroupId, addAssessment: false})
+            .withParameters(params)
             .execute()
             .then(getActiveWorkGrpResponse)
             .catch(this.queryFailed);
@@ -230,6 +236,7 @@ export default class EcStudentRepo extends IUtilityRepo {
             }
 
             that.isLoaded.workGroup[workGroup.id] = true;
+            that.isLoaded.spInventory[workGroup.id] = (workGroup.assignedSpInstr) ? true : false;
 
             return workGroup;
         }

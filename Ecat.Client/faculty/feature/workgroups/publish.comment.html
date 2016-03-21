@@ -36,7 +36,7 @@
 
                     <div class="lv-item media"
                          ng-class="{'active': wkp.selectedAuthor.studentId === author.studentId}"
-                         ng-repeat="author in wkp.groupMembers track by author.studentId"
+                         ng-repeat="author in wkp.groupMembers | orderBy: 'nameSorter.last' track by author.studentId"
                          ng-click="wkp.selectAuthor(author)">
 
                         <div class="lv-avatar pull-left">
@@ -65,7 +65,7 @@
             <div id="ecat-submessage" class="ms-menu pull-left">
                 <div class="listview lv-user">
                     <div class="lv-item media"
-                         ng-repeat="comment in wkp.selectedAuthor.authorOfComments | orderBy: 'name' track by comment.recipientPersonId"
+                         ng-repeat="comment in wkp.selectedAuthor.authorOfComments | orderBy: 'recipient.nameSorter.last' track by comment.recipientPersonId"
                          ng-click="wkp.selectComment(comment)"
                          ng-class="{'sub-active': wkp.selectedComment.recipientPersonId === comment.recipientPersonId}">
                         <div class="media-body">

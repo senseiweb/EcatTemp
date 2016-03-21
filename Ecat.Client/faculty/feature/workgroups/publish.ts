@@ -17,6 +17,7 @@ export default class EcFacultyWgPublish {
     }
     protected doneWithComments = false;
     protected doneWithStrats = false;
+    protected groupCount = 0;
     protected groupMembers: Array<ecat.entity.ICrseStudInGroup>;
     protected hasComments = true;
     private instructorId: number;
@@ -215,6 +216,7 @@ export default class EcFacultyWgPublish {
 
         function getActiveWgResponse(wg: ecat.entity.IWorkGroup): void {
             that.activeWorkGroup = wg;
+            that.groupCount = wg.groupMembers.length;
 
             if (wg.mpSpStatus === _mp.MpSpStatus.open) {
                 const alertSetting: SweetAlert.Settings = {
@@ -536,8 +538,8 @@ export default class EcFacultyWgPublish {
     }
 
     private sortByLastName(studentA: ecat.entity.ICrseStudInGroup, studentB: ecat.entity.ICrseStudInGroup) {
-        if (studentA['name'] < studentB['name']) return -1;
-        if (studentA['name'] > studentB['name']) return 1;
+        if (studentA.nameSorter.last < studentB.nameSorter.last) return -1;
+        if (studentA.nameSorter.last > studentB.nameSorter.last) return 1;
         return 0;
     }
 

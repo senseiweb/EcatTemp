@@ -61,7 +61,7 @@ namespace Ecat.StudMod.Core
 
             if (activeGroup == null) return requestedCourses;
 
-            activeGroup = await GetWorkGroup(activeGroup.Id, false);
+            activeGroup = await GetWorkGroup(activeGroup.Id, true);
             activeCourse.WorkGroups.Add(activeGroup);
             return requestedCourses;
         }

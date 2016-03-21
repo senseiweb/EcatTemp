@@ -36,7 +36,7 @@
 
         <div class="lv-body">
             <div class="row">
-                <div class="col-md-12 p-t-20">
+                <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-hover tableCenterAlign">
                             <thead>
@@ -49,8 +49,8 @@
                                 </tr>
                             </thead>
                             <tbody class="f-14">
-                                <tr ng-repeat="member in wka.groupMembers track by member.studentId">
-                                    <td style="border-right: 1px solid #f0f0f0;">{{member.studentProfile.person.firstName}} {{member.studentProfile.person.lastName}}</td>
+                                <tr ng-repeat="member in wka.groupMembers | orderBy: 'nameSorter.last' track by member.studentId">
+                                    <td style="border-right: 1px solid #f0f0f0;">{{member.rankName}}</td>
                                     <td class="text-center">
                                         <a class="btn btn-link f-14"
                                            href="javascript:void(0)"

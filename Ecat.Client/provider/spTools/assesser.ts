@@ -118,7 +118,10 @@ export default class EcProviderSpToolAssessTaker {
                     this.inventoryList.forEach(item => {
                         item.responseForAssessee.entityAspect.rejectChanges();
                         item['isChanged'] = false;
+                        if (item['showBehavior']) { this.closeEditAssessItem(item, false) }
                     });
+
+                    
                     this.$mi.close('User canceled');
                     //_swal('Success!', 'Gotta it...changes canceled.', 'success');
                 } 
@@ -127,6 +130,7 @@ export default class EcProviderSpToolAssessTaker {
             this.inventoryList.forEach(item => {
                 item.responseForAssessee.entityAspect.rejectChanges();
                 item['isChanged'] = false;
+                if (item['showBehavior']) { this.closeEditAssessItem(item, false) }
             });
             this.$mi.close('User canceled');
         }
