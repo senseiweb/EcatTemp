@@ -12,10 +12,13 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using System.Web.Mvc;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
 using Ecat.UserMod.Core;
 using Ecat.Web.Controllers;
+using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
+using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
 
 namespace Ecat.Web.Utility
 {
@@ -37,7 +40,7 @@ namespace Ecat.Web.Utility
 
             if (principal == null || !principal.Identity.IsAuthenticated)
             {
-                if (!SkipAuthorization(actionContext)) throw new ArgumentNullException(nameof(principal));
+                if (!SkipAuthorization(actionContext)) throw new HttpResponseException(HttpStatusCode.Unauthorized);
                 await Task.FromResult<object>(null);
                 return;
             }

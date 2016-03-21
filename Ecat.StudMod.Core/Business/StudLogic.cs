@@ -45,16 +45,15 @@ namespace Ecat.StudMod.Core
                 }).ToListAsync();
             
 
-            var requestedCourses = new List<Course>();
+            var requestedCourses = studCourseInit.Select(sic => sic.crse).ToList();
 
-            foreach (var sci in studCourseInit)
-            {
-                var course = sci.crse;
-                if (requestedCourses.Contains(course)) continue;
-                course.WorkGroups = sci.workGroups.ToList();
-                course.StudentsInCourse = sci.StudentCoures.ToList();
-                requestedCourses.Add(course);
-            }
+            //foreach (var sci in studCourseInit)
+            //{
+            //    var course = sci.crse;
+            //    course.WorkGroups = sci.workGroups.ToList();
+            //    course.StudentsInCourse = sci.StudentCoures.ToList();
+            //    requestedCourses.Add(course);
+            //}
 
             var activeCourse = requestedCourses.OrderByDescending(crse => crse.StartDate).First();
             var activeGroup = activeCourse.WorkGroups.OrderByDescending(wg => wg.MpCategory).FirstOrDefault();
@@ -89,23 +88,11 @@ namespace Ecat.StudMod.Core
                 }).SingleOrDefaultAsync();
             
             var requestedWorkGroup = workGroup.wg;
-            if (addInstrument)
-            {
-                requestedWorkGroup.AssignedSpInstr = workGroup.wg.AssignedSpInstr;
-                requestedWorkGroup.AssignedSpInstr.InventoryCollection =
-                    workGroup.wg.AssignedSpInstr.InventoryCollection;
-            }
-            requestedWorkGroup.GroupMembers = workGroup.PrunedGroupMembers.ToList();
-            requestedWorkGroup.SpResponses = workGroup.AssessorSpResponses.ToList();
-            requestedWorkGroup.SpStratResponses = workGroup.AssessorStratResponse.ToList();
-            requestedWorkGroup.SpComments = workGroup.AuthorOfComments.ToList();
+            if (addInstrument) return requestedWorkGroup;
 
-            foreach (var comment in requestedWorkGroup.SpComments)
-            {
-                comment.Flag = workGroup.Flags.First(c => c.AuthorPersonId == comment.AuthorPersonId && 
-                c.RecipientPersonId == comment.RecipientPersonId);
-            }
-
+            requestedWorkGroup.AssignedSpInstr.InventoryCollection = null;
+            requestedWorkGroup.AssignedSpInstr = null;
+          
             return requestedWorkGroup;
         }
 
@@ -150,27 +137,20 @@ namespace Ecat.StudMod.Core
 
             var requestedResult = myResult.result;
 
-            if (addInstrument)
-            {
-                requestedResult.AssignedInstrument = myResult.result.WorkGroup.AssignedSpInstr;
-                requestedResult.AssignedInstrument.InventoryCollection =
-                    myResult.result.WorkGroup.AssignedSpInstr.InventoryCollection;
-            }
+            //requestedResult.WorkGroup = myResult.WorkGroup;
+            //requestedResult.WorkGroup.GroupMembers = myResult.WorkGroup.GroupMembers;
+            //requestedResult.WorkGroup.SpComments = myResult.AuthorComments;
+            //requestedResult.WorkGroup.SpResponses = myResult.SpAssessorResponses;
+            //requestedResult.WorkGroup.SpStratResponses = myResult.SpStratResponse;
 
-            requestedResult.WorkGroup = myResult.WorkGroup;
-            requestedResult.WorkGroup.GroupMembers = myResult.WorkGroup.GroupMembers;
-            requestedResult.WorkGroup.SpComments = myResult.AuthorComments;
-            requestedResult.WorkGroup.SpResponses = myResult.SpAssessorResponses;
-            requestedResult.WorkGroup.SpStratResponses = myResult.SpStratResponse;
-
-            foreach (var comment in requestedResult.WorkGroup.SpComments)
-            {
-                comment.Flag =
-                    myResult.AuthorFlags.SingleOrDefault(
-                        flag =>
-                            flag.CourseId == comment.CourseId && flag.AuthorPersonId == comment.AuthorPersonId &&
-                            flag.RecipientPersonId == comment.RecipientPersonId);
-            }
+            //foreach (var comment in requestedResult.WorkGroup.SpComments)
+            //{
+            //    comment.Flag =
+            //        myResult.AuthorFlags.SingleOrDefault(
+            //            flag =>
+            //                flag.CourseId == comment.CourseId && flag.AuthorPersonId == comment.AuthorPersonId &&
+            //                flag.RecipientPersonId == comment.RecipientPersonId);
+            //}
 
             requestedResult.SanitizedResponses = myResult.SpAssesseeResponses.Select(ar => new SanitizedSpResponse
             {
@@ -221,6 +201,10 @@ namespace Ecat.StudMod.Core
                 CommentText = myResult.facComment.CommentText
             });
 
+            if (addInstrument) return requestedResult;
+                requestedResult.AssignedInstrument.InventoryCollection = null;
+                requestedResult.AssignedInstrument = null;
+            
             return requestedResult;
         }
 
