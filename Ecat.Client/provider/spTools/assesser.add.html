@@ -10,10 +10,9 @@
             <div class="col-md-1">
                 <ul class="lv-actions actions">
                     <li class="dropdown" uib-dropdown>
-                        <a href="" uib-dropdown-toggle>
-                            <i class="zmdi zmdi-more-vert"></i>
+                        <a href uib-dropdown-toggle tooltip-placement="top" uib-tooltip="{{assesser.activeInvent.behaviorDisplayed ? 'Mark as Not Displayed' : 'Mark as Displayed'}}">
+                                <i class="zmdi zmdi-more-vert"></i>                          
                         </a>
-
                         <ul class="dropdown-menu dropdown-menu-left">
                             <li>
                                 <a href="javascript:void(0)"
