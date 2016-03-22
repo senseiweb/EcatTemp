@@ -254,9 +254,10 @@ export default class EcStudAssessList {
                     gm.stratIsValid = true;
                     gm.proposedStratPosition = null;
                 });
-            this.me.updateStatusOfPeer();
             this.peers = groupMembers.filter(gm => gm.studentId !== this.me.studentId);
             this.me = groupMembers.filter(gm => gm.studentId === this.me.studentId)[0];
+            this.me.updateStatusOfPeer();
+            groupMembers.forEach(gm => { gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None'; });
             this.log.success('Stratifications Updated!', null, true);
         });
     }

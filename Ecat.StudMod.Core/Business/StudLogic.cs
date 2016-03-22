@@ -158,7 +158,9 @@ namespace Ecat.StudMod.Core
                 Result = requestedResult
             }).ToList();
 
-            requestedResult.SanitizedComments = myResult.RecipientComments.Select(rc => new SanitizedSpComment
+            var apprComments = myResult.RecipientComments.Where(comment => comment.Flag.MpFaculty == MpCommentFlag.Appr).ToList();
+
+            requestedResult.SanitizedComments = apprComments.Select(rc => new SanitizedSpComment
             {
                 RecipientId = rc.RecipientPersonId,
                 Id = Guid.NewGuid(),
@@ -180,8 +182,6 @@ namespace Ecat.StudMod.Core
             }
 
             requestedResult.FacultyResponses = facResultData.FacResponses.ToList();
-
-            if (!requestedResult.FacultyResponses.Any()) return requestedResult;
 
             if (facResultData.FacSpComment != null)
             {

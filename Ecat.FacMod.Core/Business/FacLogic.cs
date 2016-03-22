@@ -172,7 +172,8 @@ namespace Ecat.FacMod.Core
                         FacFacultyPerson =
                             wg.FacSpComments.Select(comment => comment.FacultyCourse.FacultyProfile.Person),
                         FacFacultyProfile =
-                            wg.FacSpComments.Select(comment => comment.FacultyCourse.FacultyProfile.Person),
+                            wg.FacSpComments.Select(comment => comment.FacultyCourse.FacultyProfile),
+                        FacFacultyCourse = wg.FacSpComments.Select(comment => comment.FacultyCourse),
                         FacFlag = wg.FacSpComments.FirstOrDefault(fc => fc.RecipientPersonId == gm.StudentId).Flag,
                         FacResponse = wg.FacSpResponses.Where(fr => fr.AssesseePersonId == gm.StudentId),
                         FacStrats = wg.FacStratResponses.FirstOrDefault(fs => fs.AssesseePersonId == gm.StudentId),

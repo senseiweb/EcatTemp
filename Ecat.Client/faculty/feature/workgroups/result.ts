@@ -113,7 +113,7 @@ export default class EcFacultyWgResult {
                 first: this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName
             },
             initials: `${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName.charAt(0)}${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName.charAt(0)}`,
-            rankName: 'Faculty',
+            rankName: `${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName}, ${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName}`,
             commentType: 'Faculty',
             commentText: this.activeStudResult.facultyComment.commentText,
             isAppr: true
