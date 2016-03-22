@@ -1,0 +1,56 @@
+﻿<div class="container animated fadeInRight">
+    <div class="block-header">
+        <h2>APPLICATION: Student Assessment Center</h2>
+        <ul class="actions">
+
+            <li class="dropdown" uib-dropdown>
+
+                <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>
+                    {{assess.grpDisplayName}}
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li ng-repeat="wg in assess.workGroups track by wg.id">
+                        <a href="javascript:void(0)"
+                           ng-click="assess.setActiveGroup(wg, false)">
+                            <i ng-if="wg.id === assess.activeGroup.id" class="zmdi zmdi-toys zmdi-hc-fw"></i>
+                            {{wg.displayName}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-sort"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-repeat="course in assess.courses track by course.id">
+                        <a href="javascript:void(0)"
+                           ng-click="assess.setActiveCourse(course)">
+                            <i ng-if="course.id === assess.activeCrseId"
+                               class="zmdi zmdi-chevron-right"></i>
+                            {{course.displayName}}
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="">Refresh Data</a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="card" id="assessments-main">
+        <div ui-view></div>
+    </div>
+</div>

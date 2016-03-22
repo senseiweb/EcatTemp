@@ -1,0 +1,71 @@
+﻿<div class="modal-header p-b-5">
+
+    <div class="row">
+        <div class="col-md-2">
+            <!--TODO: need to add class for avatar-->
+            <div class="profile-pic">
+                <img alt="User Avatar" ng-src="{{assesser.avatar}}" height="47" width="47" style="border-radius: 50%; border: 3px solid rgba(0, 0, 0, 0.14); -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box">
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <!--TODO: more meaning for class than thingHeader-->
+            <h4 class="text-center thingHeader">
+                Assessment for {{assesser.assesseeName}}
+                <span ng-if="assesser.isSelf">(You)</span>
+                <span ng-if="!assesser.isSelf">{{assesser.assesseeGoByName}}</span>
+            </h4>
+        </div>
+
+        <div class="col-md-2">
+            <p class="text-right m-0 m-t-10">{{assesser.groupName}}</p>
+        </div>
+    </div>
+
+    <hr />
+
+</div>
+<div ng-if="assesser.isNewAssess">
+    <div class="modal-body">
+        <div ng-include="'@[modProvider]/spTools/assesser.add.html'"></div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div>
+                <button class="btn btn-link"
+                        type="button"
+                        ng-if="assesser.readyToSave"
+                        ng-click="assesser.save()">
+                    Save
+                </button>
+                <button class="btn btn-link" type="button" ng-click="assesser.cancel()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="!assesser.isNewAssess">
+    <div class="modal-body">
+        <div ng-include="'@[modProvider]/spTools/assesser.edit.html'"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-link"
+                type="button"
+                ng-if="assesser.hasChanges"
+                ng-click="assesser.save()">
+            Save
+        </button>
+        <button class="btn btn-link"
+                type="button"
+                ng-click="assesser.cancel()">
+            <span ng-if="!assesser.hasChanges">Close</span>
+            <span ng-if="assesser.hasChanges">Cancel</span>
+        </button>
+    </div>
+</div>
+
+
+
+

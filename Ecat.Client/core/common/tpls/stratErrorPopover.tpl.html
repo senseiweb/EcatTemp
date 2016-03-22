@@ -1,0 +1,16 @@
+﻿<div>
+    <dl ng-repeat="err in peer.stratValidationErrors" ng-if="peer">
+        <dt>{{err.cat}}</dt>
+        <dd>{{err.text}}</dd>
+    </dl>
+
+    <dl ng-repeat="err in member.stratValidationErrors" ng-if="member">
+        <dt>{{err.cat}}</dt>
+        <dd>{{err.text}}</dd>
+    </dl>
+
+    <dl ng-repeat="err in al.me.stratValidationErrors" ng-if="!peer && !member">
+        <dt>{{err.cat}}</dt>
+        <dd>{{err.text}}</dd>
+    </dl>
+</div>

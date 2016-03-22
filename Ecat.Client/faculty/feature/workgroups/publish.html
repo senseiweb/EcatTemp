@@ -1,0 +1,86 @@
+﻿<div class="card comment-format" id="groups-main">
+    <div ng-if="wkp.pubState === 0">
+        <h2 class="text-center">Preparing WorkGroup Publisher....</h2>
+    </div>
+    <div ng-if="wkp.pubState !== 0">
+        <div class="listview lv-bordered lv-lg">
+
+            <div class="lv-header-alt clearfix p-b-15">
+                <a href="javascript:void(0)"
+                   class="btn btn-link pull-left"
+                   ui-sref="{{stateMgr.faculty.wgList.name}}">
+                    <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to WorkGroups
+                </a>
+
+                <div class="btn-group" style="margin-left: 117px">
+                    <button type="button"
+                            class="btn waves-effect"
+                            ng-class="wkp.pubState === 1 ? 'btn-primary' : 'btn-default'"
+                            ng-click="wkp.switchTo('comment')">
+                        <i class="zmdi zmdi-check" ng-if="wkp.doneWithComments"></i>
+                        Comments
+                    </button>
+
+                    <button type="button"
+                            class="btn waves-effect"
+                            ng-class="wkp.pubState === 2 ? 'btn-primary' : 'btn-default'"
+                            ng-click="wkp.switchTo('strat')">
+                        <i class="zmdi zmdi-check" ng-if="wkp.doneWithStrats"></i>
+                        Stratify
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-link waves-effect"
+                            ng-class="wkp.doneWithStrats && wkp.doneWithComments ? 'btn-success': 'btn-danger'"
+                            ng-click="wkp.publish()">
+                        Publish
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <button type="button"
+                            ng-disabled="wkp.isSaving"
+                            ng-click="wkp.saveChanges()"
+                             class="btn btn-link waves-effect"
+                             style="margin-top: 3px">
+                        <span ng-if="wkp.isSaving">Saving...</span>
+                        <span ng-if="!wkp.isSaving"> Save {{wkp.saveBtnText}}</span>
+                    </button>
+                    <ul class="lv-actions actions">
+                        <li class="dropdown" uib-dropdown>
+                            <a href="javascript:void(0)" uib-dropdown-toggle>
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="javascript:void(0)"
+                                       ng-click="wkp.refreshData()">
+                                        Refresh Data
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"
+                                       style="color: red"
+                                       ng-click="wkp.cancelPublish()">
+                                        Cancel Publication
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="lv-body">
+                <div ng-switch="wkp.pubState">
+                    <div ng-switch-when="1">
+                        <div ng-include="'@[appFaculty]/feature/workgroups/publish.comment.html'"></div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div ng-include="'@[appFaculty]/feature/workgroups/publish.strat.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

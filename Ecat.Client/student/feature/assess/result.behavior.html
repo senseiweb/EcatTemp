@@ -1,0 +1,49 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover tableCenterAlign">
+                <thead class="f-16">
+                <tr>
+                    <th class="col-md-4 f-400">Behavior</th>
+                    <th class="col-md-2 f-400 text-center">Self<br/>Perspective</th>
+                    <th class="col-md-2 f-400 text-center">Peers<br/>Perspective</th>
+                    <th class="col-md-2 f-400 text-center">Faculty<br/>Perspective</th>
+                </tr>
+                </thead>
+                <tbody class="f-14">
+                <tr ng-repeat="item in ar.resultInventory track by item.id">
+                    <td>
+                        <span ng-show="!item.showBehavior">
+                                {{item.behaviorEllipse}}
+                            </span>
+                        <span ng-show="item.showBehavior">
+                                {{item.behavior}}
+                            </span> &nbsp;
+                        <a ng-if="!item.needsEllipse" href="javascript:void(0)" class="f-500"
+                           ng-click="item.showBehavior = !item.showBehavior">
+                            ...
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        {{item.resultBreakOut.selfResult}}
+
+                    </td>
+                    <td class="text-center">
+                        <a href="javascript:void(0)"
+                           popover-append-to-body="true"
+                           popover-placement="top"
+                           popover-trigger="click"
+                           popover-title="Behavior Breakout"
+                           uib-popover-template="'@[appStudent]/feature/assess/tpls/resultBoPopover.tpl.html'">
+                            {{item.resultBreakOut.peersResult}}
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        {{item.resultBreakOut.facultyResult}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

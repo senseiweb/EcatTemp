@@ -1,0 +1,6 @@
+﻿<table class="table table-condensed">
+    <tr ng-repeat="resp in inv.behaveResultForStudent[wkr.activeStudResult.studentId].respByBehav.rcvdResp | orderBy: '-score'">
+        <td style="padding:2px">{{resp.name}}</td>
+        <td style="padding:2px"><font color="{{resp.color}}">{{resp.itemResp}}</font></td>
+    </tr>
+</table>

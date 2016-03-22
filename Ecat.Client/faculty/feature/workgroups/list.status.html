@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">{{wgName}} Status</h4>
+    </div>
+    <hr />
+</div>
+
+
+<table class="table table-hover tableCenterAlign">
+    <thead class="f-16">
+        <tr>
+            <th class="f-400">Student</th>
+            <th class="f-400">Self</th>
+            <th class="f-400">Peer</th>
+            <th class="f-400">Strats</th>
+            <th class="f-400 text-center">Comments</th>
+            <th class="f-400 text-center">Response Aggregates</th>
+        </tr>
+    </thead>
+    <tbody class="f-14">
+
+        <tr ng-repeat="gm in wgMembers | orderBy: 'studentProfile.person.lastName' track by gm.studentId">
+            <td>
+                {{gm.studentProfile.person.mpPaygrade}} {{gm.studentProfile.person.lastName}}, {{gm.studentProfile.person.firstName}}
+            </td>
+            
+            <td>
+                <i class="zmdi zmdi-hc-fw zmdi-hc-2x" ng-class="gm.check.isSelfDone ? 'zmdi-check' : 'zmdi-close'"></i>
+            </td>
+            
+           <td>
+               <a href="javascript:void(0)" uib-tooltip={{gm.check.sp.count}}> 
+                   <i class="zmdi zmdi-hc-fw zmdi-hc-2x" ng-class="gm.check.sp.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
+               </a>
+           </td>
+            <td>
+                 <a href="javascript:void(0)" uib-tooltip={{gm.check.strat.count}}> 
+                   <i class="zmdi zmdi-hc-fw zmdi-hc-2x" ng-class="gm.check.strat.isDone ? 'zmdi-check' : 'zmdi-close'"></i> 
+               </a>
+            </td>
+            <td class="text-center f-18">{{gm.numberOfAuthorComments}}</td>
+            <td class="text-center p-t-0 p-b-0">
+                <div id="sp-chart-gave-data-{{$index}}" 
+                     ng-if="gm.hasChartData">
+                    <span class="sp-graph-composite">{{::gm.statusOfStudent.gaveCompositeScore}}</span>
+                    <div sp-break-out-chart
+                         charttype="pie"
+                         dataset="gm.statusOfStudent.gaveBreakOutChartData" class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                    <div id="flotlegend{{$index}}" style="display: none"></div>
+                </div>
+                <div ng-if="!gm.hasChartData" class="text-center">
+                    No Data
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="close()">Close</button>
+</div>

@@ -1,0 +1,124 @@
+﻿<div class="card" id="assessments-main">
+    <div class="listview lv-bordered lv-lg">
+        <div class="lv-header-alt clearfix p-b-15">
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="javascript:void(0)"
+                       type="button"
+                       class="btn btn-link pull-left"
+                       ui-sref="{{stateMgr.faculty.wgList.name}}">
+                        <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to WorkGroups
+                    </a>
+                </div>
+
+                <div class="col-md-4">
+                    <h4 class="f-400 text-center">{{wka.activeWg.displayName}}</h4>
+                </div>
+
+                <div class="col-md-4">
+                    <ul class="lv-actions actions">
+
+                        <li class="dropdown" uib-dropdown>
+                            <a href="" uib-dropdown-toggle>
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Refresh Data</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="lv-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover tableCenterAlign">
+                            <thead>
+                                <tr class="f-16">
+                                    <th class="col-md-3 text-left f-400">Student</th>
+                                    <th class="col-md-2 text-center f-400">Assessments</th>
+                                    <th class="col-md-2 text-center f-400">Comments</th>
+                                    <th class="col-md-2 text-center f-400">Strat</th>
+                                    <th class="col-md-3 text-center f-400">Composite/Breakout</th>
+                                </tr>
+                            </thead>
+                            <tbody class="f-14">
+                                <tr ng-repeat="member in wka.groupMembers | orderBy: 'nameSorter.last' track by member.studentId">
+                                    <td style="border-right: 1px solid #f0f0f0;">{{member.rankName}}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-link f-14"
+                                           href="javascript:void(0)"
+                                           ng-if="!wka.isViewOnly"
+                                           ng-click="!wka.loadAssessment(member.studentId)">
+                                            {{member.assessText}}
+                                        </a>
+                                        <a class="btn btn-link f-14"
+                                           href="javascript:void(0)"
+                                           ng-if="wka.isViewOnly && member.statusOfStudent.assessComplete"
+                                           ng-click="wka.loadAssessment(member.studentId)">
+                                            {{member.assessText}}
+                                        </a>
+                                        <a class="btn btn-link f-14"
+                                           href="javascript:void(0)"
+                                           ng-if="wka.isViewOnly && !member.statusOfStudent.assessComplete">
+                                            {{member.assessText}}
+                                        </a>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="javascript:void(0)"
+                                           ng-if="!wka.isViewOnly"
+                                           class="btn btn-link f-14"
+                                           ng-click="wka.loadComment(member.studentId)">
+                                            {{member.commentText}}
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                           ng-if="wka.isViewOnly && member.statusOfStudent.hasComment"
+                                           class="btn btn-link f-14"
+                                           ng-click="wka.loadComment(member.studentId)">
+                                            {{member.commentText}}
+                                        </a>
+                                        <a href="javascript:void(0)"
+                                           ng-if="wka.isViewOnly && !member.statusOfStudent.hasComment"
+                                           class="btn btn-link f-14">
+                                            {{member.commentText}}
+                                        </a>
+
+                                    </td>
+                                    <td class="text-center">
+                                        {{member.statusOfStudent.stratedPosition || 'Not Stratified'}}
+                                    </td>
+                                    <td class="text-center p-b-0 p-t-0">
+                                        <div id="sp-chart-data-{{$index}}" ng-if="member.hasChartData">
+                                            <span class="sp-graph-composite">{{member.statusOfStudent.compositeScore}}</span>
+                                            <div sp-break-out-chart
+                                                 charttype="pie"
+                                                 dataset="member.statusOfStudent.breakOutChartData"
+                                                 class="spflot-chart-pie" 
+                                                 legend="flotlegend{{$index}}"> </div>
+                                            <div id="flotlegend{{$index}}" style="display: none"></div>
+                                        </div>
+                                        <div ng-if="!member.hasChartData">
+                                            No Data
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,21 @@
+﻿<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">{{csd.student.person.firstName}} {{csd.student.person.lastName}} Capstone Details</h4>
+    </div>
+    <hr />
+</div>
+
+<div class="modal-body" ng-init="csd.capstoneView=0">
+    <div ng-switch="csd.capstoneView">
+        <div ng-switch-when="0">
+            <div ng-include="'@[appFaculty]/feature/groups/modals/tmpls/capstone.groups.tmpl.html'"></div>
+        </div>
+        <div ng-switch-when="1">
+            <div ng-include="'@[appFaculty]/feature/groups/modals/tmpls/capstone.behaviors.tmpl.html'"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="csd.close()">Close</button>
+</div>

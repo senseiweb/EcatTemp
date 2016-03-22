@@ -1,0 +1,99 @@
+﻿<div class="modal-header p-10">
+</div>
+
+<div class="modal-body ">
+    <form name="commenter.nf" class="form-horizontal" novalidate role="form">
+        <div class="form-group">
+            <label for="to" class="control-label col-md-2 f-16 lead">To:</label>
+            <div class="col-md-7">
+                <div class="fg-line">
+                    <input type="text"
+                           name="to"
+                           id="to"
+                           ng-readonly="commenter.isPublished"
+                           value="{{commenter.recipientName}}"
+                           class="form-control fg-input f-18"
+                           disabled />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profile-pic">
+                    <!--TODO: Move styling to css-->
+                    <img alt="User Avatar" ng-src="{{commenter.recipientAvatar}}"
+                         height="47"
+                         width="47"
+                         style="border-radius: 50%; border: 3px solid rgba(0, 0, 0, 0.14); box-sizing: content-box">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="from" class="control-label col-md-2 f-16 lead">From:</label>
+            <div class="col-md-7">
+                <div class="fg-line">
+                    <div class="select">
+                        <select ng-model="commenter.comment.requestAnonymity"
+                                name="from"
+                                required
+                                ng-disabled="commenter.isInstructor || commenter.isPublished"
+                                class="form-control f-18">
+                            <option ng-value="commenter.anonymityFlag.false" ng-selected="!commenter.comment.requestAnonymity">{{commenter.authorName}}</option>
+                            <option ng-value="commenter.anonymityFlag.true"  ng-selected="commenter.comment.requestAnonymity">Anonymous</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profile-pic">
+                    <!--TODO: Move styling to a css class-->
+                    <img alt="User Avatar" ng-src="{{commenter.authorAvatar}}" height="47" width="47" style="border-radius: 50%; border: 3px solid rgba(0, 0, 0, 0.14); box-sizing: content-box">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fg-line">
+                <div class="col-md-12">
+                    <div text-angular required ng-if="!commenter.isPublished" ng-model="commenter.comment.commentText" class="pmbb-edit"></div>
+                    <div ng-if="commenter.isPublished" class="pmbb-edit" ng-bind-html="commenter.comment.commentText"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <div class="btn-group btn-group-sm pull-left m-l-10">
+        <label class="btn btn-default waves-effect"
+               ng-disabled="commenter.isPublished" 
+               ng-click="commenter.nf.$setDirty()" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.neg}" 
+               ng-model="commenter.comment.flag.mpAuthor" 
+               uib-btn-radio="'{{commenter.commentFlag.neg}}'">
+        {{commenter.commentFlag.neg}}
+        </label>
+        <label class="btn btn-default waves-effect"
+               ng-click="commenter.nf.$setDirty()"
+               ng-disabled="commenter.isPublished" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.neut}" 
+               ng-model="commenter.comment.flag.mpAuthor" 
+               uib-btn-radio="'{{commenter.commentFlag.neut}}'">
+        {{commenter.commentFlag.neut}}
+        </label>
+        <label class="btn btn-default waves-effect"
+               ng-click="commenter.nf.$setDirty()"
+               ng-disabled="commenter.isPublished" 
+               ng-class="{'btn-primary': commenter.comment.flag.mpAuthor===commenter.commentFlag.pos}" 
+               ng-model="commenter.comment.flag.mpAuthor" 
+               uib-btn-radio="'{{commenter.commentFlag.pos}}'">
+        {{commenter.commentFlag.pos}}
+        </label>
+    </div>
+
+    <button class="btn btn-danger" type="button" ng-if="!commenter.isNew && !commenter.isPublished" ng-click="commenter.delete()">Delete</button>
+    <button class="btn btn-link" type="button" ng-if="commenter.nf.$dirty  && commenter.nf.$valid && !commenter.isPublished" ng-disable="!commenter.isSaveInProgress" ng-click="commenter.save()">Save</button>
+
+    <button class="btn btn-link" type="button" ng-click="commenter.cancel()">
+        <span ng-if="commenter.isPublished">Close</span>
+        <span ng-if="!commenter.isPublished">Cancel</span>
+    </button>
+</div>

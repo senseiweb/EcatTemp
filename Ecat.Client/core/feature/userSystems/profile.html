@@ -1,0 +1,90 @@
+﻿<div class="container animated fadeInRight">
+
+    <div class="block-header">
+        <h2>{{profile.user.firstName}} {{profile.user.lastName}} <small>{{profile.user.prettyInstituteRole}}, Dubai, United Arab Emirates</small></h2>
+
+        <ul class="actions m-t-20 hidden-xs">
+
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="javascript:void(0)">Privacy Settings</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" ng-click="profile.changePassword()">Update Password</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="card" id="profile-main">
+        <div class="pm-overview c-overflow">
+            <div class="pmo-pic">
+                <div class="p-relative">
+                    <a href="">
+                        <img class="img-responsive" ng-src="{{profile.user.avatarLocation || profile.user.defaultAvatarLocation}}" alt="User Profile">
+                    </a>
+
+                    <a href="" class="pmop-edit">
+                        <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
+                    </a>
+                </div>
+
+            </div>
+            <div class="pmo-block pmo-contact hidden-xs">
+                <h2>Contact</h2>
+
+                <ul>
+                    <li><i class="zmdi zmdi-email"></i> {{profile.user.email}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pm-body clearfix">
+            <ul class="tab-nav tn-justified">
+                <li class="btn-wave" ng-class="{active: profile.page === profile.pageTypeEnum.Main}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Main">Main</a>
+                </li>
+                <li class="btn-wave" ng-if="profile.showFacilitator" ng-class="{active: profile.page === profile.pageTypeEnum.Facilitator}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Facilitator">Faciliator</a>
+                </li>
+                <li class="btn-wave" ng-if="profile.showStudent" ng-class="{active: profile.page === profile.pageTypeEnum.Student}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Student">Student</a>
+                </li>
+                <li class="btn-wave" ng-if="profile.showExternal" ng-class="{active: profile.page === profile.pageTypeEnum.External}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.External">External</a>
+                </li>
+                <li class="btn-wave" ng-class="{active: profile.page === profile.pageTypeEnum.Connections}">
+                    <a href="" ng-click="profile.page = profile.pageTypeEnum.Connections">Connections</a>
+                </li>
+            </ul>
+            <div ng-switch="profile.page">
+                <div ng-switch-when="0">
+                    <div ng-include="'@[appCore]/feature/userSystems/profileViews/main.tpl.html'"></div>
+                </div>
+                <div ng-switch-when="5">
+                    <div ng-include="'@[appCore]/feature/userSystems/profileViews/staff.tpl.html'"></div>
+                </div>
+                <div ng-switch-when="1">
+                    <div ng-include="'@[appCore]/feature/userSystems/profileViews/faculty.tpl.html'"></div>
+                </div>
+                <div ng-switch-when="2">
+                    <div ng-include="'@[appCore]/feature/userSystems/profileViews/student.tpl.html'"></div>
+                </div>
+                <div ng-switch-when="3">
+                    <div ng-include="'@[appCore]/feature/userSystems/profileViews/external.tpl.html'"></div>
+                </div>
+                <div ng-switch-when="4">
+                    <div ng-include="'@[appCore]/feature/userSystems/profileViews/connections.tpl.html'"></div>
+                </div>
+                <div ng-switch-default>
+                    <div ng-include="'@[appCore]/feature/userSystems/profileViews/main.tpl.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

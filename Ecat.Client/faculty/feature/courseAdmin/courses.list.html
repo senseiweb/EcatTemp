@@ -1,0 +1,34 @@
+﻿<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div class="table-responsive">
+            <table class="table table-hover table-vmiddle">
+                <thead>
+                    <tr>
+                        <th class="header">Name</th>
+                        <th class="header">Class Num</th>
+                        <th class="header">Start Date</th>
+                        <th class="header">Grad Date</th>
+                        <th class="header">Grad Report</th>
+                        <th class="header"></th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="course in crses.courses track by course.id" ng-mouseover="course.isVisible = true" ng-mouseleave="course.isVisible = false" style="height: 50px">
+                    <td>{{course.name}}</td>
+                    <td>{{course.classNumber}}</td>
+                    <td>{{course.startDate}}</td>
+                    <td>{{course.gradDate}}</td>
+                    <td><label ng-if="course.gradReportPublished">Published</label></td>
+                    <td style="width: 550px">
+                        <button ng-show="course.isVisible" type="button" class="btn btn-link btn-sm waves-effect btn-info f-14" ng-click="crses.editInfo(course)">Edit Info</button>
+                        <div ng-show="course.isVisible && (course.classNumber!==undefined || course.classNumber!==null) && (course.startDate!==undefined || course.startDate!==null)" style="float: right">
+                            <button type="button" class="btn btn-link btn-sm waves-effect btn-info f-14" ng-click="crses.view=2; crses.selectCourse(course); course.isVisible=false;">Enrollments</button>
+                            <button type="button" ui-sref="{{stateMgr.faculty.crseAdGrps.name}}" ng-click="crses.goToGroups(course); course.isVisible=false;" class="btn btn-link btn-sm waves-effect btn-info f-14">Groups<i class="zmdi zmdi-arrow-right zmdi-hc-fw"></i></button>
+                            <button type="button" ng-if="!course.gradReportPublished" ng-click="crses.publishGradRpt(course)" class="btn btn-link btn-sm waves-effect btn-info f-14">Publish Grad Report</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>

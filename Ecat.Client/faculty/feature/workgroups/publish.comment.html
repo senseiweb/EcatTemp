@@ -1,0 +1,138 @@
+﻿<div class="card m-b-0" id="messages-main" ng-if="wkp.hasComments">
+    <div class="row">
+        <div class="col-md-3" style="padding-right: 0;">
+            <div class="ms-menu">
+
+                <div class="ms-block">
+                    <div class="dropdown"
+                         uib-dropdown>
+                        <a class="btn btn-primary btn-block dropdown-toggle waves-effect"
+                           href="javascript:void(0)"
+                           uib-dropdown-toggle
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            Mass Flag
+                            <i class="caret m-l-5"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dm-icon w-100">
+                            <li>
+                                <a data-ng-click="wkp.massFlagUnflagged()">Set All</a>
+                            </li>
+                            <li>
+                                <a data-ng-click="wkp.massFlagReset()">Reset All</a>
+                            </li>
+                            <li>
+                                <a data-ng-click="wkp.massAuthorFlagUnflagged()">Set Selected Author's</a>
+                            </li>
+                            <li>
+                                <a data-ng-click="wkp.massAuthorFlagReset()">Reset Selected Author's</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="listview lv-user ecat-messages m-t-20">
+
+                    <div class="lv-item media"
+                         ng-class="{'active': wkp.selectedAuthor.studentId === author.studentId}"
+                         ng-repeat="author in wkp.memWithComments | orderBy: 'nameSorter.last' track by author.studentId"
+                         ng-click="wkp.selectAuthor(author)">
+
+                        <div class="lv-avatar pull-left">
+                            {{author.studentProfile.person.firstName.charAt(0)}}{{author.studentProfile.person.lastName.charAt(0)}}
+                        </div>
+
+                        <div class="media-body">
+                            <div class="lv-title">
+                                {{author.rankName}}
+                            </div>
+                            <span class="badge" ng-if="author.numRemaining">{{author.numRemaining}}</span>
+                            <span class="flag-breakdown" style="color: #D8D8D8">
+                                <span class="p-r-5">
+                                    <i class="zmdi zmdi-hc-fw zmdi-plus-circle-o"></i>{{author.totalApprCount}}
+                                </span>
+                                <span class="p-r-5">
+                                    <i class="zmdi zmdi-hc-fw zmdi-minus-circle-outline"></i>{{author.totalInapprCount}}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left: 0;">
+            <div id="ecat-submessage" class="ms-menu pull-left">
+                <div class="listview lv-user">
+                    <div class="lv-item media"
+                         ng-repeat="comment in wkp.selectedAuthor.authorOfComments | orderBy: 'recipient.nameSorter.last' track by comment.recipientPersonId"
+                         ng-click="wkp.selectComment(comment)"
+                         ng-class="{'sub-active': wkp.selectedComment.recipientPersonId === comment.recipientPersonId}">
+                        <div class="media-body">
+                            <div class="lv-title">
+                                {{comment.recipient.rankName}}
+                            </div>
+
+                            <i class="zmdi zmdi-hc-fw"
+                               style="display: inline"
+                               ng-class="{'zmdi-minus-circle-outline sp-neut-comment p-r-5': comment.flag.mpFaculty === wkp.commentFlag.inappr,
+                                                              'zmdi-plus-circle-o sp-pos-comment p-r-5': comment.flag.mpFaculty === wkp.commentFlag.appr}"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7" style="padding-left: 0;">
+            <div class="ms-body">
+                <div class="listview lv-message">
+                    <div class="lv-body">
+                        <div ng-if="wkp.selectedComment === null">
+                            <h2 class="text-center">Select a recipient...</h2>
+                        </div>
+                        <div ng-if="wkp.selectedComment !== null">
+                            <h4 class="f-400 p-l-20">Comment type: {{wkp.selectedComment.requestAnonymity ? 'Annonymous' : 'Signed'}}</h4>
+                            <div class="p-20 media">
+                                <div class="media-body f-14">
+                                    <p ng-bind-html="wkp.selectedComment.commentText"></p>
+                                </div>
+                                <div class="pull-right p-t-30 p-r-5">
+                                    <div class="btn-group">
+                                <label class="btn btn-default"
+                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFaculty === wkp.commentFlag.appr}"
+                                               ng-model="wkp.selectedComment.flag.mpFaculty"
+                                               ng-click="wkp.changeFlag(wkp.selectedComment.author, wkp.commentFlag.appr)"
+                                               uib-btn-radio="wkp.commentFlag.appr">
+                                            {{wkp.commentFlag.appr}}
+                                        </label>
+
+                                        <label class="btn btn-default"
+                                               ng-class="{'btn-primary': wkp.selectedComment.flag.mpFaculty=== wkp.commentFlag.inappr}"
+                                               ng-model="wkp.selectedComment.flag.mpFaculty"
+                                               ng-click="wkp.changeFlag(wkp.selectedComment.author, wkp.commentFlag.inappr)"
+                                               uib-btn-radio="wkp.commentFlag.inappr">
+                                            {{wkp.commentFlag.inappr}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lv-footer">
+                                <div class="small f-12 pull-right p-r-15">
+                                    Last Modified: <i class="zmdi zmdi-time"></i> {{wkp.selectedComment.modDate}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</div>
+<div ng-if="!wkp.hasComments">
+    <h1 class="text-center lead p-30">Well this should be easy...there are no comments to evaluate!</h1>
+</div>

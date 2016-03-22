@@ -1,0 +1,69 @@
+﻿<div class="row">
+    <div class="col-md-12 p-t-20">
+        <div>
+            <table class="table table-hover tableCenterAlign">
+                <thead>
+                    <tr class="f-16">
+                        <th class="col-md-3 f-400">Student</th>
+                        <th class="col-md-2 text-center f-400">Final Strat</th>
+                        <th class="col-md-3 text-center f-400">Outcome</th>
+                        <th class="col-md-2 text-center f-400">Received</th>
+                        <th class="col-md-2 text-center f-400">Given</th>
+                    </tr>
+                </thead>
+                <tbody class="f-14">
+                    <tr ng-repeat="studResult in wkr.wgResults | orderBy:'result.nameSorter.lastName' track by studResult.studentId" 
+                        ng-class="{'active': studResult.studentId === wkr.activeStudResult.studentId}"
+                        ng-click="wkr.activeStudResult = studResult">
+                        
+                        <td style="border-right: 1px solid #f0f0f0;">
+                            {{::studResult.rankName}}
+                        </td>
+
+                        <td class="text-center">
+                            {{::studResult.resultForStudent.finalStrat}}
+                        </td>
+
+                        <td class="text-center">
+                            {{::studResult.resultForStudent.outcome}}
+                        </td>
+
+                        <td class="text-center p-b-0 p-t-0">
+                            <div ng-if="!studResult.hasReceivedChartData">
+                                No Assessment
+                            </div>
+                            <div id="sp-chart-data-{{$index}}" 
+                                 ng-if="::studResult.hasReceivedChartData">
+                                <span class="sp-graph-inst-composite">{{::studResult.resultForStudent.compositeScore}}</span>
+                                <div sp-break-out-chart
+                                     charttype="pie"
+                                     dataset="studResult.resultForStudent.breakOutReceived"
+                                     class="spflot-chart-pie" 
+                                     legend="flotlegend{{$index}}"> </div>
+                                <div id="flotlegend{{$index}}" style="display: none"></div>
+                            </div>
+                        </td>
+
+                        <td class="text-center p-b-0 p-t-0">
+                            <div ng-if="!studResult.hasGivenChartData">
+                                No Assessment
+                            </div>
+                            <div id="sp-chart-data-{{$index}}"
+                                 ng-if="::studResult.hasGivenChartData">
+                                <span class="sp-graph-inst-composite">
+                                    {{::studResult.statusOfStudent.gaveCompositeScore}}
+                                </span>
+                                <div sp-break-out-chart
+                                     charttype="pie"
+                                     dataset="studResult.statusOfStudent.gaveBreakOutChartData" 
+                                     class="spflot-chart-pie" legend="flotlegend{{$index}}"> </div>
+                                <div id="flotlegend{{$index}}" style="display: none"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

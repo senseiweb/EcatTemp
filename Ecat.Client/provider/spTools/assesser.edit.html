@@ -1,0 +1,126 @@
+﻿<div class="p-b-10 m-b-5" ng-repeat="item in assesser.inventoryList | orderBy: displayOrder">
+
+    <div class="row" ng-if="!item.showBehavior" ng-mouseover="item.rowShow=true" ng-mouseleave="item.rowShow=false">
+        <div class="col-md-1 p-t-5" ng-if="!assesser.isPublished">
+            <button class="btn btn-default waves-effect"
+                    style="padding: 4px 6px"
+                    ng-if="item.rowShow"
+                    ng-click="assesser.openEditAssessItem(item)">
+                <i class="zmdi zmdi-edit"></i>
+            </button>
+        </div>
+
+        <div ng-class="assesser.isPublished ? 'col-md-12' : 'col-md-11'">
+            <p class="lead f-16 m-b-10">
+                <strong>
+                    <span ng-class="{'c-green': item.isChanged}">{{assesser.getFormattedResponse(item)}}</span> @
+                </strong>
+                {{::item.behavior}}
+            </p>
+        </div>
+    </div>
+    <div class="row p-b-10" ng-if="item.showBehavior && !assess.isPublished">
+        <div class="col-md-1 p-t-10">
+            <ul class="lv-actions actions">
+                <li class="dropdown" uib-dropdown>
+                    <a href="javascript:void(0)" uib-dropdown-toggle>
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="javascript:void(0)"
+                               ng-if="!item.behaviorDisplayed"
+                               ng-click="item.behaviorDisplayed = true">
+                                Displayed
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                               ng-if="item.behaviorDisplayed"
+                               ng-click="item.behaviorDisplayed = false">
+                                Not Displayed
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div ng-if="item.behaviorDisplayed">
+                <div class="col-md-7 p-l-15 p-r-0 p-t-10">
+                    <div class="btn-group btn-group-sm">
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorEffect === assesser.enum.ie}"
+                                ng-model="item.behaviorEffect"
+                                uib-btn-radio="{{assesser.enum.ie}}">
+                            Ineffective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorEffect === assesser.enum.e}"
+                                ng-model="item.behaviorEffect"
+                                uib-btn-radio="{{assesser.enum.e}}">
+                            Effective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorEffect === assesser.enum.he}"
+                                ng-model="item.behaviorEffect"
+                                uib-btn-radio="{{assesser.enum.he}}">
+                            Highly Effective
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3 p-l-0 p-r-0 p-t-10">
+                    <div class="btn-group btn-group-sm">
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorFreq === assesser.enum.usl}"
+                                ng-model="item.behaviorFreq"
+                                uib-btn-radio="{{assesser.enum.usl}}">
+                            Usually
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': item.behaviorFreq === assesser.enum.alw}"
+                                ng-model="item.behaviorFreq"
+                                uib-btn-radio="{{assesser.enum.alw}}">
+                            Always
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="!item.behaviorDisplayed">
+                <div class="col-md-10">
+                    <p class="lead text-center f-16 p-t-15">NOT DISPLAYED</p>
+                </div>
+            </div>
+
+            <div class="col-md-1 p-l-10">
+                <button class="btn btn-default waves-effect"
+                        ng-click="assesser.closeEditAssessItem(item, true);"
+                        ng-disabled="" style="padding: 3px; margin-top: 2px;">
+                    <i class="zmdi zmdi-check c-green"></i>
+                </button>
+            </div>
+            <div class="col-md-1 p-l-10">
+                <button class="btn btn-default waves-effect"
+                        ng-click="assesser.closeEditAssessItem(item, false);"
+                        ng-disabled="" style="padding: 3px 4px; margin-top: 2px;">
+                    <i class="zmdi zmdi-close"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

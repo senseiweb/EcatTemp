@@ -1,0 +1,110 @@
+﻿<div>
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="lead">With regards to displaying the behavior <span class="lead f-400 c-blue">{{assesser.activeInvent.behavior}}</span> how effective {{assesser.perspective}}</p>
+            </div>
+        </div>
+
+        <div class="row p-b-20 p-t-20">
+            <div class="col-md-1">
+                <ul class="lv-actions actions">
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li>
+                                <a href="javascript:void(0)"
+                                   ng-hide="assesser.activeInvent.behaviorDisplayed"
+                                   ng-click="assesser.activeInvent.behaviorDisplayed = true; assesser.checkReadyToSave()">
+                                    Displayed
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)"
+                                   ng-hide="!assesser.activeInvent.behaviorDisplayed"
+                                   ng-click="assesser.activeInvent.behaviorDisplayed = false; assesser.checkReadyToSave()">
+                                    Not Displayed
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div ng-if="assesser.activeInvent.behaviorDisplayed">
+                <div class="col-md-7">
+                    <div class="btn-group btn-group-sm">
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.ie}"
+                                ng-model="assesser.activeInvent.behaviorEffect"
+                                ng-click="assesser.checkReadyToSave()"
+                                uib-btn-radio="{{assesser.enum.ie}}">
+                            Ineffective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.e}"
+                                ng-model="assesser.activeInvent.behaviorEffect"
+                                ng-click="assesser.checkReadyToSave()"
+                                uib-btn-radio="{{assesser.enum.e}}">
+                            Effective
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorEffect === assesser.enum.he}"
+                                ng-model="assesser.activeInvent.behaviorEffect"
+                                ng-click="assesser.checkReadyToSave()"
+                                uib-btn-radio="{{assesser.enum.he}}">
+                            Highly Effective
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group btn-group-sm">
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.usl}"
+                                ng-model="assesser.activeInvent.behaviorFreq"
+                                ng-click="assesser.checkReadyToSave()"
+                                uib-btn-radio="{{assesser.enum.usl}}">
+                            Usually
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-default waves-effect"
+                                ng-class="{'btn-primary': assesser.activeInvent.behaviorFreq === assesser.enum.alw}"
+                                ng-model="assesser.activeInvent.behaviorFreq"
+                                ng-click="assesser.checkReadyToSave()"
+                                uib-btn-radio="{{assesser.enum.alw}}">
+                            Always
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!assesser.activeInvent.behaviorDisplayed" c
+                 lass="col-md-11">
+                <p class="lead text-center">NOT DISPLAYED</p>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div id="sp-pager" class="col-md-12 text-center">
+                <uib-pagination total-items="assesser.pagers.length"
+                                direction-links="false"
+                                class="pagination-lg"
+                                items-per-page="1"
+                                ng-model="assesser.currentPage"
+                                ng-change="assesser.changePage()">
+                    <i class="zmdi zmdi-check"></i>
+                </uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>

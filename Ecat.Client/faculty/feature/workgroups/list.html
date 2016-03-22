@@ -1,0 +1,171 @@
+﻿
+<div class="card" id="groups-main">
+    <div class="listview lv-bordered lv-lg">
+        <div class="lv-header-alt clearfix p-b-5">
+
+            <ul class="lv-actions actions">
+                <li class="dropdown" uib-dropdown>
+                    <button class="btn btn-link m-b-10 dropdown-toggle" uib-dropdown-toggle>
+                        {{wkl.activeCourse.displayName}}
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li ng-repeat="course in wkl.courses track by course.id">
+                            <a href="javascript:void(0)" ng-click="wkl.changeActiveCourse(course)">
+                                {{course.displayName}}
+                            </a>
+
+                        </li>
+                    </ul>
+
+
+                </li>
+
+                <li class="dropdown" uib-dropdown>
+                    <a href="" uib-dropdown-toggle>
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a href="wkl.refreshInit()">Refresh Data</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="lv-body">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-vmiddle">
+                            <thead class="f-16">
+                            <tr>
+                                <th class="header col-md-3 text-left f-16 f-400">                                  
+                                        Flight                                    
+                                </th>
+
+                                <th class="header col-md-3 text-left f-400 f-16">
+                                    
+                                    <button class="btn f-400 c-black btn-link f-16"
+                                            ng-click="wkl.sortList(wkl.sortOpt.group)">
+                                        Group Type
+                                        <i class="zmdi"
+                                           ng-if="wkl.activeSort.opt === wkl.sortOpt.group"
+                                           ng-class="wkl.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                                    </button>
+                                </th>
+
+                                <th class="header col-md-3  text-left">
+                                    <button class="btn f-400 c-black btn-link f-16" 
+                                            ng-click="wkl.sortList(wkl.sortOpt.status)">
+                                        Status
+                                        <i class="zmdi" 
+                                           ng-if="wkl.activeSort.opt === wkl.sortOpt.status"
+                                           ng-class="wkl.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                                    </button>
+                                </th>
+
+                                <th class="header col-md-3 text-center f-400">Options</th>
+
+                            </tr>
+                            </thead>
+                            <tbody class="f-14">
+                                <tr table-filters>
+                                    <td class="filter">
+                                        <ui-select multiple ng-model="wkl.filters.name.filterWith" theme="select2" style="width: 100%">
+                                            <ui-select-match placeholder="--Filter By Flight Number--">{{$item.key}}</ui-select-match>
+                                            <ui-select-choices repeat="name.key as name in wkl.filters.name.optionList | filter: $select.search">
+                                                <div>
+                                                    <span> Name: <span ng-bind-html="' ' + name.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{name.count}} items</span>
+                                                </div>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                    <td class="filter">
+                                        <ui-select multiple ng-model="wkl.filters.cat.filterWith" theme="select2" style="width: 100%">
+                                            <ui-select-match placeholder="--Filter By Group Category--">{{$item.key}}</ui-select-match>
+                                            <ui-select-choices repeat="cat.key as cat in wkl.filters.cat.optionList | filter: $select.search">
+                                                <span>  Category: <span ng-bind-html="' ' + cat.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{cat.count}} items</span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                    <td class="filter">
+
+                                        <ui-select multiple ng-model="wkl.filters.status.filterWith" theme="select2" style="width: 100%">
+                                            <ui-select-match placeholder="--Filter By Pub Status--">{{$item.key}}</ui-select-match>
+                                            <ui-select-choices repeat="status.key as status in wkl.filters.status.optionList | filter: $select.search">
+                                                <span> Pub Status: <span ng-bind-html="' ' + status.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{status.count}} items</span>
+                                            </ui-select-choices>
+                                        </ui-select>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="text-left" ng-repeat="wg in wkl.activeCourse.workGroups | orderBy: wkl.activeSort.opt:wkl.activeSort.desc | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.id"
+                                    ng-mouseover="wg.isVisible = true" ng-mouseleave="wg.isVisible = false" style="height: 55px">
+                                    <td>{{wg.defaultName}}</td>
+                                    <td>{{wg.mpCategory}}</td>
+                                    <td>{{wg.mpSpStatus}}</td>
+                                    <td style="width: 475px">
+                                        <div ng-show="wg.isVisible">
+
+                                            <div role="group" ng-if="wg.mpSpStatus !== wkl.mp.published">
+
+                                                <button ng-click="wkl.viewStatus(wg)"
+                                                        type="button"
+                                                        class="btn btn-link btn-sm waves-effect btn-info f-14">
+                                                    Status
+                                                </button>
+
+                                                <a href="javascript:void(0)"
+                                                   ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId: {{wg.courseId}},wgId: {{wg.id}}})"
+                                                   class="btn btn-link btn-sm waves-effect btn-info f-14">
+                                                    Assess
+                                                </a>
+
+                                                <a href="javascript:void(0)"
+                                                   ng-class="wg.canPublish ? 'btn-success' : 'btn-danger'"
+                                                   ng-click="wkl.goToPublish(wg)"
+                                                   class="btn btn-link btn-sm waves-effect f-14">
+                                                    Publish
+                                                </a>
+                                            </div>
+
+                                            <div role="group" ng-if="wg.mpSpStatus === wkl.mp.published">
+
+                                                <a href="javascript:void(0)"
+                                                   ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId: {{wg.courseId}},wgId: {{wg.id}}})"
+                                                   class="btn btn-link btn-sm waves-effect btn-info f-14">
+                                                    Assess
+                                                </a>
+
+                                                <a href="javascript:void(0)"
+                                                   ui-sref="{{stateMgr.faculty.wgResult.name}}({crseId:{{wg.courseId}},wgId: {{wg.id}}})"
+                                                   class="btn btn-link btn-sm waves-effect btn-info f-14">
+                                                    Results
+                                                </a>
+
+                                                <a href="javascript:void(0)"
+                                                   ng-if="wkl.course.gradReportPublished"
+                                                   ui-sref="{{stateMgr.faculty.wgCapStone.name}}({crseId:{{wg.courseId}},wgId: {{wg.id}}})"
+                                                   class="btn btn-link btn-sm waves-effect btn-info f-14">
+                                                    Capstone
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

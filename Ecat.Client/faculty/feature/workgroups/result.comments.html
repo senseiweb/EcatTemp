@@ -1,0 +1,108 @@
+﻿<div class="card m-b-0" id="messages-main" ng-if="wkr.hasComments">
+    <div class="row">
+        <div class="col-md-3" style="padding-right: 0;">
+            <div class="ms-menu">
+
+                <div class="ms-block">
+                    <div class="dropdown"
+                         uib-dropdown>
+                        <a class="btn btn-primary btn-block dropdown-toggle waves-effect"
+                           ng-class="{'orange': wkr.commentPerspective !== 'Author'}"
+                           href="javascript:void(0)"
+                           uib-dropdown-toggle
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            Viewing As: {{wkr.commentPerspective}}
+                            <i class="caret m-l-5"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dm-icon w-100">
+                            <li>
+                                <a ng-click="wkr.changeCommentView('Author')">View As Author</a>
+                            </li>
+                            <li>
+                                <a ng-click="wkr.changeCommentView('Recipient')">View As Recipient</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="listview lv-user ecat-messages m-t-20">
+
+                    <div class="lv-item media"
+                         ng-class="{'active': wkr.selectedComment.studentId === comment.studentId, 'active-orange' : wkr.commentPerspective !== 'Author'}"
+                         ng-repeat="comment in wkr.studentComments track by comment.studentId"
+                         ng-click="wkr.selectComment(comment)">
+
+                        <div class="lv-avatar pull-left">
+                            {{comment.initials}}
+                        </div>
+
+                        <div class="media-body">
+                            <div class="lv-title">
+                                {{comment.rankName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 p-l-0">
+            <div class="ms-body">
+                <div class="listview lv-message">
+                    <div class="lv-body p-20">
+                        <div ng-if="wkr.selectedComment === null">
+                            <h2 class="text-center">Select a recipient...</h2>
+                        </div>
+                        <div ng-if="wkr.selectedComment !== null">
+                            <div class="text-center p-b-5">
+                                <h3 ng-class="{'c-blue' : wkr.commentPerspective === 'Author', 'c-deeporange' : wkr.commentPerspective !== 'Author'}"
+                                    class="f-300 m-t-0">From: {{wkr.commentPerspective === 'Author' ? wkr.activeStudResult.rankName : wkr.selectedComment.rankName}}
+                                </h3>
+
+                                <h3 ng-class="{'c-blue' : wkr.commentPerspective !== 'Author', 'c-deeporange' : wkr.commentPerspective === 'Author'}"
+                                    class="f-300 m-t-0">
+                                    To: {{wkr.commentPerspective === 'Author' ? wkr.selectedComment.rankName : wkr.activeStudResult.rankName}}
+                                </h3>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="pull-left">
+                                <h4 class="f-400">Comment type: {{wkr.selectedComment.commentType}}</h4>
+                            </div>
+                            <div class="pull-right">
+                                <h4 class="f-400">
+                                    <span>
+                                        Marked As:
+                                        <span class="label label-success" ng-if="wkr.selectedComment.isAppr">
+                                            Appropriate
+                                        </span>
+                                        <span class="label label-danger" ng-if="!wkr.selectedComment.isAppr">
+                                            Inappropriate
+                                        </span>
+                                    </span>
+                                </h4>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="media">
+                                <div class="media-body f-14">
+                                    <p ng-bind-html="wkr.selectedComment.commentText"></p>
+                                </div>
+                            </div>
+                            <div class="lv-footer">
+                                <div class="small f-12 pull-right p-r-15">
+                                    Last Modified: <i class="zmdi zmdi-time"></i> {{wkr.selectedComment.modDate}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div ng-if="!wkr.hasComments">
+    <h1 class="text-center lead p-30">There are no comments</h1>
+</div>

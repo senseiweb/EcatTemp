@@ -1,0 +1,42 @@
+﻿<div class="listview lv-bordered lv-lg">
+    <div class="lv-header-alt clearfix p-b-15">
+        
+        <div class="btn-group clearfix m-l-5">
+            <button type="button"
+                    class="btn"
+                    ng-class="ar.activeView === ar.view.assess ? 'btn-primary': 'btn-default'"
+                    ng-click="ar.switchView(ar.view.assess)">
+                View Assessments
+            </button>
+
+            <button type="button"
+                    class="btn"
+                    ng-hide="ar.isReviewing"
+                    ng-class="ar.activeView === ar.view.behavior ? 'btn-primary': 'btn-default'"
+                    ng-click="ar.switchView(ar.view.behavior)">
+                Behaviors Result
+            </button>
+
+            <button type="button"
+                    class="btn"
+                    ng-hide="ar.isReviewing"
+                    ng-class="ar.activeView === ar.view.comment ? 'btn-primary': 'btn-default'"
+                    ng-click="ar.switchView(ar.view.comment)">
+                Comments Result
+            </button>
+        </div>
+    </div>
+        <div class="lv-body">
+            <div>
+                <div ng-if="ar.activeView === ar.view.assess">
+                    <div ng-include="'@[appStudent]/feature/assess/result.assess.html'"></div>
+                </div>
+                <div ng-if="ar.activeView === ar.view.behavior">
+                    <div ng-include="'@[appStudent]/feature/assess/result.behavior.html'"></div>
+                </div>
+                <div ng-if="ar.activeView === ar.view.comment" class="comment-format">
+                    <div ng-include="'@[appStudent]/feature/assess/result.comment.html'"></div>
+                </div>
+            </div>
+        </div>
+</div>

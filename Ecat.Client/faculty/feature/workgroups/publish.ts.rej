@@ -1,0 +1,21 @@
+diff a/Ecat.Client/faculty/feature/workgroups/publish.ts b/Ecat.Client/faculty/feature/workgroups/publish.ts	(rejected hunks)
+@@ -442,16 +442,13 @@
+                 return null;
+             }
+ 
+-            let members = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
+-            let responses = [];
+-            members.forEach(member => {
++            const changeSet = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
++
++            changeSet.forEach(member => {
+                 const stratResponse = this.dCtx.faculty.getSingleStrat(member.studentId);
+                 stratResponse.stratPosition = member.proposedStratPosition;
+-                responses.push(stratResponse);
+             });
+ 
+-            const changeSet = responses;
+-
+             this.isSaving = true;
+ 
+             return this.dCtx.faculty.saveChanges(changeSet)

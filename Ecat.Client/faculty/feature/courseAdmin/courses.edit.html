@@ -1,0 +1,54 @@
+﻿<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">Edit {{origName}}</h4>
+    </div>
+    <hr />
+</div>
+
+<div class="modal-body">
+    <form name="course.nf" class="form-horizontal" novalidate role="form">
+        <div class="form-group">
+            <label for="classNumber" class="control-label col-md-3">Class Number:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text" name="classNumber" id="classNumber" ng-model="crse.classNumber" class="form-control fg-input f-18" required/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="startDate" class="control-label col-md-3">Start Date:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text" class="form-control" name="startDate" id="startDate" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="crse.startDate" is-open="startPick.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-default" ng-click="openStart()"><i class="glyphicon glyphicon-calendar"></i></button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="gradDate" class="control-label col-md-3">Grad Date:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text" class="form-control" name="gradDate" id="gradDate" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="crse.gradDate" is-open="gradPick.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-default" ng-click="openGrad()"><i class="glyphicon glyphicon-calendar"></i></button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="control-label col-md-3">Display Name:</label>
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text" name="name" id="name" ng-model="crse.name" class="form-control fg-input f-18" required/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="save()">Save</button>
+    <button class="btn btn-link" type="button" ng-click="cancel()">Cancel</button>
+</div>

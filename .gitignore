@@ -1,22 +1,14 @@
-Ecat.Appl/**/*.js
-Ecat.Appl/Template/**
-!Ecat.Appl/Scripts/vendor/**/*.js
-!Ecat.Appl/Scripts/config/**/*.js
+TestDbSeed.sql
+*.js
+*.map
+!Ecat.Client/gulpfile.js
+Ecat.Client/_configuration/typings
+Ecat.Web/Client/**/*.*
+!Ecat.Client/_vendor/**/*.js
 
-Ecat.Shared.DbManager/Migrations/**
-
-Ecat.Appl/Scripts/Enums.ts
+Ecat.Shared.DbMgr/Migrations/**
 bower
 bower_components
-published
-typings
-
-Ecat.Appl/Content/styles
-
-*.map
-
-sensitive*.*
-
 
 # Logs
 logs

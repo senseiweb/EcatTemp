@@ -1,0 +1,76 @@
+﻿<div class="card  m-b-0">
+    <div ng-if="wkr.viewState === 0">
+        <h2 class="text-center">Preparing WorkGroup Results....</h2>
+    </div>
+    <div ng-if="wkr.viewState !== 0">
+        <div class="listview lv-bordered lv-lg">
+
+            <div class="lv-header-alt clearfix p-b-15">
+
+                <a href="javascript:void(0)"
+                   type="button"
+                   class="btn btn-link pull-left"
+                   ui-sref="{{stateMgr.faculty.wgList.name}}">
+                    <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to WorkGroups
+                </a>
+
+                <div class="btn-group" style="margin-left: 117px">
+                    <button type="button"
+                            class="btn waves-effect"
+                            ng-class="wkr.viewState === 1 ? 'btn-primary' : 'btn-default'"
+                            ng-click="wkr.switchTo('list')">
+                        Results
+                    </button>
+
+                    <button type="button"
+                            class="btn waves-effect"
+                            ng-if="wkr.activeStudResult"
+                            ng-class="wkr.viewState === 2 ? 'btn-primary' : 'btn-default'"
+                            ng-click="wkr.switchTo('behavior')">
+                        View Behaviors
+                    </button>
+
+                    <button type="button"
+                            class="btn waves-effect"
+                            ng-if="wkr.activeStudResult"
+                            ng-class="wkr.viewState === 3 ? 'btn-primary': 'btn-default'"
+                            ng-click="wkr.switchTo('comment')">
+                        View Comments
+                    </button>
+                </div>
+                <ul class="lv-actions actions">
+                    <li class="dropdown" uib-dropdown>
+                        <a href="" uib-dropdown-toggle>
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="">Refresh Report</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lv-body comment-format">
+                <div ng-switch="wkr.viewState">
+                    <div ng-switch-when="1">
+                        <div ng-include="'@[appFaculty]/feature/workgroups/result.list.html'"></div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div ng-include="'@[appFaculty]/feature/workgroups/result.behaviors.html'"></div>
+                    </div>
+                    <div ng-switch-when="3">
+                        <div ng-include="'@[appFaculty]/feature/workgroups/result.comments.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
