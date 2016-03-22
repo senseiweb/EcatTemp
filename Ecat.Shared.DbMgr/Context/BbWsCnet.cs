@@ -49,7 +49,7 @@ namespace Ecat.Shared.DbMgr.Context
 
             try
             {
-                var loginResults = await context.loginToolAsync(Secret, VendorId, ProgramId, null, 1500);
+                var loginResults = await initializedContext.loginToolAsync(Secret, VendorId, ProgramId, null, 1500);
                 var success = loginResults.@return;
 
                 if (!success) throw new HttpRequestException();
@@ -70,7 +70,7 @@ namespace Ecat.Shared.DbMgr.Context
             var endpoint = new EndpointAddress($"{BaseUrl}/Course.WS");
             var course  = new CourseWSPortTypeClient(_defaultBinding, endpoint);
             course.Endpoint.Behaviors.Add(
-                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", _sessionKey))));
+                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", BbWsStatus.SessionKey))));
             await course.initializeCourseWSAsync(false);
             return course;
         }

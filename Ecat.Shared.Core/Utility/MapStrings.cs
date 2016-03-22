@@ -220,9 +220,14 @@
 
     public static class MpAcadCat
     {
-        public const string AFSNCOA = "",
-            NCOA = "",
-            KNCOA = "";
+        public const string AFSNCOA = "_888_1",
+            BCEE = "_206_1",
+            CLC = "_892_1",
+            EPMEIC = "_894_1",
+            NCOA = "_889_1",
+            Keesler = "_890_1",
+            Sheppard = "_893_1",
+            Tyndall = "_891_1";
 
     }
 

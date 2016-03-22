@@ -14,7 +14,8 @@ namespace Ecat.Shared.Core.Logic
        
         public static Dictionary<string, Academy> AcadLookup => new Dictionary<string, Academy>
         {
-            {Afsncoa.Id, Afsncoa}
+            {Afsncoa.Id, Afsncoa},
+            {Keesler.Id, Keesler },
         }; 
 
         public static Academy Afsncoa
@@ -26,9 +27,8 @@ namespace Ecat.Shared.Core.Logic
              EdLevel = EdLevel.Senior,
              Base = AcademyBase.Gunter,
              BbCategoryId = MpAcadCat.AFSNCOA,
-             ParentBbCategoryId = MpAcadCat.AFSNCOA
+             ParentBbCategoryId = MpAcadCat.BCEE
          };
-
 
         public static Academy Keesler
         => new Academy
@@ -36,10 +36,10 @@ namespace Ecat.Shared.Core.Logic
             Id = "KNCOA",
             LongName = "Keesler Noncommissioned Officer Academy",
             ShortName = "Mathies NCOA",
-            EdLevel = EdLevel.Senior,
+            EdLevel = EdLevel.Ncoa,
             Base = AcademyBase.Gunter,
-            BbCategoryId = MpAcadCat.NCOA,
-            ParentBbCategoryId = MpAcadCat.KNCOA
+            BbCategoryId = MpAcadCat.Keesler,
+            ParentBbCategoryId = MpAcadCat.NCOA
         };
     }
 }

@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Ecat.LmsAdmin.Mod;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.Utility;
@@ -37,6 +38,11 @@ namespace Ecat.DevOps
                         break;
                     case 3:
                         DbOperations.DoAssessments();
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                       DbOperations.ListBbCategoryId();
                         break;
                 }
             } while (userSelectOptions != 9);
@@ -468,6 +474,26 @@ namespace Ecat.DevOps
 
                 Console.WriteLine($"Done...completed {groupsToLoad.ToList().Count} members assessments.");
             }
+        }
+
+        public static async void ListBbCategoryId()
+        {
+            Console.WriteLine("Grabbing Bb Categories via web services");
+
+            var ctx = new EcatContext();
+            var bbWs = new BbWsCnet();
+            var adminMod = new CourseOps(ctx, bbWs);
+
+            var catList = await adminMod.GetBbCategories();
+
+             Console.WriteLine("Success...here are the categories");
+
+            foreach (var cat in catList)
+            {
+                Console.WriteLine($"-- {cat.id}: {cat.title} [Parent: {cat.parentId}]");
+            }
+            
+
         }
 
         private static Dictionary<int, string> FlagList => new Dictionary<int, string>

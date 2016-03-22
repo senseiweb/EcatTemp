@@ -78,6 +78,14 @@ namespace Ecat.Shared.Core.Utility
         Kisling
     }
 
+    public enum CategoryFilterTpe
+    {
+        GetAllCourseCategory,
+        GetAllOrgCategory,
+        GetCategoryById,
+        GetCategoryByParentId
+    }
+
 
     public enum CourseFilterType
     {
