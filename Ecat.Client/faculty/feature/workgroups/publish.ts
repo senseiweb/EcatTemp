@@ -25,6 +25,7 @@ export default class EcFacultyWgPublish {
     protected isPublishing = false;
     private log = this.c.getAllLoggers('Faculty Publish');
     protected pubState = PubState.Loading;
+    protected memWithComments: Array<ecat.entity.ICrseStudInGroup>;
     private routingParams = { crseId: 0, wgId: 0 };
     protected saveBtnText = 'Progress';
     protected selectedAuthor: ecat.entity.ICrseStudInGroup;
@@ -60,8 +61,6 @@ export default class EcFacultyWgPublish {
             }
             const hasUnsavedStrats = this.groupMembers.some(gm => gm.proposedStratPosition !== null);
             const hasUnsavedComments = this.groupMembers.some(gm => gm.authorOfComments.some(aoc => aoc.flag && aoc.flag.entityAspect.entityState.isAddedModifiedOrDeleted()));
-
-            //TODO: Jason fix up text
 
             if (hasUnsavedComments) {
                 alertSettings.text = `${alertSettings.text} Comments \n\n`;    
@@ -380,6 +379,9 @@ export default class EcFacultyWgPublish {
             if (that.hasComments) {
                 that.selectedAuthor = that.groupMembers[0];
                 that.selectComment(that.selectedAuthor.authorOfComments[0]);
+                that.memWithComments = that.groupMembers.filter(gm => gm.authorOfComments.length > 0);
+                console.log('This is the object');
+                console.log(that.memWithComments);
                 that.checkPublishingReady();
             }
 
@@ -444,12 +446,16 @@ export default class EcFacultyWgPublish {
                 return null;
             }
 
-            const changeSet = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
+            let members = this.groupMembers.filter(gm => gm.proposedStratPosition !== null);
+            let responses = [];
 
-            changeSet.forEach(member => {
+            members.forEach(member => {
                 const stratResponse = this.dCtx.faculty.getSingleStrat(member.studentId);
                 stratResponse.stratPosition = member.proposedStratPosition;
+                responses.push(stratResponse);
             });
+
+            const changeSet = responses;
 
             this.isSaving = true;
 
@@ -548,11 +554,12 @@ export default class EcFacultyWgPublish {
         if (tab === 'strat') {
             this.evaluateStrat(false);
             this.pubState = PubState.Strat;
-            this.saveBtnText = 'Stratifications';
+            this.saveBtnText = 'Stratifications';          
         }
         if (tab === 'comment') {
             this.pubState = PubState.Comment;
             this.saveBtnText = 'Comments';
+            
         }
     }
 

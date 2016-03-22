@@ -247,13 +247,16 @@ export default class EcStudAssessList {
         });
 
         return this.saveChanges(changeSet).then(() => {
-            this.dCtx.student.getActiveWgMemberships()
-                .filter(gm => changeSet.some(cs => cs.assesseePersonId === gm.studentId))
+            const groupMembers = this.dCtx.student.getActiveWgMemberships();
+            groupMembers.filter(gm => changeSet.some(cs => cs.assesseePersonId === gm.studentId))
                 .forEach(gm => {
                     gm.stratValidationErrors = [];
                     gm.stratIsValid = true;
                     gm.proposedStratPosition = null;
                 });
+            this.me.updateStatusOfPeer();
+            this.peers = groupMembers.filter(gm => gm.studentId !== this.me.studentId);
+            this.me = groupMembers.filter(gm => gm.studentId === this.me.studentId)[0];
             this.log.success('Stratifications Updated!', null, true);
         });
     }

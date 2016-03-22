@@ -36,7 +36,7 @@
 
                     <div class="lv-item media"
                          ng-class="{'active': wkp.selectedAuthor.studentId === author.studentId}"
-                         ng-repeat="author in wkp.groupMembers | orderBy: 'nameSorter.last' track by author.studentId"
+                         ng-repeat="author in wkp.memWithComments | orderBy: 'nameSorter.last' track by author.studentId"
                          ng-click="wkp.selectAuthor(author)">
 
                         <div class="lv-avatar pull-left">

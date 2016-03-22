@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    <div class="col-md-12 p-t-20">
+    <div class="col-md-12">
         <div>
             <table class="table table-hover tableCenterAlign">
                 <thead class="f-16">
@@ -75,8 +75,14 @@
 
                         <td class="text-center">
                             <a href="javascript:void(0)"
+                               ng-if="peer.commentText === 'View'"
                                class="btn btn-link f-14"
                                ng-click="ar.loadComment(peer.studentId)">
+                                {{peer.commentText}}
+                            </a>
+                            <a href="javascript:void(0)"
+                               ng-if="peer.commentText === 'None'"
+                               class="btn btn-link f-14">
                                 {{peer.commentText}}
                             </a>
                         </td>
