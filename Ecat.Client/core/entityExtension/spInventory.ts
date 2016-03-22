@@ -110,7 +110,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         if (behaveDisplayed) {
             this._freqLevel = this._effLevel = null;
             this.responseForAssessee.mpItemResponse = null;
-            this.compositeScore = null;
+            this.compositeScore;
         } else {
             this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.nd;
         }
