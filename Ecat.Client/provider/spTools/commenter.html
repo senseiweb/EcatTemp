@@ -89,7 +89,7 @@
         </label>
     </div>
 
-    <button class="btn btn-danger" type="button" ng-if="!commenter.isNew && !commenter.isPublished" ng-click="commenter.delete()">Delete</button>
+    <button class="btn btn-danger" type="button" ng-if="showthis && !commenter.isNew && !commenter.isPublished" ng-click="commenter.delete()">Delete</button>
     <button class="btn btn-link" type="button" ng-if="commenter.nf.$dirty  && commenter.nf.$valid && !commenter.isPublished" ng-disable="!commenter.isSaveInProgress" ng-click="commenter.save()">Save</button>
 
     <button class="btn btn-link" type="button" ng-click="commenter.cancel()">
