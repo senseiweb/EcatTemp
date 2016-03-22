@@ -44,38 +44,35 @@ namespace Ecat.UserMod.Core
 
         public async Task<Person> ProcessLtiUser(ILtiRequest request)
         {
-            var user = await _repo.GetSecurityUserByEmail(request.LisPersonEmailPrimary);
+            var user = await _repo.GetSecurityUserByBbId(request.UserId);
 
-            if (user == null)
+            var userIsCourseAdmin = false;
+            
+            var roles = request.Roles.Split(',');
+
+            if (roles.Contains("urn:lti:instrole:ims/lis/Staff"))
             {
-                var roleArray = request.Parameters["ext_institution_roles"]?.Split(',');
-                var selectedRole = default(string);
-                var roles = request.GetRoles();
-                
-
-                if (roleArray != null)
-                {
-                    Array.Sort(roleArray);
-                    foreach (var mappedRole in
-                        roleArray.Select(MpTransform.RoleNameToId)
-                        .Where(mappedRole => mappedRole != MpInstituteRoleId.Undefined))
-                    {
-                        selectedRole = mappedRole;
-                        break;
-                    }
-                }
-
-                user = new Person
-                {
-                    MpInstituteRole = selectedRole,
-                    MpAffiliation = MpAffiliation.Unk,
-                    MpComponent = MpComponent.Unk,
-                    MpPaygrade = MpPaygrade.Unk,
-                    MpGender = MpGender.Unk,
-                    RegistrationComplete = false
-                };
+                userIsCourseAdmin = true;
+                user.MpInstituteRole = MpInstituteRoleId.Faculty;
+            }
+            else if (roles.Contains("urn:lti:instrole:ims/lis/Instructor"))
+            {
+                user.MpInstituteRole = MpInstituteRoleId.Faculty;
+            }
+            else
+            {
+                user.MpInstituteRole = MpInstituteRoleId.Student;
             }
 
+            if (user.MpInstituteRole == MpInstituteRoleId.Faculty)
+            {
+                user.Faculty = user.Faculty ?? new ProfileFaculty();
+
+                user.Faculty.IsCourseAdmin = userIsCourseAdmin;
+                user.Faculty.AcademyId = request.Parameters["custom_ecat_school"];
+            }
+
+            user.RegistrationComplete = true;
             user.Email = request.LisPersonEmailPrimary;
             user.LastName = request.LisPersonNameFamily;
             user.FirstName = request.LisPersonNameGiven;

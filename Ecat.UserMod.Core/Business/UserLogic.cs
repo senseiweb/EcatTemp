@@ -35,10 +35,10 @@ namespace Ecat.UserMod.Core
             return _loginLogic.LoginUser(userName, password);
         }
 
-        public Task<Person> ProcessLtiUser(ILtiRequest parsedRequest)
+        public async Task<Person> ProcessLtiUser(ILtiRequest parsedRequest)
         {
             _loginLogic = _loginLogic ?? new LoginLogic(_repo);
-            return _loginLogic.ProcessLtiUser(parsedRequest);
+            return await _loginLogic.ProcessLtiUser(parsedRequest);
         }
 
         public Task<bool> UniqueEmailCheck(string email)
@@ -57,7 +57,7 @@ namespace Ecat.UserMod.Core
                 //neededSaveGuards.Add(userGuard.BeforeSaveEntities);
             }
 
-            return _repo.ClientSaveChanges(saveBundle, neededSaveGuards);
+            return _repo.ClientSaveChanges(saveBundle);
         }
     }
 }

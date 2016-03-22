@@ -11,12 +11,13 @@ namespace Ecat.UserMod.Core
 
     public interface IUserRepo
     {
-        SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> entityGuards);
+        SaveResult ClientSaveChanges(JObject saveBundle);
         Task<int> CountEmails(string email);
         Task<Person> FindUser(int id);
         Task<List<ProfileBase>> GetProfiles(int personId);
         string GetMetadata { get; }
         Task<Person> GetSecurityUserByEmail(string email);
+        Task<Person> GetSecurityUserByBbId(string bbuid);
         Task<int> SaveUserChanges(Person person);
     }
 }

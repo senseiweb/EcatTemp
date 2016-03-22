@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
 using Ecat.Shared.Core.ModelLibrary.User;
+using Ecat.Shared.Core.Utility;
 using Newtonsoft.Json.Linq;
 
 namespace Ecat.UserMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
-
     public class UserRepo : IUserRepo
     {
         private readonly UserCtx _userCtx;
@@ -25,15 +24,8 @@ namespace Ecat.UserMod.Core
             _efCtx = efCtx;
         }
 
-        public SaveResult ClientSaveChanges(JObject saveBundle, List<Guard> saveGuards)
+        public SaveResult ClientSaveChanges(JObject saveBundle)
         {
-            if (!saveGuards.Any()) return _efCtx.SaveChanges(saveBundle);
-
-            foreach (var saveGuard in saveGuards)
-            {
-                _efCtx.BeforeSaveEntitiesDelegate += saveGuard;
-            }
-
             return _efCtx.SaveChanges(saveBundle);
         }
 
@@ -56,12 +48,41 @@ namespace Ecat.UserMod.Core
         {
             return await _userCtx.People
                 .Include(s => s.Security)
+                .Include(s => s.Faculty)
+                .Include(s => s.Student)
                 .SingleOrDefaultAsync(person => person.Email == email);
         }
 
-        public Task<int> SaveUserChanges(Person person)
+        public async Task<Person> GetSecurityUserByBbId(string bbUserId)
         {
-            throw new NotImplementedException();
+            var user =  await _userCtx.People
+                .Include(s => s.Security)
+                .Include(s => s.Faculty)
+                .Include(s => s.Student)
+                .SingleOrDefaultAsync(person => person.BbUserId == bbUserId);
+
+            if (user != null)
+            {
+                user.ModifiedById = user.PersonId;
+                return user;
+            }
+
+            user = new Person
+            {
+                MpGender = MpGender.Unk,
+                MpAffiliation = MpAffiliation.Unk,
+                MpComponent = MpComponent.Unk,
+                MpPaygrade = MpPaygrade.Unk,
+                MpInstituteRole = MpInstituteRoleId.Undefined
+            };
+            _userCtx.People.Add(user);
+            return user;
+
+        }
+
+        public async Task<int> SaveUserChanges(Person person)
+        {
+            return await _userCtx.SaveChangesAsync();
         }
     }
 }

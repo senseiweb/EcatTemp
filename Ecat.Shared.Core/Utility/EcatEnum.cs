@@ -18,6 +18,7 @@ namespace Ecat.Shared.Core.Utility
         GroupMember,
     }
 
+   
     public enum RoleMap
     {
         Unknown = 0,
