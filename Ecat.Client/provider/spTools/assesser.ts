@@ -58,11 +58,7 @@ export default class EcProviderSpToolAssessTaker {
         this.isStudent = this.role === _mp.MpInstituteRole.student;
 
         if (this.isStudent) {
-            if (this.isSelf) {
-                this.perspective = 'were you'
-            } else {
-                this.perspective = 'was your peer'            
-            }
+            this.perspective = 'was your peer'            
             this.inventoryList = this.dCtx.student.getSpInventory(this.assesseeId) as Array<ecat.entity.IStudSpInventory>;
         } else {
             this.perspective = 'was your student';
@@ -74,6 +70,10 @@ export default class EcProviderSpToolAssessTaker {
         this.isSelf = this.assessee.personId === myId;
         this.groupName = response.workGroup.customName || response.workGroup.defaultName;
         this.isNewAssess = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState === breeze.EntityState.Added);
+
+        if (this.isSelf) {
+            this.perspective = 'were you'
+        }
 
         if (this.isNewAssess) {
             const instrument = this.inventoryList[0].instrument;
