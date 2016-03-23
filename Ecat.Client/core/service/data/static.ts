@@ -38,7 +38,7 @@ export default class EcLocalDataService {
             },
             usa: {
                 rankShortName: 'PV2',
-                rankLongName: 'Private E-2'
+                rankLongName: 'Private Second Class'
             },
             usn: {
                 rankShortName: 'SA',
@@ -71,115 +71,115 @@ export default class EcLocalDataService {
         e4: {
             designator: _mp.MpPaygrade.e4,
             usaf: {
-                rankShortName: 'A1C',
-                rankLongName: 'Airman First Class'
+                rankShortName: 'SrA',
+                rankLongName: 'Senior Airman'
             },
             usa: {
-                rankShortName: 'PFC',
-                rankLongName: 'Private First Class'
+                rankShortName: 'CPL',
+                rankLongName: 'Corporal'
             },
             usn: {
-                rankShortName: 'SN',
-                rankLongName: 'Seaman'
+                rankShortName: 'PO3',
+                rankLongName: 'Petty Officer Third Class'
             },
             usmc: {
-                rankShortName: 'LCpl',
-                rankLongName: 'Lance Corporal'
+                rankShortName: 'Cpl',
+                rankLongName: 'Corporal'
             }
         },
         e5: {
             designator: _mp.MpPaygrade.e5,
             usaf: {
-                rankShortName: 'A1C',
-                rankLongName: 'Airman First Class'
+                rankShortName: 'SSgt',
+                rankLongName: 'Staff Sergeant'
             },
             usa: {
-                rankShortName: 'PFC',
-                rankLongName: 'Private First Class'
+                rankShortName: 'SGT',
+                rankLongName: 'Sergeant'
             },
             usn: {
-                rankShortName: 'SN',
-                rankLongName: 'Seaman'
+                rankShortName: 'PO2',
+                rankLongName: 'Petty Officer Second Class'
             },
             usmc: {
-                rankShortName: 'LCpl',
-                rankLongName: 'Lance Corporal'
+                rankShortName: 'Sgt',
+                rankLongName: 'Sergeant'
             }
         },
         e6: {
             designator: _mp.MpPaygrade.e6,
             usaf: {
-                rankShortName: 'A1C',
-                rankLongName: 'Airman First Class'
+                rankShortName: 'TSgt',
+                rankLongName: 'Technical Sergeant'
             },
             usa: {
-                rankShortName: 'PFC',
-                rankLongName: 'Private First Class'
+                rankShortName: 'SSgt',
+                rankLongName: 'Staff Sergeant'
             },
             usn: {
-                rankShortName: 'SN',
-                rankLongName: 'Seaman'
+                rankShortName: 'PO1',
+                rankLongName: 'Petty Officer First Class'
             },
             usmc: {
-                rankShortName: 'LCpl',
-                rankLongName: 'Lance Corporal'
+                rankShortName: 'SSgt',
+                rankLongName: 'Staff Sergeant'
             }
         },
         e7: {
             designator: _mp.MpPaygrade.e7,
             usaf: {
                 rankShortName: 'MSgt',
-                rankLongName: 'McD'
+                rankLongName: 'Master Sergeant'
             },
             usa: {
-                rankShortName: 'PFC',
-                rankLongName: 'Private First Class'
+                rankShortName: 'SFC',
+                rankLongName: 'Sergeant First Class'
             },
             usn: {
-                rankShortName: 'SN',
-                rankLongName: 'Seaman'
+                rankShortName: 'CPO',
+                rankLongName: 'Chief Petty Officer'
             },
             usmc: {
-                rankShortName: 'LCpl',
-                rankLongName: 'Lance Corporal'
+                rankShortName: 'GySgt',
+                rankLongName: 'Gunnery Sergeant'
             }
         },
         e8: {
             designator: _mp.MpPaygrade.e8,
             usaf: {
-                rankShortName: 'A1C',
-                rankLongName: 'Airman First Class'
+                rankShortName: 'SMSgt',
+                rankLongName: 'Senior Master Sergeant'
             },
             usa: {
-                rankShortName: 'PFC',
-                rankLongName: 'Private First Class'
+                rankShortName: 'MSgt',
+                rankLongName: 'Master Sergeant'
             },
             usn: {
-                rankShortName: 'SN',
-                rankLongName: 'Seaman'
+                rankShortName: 'SCPO',
+                rankLongName: 'Senior Chief Petty Officer'
             },
             usmc: {
-                rankShortName: 'LCpl',
-                rankLongName: 'Lance Corporal'
+                rankShortName: 'MSgt',
+                rankLongName: 'Master Sergeant'
             }
         },
         e9: {
             designator: _mp.MpPaygrade.e9,
             usaf: {
-                rankShortName: 'A1C',
-                rankLongName: 'Airman First Class'
+                rankShortName: 'CMSgt',
+                rankLongName: 'Chief Master Sergeant'
             },
             usa: {
-                rankShortName: 'PFC',
-                rankLongName: 'Private First Class'
+                rankShortName: 'SGM',
+                rankLongName: 'Sergeant Major'
             },
             usn: {
-                rankShortName: 'SN',
-                rankLongName: 'Seaman'
+                rankShortName: 'MCPO',
+                rankLongName: 'Master Chief Petty Officer'
             },
             usmc: {
-                rankShortName: 'LCpl',
-                rankLongName: 'Lance Corporal'
+                rankShortName: 'MGySgt',
+                rankLongName: 'Master Gunnery Sergeant'
             }
         }
     }
