@@ -1,4 +1,4 @@
-﻿<div class="p-b-10 m-b-5" ng-repeat="item in assesser.inventoryList | orderBy: displayOrder">
+﻿<div class="p-b-10 m-b-5" ng-repeat="item in assesser.inventoryList | orderBy: 'displayOrder'">
 
     <div class="row" ng-if="!item.showBehavior" ng-mouseover="item.rowShow=true" ng-mouseleave="item.rowShow=false">
         <div class="col-md-1 p-t-5" ng-if="!assesser.isPublished">
