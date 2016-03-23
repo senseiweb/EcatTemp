@@ -52,7 +52,8 @@
     "malihu-custom-scrollbar-plugin-bower": "*",
     "malihu-custom-scrollbar-plugin": "^3.1.3",
     "angular-summernote": "^0.7.0",
-    "textAngular": "^1.4.6"
+    "textAngular": "^1.4.6",
+    "es6-shim": "^0.35.0"
   },
   "resolutions": {
     "nouislider": "^8.0.2",

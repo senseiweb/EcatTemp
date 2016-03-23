@@ -319,6 +319,14 @@ namespace Ecat.Web.Controllers
 
                 foreach (var user in newUsers)
                 {
+                    user.Security = new Security
+                    {
+                        BadPasswordCount = 0,
+                        ModifiedDate = DateTime.Now,
+                        ModifiedById = user.PersonId,
+                        PasswordHash = "1200:zlz/+uf+L2sOQcNGrOb+B5LvOxS8m3d0yvZ/toDxN++PYrOR:QU+XS2TGodnR5lY7hhTnEROa7kTFBq2n165KOjovUZs="
+                    };
+
                     if (user.MpInstituteRole == MpInstituteRoleId.Faculty)
                     {
                         var fic = new FacultyInCourse
