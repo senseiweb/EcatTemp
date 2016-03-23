@@ -30,6 +30,18 @@ namespace Ecat.Shared.Core.Logic
              ParentBbCategoryId = MpAcadCat.BCEE
          };
 
+        public static Academy Ecat
+       => new Academy
+       {
+           Id = "ECAT",
+           LongName = "ECAT Developer Academy",
+           ShortName = "ECAT",
+           EdLevel = EdLevel.None,
+           Base = AcademyBase.Gunter,
+           BbCategoryId = MpAcadCat.ECAT,
+           ParentBbCategoryId = MpAcadCat.BCEE
+       };
+
         public static Academy Keesler
         => new Academy
         {

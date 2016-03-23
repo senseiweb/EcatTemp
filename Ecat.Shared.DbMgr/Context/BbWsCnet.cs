@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.Utility;
 using Ecat.Shared.DbMgr.BbWs.BbCourse;
+using Ecat.Shared.DbMgr.BbWs.BbMbrs;
+using Ecat.Shared.DbMgr.BbWs.BbUser;
 using Ecat.Shared.DbMgr.BbWs.Context;
 
 namespace Ecat.Shared.DbMgr.Context
@@ -73,6 +75,28 @@ namespace Ecat.Shared.DbMgr.Context
                 new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", BbWsStatus.SessionKey))));
             await course.initializeCourseWSAsync(false);
             return course;
+        }
+
+        public async Task<CourseMembershipWSPortTypeClient> GetMemClient()
+        {
+            await Activate();
+            var endpoint = new EndpointAddress($"{BaseUrl}/CourseMembership.WS");
+            var mem = new CourseMembershipWSPortTypeClient(_defaultBinding, endpoint);
+            mem.Endpoint.Behaviors.Add(
+                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", BbWsStatus.SessionKey))));
+            await mem.initializeCourseMembershipWSAsync(false);
+            return mem;
+        }
+
+        public async Task<UserWSPortTypeClient> GetUserClient()
+        {
+            await Activate();
+            var endpoint = new EndpointAddress($"{BaseUrl}/User.WS");
+            var user = new UserWSPortTypeClient(_defaultBinding, endpoint);
+            user.Endpoint.Behaviors.Add(
+                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", BbWsStatus.SessionKey))));
+            await user.initializeUserWSAsync(false);
+            return user;
         }
 
     }

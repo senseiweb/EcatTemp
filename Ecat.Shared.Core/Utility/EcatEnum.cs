@@ -97,13 +97,21 @@ namespace Ecat.Shared.Core.Utility
         LoadBySearchKey
     }
 
-    public enum MembershipFilterType
+    public enum CrseMembershipFilterType
     {
         LoadById = 1,
         LoadByCourseId = 2,
         LoadByUserId = 5,
         LoadByCourseAndUserId = 6,
         LoadByCourseAndRole = 7
+    }
+
+    public enum GrpMemFilterType
+    {
+        LoadById = 1,
+        LoadByCourseId = 2,
+        LoadByCmVoId = 3,
+        LoadByGrpId = 4
     }
 
     public enum UserFilterType
@@ -139,4 +147,10 @@ namespace Ecat.Shared.Core.Utility
         LessThan
     }
 
+    public enum GroupFilterType
+    {
+        GetGroupById = 1,
+        GetGroupByCourseId,
+        GetEnrolledGroupByUserId
+    }
 }

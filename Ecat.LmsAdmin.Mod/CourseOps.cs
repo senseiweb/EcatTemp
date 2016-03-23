@@ -70,7 +70,7 @@ namespace Ecat.LmsAdmin.Mod
 
             var knownCoursesId = queryKnownCourses.Select(crse => crse.BbCourseId);
 
-            var newCourses = query.@return.Select(bbCourse => !knownCoursesId.Contains(bbCourse.id))
+            //var newCourses = query.@return.Select(bbCourse => !knownCoursesId.Contains(bbCourse.id))
             
 
             return null;

@@ -48,20 +48,18 @@ namespace Ecat.UserMod.Core
 
             var userIsCourseAdmin = false;
             
-            var roles = request.Roles.Split(',');
-
-            if (roles.Contains("urn:lti:instrole:ims/lis/Staff"))
+            switch (request.Parameters["Roles"].ToLower())
             {
-                userIsCourseAdmin = true;
-                user.MpInstituteRole = MpInstituteRoleId.Faculty;
-            }
-            else if (roles.Contains("urn:lti:instrole:ims/lis/Instructor"))
-            {
-                user.MpInstituteRole = MpInstituteRoleId.Faculty;
-            }
-            else
-            {
-                user.MpInstituteRole = MpInstituteRoleId.Student;
+                case "instructor":
+                    userIsCourseAdmin = true;
+                    user.MpInstituteRole = MpInstituteRoleId.Faculty;
+                    break;
+                case "teachingassistant":
+                    user.MpInstituteRole = MpInstituteRoleId.Faculty;
+                    break;
+                default:
+                    user.MpInstituteRole = MpInstituteRoleId.Student;
+                    break;
             }
 
             if (user.MpInstituteRole == MpInstituteRoleId.Faculty)

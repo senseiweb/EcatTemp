@@ -20,6 +20,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public int WorkGroupId { get; set; }
         public bool HasAcknowledged { get; set; }
         public int NumOfStratIncomplete { get; set; }
+        public string BbCrseStudGroupId { get; set; }
         public WorkGroup WorkGroup { get; set; }
         public ProfileStudent StudentProfile { get; set; }
         public Course Course { get; set; }

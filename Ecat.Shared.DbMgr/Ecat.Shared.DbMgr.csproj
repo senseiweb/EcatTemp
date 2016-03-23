@@ -87,6 +87,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\BbWs.BbGrades\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\BbWs.BbMbrs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\BbWs.BbUser\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -274,6 +284,122 @@
     <None Include="Service References\BbWs.BbCourse\Ecat.Shared.DbMgr.BbWs.BbCourse.VersionVO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.AttemptVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.ColumnVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.deleteAttemptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.deleteColumnsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.deleteGradebookTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.deleteGradesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.deleteGradingSchemasResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.getAttemptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.getGradebookColumnsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.getGradebookTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.getGradesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.getGradingSchemasResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.getRequiredEntitlementsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.getServerVersionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.GradebookTypeVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.GradingSchemaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.initializeGradebookWSResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.saveAttemptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.saveColumnsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.saveGradebookTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.saveGradesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.saveGradingSchemasResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.ScoreVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.updateColumnAttributeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Ecat.Shared.DbMgr.BbWs.BbGrades.VersionVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbGrades\Gradebook.wsdl" />
+    <None Include="Service References\BbWs.BbMbrs\CourseMembership.wsdl" />
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.CourseMembershipRoleVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.CourseMembershipVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.deleteCourseMembershipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.deleteGroupMembershipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.getCourseMembershipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.getCourseRolesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.getGroupMembershipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.getServerVersionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.GroupMembershipVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.initializeCourseMembershipWSResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.saveCourseMembershipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.saveGroupMembershipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\BbWs.BbMbrs\Ecat.Shared.DbMgr.BbWs.BbMbrs.VersionVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\BbWs.BbUser\Ecat.Shared.DbMgr.BbWs.BbUser.AddressBookEntryVO.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -423,6 +549,8 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\BbWs.BbCourse\" />
+    <WCFMetadataStorage Include="Service References\BbWs.BbGrades\" />
+    <WCFMetadataStorage Include="Service References\BbWs.BbMbrs\" />
     <WCFMetadataStorage Include="Service References\BbWs.BbUser\" />
     <WCFMetadataStorage Include="Service References\BbWs.Context\" />
   </ItemGroup>
@@ -458,6 +586,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\BbWs.BbUser\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BbWs.BbMbrs\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BbWs.BbMbrs\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BbWs.BbMbrs\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BbWs.BbGrades\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BbWs.BbGrades\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BbWs.BbGrades\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

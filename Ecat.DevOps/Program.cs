@@ -6,13 +6,19 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.ServiceModel.Configuration;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ecat.LmsAdmin.Mod;
+using Ecat.Shared.Core.Logic;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
+using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.BbWs.BbCourse;
+using Ecat.Shared.DbMgr.BbWs.BbMbrs;
+using Ecat.Shared.DbMgr.BbWs.BbUser;
 using Ecat.Shared.DbMgr.BbWs.Context;
 using Ecat.Shared.DbMgr.Context;
 
@@ -44,6 +50,9 @@ namespace Ecat.DevOps
                     case 5:
                        DbOperations.ListBbCategoryId();
                         break;
+                    case 6:
+                       // DbOperations.LoadEcatAcademy();
+                        break;
                 }
             } while (userSelectOptions != 9);
         }
@@ -59,7 +68,7 @@ namespace Ecat.DevOps
             Console.WriteLine("3. Load/Reload Assess/Comments");
             Console.WriteLine("4. Load/Reload Fac Assess/Comments");
             Console.WriteLine("5. Get Bb Category Id");
-            Console.WriteLine("6. Get Bb Course By Cat Id");
+            Console.WriteLine("6. Load Ecat Academy");
             Console.WriteLine("7. Get Bb Workgroup By Course Id");
             Console.WriteLine("8. Get Bb Students By Wg Id");
             Console.WriteLine("9. Exit");
@@ -495,6 +504,221 @@ namespace Ecat.DevOps
             
 
         }
+
+       // public static async void LoadEcatAcademy()
+      //  {
+
+        //    var bbWsCnet = new BbWsCnet();
+
+        //    var courseClient = await bbWsCnet.GetCourseClient();
+
+        //    var courseFilter = new CourseFilter
+        //    {
+        //        filterType = (int)CourseFilterType.LoadByCatId,
+        //        filterTypeSpecified = true,
+        //        categoryIds = new[] {StaticAcademy.Ecat.BbCategoryId}
+        //    };
+
+        //    var crseQuery = await courseClient.getCourseAsync(courseFilter);
+
+        //    using (var ctx = new EcatContext())
+        //    {
+
+        //        var existingCourse = await
+        //            ctx.Courses.FirstOrDefaultAsync(crse => crse.AcademyId == StaticAcademy.Ecat.Id);
+
+        //        if (existingCourse == null)
+        //        {
+
+        //            existingCourse = new Course
+        //            {
+        //                AcademyId = StaticAcademy.Ecat.Id,
+        //                Name = "Not Assigned",
+        //                ClassNumber = "16-Test",
+        //                GradReportPublished = false,
+        //                StartDate = DateTime.Now,
+        //                GradDate = DateTime.Now.AddDays(1),
+        //            };
+        //        }
+
+        //        if (existingCourse.Id == 0)
+        //        {
+        //            Console.WriteLine($"Ecat Test was not loaded in the database");
+        //            var bbEcatCourse = crseQuery.@return[0];
+        //            existingCourse.BbCourseId = bbEcatCourse.id;
+        //            Console.WriteLine($"{crseQuery.@return.Length} Bb Ecat Course was pulled selected Course with dbId: {bbEcatCourse.id} / dbCourseId: {bbEcatCourse.courseId}");
+
+        //            //var saveResult = ctx.SaveChanges();
+        //            Console.WriteLine($"Course save result{ctx.Database.Connection}");
+                    
+        //            ctx.Database.ExecuteSqlCommand($"INSERT INTO Course(BbCourseId,AcademyId,Name,ClassNumber,GradReportPublished,StartDate,GradDate) values ('{existingCourse.BbCourseId}','{existingCourse.AcademyId}','{existingCourse.Name}', '{existingCourse.ClassNumber}', '{existingCourse.GradReportPublished}','{existingCourse.StartDate.ToUniversalTime()}' ,'{existingCourse.GradDate.ToUniversalTime()}')");
+        //        }
+
+        //        Console.WriteLine($"Getting Workgroups from Bb");
+
+        //        var groupFilter = new GroupFilter
+        //        {
+        //            filterTypeSpecified = true,
+        //            filterType = 2
+        //        };
+
+        //        var groupQuery = await courseClient.getGroupAsync(existingCourse.BbCourseId, groupFilter);
+
+        //        var bbGroups = groupQuery.@return;
+
+        //        if (bbGroups == null || bbGroups.Length == 0) return;
+
+        //        bbGroups = bbGroups.Where(gl => gl.title.StartsWith("BC") || gl.title == "Instructor Cadre").ToArray();
+
+        //        var existingWorkGroups = await ctx.WorkGroups.Where(wg => wg.CourseId == existingCourse.Id).ToListAsync();
+
+        //        var wgList = bbGroups
+        //                .Where(gl => !existingWorkGroups
+        //                .Select(wg => wg.BbGroupId)
+        //                .Contains(gl.id)).Select(grp =>
+        //                {
+        //                    Console.WriteLine(
+        //                        $"Retrived the following groups ID: {grp.id} Title: {grp.title} With Description: {grp.description}");
+        //                    var bo = grp.title.Split('-');
+        //                    string category;
+        //                    var modelId = 0;
+        //                    var assignedInstr = 0;
+        //                    switch (bo[0])
+        //                    {
+        //                        case MpGroupCategory.Wg1:
+        //                            category = MpGroupCategory.Wg1;
+        //                            modelId = 4;
+        //                            assignedInstr = 8;
+        //                            break;
+        //                        case MpGroupCategory.Wg2:
+        //                            category = MpGroupCategory.Wg2;
+        //                            modelId = 6;
+        //                            assignedInstr = 10;
+        //                            break;
+        //                        case MpGroupCategory.Wg3:
+        //                            category = MpGroupCategory.Wg3;
+        //                            modelId = 7;
+        //                            assignedInstr = 8;
+        //                            break;
+        //                        default:
+        //                            category = MpGroupCategory.None;
+        //                            break;
+        //                    }
+        //                    return new WorkGroup
+        //                    {
+        //                        CourseId = existingCourse.Id,
+        //                        MpCategory = category,
+        //                        WgModelId = modelId,
+        //                        AssignedSpInstrId = assignedInstr,
+        //                        DefaultName = bo[2],
+        //                        GroupNumber = bo[1].Substring(1),
+        //                        IsPrimary = bo[0] == MpGroupCategory.Wg1,
+        //                        BbGroupId = grp.id,
+        //                        ModifiedDate = DateTime.Now.ToUniversalTime(),
+        //                        MpSpStatus = MpSpStatus.Open
+        //                    };
+        //                }).ToList();
+
+        //        foreach (var wg in wgList)
+        //        {
+        //            Console.WriteLine(
+        //                $"Created the following wg {wg.BbGroupId}");
+        //            ctx.Database.ExecuteSqlCommand($"INSERT INTO WorkGroup(CourseId,Category,WgModelId,AssignedSpInstrId,DefaultName,GroupNumber,IsPrimary,BbGroupId,ModifiedDate,SpStatus) values ('{wg.CourseId}','{wg.MpCategory}',{wg.WgModelId}, '{wg.AssignedSpInstrId}', '{wg.DefaultName}','{wg.GroupNumber}' ,'{wg.IsPrimary}','{wg.BbGroupId}','{wg.ModifiedDate}','{wg.MpSpStatus}')");
+        //        }
+
+
+        //        var grpMemberFilter = new MembershipFilter
+        //        {
+        //            filterType = (int)GrpMemFilterType.LoadByGrpId,
+        //            filterTypeSpecified = true,
+        //            groupIds = bbGroups.Select(grp => grp.id).Distinct().ToArray()
+        //        };
+
+        //        var crseMemberFilter = new MembershipFilter
+        //        {
+        //            filterType = (int)GrpMemFilterType.LoadByCourseId,
+        //            filterTypeSpecified = true,
+        //            courseIds = new []{existingCourse.BbCourseId}
+        //        };
+
+        //        var courseMemClient = await bbWsCnet.GetMemClient();
+
+        //        var grpMemQuery =
+        //            await courseMemClient.getGroupMembershipAsync(existingCourse.BbCourseId, grpMemberFilter);
+
+        //        var crseMemQuery =
+        //            await courseMemClient.getCourseMembershipAsync(existingCourse.BbCourseId, crseMemberFilter);
+
+        //        var grpMems = grpMemQuery.@return;
+
+        //        var crseMems = crseMemQuery.@return;
+
+        //        var userFilter = new UserFilter
+        //        {
+        //            filterTypeSpecified = true,
+        //            filterType = (int)UserFilterType.UseByGroupIdWithAvailability,
+        //            groupId = bbGroups.Select(grp => grp.id).Distinct().ToArray()
+        //        };
+
+        //        var userClient = await bbWsCnet.GetUserClient();
+
+        //        var userQuery = await userClient.getUserAsync(userFilter);
+
+        //        //var ecatCourseRoster = ctx.People
+        //        //    .Where(person => crseMems.Select(cm => cm.id).Contains(person.BbUserId))
+        //        //    .Include(person => person.Student)
+        //        //    .Include(person => person.Faculty);
+
+        //        var bbCourseUsers = userQuery.@return;
+
+        //        var bbFacultyGroup = bbGroups.First(bg => bg.title == "Instructor Cadre");
+
+        //        var bbFaculty = grpMems.Select(gm => gm.groupId == bbFacultyGroup.id);
+        //        var i = 1;
+        //        foreach (var bcu in bbCourseUsers)
+        //        {
+        //            var person = new Person
+        //            {
+        //                BbUserId = bcu.id,
+        //                FirstName = bcu.extendedInfo.givenName,
+        //                LastName = bcu.extendedInfo.familyName,
+        //                MpGender = MpGender.Unk,
+        //                MpAffiliation = MpAffiliation.Usaf,
+        //                MpPaygrade = MpPaygrade.E7,
+        //                MpComponent = MpComponent.Active,
+        //                Email = bcu.extendedInfo.emailAddress,
+        //                RegistrationComplete = true,
+        //                MpInstituteRole =
+        //                    bcu.extendedInfo.familyName.ToLower().Contains("instructor")
+        //                        ? MpInstituteRoleId.Faculty
+        //                        : MpInstituteRoleId.Student
+        //            };
+
+        //            if (person.MpInstituteRole == MpInstituteRoleId.Faculty)
+        //            {
+        //                person.Faculty = new ProfileFaculty
+        //                {
+        //                    AcademyId = StaticAcademy.Ecat.Id,
+        //                    IsCourseAdmin = false,
+        //                    IsReportViewer = false
+        //                };
+
+        //            }
+        //            else
+        //            {
+        //                person.Student = new ProfileStudent
+        //                {
+        //                    PersonId = 
+        //                };
+        //            }
+
+
+
+        //            ctx.Database.ExecuteSqlCommand($"INSERT INTO Person(CourseId,Category,WgModelId,AssignedSpInstrId,DefaultName,GroupNumber,IsPrimary,BbGroupId,ModifiedDate,SpStatus) values ('{wg.CourseId}','{wg.MpCategory}',{wg.WgModelId}, '{wg.AssignedSpInstrId}', '{wg.DefaultName}','{wg.GroupNumber}' ,'{wg.IsPrimary}','{wg.BbGroupId}','{wg.ModifiedDate}','{wg.MpSpStatus}')");
+        //        }
+
+        //    }
+        //}
 
         private static Dictionary<int, string> FlagList => new Dictionary<int, string>
         {

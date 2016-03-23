@@ -223,6 +223,7 @@
         public const string AFSNCOA = "_888_1",
             BCEE = "_206_1",
             CLC = "_892_1",
+            ECAT = "_897_1",
             EPMEIC = "_894_1",
             NCOA = "_889_1",
             Keesler = "_890_1",
