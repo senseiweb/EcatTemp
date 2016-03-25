@@ -377,9 +377,9 @@ export default class EcFacultyWgPublish {
             });
 
             if (that.hasComments) {
-                that.selectedAuthor = that.groupMembers[0];
-                that.selectComment(that.selectedAuthor.authorOfComments[0]);
                 that.memWithComments = that.groupMembers.filter(gm => gm.authorOfComments.length > 0);
+                that.selectedAuthor = that.memWithComments[0];
+                that.selectComment(that.selectedAuthor.authorOfComments[0]);
                 console.log('This is the object');
                 console.log(that.memWithComments);
                 that.checkPublishingReady();
