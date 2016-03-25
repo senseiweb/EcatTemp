@@ -34,7 +34,7 @@
                             </div>
                             <div id="sp-chart-data-{{$index}}" 
                                  ng-if="::studResult.hasReceivedChartData">
-                                <span class="sp-graph-inst-composite">{{::studResult.resultForStudent.recievedCompositeScore}}</span>
+                                <span class="sp-graph-inst-composite">{{::studResult.resultForStudent.compositeScore}}</span>
                                 <div sp-break-out-chart
                                      charttype="pie"
                                      dataset="studResult.resultForStudent.breakOutReceived"
