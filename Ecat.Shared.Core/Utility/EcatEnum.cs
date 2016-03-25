@@ -97,6 +97,12 @@ namespace Ecat.Shared.Core.Utility
         LoadBySearchKey
     }
 
+    public enum CatMembershipFilterType
+    {
+        CatMemById = 1,
+        CatMemByCourse = 2
+    }
+
     public enum CrseMembershipFilterType
     {
         LoadById = 1,

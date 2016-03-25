@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.ModelLibrary.Common;
@@ -11,12 +12,20 @@ namespace Ecat.Shared.Core.Logic
 {
     public static class StaticAcademy
     {
-       
-        public static Dictionary<string, Academy> AcadLookup => new Dictionary<string, Academy>
+
+        public static Dictionary<string, Academy> AcadLookupById => new Dictionary<string, Academy>
         {
             {Afsncoa.Id, Afsncoa},
             {Keesler.Id, Keesler },
-        }; 
+            {Ecat.Id, Ecat}
+        };
+
+        public static Dictionary<string, Academy> AcadLookupByCat => new Dictionary<string, Academy>
+        {
+            {Afsncoa.BbCategoryId, Afsncoa},
+            {Keesler.BbCategoryId, Keesler },
+            {Ecat.BbCategoryId, Ecat }
+        };
 
         public static Academy Afsncoa
          => new Academy

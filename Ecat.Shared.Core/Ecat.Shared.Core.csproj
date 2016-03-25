@@ -79,6 +79,7 @@
     <Compile Include="Interface\ISharedGuardian.cs" />
     <Compile Include="Interface\ISoftDelete.cs" />
     <Compile Include="Interface\ITests.cs" />
+    <Compile Include="Logic\Retrier.cs" />
     <Compile Include="Logic\SaveMapGlobalExtensions.cs" />
     <Compile Include="Logic\SharedGuardian.cs" />
     <Compile Include="Logic\StaticAcademy.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="ModelLibrary\Common\SpCommentBase.cs" />
     <Compile Include="ModelLibrary\Common\CommentCount.cs" />
     <Compile Include="ModelLibrary\Common\LoginToken.cs" />
+    <Compile Include="ModelLibrary\Common\UserReconcile.cs" />
     <Compile Include="ModelLibrary\Common\WgCanPublish.cs" />
     <Compile Include="ModelLibrary\Designer\AssessMap.cs" />
     <Compile Include="ModelLibrary\Designer\CogInstrument.cs" />
