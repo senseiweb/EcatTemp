@@ -20,8 +20,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
 
         public int OriginalStratPosition { get; set; }
         public int FinalStratPosition { get; set; }
-        public float StratCummScore { get; set; }
-        public float StratAwardedScore { get; set; }
+        public decimal StratCummScore { get; set; }
+        public decimal StratAwardedScore { get; set; }
        
         public CrseStudentInGroup ResultFor { get; set; }
         public FacStratResponse FacStrat { get; set; }

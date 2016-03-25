@@ -14,8 +14,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Designer
         public int? AssignedKcInstrId { get; set; }
         public string MpEdLevel { get; set; }
         public string MpWgCategory { get; set; }
-        public float  MaxStratStudent { get; set; }
-        public float MaxStratFaculty { get; set; }
+        public decimal  MaxStratStudent { get; set; }
+        public decimal MaxStratFaculty { get; set; }
         public bool IsActive { get; set; }
         public int StratDivisor { get; set; }
 

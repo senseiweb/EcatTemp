@@ -14,9 +14,9 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
         public int CourseId { get; set; }
         public int CountInventory { get; set; }
         public int? InstrumentId { get; set; }
-        public float WgSpTopStrat  { get; set; }
-        public float WgFacTopStrat { get; set; }
-        public float StratDivisor { get; set; }
+        public decimal WgSpTopStrat  { get; set; }
+        public decimal WgFacTopStrat { get; set; }
+        public decimal StratDivisor { get; set; }
         public IEnumerable<PubWgMember> PubWgMembers { get; set; } 
     }
 
@@ -25,7 +25,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
         public int StudentId { get; set; }
         public string Name { get; set; }
         public int SpResponseTotalScore { get; set; }
-        public int FacStratPosition { get; set; }   
+        public int FacStratPosition { get; set; }
+        public int SelfStratPosition { get; set; }
         public bool HasSpResult { get; set; }
         public bool HasStratResult { get; set; }
         public StratResult StratResult { get; set; }
@@ -34,7 +35,14 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
         public IEnumerable<int> PeersIdidNotAssess { get; set; }
         public IEnumerable<int> PeersDidNotStratMe { get; set; }
         public IEnumerable<int> PeersIdidNotStrat { get; set; }
+        public IEnumerable<PubStratResponse> PubStratResponses { get; set; }
         public IEnumerable<PubWgStratTable> StratTable { get; set; }
+    }
+
+    public class PubStratResponse
+    {
+        public int AssesseeId { get; set; }
+        public int StratPosition { get; set; }
     }
 
     public class PubWgStratTable

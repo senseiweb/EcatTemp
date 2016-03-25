@@ -14,10 +14,11 @@ using Ecat.Shared.Core.Utility;
 namespace Ecat.FacMod.Core
 {
     using SaveMap = Dictionary<Type, List<EntityInfo>>;
+
     public static class WorkGroupPublish
     {
-        private static readonly Type tSpResult = typeof(SpResult);
-        private static readonly Type tStratResult = typeof(StratResult);
+        private static readonly Type tSpResult = typeof (SpResult);
+        private static readonly Type tStratResult = typeof (StratResult);
         private static readonly Type tWg = typeof (WorkGroup);
 
         public static SaveMap Publish(SaveMap wgSaveMap, IEnumerable<int> svrWgIds, int loggedInPersonId,
@@ -30,8 +31,9 @@ namespace Ecat.FacMod.Core
             foreach (var wg in pubWgs)
             {
                 var stratScoreInterval = 1m/wg.PubWgMembers.Count();
+                stratScoreInterval = decimal.Round(stratScoreInterval, 4);
                 var stratKeeper = new List<PubWgMember>();
-                var countOfGrp = (float) wg.PubWgMembers.Count();
+                var countOfGrp =  wg.PubWgMembers.Count();
                 foreach (var me in wg.PubWgMembers)
                 {
                     if (me.PeersDidNotAssessMe.Any() || me.PeersIdidNotAssess.Any() || me.PeersDidNotStratMe.Any() ||
@@ -52,7 +54,7 @@ namespace Ecat.FacMod.Core
                         WorkGroupId = wg.Id,
                         StudentId = me.StudentId,
                         AssignedInstrumentId = wg.InstrumentId,
-                        CompositeScore = resultScore, 
+                        CompositeScore = resultScore,
                         BreakOut = new SpResultBreakOut
                         {
                             NotDisplay = me.BreakOut.NotDisplayed,
@@ -66,7 +68,8 @@ namespace Ecat.FacMod.Core
                         MpAssessResult = ConvertScoreToOutcome(resultScore),
                     };
 
-                    var resultInfo = ctxProvider.CreateEntityInfo(spResult, me.HasSpResult ? EntityState.Modified : EntityState.Added);
+                    var resultInfo = ctxProvider.CreateEntityInfo(spResult,
+                        me.HasSpResult ? EntityState.Modified : EntityState.Added);
 
                     resultInfo.ForceUpdate = me.HasSpResult;
 
@@ -86,18 +89,18 @@ namespace Ecat.FacMod.Core
                         WorkGroupId = wg.Id,
                         ModifiedById = loggedInPersonId,
                         ModifiedDate = DateTime.Now,
-                        StratCummScore = me.StratTable.Select(strat =>
+                        StratCummScore = decimal.Round(me.StratTable.Select(strat =>
                         {
-                            var multipler = 1 - strat.Position*stratScoreInterval;
-                            return (float) multipler*strat.Count;
-                        }).Sum()
+                            var multipler = 1 - (strat.Position-1)*stratScoreInterval;
+                            return  multipler*strat.Count;
+                        }).Sum(), 4)
                     };
 
                     me.StratResult = stratResult;
                     stratKeeper.Add(me);
                 }
 
-                var cummScores = new List<float>();
+                var cummScores = new List<decimal>();
                 var oi = 1;
 
                 foreach (var strat in stratKeeper.OrderByDescending(sk => sk.StratResult.StratCummScore))
@@ -108,7 +111,8 @@ namespace Ecat.FacMod.Core
                         strat.StratResult.OriginalStratPosition = oi;
                         cummScores.Add(strat.StratResult.StratCummScore);
                         continue;
-                    };
+                    }
+                    ;
                     cummScores.Add(strat.StratResult.StratCummScore);
 
                     oi += 1;
@@ -138,7 +142,7 @@ namespace Ecat.FacMod.Core
 
                     if (!wgSaveMap.ContainsKey(tStratResult))
                     {
-                        wgSaveMap[tStratResult] = new List<EntityInfo> { info };
+                        wgSaveMap[tStratResult] = new List<EntityInfo> {info};
                     }
                     else
                     {
@@ -178,72 +182,118 @@ namespace Ecat.FacMod.Core
 
         private static IEnumerable<PubWg> GetPublishingWgData(IEnumerable<int> wgIds, EFContextProvider<FacCtx> efCtx)
         {
-            return efCtx.Context.WorkGroups
-                .Where(
-                    wg => wgIds.Contains(wg.Id) &&
-                          wg.MpSpStatus == MpSpStatus.UnderReview &&
-                          wg.SpComments.All(comment => comment.Flag.MpFaculty != null))
-                .Select(wg => new PubWg
+            var ids = wgIds.ToList();
+
+            var pubWgData = (from wg in efCtx.Context.WorkGroups
+                             where ids.Contains(wg.Id) &&
+                                   wg.MpSpStatus == MpSpStatus.UnderReview &&
+                                   wg.SpComments.All(comment => comment.Flag.MpFaculty != null)
+                             select new PubWg
+                             {
+                                 Id = wg.Id,
+                                 CourseId = wg.CourseId,
+                                 CountInventory = wg.AssignedSpInstr.InventoryCollection.Count,
+                                 InstrumentId = wg.AssignedSpInstrId,
+                                 WgSpTopStrat = wg.WgModel.MaxStratStudent,
+                                 WgFacTopStrat = wg.WgModel.MaxStratFaculty,
+                                 StratDivisor = wg.WgModel.StratDivisor,
+                                 PubWgMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new PubWgMember
+                                 {
+                                     StudentId = gm.StudentId,
+                                     Name = gm.StudentProfile.Person.LastName + gm.StudentProfile.Person.FirstName,
+                                     SpResponseTotalScore = gm.AssesseeSpResponses
+                                         .Where(response => response.AssessorPersonId != gm.StudentId)
+                                         .Sum(response => response.ItemModelScore) / gm.AssesseeSpResponses
+                                             .Count(response => response.AssessorPersonId != gm.StudentId),
+                                     FacStratPosition = gm.FacultyStrat.StratPosition,
+                                     HasSpResult = wg.SpResults.Any(result => result.StudentId == gm.StudentId),
+                                     HasStratResult = wg.SpStratResults.Any(result => result.StudentId == gm.StudentId),
+                                     BreakOut = new PubWgBreakOut
+                                     {
+                                         NotDisplayed = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Nd),
+                                         IneffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Iea),
+                                         IneffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Ieu),
+                                         EffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Ea),
+                                         EffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Eu),
+                                         HighEffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Hea),
+                                         HighEffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Heu)
+                                     },
+                                     SelfStratPosition = gm.AssesseeStratResponse
+                                         .Where(strat => strat.AssessorPersonId == gm.StudentId)
+                                         .Select(strat => strat.StratPosition).FirstOrDefault(),
+                                     PubStratResponses =
+                                         gm.AssessorStratResponse.Where(strat => strat.AssesseePersonId != gm.StudentId)
+                                             .Select(strat => new PubStratResponse
+                                             {
+                                                 AssesseeId = strat.AssesseePersonId,
+                                                 StratPosition = strat.StratPosition
+                                             }),
+                                     PeersDidNotAssessMe =
+                                         wg.GroupMembers.Where(peer => peer.AssessorSpResponses
+                                         .Count(response => response.AssesseePersonId == gm.StudentId) == 0)
+                                         .Select(peer => peer.StudentId),
+                                     PeersIdidNotAssess = wg.GroupMembers.Where(peer => peer.AssesseeSpResponses
+                                     .Count(response => response.AssessorPersonId == gm.StudentId) == 0)
+                                     .Select(peer => peer.StudentId),
+                                     PeersDidNotStratMe = wg.GroupMembers.Where(peer => peer.AssessorStratResponse
+                                     .Count(strat => strat.AssesseePersonId == gm.StudentId) == 0)
+                                     .Select(peer => peer.StudentId),
+                                     PeersIdidNotStrat = wg.GroupMembers.Where(peer => peer.AssesseeStratResponse
+                                     .Count(strat => strat.AssessorPersonId == gm.StudentId) == 0)
+                                     .Select(peer => peer.StudentId)
+                                 })
+                             }).ToList();
+
+
+            foreach (var wg in pubWgData)
+            {
+                //Dictionary used to keep the assessee personid with an additional dictionary to keep the 
+                //assessee strat position and the number of those position
+                var assesseeStratDict = new Dictionary<int, Dictionary<int, int>>();
+
+                foreach (var gm in wg.PubWgMembers)
                 {
-                    Id = wg.Id,
-                    CourseId = wg.CourseId,
-                    CountInventory = wg.AssignedSpInstr.InventoryCollection.Count,
-                    InstrumentId = wg.AssignedSpInstrId,
-                    WgSpTopStrat = wg.WgModel.MaxStratStudent,
-                    WgFacTopStrat = wg.WgModel.MaxStratFaculty,
-                    StratDivisor = wg.WgModel.StratDivisor,
-                    PubWgMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new PubWgMember
+                    foreach (var response in gm.PubStratResponses)
                     {
-                        StudentId = gm.StudentId,
-                        Name = gm.StudentProfile.Person.LastName + gm.StudentProfile.Person.FirstName,
-                        SpResponseTotalScore = gm.AssesseeSpResponses
-                            .Where(response => response.AssessorPersonId != gm.StudentId) 
-                            .Sum(response => response.ItemModelScore) / gm.AssesseeSpResponses
-                            .Count(response => response.AssessorPersonId != gm.StudentId),
-                        FacStratPosition = gm.FacultyStrat.StratPosition,
-                        HasSpResult = wg.SpResults.Any(result => result.StudentId == gm.StudentId),
-                        HasStratResult = wg.SpStratResults.Any(result => result.StudentId == gm.StudentId),
-                        BreakOut = new PubWgBreakOut
+                        Dictionary<int, int> assesseResponses;
+
+                        var hasAssessee = assesseeStratDict.TryGetValue(response.AssesseeId, out assesseResponses);
+
+                        var position = response.StratPosition > gm.SelfStratPosition
+                            ? response.StratPosition - 1
+                            : response.StratPosition;
+
+                        if (!hasAssessee)
                         {
-                            NotDisplayed = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Nd),
-                            IneffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Iea),
-                            IneffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Ieu),
-                            EffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Ea),
-                            EffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Eu),
-                            HighEffA = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Hea),
-                            HighEffU = gm.AssesseeSpResponses.Count(response => response.MpItemResponse == MpSpItemResponse.Heu)
-                        },
-                        StratTable =
-                            gm.AssesseeStratResponse
-                                .Where(response => response.AssessorPersonId != gm.StudentId)
-                                .GroupBy(strat => strat.StratPosition)
-                                .Select(stratgrp => new PubWgStratTable
-                                {
-                                    Position = stratgrp.Key,
-                                    Count = stratgrp.Count()
-                                }),
-                        PeersDidNotAssessMe =
-                            wg.GroupMembers.Where(
-                                peer =>
-                                    peer.AssessorSpResponses.Count(response => response.AssesseePersonId == gm.StudentId) == 0)
-                                .Select(peer => peer.StudentId),
-                        PeersIdidNotAssess =
-                            wg.GroupMembers.Where(
-                                peer =>
-                                    peer.AssesseeSpResponses.Count(response => response.AssessorPersonId == gm.StudentId) == 0)
-                                .Select(peer => peer.StudentId),
-                        PeersDidNotStratMe =
-                            wg.GroupMembers.Where(
-                                peer => peer.AssessorStratResponse.Count(strat => strat.AssesseePersonId == gm.StudentId) == 0)
-                                .Select(peer => peer.StudentId),
-                        PeersIdidNotStrat =
-                            wg.GroupMembers.Where(
-                                peer => peer.AssesseeStratResponse.Count(strat => strat.AssessorPersonId == gm.StudentId) == 0)
-                                .Select(peer => peer.StudentId)
-                    })
-                });
+                            assesseeStratDict[response.AssesseeId] = new Dictionary<int, int>();
+                        }
+
+                        int stratPositionCount;
+                        var hasStratPosition = assesseeStratDict[response.AssesseeId].TryGetValue(position, out stratPositionCount);
+
+                        if (!hasStratPosition)
+                        {
+                            assesseeStratDict[response.AssesseeId][position] = 1;
+                        } else
+                        {
+                            assesseeStratDict[response.AssesseeId][position] = stratPositionCount += 1;
+                        }
+
+                    }
+                }
+
+                foreach (var gm in wg.PubWgMembers)
+                {
+                    var myResponses = assesseeStratDict[gm.StudentId];
+                    gm.StratTable = myResponses.Select(mr => new PubWgStratTable
+                    {
+                        Position = mr.Key,
+                        Count = mr.Value
+                    });
+                }
+            }
+
+            return pubWgData;
         }
     }
-
-
 }

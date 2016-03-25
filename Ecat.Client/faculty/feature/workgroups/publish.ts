@@ -496,9 +496,11 @@ export default class EcFacultyWgPublish {
 
             if (this.doneWithComments && this.doneWithStrats) {
                 return this.dCtx.faculty.saveChanges()
-                    .then(() => _swal('Publishing Workflow...', 'This workgroup is now Published.', 'success'))
-                    .catch(saveChangesError)
-                    .finally(() => { that.c.$state.go(that.c.stateMgr.faculty.wgList.name);});
+                    .then(() => {
+                        _swal('Publishing Workflow...', 'This workgroup is now Published.', 'success')
+                        that.c.$state.go(that.c.stateMgr.faculty.wgList.name); 
+                    })
+                    .catch(saveChangesError);
             }
         }
 
@@ -528,6 +530,7 @@ export default class EcFacultyWgPublish {
         function saveChangesError(reason: string|ecat.IQueryError): void {
             if (that.isPublishing) {
                 _swal('Oh No!', `Something went wrong attempting to publish WorkGroup ${that.workGroupName}\n\n Please try again`, _mp.MpSweetAlertType.err);
+                that.activeWorkGroup.entityAspect.rejectChanges();
             }
         }
     }
