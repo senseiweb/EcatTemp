@@ -47,14 +47,14 @@ namespace Ecat.FacMod.Core
                         throw new EntityErrorsException(error);
                     }
                     var peerCount = countOfGrp - 1;
-                    var resultScore = me.SpResponseTotalScore;
+                    var resultScore = ((decimal) me.SpResponseTotalScore / (me.CountSpResponses * 6)) * 100;
                     var spResult = new SpResult
                     {
                         CourseId = wg.CourseId,
                         WorkGroupId = wg.Id,
                         StudentId = me.StudentId,
                         AssignedInstrumentId = wg.InstrumentId,
-                        CompositeScore = resultScore,
+                        CompositeScore = (int)resultScore,
                         BreakOut = new SpResultBreakOut
                         {
                             NotDisplay = me.BreakOut.NotDisplayed,
@@ -65,7 +65,7 @@ namespace Ecat.FacMod.Core
                             HighEffA = me.BreakOut.HighEffA,
                             HighEffU = me.BreakOut.HighEffU
                         },
-                        MpAssessResult = ConvertScoreToOutcome(resultScore),
+                        MpAssessResult = ConvertScoreToOutcome((int)resultScore),
                     };
 
                     var resultInfo = ctxProvider.CreateEntityInfo(spResult,
@@ -120,25 +120,28 @@ namespace Ecat.FacMod.Core
                 }
 
                 var fi = 0;
+                var spInterval = wg.WgSpTopStrat / wg.StratDivisor;
+                var facInterval = wg.WgFacTopStrat / wg.StratDivisor;
+
 
                 foreach (
-                    var strat in
+                    var gm in
                         stratKeeper.OrderByDescending(sk => sk.StratResult.StratCummScore)
                             .ThenBy(sk => sk.FacStratPosition))
                 {
-                    var studAwardedPoints = wg.WgSpTopStrat - (wg.WgSpTopStrat/wg.StratDivisor)*fi;
-                    var instrAwardPoints = wg.WgFacTopStrat - (wg.WgFacTopStrat/wg.StratDivisor)*fi;
+                    var studAwardedPoints = wg.WgSpTopStrat - spInterval*fi;
+                    var instrAwardPoints = Math.Max(0, wg.WgFacTopStrat - (wg.WgFacTopStrat/wg.StratDivisor)*gm.FacStratPosition - 1);
 
                     var totalAward = studAwardedPoints + instrAwardPoints;
 
                     totalAward = (totalAward < 0) ? 0 : totalAward;
 
-                    strat.StratResult.StratAwardedScore = totalAward;
-                    strat.StratResult.FinalStratPosition = fi + 1;
+                    gm.StratResult.StratAwardedScore = totalAward;
+                    gm.StratResult.FinalStratPosition = fi + 1;
 
-                    var info = ctxProvider.CreateEntityInfo(strat.StratResult,
-                        strat.HasStratResult ? EntityState.Modified : EntityState.Added);
-                    info.ForceUpdate = strat.HasStratResult;
+                    var info = ctxProvider.CreateEntityInfo(gm.StratResult,
+                        gm.HasStratResult ? EntityState.Modified : EntityState.Added);
+                    info.ForceUpdate = gm.HasStratResult;
 
                     if (!wgSaveMap.ContainsKey(tStratResult))
                     {
@@ -201,10 +204,11 @@ namespace Ecat.FacMod.Core
                                  {
                                      StudentId = gm.StudentId,
                                      Name = gm.StudentProfile.Person.LastName + gm.StudentProfile.Person.FirstName,
+                                     CountSpResponses = gm.AssesseeSpResponses
+                                         .Count(response => response.AssessorPersonId != gm.StudentId),
                                      SpResponseTotalScore = gm.AssesseeSpResponses
                                          .Where(response => response.AssessorPersonId != gm.StudentId)
-                                         .Sum(response => response.ItemModelScore) / gm.AssesseeSpResponses
-                                             .Count(response => response.AssessorPersonId != gm.StudentId),
+                                         .Sum(response => response.ItemModelScore),
                                      FacStratPosition = gm.FacultyStrat.StratPosition,
                                      HasSpResult = wg.SpResults.Any(result => result.StudentId == gm.StudentId),
                                      HasStratResult = wg.SpStratResults.Any(result => result.StudentId == gm.StudentId),

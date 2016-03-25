@@ -29,6 +29,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
         public int SelfStratPosition { get; set; }
         public bool HasSpResult { get; set; }
         public bool HasStratResult { get; set; }
+        public int CountSpResponses { get; set; }
         public StratResult StratResult { get; set; }
         public PubWgBreakOut BreakOut { get;  set;}
         public IEnumerable<int> PeersDidNotAssessMe { get; set; }
