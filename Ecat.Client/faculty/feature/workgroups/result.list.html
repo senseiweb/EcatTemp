@@ -6,7 +6,7 @@
                     <tr class="f-16">
                         <th class="col-md-3 f-400">Student</th>
                         <th class="col-md-2 text-center f-400">Final Strat</th>
-                        <th class="col-md-3 text-center f-400">Outcome</th>
+                        <th ng-hide="true" class="col-md-3 text-center f-400">Outcome</th>
                         <th class="col-md-2 text-center f-400">Received</th>
                         <th class="col-md-2 text-center f-400">Given</th>
                     </tr>
@@ -24,7 +24,7 @@
                             {{::studResult.resultForStudent.finalStrat}}
                         </td>
 
-                        <td class="text-center">
+                        <td ng-hide="true" class="text-center">
                             {{::studResult.resultForStudent.outcome}}
                         </td>
 
@@ -34,7 +34,7 @@
                             </div>
                             <div id="sp-chart-data-{{$index}}" 
                                  ng-if="::studResult.hasReceivedChartData">
-                                <span class="sp-graph-inst-composite">{{::studResult.resultForStudent.compositeScore}}</span>
+                                <span class="sp-graph-inst-composite">{{::studResult.resultForStudent.recievedCompositeScore}}</span>
                                 <div sp-break-out-chart
                                      charttype="pie"
                                      dataset="studResult.resultForStudent.breakOutReceived"
