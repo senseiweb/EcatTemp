@@ -130,7 +130,7 @@ namespace Ecat.FacMod.Core
                             .ThenBy(sk => sk.FacStratPosition))
                 {
                     var studAwardedPoints = wg.WgSpTopStrat - spInterval*fi;
-                    var instrAwardPoints = Math.Max(0, wg.WgFacTopStrat - (wg.WgFacTopStrat/wg.StratDivisor)*gm.FacStratPosition - 1);
+                    var instrAwardPoints = Math.Max(0, wg.WgFacTopStrat - ((wg.WgFacTopStrat/wg.StratDivisor)*(gm.FacStratPosition - 1)));
 
                     var totalAward = studAwardedPoints + instrAwardPoints;
 
