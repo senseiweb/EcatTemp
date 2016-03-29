@@ -3,19 +3,19 @@
 
         <h1 class="lead m-t-0 text-center">{{wkr.activeStudResult.rankName}}</h1>
 
-        <div class="table-responsive">
+        <div>
             <table class="table table-hover tableCenterAlign">
                 <thead class="f-16">
                 <tr>
-                    <th class="col-md-4 f-400">Behavior</th>
-                    <th class="col-md-2 f-400">Self</th>
-                    <th class="col-md-2 f-400">Received</th>
-                    <th class="col-md-2 f-400">Given</th>
-                    <th class="col-md-2 f-400">Instructor</th>
+                    <th class="col-md-3 f-400">Behavior</th>
+                    <th class="col-md-2 f-400 text-center">Self</th>
+                    <th class="col-md-2 f-400 text-center">Received</th>
+                    <th class="col-md-2 f-400 text-center">Given</th>
+                    <th class="col-md-2 f-400 text-center">Instructor</th>
                 </tr>
                 </thead>
                 <tbody class="f-14">
-                <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'inv.displayOrder'" style="height: 50px">
+                <tr ng-repeat="inv in wkr.activeStudResult.workGroup.assignedSpInstr.inventoryCollection | orderBy: 'displayOrder' track by inv.id" style="height: 56px">
                     <td class="f-12">
                         <span ng-show="!inv.showBehavior">
                                 {{::inv.behaviorEllipse}}
@@ -28,28 +28,50 @@
                             ...
                         </a>
                     </td>
-                    <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].selfOutcome}}</td>
-                    <td>
-                        <a href="javascript:void(0)"
-                           popover-append-to-body="true"
-                           popover-placement="left"
-                           popover-trigger="mouseenter"
-                           popover-title="Recieved From"
-                           uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehRec.tpl.html'">
-                            {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].rcvdOutcome}}
-                        </a>
+                    <td class="text-center">{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].selfOutcome}}</td>
+                    <td class="text-center p-b-0 p-t-0">
+                        <div id="sp-chart-data-{{$index}}">
+                            <span style="font-size: 14px; position:absolute; top: 10px; left: 10px;">
+                                <a href="javascript:void(0)"
+                                   popover-append-to-body="true"
+                                   popover-placement="left"
+                                   popover-trigger="mouseenter"
+                                   popover-title="Recieved From"
+                                   uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehRec.tpl.html'">
+                                    From
+                                </a>
+                            </span>
+                            <div sp-break-out-chart
+                                 charttype="donut"
+                                 dataset="inv.behaveResultForStudent[wkr.activeStudResult.studentId].receivedBo"
+                                 class="spflot-chart-donut-left"
+                                 legend="flotlegend{{$index}}">
+                            </div>
+                            <div id="flotlegend{{$index}}" style="display: none"></div>
+                        </div>
                     </td>
-                    <td>
-                        <a href="javascript:void(0)"
-                           popover-append-to-body="true"
-                           popover-placement="right"
-                           popover-trigger="mouseenter"
-                           popover-title="Given To"
-                           uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehGiv.tpl.html'">
-                            {{inv.behaveResultForStudent[wkr.activeStudResult.studentId].gvnOutcome}}
-                        </a>
+                    <td class="text-center p-b-0 p-t-0">
+                        <div id="sp-chart-data-{{$index}}">
+                            <span style="font-size: 14px; position:absolute; top: 10px; left: 95px;">
+                                <a href="javascript:void(0)"
+                                   popover-append-to-body="true"
+                                   popover-placement="right"
+                                   popover-trigger="mouseenter"
+                                   popover-title="Given To"
+                                   uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehGiv.tpl.html'">
+                                    To
+                                </a>
+                            </span>
+                            <div sp-break-out-chart
+                                 charttype="donut"
+                                 dataset="inv.behaveResultForStudent[wkr.activeStudResult.studentId].givenBo"
+                                 class="spflot-chart-donut-right"
+                                 legend="flotlegend{{$index}}">
+                            </div>
+                            <div id="flotlegend{{$index}}" style="display: none"></div>
+                        </div>
                     </td>
-                    <td>{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].facOutcome}}</td>
+                    <td class="text-center">{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].facOutcome}}</td>
                 </tr>
                 </tbody>
             </table>

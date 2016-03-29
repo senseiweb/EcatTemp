@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
-        <div class="table-responsive">
+        <div>
             <table class="table table-hover tableCenterAlign">
                 <thead class="f-16">
                 <tr>
@@ -11,7 +11,7 @@
                 </tr>
                 </thead>
                 <tbody class="f-14">
-                <tr ng-repeat="item in ar.resultInventory track by item.id">
+                <tr style="height: 56px" ng-repeat="item in ar.resultInventory | orderBy:'displayOrder' track by item.id">
                     <td>
                         <span ng-show="!item.showBehavior">
                                 {{item.behaviorEllipse}}
@@ -28,15 +28,16 @@
                         {{item.resultBreakOut.selfResult}}
 
                     </td>
-                    <td class="text-center">
-                        <a href="javascript:void(0)"
-                           popover-append-to-body="true"
-                           popover-placement="top"
-                           popover-trigger="click"
-                           popover-title="Behavior Breakout"
-                           uib-popover-template="'@[appStudent]/feature/assess/tpls/resultBoPopover.tpl.html'">
-                            {{item.resultBreakOut.peersResult}}
-                        </a>
+                    <td class="text-center p-b-0 p-t-0">
+                        <div id="sp-chart-data-{{$index}}">
+                            <div sp-break-out-chart
+                                 charttype="donut"
+                                 dataset="item.resultBreakOut.peerBoChart"
+                                 class="spflot-chart-donut"
+                                 legend="flotlegend{{$index}}">
+                            </div>
+                            <div id="flotlegend{{$index}}" style="display: none"></div>
+                        </div>
                     </td>
                     <td class="text-center">
                         {{item.resultBreakOut.facultyResult}}

@@ -89,6 +89,36 @@ class FacSpInventoryExt extends SpInventoryExtBase implements ecat.entity.ext.IF
                 rcvdResp: rcvdResp
             }
 
+            const recDataset = [];
+
+            for (let bo in receivedBo) {
+                if (receivedBo.hasOwnProperty(bo)) {
+                    if (bo === 'IEA') recDataset.push({ data: receivedBo[bo], label: bo, color: '#AA0000' });
+                    if (bo === 'IEU') recDataset.push({ data: receivedBo[bo], label: bo, color: '#FE6161' });
+                    if (bo === 'ND') recDataset.push({ data: receivedBo[bo], label: bo, color: '#AAAAAA' });
+                    if (bo === 'EA') recDataset.push({ data: receivedBo[bo], label: bo, color: '#00AA58' });
+                    if (bo === 'EU') recDataset.push({ data: receivedBo[bo], label: bo, color: '#73FFBB' });
+                    if (bo === 'HEA') recDataset.push({ data: receivedBo[bo], label: bo, color: '#00308F' });
+                    if (bo === 'HEU') recDataset.push({ data: receivedBo[bo], label: bo, color: '#7CA8FF' });
+                }
+            }
+            current.receivedBo = recDataset;
+
+            const gvnDataset = [];
+
+            for (let bo in receivedBo) {
+                if (receivedBo.hasOwnProperty(bo)) {
+                    if (bo === 'IEA') gvnDataset.push({ data: givenBo[bo], label: bo, color: '#AA0000' });
+                    if (bo === 'IEU') gvnDataset.push({ data: givenBo[bo], label: bo, color: '#FE6161' });
+                    if (bo === 'ND') gvnDataset.push({ data: givenBo[bo], label: bo, color: '#AAAAAA' });
+                    if (bo === 'EA') gvnDataset.push({ data: givenBo[bo], label: bo, color: '#00AA58' });
+                    if (bo === 'EU') gvnDataset.push({ data: givenBo[bo], label: bo, color: '#73FFBB' });
+                    if (bo === 'HEA') gvnDataset.push({ data: givenBo[bo], label: bo, color: '#00308F' });
+                    if (bo === 'HEU') gvnDataset.push({ data: givenBo[bo], label: bo, color: '#7CA8FF' });
+                }
+            }
+            current.givenBo = gvnDataset;
+
             if (this._facSpResultForStudent) {
                 this._facSpResultForStudent[gm.studentId] = current;
             } else {
