@@ -136,6 +136,7 @@ export default class EcProviderSpToolCommenter {
                 return;
             }
 
+            self.comment.flag.entityAspect.setDeleted();
             self.comment.entityAspect.setDeleted();
             self.save();
         }
