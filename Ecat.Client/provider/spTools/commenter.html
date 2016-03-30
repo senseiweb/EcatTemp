@@ -35,9 +35,8 @@
                                 name="from"
                                 required
                                 ng-disabled="commenter.isInstructor || commenter.isPublished"
-                                class="form-control f-18">
-                            <option ng-value="commenter.anonymityFlag.false" ng-selected="!commenter.comment.requestAnonymity">{{commenter.authorName}}</option>
-                            <option ng-value="commenter.anonymityFlag.true"  ng-selected="commenter.comment.requestAnonymity">Anonymous</option>
+                                class="form-control f-18"
+                                ng-options="toOpt.value as toOpt.name for toOpt in commenter.toOpts">
                         </select>
                     </div>
                 </div>

@@ -11,10 +11,7 @@ export default class EcProviderSpToolCommenter {
     private authorRole: string;
     private authorAvatar: string;
     private authorName: string;
-    protected anonymityFlag = {
-        true: true,
-        false: false
-    }
+    protected toOpts = [];
     private commentType = _mp.MpCommentType;
     private commentFlag = _mp.MpCommentFlag;
     private comment: ecat.entity.IStudSpComment | ecat.entity.IFacSpComment;
@@ -53,6 +50,8 @@ export default class EcProviderSpToolCommenter {
         this.recipientAvatar = recipient.avatarLocation || recipient.defaultAvatarLocation;
         this.isNew = this.comment.entityAspect.entityState === breeze.EntityState.Added;
 
+        this.toOpts.push({ value: false, name: this.authorName });
+        this.toOpts.push({ value: true, name: 'Anonymous'});
 
         //Not sure where to put this
         $scope.$watch('this.dCtx.student.saveInProgress', (newValue: string, oldValue: string) => {
