@@ -30,7 +30,15 @@
                     </td>
                     <td class="text-center">{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].selfOutcome}}</td>
                     <td class="text-center p-b-0 p-t-0">
-                        <div id="sp-chart-data-{{$index}}">
+                        <a href="javascript:void(0)"
+                           popover-append-to-body="true"
+                           popover-placement="left"
+                           popover-trigger="mouseenter"
+                           popover-title="Recieved From"
+                           uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehRec.tpl.html'">
+                            View Results
+                        </a>
+                        <!--<div id="sp-chart-data-{{$index}}">
                             <span style="font-size: 14px; position:absolute; top: 10px; left: 10px;">
                                 <a href="javascript:void(0)"
                                    popover-append-to-body="true"
@@ -48,10 +56,18 @@
                                  legend="flotlegend{{$index}}">
                             </div>
                             <div id="flotlegend{{$index}}" style="display: none"></div>
-                        </div>
+                        </div>-->
                     </td>
                     <td class="text-center p-b-0 p-t-0">
-                        <div id="sp-chart-data-{{$index}}">
+                        <a href="javascript:void(0)"
+                           popover-append-to-body="true"
+                           popover-placement="right"
+                           popover-trigger="mouseenter"
+                           popover-title="Given To"
+                           uib-popover-template="'@[appFaculty]/feature/workgroups/tpls/resultBehGiv.tpl.html'">
+                            View Results
+                        </a>
+                        <!--<div id="sp-chart-data-{{$index}}">
                             <span style="font-size: 14px; position:absolute; top: 10px; left: 95px;">
                                 <a href="javascript:void(0)"
                                    popover-append-to-body="true"
@@ -69,7 +85,7 @@
                                  legend="flotlegend{{$index}}">
                             </div>
                             <div id="flotlegend{{$index}}" style="display: none"></div>
-                        </div>
+                        </div>-->
                     </td>
                     <td class="text-center">{{inv.behaveResultForStudent[wkr.activeStudResult.studentId].facOutcome}}</td>
                 </tr>
