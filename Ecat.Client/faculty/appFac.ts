@@ -7,6 +7,7 @@ import 'flotTooltip'
 import modSpTools from "provider/spTools/modSptools"
 import facultyConfig from 'faculty/config/configFacultyApp'
 import facDataService from 'faculty/service/context'
+import adminDataService from "faculty/service/adminContext"
 import wrkgrpList from 'faculty/feature/workgroups/list'
 import wrkgrpAssess from 'faculty/feature/workgroups/assess'
 import wrkgrpPublish from 'faculty/feature/workgroups/publish'
@@ -23,6 +24,7 @@ export default class EcFacilitatorModule {
         angular.module(this.moduleId, ['ui.select', spToolMod.moduleId])
             .config(facultyConfig)
             .service(facDataService.serviceId, facDataService)
+            .service(adminDataService.serviceId, adminDataService)
             .controller(wrkgrpList.controllerId, wrkgrpList)
             .controller(wrkgrpAssess.controllerId, wrkgrpAssess)
             .controller(wrkgrpPublish.controllerId, wrkgrpPublish)

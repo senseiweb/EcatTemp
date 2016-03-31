@@ -14,7 +14,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public string Id { get; set; }
         public string LongName { get; set; }
         public string ShortName { get; set; }
-        public EdLevel EdLevel { get; set; }
+        public string MpEdLevel { get; set; }
         public AcademyBase Base { get; set; }
         public string BbCategoryId { get; set; }
         public string ParentBbCategoryId { get; set; }

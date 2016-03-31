@@ -59,10 +59,13 @@ declare module ecat.entity.s.school {
 		entityId: string;
 		courseId: number;
 		studentPersonId: number;
+		bbCourseMemId: string;
 		course: ecat.entity.s.school.Course;
 		student: ecat.entity.s.user.ProfileStudent;
 		workGroupEnrollments: ecat.entity.s.school.CrseStudentInGroup[];
 		kcResponses: ecat.entity.s.learner.KcResponse[];
+		reconResultId: System.Guid;
+		reconResult: ecat.entity.s.lmsAdmin.MemReconResult;
 	}
 	interface Course {
 		id: number;
@@ -75,11 +78,14 @@ declare module ecat.entity.s.school {
 		startDate: Date;
 		gradDate: Date;
 		spResults: ecat.entity.s.learner.SpResult[];
-		studentsInCourse: ecat.entity.s.school.StudentInCourse[];
+		stratResults: ecat.entity.s.learner.StratResult[];
+		students: ecat.entity.s.school.StudentInCourse[];
 		studentInCrseGroups: ecat.entity.s.school.CrseStudentInGroup[];
 		spResponses: ecat.entity.s.learner.SpResponse[];
 		faculty: ecat.entity.s.school.FacultyInCourse[];
 		workGroups: ecat.entity.s.school.WorkGroup[];
+		reconResultId: System.Guid;
+		reconResult: ecat.entity.s.lmsAdmin.CourseReconResult;
 	}
 	interface CrseStudentInGroup {
 		entityId: string;
@@ -88,10 +94,13 @@ declare module ecat.entity.s.school {
 		workGroupId: number;
 		hasAcknowledged: boolean;
 		numOfStratIncomplete: number;
+		bbCrseStudGroupId: string;
+		reconResultId: System.Guid;
 		workGroup: ecat.entity.s.school.WorkGroup;
 		studentProfile: ecat.entity.s.user.ProfileStudent;
 		course: ecat.entity.s.school.Course;
 		studentInCourse: ecat.entity.s.school.StudentInCourse;
+		reconResult: ecat.entity.s.lmsAdmin.GroupMemReconResult;
 		groupPeers: ecat.entity.s.school.CrseStudentInGroup[];
 		assessorSpResponses: ecat.entity.s.learner.SpResponse[];
 		assesseeSpResponses: ecat.entity.s.learner.SpResponse[];
@@ -113,6 +122,7 @@ declare module ecat.entity.s.school {
 		wgModelId: number;
 		mpCategory: string;
 		groupNumber: string;
+		reconResultId: System.Guid;
 		assignedSpInstrId: number;
 		assignedKcInstrId: number;
 		customName: string;
@@ -122,6 +132,7 @@ declare module ecat.entity.s.school {
 		isPrimary: boolean;
 		course: ecat.entity.s.school.Course;
 		wgModel: Ecat.Shared.Core.ModelLibrary.Designer.WorkGroupModel;
+		reconResult: ecat.entity.s.lmsAdmin.GroupReconResult;
 		facSpResponses: ecat.entity.s.faculty.FacSpResponse[];
 		facStratResponses: ecat.entity.s.faculty.FacStratResponse[];
 		facSpComments: ecat.entity.s.faculty.FacSpComment[];
@@ -141,18 +152,21 @@ declare module ecat.entity.s.school {
 		entityId: string;
 		courseId: number;
 		facultyPersonId: number;
+		bbCourseMemId: string;
 		course: ecat.entity.s.school.Course;
 		facultyProfile: ecat.entity.s.user.ProfileFaculty;
 		facSpResponses: ecat.entity.s.faculty.FacSpResponse[];
 		facSpComments: ecat.entity.s.faculty.FacSpComment[];
 		facStratResponse: ecat.entity.s.faculty.FacStratResponse[];
 		flaggedSpComments: ecat.entity.s.learner.StudSpCommentFlag[];
+		reconResultId: System.Guid;
+		reconResult: ecat.entity.s.lmsAdmin.MemReconResult;
 	}
 	interface Academy {
 		id: string;
 		longName: string;
 		shortName: string;
-		edLevel: Ecat.Shared.Core.Utility.EdLevel;
+		mpEdLevel: string;
 		base: Ecat.Shared.Core.Utility.AcademyBase;
 		bbCategoryId: string;
 		parentBbCategoryId: string;
@@ -271,6 +285,7 @@ declare module ecat.entity.s.learner {
 		finalStratPosition: number;
 		stratCummScore: number;
 		stratAwardedScore: number;
+		course: ecat.entity.s.school.Course;
 		resultFor: ecat.entity.s.school.CrseStudentInGroup;
 		facStrat: ecat.entity.s.faculty.FacStratResponse;
 		stratResponses: ecat.entity.s.learner.StratResponse[];
@@ -278,9 +293,8 @@ declare module ecat.entity.s.learner {
 		modifiedDate: Date;
 	}
 	interface SanitizedSpResponse {
+		id: System.Guid;
 		courseId: number;
-		studentId: number;
-		assessorId: number;
 		assesseeId: number;
 		workGroupId: number;
 		isSelfResponse: boolean;
@@ -292,13 +306,14 @@ declare module ecat.entity.s.learner {
 		result: ecat.entity.s.learner.SpResult;
 	}
 	interface SanitizedSpComment {
-		authorId: number;
+		id: System.Guid;
 		recipientId: number;
 		courseId: number;
 		workGroupId: number;
 		authorName: string;
 		commentText: string;
 		flag: ecat.entity.s.learner.StudSpCommentFlag;
+		facFlag: ecat.entity.s.faculty.FacSpCommentFlag;
 		mpCommentFlagRecipient: string;
 		result: ecat.entity.s.learner.SpResult;
 	}
@@ -312,6 +327,10 @@ declare module Ecat.Shared.Core.ModelLibrary.Learner {
 		highEffU: number;
 		highEffA: number;
 		notDisplay: number;
+	}
+}
+declare module System {
+	interface Guid {
 	}
 }
 declare module Ecat.Shared.Core.ModelLibrary.Designer {
@@ -415,6 +434,36 @@ declare module ecat.entity.s.designer {
 		instrument: ecat.entity.s.designer.CogInstrument;
 		modifiedById: number;
 		modifiedDate: Date;
+	}
+}
+declare module ecat.entity.s.lmsAdmin {
+	interface GroupReconResult extends Ecat.Shared.Core.ModelLibrary.Common.ReconcileResult {
+		groups: ecat.entity.s.school.WorkGroup[];
+	}
+	interface MemReconResult extends Ecat.Shared.Core.ModelLibrary.Common.ReconcileResult {
+		courseId: number;
+		numOfAccountCreated: number;
+		faculty: ecat.entity.s.school.FacultyInCourse[];
+		students: ecat.entity.s.school.StudentInCourse[];
+		removedIds: number[];
+	}
+	interface GroupMemReconResult extends Ecat.Shared.Core.ModelLibrary.Common.ReconcileResult {
+		courseId: number;
+		workGroupId: number;
+		workGroupName: string;
+		groupType: string;
+		groupMembers: ecat.entity.s.school.CrseStudentInGroup[];
+	}
+	interface CourseReconResult extends Ecat.Shared.Core.ModelLibrary.Common.ReconcileResult {
+		courses: ecat.entity.s.school.Course[];
+	}
+}
+declare module Ecat.Shared.Core.ModelLibrary.Common {
+	interface ReconcileResult {
+		id: System.Guid;
+		academyId: string;
+		numAdded: number;
+		numRemoved: number;
 	}
 }
 declare module ecat.entity.s.faculty {

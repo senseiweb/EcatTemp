@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Business\GuardUserSave.cs" />
     <Compile Include="Business\LoginLogic.cs" />
+    <Compile Include="Business\UserGuardian.cs" />
     <Compile Include="Business\UserLogic.cs" />
     <Compile Include="Data\UserCtx.cs" />
     <Compile Include="Data\Repo.cs" />

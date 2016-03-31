@@ -119,8 +119,8 @@ namespace Ecat.DevOps
                 ctx.Database.ExecuteSqlCommand("delete from dbo.CrseStudentInGroup");
 
                 Console.WriteLine("Done! Assigning Students");
-                var studCrses = ctx.StudentInCourses.GroupBy(sic => sic.CourseId);
-                var courses = ctx.Courses.Include(c => c.WorkGroups);
+                var studCrses = ctx.StudentInCourses.GroupBy(sic => sic.CourseId).ToList();
+                var courses = ctx.Courses.Include(c => c.WorkGroups).ToList();
                 const string insertPreamble =
                     "INSERT INTO CrseStudentInGroup (CourseId,WorkGroupId,StudentId,IsDeleted,HasAcknowledged,ModifiedDate) values ";
                 var sb = new StringBuilder(insertPreamble);

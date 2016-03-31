@@ -18,6 +18,8 @@ namespace Ecat.Shared.DbMgr.Config
             .HasMaxLength(60)
             .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                 new IndexAnnotation(new IndexAttribute("IX_UniqueBbCourseId") { IsUnique = true }));
+
+
         }
     }
 }

@@ -1,0 +1,118 @@
+﻿<div class="modal-header">
+    <div>
+        <h4 class="text-center thingHeader">Edit {{eci.course.name}}</h4>
+    </div>
+    <hr />
+</div>
+
+<div class="modal-body">
+    <form name="eci.nf"
+          class="form-horizontal"
+          novalidate
+          role="form">
+
+        <div class="form-group">
+
+            <label for="classNumber"
+                   class="control-label col-md-3">
+                Class Number:
+            </label>
+
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text"
+                           name="classNumber"
+                           id="classNumber"
+                           ng-model="eci.course.classNumber"
+                           class="form-control fg-input f-18"
+                           required />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="startDate"
+                   class="control-label col-md-3">
+                Start Date:
+            </label>
+
+            <div class="col-md-8">
+                <div class="fg-line">
+
+                    <input type="text"
+                           class="form-control f-18"
+                           name="startDate"
+                           id="startDate"
+                           uib-datepicker-popup="dd-MMMM-yyyy"
+                           ng-model="eci.course.startDate"
+                           is-open="eci.startOpened"
+                           datepicker-options="dateOptions"
+                           ng-required="true"
+                           close-text="Close"
+                           alt-input-formats="altInputFormats" />
+                </div>
+            </div>
+            <div>
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="eci.startOpened = true">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label for="gradDate"
+                   class="control-label col-md-3">
+                Grad Date:
+            </label>
+
+            <div class="col-md-8">
+
+                <div class="fg-line">
+
+                    <input type="text"
+                           class="form-control f-18"
+                           name="gradDate"
+                           id="gradDate"
+                           uib-datepicker-popup="dd-MMMM-yyyy"
+                           ng-model="eci.course.gradDate"
+                           is-open="eci.gradOpt"
+                           datepicker-options="dateOptions"
+                           ng-required="true"
+                           close-text="Close"
+                           alt-input-formats="altInputFormats" />
+                </div>
+            </div>
+            <div>
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="ecat.gradOpened = true">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label for="name"
+                   class="control-label col-md-3">
+                Display Name:
+            </label>
+
+            <div class="col-md-8">
+                <div class="fg-line">
+                    <input type="text"
+                           name="name"
+                           id="name"
+                           ng-model="eci.course.name"
+                           class="form-control fg-input f-18"
+                           required />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-link" type="button" ng-click="eci.save()">Save</button>
+    <button class="btn btn-link" type="button" ng-click="eci.cancel()">Cancel</button>
+</div>

@@ -54,7 +54,7 @@
                                         Group Type
                                         <i class="zmdi"
                                            ng-if="wkl.activeSort.opt === wkl.sortOpt.group"
-                                           ng-class="wkl.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
+                                           ng-class="wkl.activeSort.desc ? ' zmdi-sort-amount-desc' : 'zmdi-sort-amount-asc'"></i>
                                     </button>
                                 </th>
 
@@ -105,7 +105,8 @@
 
                                 </tr>
 
-                                <tr class="text-left" ng-repeat="wg in wkl.activeCourse.workGroups | orderBy: wkl.activeSort.opt:wkl.activeSort.desc | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.id"
+                            <tr class="text-left"
+                                 ng-repeat="wg in wkl.activeCourse.workGroups | orderBy: wkl.activeSort.opt:wkl.activeSort.desc | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.id"
                                     ng-mouseover="wg.isVisible = true" ng-mouseleave="wg.isVisible = false" style="height: 55px">
                                     <td>{{wg.defaultName}}</td>
                                     <td>{{wg.mpCategory}}</td>

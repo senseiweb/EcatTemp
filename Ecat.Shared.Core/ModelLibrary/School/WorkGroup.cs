@@ -21,6 +21,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public int WgModelId { get; set; }
         public string MpCategory { get; set; }
         public string GroupNumber { get; set; }
+        public Guid? ReconResultId { get; set; }
         public int? AssignedSpInstrId { get; set; }
         public int? AssignedKcInstrId { get; set; }
 
@@ -32,6 +33,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
 
         public Course Course { get; set; }
         public WorkGroupModel WgModel { get; set; }
+        public GroupReconResult ReconResult { get; set; }
 
         public ICollection<FacSpResponse> FacSpResponses { get; set; }
         public ICollection<FacStratResponse> FacStratResponses { get; set; }

@@ -43,14 +43,5 @@ namespace Ecat.Shared.Core.Logic
             }
         }
 
-        public List<EntityInfo> AuditableGuardian(ref List<EntityInfo> auditableInfos, Person loggedInPerson)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<EntityInfo> ModifiedGuardian(ref List<EntityInfo> modifiedInfos, Person loggedInPerson)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

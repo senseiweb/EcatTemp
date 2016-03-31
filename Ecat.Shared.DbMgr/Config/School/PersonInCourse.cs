@@ -27,7 +27,7 @@ namespace Ecat.Shared.DbMgr.Config
                 .WillCascadeOnDelete(false);
 
             HasRequired(p => p.Course)
-                .WithMany(p => p.StudentsInCourse)
+                .WithMany(p => p.Students)
                 .HasForeignKey(p => p.CourseId)
                 .WillCascadeOnDelete(false);
 

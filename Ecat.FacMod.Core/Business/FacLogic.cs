@@ -8,6 +8,7 @@ using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Ecat.Shared.Core.Logic;
+using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
@@ -35,33 +36,71 @@ namespace Ecat.FacMod.Core
 
         public string GetMetadata => _repo.Metadata;
 
-        IQueryable<FacultyInCourse> IFacLogic.GetActiveCourseData(int courseId)
+        async Task<List<Course>> IFacLogic.GetActiveCourse(int? courseId)
         {
-            return _repo.GetFacultyCourses
-                .Where(fc => fc.FacultyPersonId == FacultyPerson.PersonId && fc.FacultyProfile.Person.IsActive)
-                .Where(fc => fc.CourseId == courseId)
-                .Include(fc => fc.Course.WorkGroups);
+            var query = courseId == null
+                ? _repo.GetCourses
+                : _repo.GetCourses.Where(course => course.Id == courseId);
+
+            var coursesProj = await (from course in query
+                where course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId && !fac.IsDeleted)
+                select new
+                {
+                    course,
+                    FacultyCourses = course.Faculty.Where(fic => fic.FacultyPersonId == FacultyPerson.PersonId),
+                }).ToListAsync();
+
+            if (coursesProj == null) return null;
+
+            var courses = coursesProj.OrderByDescending(c => c.course.StartDate).Select(c => c.course).ToList();
+
+            var latestCourse = courses.First();
+
+            var wgProj = await (from wg in _repo.GetCourseWorkGroups
+                let inventoryCount = wg.AssignedSpInstr.InventoryCollection.Count
+                let activeGroupCount = wg.GroupMembers.Count(gm => !gm.IsDeleted)
+                where wg.CourseId == latestCourse.Id && wg.GroupMembers.Any()
+                select new
+                {
+                    wg,
+                    CanPublish = wg.GroupMembers.All(
+                            gm =>
+                                gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
+                                inventoryCount*activeGroupCount &&
+                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount)
+                }).ToListAsync();
+
+            latestCourse.WorkGroups = new List<WorkGroup>();
+
+            foreach (var wgp in wgProj)
+            {
+                var workGroup = wgp.wg;
+                workGroup.CanPublish = wgp.CanPublish;
+                latestCourse.WorkGroups.Add(workGroup);
+            }
+
+            return courses;
         }
 
-        WorkGroup IFacLogic.GetWorkGroupSpData(int courseId, int workGroupId, bool addAssessment)
+        async Task<WorkGroup> IFacLogic.GetActiveWorkGroup(int courseId, int workGroupId)
         {
-            var requestedWg = (from wg in _repo.GetCourseWorkGroups
-                where wg.Id == workGroupId &&
+            var requestedWg = await (from wg in _repo.GetCourseWorkGroups
+                               let inventoryCount = wg.AssignedSpInstr.InventoryCollection.Count
+                               let activeGroupCount = wg.GroupMembers.Count(gm => !gm.IsDeleted)
+                               where wg.Id == workGroupId &&
                       wg.CourseId == courseId &&
                       wg.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId)
                 select new
                 {
                     ActiveWg = wg,
-                    Assessment = (!addAssessment) ? null : new
-                    {
-                        Instrument= wg.AssignedSpInstr,
-                        Inventory= wg.AssignedSpInstr.InventoryCollection
-                    },
+                    CanPublish = wg.GroupMembers.All(
+                            gm =>
+                                gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
+                                inventoryCount * activeGroupCount &&
+                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount),
                     GroupMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new
                     {
-                        gm.CourseId,
-                        gm.StudentId,
-                        gm.WorkGroupId,
+                        gm,
                         SpRepsonses = gm.AssessorSpResponses.Where(aos => !aos.Assessee.IsDeleted),
                         CommentCount = gm.AuthorOfComments.Count(aos => !aos.Recipient.IsDeleted),
                         FacComment = wg.FacSpComments.FirstOrDefault(fc => fc.RecipientPersonId == gm.StudentId),
@@ -73,153 +112,93 @@ namespace Ecat.FacMod.Core
                         MissingStratCount = wg.GroupMembers.Count(
                             peer => peer.AssesseeStratResponse.Count(strat => strat.AssessorPersonId == gm.StudentId) == 0)
                     })
-                }).Single();
-
-            var group = requestedWg.GroupMembers.Select(gm => new CrseStudentInGroup
-            {
-                CourseId = gm.CourseId,
-                WorkGroupId = gm.WorkGroupId,
-                StudentId =  gm.StudentId,
-                StudentProfile = gm.StudProfile,
-                NumberOfAuthorComments = gm.CommentCount,
-                NumOfStratIncomplete = gm.MissingStratCount,
-                FacultyComment = gm.FacComment,
-                FacultySpResponses = gm.FacResponse.ToList(),
-                FacultyStrat = gm.FacStrats,
-                AssessorSpResponses = gm.SpRepsonses.ToList()
-            }).ToList();
-            
-            foreach (var gm in group)
-            {
-                var groupMember = requestedWg.GroupMembers.Single(g => g.StudentId == gm.StudentId);
-                gm.StudentProfile.Person = groupMember.StudPerson;
-                if (groupMember.FacFlag != null)
-                    gm.FacultyComment.Flag = groupMember.FacFlag;
-            }
+                }).SingleAsync();
 
             var workGroup = requestedWg.ActiveWg;
-            workGroup.GroupMembers = group;
 
-            if (!addAssessment) return workGroup;
-
-            workGroup.AssignedSpInstr = requestedWg.Assessment.Instrument;
-            workGroup.AssignedSpInstr.InventoryCollection = requestedWg.Assessment.Inventory;
-            workGroup.CanPublish = _repo.CanWgPublish(new List<int> {workGroupId}).Contains(workGroupId);
+            foreach (var grpMem in workGroup.GroupMembers)
+            {
+                var studInGroup = requestedWg.GroupMembers.Single(gm => gm.gm.StudentId == grpMem.StudentId);
+                grpMem.NumOfStratIncomplete = studInGroup.MissingStratCount;
+            }
+            workGroup.CanPublish = requestedWg.CanPublish;
             return workGroup;
         }
 
-        IQueryable<FacultyInCourse> IFacLogic.GetCrsesWithLastestGrpMem()
+        async Task<SpInstrument> IFacLogic.GetSpInstrument(int instrumentId)
         {
-            var facCrses = _repo.GetFacultyCourses
-                .Where(fc => fc.FacultyPersonId == FacultyPerson.PersonId && fc.FacultyProfile.Person.IsActive)
-                .Include(crse => crse.Course.WorkGroups).ToList();
+            var instrument = await _repo.GetSpInstrument
+                .Where(instr => instr.Id == instrumentId)
+                .Select(instr => new
+                {
+                    instr,
+                    inventory = instr.InventoryCollection.Where(collection => collection.IsDisplayed)
+                }).SingleAsync();
 
-            if (!facCrses.Any())
-            {
-                return null;
-            }
-
-            var latestCourse = facCrses.Select(fc => fc.Course).First();
-
-            //_repo.AddCourseWorkgroups(latestCourse);
-
-            var crseWgNotPublish =
-                latestCourse.WorkGroups.Where(wg => wg.MpSpStatus == MpSpStatus.Open || wg.MpSpStatus == MpSpStatus.UnderReview).Select(wg => wg.Id);
-
-            var grpIdsReadyForPublish = _repo.CanWgPublish(crseWgNotPublish.ToList());
-
-            foreach (var wg in grpIdsReadyForPublish.Select(grpId => latestCourse.WorkGroups.Single(grp => grp.Id == grpId)))
-            {
-                wg.CanPublish = true;
-            }
-            
-            return facCrses.AsQueryable();
+            return instrument.instr;
         }
 
-        IQueryable<StudSpComment> IFacLogic.GetStudSpComments()
+        async Task<List<StudSpComment>> IFacLogic.GetStudSpComments(int courseId, int workGroupId)
         {
-            return _repo.WgComments
-                .Where(comment => comment.WorkGroup
-                    .Course
-                    .Faculty
-                    .Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId))
-                    .Include(p => p.Flag);
+            var comments = _repo.GetCourseWorkGroups
+                .Where(wg => wg.CourseId == courseId && wg.Id == workGroupId)
+                .SelectMany(wg => wg.SpComments)
+                .Include(comment => comment.Flag);
+
+            return  await comments.Where(comment => !comment.Author.IsDeleted || !comment.Recipient.IsDeleted).ToListAsync();
         }
 
-        WorkGroup IFacLogic.GetWorkGroupResults(int wgId, bool addAssessment, bool addComments)
+        async Task<List<FacSpComment>> IFacLogic.GetFacSpComment(int courseId, int workGroupId)
         {
-            var requestedWg = (from wg in _repo.GetCourseWorkGroups
-                where wg.Id == wgId &&
+            var comments = _repo.GetCourseWorkGroups
+                .Where(wg => wg.CourseId == courseId && wg.Id == workGroupId)
+                .SelectMany(wg => wg.FacSpComments)
+                .Include(comment => comment.Flag)
+                .Include(comment => comment.FacultyCourse.FacultyProfile.Person)
+                .Include(comment => comment.FacultyCourse.FacultyProfile);
+
+            return await comments.Where(comment => !comment.Recipient.IsDeleted).ToListAsync();
+        }
+
+        async Task<WorkGroup> IFacLogic.GetSpResult(int courseId, int workGroupId)
+        {
+            var requestedWg = await (from wg in _repo.GetCourseWorkGroups
+                let inventoryCount = wg.AssignedSpInstr.InventoryCollection.Count
+                let activeGroupCount = wg.GroupMembers.Count(gm => !gm.IsDeleted)
+                where wg.Id == workGroupId &&
+                      wg.CourseId == courseId &&
                       wg.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId)
                 select new
                 {
-                    wg,
-                    Assessment = (!addAssessment)
-                        ? null
-                        : new
-                        {
-                            Instrument = wg.AssignedSpInstr,
-                            Inventory = wg.AssignedSpInstr.InventoryCollection
-                        },
+                    ActiveWg = wg,
+                    CanPublish = wg.GroupMembers.All(
+                        gm =>
+                            gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
+                            inventoryCount*activeGroupCount &&
+                            gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount),
                     GroupMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new
                     {
                         gm,
-                        SpRepsonses = gm.AssesseeSpResponses.Where(aos => !aos.Assessor.IsDeleted),
-                        Strats = gm.AssesseeStratResponse.Where(asr => !asr.Assessor.IsDeleted),
                         StratResult = wg.SpStratResults.FirstOrDefault(sr => sr.StudentId == gm.StudentId),
                         SpResult = wg.SpResults.FirstOrDefault(sr => sr.StudentId == gm.StudentId),
-                        FacComment = wg.FacSpComments.FirstOrDefault(fc => fc.RecipientPersonId == gm.StudentId),
+                        Strats = gm.AssesseeStratResponse.Where(asr => !asr.Assessor.IsDeleted),
+                        SpRepsonses = gm.AssessorSpResponses.Where(aos => !aos.Assessee.IsDeleted),
                         FacFacultyPerson =
                             wg.FacSpComments.Select(comment => comment.FacultyCourse.FacultyProfile.Person),
                         FacFacultyProfile =
                             wg.FacSpComments.Select(comment => comment.FacultyCourse.FacultyProfile),
-                        FacFacultyCourse = wg.FacSpComments.Select(comment => comment.FacultyCourse),
+                        FacComment = wg.FacSpComments.FirstOrDefault(fc => fc.RecipientPersonId == gm.StudentId),
                         FacFlag = wg.FacSpComments.FirstOrDefault(fc => fc.RecipientPersonId == gm.StudentId).Flag,
                         FacResponse = wg.FacSpResponses.Where(fr => fr.AssesseePersonId == gm.StudentId),
                         FacStrats = wg.FacStratResponses.FirstOrDefault(fs => fs.AssesseePersonId == gm.StudentId),
                         StudProfile = gm.StudentProfile,
                         StudPerson = gm.StudentProfile.Person
                     })
-                }).Single();
+                }).SingleAsync();
 
-
-            var workGroup = requestedWg.wg;
-
-            if (addComments)
-            {
-                var lclWgId = wgId;
-                var commentsNeed = workGroup.GroupMembers.Select(g => g.StudentId).ToList();
-                var svrComments = _repo.WgComments
-                    .Where(comment => commentsNeed.Contains(comment.RecipientPersonId) &&
-                                      comment.WorkGroupId == lclWgId)
-                    .Include(c => c.Flag).ToList();
-
-
-                foreach (var comment in svrComments.GroupBy(c => c.RecipientPersonId))
-                {
-                    var grpMember = workGroup.GroupMembers.Single(grp => grp.StudentId == comment.Key);
-                    grpMember.RecipientOfComments = comment.ToList();
-                }
-            }
-
-            workGroup.CanPublish = _repo.CanWgPublish(new List<int> {wgId}).Contains(wgId);
-
+            var workGroup = requestedWg.ActiveWg;
+            workGroup.CanPublish = requestedWg.CanPublish;
             return workGroup;
         }
-
-        IQueryable<Course> IFacLogic.CourseMembers(int courseId)
-        {
-            return _repo.CourseMembers(courseId);
-        }
-
-        //async Task<Course> IFacLogic.PollBbCourse()
-        //{
-        //    var faculty = await _repo.LoadFacultyProfile(FacultyPerson);
-
-        //    throw new HttpResponseException(HttpStatusCode.Unauthorized);
-
-        //    var catId = StaticAcademy.AcadLookup.Select(acad => acad.Key == faculty.Faculty.AcademyId)
-
-        //}
     }
 }

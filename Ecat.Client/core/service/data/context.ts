@@ -3,6 +3,7 @@ import IUserData from 'core/service/data/user'
 import IStaticData from "core/service/data/static"
 import IStudentData from "student/service/context"
 import IFaculty from "faculty/service/context"
+import IFacAdmin from "faculty/service/adminContext"
 import _common from "core/common/commonService"
 import * as _mp from "core/common/mapStrings"
 
@@ -18,7 +19,7 @@ export default class EcDataContext {
         this.fixUpResourceName(_mp.MpApiResource.user),
         this.fixUpResourceName(_mp.MpApiResource.sa),
         this.fixUpResourceName(_mp.MpApiResource.student),
-        this.fixUpResourceName(_mp.MpApiResource.courseAdmin),
+        this.fixUpResourceName(_mp.MpApiResource.facAdmin),
         this.fixUpResourceName(_mp.MpApiResource.designer),
         this.fixUpResourceName(_mp.MpApiResource.faculty)
     ];
@@ -27,7 +28,7 @@ export default class EcDataContext {
     student: IStudentData;
     user: IUserData;
     faculty: IFaculty;
-    courseAdmin: any;
+    lmsAdmin: IFacAdmin;
     designer: any;
 
     constructor($rs: angular.IRootScopeService, private c: _common, emfactory: IEmFactory) {

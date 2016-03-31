@@ -4,27 +4,78 @@
             <table class="table table-hover table-vmiddle">
                 <thead>
                     <tr>
-                        <th class="header">Name</th>
-                        <th class="header">Class Num</th>
-                        <th class="header">Start Date</th>
-                        <th class="header">Grad Date</th>
-                        <th class="header">Grad Report</th>
-                        <th class="header"></th>
+                        <th class="header col-md-2">Name</th>
+                        <th class="header col-md-2 text-center">Class Num</th>
+                        <th class="header col-md-1 text-center">Start Date</th>
+                        <th class="header col-md-2 text-center">Grad Date</th>
+                        <th class="header col-md-2 text-center">Grad Report Status</th>
+                        <th class="header col-md-3 text-center">Options</th>
                     </tr>
                 </thead>
-                <tr ng-repeat="course in crses.courses track by course.id" ng-mouseover="course.isVisible = true" ng-mouseleave="course.isVisible = false" style="height: 50px">
-                    <td>{{course.name}}</td>
-                    <td>{{course.classNumber}}</td>
-                    <td>{{course.startDate}}</td>
-                    <td>{{course.gradDate}}</td>
-                    <td><label ng-if="course.gradReportPublished">Published</label></td>
-                    <td style="width: 550px">
-                        <button ng-show="course.isVisible" type="button" class="btn btn-link btn-sm waves-effect btn-info f-14" ng-click="crses.editInfo(course)">Edit Info</button>
-                        <div ng-show="course.isVisible && (course.classNumber!==undefined || course.classNumber!==null) && (course.startDate!==undefined || course.startDate!==null)" style="float: right">
-                            <button type="button" class="btn btn-link btn-sm waves-effect btn-info f-14" ng-click="crses.view=2; crses.selectCourse(course); course.isVisible=false;">Enrollments</button>
-                            <button type="button" ui-sref="{{stateMgr.faculty.crseAdGrps.name}}" ng-click="crses.goToGroups(course); course.isVisible=false;" class="btn btn-link btn-sm waves-effect btn-info f-14">Groups<i class="zmdi zmdi-arrow-right zmdi-hc-fw"></i></button>
-                            <button type="button" ng-if="!course.gradReportPublished" ng-click="crses.publishGradRpt(course)" class="btn btn-link btn-sm waves-effect btn-info f-14">Publish Grad Report</button>
+                <tr ng-repeat="course in cac.courses track by course.id"
+                    ng-mouseover="course.menuVisible = true"
+                    ng-mouseleave="course.menuVisible = false"
+                    style="height: 50px">
+
+                    <td>
+                        <i class="zmdi zmdi-bookmark-outline zmdi-hc-fw"
+                           ng-if="course.reconResultId"></i>
+                        {{course.name}}
+                    </td>
+                    <td class="text-center">{{course.classNumber}}</td>
+                    <td class="text-center">{{cac.formatDate(course.startDate)}}</td>
+                    <td class="text-center">{{cac.formatDate(course.gradDate)}}</td>
+
+                    <td class="text-center">
+                        <span ng-if="course.gradReportPublished">Published</span>
+                        <span ng-if="!course.gradReportPublished">Not Published</span>
+                    </td>
+
+                    <td class="text-center">
+                        <div uib-dropdown ng-show="course.menuVisible">
+                            <button id="{{course.name}}Options"
+                                    class="btn btn-icon-text waves-effect"
+                                    uib-dropdown-toggle
+                                    ng-class="course.classNumber ? 'btn-primary' : 'btn-warning'">
+                                <i class="zmdi zmdi-menu"></i>
+                                Course Options
+                            </button>
+
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="{{course.name}}Options">
+                                
+                                <li role="menuitem">
+                                    <a href="javascript:void(0)"
+                                       ng-if="!course.gradReportPublished"
+                                       ng-click="cac.publishGrad()">
+                                        Publish Grad Report
+                                    </a>
+                                </li>
+
+                                <li role="menuitem">
+                                    <a href="javascript:void(0)"
+                                       ng-click="cac.editInfo(course)">
+                                        Edit Info
+                                    </a>
+                                </li>
+
+                                <li class="divider" ng-hide="!course.classNumber"></li>
+
+                                <li role="menuitem" ng-hide="!course.classNumber">
+                                    <a href="javascript:void(0)"
+                                       ng-disabled="!course.classNumber"
+                                       ng-click="cac.goToRoll(course)">
+                                        View/Edit Enrollments
+                                    </a>
+                                </li>
+
+                                <li role="menuitem" ng-hide="!course.classNumber">
+                                    <a href="javascript:void(0)"
+                                       ng-disabled="!course.classNumber"
+                                       ng-click="cac.goToWrkGrp(course)">View/Edit WorkGroups</a>
+                                </li>
+                            </ul>
                         </div>
+                       
                     </td>
                 </tr>
             </table>

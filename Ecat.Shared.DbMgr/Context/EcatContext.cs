@@ -41,15 +41,6 @@ namespace Ecat.Shared.DbMgr.Context
                 .Where(type => type.Name.StartsWith("Ec"))
                 .Configure(type => type.ToTable(type.ClrType.Name.Substring(2)));
 
-            mb.Ignore<Academy>();
-            mb.Ignore<AcademyCategory>();
-            mb.Ignore<SanitizedSpComment>();
-            mb.Ignore<SanitizedSpResponse>();
-           
-
-            mb.Properties<DateTime>()
-                .Configure(c => c.HasColumnType("datetime2"));
-
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(type => type.IsClass && type.Namespace == "Ecat.Shared.DbMgr.Config");
 
@@ -57,58 +48,77 @@ namespace Ecat.Shared.DbMgr.Context
             {
                 mb.Configurations.Add((dynamic)configurationInstance);
             }
+
+            mb.Properties<DateTime>()
+                .Configure(c => c.HasColumnType("datetime2"));
+
+            mb.Ignore<Academy>();
+            mb.Ignore<AcademyCategory>();
+            mb.Ignore<SanitizedSpComment>();
+            mb.Ignore<SanitizedSpResponse>();
+            mb.Ignore<CourseReconResult>();
+            mb.Ignore<MemReconResult>();
+            mb.Ignore<GroupMemReconResult>();
+            mb.Ignore<GroupReconResult>();
+            mb.Entity<FacultyInCourse>().Ignore(p => p.ReconResultId);
+            mb.Entity<StudentInCourse>().Ignore(p => p.ReconResultId);
+            mb.Entity<CrseStudentInGroup>().Ignore(p => p.ReconResultId);
+            mb.Entity<WorkGroup>().Ignore(p => p.ReconResultId);
+            mb.Entity<Course>().Ignore(p => p.ReconResultId);
+
+
         }
 
         #region ModelOwner: Cog
 
-        public IDbSet<CogResponse> CogResponses { get; set; }
-        public IDbSet<CogResult> CogResults { get; set; }
+        public DbSet<CogResponse> CogResponses { get; set; }
+        public DbSet<CogResult> CogResults { get; set; }
 
         #endregion
 
         #region ModelOwner: Common
 
-        public IDbSet<AcademyCategory> AcademyCategories { get; set; }
+        public DbSet<AcademyCategory> AcademyCategories { get; set; }
 
         #endregion
 
         #region ModelOwner: Deisgner
 
-        public IDbSet<AssessMap> AssessMaps { get; set; }
-        public IDbSet<SpAssessMap> SpAssessMaps { get; set; }
-        public IDbSet<CogInstrument> CogInstruments { get; set; }
-        public IDbSet<CogInventory> CogInventories { get; set; }
-        public IDbSet<KcInstrument> KcInstruments { get; set; }
-        public IDbSet<KcInventory> KcInventories { get; set; }
-        public IDbSet<SpInstrument> SpInstruments { get; set; }
-        public IDbSet<SpInventory> SpInventories { get; set; }
-
+        public DbSet<AssessMap> AssessMaps { get; set; }
+        public DbSet<SpAssessMap> SpAssessMaps { get; set; }
+        public DbSet<CogInstrument> CogInstruments { get; set; }
+        public DbSet<CogInventory> CogInventories { get; set; }
+        public DbSet<KcInstrument> KcInstruments { get; set; }
+        public DbSet<KcInventory> KcInventories { get; set; }
+        public DbSet<SpInstrument> SpInstruments { get; set; }
+        public DbSet<SpInventory> SpInventories { get; set; }
+        public DbSet<WorkGroupModel> WgModels { get; set; }
         #endregion
 
         #region ModelOwner: Faculty
 
-        public IDbSet<FacSpResponse> FacSpResponses { get; set; }
-        public IDbSet<FacSpComment> FacSpComments { get; set; }
-        public IDbSet<FacStratResponse> FacStratResponses { get; set; }
+        public DbSet<FacSpResponse> FacSpResponses { get; set; }
+        public DbSet<FacSpComment> FacSpComments { get; set; }
+        public DbSet<FacStratResponse> FacStratResponses { get; set; }
 
         #endregion
 
         #region ModelOwner: Headquarters
 
-        public IDbSet<ActionItem> ActionItems { get; set; }
-        public IDbSet<Decision> Decisions { get; set; }
-        public IDbSet<Discussion> Discussions { get; set; }
-        public IDbSet<Meeting> Meetings { get; set; }
+        public DbSet<ActionItem> ActionItems { get; set; }
+        public DbSet<Decision> Decisions { get; set; }
+        public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Meeting> Meetings { get; set; }
 
         #endregion
 
         #region ModelOwner: School
 
-        public IDbSet<StudentInCourse> StudentInCourses { get; set; }
-        public IDbSet<FacultyInCourse> FacultyInCourses { get; set; }
-        public IDbSet<Course> Courses { get; set; }
-        public IDbSet<CrseStudentInGroup> StudentInGroups { get; set; }
-        public IDbSet<WorkGroup> WorkGroups { get; set; }
+        public DbSet<StudentInCourse> StudentInCourses { get; set; }
+        public DbSet<FacultyInCourse> FacultyInCourses { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CrseStudentInGroup> StudentInGroups { get; set; }
+        public DbSet<WorkGroup> WorkGroups { get; set; }
 
         #endregion
 
@@ -126,11 +136,11 @@ namespace Ecat.Shared.DbMgr.Context
 
         #region ModelOwner: User
 
-        public IDbSet<Person> People { get; set; }
-        public IDbSet<ProfileStudent> Students { get; set; }
-        public IDbSet<ProfileExternal> Externals { get; set; }
-        public IDbSet<ProfileFaculty> Faculty { get; set; }
-        public IDbSet<Security> Securities { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<ProfileStudent> Students { get; set; }
+        public DbSet<ProfileExternal> Externals { get; set; }
+        public DbSet<ProfileFaculty> Faculty { get; set; }
+        public DbSet<Security> Securities { get; set; }
 
         #endregion
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.Interface;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.User;
@@ -18,6 +19,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public string EntityId => $"{FacultyPersonId}, {CourseId}";
         public int CourseId { get; set; }
         public int FacultyPersonId  { get; set; }
+        public string BbCourseMemId { get; set; }
         public Course Course { get; set; }
         public ProfileFaculty FacultyProfile { get; set; }
             
@@ -34,5 +36,9 @@ namespace Ecat.Shared.Core.ModelLibrary.School
 
         [JsonIgnore][TsIgnore]
         public DateTime? DeletedDate { get; set; }
+
+        public Guid? ReconResultId { get; set; }
+        public MemReconResult ReconResult { get; set; }
+
     }
 }

@@ -58,6 +58,8 @@ namespace Ecat.StudMod.Core
                 mb.Configurations.Add((dynamic)configurationInstance);
             }
 
+
+
             base.OnModelCreating(mb);
         }
 

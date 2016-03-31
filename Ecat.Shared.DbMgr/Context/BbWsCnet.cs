@@ -27,14 +27,15 @@ namespace Ecat.Shared.DbMgr.Context
         public BbWsCnet()
         {
             _defaultBinding = new BasicHttpsBinding { MaxReceivedMessageSize = 2147483647 };
-            _sessionKey = BbWsStatus.SessionActive ? BbWsStatus.SessionKey : "nosession";
+            _sessionKey =  "nosession";
         }
 
         private async Task Activate()
         {
-            if (BbWsStatus.SessionActive)
+            if (_sessionKey != "nosession")
             {
                 await Task.FromResult(0);
+                return;
             }
 
             var endpoint = new EndpointAddress($"{BaseUrl}/Context.WS");

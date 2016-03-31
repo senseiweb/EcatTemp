@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
+using Ecat.Shared.Core.Interface;
 using Ecat.Shared.Core.Logic;
 using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
@@ -28,7 +29,7 @@ namespace Ecat.FacMod.Core
         private readonly Type _tStudCommentFlag = typeof (StudSpCommentFlag);
         private readonly Type _tFacSpResp = typeof (FacSpResponse);
 
-        public FacultyGuardian(FacCtx facCtx, EFContextProvider<FacCtx> efCtx,Person loggedInUser)
+        public FacultyGuardian(EFContextProvider<FacCtx> efCtx,Person loggedInUser)
         {
             //_facCtx = facCtx;
             _efCtx = efCtx;
@@ -49,6 +50,14 @@ namespace Ecat.FacMod.Core
 
             saveMap.RemoveMaps(unAuthorizedMaps);
 
+            var courseMonitorEntities = saveMap.MonitorCourseMaps()?.ToList();
+
+            if (courseMonitorEntities != null) ProcessCourseMonitoredMaps(courseMonitorEntities);
+
+            var workGroupMonitorEntities = saveMap.MonitorWgMaps()?.ToList();
+
+            if (workGroupMonitorEntities != null) ProcessWorkGroupMonitoredMaps(workGroupMonitorEntities);
+
             if (saveMap.ContainsKey(_tWg))
             {
                 var workGroupMap = ProcessWorkGroup(saveMap[_tWg]);
@@ -58,6 +67,47 @@ namespace Ecat.FacMod.Core
             saveMap.AuditMap(_loggedInUser.PersonId);
             saveMap.SoftDeleteMap(_loggedInUser.PersonId);
             return saveMap;
+        }
+
+        private void ProcessCourseMonitoredMaps(List<EntityInfo> infos)
+        {
+            var courseMonitorEntities = infos.Select(info => info.Entity).OfType<ICourseMonitored>();
+            var courseIds = courseMonitorEntities.Select(cme => cme.CourseId);
+
+            var pubCrseId = _efCtx.Context.Courses
+                .Where(crse => courseIds.Contains(crse.Id) && crse.GradReportPublished)
+                .Select(crse => crse.Id);
+
+            if (!pubCrseId.Any()) return;
+
+            var errors = from info in infos
+                         let crseEntity = (ICourseMonitored)info.Entity
+                         where pubCrseId.Contains(crseEntity.CourseId)
+                         select new EFEntityError(info, "Course Error Validation",
+                                     "There was a problem saving the requested items", "Course");
+
+            throw new EntityErrorsException(errors);
+        }
+
+        private void ProcessWorkGroupMonitoredMaps(List<EntityInfo> infos)
+        {
+            var wgMonitorEntities = infos.Select(info => info.Entity).OfType<IWorkGroupMonitored>();
+            var wgIds = wgMonitorEntities.Select(wgme => wgme.WorkGroupId);
+
+            var pubWgIds = _efCtx.Context.WorkGroups
+                .Where(wg => wgIds.Contains(wg.Id) && wg.MpSpStatus == MpSpStatus.Published)
+                .Select(wg => wg.Id);
+
+            if (!pubWgIds.Any()) return;
+
+            var errors = from info in infos
+                let wgEntity = (IWorkGroupMonitored) info.Entity
+                where pubWgIds.Contains(wgEntity.WorkGroupId)
+                select new EFEntityError(info, "WorkGroup Error Validation",
+                            "There was a problem saving the requested items", "WorkGroup");
+
+              
+            throw new EntityErrorsException(errors);
         }
 
         private SaveMap ProcessWorkGroup(List<EntityInfo> workGroupInfos)
@@ -81,5 +131,6 @@ namespace Ecat.FacMod.Core
 
             return wgSaveMap;
         }
+
     }
 }

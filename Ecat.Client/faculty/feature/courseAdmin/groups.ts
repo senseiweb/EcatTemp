@@ -1,74 +1,66 @@
 ﻿import IDataCtx from 'core/service/data/context'
 import ICommon from 'core/common/commonService'
+import _swal from "sweetalert"
 import * as _mp from 'core/common/mapStrings'
-
-interface IGrpFilter {
-    filterWith?: Array<string>;
-    optionList?: Array<{ key: string, count: number }>;
-}
-
-interface IGrpCatFilter {
-    cat: IGrpFilter;
-    status: IGrpFilter;
-    name: IGrpFilter;
-}
 
 export default class EcCrseAdGrpList {
     static controllerId = 'app.faculty.crseAd.groups';
     static $inject = ['$uibModal', IDataCtx.serviceId, ICommon.serviceId];
 
-    private activeCourse: ecat.entity.ICourse;
-    private activeGroup: ecat.entity.IWorkGroup;
-    private courses: Array<ecat.entity.ICourse> = [];
+    private activeView: CrseAdGrpsViews;
+    private activeCourseId = 0;
+    protected activeGroup: ecat.entity.IWorkGroup;
     private filters: IGrpCatFilter = {
         cat: { optionList: [], filterWith: [] },
         status: { optionList: [], filterWith: [] },
         name: { optionList: [], filterWith: [] }
     }
+    protected grpCat = {
+        bc1: _mp.MpGroupCategory.bc1,
+        bc2: _mp.MpGroupCategory.bc2,
+        bc3: _mp.MpGroupCategory.bc3,
+        bc4: _mp.MpGroupCategory.bc4
+    }
+    protected groupMembers: Array<ecat.entity.IPerson>;
     protected sortOpt = {
         status: 'mpSpStatus',
         group: 'mpCategory'
     }
     protected activeSort: { opt: string, desc: boolean } = { opt: 'mpCategory', desc: false };
-    protected view = CrseAdGrpsViews.Loading;
+    protected view = {
+        loading: CrseAdGrpsViews.Loading,
+        list: CrseAdGrpsViews.List,
+        enroll: CrseAdGrpsViews.Enrollments
+    }
+    protected workGroups: Array<ecat.entity.IWorkGroup>;
 
     constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon) {
+        this.activeCourseId = this.c.$stateParams.crseId;
         this.activate();
     }
 
     private activate(force?: boolean): void {
-        const _ = this;
-        this.dCtx.faculty.getCrseEnrolls()
-            .then((retData: ecat.entity.ICourse) => {
-                initResponse(retData);
-                this.view = CrseAdGrpsViews.List;
-            })
-            .catch(initError);
+        const that = this;
 
-        function initResponse(course: ecat.entity.ICourse) {
-            _.activeCourse = course;
-            if (_.activeCourse.workGroups) {
-                _._unwrapGrpFilterables(_.activeCourse.workGroups);
-            }
-            //_.activeCourse = _.activeCourse;
-            _.activeCourse.workGroups.forEach(grp => {
-                if (grp.modifiedById !== null || grp.modifiedById !== undefined) {
-                    var findFac = _.activeCourse.faculty.filter(fac => {
-                        if (fac.facultyPersonId === grp.modifiedById) { return true; }
-                        return false;
-                    });
+        this.dCtx.lmsAdmin.fetchAllGroups(this.activeCourseId, force)
+            .then(initResponse)
+            .catch((reason) => console.log(reason));
 
-                    if (findFac.length > 0) {
-                        grp['lastModName'] = findFac[0].facultyProfile.person.lastName + ', ' + findFac[0].facultyProfile.person.firstName;
-                    }
-                }
-            });
+        function initResponse(workGroups: Array<ecat.entity.IWorkGroup>) {
+                that.unwrapGrpFilterables(workGroups);
+            that.workGroups = workGroups;
+            that.activeView = that.view.list;
         }
        
         //TODO: Need to take of error
         function initError(reason: string) {
 
         }
+    }
+
+    protected backToGroups(): void {
+        this.activeGroup = null;
+        this.activeView = this.view.list;
     }
 
     private filteredGrpCat = (item: ecat.entity.IWorkGroup) => {
@@ -86,6 +78,107 @@ export default class EcCrseAdGrpList {
         return this.filters.status.filterWith.length === 0 || this.filters.status.filterWith.some(e => item.mpSpStatus === e);
     }
 
+    protected getFacultyById(id: number): string {
+        const faculty = this.dCtx.lmsAdmin.getFacultyById(id);
+        if (!faculty) return 'Unknown';
+        return `${faculty.lastName}, ${faculty.firstName}`;
+    }
+
+    protected goToGroup(workGroup: ecat.entity.IWorkGroup) {
+        const that = this;
+        this.dCtx.lmsAdmin.fetchAllGroupMembers(workGroup.id)
+            .then(goToGroupReponse)
+            .catch(goToGroupError);
+
+        function goToGroupReponse(wgWithMembers: ecat.entity.IWorkGroup) {
+            that.activeGroup = workGroup;
+            that.groupMembers = wgWithMembers.groupMembers.map(gm => gm.studentProfile.person);
+            that.activeView = that.view.enroll;
+        }
+
+        function goToGroupError(wgWithMembers: ecat.entity.IWorkGroup) {
+
+        }
+    }
+
+    protected pollActiveGroupMembers(): void {
+        const that = this;
+
+        this.dCtx.lmsAdmin.pollActiveGroupMembers(this.activeGroup.id)
+            .then(pollActiveGmResponse)
+            .catch(pollActiveGmError);
+
+        function pollActiveGmResponse(reconResult: ecat.entity.IGrpMemRecon): void {
+        }
+
+        //TODO: Need to add error handler
+        function pollActiveGmError(): void {
+
+        }
+    }
+
+    protected pollGroupCategory(category: string): void {
+        const that = this;
+
+        this.dCtx.lmsAdmin.pollGroupCatMembers(this.activeCourseId, category)
+            .then(pollActiveGmResponse)
+            .catch(pollActiveGmError);
+
+        function pollActiveGmResponse(reconResult: Array<ecat.entity.IGrpMemRecon>): void {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Polling Complete!',
+                text: 'Here are the results <br/><br/><hr/>',
+                type: _mp.MpSweetAlertType.success,
+                html: true
+            }
+
+            if (!reconResult || reconResult.length !== 0) {
+                reconResult.forEach(rr => {
+                    alertSettings.text += `${rr.workGroupName}  Added: ${rr.numAdded} Removed: ${rr.numRemoved}<br/>`;
+                });
+
+            } else {
+                alertSettings.text = 'No Changes Detected';
+            }
+
+            _swal(alertSettings);
+            if (that.activeGroup.id) that.groupMembers = that.dCtx.lmsAdmin.getGroupMembers(that.activeGroup.id);
+        }
+
+        //TODO: Need to add error handler
+        function pollActiveGmError(): void {
+
+        }
+    }
+
+    protected pollLmsGroups(): void {
+        const that = this;
+
+        this.dCtx.lmsAdmin.pollGroups(this.activeCourseId)
+            .then(pollLmsGroupResponse)
+            .catch(pollLmsGroupError);
+
+        function pollLmsGroupResponse(reconResult: ecat.entity.IGrpRecon): void {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Polling Complete!',
+                text: `Here are the results <br/><br/><hr/>
+                       WorkGroups Created: ${reconResult.numAdded} <br/> Accounts Added ${reconResult.numRemoved}`,
+                type: _mp.MpSweetAlertType.success,
+                html: true
+            }
+
+            if (reconResult.numAdded === 0 && reconResult.numRemoved === 0) {
+                alertSettings.text = 'No Changes Detected';
+            }
+            _swal(alertSettings);
+            that.workGroups = that.dCtx.lmsAdmin.getAllWorkGroups(that.activeCourseId);
+        }
+        //TODO: need to write error handler
+        function pollLmsGroupError(reason: ecat.IQueryError): void {
+            
+        }
+    }
+
     protected sortList(sortOpt: string): void {
         if (this.activeSort.opt === sortOpt) {
             this.activeSort.desc = !this.activeSort.desc;
@@ -96,7 +189,7 @@ export default class EcCrseAdGrpList {
         this.activeSort.desc = true;
     }
 
-    private _unwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
+    private unwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
         const grpCat = {};
         const grpName = {};
         const grpStatus = {};
@@ -146,101 +239,14 @@ const enum CrseAdGrpsViews {
     Enrollments
 }
 
-//import ICommon from 'core/service/common'
-//import IDataCtx from 'core/service/data/context';
 
-//interface ILastMod {
-//    [groupId: number]: string
-//}
+interface IGrpFilter {
+    filterWith?: Array<string>;
+    optionList?: Array<{ key: string, count: number }>;
+}
 
-//export default class EcCourseAdminGroups {
-//    static controllerId = 'app.courseAdmin.features.groups';
-//    static $inject = [ICommon.serviceId, IDataCtx.serviceId];
-
-//    academy: ecat.entity.IAcademy;
-//    courses: ecat.entity.ICourse[] = [];
-//    selectedCourse: ecat.entity.ICourse;
-//    groups: ecat.entity.IWorkGroup[] = [];
-//    selectedGroup: ecat.entity.IWorkGroup;
-//    groupTypes: string[] = [];
-//    lastModifiedBy: ILastMod = {};
-
-//    constructor(private uiModal: angular.ui.bootstrap.IModalService, private c: ICommon, private dCtx: IDataCtx) {
-//        this.activate(false);
-//    }
-
-//    activate(force: boolean): void {
-//        if (this.dCtx.courseAdmin.selectedCourse === null) {
-//            this.academy = this.dCtx.courseAdmin.academy;
-//            this.dCtx.courseAdmin.initializeCourses(force)
-//                .then((retData: ecat.entity.ICourse[]) => {
-//                    retData = retData.sort(sortCourses);
-//                    this.courses = retData;
-//                    this.selectedCourse = this.courses[0];
-//                    this.getGroupInfo();
-//                });
-//        } else {
-//            this.selectedCourse = this.dCtx.courseAdmin.selectedCourse;
-//            this.getGroupInfo();
-//        }
-
-//        function sortCourses(first: ecat.entity.ICourse, second: ecat.entity.ICourse) {
-//            if (first.startDate < second.startDate) { return 1 }
-//            if (first.startDate > second.startDate) { return -1 }
-//            if (first.startDate === second.startDate) { return 0 }
-//        }
-//    }
-
-//    changeCourse(selectedCourse: ecat.entity.ICourse): void {
-//        this.selectedCourse = selectedCourse;
-//        this.dCtx.courseAdmin.selectedCourse = this.selectedCourse;
-//    }
-
-//    pollLMS(view: number): void {
-//        switch (view) {
-//            case 0:
-//                this.dCtx.courseAdmin.pollGroups()
-//                    .then((retData: ecat.entity.IWorkGroup[]) => {
-//                        this.groups = retData;
-//                        this.getGroupInfo();
-//                    });
-//                break;
-//            case 1:
-//                this.dCtx.courseAdmin.pollGroupMembers()
-//                    .then((retData: ecat.entity.IWorkGroup) => {
-//                        this.selectedGroup = retData;
-//                        this.getGroupInfo();
-//                    });
-//        }
-//    }
-
-//    getGroupInfo(): void {
-//        this.selectedCourse.groups.forEach(grp => {
-//            var found = this.groupTypes.some(gt => {
-//                if (gt === grp.mpCategory) { return true; }
-//            });
-//            if (!found) { this.groupTypes.push(grp.mpCategory); }
-
-//            if (grp.modifiedById !== null || grp.modifiedById !== undefined) {
-//                var findFac = this.selectedCourse.courseMembers.filter(cm => {
-//                    if (cm.id === grp.modifiedById) { return true; }
-//                    return false;
-//                });
-//                if (findFac.length > 0) {
-//                    this.lastModifiedBy[grp.id] = findFac[0].person.lastName + ', ' + findFac[0].person.firstName;
-//                }
-//            }
-//        });
-//    }
-
-//    refreshData(view: number): void {
-//        switch (view) {
-//            case 0:
-//                this.dCtx.courseAdmin.selectedCourse = null;
-//                this.activate(true);
-//                break;
-//            case 1:
-
-//        }
-//    }
-//}
+interface IGrpCatFilter {
+    cat: IGrpFilter;
+    status: IGrpFilter;
+    name: IGrpFilter;
+}

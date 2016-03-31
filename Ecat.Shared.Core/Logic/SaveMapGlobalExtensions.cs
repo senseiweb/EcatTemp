@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
@@ -99,9 +100,28 @@ namespace Ecat.Shared.Core.Logic
             return saveMap;
         }
 
-        //public static bool HasMap<T>(this SaveMap saveMap, T key)
-        //{
-        //    return saveMap.ContainsKey(typeof(key));
-        //} 
+        public static IEnumerable<EntityInfo> MonitorCourseMaps(this SaveMap saveMap)
+        {
+            //Is there anything to monitored?
+            var anyCourseMonitors = saveMap.Keys.Where(key => typeof (ICourseMonitored).IsAssignableFrom(key)).ToList();
+
+            if (!anyCourseMonitors.Any()) return null;
+
+            return saveMap.Where(map => anyCourseMonitors.Contains(map.Key))
+                .SelectMany(info => info.Value);
+        }
+
+
+        public static IEnumerable<EntityInfo> MonitorWgMaps(this SaveMap saveMap)
+        {
+            //Is there anything to monitored?
+            var anyWorkGroupMonitors = saveMap.Keys.Where(key => typeof(IWorkGroupMonitored).IsAssignableFrom(key)).ToList();
+
+            if (!anyWorkGroupMonitors.Any()) return null;
+
+            return
+                saveMap.Where(map => anyWorkGroupMonitors.Contains(map.Key))
+                    .SelectMany(info => info.Value);
+        }
     }
 }

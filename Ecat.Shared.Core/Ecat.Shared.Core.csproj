@@ -76,6 +76,7 @@
     <Compile Include="Interface\ICompositeEntity.cs" />
     <Compile Include="Interface\IInstrument.cs" />
     <Compile Include="Interface\IInventory.cs" />
+    <Compile Include="Interface\IMonitored.cs" />
     <Compile Include="Interface\ISharedGuardian.cs" />
     <Compile Include="Interface\ISoftDelete.cs" />
     <Compile Include="Interface\ITests.cs" />
@@ -86,10 +87,11 @@
     <Compile Include="ModelLibrary\Common\AcademyCategory.cs" />
     <Compile Include="ModelLibrary\Common\FacResultForStudent.cs" />
     <Compile Include="ModelLibrary\Common\PublishingWorkGroup.cs" />
+    <Compile Include="ModelLibrary\Common\ReconcileResult.cs" />
+    <Compile Include="ModelLibrary\Common\Reconciliation.cs" />
     <Compile Include="ModelLibrary\Common\SpCommentBase.cs" />
     <Compile Include="ModelLibrary\Common\CommentCount.cs" />
     <Compile Include="ModelLibrary\Common\LoginToken.cs" />
-    <Compile Include="ModelLibrary\Common\UserReconcile.cs" />
     <Compile Include="ModelLibrary\Common\WgCanPublish.cs" />
     <Compile Include="ModelLibrary\Designer\AssessMap.cs" />
     <Compile Include="ModelLibrary\Designer\CogInstrument.cs" />

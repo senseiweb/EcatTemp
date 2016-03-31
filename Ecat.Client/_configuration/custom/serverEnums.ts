@@ -1,12 +1,4 @@
 module Ecat.Shared.Core.Utility {
-	export const enum EdLevel {
-		None = 0,
-		Chief = 2,
-		Senior = 4,
-		Ncoa = 8,
-		Airman = 16,
-		Instructor = 32
-	}
 	export const enum AcademyBase {
 		None = 0,
 		Gunter = 1,

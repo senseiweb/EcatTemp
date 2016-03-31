@@ -39,7 +39,7 @@ export default class EcFacultyWgResult {
         this.dCtx.faculty.activeCourseId = this.routingParams.crseId;
         this.dCtx.faculty.activeGroupId = this.routingParams.wgId;
      
-        this.dCtx.faculty.fetchActiveWgSpResults()
+        this.dCtx.faculty.fetchGrpMemsWithSpResults()
             .then(activateResponse);
 
         function activateResponse(groupMembers: Array<ecat.entity.ICrseStudInGroup>) {

@@ -50,7 +50,7 @@ export default class EcAppMain {
             return false;
         }
 
-        if (!state.data || !angular.isArray(state.data.authorized)) {
+        if (state !=='courseAdmin' && (!state.data || !angular.isArray(state.data.authorized))) {
             return true;
         }
 

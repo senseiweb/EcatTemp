@@ -351,7 +351,7 @@ export default class EcFacultyWgPublish {
         this.activeWorkGroup = wg;
         const uniques = {} as any;
 
-        this.dCtx.faculty.fetchActiveWgComments()
+        this.dCtx.faculty.fetchActiveWgSpComments()
             .then(procssWgComments)
             .catch(processWgCommentsError);
 

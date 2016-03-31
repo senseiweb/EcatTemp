@@ -85,15 +85,6 @@
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.faculty.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.fac.main, true)">
-            <a href="" toggle-submenu><i class="zmdi zmdi zmdi-view-list"></i> Course Admin</a>
-            <ul>
-
-                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.crseAdCrses.name}}" ng-click="main.sidebarStat($event)">Courses</a></li>
-                <li><a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.crseAdGrps.name}}" ng-click="main.sidebarStat($event)">Groups</a></li>
-
-            </ul>
-        </li>
         <li class="sub-menu" ng-class="{ 'active toggled': $state.includes({{stateMgr.faculty.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.faculty.main)">
             <a href="" toggle-submenu>
                 <i class="zmdi zmdi-assignment-check"></i>
@@ -103,7 +94,7 @@
                 <li>
                     <a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.wgList.name}}" ng-click="main.sidebarStat($event)">Groups</a>
                 </li>
-                <li ng-hide="true">
+                <li ng-if="main.authorizeMenu(stateMgr.faculty.main, true)">
                     <a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.crseAdCrses.name}}" ng-click="main.sidebarStat($event)">Course Admin</a>
                 </li>
             </ul>

@@ -27,6 +27,7 @@ namespace Ecat.UserMod.Core
             mb.Ignore<MeetingAttendee>();
             mb.Ignore(new List<Type>
             {
+                typeof(MemReconResult),
                 typeof(FacultyInCourse),
                 typeof(MeetingAttendee),
                 typeof(StudentInCourse),

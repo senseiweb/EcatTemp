@@ -56,7 +56,7 @@
     }
 
 
-    public static class MpTransform
+    public static class MpRoleTransform
     {
         public static RoleMap InstituteRoleToEnum(string instituteRole)
         {
@@ -100,6 +100,21 @@
                 case MpInstituteRoleName.RefOnly:
                     return MpInstituteRoleName.RefOnly;
 
+                default:
+                    return MpInstituteRoleId.Undefined;
+            }
+        }
+
+        public static string BbWsRoleToEcat(string roleId)
+        {
+            switch (roleId)
+            {
+                case "BCEE_Course_Admin":
+                case "BCEE_Flt_Instructor":
+                case "P":
+                    return MpInstituteRoleId.Faculty;
+                case "S":
+                    return MpInstituteRoleId.Student;
                 default:
                     return MpInstituteRoleId.Undefined;
             }

@@ -7,6 +7,7 @@ using TypeLite;
 namespace Ecat.Shared.Core.ModelLibrary.Faculty
 {
     [TsClass(Module = "ecat.entity.s.faculty")]
+
     public class FacSpComment : IAuditable
     {
         public string EntityId => $"{RecipientPersonId}|{CourseId}|{WorkGroupId}";

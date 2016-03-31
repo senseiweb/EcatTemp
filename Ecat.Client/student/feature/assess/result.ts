@@ -58,7 +58,7 @@ export default class EcStudAssessResult {
     private activate(): void {
         const that = this;
 
-        this.dCtx.student.getActiveWorkGroup()
+        this.dCtx.student.fetchActiveWorkGroup()
             .then(activationResponse)
             .catch(activationError);
 
@@ -101,7 +101,7 @@ export default class EcStudAssessResult {
         const that = this;
         that.log.success('Results for the workgroup have been published. Standby while I get them', this.me, true);
 
-        return this.dCtx.student.getWgSpResult()
+        return this.dCtx.student.fetchWgSpResult()
             .then(getResultsResponse)
             .catch(getResultsError);
 

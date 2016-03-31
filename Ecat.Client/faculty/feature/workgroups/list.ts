@@ -57,7 +57,7 @@ export default class EcFacultyWgList {
     }
     
     private activate(force?: boolean): void {
-        const _ = this;
+        const that = this;
 
         const swalSettings: SweetAlert.Settings = {
             title: 'Oh no!, there was a problem initiazing the course. Please refresh and try this again later.',
@@ -66,7 +66,7 @@ export default class EcFacultyWgList {
             confirmButtonText: 'Ok'
         };
 
-        this.dCtx.faculty.initializeCourses()
+        this.dCtx.faculty.initFacCourses()
             .then(initResponse)
             .catch(initError);
 
@@ -82,15 +82,15 @@ export default class EcFacultyWgList {
                return 0;
            });
 
-           _.courses = courses;
-
-           console.log(_.courses);
+           that.courses = courses;
 
            const activeCourse = courses[0];
            if (activeCourse.workGroups) {
-               _._unwrapGrpFilterables(activeCourse.workGroups);
+               that.thatunwrapGrpFilterables(activeCourse.workGroups);
            }
-           _.activeCourse = activeCourse;
+
+           that.dCtx.faculty.activeCourseId = activeCourse.id;
+           that.activeCourse = activeCourse;
        }
        
         function initError(reason: string) {
@@ -99,7 +99,7 @@ export default class EcFacultyWgList {
     }
     
     private changeActiveCourse(course: ecat.entity.ICourse): void {
-        const _ = this;
+        const that = this;
         const swalSettings: SweetAlert.Settings = {
             title: 'Oh no!, there was a problem changing the course. Please refresh and try this again later.',
             type: 'warning',
@@ -116,12 +116,12 @@ export default class EcFacultyWgList {
        
         function getActiveCourseReponse(crse: ecat.entity.ICourse) {
 
-            if (typeof crse.workGroups === 'undefined' || crse.workGroups === null || crse.workGroups.length === null || crse.workGroups.length === 0 ) {
-                _.loggers.warn('There are no WorkGroups for the Course you selected', '', true);
+            if (crse.workGroups && crse.workGroups.length === 0) {
+                that.loggers.warn('There are no WorkGroups for the Course you selected', null, true);
                 return;
             }
 
-            _.activeCourse = crse;
+            that.activeCourse = crse;
        }
        
        function getActiveCourseError(response: ecat.IQueryError) {
@@ -215,7 +215,7 @@ export default class EcFacultyWgList {
         $scope.wgMembers = members;
     }
     
-    private _unwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
+    private thatunwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
         const grpCat = {};
         const grpName = {};
         const grpStatus = {};

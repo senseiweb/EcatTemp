@@ -1,8 +1,8 @@
 ﻿<div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <h4 class="lead" ng-if="crses.view==2">{{crses.selectedCourse.classNumber}} {{crses.selectedCourse.name}} Students</h4>
-            <h4 class="lead" ng-if="crses.view==3">{{crses.selectedCourse.classNumber}} {{crses.selectedCourse.name}} Instructors</h4>
+            <h4 class="lead" ng-if="cac.activeView==cac.view.students">{{cac.selectedCourse.classNumber}} {{cac.selectedCourse.name}} Students</h4>
+            <h4 class="lead" ng-if="cac.activeView==cac.view.instructors">{{cac.selectedCourse.classNumber}} {{cac.selectedCourse.name}} Instructors</h4>
         </div>
     </div>
 </div>
@@ -12,11 +12,13 @@
             <table class="table table-hover table-vmiddle">
                 <thead>
                     <tr>
-                        <th class="header">Name</th>
-                        <th class="header">Rank</th>
-                        <th class="header">Affiliation</th>
-                        <th class="header">Component</th>
-                        <th class="header" ng-if="crses.view==2">Group Enrollments</th>
+                        <th class="header text-center col-md-2">Name</th>
+                        <th class="header text-center col-md-1">Rank</th>
+                        <th class="header text-center col-md-1">Affiliation</th>
+                        <th class="header text-center col-md-2">Component</th>
+                        <th class="header text-center col-md-2">Course Role</th>
+                        <th class="header text-center col-md-2">Status</th>
+                        <th class="header text-center col-md-2">Options</th>
                     </tr>
                     <tr table-filters>
                         <th class="filter">
@@ -24,19 +26,21 @@
                         </th>
                     </tr>
                 </thead>
-                <tr ng-repeat="student in crses.students | orderBy:['student.person.lastName','student.person.firstName'] track by student.studentPersonId" ng-if="crses.view==2" style="height: 50px">
-                    <td>{{student.student.person.lastName}}, {{student.student.person.firstName}}</td>
-                    <td>{{student.student.person.rank}}</td>
-                    <td>{{student.student.person.affiliation}}</td>
-                    <td>{{student.student.person.component}}</td>
-                    <td><label ng-repeat="groupMem in student.workGroupEnrollments">{{groupMem.workGroup.mpCategory}}</label></td>
+                <tr ng-repeat="member in cac.members | orderBy:['member.lastName','member.firstName'] track by member.personId"
+                    ng-if="cac.activeView==cac.view.enroll" 
+                    style="height: 50px">
+                    <td>{{member.lastName}}, {{member.firstName}}</td>
+                    <td class="text-center">{{member.mpPaygrade}}</td>
+                    <td class="text-center">{{member.mpAffiliation}}</td>
+                    <td class="text-center">{{member.mpComponent}}</td>
+                    <td class="text-center">{{member.role}}</td>
+                    <td class="text-center">{{member.status}}</td>
+                    <td>
+                        <a href="javascript:void(0)">
+                            View Info Card
+                        </a>
+                    </td>
                 </tr>
-                <!--<tr ng-repeat="facilitator in crses.facilitators | filter:{facultyProfile.person.lastName: filterName} | orderBy:['facultyProfile.person.lastName','facultyProfile.person.firstName'] track by facilitator.facultyProfile.person.id" ng-if="crses.view==3" style="height: 50px">
-                    <td>{{facilitator.facultyProfile.person.lastName}}, {{facilitator.facultyProfile.person.firstName}}</td>
-                    <td>{{facilitator.facultyProfile.person.rank}}</td>
-                    <td>{{facilitator.facultyProfile.person.affiliation}}</td>
-                    <td>{{facilitator.facultyProfile.person.component}}</td>
-                </tr>-->
             </table>
         </div>
     </div>

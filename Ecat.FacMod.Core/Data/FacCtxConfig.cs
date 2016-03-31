@@ -25,24 +25,6 @@ namespace Ecat.FacMod.Core
         }
     }
 
-    internal class FacConfigStudWrkGrp : EntityTypeConfiguration<WorkGroup>
-    {
-        public FacConfigStudWrkGrp()
-        {
-            Ignore(p => p.BbGroupId);
-            Ignore(p => p.CanPublish);
-        }
-    }
-
-    internal class FacConfigStudCrse : EntityTypeConfiguration<Course>
-    {
-        public FacConfigStudCrse()
-        {
-            Ignore(p => p.BbCourseId);
-        }
-    }
-
-
     internal class FacConfigProfileBase : EntityTypeConfiguration<ProfileBase>
     {
         public FacConfigProfileBase()
@@ -62,7 +44,7 @@ namespace Ecat.FacMod.Core
 
             HasKey(p => p.PersonId)
                 .HasRequired(p => p.Person)
-                .WithOptional(p => p.Student); ;
+                .WithOptional(p => p.Student); 
         }
     }
 
@@ -90,6 +72,23 @@ namespace Ecat.FacMod.Core
             HasOptional(p => p.Faculty)
                 .WithRequired()
                 .WillCascadeOnDelete(false);
+        }
+    }
+
+    internal class FacConfigStudWrkGrp : EntityTypeConfiguration<WorkGroup>
+    {
+        public FacConfigStudWrkGrp()
+        {
+            Ignore(p => p.BbGroupId);
+            Ignore(p => p.CanPublish);
+        }
+    }
+
+    internal class FacConfigStudCrse : EntityTypeConfiguration<Course>
+    {
+        public FacConfigStudCrse()
+        {
+            Ignore(p => p.BbCourseId);
         }
     }
 }

@@ -191,11 +191,12 @@ declare module ecat.entity
     interface IStudInCrse extends breeze.Entity, s.school.StudentInCourse, ext.ICompositeKey {
         course: ICourse;
         workGroupEnrollments: ICrseStudInGroup[];
+        student: IStudentProfile;
     }
 
     interface IFacInCrse extends breeze.Entity, s.school.FacultyInCourse, ext.ICompositeKey {
         course: ICourse;
-        faculty: IFaculty;
+        facultyProfile: IFaculty;
     }
 
     interface IWorkGroup extends breeze.Entity, s.school.WorkGroup {
@@ -209,6 +210,8 @@ declare module ecat.entity
 
     interface ICourse extends breeze.Entity, s.school.Course {
         workGroups: IWorkGroup[];
+        students: IStudInCrse[];
+        faculty: IFacInCrse[];
     }
 
     interface ICrseStudInGroup extends breeze.Entity, s.school.CrseStudentInGroup, ext.ICompositeKey, ext.ICrseStudInGrpExt, ext.IFacCrseStudInGrpExt {
@@ -292,6 +295,30 @@ declare module ecat.entity
    //#region Model Owner Designer
     interface ISpInstrument extends breeze.Entity, s.designer.SpInstrument {
         inventoryCollection: ISpInventory[];
+    }
+
+    interface ISpInventory extends breeze.Entity, s.designer.SpInventory, ext.ISpInventoryExtBase { }
+
+    interface IFacSpInventory extends ISpInventory, ext.IFacSpInventoryExt { }
+
+    interface IStudSpInventory extends ISpInventory, ext.IStudSpInventoryExt { }
+    //#endregion
+
+    //#region Model Owner LmsAdmin
+    interface ICourseRecon extends breeze.Entity, s.lmsAdmin.CourseReconResult {
+    courses: ICourse[];
+    }
+
+    interface IMemRecon extends breeze.Entity, s.lmsAdmin.MemReconResult {
+        courseMembers: IPerson[];
+    }
+
+    interface IGrpMemRecon extends breeze.Entity, s.lmsAdmin.GroupMemReconResult {
+        groupMembers: ICrseStudInGroup[];
+    }
+
+    interface IGrpRecon extends breeze.Entity, s.lmsAdmin.GroupReconResult {
+        groups: IWorkGroup[];
     }
 
     interface ISpInventory extends breeze.Entity, s.designer.SpInventory, ext.ISpInventoryExtBase { }

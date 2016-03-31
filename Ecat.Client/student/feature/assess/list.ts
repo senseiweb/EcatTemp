@@ -64,7 +64,7 @@ export default class EcStudAssessList {
 
         //This unwraps the promise and retrieves the objects inside and stores it into a local variable
         //TODO: Whatif there are no courses??
-        this.dCtx.student.getActiveWorkGroup()
+        this.dCtx.student.fetchActiveWorkGroup()
             .then(activationResponse)
             .catch(activationError);
 

@@ -81,7 +81,7 @@ export default class EcStudAssess {
     private setActiveCourse(course: ecat.entity.ICourse): void {
         const that = this;
         this.activeCourseId = this.dCtx.student.activeCourseId = course.id;
-        this.dCtx.student.getActiveCourse()
+        this.dCtx.student.fetchActiveCourse()
             .then(setActiveCourseResponse)
             .catch(() => {});
 

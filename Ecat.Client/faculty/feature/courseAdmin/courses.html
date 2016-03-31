@@ -1,23 +1,64 @@
 ﻿<div class="container animated fadeInRight">
+
     <div class="card" id="crses-main">
+
         <div class="listview lv-bordered lv-lg">
+
             <div class="lv-header-alt clearfix p-b-5">
-                <a href="javascript:void(0)" type="button" class="btn btn-link pull-left" ng-if="crses.view==2 || crses.view==3" ng-click="crses.view=1"><i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>Back to Courses</a>
+                
+                <a href="javascript:void(0)"
+                   type="button"
+                   class="btn btn-link pull-left"
+                   ng-if="cac.activeView==cac.view.enroll"
+                   ng-click="cac.activeView = cac.view.list">
+                    <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>
+                    Back to Courses
+                </a>
+
                 <div class="btn-group" style="margin-left: 117px">
-                    <button type="button" class="btn" ng-class="crses.view==2 ? 'btn-primary' : 'btn-default'" ng-if="crses.view==2 || crses.view==3" ng-click="crses.view=2">Students</button>
-                    <button type="button" class="btn" ng-class="crses.view==3 ? 'btn-primary' : 'btn-default'" ng-if="crses.view==2 || crses.view==3" ng-click="crses.view=3">Instructors</button>
+
+                    <button type="button"
+                            class="btn"
+                            ng-class="cac.activeView==cac.view.students ? 'btn-primary' : 'btn-default'"
+                            ng-if="cac.activeView==cac.view.instructors || cac.view==cac.view.students" 
+                            ng-click="crses.activeView=cac.view.students">
+                        Students
+                    </button>
+
+                    <button type="button"
+                            class="btn"
+                            ng-class="cac.activeView==cac.view.instructors ? 'btn-primary' : 'btn-default'"
+                            ng-if="cac.activeView==cac.view.students || cac.activeView==cac.view.instructors"
+                            ng-click="cac.activeView=cac.view.instructors">
+                        Instructors
+                    </button>
+
                 </div>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-link waves-effect" ng-if="crses.view==1" ng-click="crses.pollLMS(crses.view)">Poll Bb Courses</button>
-                    <button type="button" class="btn btn-link waves-effect" ng-if="crses.view==2 || crses.view==3" ng-click="crses.pollLMS(crses.view)">Poll Bb Enrollments</button>
+                    
+                    <button type="button"
+                            class="btn btn-link waves-effect"
+                            ng-if="cac.activeView==cac.view.list" ng-click="cac.poll()">
+                        Poll Bb Courses
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-link waves-effect"
+                            ng-if="cac.activeView == cac.view.enroll"
+                            ng-click="cac.poll()">
+                        Poll Bb Enrollments
+                    </button>
+
                     <ul class="lv-actions actions">
                         <li class="dropdown" uib-dropdown>
-                            <a href="" uib-dropdown-toggle>
+                            <a href="javascript:void(0)" uib-dropdown-toggle>
                                 <i class="zmdi zmdi-more-vert"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
-                                    <a href="crses.refreshData()">Refresh Data</a>
+                                    <a href="javascript:void(0)" ng-click="cac.refreshData()">
+                                        Refresh Data
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -26,7 +67,7 @@
             </div>
 
             <div class="lv-body">
-                <div ng-switch="crses.view">
+                <div ng-switch="cac.activeView">
                     <div ng-switch-when="1">
                         <div ng-include="'@[appFaculty]/feature/courseAdmin/courses.list.html'"></div>
                     </div>

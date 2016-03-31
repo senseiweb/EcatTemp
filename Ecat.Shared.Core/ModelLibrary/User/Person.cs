@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Newtonsoft.Json;
 using TypeLite;
 
@@ -37,7 +38,6 @@ namespace Ecat.Shared.Core.ModelLibrary.User
         public string Email { get; set; }
         public bool RegistrationComplete { get; set; }
         public string MpInstituteRole { get; set; }
-
         public virtual ProfileStudent Student { get; set; }
         public virtual ProfileFaculty Faculty { get; set; }
         public virtual ProfileExternal External { get; set; }

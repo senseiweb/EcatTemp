@@ -5,6 +5,9 @@
     <div ng-switch-when="register">
         <div ng-include="'@[appCore]/feature/login/register.tpl.html'"></div>
     </div>
+    <div ng-switch-when="lock">
+        <div ng-include="'@[appCore]/feature/login/lock.tpl.html'"></div>
+    </div>
     <div ng-switch-default>
         <div ng-include="'@[appCore]/feature/login/main.tpl.html'"></div>
     </div>

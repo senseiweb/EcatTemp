@@ -7,6 +7,7 @@ using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
+using Ecat.Shared.Core.ModelLibrary.User;
 using Newtonsoft.Json.Linq;
 
 namespace Ecat.StudMod.Core
@@ -15,7 +16,7 @@ namespace Ecat.StudMod.Core
     public interface IStudRepo
     {
         string GetMetadata { get; }
-        SaveResult ClientSaveChanges(JObject saveBundle);
+        SaveResult ClientSaveChanges(JObject saveBundle, Person student);
         IQueryable<Course> Courses { get; }
         //IQueryable<StudentInCourse> Courses { get; }
         IQueryable<SpResult> SpResult { get; }

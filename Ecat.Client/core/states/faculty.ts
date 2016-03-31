@@ -32,11 +32,10 @@ export default class EcFacultyStates {
             resolve: {
                 moduleInit: ['$ocLazyLoad', this.loadModule],
                 tokenValid: ['tokenValid', (tokenValid) => tokenValid],
-                dCtxReady: ['moduleInit', 'tokenValid', IDataCtx.serviceId, (m, t, dCtx: IDataCtx) => {
-                    console.log(dCtx.faculty.activeCourseId);
-                    return dCtx.faculty.activate().then(() =>
-                        console.log('Faculty Manager Ready'));
-                }]
+                dCtxReady: ['moduleInit', 'tokenValid', IDataCtx.serviceId, (m, t, dCtx: IDataCtx) => 
+                     dCtx.faculty.activate().then(() =>
+                        console.log('Faculty Manager Ready'))
+                ]
             }
         }
 
@@ -46,17 +45,6 @@ export default class EcFacultyStates {
             parent: this.main.name,
             url: '/workGroup',
             templateUrl: '@[appFaculty]/feature/workgroups/workgroup.html',
-            resolve: {
-                facAppReady: ['dCtxReady', (dc) => dc]
-            }
-        }
-
-        this.crseAd = {
-            name: `${this.main.name}.crseAd`,
-            abstract: true,
-            parent: this.main.name,
-            url: '/courseAdmin',
-            templateUrl: '@[appFaculty]/feature/courseAdmin/crseAdmin.html',
             resolve: {
                 facAppReady: ['dCtxReady', (dc) => dc]
             }
@@ -102,20 +90,37 @@ export default class EcFacultyStates {
             controller: 'app.faculty.wkgrp.result as wkr'
         }
 
+        this.crseAd = {
+            name: `${this.main.name}.crseAd`,
+            abstract: true,
+            parent: this.main.name,
+            url: '/courseAdmin',
+            templateUrl: '@[appFaculty]/feature/courseAdmin/crseAdmin.html',
+            resolve: {
+                adminCtxReady: ['dCtxReady','moduleInit', 'tokenValid', IDataCtx.serviceId, (d, m, t, dCtx: IDataCtx) => 
+                     dCtx.lmsAdmin.activate().then(() =>
+                        console.log('Faculty Admin Manager Ready'))
+                ]
+            }
+        }
+
         this.crseAdCrses = {
             name: `${this.crseAd.name}.courses`,
             parent: this.crseAd.name,
             url: '/courses',
             templateUrl: '@[appFaculty]/feature/courseAdmin/courses.html',
-            controller: 'app.faculty.crseAd.courses as crses'
+            controller: 'app.faculty.crseAd.courses as cac',
+            resolve: {
+                ready: ['adminCtxReady',(d) => d]
+            }
         }
 
         this.crseAdGrps = {
             name: `${this.crseAd.name}.groups`,
             parent: this.crseAd.name,
-            url: '/groups',
+            url: '/groups/{crseId:int}',
             templateUrl: '@[appFaculty]/feature/courseAdmin/groups.html',
-            controller: 'app.faculty.crseAd.groups as grps'
+            controller: 'app.faculty.crseAd.groups as cag'
         }
 
     }

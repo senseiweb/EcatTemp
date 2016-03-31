@@ -24,8 +24,10 @@ namespace Ecat.UserMod.Core
             _efCtx = efCtx;
         }
 
-        public SaveResult ClientSaveChanges(JObject saveBundle)
+        public SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser)
         {
+            var guardian = new UserGuardian(_efCtx, loggedInUser);
+            _efCtx.BeforeSaveEntitiesDelegate += guardian.BeforeSaveEntities;
             return _efCtx.SaveChanges(saveBundle);
         }
 
@@ -69,6 +71,7 @@ namespace Ecat.UserMod.Core
 
             user = new Person
             {
+                IsActive = true,
                 MpGender = MpGender.Unk,
                 MpAffiliation = MpAffiliation.Unk,
                 MpComponent = MpComponent.Unk,

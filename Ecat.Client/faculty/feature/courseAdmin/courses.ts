@@ -1,125 +1,119 @@
 ﻿import IDataCtx from 'core/service/data/context'
 import ICommon from 'core/common/commonService'
 import * as _mp from 'core/common/mapStrings'
-
-interface ICrseFilter {
-    filterWith?: Array<string>;
-    optionList?: Array<{ key: string, count: number }>;
-}
-
-interface ICrseCatFilter {
-    cat: ICrseFilter;
-    status: ICrseFilter;
-    name: ICrseFilter;
-}
+import _moment from "moment"
+import _swal from "sweetalert"
 
 export default class EcCrseAdCrseList {
     static controllerId = 'app.faculty.crseAd.courses';
     static $inject = ['$uibModal', IDataCtx.serviceId, ICommon.serviceId];
 
-    private selectedCourse: ecat.entity.ICourse;
+    protected activeView = CrseAdCrsesViews.Loading;
     private courses: Array<ecat.entity.ICourse> = [];
+    protected editCourseController: Function;
     private faculty: Array<ecat.entity.s.school.FacultyInCourse> = [];
-    private students: Array<ecat.entity.s.school.StudentInCourse> = [];
     private filters: ICrseCatFilter = {
         cat: { optionList: [], filterWith: [] },
         status: { optionList: [], filterWith: [] },
         name: { optionList: [], filterWith: [] }
     }
-    protected view = CrseAdCrsesViews.Loading;
+    private selectedCourse: ecat.entity.ICourse;
+    private members: Array<ecat.entity.IPerson> = [];
+    protected view = {
+        list: CrseAdCrsesViews.List,
+        enroll: CrseAdCrsesViews.Enroll,
+        instructors: CrseAdCrsesViews.Instructors
+    }
 
     constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon) {
         this.activate();
     }
 
     private activate(force?: boolean): void {
-        const _ = this;
-        this.dCtx.faculty.initializeCourses()
-            .then((retData: Array<ecat.entity.ICourse>) => {
-                //retData = retData.sort((first: ecat.entity.ICourse, second: ecat.entity.ICourse) => this.sortCourses(first, second));
-                this.courses = retData;
-                this.view = CrseAdCrsesViews.List;
+        const that = this;
+        this.dCtx.lmsAdmin.fetchAllCourses(force)
+            .then((courses: Array<ecat.entity.ICourse>) => {
+                this.courses = courses;
+                this.activeView = CrseAdCrsesViews.List;
             })
             .catch(initError);
 
-        //function initResponse(courses: Array<ecat.entity.ICourse>) {
-        //    _.courses = courses;
-        //    const activeCourse = courses[0];
-        //    if (activeCourse.workGroups) {
-        //        _._unwrapCrseFilterables(activeCourse.workGroups);
-        //    }
-        //    _.selectedCourse = activeCourse;
-        //}
-       
         //TODO: Need to take of error
         function initError(reason: string) {
 
         }
     }
 
-    //private filteredGrpCat = (item: ecat.entity.ICourse) => {
-
-    //    return this.filters.cat.filterWith.length === 0 || this.filters.cat.filterWith.some(e => item.gradReportPublished === e);
-    //}
-
-    //private filteredGrpFlight = (item: ecat.entity.IWorkGroup) => {
-
-    //    return this.filters.name.filterWith.length === 0 || this.filters.name.filterWith.some(e => item.defaultName === e);
-    //}
-
-    //private filteredGrpStatus = (item: ecat.entity.IWorkGroup) => {
-
-    //    return this.filters.status.filterWith.length === 0 || this.filters.status.filterWith.some(e => item.mpSpStatus === e);
-    //}
-
-    private selectCourse(course: ecat.entity.ICourse) {
-        this.dCtx.faculty.activeCourseId = course.id;
-        this.dCtx.faculty.getCrseEnrolls()
-            .then((course: ecat.entity.ICourse) => {
-                this.selectedCourse = course;
-                this.faculty = this.selectedCourse.faculty;
-                this.students = this.selectedCourse.studentsInCourse;
-            });
-    }
-
-    private goToGroups(course: ecat.entity.ICourse) {
-        this.selectedCourse = course;
-        this.dCtx.faculty.activeCourseId = this.selectedCourse.id;
-    }
-
     private editInfo(course: ecat.entity.ICourse): void {
-        this.dCtx.faculty.activeCourseId = course.id;
+        const that = this;
         this.selectedCourse = course;
+
+        this.editCourseController = function ($mi: angular.ui.bootstrap.IModalServiceInstance) {
+            const today = new Date();
+            
+            this.startDateOptions = {
+                formatYear: 'yy',
+                maxDate: today.setDate(today.getDate() + 365),
+                minDate: today,
+                startingDay: 1
+            };
+
+            this.endDateOptions = {
+                formatYear: 'yy',
+                maxDate: new Date().setDate(course.startDate.getDate() + 365),
+                minDate: course.startDate,
+                startingDay: 1
+            };
+
+            this.course = course;
+            this.cancel = () => {
+                course.entityAspect.rejectChanges();
+                $mi.close();
+            }
+            this.save = () => that.save()
+                .then(() => {
+                    $mi.close();
+                }).catch(() => {
+
+                });
+        }
 
         const modalSettings: angular.ui.bootstrap.IModalSettings = {
-            controller: ['$scope', '$uibModalInstance', 'crse', 'origName', 'dateOpts', this.editModal],
+            controller: ['$uibModalInstance', this.editCourseController],
+            controllerAs: 'eci',
             backdrop: 'static',
             keyboard: true,
-            templateUrl: '@[appFaculty]/feature/courseAdmin/courses.edit.html'
+            templateUrl: '@[appFaculty]/feature/courseAdmin/courses.editModal.html'
         }
 
-        const modal = this.$uim;
-        const c = this.c;
-        const dateOptions = {
-            //dateDisabled: disabled,
-            formatYear: 'yy',
-            maxDate: new Date(2020, 5, 22),
-            minDate: new Date(),
-            startingDay: 1
-        }
-        modalSettings.resolve = { crse: () => this.selectedCourse, origName: () => this.selectedCourse.name, dateOpts: () => dateOptions };
-        modal.open(modalSettings);
+        this.$uim.open(modalSettings);
     }
 
-    private editModal($scope: any, $mi: angular.ui.bootstrap.IModalServiceInstance, crse: ecat.entity.ICourse, origName: string, dateOpts: any) {
-        $scope.origName = origName;
-        $scope.crse = crse;
-        $scope.startPick = { opened: false };
-        $scope.gradPick = { opened: false };
-        $scope.cancel = () => { crse.entityAspect.rejectChanges(); $mi.dismiss('cancelled'); };
-        $scope.save = () => { this.save(); $mi.close(); };
-        $scope.openStart = () => { $scope.startPick.opened = true; };
-        $scope.openGrad = () => { $scope.gradPick.opened = true; };
+    protected formatDate(date: Date): string {
+        return _moment(date).format('DD-MMM-YY');
+    }
+
+    protected goToRoll(course: ecat.entity.ICourse): void {
+        const that = this;
+        this.selectedCourse = course;
+        this.dCtx.lmsAdmin.fetchAllCourseMembers(course.id)
+            .then(fetchCourseMemberResponse)
+            .catch(fetchCourseMemberError);
+
+        function fetchCourseMemberResponse() {
+            that.processMembers(course);
+            that.activeView = that.view.enroll;
+        }
+
+        //TODO: Need to write an error handler
+        function fetchCourseMemberError(reason: string) {
+
+        }
+    }
+
+    private goToWrkGrp(course: ecat.entity.ICourse) {
+        this.selectedCourse = course;
+        this.c.$state.go(this.c.stateMgr.faculty.crseAdGrps.name, { crseId: course.id });
     }
 
     private publishGradRpt(course: ecat.entity.ICourse): void {
@@ -159,35 +153,122 @@ export default class EcCrseAdCrseList {
         this.c.swal(alertSettings, afterConfirmClose);
     }
 
-    private pollLMS(view: number): void {
-        switch (view) {
-            case 1:
-                this.dCtx.courseAdmin.pollCourses()
-                    .then((retData: ecat.entity.ICourse[]) => {
-                        this.courses = retData;
-                    });
-            case 2 || 3:
-                this.dCtx.courseAdmin.pollCourseMembers()
-                    .then((retData: ecat.entity.ICourse) => {
-                        this.selectCourse(retData);
-                    });
+    protected poll(): void {
+        switch (this.activeView) {
+            case this.view.list:
+                this.pollLmsCourses();
+                break;
+            case this.view.enroll:
+                this.pollCourseEnroll();
+                break;
         }
+    }
+
+    private pollLmsCourses(): void {
+        const that = this;
+
+        this.dCtx.lmsAdmin.pollCourses()
+            .then(pollLmsCourseResponse)
+            .catch(pollLmsCourseError);
+
+        function pollLmsCourseResponse(reconResult: ecat.entity.ICourseRecon) {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Polling Complete!',
+                text: `Added ${reconResult.courses.length} courses to your academy \n <ul>`,
+                type: _mp.MpSweetAlertType.success,
+                html: true
+            }
+
+            if (reconResult.courses && reconResult.courses.length > 0) {
+                reconResult.courses.forEach(course => {
+                    alertSettings.text += `<li>${course.name}</li>`;
+                });
+                alertSettings.text += '</ul>';
+                that.courses = that.dCtx.lmsAdmin.getAllCourses();
+            } else {
+                alertSettings.text = 'No Changes Detected';
+            }
+            _swal(alertSettings);
+        }
+
+        //TODO: Need to add error handlers
+        function pollLmsCourseError(reason: string) {
+            
+        }
+    }
+
+    private pollCourseEnroll(): void {
+        const that = this;
+
+        this.dCtx.lmsAdmin.pollCourseMembers(this.selectedCourse.id)
+            .then(pollLmsCourseEnrollResponse)
+            .catch(pollLmsCourseError);
+
+        function pollLmsCourseEnrollResponse(reconResult: ecat.entity.IMemRecon) {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Polling Complete!',
+                text: `The following memberships changes were made to course: ${that.selectedCourse.name}<br/><br/><hr/>
+                       Accounts Created: ${reconResult.numOfAccountCreated} <br/> Accounts Added ${reconResult.numAdded}<br/> Accounts Removed ${reconResult.numRemoved}`,
+                type: _mp.MpSweetAlertType.success,
+                html: true
+            }
+
+            if (reconResult.numAdded === 0 && reconResult.numRemoved === 0) {
+                alertSettings.text = 'No Changes Detected';
+            }
+
+            _swal(alertSettings);
+             that.dCtx.lmsAdmin.fetchAllCourseMembers(that.selectedCourse.id)
+                 .then((course: ecat.entity.ICourse) => that.processMembers(course));
+        }
+
+        //TODO: Need to add error handlers
+        function pollLmsCourseError(reason: string) {
+
+        }
+    }
+
+    private processMembers(course: ecat.entity.ICourse): void {
+        const faculty = course.faculty.map(fic => {
+            const me = fic.facultyProfile.person;
+            const removeIds = fic.reconResult ? fic.reconResult.removedIds : null;
+            me['role'] = 'Instructor';
+            let status = 'Uncahanged';
+            if (fic.reconResult) status = 'Added';
+            if (removeIds && removeIds.some(id => id === fic.facultyPersonId)) status = 'Removed';
+            me['status'] = status;
+            return me;
+        });
+
+       const students = course.students.map(sic => {
+            const me = sic.student.person;
+            const removeIds = sic.reconResult ? sic.reconResult.removedIds : null;
+            me['role'] = 'Student';
+            let status = 'Uncahanged';
+            if (sic.reconResult) status = 'Added';
+            if (removeIds && removeIds.some(id => id === sic.studentPersonId)) status = 'Removed';
+            me['status'] = status;
+            return me;
+        });
+        this.members = faculty.concat(students);
     }
 
     private refreshData(): void {
         this.activate(true);
     }
 
-    private save(): void {
-        const self = this;
-        this.dCtx.faculty.saveChanges()
+    private save(): angular.IPromise<any> {
+        const that = this;
+        return this.dCtx.lmsAdmin.saveChanges()
             .then(saveReturn)
             .catch(saveRejected);
-
+        
+        //TODO: add save success notification
         function saveReturn(ret: breeze.SaveResult): void {
-
+         
         }
 
+        //TODO: add save error notification
         function saveRejected(reason: any): void {
             if (reason) {
 
@@ -196,9 +277,20 @@ export default class EcCrseAdCrseList {
     }
 }
 
+interface ICrseFilter {
+    filterWith?: Array<string>;
+    optionList?: Array<{ key: string, count: number }>;
+}
+
+interface ICrseCatFilter {
+    cat: ICrseFilter;
+    status: ICrseFilter;
+    name: ICrseFilter;
+}
+
 const enum CrseAdCrsesViews {
     Loading,
     List,
-    Students,
+    Enroll,
     Instructors
 }

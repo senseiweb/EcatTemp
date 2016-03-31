@@ -7,11 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Ecat.UserMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
-
     public interface IUserRepo
     {
-        SaveResult ClientSaveChanges(JObject saveBundle);
+        SaveResult ClientSaveChanges(JObject saveBundle, Person user);
         Task<int> CountEmails(string email);
         Task<Person> FindUser(int id);
         Task<List<ProfileBase>> GetProfiles(int personId);

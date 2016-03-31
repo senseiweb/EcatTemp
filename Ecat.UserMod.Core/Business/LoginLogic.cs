@@ -69,6 +69,10 @@ namespace Ecat.UserMod.Core
                 user.Faculty.IsCourseAdmin = userIsCourseAdmin;
                 user.Faculty.AcademyId = request.Parameters["custom_ecat_school"];
             }
+            else
+            {
+                user.Student = user.Student ?? new ProfileStudent();
+            }
 
             user.RegistrationComplete = true;
             user.Email = request.LisPersonEmailPrimary;
@@ -86,3 +90,4 @@ namespace Ecat.UserMod.Core
         }
     }
 }
+

@@ -9,7 +9,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Ecat.UserMod.Core
 {
-    using Guard = Func<Dictionary<Type, List<EntityInfo>>, Dictionary<Type, List<EntityInfo>>>;
     public class UserLogic : IUserLogic
     {
         private readonly IUserRepo _repo;
@@ -49,15 +48,7 @@ namespace Ecat.UserMod.Core
 
         public SaveResult ClientSave(JObject saveBundle)
         {
-            var neededSaveGuards = new List<Guard>();
-
-            if (User.MpInstituteRole != MpInstituteRoleName.HqAdmin)
-            {
-                var userGuard = new GuardUserSave(User);
-                //neededSaveGuards.Add(userGuard.BeforeSaveEntities);
-            }
-
-            return _repo.ClientSaveChanges(saveBundle);
+            return _repo.ClientSaveChanges(saveBundle, User);
         }
     }
 }

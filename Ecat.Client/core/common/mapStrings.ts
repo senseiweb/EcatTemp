@@ -69,7 +69,7 @@ export class MpApiResource {
     static student = 'Student';
     static faculty = 'Faculty';
     static sa = 'SysAdmin';
-    static courseAdmin = 'CourseAdmin';
+    static facAdmin = 'LmsAdmin';
     static designer = 'Designer';
 }
 
@@ -157,6 +157,10 @@ export class MpEntityType {
     static facSpComment = 'FacSpComment';
     static facSpCommentFlag = 'FacSpCommentFlag';
     static facStratResponse = 'FacStratResponse';
+    static courseRecon = 'CourseReconResult';
+    static groupRecon = 'GroupReconResult';
+    static memRecon = 'MemReconResult';
+    static grpMemRecon = 'GroupMemReconResult';
 }
 
 export class MpSweetAlertType {
@@ -191,4 +195,11 @@ export class MpBehaviorResult {
     static eu = 'Usually: Effective';
     static ieu = 'Usually: Ineffective';
     static iea = 'Always: Ineffective';
+}
+
+export class MpGroupCategory {
+    static bc1 = 'BC1';
+    static bc2 = 'BC2';
+    static bc3 = 'BC3';
+    static bc4 = 'BC4';
 }

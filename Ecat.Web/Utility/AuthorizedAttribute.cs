@@ -82,6 +82,16 @@ namespace Ecat.Web.Utility
             using (var ctx = new UserCtx())
             {
                 user = await ((DbSet<Person>)ctx.People).FindAsync(cancellationToken, parsedUid);
+
+                if (Is != null && Is.Contains(RoleMap.CrseAdmin))
+                {
+                    await ctx.Entry(user).Reference(u => u.Faculty).LoadAsync(cancellationToken);
+                    if (user.Faculty == null || !user.Faculty.IsCourseAdmin)
+                    {
+                        actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized access");
+
+                    }
+                }
             }
 
             if (user == null)

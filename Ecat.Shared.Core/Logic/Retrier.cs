@@ -9,7 +9,7 @@ namespace Ecat.Shared.Core.Logic
 {
     public class Retrier <TResult>
     {
-        public async Task<TResult> Try(Task<TResult> task, int maxTries)
+        public async Task<TResult> Try(Func<Task<TResult>> task, int maxTries)
         {
             var returnResult = default(TResult);
             var tryNumber = 0;
@@ -19,21 +19,21 @@ namespace Ecat.Shared.Core.Logic
             {
                 try
                 {
-                    returnResult = await task;
+                    returnResult = await task().ConfigureAwait(false);
                     success = true;
                 }
                 catch (Exception ex)
                 {
                     tryNumber += 1;
-                    await Task.Delay(TimeSpan.FromSeconds(delay));
-                    delay += 5;
                     if (tryNumber > maxTries || !IsTransient(ex))
                     {
                         throw;
                     }
+                    await Task.Delay(TimeSpan.FromSeconds(delay)).ConfigureAwait(false);
+                    delay += 5;
 
                 }
-            } while (tryNumber <= maxTries || success);
+            } while (tryNumber <= maxTries && !success);
 
             return returnResult;
         }
@@ -45,6 +45,11 @@ namespace Ecat.Shared.Core.Logic
             // cases it may be necessary to inspect other properties of the exception.
             if (ex is ArgumentException)
                 return true;
+
+            if (ex.Message.Contains("WS"))
+            {
+                return true;
+            }
 
             var webException = ex as WebException;
             if (webException != null)

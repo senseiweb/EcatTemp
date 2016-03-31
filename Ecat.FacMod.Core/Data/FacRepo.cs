@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Breeze.ContextProvider;
 using Breeze.ContextProvider.EF6;
 using Ecat.Shared.Core.ModelLibrary.Common;
+using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
@@ -45,7 +46,7 @@ namespace Ecat.FacMod.Core
 
         SaveResult IFacRepo.ClientSaveChanges(JObject saveBundle, Person loggedInUser)
         {
-           var guardian = new FacultyGuardian(_ctx, _efCtx, loggedInUser);
+            var guardian = new FacultyGuardian(_efCtx, loggedInUser);
             _efCtx.BeforeSaveEntitiesDelegate += guardian.BeforeSaveEntities;
 
             return _efCtx.SaveChanges(saveBundle);
@@ -53,32 +54,29 @@ namespace Ecat.FacMod.Core
 
         string IFacRepo.Metadata => _efCtx.Metadata();
 
-        IQueryable<FacultyInCourse> IFacRepo.GetFacultyCourses => _ctx.FacultyInCourses
-            .Where(fc => !fc.IsDeleted)
-            .OrderByDescending(fc => fc.Course.StartDate)
-            .Include(fc => fc.Course);
+        IQueryable<Course> IFacRepo.GetCourses => _ctx.Courses;
 
-        async Task<List<CourseVO>> IFacRepo.BbCourses(string academyCatId)
-        {
-            var bbWs = new BbWsCnet();
+        //async Task<List<CourseVO>> IFacRepo.BbCourses(string academyCatId)
+        //{
+        //    var bbWs = new BbWsCnet();
 
-            var academyCatArray = new[] {academyCatId};
+        //    var academyCatArray = new[] {academyCatId};
 
-            var courseClient = await bbWs.GetCourseClient();
+        //    var courseClient = await bbWs.GetCourseClient();
 
-            var courseFilter = new CourseFilter
-            {
-                available = 1, //0:false/1:true/2:all 
-                availableSpecified = true,
-                filterType = (int)CourseFilterType.LoadByCatId,
-                filterTypeSpecified = true,
-                categoryIds = academyCatArray
-            };
+        //    var courseFilter = new CourseFilter
+        //    {
+        //        available = 1, //0:false/1:true/2:all 
+        //        availableSpecified = true,
+        //        filterType = (int) CourseFilterType.LoadByCatId,
+        //        filterTypeSpecified = true,
+        //        categoryIds = academyCatArray
+        //    };
 
-            var result = await courseClient.getCourseAsync(courseFilter);
+        //    var result = await courseClient.getCourseAsync(courseFilter);
 
-            return result.@return.ToList();
-        }
+        //    return result.@return.ToList();
+        //}
 
         async Task<Person> IFacRepo.LoadFacultyProfile(Person faculty)
         {
@@ -88,21 +86,22 @@ namespace Ecat.FacMod.Core
 
         IQueryable<WorkGroup> IFacRepo.GetCourseWorkGroups => _ctx.WorkGroups;
 
-        
-        List<int> IFacRepo.CanWgPublish(List<int> wgIds)
-        {
-            return _ctx.WorkGroups
-                .Where(grp => wgIds.Contains(grp.Id))
-                .Where(grp => grp.GroupMembers.Any() && grp.AssignedSpInstr.InventoryCollection.Any())
-                .Where(grp => grp.GroupMembers.All(crseStudent =>
-                    crseStudent.AssessorSpResponses.Count(r => !r.Assessee.IsDeleted) ==
-                    grp.GroupMembers.Count(gm => !gm.IsDeleted)*grp.AssignedSpInstr.InventoryCollection.Count()))
-                .Where(grp => grp.GroupMembers.All(crseStudent =>
-                    crseStudent.AssessorStratResponse.Count(r => !r.Assessee.IsDeleted) ==
-                    grp.GroupMembers.Count(gm => !gm.IsDeleted)))
-                .Select(wg => wg.Id)
-                .ToList();
-        }
+        IQueryable<SpInstrument> IFacRepo.GetSpInstrument => _ctx.SpInstruments;
+
+        //List<int> IFacRepo.CanWgPublish(List<int> wgIds)
+        //{
+        //    return _ctx.WorkGroups
+        //        .Where(grp => wgIds.Contains(grp.Id))
+        //        .Where(grp => grp.GroupMembers.Any() && grp.AssignedSpInstr.InventoryCollection.Any())
+        //        .Where(grp => grp.GroupMembers.All(crseStudent =>
+        //            crseStudent.AssessorSpResponses.Count(r => !r.Assessee.IsDeleted) ==
+        //            grp.GroupMembers.Count(gm => !gm.IsDeleted)*grp.AssignedSpInstr.InventoryCollection.Count()))
+        //        .Where(grp => grp.GroupMembers.All(crseStudent =>
+        //            crseStudent.AssessorStratResponse.Count(r => !r.Assessee.IsDeleted) ==
+        //            grp.GroupMembers.Count(gm => !gm.IsDeleted)))
+        //        .Select(wg => wg.Id)
+        //        .ToList();
+        //}
 
         IQueryable<StudSpComment> IFacRepo.WgComments => _ctx.StudSpComments;
 
@@ -110,7 +109,7 @@ namespace Ecat.FacMod.Core
         {
             return _ctx.Courses
                 .Where(c => c.Id == courseId)
-                .Include(c => c.StudentsInCourse.Select(sic => sic.Student.Person))
+                .Include(c => c.Students.Select(sic => sic.Student.Person))
                 .Include(c => c.Faculty)
                 .Include(c => c.WorkGroups)
                 .Include(c => c.StudentInCrseGroups);

@@ -12,6 +12,7 @@ using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.DbMgr.Context;
 using Newtonsoft.Json.Linq;
+using Ecat.Shared.Core.ModelLibrary.User;
 
 namespace Ecat.StudMod.Core
 {
@@ -29,9 +30,10 @@ namespace Ecat.StudMod.Core
             _mainCtx = mainContext;
         }
 
-        public SaveResult ClientSaveChanges(JObject saveBundle)
-        { 
-
+        public SaveResult ClientSaveChanges(JObject saveBundle, Person loggedInUser)
+        {
+            var guardian = new StudentGuardian(_efCtx, loggedInUser);
+            _efCtx.BeforeSaveEntitiesDelegate += guardian.BeforeSaveEntities;
             return _efCtx.SaveChanges(saveBundle);
         }
 

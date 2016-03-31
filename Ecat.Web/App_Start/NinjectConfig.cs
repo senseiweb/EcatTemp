@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Ecat.FacMod.Core;
+using Ecat.LmsAdmin.Mod;
 using Ecat.Shared.Core;
 using Ecat.Shared.Core.Interface;
 using Ecat.Shared.DbMgr.Context;
@@ -44,6 +45,8 @@ namespace Ecat.Web
             kernel.Bind<IFacRepo>().To<FacRepo>().InRequestScope();
             kernel.Bind<IStudLogic>().To<StudLogic>().InRequestScope();
             kernel.Bind<IStudRepo>().To<StudRepo>().InRequestScope();
+            kernel.Bind<ILmsAdminCourseOps>().To<CourseOps>().InRequestScope();
+            kernel.Bind<ILmsAdminGroupOps>().To<GroupOps>().InRequestScope();
             kernel.Bind<StudCtx>().ToSelf().InRequestScope();
             kernel.Bind<FacCtx>().ToSelf().InRequestScope();
 

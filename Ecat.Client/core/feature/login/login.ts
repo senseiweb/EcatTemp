@@ -25,17 +25,23 @@ export default class EcGlobalLogin {
         private $timeout: angular.ITimeoutService,
         private c: ICommon,
         private dCtx: IDataCtx) {
-
         console.log('Login Controller Loaded');
-        this.mode = c.$stateParams.mode;
+
+     
+    }
+
+    activate(): void {
+        if (this.c.$stateParams.mode === 'lock') this.mode = 'lock';
+
+        this.mode = this.c.$stateParams.mode;
         const reminder = localStorage.getItem('ECAT:RME');
         this.rememberMe = !!reminder;
-        this.user = dCtx.user.persona;
+        this.user = this.dCtx.user.persona;
         if (this.rememberMe) {
             this.userEmail = reminder;
         }
 
-        $scope.$on(c.coreCfg.coreApp.events.saveChangesEvent, (data: any) => {
+        this.$scope.$on(this.c.coreCfg.coreApp.events.saveChangesEvent, (data: any) => {
             this.inFlight = data.inflight;
         });
     }

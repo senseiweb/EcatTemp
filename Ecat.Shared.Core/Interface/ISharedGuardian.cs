@@ -10,8 +10,8 @@ namespace Ecat.Shared.Core.Interface
 {
     public interface ISharedGuardian
     {
-        void DeleteGuardian(ref List<EntityInfo> deletedInfos, Person loggedInPerson);
-        List<EntityInfo> AuditableGuardian(ref List<EntityInfo> auditableInfos, Person loggedInPerson);
-        List<EntityInfo> ModifiedGuardian(ref List<EntityInfo> modifiedInfos, Person loggedInPerson);
+        //void DeleteGuardian(ref List<EntityInfo> deletedInfos, Person loggedInPerson);
+        //List<EntityInfo> AuditableGuardian(ref List<EntityInfo> auditableInfos, Person loggedInPerson);
+        //List<EntityInfo> ModifiedGuardian(ref List<EntityInfo> modifiedInfos, Person loggedInPerson);
     }
 }

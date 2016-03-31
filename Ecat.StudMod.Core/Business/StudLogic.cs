@@ -27,7 +27,7 @@ namespace Ecat.StudMod.Core
         public SaveResult ClientSave(JObject saveBundle)
         {
            
-            return _repo.ClientSaveChanges(saveBundle);
+            return _repo.ClientSaveChanges(saveBundle, StudentPerson);
         }
 
         async Task<List<Course>> IStudLogic.GetCourses(int? crseId)
@@ -35,12 +35,12 @@ namespace Ecat.StudMod.Core
             var query = crseId != null ? _repo.Courses.Where(c => c.Id == crseId) : _repo.Courses;
 
             var studCourseInit = await (from crse in query
-                where crse.StudentsInCourse.Any(sic => sic.StudentPersonId == StudentPerson.PersonId && !sic.IsDeleted)
+                where crse.Students.Any(sic => sic.StudentPersonId == StudentPerson.PersonId && !sic.IsDeleted)
                 select new
                 {
                     crse,
                     workGroups = crse.WorkGroups.Where(wg => wg.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId)),
-                    StudentCoures = crse.StudentsInCourse
+                    StudentCoures = crse.Students
                         .Where(sic => sic.StudentPersonId == StudentPerson.PersonId),
                 }).ToListAsync();
             

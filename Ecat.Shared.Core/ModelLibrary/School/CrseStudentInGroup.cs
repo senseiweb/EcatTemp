@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.Interface;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.User;
@@ -21,11 +22,12 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public bool HasAcknowledged { get; set; }
         public int NumOfStratIncomplete { get; set; }
         public string BbCrseStudGroupId { get; set; }
+        public Guid? ReconResultId { get; set; }
         public WorkGroup WorkGroup { get; set; }
         public ProfileStudent StudentProfile { get; set; }
         public Course Course { get; set; }
         public StudentInCourse StudentInCourse { get; set; }
-
+        public GroupMemReconResult ReconResult { get; set; }
         public ICollection<CrseStudentInGroup> GroupPeers { get; set; }
         public ICollection<SpResponse> AssessorSpResponses { get; set; }
         public ICollection<SpResponse> AssesseeSpResponses { get; set; }

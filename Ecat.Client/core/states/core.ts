@@ -25,7 +25,8 @@ export default class CoreStates implements ecat.IEcatStateClass {
         controller: 'app.global.main as main',
         resolve: {
             userMgrActivated: [IDataCtx.serviceId, (dCtx: IDataCtx) => dCtx.user.activate()],
-            tokenValid: ['userMgrActivated', (uma) => uma]
+            userProfileLoaded: ['userMgrActivated',IDataCtx.serviceId, (uma, dCtx: IDataCtx) => dCtx.user.getUserProfile()],
+            tokenValid: ['userMgrActivated', 'userProfileLoaded', (uma) => uma]
         }
     }
 

@@ -22,12 +22,13 @@ namespace Ecat.Shared.DbMgr.Config
             Property(p => p.MpPaygrade).IsRequired();
             Property(p => p.Email)
                 .IsRequired()
+                .HasMaxLength(80)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                     new IndexAnnotation(new IndexAttribute("IX_UniqueEmailAddress") { IsUnique = true }));
 
             Property(p => p.MpGender).IsRequired();
             Property(p => p.MpInstituteRole).IsRequired();
-
+            
             HasOptional(p => p.Profile)
                 .WithRequired(p => p.Person)
                 .WillCascadeOnDelete(true);

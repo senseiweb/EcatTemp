@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.Interface;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Newtonsoft.Json;
@@ -17,6 +18,7 @@ namespace Ecat.Shared.Core.ModelLibrary.School
         public string EntityId => $"{StudentPersonId}|{CourseId}";
         public int CourseId { get; set; }
         public int StudentPersonId  { get; set; }
+        public string BbCourseMemId { get; set; }
 
         public Course Course { get; set; }
         public ProfileStudent Student { get; set; }
@@ -31,5 +33,9 @@ namespace Ecat.Shared.Core.ModelLibrary.School
 
         [JsonIgnore][TsIgnore]
         public DateTime? DeletedDate { get; set; }
+
+        public Guid? ReconResultId { get; set; }
+        public MemReconResult ReconResult { get; set; }
+
     }
 }

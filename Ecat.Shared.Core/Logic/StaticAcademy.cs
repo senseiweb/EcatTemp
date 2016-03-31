@@ -33,7 +33,7 @@ namespace Ecat.Shared.Core.Logic
              Id = "AFSNCOA",
              LongName = "Air Force Senior Noncommissioned Academy",
              ShortName = "AFSNCOA",
-             EdLevel = EdLevel.Senior,
+             MpEdLevel = MpEdLevel.Sncoa,
              Base = AcademyBase.Gunter,
              BbCategoryId = MpAcadCat.AFSNCOA,
              ParentBbCategoryId = MpAcadCat.BCEE
@@ -45,7 +45,7 @@ namespace Ecat.Shared.Core.Logic
            Id = "ECAT",
            LongName = "ECAT Developer Academy",
            ShortName = "ECAT",
-           EdLevel = EdLevel.None,
+           MpEdLevel = MpEdLevel.None,
            Base = AcademyBase.Gunter,
            BbCategoryId = MpAcadCat.ECAT,
            ParentBbCategoryId = MpAcadCat.BCEE
@@ -57,7 +57,7 @@ namespace Ecat.Shared.Core.Logic
             Id = "KNCOA",
             LongName = "Keesler Noncommissioned Officer Academy",
             ShortName = "Mathies NCOA",
-            EdLevel = EdLevel.Ncoa,
+            MpEdLevel = MpEdLevel.None,
             Base = AcademyBase.Gunter,
             BbCategoryId = MpAcadCat.Keesler,
             ParentBbCategoryId = MpAcadCat.NCOA

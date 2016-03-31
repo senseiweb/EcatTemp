@@ -17,6 +17,10 @@ namespace Ecat.Shared.DbMgr.Config
             Ignore(p => p.StratResponses);
             Ignore(p => p.FacStrat);
 
+            HasRequired(p => p.Course)
+                .WithMany(p => p.StratResults)
+                .HasForeignKey(p => p.CourseId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

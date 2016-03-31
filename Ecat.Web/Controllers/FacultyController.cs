@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Breeze.ContextProvider;
 using Ecat.FacMod.Core;
+using Ecat.Shared.Core.ModelLibrary.Designer;
+using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
@@ -43,39 +46,46 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public IQueryable<FacultyInCourse> InitCourses()
+        public async Task<List<Course>> GetCourses()
         {
-            return _facLogic.GetCrsesWithLastestGrpMem();
+            return await _facLogic.GetActiveCourse();
         }
 
         [HttpGet]
-        public IQueryable<FacultyInCourse> ActiveCourse(int courseId)
+        public async Task<List<Course>> ActiveCourse(int courseId)
         {
-            return _facLogic.GetActiveCourseData(courseId);
+            return await _facLogic.GetActiveCourse(courseId);
         }
 
         [HttpGet]
-        public IQueryable<StudSpComment> ActiveWgSpComment()
+        public async Task<WorkGroup> ActiveWorkGroup(int courseId, int workGroupId)
         {
-            return _facLogic.GetStudSpComments();
+            return await _facLogic.GetActiveWorkGroup(courseId, workGroupId);
         }
 
         [HttpGet]
-        public WorkGroup WorkGroupAssess(int courseId, int workGroupId, bool addAssessment)
+        public async Task<SpInstrument> SpInstrument(int instrumentId)
         {
-            return _facLogic.GetWorkGroupSpData(courseId, workGroupId, addAssessment);
+            return await _facLogic.GetSpInstrument(instrumentId);
         }
 
         [HttpGet]
-        public WorkGroup WorkGroupResult(int wgId, bool addAssessment, bool addComments)
+        public async Task<List<StudSpComment>> ActiveWgSpComment(int courseId, int workGroupId)
         {
-            return _facLogic.GetWorkGroupResults(wgId, addAssessment, addComments);
+            return await _facLogic.GetStudSpComments(courseId, workGroupId);
         }
 
         [HttpGet]
-        public IQueryable<Course> CourseMembers(int courseId)
+        public async Task<List<FacSpComment>> ActiveWgFacComment(int courseId, int workGroupId)
         {
-            return _facLogic.CourseMembers(courseId);
+            return await _facLogic.GetFacSpComment(courseId, workGroupId);
         }
+
+        [HttpGet]
+        public async Task<WorkGroup> ActiveWgSpResult(int courseId, int workGroupId)
+        {
+            return await _facLogic.GetSpResult(courseId, workGroupId);
+        }
+
     }
 }

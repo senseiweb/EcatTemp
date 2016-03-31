@@ -84,7 +84,7 @@ namespace Ecat.Web.Provider
 
             identity.AddClaim(new Claim(ClaimTypes.PrimarySid, person.PersonId.ToString()));
 
-            identity.AddClaim(new Claim(ClaimTypes.Role, MpTransform.InstituteRoleToEnum(person.MpInstituteRole).ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.Role, MpRoleTransform.InstituteRoleToEnum(person.MpInstituteRole).ToString()));
 
             _loginToken = new LoginToken
             {

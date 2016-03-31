@@ -78,7 +78,6 @@
     <Compile Include="Config\User\Profile.cs" />
     <Compile Include="Config\User\Security.cs" />
     <Compile Include="Context\BbWsCnet.cs" />
-    <Compile Include="Context\BbWsConnect.cs" />
     <Compile Include="Context\ContextBase.cs" />
     <Compile Include="Context\EcatContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
