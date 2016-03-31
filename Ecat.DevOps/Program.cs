@@ -157,7 +157,7 @@ namespace Ecat.DevOps
                                 var gm = new CrseStudentInGroup
                                 {
                                     CourseId = crse.Key,
-                                    WorkGroupId = grp.Id,
+                                    WorkGroupId = grp.WorkGroupId,
                                     StudentId = currentStudentId,
                                     IsDeleted = false,
                                     HasAcknowledged = false,
@@ -179,7 +179,7 @@ namespace Ecat.DevOps
                                 insertCount = 1;
                             }
                             Console.WriteLine(
-                                $"Loaded {currentGroupMembers.Count} in Group {grp.DefaultName} ID:[{grp.Id}]");
+                                $"Loaded {currentGroupMembers.Count} in Group {grp.DefaultName} ID:[{grp.WorkGroupId}]");
                             groupMembers.AddRange(currentGroupMembers);
                         }
                         Console.ForegroundColor = ConsoleColor.White;
@@ -338,7 +338,7 @@ namespace Ecat.DevOps
                                 AssessorPersonId = member.StudentId,
                                 AssesseePersonId = peer.StudentId,
                                 CourseId = wg.Key.CourseId,
-                                WorkGroupId = wg.Key.Id,
+                                WorkGroupId = wg.Key.WorkGroupId,
                                 InventoryItemId = item,
                                 ItemModelScore = Rand.Next(0, 7),
                                 ModifiedById = member.StudentId,
@@ -388,7 +388,7 @@ namespace Ecat.DevOps
                                     CourseId = wg.Key.CourseId,
                                     AuthorPersonId = member.StudentId,
                                     RecipientPersonId = peer.StudentId,
-                                    WorkGroupId = wg.Key.Id,
+                                    WorkGroupId = wg.Key.WorkGroupId,
                                     RequestAnonymity = Rand.Next(0, 2) == 1,
                                     CommentText = CommentList[Rand.Next(1, 21)],
                                     CreatedDate = DateTime.Now.ToUniversalTime(),
@@ -406,7 +406,7 @@ namespace Ecat.DevOps
                                     CourseId = wg.Key.CourseId,
                                     AuthorPersonId = member.StudentId,
                                     RecipientPersonId = peer.StudentId,
-                                    WorkGroupId = wg.Key.Id
+                                    WorkGroupId = wg.Key.WorkGroupId
                                 };
 
                                 spCommentFlagResponseSb.Append(
@@ -419,7 +419,7 @@ namespace Ecat.DevOps
                                 AssesseePersonId = peer.StudentId,
                                 AssessorPersonId = member.StudentId,
                                 CourseId = wg.Key.CourseId,
-                                WorkGroupId = wg.Key.Id,
+                                WorkGroupId = wg.Key.WorkGroupId,
                                 StratPosition = peerStrat,
                                 ModifiedDate = DateTime.Now.ToUniversalTime(),
                                 ModifiedById = member.StudentId

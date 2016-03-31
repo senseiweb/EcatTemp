@@ -80,8 +80,8 @@ namespace Ecat.StudMod.Core
             var wgIds = wgMonitorEntities.Select(wgme => wgme.WorkGroupId);
 
             var pubWgIds = _efCtx.Context.WorkGroups
-                .Where(wg => wgIds.Contains(wg.Id) && wg.MpSpStatus == MpSpStatus.Published)
-                .Select(wg => wg.Id);
+                .Where(wg => wgIds.Contains(wg.WorkGroupId) && wg.MpSpStatus == MpSpStatus.Published)
+                .Select(wg => wg.WorkGroupId);
 
             if (!pubWgIds.Any()) return;
 

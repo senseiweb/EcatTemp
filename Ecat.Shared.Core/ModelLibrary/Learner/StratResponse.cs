@@ -10,7 +10,7 @@ using TypeLite;
 namespace Ecat.Shared.Core.ModelLibrary.Learner
 {
     [TsClass(Module = "ecat.entity.s.learner")]
-    public class StratResponse : ICompositeEntity
+    public class StratResponse : ICompositeEntity, IWorkGroupMonitored, ICourseMonitored
     {
         public string EntityId => $"{AssessorPersonId}|{AssesseePersonId}|{CourseId}|{WorkGroupId}";
         public int AssessorPersonId { get; set; }

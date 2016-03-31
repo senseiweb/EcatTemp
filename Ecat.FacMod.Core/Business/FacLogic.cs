@@ -87,7 +87,7 @@ namespace Ecat.FacMod.Core
             var requestedWg = await (from wg in _repo.GetCourseWorkGroups
                                let inventoryCount = wg.AssignedSpInstr.InventoryCollection.Count
                                let activeGroupCount = wg.GroupMembers.Count(gm => !gm.IsDeleted)
-                               where wg.Id == workGroupId &&
+                               where wg.WorkGroupId == workGroupId &&
                       wg.CourseId == courseId &&
                       wg.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId)
                 select new
@@ -141,7 +141,7 @@ namespace Ecat.FacMod.Core
         async Task<List<StudSpComment>> IFacLogic.GetStudSpComments(int courseId, int workGroupId)
         {
             var comments = _repo.GetCourseWorkGroups
-                .Where(wg => wg.CourseId == courseId && wg.Id == workGroupId)
+                .Where(wg => wg.CourseId == courseId && wg.WorkGroupId == workGroupId)
                 .SelectMany(wg => wg.SpComments)
                 .Include(comment => comment.Flag);
 
@@ -151,7 +151,7 @@ namespace Ecat.FacMod.Core
         async Task<List<FacSpComment>> IFacLogic.GetFacSpComment(int courseId, int workGroupId)
         {
             var comments = _repo.GetCourseWorkGroups
-                .Where(wg => wg.CourseId == courseId && wg.Id == workGroupId)
+                .Where(wg => wg.CourseId == courseId && wg.WorkGroupId == workGroupId)
                 .SelectMany(wg => wg.FacSpComments)
                 .Include(comment => comment.Flag)
                 .Include(comment => comment.FacultyCourse.FacultyProfile.Person)
@@ -165,7 +165,7 @@ namespace Ecat.FacMod.Core
             var requestedWg = await (from wg in _repo.GetCourseWorkGroups
                 let inventoryCount = wg.AssignedSpInstr.InventoryCollection.Count
                 let activeGroupCount = wg.GroupMembers.Count(gm => !gm.IsDeleted)
-                where wg.Id == workGroupId &&
+                where wg.WorkGroupId == workGroupId &&
                       wg.CourseId == courseId &&
                       wg.Course.Faculty.Any(fac => fac.FacultyPersonId == FacultyPerson.PersonId)
                 select new

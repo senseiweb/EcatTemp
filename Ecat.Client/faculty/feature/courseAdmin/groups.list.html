@@ -73,7 +73,7 @@
                         </td>
                     </tr>
                 </thead>
-                <tr ng-repeat="group in cag.workGroups | orderBy: cag.activeSort.opt:grps.activeSort.desc | filter: cag.filteredGrpFlight | filter: cag.filteredGrpCat | filter: cag.filteredGrpStatus track by group.id"
+                <tr ng-repeat="group in cag.workGroups | orderBy: cag.activeSort.opt:grps.activeSort.desc | filter: cag.filteredGrpFlight | filter: cag.filteredGrpCat | filter: cag.filteredGrpStatus track by group.workGroupId"
                     ng-mouseover="group.isVisible = true"
                     ng-mouseleave="group.isVisible = false"
                     style="height: 50px">

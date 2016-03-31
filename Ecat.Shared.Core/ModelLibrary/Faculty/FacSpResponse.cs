@@ -12,7 +12,7 @@ using TypeLite;
 namespace Ecat.Shared.Core.ModelLibrary.Faculty
 {
     [TsClass(Module = "ecat.entity.s.faculty")]
-    public class FacSpResponse : IAuditable, ICompositeEntity
+    public class FacSpResponse : IAuditable, IWorkGroupMonitored, ICourseMonitored
     {
         public string EntityId => $"{AssesseePersonId}|{CourseId}|{WorkGroupId}|{InventoryItemId}";
         public int InventoryItemId { get; set; }

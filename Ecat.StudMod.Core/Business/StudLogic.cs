@@ -61,7 +61,7 @@ namespace Ecat.StudMod.Core
 
             if (activeGroup == null) return requestedCourses;
 
-            activeGroup = await GetWorkGroup(activeGroup.Id, true);
+            activeGroup = await GetWorkGroup(activeGroup.WorkGroupId, true);
             activeCourse.WorkGroups.Add(activeGroup);
             return requestedCourses;
         }
@@ -69,7 +69,7 @@ namespace Ecat.StudMod.Core
         public async Task<WorkGroup> GetWorkGroup(int wgId, bool addInstrument)
         {
             var workGroup = await (from wg in _repo.WorkGroups
-                where wg.Id == wgId &&
+                where wg.WorkGroupId == wgId &&
                       wg.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId && !gm.IsDeleted)
                 let prundedGm = wg.GroupMembers.Where(gm => !gm.IsDeleted)
                 let myPrunded = prundedGm.FirstOrDefault(gm => gm.StudentId == StudentPerson.PersonId)
@@ -150,7 +150,7 @@ namespace Ecat.StudMod.Core
                 Id = Guid.NewGuid(),
                 AssesseeId = StudentPerson.PersonId,
                 CourseId = myResult.WorkGroup.CourseId,
-                WorkGroupId = myResult.WorkGroup.Id,
+                WorkGroupId = myResult.WorkGroup.WorkGroupId,
                 IsSelfResponse = ar.AssessorPersonId == StudentPerson.PersonId,
                 MpItemResponse = ar.MpItemResponse,
                 ItemModelScore = ar.ItemModelScore,
@@ -190,7 +190,7 @@ namespace Ecat.StudMod.Core
                     Id = Guid.NewGuid(),
                     RecipientId = facResultData.FacSpComment.RecipientPersonId,
                     CourseId = myResult.CourseId,
-                    WorkGroupId = myResult.WorkGroup.Id,
+                    WorkGroupId = myResult.WorkGroup.WorkGroupId,
                     AuthorName = "Instructor",
                     CommentText = facResultData.FacSpComment.CommentText,
                     FacFlag = facResultData.FacSpCommentFlag

@@ -113,7 +113,7 @@ export default class EcStudentRepo extends IUtilityRepo {
                 const groups = course.workGroups;
 
                 groups.forEach(grp => {
-                    if (grp.groupMembers && grp.groupMembers.length > 0) that.isLoaded.workGroup[grp.id] = true;
+                    if (grp.groupMembers && grp.groupMembers.length > 0) that.isLoaded.workGroup[grp.workGroupId] = true;
                 });
             }
             that.log.success('Course loaded from remote data store', course, false);
@@ -164,8 +164,8 @@ export default class EcStudentRepo extends IUtilityRepo {
                 return that.c.$q.reject(() => error) as any;
             }
 
-            that.isLoaded.workGroup[workGroup.id] = true;
-            that.isLoaded.spInventory[workGroup.id] = (workGroup.assignedSpInstr) ? true : false;
+            that.isLoaded.workGroup[workGroup.workGroupId] = true;
+            that.isLoaded.spInventory[workGroup.workGroupId] = (workGroup.assignedSpInstr) ? true : false;
 
             return workGroup;
         }
@@ -211,8 +211,8 @@ export default class EcStudentRepo extends IUtilityRepo {
             const inventory = workGroup.assignedSpInstr.inventoryCollection;
             if (!inventory) return that.c.$q.reject('Then required inventory for this result was not in the returned set;') as any;
 
-            that.isLoaded.spInventory[workGroup.id] = true;
-            that.isLoaded.wgResult[workGroup.id] = true;
+            that.isLoaded.spInventory[workGroup.workGroupId] = true;
+            that.isLoaded.wgResult[workGroup.workGroupId] = true;
             inventory.forEach(item => {
                 item.spResult = result;
                 return item;
@@ -396,7 +396,7 @@ export default class EcStudentRepo extends IUtilityRepo {
 
                     workGroups.forEach(wg => {
                         if (wg.groupMembers && wg.groupMembers.length > 0) {
-                            that.isLoaded.workGroup[wg.id] = true;
+                            that.isLoaded.workGroup[wg.workGroupId] = true;
                         }
                     });
                 }

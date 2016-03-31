@@ -10,10 +10,10 @@
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                    <li ng-repeat="wg in assess.workGroups track by wg.id">
+                    <li ng-repeat="wg in assess.workGroups track by wg.workGroupId">
                         <a href="javascript:void(0)"
                            ng-click="assess.setActiveGroup(wg, false)">
-                            <i ng-if="wg.id === assess.activeGroup.id" class="zmdi zmdi-toys zmdi-hc-fw"></i>
+                            <i ng-if="wg.workGroupId === assess.activeGroup.workGroupId" class="zmdi zmdi-toys zmdi-hc-fw"></i>
                             {{wg.displayName}}
                         </a>
                     </li>

@@ -55,7 +55,7 @@ namespace Ecat.LmsAdmin.Mod
         public async Task<WorkGroup> GetWorkGroupMembers(int workGroupId)
         {
             var query = await _mainCtx.WorkGroups
-                .Where(wg => wg.Id == workGroupId)
+                .Where(wg => wg.WorkGroupId == workGroupId)
                 .Select(wg => new
                 {
                     wg,
@@ -168,14 +168,14 @@ namespace Ecat.LmsAdmin.Mod
         public async Task<GroupMemReconResult> ReconcileGroupMembers(int wgId)
         {
             var crseWithWorkgroup = await _mainCtx.Courses
-                .Where(crse => crse.WorkGroups.Any(wg => wg.Id == wgId))
+                .Where(crse => crse.WorkGroups.Any(wg => wg.WorkGroupId == wgId))
                 .Select(crse => new GroupMemberReconcile
                 {
                     CrseId = crse.Id,
                     BbCrseId = crse.BbCourseId,
-                    WorkGroups = crse.WorkGroups.Where(wg => wg.Id == wgId).Select(wg => new GmrGroup
+                    WorkGroups = crse.WorkGroups.Where(wg => wg.WorkGroupId == wgId).Select(wg => new GmrGroup
                     {
-                        WgId = wg.Id,
+                        WgId = wg.WorkGroupId,
                         BbWgId = wg.BbGroupId,
                         Category = wg.MpCategory,
                         Name = wg.DefaultName,
@@ -211,7 +211,7 @@ namespace Ecat.LmsAdmin.Mod
                     WorkGroups = crse.WorkGroups.Where(wg => wg.MpCategory == groupCategory)
                         .Select(wg => new GmrGroup
                         {
-                            WgId = wg.Id,
+                            WgId = wg.WorkGroupId,
                             BbWgId = wg.BbGroupId,
                             Category = wg.MpCategory,
                             Name = wg.DefaultName,

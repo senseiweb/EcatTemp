@@ -63,7 +63,7 @@ export default class EcStudAssess {
             let activeWorkGroup: ecat.entity.IWorkGroup;
 
             if (that.routingParams.wgId) {
-                activeWorkGroup = that.workGroups.filter(wg => wg.id === that.routingParams.wgId)[0];
+                activeWorkGroup = that.workGroups.filter(wg => wg.workGroupId === that.routingParams.wgId)[0];
                 if (!activeWorkGroup) activeWorkGroup = that.workGroups[0];
             } else {
                 activeWorkGroup = that.workGroups[0];
@@ -94,11 +94,11 @@ export default class EcStudAssess {
     }
 
     private setActiveGroup(workGroup: ecat.entity.IWorkGroup): void {
-        this.dCtx.student.activeGroupId = workGroup.id;
+        this.dCtx.student.activeGroupId = workGroup.workGroupId;
         this.grpDisplayName = `${workGroup.mpCategory}: ${workGroup.customName || workGroup.defaultName}`;
         this.activeGroup = workGroup;
         const viewOnly = workGroup.mpSpStatus !== _mp.MpSpStatus.open;
-        const wId = (workGroup) ? workGroup.id : 0;
+        const wId = (workGroup) ? workGroup.workGroupId : 0;
         const params = { crseId: this.activeCourseId, wgId: wId }
         viewOnly ? this.c.$state.go(this.c.stateMgr.student.result.name, params) : this.c.$state.go(this.c.stateMgr.student.assess.name, params);
     }

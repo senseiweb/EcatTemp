@@ -8,7 +8,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Faculty
 {
     [TsClass(Module = "ecat.entity.s.faculty")]
 
-    public class FacSpComment : IAuditable
+    public class FacSpComment : IAuditable, IWorkGroupMonitored, ICourseMonitored
     {
         public string EntityId => $"{RecipientPersonId}|{CourseId}|{WorkGroupId}";
         public int RecipientPersonId { get; set; }

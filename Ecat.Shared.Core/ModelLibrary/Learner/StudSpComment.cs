@@ -14,7 +14,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
 {
     [TsClass(Module = "ecat.entity.s.learner")]
     [DeletableGuard(AuthorizedDeleters = new[] {RoleMap.Student})]
-    public class StudSpComment  : IAuditable
+    public class StudSpComment  : IAuditable, IWorkGroupMonitored, ICourseMonitored
     {
         public string EntityId => $"{AuthorPersonId}|{RecipientPersonId}|{CourseId}|{WorkGroupId}";
         public int AuthorPersonId { get; set; }

@@ -160,7 +160,7 @@ export default class EcFacultyWgList {
         } else {
             this.c.$state.go(this.c.stateMgr.faculty.wgPublish, {
                 crseId: wg.courseId,
-                wgId: wg.id
+                wgId: wg.workGroupId
             });
         }
     }
@@ -275,7 +275,7 @@ export default class EcFacultyWgList {
            }
         const modal = this.$uim;
         const c = this.c;
-        this.dCtx.faculty.activeGroupId = wg.id;
+        this.dCtx.faculty.activeGroupId = wg.workGroupId;
         this.dCtx.faculty.fetchActiveWorkGroup()
         .then(getActiveWgReponse)
         .catch(getActiveWgResponseError);

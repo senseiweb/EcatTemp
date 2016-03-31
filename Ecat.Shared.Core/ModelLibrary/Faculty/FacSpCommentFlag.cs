@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ecat.Shared.Core.Interface;
 using Ecat.Shared.Core.ModelLibrary.Common;
 using TypeLite;
 
 namespace Ecat.Shared.Core.ModelLibrary.Faculty
 {
     [TsClass(Module = "ecat.entity.s.faculty")]
-    public class FacSpCommentFlag 
+    public class FacSpCommentFlag : IWorkGroupMonitored, ICourseMonitored
     {
         public int FacultyId { get; set; }
         public string MpAuthor { get; set; }

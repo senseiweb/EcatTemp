@@ -95,8 +95,8 @@ namespace Ecat.FacMod.Core
             var wgIds = wgMonitorEntities.Select(wgme => wgme.WorkGroupId);
 
             var pubWgIds = _efCtx.Context.WorkGroups
-                .Where(wg => wgIds.Contains(wg.Id) && wg.MpSpStatus == MpSpStatus.Published)
-                .Select(wg => wg.Id);
+                .Where(wg => wgIds.Contains(wg.WorkGroupId) && wg.MpSpStatus == MpSpStatus.Published)
+                .Select(wg => wg.WorkGroupId);
 
             if (!pubWgIds.Any()) return;
 
@@ -124,7 +124,7 @@ namespace Ecat.FacMod.Core
             if (!publishingWgs.Any()) return wgSaveMap;
 
 
-            var svrWgIds = publishingWgs.Select(wg => wg.Id);
+            var svrWgIds = publishingWgs.Select(wg => wg.WorkGroupId);
             var publishResultMap = WorkGroupPublish.Publish(wgSaveMap, svrWgIds, _loggedInUser.PersonId, _efCtx);
 
             wgSaveMap.MergeMap(publishResultMap);

@@ -86,7 +86,7 @@ export default class EcCrseAdGrpList {
 
     protected goToGroup(workGroup: ecat.entity.IWorkGroup) {
         const that = this;
-        this.dCtx.lmsAdmin.fetchAllGroupMembers(workGroup.id)
+        this.dCtx.lmsAdmin.fetchAllGroupMembers(workGroup.workGroupId)
             .then(goToGroupReponse)
             .catch(goToGroupError);
 
@@ -104,7 +104,7 @@ export default class EcCrseAdGrpList {
     protected pollActiveGroupMembers(): void {
         const that = this;
 
-        this.dCtx.lmsAdmin.pollActiveGroupMembers(this.activeGroup.id)
+        this.dCtx.lmsAdmin.pollActiveGroupMembers(this.activeGroup.workGroupId)
             .then(pollActiveGmResponse)
             .catch(pollActiveGmError);
 
@@ -142,7 +142,7 @@ export default class EcCrseAdGrpList {
             }
 
             _swal(alertSettings);
-            if (that.activeGroup.id) that.groupMembers = that.dCtx.lmsAdmin.getGroupMembers(that.activeGroup.id);
+            if (that.activeGroup.workGroupId) that.groupMembers = that.dCtx.lmsAdmin.getGroupMembers(that.activeGroup.workGroupId);
         }
 
         //TODO: Need to add error handler

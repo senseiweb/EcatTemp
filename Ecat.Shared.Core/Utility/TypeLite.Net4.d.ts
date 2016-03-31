@@ -117,7 +117,7 @@ declare module ecat.entity.s.school {
 		isDeleted: boolean;
 	}
 	interface WorkGroup {
-		id: number;
+		workGroupId: number;
 		courseId: number;
 		wgModelId: number;
 		mpCategory: string;

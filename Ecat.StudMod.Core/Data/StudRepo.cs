@@ -66,7 +66,7 @@ namespace Ecat.StudMod.Core
             using (var mainCtx = new EcatContext())
             {
                 var result = await mainCtx.WorkGroups
-                    .Where(wg => wg.Id == wgId)
+                    .Where(wg => wg.WorkGroupId == wgId)
                     .Select(wg => new FacResultForStudent
                     {
                         FacSpCommentFlag = wg.FacSpComments

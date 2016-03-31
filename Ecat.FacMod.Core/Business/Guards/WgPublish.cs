@@ -188,12 +188,12 @@ namespace Ecat.FacMod.Core
             var ids = wgIds.ToList();
 
             var pubWgData = (from wg in efCtx.Context.WorkGroups
-                             where ids.Contains(wg.Id) &&
+                             where ids.Contains(wg.WorkGroupId) &&
                                    wg.MpSpStatus == MpSpStatus.UnderReview &&
                                    wg.SpComments.All(comment => comment.Flag.MpFaculty != null)
                              select new PubWg
                              {
-                                 Id = wg.Id,
+                                 Id = wg.WorkGroupId,
                                  CourseId = wg.CourseId,
                                  CountInventory = wg.AssignedSpInstr.InventoryCollection.Count,
                                  InstrumentId = wg.AssignedSpInstrId,

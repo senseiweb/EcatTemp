@@ -14,9 +14,9 @@ using TypeLite;
 namespace Ecat.Shared.Core.ModelLibrary.School
 {
     [TsClass(Module = "ecat.entity.s.school")]
-    public class WorkGroup 
+    public class WorkGroup: IWorkGroupMonitored, ICourseMonitored
     {
-        public int Id { get; set; }
+        public int WorkGroupId { get; set; }
         public int CourseId { get; set; }
         public int WgModelId { get; set; }
         public string MpCategory { get; set; }

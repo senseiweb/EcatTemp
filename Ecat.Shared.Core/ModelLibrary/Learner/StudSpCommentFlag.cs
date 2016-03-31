@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ecat.Shared.Core.Interface;
 using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.School;
 using TypeLite;
@@ -11,7 +12,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Learner
 {
     [TsClass(Module = "ecat.entity.s.learner")]
 
-    public class StudSpCommentFlag
+    public class StudSpCommentFlag : IWorkGroupMonitored, ICourseMonitored
     {
         public string MpAuthor { get; set; }
         public string MpRecipient { get; set; }

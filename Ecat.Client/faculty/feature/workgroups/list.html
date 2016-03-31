@@ -106,7 +106,7 @@
                                 </tr>
 
                             <tr class="text-left"
-                                 ng-repeat="wg in wkl.activeCourse.workGroups | orderBy: wkl.activeSort.opt:wkl.activeSort.desc | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.id"
+                                 ng-repeat="wg in wkl.activeCourse.workGroups | orderBy: wkl.activeSort.opt:wkl.activeSort.desc | filter: wkl.filteredGrpFlight | filter: wkl.filteredGrpCat | filter: wkl.filteredGrpStatus track by wg.workGroupId"
                                     ng-mouseover="wg.isVisible = true" ng-mouseleave="wg.isVisible = false" style="height: 55px">
                                     <td>{{wg.defaultName}}</td>
                                     <td>{{wg.mpCategory}}</td>
@@ -123,7 +123,7 @@
                                                 </button>
 
                                                 <a href="javascript:void(0)"
-                                                   ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId: {{wg.courseId}},wgId: {{wg.id}}})"
+                                                   ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId: {{wg.courseId}},wgId: {{wg.workGroupId}}})"
                                                    class="btn btn-link btn-sm waves-effect btn-info f-14">
                                                     Assess
                                                 </a>
@@ -139,20 +139,20 @@
                                             <div role="group" ng-if="wg.mpSpStatus === wkl.mp.published">
 
                                                 <a href="javascript:void(0)"
-                                                   ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId: {{wg.courseId}},wgId: {{wg.id}}})"
+                                                   ui-sref="{{stateMgr.faculty.wgAssess.name}}({crseId: {{wg.courseId}},wgId: {{wg.workGroupId}}})"
                                                    class="btn btn-link btn-sm waves-effect btn-info f-14">
                                                     Assess
                                                 </a>
 
                                                 <a href="javascript:void(0)"
-                                                   ui-sref="{{stateMgr.faculty.wgResult.name}}({crseId:{{wg.courseId}},wgId: {{wg.id}}})"
+                                                   ui-sref="{{stateMgr.faculty.wgResult.name}}({crseId:{{wg.courseId}},wgId: {{wg.workGroupId}}})"
                                                    class="btn btn-link btn-sm waves-effect btn-info f-14">
                                                     Results
                                                 </a>
 
                                                 <a href="javascript:void(0)"
                                                    ng-if="wkl.course.gradReportPublished"
-                                                   ui-sref="{{stateMgr.faculty.wgCapStone.name}}({crseId:{{wg.courseId}},wgId: {{wg.id}}})"
+                                                   ui-sref="{{stateMgr.faculty.wgCapStone.name}}({crseId:{{wg.courseId}},wgId: {{wg.workGroupId}}})"
                                                    class="btn btn-link btn-sm waves-effect btn-info f-14">
                                                     Capstone
                                                 </a>

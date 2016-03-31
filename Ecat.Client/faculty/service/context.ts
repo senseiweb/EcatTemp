@@ -169,7 +169,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
                 return that.c.$q.reject(queryError) as any;
             }
 
-            that.isLoaded.workGroup[workGroup.id] = true;
+            that.isLoaded.workGroup[workGroup.workGroupId] = true;
             that.log.success('WorkGroup loaded from remote store', workGroup, false);
             return workGroup;
        }

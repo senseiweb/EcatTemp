@@ -177,7 +177,7 @@ export default class EcFacultyAdminContext extends IUtilityRepo{
             workGroup = data.results[0] as ecat.entity.IWorkGroup;
 
             if (workGroup.groupMembers && workGroup.groupMembers.length > 0) {
-                that.isLoaded.allGroupMembers[workGroup.id] = true;
+                that.isLoaded.allGroupMembers[workGroup.workGroupId] = true;
                 that.log.success('Retrieved WorkGroup with Members from remote cache', workGroup, false);
             }
 
