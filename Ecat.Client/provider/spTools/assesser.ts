@@ -72,7 +72,7 @@ export default class EcProviderSpToolAssessTaker {
         this.isNewAssess = this.inventoryList.some(item => item.responseForAssessee.entityAspect.entityState === breeze.EntityState.Added);
 
         if (this.isSelf) {
-            this.perspective = 'were you'
+            this.perspective = 'were you';
         }
 
         if (this.isNewAssess) {
@@ -150,7 +150,6 @@ export default class EcProviderSpToolAssessTaker {
             angular.element(element)
                 .closest('li')
                 .addClass('sp-complete');
-            console.log(element);
         }
 
         this.previousPage = this.currentPage;

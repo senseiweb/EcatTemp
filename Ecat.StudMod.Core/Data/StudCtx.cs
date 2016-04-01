@@ -5,6 +5,7 @@ using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Reflection;
 using Ecat.Shared.Core.Interface;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.Faculty;
 using Ecat.Shared.Core.ModelLibrary.Learner;
@@ -58,7 +59,15 @@ namespace Ecat.StudMod.Core
                 mb.Configurations.Add((dynamic)configurationInstance);
             }
 
-
+            mb.Ignore<CourseReconResult>();
+            mb.Ignore<MemReconResult>();
+            mb.Ignore<GroupMemReconResult>();
+            mb.Ignore<GroupReconResult>();
+            mb.Entity<FacultyInCourse>().Ignore(p => p.ReconResultId);
+            mb.Entity<StudentInCourse>().Ignore(p => p.ReconResultId);
+            mb.Entity<CrseStudentInGroup>().Ignore(p => p.ReconResultId);
+            mb.Entity<WorkGroup>().Ignore(p => p.ReconResultId);
+            mb.Entity<Course>().Ignore(p => p.ReconResultId);
 
             base.OnModelCreating(mb);
         }
