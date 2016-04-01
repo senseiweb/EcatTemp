@@ -20,7 +20,7 @@ namespace Ecat.StudMod.Core
         private readonly EFContextProvider<StudCtx> _efCtx;
         private readonly Person _loggedInUser;
         private readonly Type _tStudComment = typeof(StudSpComment);
-        private readonly Type _tStudCommentFlag = typeof(StudSpComment);
+        private readonly Type _tStudCommentFlag = typeof(StudSpCommentFlag);
         private readonly Type _tSpResponse = typeof(SpResponse);
         private readonly Type _tStratResponse = typeof(StratResponse);
 
