@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-md-12 p-t-20">
-        <div class="table-responsive">
+        <div>
             <table class="table table-hover table-vmiddle">
                 <thead>
                     <tr>
@@ -20,13 +20,43 @@
                         <th class="header text-center col-md-2">Status</th>
                         <th class="header text-center col-md-2">Options</th>
                     </tr>
-                    <tr table-filters>
-                        <th class="filter">
-                            <input type="text" ng-model="filterName" />
-                        </th>
-                    </tr>
+                    <!--<tr table-filters>
+                        <td class="filter">
+                            <ui-select multiple ng-model="cac.filters.name.filterWith" theme="select2" style="width: 100%" on-select="cac.filter()">
+                                <ui-select-match placeholder="--Filter By Name--">{{$item.key}}</ui-select-match>
+                                <ui-select-choices repeat="name.key as name in cac.filters.name.optionList | filter: $select.search">
+                                    <div>
+                                        <span><span ng-bind-html="name.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{name.count}}</span>
+                                    </div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="filter">
+                            <ui-select multiple ng-model="cac.filters.role.filterWith" theme="select2" style="width: 100%" on-select="cac.filter()">
+                                <ui-select-match placeholder="--Filter By Role--">{{$item.key}}</ui-select-match>
+                                <ui-select-choices repeat="role.key as role in cac.filters.role.optionList | filter: $select.search">
+                                    <div>
+                                        <span><span ng-bind-html="role.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{role.count}}</span>
+                                    </div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </td>
+                        <td class="filter">
+                            <ui-select multiple ng-model="cac.filters.status.filterWith" theme="select2" style="width: 100%" on-select="cac.filter()">
+                                <ui-select-match placeholder="--Filter By Status--">{{$item.key}}</ui-select-match>
+                                <ui-select-choices repeat="status.key as status in cac.filters.status.optionList | filter: $select.search">
+                                    <div>
+                                        <span><span ng-bind-html="status.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{status.count}}</span>
+                                    </div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </td>
+                    </tr>-->
                 </thead>
-                <tr ng-repeat="member in cac.members | orderBy:['member.lastName','member.firstName'] track by member.personId"
+                <tr ng-repeat="member in cac.pagedMembers | orderBy:['role','lastName','firstName'] track by member.personId"
                     ng-if="cac.activeView==cac.view.enroll" 
                     style="height: 50px">
                     <td>{{member.lastName}}, {{member.firstName}}</td>
@@ -42,6 +72,7 @@
                     </td>
                 </tr>
             </table>
+            <uib-pagination class="pagination-sm" total-items="cac.filteredMembers.length" items-per-page="25" boundary-links="true" first-text="<<" previous-text="<" next-text=">" last-text=">>" ng-model="cac.currentPage" ng-change="pageChanged()"></uib-pagination>
         </div>
     </div>
 </div>

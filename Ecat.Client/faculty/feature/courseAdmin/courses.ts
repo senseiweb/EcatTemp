@@ -6,14 +6,14 @@ import _swal from "sweetalert"
 
 export default class EcCrseAdCrseList {
     static controllerId = 'app.faculty.crseAd.courses';
-    static $inject = ['$uibModal', IDataCtx.serviceId, ICommon.serviceId];
+    static $inject = ['$uibModal', '$scope', IDataCtx.serviceId, ICommon.serviceId];
 
     protected activeView = CrseAdCrsesViews.Loading;
     private courses: Array<ecat.entity.ICourse> = [];
     protected editCourseController: Function;
     private faculty: Array<ecat.entity.s.school.FacultyInCourse> = [];
     private filters: ICrseCatFilter = {
-        cat: { optionList: [], filterWith: [] },
+        role: { optionList: [], filterWith: [] },
         status: { optionList: [], filterWith: [] },
         name: { optionList: [], filterWith: [] }
     }
@@ -24,8 +24,11 @@ export default class EcCrseAdCrseList {
         enroll: CrseAdCrsesViews.Enroll,
         instructors: CrseAdCrsesViews.Instructors
     }
+    protected currentPage: number;
+    private pagedMembers: Array<ecat.entity.IPerson> = [];
+    private filteredMembers: Array<ecat.entity.IPerson> = [];
 
-    constructor(private $uim: angular.ui.bootstrap.IModalService, private dCtx: IDataCtx, private c: ICommon) {
+    constructor(private $uim: angular.ui.bootstrap.IModalService, private $scope: angular.IScope, private dCtx: IDataCtx, private c: ICommon) {
         this.activate();
     }
 
@@ -102,6 +105,14 @@ export default class EcCrseAdCrseList {
 
         function fetchCourseMemberResponse() {
             that.processMembers(course);
+            that.currentPage = 1;
+            that.pagedMembers = that.filteredMembers.slice(0, 25);
+            that.$scope.$watch('cac.currentPage', () => {
+                let begin = ((that.currentPage - 1) * 25);
+                let end = begin + 25;
+
+                that.pagedMembers = that.filteredMembers.slice(begin, end);
+            });
             that.activeView = that.view.enroll;
         }
 
@@ -109,6 +120,80 @@ export default class EcCrseAdCrseList {
         function fetchCourseMemberError(reason: string) {
 
         }
+    }
+
+    //private filter(): void {
+    //    let filterName = [];
+    //    let filterRole = [];
+    //    let filterStatus = [];
+    //    this.filteredMembers = [];
+
+    //    if (this.filters.name.filterWith.length === 0 && this.filters.role.filterWith.length === 0 && this.filters.status.filterWith.length === 0) {
+    //        this.filteredMembers = this.members;
+    //        return null;
+    //    }
+
+    //    if (this.filters.name.filterWith.length > 0) {
+    //        filterName = this.members.filter(mem => {
+    //            if (this.filters.name.filterWith.some(name => mem.lastName === name)) { return true; }
+    //            return false;
+    //        });
+    //    }
+
+    //    if (this.filters.role.filterWith.length > 0) {
+    //        filterRole = this.members.filter(mem => {
+    //            if (this.filters.role.filterWith.some(role => mem['role'] === role)) { return true; }
+    //            return false;
+    //        });
+
+    //        if (this.filteredMembers.length > 0) {
+    //            this.filteredMembers = filterRole.filter(mem => {
+    //                if (this.filters.name.filterWith.some(name => mem.lastName === name)) { return true; }
+    //                return false;
+    //            });
+    //        } else { this.filteredMembers = filterRole; }
+    //    }
+
+    //    if (this.filters.status.filterWith.length > 0) {
+    //        filterStatus = this.members.filter(mem => {
+    //            if (this.filters.status.filterWith.some(status => mem['status'] === status)) { return true; }
+    //            return false;
+    //        });
+
+    //        if (filterName.length > 0 && filterRole.length > 0) {
+    //            this.filteredMembers = filterStatus.filter(mem => {
+    //                if (this.filters.name.filterWith.some(name => mem.lastName === name)) {
+    //                    if (this.filters.role.filterWith.some(role => mem['role'] === role)) { return true; }
+    //                }
+    //                return false;
+    //            });
+    //        } else if (filterName.length > 0 && filterRole.length === 0) {
+    //            this.filteredMembers = filterStatus.filter(mem => {
+    //                if (this.filters.name.filterWith.some(name => mem.lastName === name)) {return true;}
+    //                return false;
+    //            });
+    //        } else if (filterName.length === 0 && filterRole.length > 0) {
+    //            this.filteredMembers = filterStatus.filter(mem => {
+    //                if (this.filters.role.filterWith.some(role => mem['role'] === role)) { return true; }
+    //                return false;
+    //            });
+    //        } else { this.filteredMembers = filterRole; }
+    //    }
+    //}
+
+    private filteredMemRole = (item: ecat.entity.IPerson) => {
+
+        return this.filters.role.filterWith.length === 0 || this.filters.role.filterWith.some(e => item['role'] === e);
+    }
+
+    private filteredMemName = (item: ecat.entity.IPerson) => {
+
+        return this.filters.name.filterWith.length === 0 || this.filters.name.filterWith.some(e => item.lastName === e);
+    }
+
+    private filteredMemStatus = (item: ecat.entity.IPerson) => {
+
+        return this.filters.status.filterWith.length === 0 || this.filters.status.filterWith.some(e => item['status'] === e);
     }
 
     private goToWrkGrp(course: ecat.entity.ICourse) {
@@ -229,7 +314,7 @@ export default class EcCrseAdCrseList {
     }
 
     private processMembers(course: ecat.entity.ICourse): void {
-        const faculty = course.faculty.map(fic => {
+        var faculty = course.faculty.map(fic => {
             const me = fic.facultyProfile.person;
             const removeIds = fic.reconResult ? fic.reconResult.removedIds : null;
             me['role'] = 'Instructor';
@@ -238,6 +323,14 @@ export default class EcCrseAdCrseList {
             if (removeIds && removeIds.some(id => id === fic.facultyPersonId)) status = 'Removed';
             me['status'] = status;
             return me;
+        });
+
+        faculty.sort((a: ecat.entity.IPerson, b: ecat.entity.IPerson) => {
+            if (a.lastName < b.lastName) { return -1 }
+            if (a.lastName > b.lastName) { return 1 }
+            if (a.firstName < b.firstName) { return -1 }
+            if (a.firstName > b.firstName) { return 1 }
+            return 0;
         });
 
        const students = course.students.map(sic => {
@@ -250,7 +343,58 @@ export default class EcCrseAdCrseList {
             me['status'] = status;
             return me;
         });
-        this.members = faculty.concat(students);
+
+       students.sort((a: ecat.entity.IPerson, b: ecat.entity.IPerson) => {
+           if (a.lastName < b.lastName) { return -1 }
+           if (a.lastName > b.lastName) { return 1 }
+           if (a.firstName < b.firstName) { return -1 }
+           if (a.firstName > b.firstName) { return 1 }
+           return 0;
+       });
+
+       this.members = faculty.concat(students);
+       this.filteredMembers = this.members;
+
+       const role = {};
+       const name = {};
+       const status = {};
+
+       this.members.forEach((mem, i, array) => {
+           role[mem['role']] = null;
+           name[mem.lastName] = null;
+           status[mem['status']] = null;
+       });
+
+       const uniqueCatKeys = Object.keys(role).sort();
+       const uniqueNameKeys = Object.keys(name)
+           .sort((a: any, b: any) => a - b)
+           .map(name => `${name}`);
+
+       const uniqueStatusKeys = Object.keys(status).sort();
+
+       this.filters.role.optionList = uniqueCatKeys.map(key => {
+           const count = this.members.filter(g => g['role'] === key).length;
+           return {
+               key: key,
+               count: count
+           }
+       });
+
+       this.filters.name.optionList = uniqueNameKeys.map(key => {
+           const count = this.members.filter(g => g.lastName === key).length;
+           return {
+               key: key,
+               count: count
+           }
+       });
+
+       this.filters.status.optionList = uniqueStatusKeys.map(key => {
+           const count = this.members.filter(g => g['status'] === key).length;
+           return {
+               key: key,
+               count: count
+           }
+       });
     }
 
     private refreshData(): void {
@@ -283,7 +427,7 @@ interface ICrseFilter {
 }
 
 interface ICrseCatFilter {
-    cat: ICrseFilter;
+    role: ICrseFilter;
     status: ICrseFilter;
     name: ICrseFilter;
 }
