@@ -24,6 +24,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Designer
 
         public ICollection<SpInventory> InventoryCollection { get; set; }
         public ICollection<WorkGroup> AssignedGroups { get; set; }
-        public ICollection<SpAssessMap> SpAssessMaps { get; set; }
+        //public ICollection<SpAssessMap> SpAssessMaps { get; set; }
     }
 }

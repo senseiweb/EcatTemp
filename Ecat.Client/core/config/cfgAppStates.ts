@@ -1,13 +1,14 @@
 ﻿import _core from "core/states/core"
 import _student from "core/states/student"
 import _faculty from "core/states/faculty"
+import _designer from "core/states/designer"
 import _stateMgr from 'core/config/cfgProviders'
 import {IStateMgr} from "core/config/cfgProviders";
 
 export default class EcStateConfiguration {
 
     static $inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', `${_stateMgr.stateConfigProvider.id}Provider`, 'userStatic'];
-    statesToConfigure = [_core, _student, _faculty];
+    statesToConfigure = [_core, _student, _faculty, _designer];
 
     constructor($lp: angular.ILocationProvider, private $sp: angular.ui.IStateProvider, $up: angular.ui.IUrlRouterProvider, private sm: IStateMgr, userStatic: ecat.entity.ILoginToken) {
         

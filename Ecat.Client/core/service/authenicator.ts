@@ -32,14 +32,13 @@ export default class EcAuthenicator implements angular.IHttpInterceptor {
 
     responseError = (rejection: any): any => {
         const c = this.$injector.get(ICommon.serviceId) as ICommon;
-        if (rejection.status !== '401') return rejection;
+        if (rejection.status !== 401) return c.$q.reject(rejection);
 
         const dCtx = this.$injector.get(IDataCtx.serviceId) as IDataCtx;
 
-        if (dCtx.user.token.validity() !== _mpe.TokenStatus.Expired) return rejection;
+        if (dCtx.user.token.validity() !== _mpe.TokenStatus.Expired) return c.$q.reject(rejection);
 
         c.logger.logError('Your security token has expired. Please reenter your credentials', rejection, 'Authenicator', true);
-        c.$state.go(c.stateMgr.core.login.name, { mode: 'lock' });
-        return rejection;
+        return c.$state.go(c.stateMgr.core.login.name, { mode: 'lock' });
     }
 }

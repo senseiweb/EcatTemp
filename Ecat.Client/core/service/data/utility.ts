@@ -3,6 +3,7 @@ import _common from 'core/common/commonService'
 import IEmFactory from "core/service/data/emfactory"
 import IDataCtx from 'core/service/data/context'
 import * as _mpe from 'core/common/mapEnum'
+import * as _mp from 'core/common/mapStrings'
 
 export interface ILocalResource {
     userProfile: boolean;
@@ -113,7 +114,23 @@ export default class EcUtilityRepoServices {
         this.c.logger.logError(msg, error, 'Save Error', false);
         error.msg = msg;
 
+        if (error.entityErrors) this.processEntityErrors(error.entityErrors);
+
         return this.c.$q.reject(error);
+    }
+
+    private processEntityErrors = (entityErrs: Array<breeze.EntityError>): void => {
+        const monitorErrors = entityErrs.filter(err => err.errorName === _mp.MpEntityError.crseNotOpen || err.errorName === _mp.MpEntityError.wgNotOpen);
+
+        if (monitorErrors.length > 0) {
+            monitorErrors.forEach(err => {
+                err.entity.entityAspect.rejectChanges();
+            });
+            if (monitorErrors.some(err => err.errorName === _mp.MpEntityError.crseNotOpen)) this.log.error('Your changes have been rejected, the course changed to a published status!', monitorErrors, true);
+            if (monitorErrors.some(err => err.errorName === _mp.MpEntityError.wgNotOpen)) this.log.error('Your chagnes have been rejected, the workgroup is no longer opened for changes.', monitorErrors, true);
+        }
+
+
     }
 }
 

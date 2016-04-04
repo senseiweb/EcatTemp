@@ -24,7 +24,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Faculty
 
         public string MpItemResponse { get; set; }
         public float ItemModelScore { get; set; }
-        public int ScoreModelVersion { get; set; }
+        //public int ScoreModelVersion { get; set; }
 
         public WorkGroup WorkGroup { get; set; }
         public CrseStudentInGroup Assessee { get; set; }

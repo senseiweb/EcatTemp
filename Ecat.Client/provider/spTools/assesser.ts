@@ -49,6 +49,9 @@ export default class EcProviderSpToolAssessTaker {
         $rs.$on(c.coreCfg.coreApp.events.spInvntoryResponseChanged, ($event: angular.IAngularEvent) => {
             this.cancel($event);
         });
+        $rs.$on('$stateChangeStart', () => {
+            this.$mi.close();
+        });
         this.activate();
     }    
 
@@ -58,7 +61,7 @@ export default class EcProviderSpToolAssessTaker {
         this.isStudent = this.role === _mp.MpInstituteRole.student;
 
         if (this.isStudent) {
-            this.perspective = 'was your peer'            
+            this.perspective = 'was your peer';            
             this.inventoryList = this.dCtx.student.getSpInventory(this.assesseeId) as Array<ecat.entity.IStudSpInventory>;
         } else {
             this.perspective = 'was your student';
@@ -226,7 +229,7 @@ export default class EcProviderSpToolAssessTaker {
 
         const saveCtx = this.dCtx[ctx] as IUtility;
         const swalSettings: SweetAlert.Settings = {
-            title: 'Oh no!, there was a problem updating this assessment. Try saving again, or cancel the current comment and attempt this again later.',
+            title: 'Oh no!, there was a problem updating this assessment. Try saving again, or cancel the current assessment and attempt this again later.',
             type: 'warning',
             allowEscapeKey: true,
             confirmButtonText: 'Ok'
@@ -243,8 +246,14 @@ export default class EcProviderSpToolAssessTaker {
                 });
                 this.$mi.close();
             })
-            .catch(() => {
+            .catch((error) => {
+                const ee = (error) ? error.entityErrors : null;
+                if (ee && ee.some(err => err.errorName === _mp.MpEntityError.wgNotOpen || err.errorName === _mp.MpEntityError.crseNotOpen)) {
+                    this.$mi.close();
+                    return null;
+                }
                 this.c.swal(swalSettings);
+                return null;
             });
     }
 

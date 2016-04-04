@@ -47,6 +47,7 @@ namespace Ecat.FacMod.Core
             mb.Ignore(new List<Type>
             {
                 typeof (ProfileExternal),
+                typeof (ProfileDesigner),
                 typeof (Security),
                 typeof (ProfileStaff),
                 typeof (KcResponse),

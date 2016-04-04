@@ -86,7 +86,7 @@ export default class EcFacultyWgList {
 
            const activeCourse = courses[0];
            if (activeCourse.workGroups) {
-               that.thatunwrapGrpFilterables(activeCourse.workGroups);
+               that.unwrapGrpFilterables(activeCourse.workGroups);
            }
 
            that.dCtx.faculty.activeCourseId = activeCourse.id;
@@ -215,7 +215,7 @@ export default class EcFacultyWgList {
         $scope.wgMembers = members;
     }
     
-    private thatunwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
+    private unwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
         const grpCat = {};
         const grpName = {};
         const grpStatus = {};

@@ -42,6 +42,7 @@ namespace Ecat.UserMod.Core
         public IDbSet<ProfileStudent> Students { get; set; }
         public IDbSet<ProfileFaculty> Facilitators { get; set; }
         public IDbSet<ProfileExternal> Externals { get; set; }
+        public IDbSet<ProfileDesigner> Designers { get; set; } 
         public IDbSet<ProfileStaff> Staff { get; set; }
         public IDbSet<LoginToken> LoginTokens { get; set; }
     }

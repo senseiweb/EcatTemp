@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ecat.Shared.Core.ModelLibrary.Common;
+using Ecat.Shared.Core.Utility.Validation;
 using Newtonsoft.Json;
 using TypeLite;
 
@@ -17,6 +18,7 @@ namespace Ecat.Shared.Core.ModelLibrary.User
     /// <see cref="GuardUser.BeforeSaveEntities"/>
 
     [TsClass(Module="ecat.entity.s.user")]
+    [PersonMappedPropValid]
     public class Person
     {
         public int PersonId { get; set; }
@@ -40,6 +42,7 @@ namespace Ecat.Shared.Core.ModelLibrary.User
         public string MpInstituteRole { get; set; }
         public virtual ProfileStudent Student { get; set; }
         public virtual ProfileFaculty Faculty { get; set; }
+        public virtual ProfileDesigner Designer { get; set; }
         public virtual ProfileExternal External { get; set; }
         public virtual ProfileStaff HqStaff { get; set; }
         [TsIgnore]

@@ -6,8 +6,8 @@ import 'flotResize'
 import 'flotTooltip'
 import modSpTools from "provider/spTools/modSptools"
 import facultyConfig from 'faculty/config/configFacultyApp'
-import facDataService from 'faculty/service/context'
-import adminDataService from "faculty/service/adminContext"
+import facDataService from 'faculty/service/facCtx'
+import adminDataService from "faculty/service/lmsAdminCtx"
 import wrkgrpList from 'faculty/feature/workgroups/list'
 import wrkgrpAssess from 'faculty/feature/workgroups/assess'
 import wrkgrpPublish from 'faculty/feature/workgroups/publish'

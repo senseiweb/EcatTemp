@@ -1,12 +1,14 @@
 ﻿import ICoreStates from "core/states/core"
 import IStudStates from "core/states/student"
+import IDesignerStates from "core/states/designer"
 import IFacultyStates from "core/states/faculty"
 
 export interface IStateMgr extends angular.IServiceProvider {
     $get(): IStateMgr;
-    core: ICoreStates,
-    student: IStudStates,
-    faculty: IFacultyStates,
+    core: ICoreStates;
+    student: IStudStates;
+    faculty: IFacultyStates;
+    designer: IDesignerStates;
 }
 
 export default class EcCfgProviders {
@@ -28,6 +30,7 @@ export default class EcCfgProviders {
                 core: null,
                 student: null,
                 faculty: null,
+                designer: null,
                 $get: () => stateMgrProvider
             };
             return stateMgrProvider;

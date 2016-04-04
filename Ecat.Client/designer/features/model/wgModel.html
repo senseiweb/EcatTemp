@@ -1,0 +1,132 @@
+﻿<div class="container animated fadeInRight">
+
+    <div class="card" id="wgModels-main">
+
+        <div class="listview lv-bordered lv-lg">
+
+            <div class="lv-header-alt clearfix p-b-5">
+
+                <a href="javascript:void(0)"
+                   type="button"
+                   class="btn btn-link pull-left"
+                   ng-if="cac.activeView==cac.view.enroll"
+                   ng-click="cac.activeView = cac.view.list">
+                    <i class="zmdi zmdi-arrow-left zmdi-hc-fw"></i>
+                    Back to Courses
+                </a>
+
+                <div class="pull-right">
+
+                    <button type="button"
+                            class="btn btn-link waves-effect"
+                            ng-if="cac.activeView==cac.view.list" ng-click="cac.poll()">
+                        Poll Bb Courses
+                    </button>
+
+                    <ul class="lv-actions actions">
+                        <li class="dropdown" uib-dropdown>
+                            <a href="javascript:void(0)" uib-dropdown-toggle>
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="javascript:void(0)" ng-click="cac.refreshData()">
+                                        Refresh Data
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lv-body">
+                <div class="row">
+                    <div class="col-md-12 p-t-20">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-vmiddle">
+                                <thead>
+                                    <tr>
+                                        <th class="header col-md-2">Name</th>
+                                        <th class="header col-md-2 text-center">Ed Level</th>
+                                        <th class="header col-md-1 text-center">Wg Category</th>
+                                        <th class="header col-md-1 text-center">Status</th>
+                                        <th class="header col-md-2 text-center">Num Associated</th>
+                                        <th class="header col-md-3 text-center">Options</th>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="model in dwgm.models track by model.id"
+                                    ng-mouseover="model.menuVisible = true"
+                                    ng-mouseleave="model.menuVisible = false"
+                                    style="height: 50px">
+
+                                    <td>
+                                        <i class="zmdi zmdi-bookmark-outline zmdi-hc-fw"
+                                           ng-if="course.reconResultId"></i>
+                                        {{course.name}}
+                                    </td>
+                                    <td class="text-center">{{course.classNumber}}</td>
+                                    <td class="text-center">{{cac.formatDate(course.startDate)}}</td>
+                                    <td class="text-center">{{cac.formatDate(course.gradDate)}}</td>
+
+                                    <td class="text-center">
+                                        <span ng-if="course.gradReportPublished">Published</span>
+                                        <span ng-if="!course.gradReportPublished">Not Published</span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <div uib-dropdown ng-show="course.menuVisible">
+                                            <button id="{{course.name}}Options"
+                                                    class="btn btn-icon-text waves-effect"
+                                                    uib-dropdown-toggle
+                                                    ng-class="course.classNumber ? 'btn-primary' : 'btn-warning'">
+                                                <i class="zmdi zmdi-menu"></i>
+                                                Course Options
+                                            </button>
+
+                                            <ul uib-dropdown-menu role="menu" aria-labelledby="{{course.name}}Options">
+
+                                                <li role="menuitem">
+                                                    <a href="javascript:void(0)"
+                                                       ng-if="!course.gradReportPublished"
+                                                       ng-click="cac.publishGrad()">
+                                                        Publish Grad Report
+                                                    </a>
+                                                </li>
+
+                                                <li role="menuitem">
+                                                    <a href="javascript:void(0)"
+                                                       ng-click="cac.editInfo(course)">
+                                                        Edit Info
+                                                    </a>
+                                                </li>
+
+                                                <li class="divider" ng-hide="!course.classNumber"></li>
+
+                                                <li role="menuitem" ng-hide="!course.classNumber">
+                                                    <a href="javascript:void(0)"
+                                                       ng-disabled="!course.classNumber"
+                                                       ng-click="cac.goToRoll(course)">
+                                                        View/Edit Enrollments
+                                                    </a>
+                                                </li>
+
+                                                <li role="menuitem" ng-hide="!course.classNumber">
+                                                    <a href="javascript:void(0)"
+                                                       ng-disabled="!course.classNumber"
+                                                       ng-click="cac.goToWrkGrp(course)">View/Edit WorkGroups</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

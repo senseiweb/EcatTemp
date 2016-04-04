@@ -25,6 +25,11 @@ export class MpComponent {
     static unk = 'Unknown';
 }
 
+export class MpEntityError {
+    static crseNotOpen = 'Course Not Open';
+    static wgNotOpen = 'Wg Not Open';
+}
+
 export class MpPaygrade {
     static e1 = 'E1';
     static e2 = 'E2';

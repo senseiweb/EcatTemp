@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Ecat.Shared.Core.Interface;
 using Ecat.Shared.Core.ModelLibrary.Designer;
 using Ecat.Shared.Core.ModelLibrary.School;
+using Ecat.Shared.Core.Utility.Validation;
 using TypeLite;
 
 namespace Ecat.Shared.Core.ModelLibrary.Learner
 {
     [TsClass(Module = "ecat.entity.s.learner")]
+    [StudSpReponseValid]
     public class SpResponse : ICompositeEntity, IWorkGroupMonitored, ICourseMonitored
     {
         public string EntityId => $"{AssessorPersonId}|{AssesseePersonId}|{CourseId}|{WorkGroupId}|{InventoryItemId}";

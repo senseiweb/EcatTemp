@@ -10,6 +10,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Designer
     public class WorkGroupModel
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public int? AssignedSpInstrId { get; set; }
         public int? AssignedKcInstrId { get; set; }
         public string MpEdLevel { get; set; }

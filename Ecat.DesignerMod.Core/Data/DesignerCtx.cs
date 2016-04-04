@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using Ecat.Shared.DbMgr.Context;
 
-namespace Ecat.DesignerMod.Core
+namespace Ecat.DesignerMod.Core.Data
 {
     public class DesignerCtx: ContextBase<DesignerCtx>
     {
@@ -14,5 +9,6 @@ namespace Ecat.DesignerMod.Core
         {
             base.OnModelCreating(mb);
         }
+
     }
 }

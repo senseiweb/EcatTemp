@@ -4,7 +4,7 @@ import 'flot'
 import 'flotPie'
 import 'flotResize'
 import 'flotTooltip'
-import studCtx from "student/service/context"
+import studCtx from "student/service/studCtx"
 import modSpTools from "provider/spTools/modSptools"
 import assess from "student/feature/assess/assess"
 import assessList from "student/feature/assess/list"

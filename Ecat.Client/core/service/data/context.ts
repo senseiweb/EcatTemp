@@ -1,9 +1,10 @@
 ﻿import IEmFactory from "core/service/data/emfactory"
 import IUserData from 'core/service/data/user'
 import IStaticData from "core/service/data/static"
-import IStudentData from "student/service/context"
-import IFaculty from "faculty/service/context"
-import IFacAdmin from "faculty/service/adminContext"
+import IStudentData from "student/service/studCtx"
+import IFaculty from "faculty/service/facCtx"
+import IFacAdmin from "faculty/service/lmsAdminCtx"
+import IDesignerData from "designer/service/designCtx"
 import _common from "core/common/commonService"
 import * as _mp from "core/common/mapStrings"
 
@@ -29,7 +30,7 @@ export default class EcDataContext {
     user: IUserData;
     faculty: IFaculty;
     lmsAdmin: IFacAdmin;
-    designer: any;
+    designer: IDesignerData;
 
     constructor($rs: angular.IRootScopeService, private c: _common, emfactory: IEmFactory) {
         this.repoNames.forEach((name: string) => {

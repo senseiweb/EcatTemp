@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecat.DesignerMod.Core
+namespace Ecat.DesignerMod.Core.Business
 {
-    public class Class1
+    public class DesignerGuardian
     {
     }
 }

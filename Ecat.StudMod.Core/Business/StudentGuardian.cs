@@ -10,6 +10,7 @@ using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.StudMod.Core.Guards;
 
 namespace Ecat.StudMod.Core
 {
@@ -19,6 +20,7 @@ namespace Ecat.StudMod.Core
 
         private readonly EFContextProvider<StudCtx> _efCtx;
         private readonly Person _loggedInUser;
+        private readonly Type _tStudInGroup = typeof (CrseStudentInGroup);
         private readonly Type _tStudComment = typeof(StudSpComment);
         private readonly Type _tStudCommentFlag = typeof(StudSpCommentFlag);
         private readonly Type _tSpResponse = typeof(SpResponse);
@@ -35,64 +37,53 @@ namespace Ecat.StudMod.Core
 
             var unAuthorizedMaps = saveMap.Where(map => map.Key != _tStudComment &&
                                                         map.Key != _tSpResponse &&
+                                                        map.Key != _tStudInGroup &&
                                                         map.Key != _tStratResponse &&
                                                         map.Key != _tStudCommentFlag)
                                                         .ToList();
 
             saveMap.RemoveMaps(unAuthorizedMaps);
 
-            var courseMonitorEntities = saveMap.MonitorCourseMaps().ToList();
+            //Process any monitored entities to see if saves are allowed.
+            var courseMonitorEntities = saveMap.MonitorCourseMaps()?.ToList();
+            var workGroupMonitorEntities = saveMap.MonitorWgMaps()?.ToList();
 
-            if (courseMonitorEntities.Any()) ProcessCourseMonitoredMaps(courseMonitorEntities);
+            if (courseMonitorEntities != null || workGroupMonitorEntities != null)
+            {
+                var monitorGuard = new GuardMonitored(_efCtx);
+                if (courseMonitorEntities != null) monitorGuard.ProcessCourseMonitoredMaps(courseMonitorEntities);
+                if (workGroupMonitorEntities != null) monitorGuard.ProcessWorkGroupMonitoredMaps(workGroupMonitorEntities);
+            }
 
-            var workGroupMonitorEntities = saveMap.MonitorWgMaps().ToList();
+            //Process studInGroup to ensure that only the logged student' is being handled.
+            if (saveMap.ContainsKey(_tStudInGroup))
+            {
+                var infos = (from info in saveMap[_tStudInGroup]
+                    let sig = info.Entity as CrseStudentInGroup
+                    where sig != null && sig.StudentId == _loggedInUser.PersonId
+                    where info.EntityState == EntityState.Modified
+                    where info.OriginalValuesMap.ContainsKey("HasAcknowledged")
+                    select info).ToList();
 
-            if (workGroupMonitorEntities.Any()) ProcessWorkGroupMonitoredMaps(workGroupMonitorEntities);
+                if (infos.Any())
+                {
+                    foreach (var info in infos)
+                    {
+                        info.OriginalValuesMap = new Dictionary<string, object>()
+                        {{"HasAcknowledged", null}};
+                    }
+
+                    saveMap[_tStudInGroup] = infos;
+                }
+                else
+                {
+                    saveMap.Remove(_tStudInGroup);
+                }
+            }
 
             saveMap.AuditMap(_loggedInUser.PersonId);
             saveMap.SoftDeleteMap(_loggedInUser.PersonId);
             return saveMap;
         }
-
-        private void ProcessCourseMonitoredMaps(List<EntityInfo> infos)
-        {
-            var courseMonitorEntities = infos.Select(info => info.Entity).OfType<ICourseMonitored>();
-            var courseIds = courseMonitorEntities.Select(cme => cme.CourseId);
-
-            var pubCrseId = _efCtx.Context.Courses
-                .Where(crse => courseIds.Contains(crse.Id) && crse.GradReportPublished)
-                .Select(crse => crse.Id);
-
-            if (!pubCrseId.Any()) return;
-
-            var errors = from info in infos
-                         let crseEntity = (ICourseMonitored)info.Entity
-                         where pubCrseId.Contains(crseEntity.CourseId)
-                         select new EFEntityError(info, "Course Error Validation",
-                                     "There was a problem saving the requested items", "Course");
-
-            throw new EntityErrorsException(errors);
-        }
-
-        private void ProcessWorkGroupMonitoredMaps(List<EntityInfo> infos)
-        {
-            var wgMonitorEntities = infos.Select(info => info.Entity).OfType<IWorkGroupMonitored>();
-            var wgIds = wgMonitorEntities.Select(wgme => wgme.WorkGroupId);
-
-            var pubWgIds = _efCtx.Context.WorkGroups
-                .Where(wg => wgIds.Contains(wg.WorkGroupId) && wg.MpSpStatus == MpSpStatus.Published)
-                .Select(wg => wg.WorkGroupId);
-
-            if (!pubWgIds.Any()) return;
-
-            var errors = from info in infos
-                         let wgEntity = (IWorkGroupMonitored)info.Entity
-                         where pubWgIds.Contains(wgEntity.WorkGroupId)
-                         select new EFEntityError(info, "WorkGroup Error Validation",
-                                     "There was a problem saving the requested items", "WorkGroup");
-
-            throw new EntityErrorsException(errors);
-        }
-
     }
 }

@@ -48,6 +48,10 @@ namespace Ecat.Shared.DbMgr.Config
             HasOptional(p => p.Faculty)
                 .WithRequired()
                 .WillCascadeOnDelete(false);
+
+            HasOptional(p => p.Designer)
+                .WithRequired()
+                .WillCascadeOnDelete(false);
         }
     }
 

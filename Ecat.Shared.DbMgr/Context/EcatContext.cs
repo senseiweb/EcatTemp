@@ -84,8 +84,8 @@ namespace Ecat.Shared.DbMgr.Context
 
         #region ModelOwner: Deisgner
 
-        public DbSet<AssessMap> AssessMaps { get; set; }
-        public DbSet<SpAssessMap> SpAssessMaps { get; set; }
+        //public DbSet<AssessMap> AssessMaps { get; set; }
+        //public DbSet<SpAssessMap> SpAssessMaps { get; set; }
         public DbSet<CogInstrument> CogInstruments { get; set; }
         public DbSet<CogInventory> CogInventories { get; set; }
         public DbSet<KcInstrument> KcInstruments { get; set; }
@@ -149,7 +149,7 @@ namespace Ecat.Shared.DbMgr.Context
         {
             public EcatCtxConfig()
             {
-                AutomaticMigrationDataLossAllowed = false;
+                AutomaticMigrationDataLossAllowed = true;
                 AutomaticMigrationsEnabled = true;
             }
         }

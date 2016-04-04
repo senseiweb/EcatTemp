@@ -244,9 +244,13 @@
             Keesler = "_890_1",
             Sheppard = "_893_1",
             Tyndall = "_891_1";
-
     }
-
+    
+    public static class MpEntityError
+    {
+        public const string CrseNotOpen = "Course Not Open",
+            WgNotOpen = "Wg Not Open";
+    }
     public static class MpToken
     {
         public static string[] TokenMethods => new[] {

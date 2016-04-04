@@ -30,6 +30,7 @@ namespace Ecat.StudMod.Core
             mb.Ignore(new List<Type>
             {
                 typeof (ProfileExternal),
+                typeof (ProfileDesigner),
                 typeof (ProfileFaculty),
                 typeof (ProfileBase),
                 typeof (Security),

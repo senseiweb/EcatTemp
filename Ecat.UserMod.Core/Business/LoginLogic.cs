@@ -57,24 +57,32 @@ namespace Ecat.UserMod.Core
                 case "teachingassistant":
                     user.MpInstituteRole = MpInstituteRoleId.Faculty;
                     break;
+                case "coursebuilder":
+                    user.MpInstituteRole = MpInstituteRoleId.Designer;
+                    break;
                 default:
                     user.MpInstituteRole = MpInstituteRoleId.Student;
                     break;
             }
 
-            if (user.MpInstituteRole == MpInstituteRoleId.Faculty)
+            switch (user.MpInstituteRole)
             {
-                user.Faculty = user.Faculty ?? new ProfileFaculty();
-
-                user.Faculty.IsCourseAdmin = userIsCourseAdmin;
-                user.Faculty.AcademyId = request.Parameters["custom_ecat_school"];
-            }
-            else
-            {
-                user.Student = user.Student ?? new ProfileStudent();
+                case MpInstituteRoleId.Faculty:
+                    user.Faculty = user.Faculty ?? new ProfileFaculty();
+                    user.Faculty.IsCourseAdmin = userIsCourseAdmin;
+                    user.Faculty.AcademyId = request.Parameters["custom_ecat_school"];
+                    break;
+                case MpInstituteRoleId.Designer:
+                    user.Designer = user.Designer ?? new ProfileDesigner();
+                    user.Designer.AssociatedAcademyId = request.Parameters["custom_ecat_school"];
+                    break;
+                default:
+                    user.Student = user.Student ?? new ProfileStudent();
+                    break;
             }
 
             user.RegistrationComplete = true;
+            user.IsActive = true;
             user.Email = request.LisPersonEmailPrimary;
             user.LastName = request.LisPersonNameFamily;
             user.FirstName = request.LisPersonNameGiven;

@@ -1,5 +1,5 @@
 ﻿import IUtilityRepo from 'core/service/data/utility'
-import ICrseAdminCtx from "faculty/service/adminContext"
+import ICrseAdminCtx from "faculty/service/lmsAdminCtx"
 import {facCrseStudInGrpCfg}from 'faculty/entityExtensions/crseStudentInGroup'
 import {facWorkGrpEntityExt} from 'faculty/entityExtensions/workgroup'
 import {facPersonCfg} from 'faculty/entityExtensions/person'

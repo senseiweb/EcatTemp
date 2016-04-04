@@ -120,6 +120,7 @@ namespace Ecat.FacMod.Core
             {
                 var studInGroup = requestedWg.GroupMembers.Single(gm => gm.gm.StudentId == grpMem.StudentId);
                 grpMem.NumOfStratIncomplete = studInGroup.MissingStratCount;
+                grpMem.NumberOfAuthorComments = studInGroup.CommentCount;
             }
             workGroup.CanPublish = requestedWg.CanPublish;
             return workGroup;

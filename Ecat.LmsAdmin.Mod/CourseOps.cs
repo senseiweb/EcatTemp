@@ -230,7 +230,7 @@ namespace Ecat.LmsAdmin.Mod
                 reconResult = await AddNewUsers(newMembers, reconResult);
             }
 
-            var usersBbIdsToRemove = existingCrseUserIds.Where(ecu => !bbCourseMems.Select(cm => cm.id).Contains(ecu)).ToList();
+            var usersBbIdsToRemove = existingCrseUserIds.Where(ecu => !bbCourseMems.Select(cm => cm.userId).Contains(ecu)).ToList();
 
             if (usersBbIdsToRemove.Any())
             {

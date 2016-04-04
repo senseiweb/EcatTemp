@@ -6,7 +6,7 @@ import _swal from "sweetalert"
 
 export default class EcProviderSpToolCommenter {
     static controllerId = 'app.provider.sptools.commenter';
-    static $inject = ['$uibModalInstance', '$scope', IDataCtx.serviceId, ICommon.serviceId, 'recipientId', 'viewOnly'];
+    static $inject = ['$uibModalInstance', '$scope','$rootScope',IDataCtx.serviceId, ICommon.serviceId, 'recipientId', 'viewOnly'];
 
     private authorRole: string;
     private authorAvatar: string;
@@ -24,8 +24,26 @@ export default class EcProviderSpToolCommenter {
     private isSaveInProgress = false;
     
 
-    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private $scope: angular.IScope, private dCtx: IDataCtx, private c: ICommon, private recipientId: number, private viewOnly: boolean) {
+    constructor(private $mi: angular.ui.bootstrap.IModalServiceInstance, private $scope: angular.IScope,private $rs, private dCtx: IDataCtx, private c: ICommon, private recipientId: number, private viewOnly: boolean) {
         this.isPublished = viewOnly;
+     
+        //Not sure where to put this
+        $rs.$on('$stateChangeStart', () => {
+            this.$mi.close();
+        });
+
+        $scope.$watch('this.dCtx.student.saveInProgress', (newValue: string, oldValue: string) => {
+            if (newValue) {
+                this.isSaveInProgress = true;
+            } else {
+                this.isSaveInProgress = false;
+            }
+        });
+
+        this.activate();
+    }
+
+    activate(): void {
         const authorRole = this.authorRole = this.dCtx.user.persona.mpInstituteRole;
         let author: ecat.entity.IPerson;
         let recipient: ecat.entity.IPerson;
@@ -51,17 +69,7 @@ export default class EcProviderSpToolCommenter {
         this.isNew = this.comment.entityAspect.entityState === breeze.EntityState.Added;
 
         this.toOpts.push({ value: false, name: this.authorName });
-        this.toOpts.push({ value: true, name: 'Anonymous'});
-
-        //Not sure where to put this
-        $scope.$watch('this.dCtx.student.saveInProgress', (newValue: string, oldValue: string) => {
-            if (newValue) {
-                this.isSaveInProgress = true;
-            } else {
-                this.isSaveInProgress = false;
-            }
-        });
-
+        this.toOpts.push({ value: true, name: 'Anonymous' });
     }
 
     cancel(): void {
@@ -172,8 +180,14 @@ export default class EcProviderSpToolCommenter {
             .then(() => {
                 this.$mi.close();
             })
-            .catch(() => {
+            .catch((error) => {
+                const ee = (error) ? error.entityErrors : null;
+                if (ee && ee.some(err => err.errorName === _mp.MpEntityError.wgNotOpen || err.errorName === _mp.MpEntityError.crseNotOpen)) {
+                    this.$mi.close();
+                    return null;
+                }
                 this.c.swal(swalSettings);
+                return null;
             });
     }
 }

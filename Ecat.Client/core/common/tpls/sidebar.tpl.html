@@ -75,13 +75,16 @@
                 </li>
             </ul>
         </li>
-        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.designer.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.hq.main)">
+        <li class="sub-menu" ng-class="{'active toggled': $state.includes({{stateMgr.designer.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.designer.main)">
             <a href="" toggle-submenu>
                 <i class="zmdi  zmdi-wrench"></i> Course Designer
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.designer.instruments.name}}" data-ng-click="main.sidebarStat($event)">Assessments</a>
+                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.designer.instr.name}}" data-ng-click="main.sidebarStat($event)">Instruments</a>
+                </li>
+                <li>
+                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.designer.model.name}}" data-ng-click="main.sidebarStat($event)">Models</a>
                 </li>
             </ul>
         </li>
@@ -92,7 +95,7 @@
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.wgList.name}}" ng-click="main.sidebarStat($event)">Groups</a>
+                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.wgList.name}}" ng-click="main.sidebarStat($event)">Course WorkGroups</a>
                 </li>
                 <li ng-if="main.authorizeMenu(stateMgr.faculty.main, true)">
                     <a data-ui-sref-active="active" ui-sref="{{stateMgr.faculty.crseAdCrses.name}}" ng-click="main.sidebarStat($event)">Course Admin</a>
