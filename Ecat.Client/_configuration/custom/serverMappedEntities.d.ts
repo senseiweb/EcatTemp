@@ -96,7 +96,8 @@ declare module ecat.entity
             responseForAssessee: ISpResponse | IFacSpResponse;
             spResult: ISpResult;
             compositeScore: number;
-            reset(): void;
+            resetAssess(): void;
+            resetResult(): void;
             rejectChanges(): void;
             behaviorFreq: number;
             behaviorEffect: number;

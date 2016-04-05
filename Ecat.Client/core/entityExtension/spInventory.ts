@@ -26,11 +26,15 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
         }
     }
 
-    reset(): void {
+    resetAssess(): void {
         this._effLevel = null;
         this._freqLevel = null;
         this._behaveDisplayed = true;
         this.responseForAssessee = null;
+    }
+
+    resetResult(): void {
+        this._resultBreakOut = null;
     }
 
     spResult: ecat.entity.ISpResult;

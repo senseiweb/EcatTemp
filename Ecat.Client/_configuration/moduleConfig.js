@@ -158,7 +158,6 @@
                 "admin": 'app/admin',
                 "student": 'app/student',
                 "faculty": 'app/faculty',
-                "courseAdmin": 'app/courseAdmin',
                 "provider": 'app/provider',
                 "designer": 'app/designer',
                 "hq": 'app/hq'

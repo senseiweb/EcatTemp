@@ -174,12 +174,20 @@ export default class EcStudentRepo extends IUtilityRepo {
     fetchWgSpResult(): breeze.promises.IPromise<ecat.entity.ISpResult | angular.IPromise<void>> {
         const that = this;
         const resource = this.studentApiResources.wgResult.resource;
+        let workGroup: ecat.entity.IWorkGroup;
+        let inventory: Array<ecat.entity.ISpInventory>;
 
         if (this.isLoaded.wgResult[this.activeGroupId]) {
             const cachedResult = this.manager.getEntities(_mp.MpEntityType.spResult) as Array<ecat.entity.ISpResult>;
-
+            workGroup = that.manager.getEntityByKey(_mp.MpEntityType.workGroup, that.activeGroupId) as ecat.entity.IWorkGroup;
+            inventory = workGroup.assignedSpInstr.inventoryCollection;
             const result = cachedResult.filter(cr => cr.workGroupId === this.activeGroupId)[0];
             if (result) {
+                inventory.forEach(item => {
+                    item.resetResult();
+                    item.spResult = result;
+                    return item;
+                });
                 return this.c.$q.when(result);
             }
         }
@@ -206,14 +214,15 @@ export default class EcStudentRepo extends IUtilityRepo {
                 }
                 return that.c.$q.reject(queryError) as any;
             }
-            const workGroup = that.manager.getEntityByKey(_mp.MpEntityType.workGroup, that.activeGroupId) as ecat.entity.IWorkGroup;
+            workGroup = that.manager.getEntityByKey(_mp.MpEntityType.workGroup, that.activeGroupId) as ecat.entity.IWorkGroup;
 
-            const inventory = workGroup.assignedSpInstr.inventoryCollection;
+            inventory = workGroup.assignedSpInstr.inventoryCollection;
             if (!inventory) return that.c.$q.reject('Then required inventory for this result was not in the returned set;') as any;
 
             that.isLoaded.spInventory[workGroup.workGroupId] = true;
             that.isLoaded.wgResult[workGroup.workGroupId] = true;
             inventory.forEach(item => {
+                item.resetResult();
                 item.spResult = result;
                 return item;
             });
@@ -323,7 +332,7 @@ export default class EcStudentRepo extends IUtilityRepo {
                 spResponse = this.manager.createEntity(_mp.MpEntityType.spResponse, key) as ecat.entity.ISpResponse;
             }
 
-            item.reset();
+            item.resetAssess();
             item.responseForAssessee = spResponse;
             return item;
         });

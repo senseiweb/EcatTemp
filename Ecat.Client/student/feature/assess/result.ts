@@ -123,11 +123,13 @@ export default class EcStudAssessResult {
 
             that.resultInventory.forEach(inv => {
                 inv['needsEllipse'] = inv.behavior.length <= 50;
+                inv.resetAssess();
+
             });
 
             that.selectedComment = result.sanitizedComments[0];
             that.studentComments = result.sanitizedComments;
-            that.activeView = StudResultViews.Assess;
+            that.activeView = StudResultViews.Behavior;
         }
 
         //TODO: Need to write error hanler
