@@ -30,7 +30,7 @@ namespace Ecat.Shared.Core.Utility.Validation
                 return new ValidationResult(ErrorMessage);
             }
 
-            if (response.ItemModelScore >= 0 && response.ItemModelScore <= 6) return base.IsValid(value, validationContext);
+            if (response.ItemModelScore >= 0 && response.ItemModelScore <= 6) return ValidationResult.Success;
 
             ErrorMessage = $"Item model score is not valid, out of range 0-6, score is {response.ItemModelScore}";
 
