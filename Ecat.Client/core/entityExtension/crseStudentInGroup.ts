@@ -74,19 +74,19 @@ export class CrseStudInGrpExtBase implements ecat.entity.ext.ICrseStudInGrpExt, 
                         cummScore += 2;
                         sigStatus.breakout.ND += 1;
                         break;
-                    case knownReponse.ea:
+                    case knownReponse.eu:
                         cummScore += 3;
                         sigStatus.breakout.E += 1;
                         break;
-                    case knownReponse.eu:
+                    case knownReponse.ea:
                         cummScore += 4;
                         sigStatus.breakout.E += 1;
                         break;
-                    case knownReponse.hea:
+                    case knownReponse.heu:
                         cummScore += 5;
                         sigStatus.breakout.HE += 1;
                         break;
-                    case knownReponse.heu:
+                    case knownReponse.hea:
                         cummScore += 6;
                         sigStatus.breakout.HE += 1;
                         break;
