@@ -66,9 +66,7 @@
     <Compile Include="Business\StudLogic.cs" />
     <Compile Include="Data\StudCtx.cs" />
     <Compile Include="Data\StudCtxConfig.cs" />
-    <Compile Include="Data\StudRepo.cs" />
     <Compile Include="Inteface\IStudLogic.cs" />
-    <Compile Include="Inteface\IStudRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

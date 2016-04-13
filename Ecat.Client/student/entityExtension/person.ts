@@ -1,6 +1,6 @@
-﻿import _staticDs from "core/service/data/static";
-import * as _mp from "core/common/mapStrings"
-import {PersonExtBase, PersonInitializer } from "core/entityExtension/person"
+﻿import _staticDs from 'core/service/data/static';
+import * as _mp from 'core/common/mapStrings'
+import {PersonExtBase, PersonInitializer } from 'core/entityExtension/person'
 
 
 class StudPersonExt extends PersonExtBase  { }

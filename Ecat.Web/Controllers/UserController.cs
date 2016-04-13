@@ -33,7 +33,7 @@ namespace Ecat.Web.Controllers
         [AllowAnonymous]
         public string Metadata()
         {
-            return _userLogic.GetMetadata;
+            return _userLogic.Metadata;
         }
 
         [HttpPost]

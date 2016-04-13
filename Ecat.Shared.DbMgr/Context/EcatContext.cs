@@ -149,7 +149,7 @@ namespace Ecat.Shared.DbMgr.Context
         {
             public EcatCtxConfig()
             {
-                AutomaticMigrationDataLossAllowed = true;
+                AutomaticMigrationDataLossAllowed = false;
                 AutomaticMigrationsEnabled = true;
             }
         }

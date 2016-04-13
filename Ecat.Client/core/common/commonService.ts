@@ -1,11 +1,11 @@
 ﻿import _logger from 'core/service/logger'
-import _cfgProvider from "core/config/cfgProviders"
-import {IStateMgr} from "core/config/cfgProviders"
-import swal from "sweetalert"
-import * as _mp from "core/common/mapStrings"
-import * as _mpe from "core/common/mapEnum"
+import _cfgProvider from 'core/config/cfgProviders'
+import {IStateMgr} from 'core/config/cfgProviders'
+import swal from 'sweetalert'
+import * as _mp from 'core/common/mapStrings'
+import * as _mpe from 'core/common/mapEnum'
 import moment from 'moment'
-import IDataCtx from "core/service/data/context"
+import IDataCtx from 'core/service/data/context'
 
 export default class EcatCommonService {
     static serviceId = 'core.service.common';

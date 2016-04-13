@@ -26,8 +26,7 @@ export default class EcGlobalLogin {
         private c: ICommon,
         private dCtx: IDataCtx) {
         console.log('Login Controller Loaded');
-
-     
+        this.activate();
     }
 
     activate(): void {

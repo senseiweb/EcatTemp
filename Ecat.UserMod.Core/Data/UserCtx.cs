@@ -16,7 +16,6 @@ namespace Ecat.UserMod.Core
         protected override void OnModelCreating(DbModelBuilder mb)
         {
 
-            Database.Log = s => Debug.WriteLine(s);
 
             mb.Configurations.Add(new ConfigPerson());
             mb.Configurations.Add(new ConfigProfile());

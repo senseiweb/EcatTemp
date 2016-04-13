@@ -25,6 +25,7 @@ namespace Ecat.Shared.Core.Utility
         SysAdmin,
         Designer,
         CrseAdmin,
+        HqStaff,
         Faculty,
         Student,
         External,

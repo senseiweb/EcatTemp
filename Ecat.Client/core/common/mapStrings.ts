@@ -46,16 +46,16 @@ export class MpPaygrade {
 }
 
 export class MpCommentFlag {
-    static pos = "Positive";
-    static neg = "Negative";
-    static neut = "Neutral";
-    static appr = "Appropriate";
-    static inappr = "Inappropriate";
+    static pos = 'Positive';
+    static neg = 'Negative';
+    static neut = 'Neutral';
+    static appr = 'Appropriate';
+    static inappr = 'Inappropriate';
 }
 
 export class MpCommentType {
-    static signed = "Signed";
-    static anon = "Anonymous";
+    static signed = 'Signed';
+    static anon = 'Anonymous';
 }
 
 export class MpSpItemResponse {

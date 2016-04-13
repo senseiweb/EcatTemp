@@ -1,0 +1,65 @@
+﻿<div>
+    <div class="row" ng-repeat="instr in dwgi.spInstruments track by instr.id">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2>{{instr.name}}</h2>
+                    <ul class="actions">
+                        <li>Clone Assessment</li>
+                    </ul>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Num WG Associated</th>
+                        <th>Version</th>
+                        <th>Last Modified By</th>
+                        <th>Modified Date</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                    </tr>
+                </table>
+                <div class="clearfix"></div>
+                <div class="ec-expand-drop">
+                    <i class="zmdi zmdi-plus" ng-if="!inst.showDetail"></i>
+                    <i class="zmdi zmdi-minus" ng-if="inst.showDetail"></i>
+                </div>
+                <div uib-collapse="instr.showDetail">
+                    <uib-tabset>
+                        <uib-tab index="0" heading="Instructions">
+
+                        </uib-tab>
+                        <uib-tab index="1" heading="Inventory">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Display Order</th>
+                                    <th>Scored</th>
+                                    <th>Displayed</th>
+                                    <th>Behavior</th>
+                                    <th>Last Modified</th>
+                                    <th>Modified By</th>
+                                    <th>Options</th>
+                                </tr>
+                                </thead>
+
+                            </table>
+                        </uib-tab>
+                        <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+                            {{tab.content}}
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

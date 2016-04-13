@@ -81,11 +81,11 @@
             </a>
             <ul>
                 <li>
-                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.designer.instr.name}}" data-ng-click="main.sidebarStat($event)">Instruments</a>
+                    <a data-ui-sref-active="active" ui-sref="{{stateMgr.designer.instrument.name}}" data-ng-click="main.sidebarStat($event)">Instruments</a>
                 </li>
-                <li>
+                <!--<li>
                     <a data-ui-sref-active="active" ui-sref="{{stateMgr.designer.model.name}}" data-ng-click="main.sidebarStat($event)">Models</a>
-                </li>
+                </li>-->
             </ul>
         </li>
         <li class="sub-menu" ng-class="{ 'active toggled': $state.includes({{stateMgr.faculty.main.name}}) }" ng-if="main.authorizeMenu(stateMgr.faculty.main)">

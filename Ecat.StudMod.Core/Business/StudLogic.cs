@@ -4,10 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Breeze.ContextProvider;
+using Breeze.ContextProvider.EF6;
+using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.Context;
 using Newtonsoft.Json.Linq;
 
 namespace Ecat.StudMod.Core
@@ -15,45 +18,39 @@ namespace Ecat.StudMod.Core
 
     public class StudLogic : IStudLogic
     {
-        private readonly IStudRepo _repo;
+        private readonly EFContextProvider<StudCtx> _efCtx;
 
         public Person StudentPerson { get; set; }
 
-        public StudLogic(IStudRepo repo)
+        public StudLogic(EFContextProvider<StudCtx> efCtx)
         {
-            _repo = repo;
+            _efCtx = efCtx;
         }
 
         public SaveResult ClientSave(JObject saveBundle)
         {
-           
-            return _repo.ClientSaveChanges(saveBundle, StudentPerson);
+            var guardian = new StudentGuardian(_efCtx, StudentPerson);
+            _efCtx.BeforeSaveEntitiesDelegate += guardian.BeforeSaveEntities;
+            return _efCtx.SaveChanges(saveBundle);
         }
 
         async Task<List<Course>> IStudLogic.GetCourses(int? crseId)
         {
-            var query = crseId != null ? _repo.Courses.Where(c => c.Id == crseId) : _repo.Courses;
+            var query = crseId != null ? _efCtx.Context.Courses.Where(c => c.Id == crseId) : _efCtx.Context.Courses;
 
             var studCourseInit = await (from crse in query
                 where crse.Students.Any(sic => sic.StudentPersonId == StudentPerson.PersonId && !sic.IsDeleted)
                 select new
                 {
                     crse,
-                    workGroups = crse.WorkGroups.Where(wg => wg.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId)),
+                    workGroups =
+                        crse.WorkGroups.Where(wg => wg.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId)),
                     StudentCoures = crse.Students
                         .Where(sic => sic.StudentPersonId == StudentPerson.PersonId),
                 }).ToListAsync();
-            
+
 
             var requestedCourses = studCourseInit.Select(sic => sic.crse).ToList();
-
-            //foreach (var sci in studCourseInit)
-            //{
-            //    var course = sci.crse;
-            //    course.WorkGroups = sci.workGroups.ToList();
-            //    course.StudentsInCourse = sci.StudentCoures.ToList();
-            //    requestedCourses.Add(course);
-            //}
 
             var activeCourse = requestedCourses.OrderByDescending(crse => crse.StartDate).First();
             var activeGroup = activeCourse.WorkGroups.OrderByDescending(wg => wg.MpCategory).FirstOrDefault();
@@ -68,7 +65,7 @@ namespace Ecat.StudMod.Core
 
         public async Task<WorkGroup> GetWorkGroup(int wgId, bool addInstrument)
         {
-            var workGroup = await (from wg in _repo.WorkGroups
+            var workGroup = await (from wg in _efCtx.Context.WorkGroups
                 where wg.WorkGroupId == wgId &&
                       wg.GroupMembers.Any(gm => gm.StudentId == StudentPerson.PersonId && !gm.IsDeleted)
                 let prundedGm = wg.GroupMembers.Where(gm => !gm.IsDeleted)
@@ -86,19 +83,19 @@ namespace Ecat.StudMod.Core
                     Profiles = prundedGm.Select(gm => gm.StudentProfile).Distinct(),
                     Persons = prundedGm.Select(gm => gm.StudentProfile.Person).Distinct()
                 }).SingleOrDefaultAsync();
-            
+
             var requestedWorkGroup = workGroup.wg;
             if (addInstrument) return requestedWorkGroup;
 
             requestedWorkGroup.AssignedSpInstr.InventoryCollection = null;
             requestedWorkGroup.AssignedSpInstr = null;
-          
+
             return requestedWorkGroup;
         }
 
         async Task<SpResult> IStudLogic.GetWrkGrpResult(int wgId, bool addInstrument)
         {
-            var myResult = await (from result in _repo.SpResult
+            var myResult = await (from result in _efCtx.Context.SpResults
                 where result.WorkGroup.MpSpStatus == MpSpStatus.Published &&
                       result.StudentId == StudentPerson.PersonId &&
                       result.WorkGroupId == wgId
@@ -132,8 +129,8 @@ namespace Ecat.StudMod.Core
                     response => response.AssessorPersonId == StudentPerson.PersonId).ToList();
 
             requestedResult.WorkGroup.SpStratResponses =
-              requestedResult.WorkGroup.SpStratResponses.Where(
-                  response => response.AssessorPersonId == StudentPerson.PersonId).ToList();
+                requestedResult.WorkGroup.SpStratResponses.Where(
+                    response => response.AssessorPersonId == StudentPerson.PersonId).ToList();
 
 
             if (addInstrument)
@@ -142,7 +139,7 @@ namespace Ecat.StudMod.Core
                 requestedResult.AssignedInstrument = null;
             }
 
-            var facResultData = await _repo.GetFacSpResult(StudentPerson.PersonId, wgId);
+            var facResultData = await GetFacSpResult(StudentPerson.PersonId, wgId);
 
             requestedResult.SanitizedResponses = myResult.SpAssesseeResponses.Select(ar => new SanitizedSpResponse
             {
@@ -158,7 +155,8 @@ namespace Ecat.StudMod.Core
                 Result = requestedResult
             }).ToList();
 
-            var apprComments = myResult.RecipientComments.Where(comment => comment.Flag.MpFaculty == MpCommentFlag.Appr).ToList();
+            var apprComments =
+                myResult.RecipientComments.Where(comment => comment.Flag.MpFaculty == MpCommentFlag.Appr).ToList();
 
             requestedResult.SanitizedComments = apprComments.Select(rc => new SanitizedSpComment
             {
@@ -167,14 +165,17 @@ namespace Ecat.StudMod.Core
                 CourseId = rc.CourseId,
                 WorkGroupId = rc.WorkGroupId,
                 AuthorName =
-                            (rc.RequestAnonymity)
-                                ? "Anonymous"
-                                : $"{rc.Author.StudentProfile.Person.FirstName} {rc.Author.StudentProfile.Person.LastName}",
+                    (rc.RequestAnonymity)
+                        ? "Anonymous"
+                        : $"{rc.Author.StudentProfile.Person.FirstName} {rc.Author.StudentProfile.Person.LastName}",
                 CommentText = rc.CommentText,
-                Flag = myResult.RecipientFlags.Single(flag => flag.AuthorPersonId == rc.AuthorPersonId && flag.RecipientPersonId == rc.RecipientPersonId)
+                Flag =
+                    myResult.RecipientFlags.Single(
+                        flag =>
+                            flag.AuthorPersonId == rc.AuthorPersonId && flag.RecipientPersonId == rc.RecipientPersonId)
             }).ToList();
 
-            foreach (var flag in requestedResult.SanitizedComments.Select(sc =>sc.Flag))
+            foreach (var flag in requestedResult.SanitizedComments.Select(sc => sc.Flag))
             {
                 flag.AuthorPersonId = flag.AuthorPersonId == StudentPerson.PersonId
                     ? flag.AuthorPersonId
@@ -200,7 +201,25 @@ namespace Ecat.StudMod.Core
             return requestedResult;
         }
 
-        public string GetMetadata => _repo.GetMetadata;
+        public string GetMetadata => _efCtx.Metadata();
 
+        private static async Task<FacResultForStudent> GetFacSpResult(int studId, int wgId)
+        {
+            using (var mainCtx = new EcatContext())
+            {
+                var result = await mainCtx.WorkGroups
+                    .Where(wg => wg.WorkGroupId == wgId)
+                    .Select(wg => new FacResultForStudent
+                    {
+                        FacSpCommentFlag = wg.FacSpComments
+                            .FirstOrDefault(comment => comment.RecipientPersonId == studId).Flag,
+                        FacSpComment = wg.FacSpComments.FirstOrDefault(comment => comment.RecipientPersonId == studId),
+                        FacResponses = wg.FacSpResponses
+                            .Where(response => !response.IsDeleted &&
+                                               response.AssesseePersonId == studId).ToList()
+                    }).SingleOrDefaultAsync();
+                return result;
+            }
+        }
     }
 }

@@ -8,14 +8,17 @@ export default class EcDesignerStates {
     parentName = 'designer';
 
     main: angular.ui.IState;
-  
+    instrument: angular.ui.IState;
+    inventory: angular.ui.IState;
+    models: angular.ui.IState;
+
     constructor() {
         this.main = {
             name: `${_core.mainRefState.name}.designer`,
             parent: _core.mainRefState.name,
             url: '/designer',
             abstract: true,
-            template: '<div ui-view></div>',
+            templateUrl: '@[appDesigner]/features/main.html',
             data: {
                 validateToken: true,
                 authorized: [_mp.MpInstituteRole.designer]
@@ -29,13 +32,21 @@ export default class EcDesignerStates {
                 ]
             }
         }
+
+        this.instrument = {
+            name: `${this.main.name}.instr`,
+            parent: this.main.name,
+            url: '/instruments/{type}',
+            templateUrl: '@[appDesigner]/features/instrument/instr.html',
+            controller: 'app.designer.wgInstr as dwgi'
+        }
     }
 
-    private loadModule = ($ocLl: oc.ILazyLoad): void => System.import('app/faculty/appFac.js')
-        .then((facClass: any) => {
+    private loadModule = ($ocLl: oc.ILazyLoad): void => System.import('app/designer/appDesign.js')
+        .then((designClass: any) => {
             if (!this.isDesignerAppLoaded) {
-                const facMod = facClass.default.load();
-                $ocLl.inject(facMod.moduleId);
+                const designMod = designClass.default.load();
+                $ocLl.inject(designMod.moduleId);
                 this.isDesignerAppLoaded = true;
                 console.log('Designer Module v0.1 successful loaded');
             } else {

@@ -1,5 +1,5 @@
-﻿import {CrseStudInGrpExtBase, CrseStudInGrpInit} from "core/entityExtension/crseStudentInGroup"
-import * as _mp from "core/common/mapStrings"
+﻿import {CrseStudInGrpExtBase, CrseStudInGrpInit} from 'core/entityExtension/crseStudentInGroup'
+import * as _mp from 'core/common/mapStrings'
 
 class StudCrseStudInGrpExt extends CrseStudInGrpExtBase {}
 

@@ -416,7 +416,7 @@ export default class EcFacultyRepo extends IUtilityRepo {
                 facSpReponse.facultyPersonId = this.dCtx.user.persona.personId;
             }
             //Since we are reusing the inventory item breeze will auto try the backing fields...need to reset them to ensure there is no carryover between assessments;
-            item.reset();
+            item.resetAssess();
             item.responseForAssessee = facSpReponse;
 
             return item;

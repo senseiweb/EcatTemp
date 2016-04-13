@@ -10,7 +10,7 @@ namespace Ecat.UserMod.Core
     {
         SaveResult ClientSave(JObject saveBundle);
         Person User { get; set; }
-        string GetMetadata { get; }
+        string Metadata { get; }
         Task<object> GetProfile();
         Task<Person> LoginUser(string userName, string password);
         Task<Person> ProcessLtiUser(ILtiRequest parsedRequest);

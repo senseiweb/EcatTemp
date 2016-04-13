@@ -7,7 +7,9 @@ namespace Ecat.DesignerMod.Core.Data
     {
         protected override void OnModelCreating(DbModelBuilder mb)
         {
-            base.OnModelCreating(mb);
+
+            //mb.Entity<>()
+            //base.OnModelCreating(mb);
         }
 
     }

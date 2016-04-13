@@ -160,6 +160,7 @@ declare module ecat {
         crseId: number;
         uId: string;
         mode: string;
+        'type': string;
     }
 
     interface IUserLogStatus {
