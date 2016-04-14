@@ -213,7 +213,6 @@ export default class EcFacultyWgList {
 
         });
         $scope.wgMembers = members;
-        $scope.cache = wg['cache'];
         $scope.remote = moment(wg['remote']).format('DD MMM HH:mm:ss');
     }
     

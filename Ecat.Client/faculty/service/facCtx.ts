@@ -146,7 +146,6 @@ export default class EcFacultyRepo extends IUtilityRepo {
         if (this.isLoaded.workGroup[this.activeGroupId] && !forceRefresh) {
             if (workGroup) {
                 this.log.success('WorkGroup loaded from local cache', workGroup, false);
-                workGroup['cache'] = true;
                 return this.c.$q.when(workGroup);
             }
         }
@@ -173,7 +172,6 @@ export default class EcFacultyRepo extends IUtilityRepo {
             that.isLoaded.workGroup[workGroup.workGroupId] = true;
             that.log.success('WorkGroup loaded from remote store', workGroup, false);
             workGroup['remote'] = moment(Date.now());
-            workGroup['cache'] = false;
             return workGroup;
        }
 
