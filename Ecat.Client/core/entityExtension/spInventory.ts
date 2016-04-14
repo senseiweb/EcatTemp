@@ -117,6 +117,7 @@ export class SpInventoryExtBase implements ecat.entity.ext.ISpInventoryExtBase {
             this.compositeScore;
         } else {
             this.responseForAssessee.mpItemResponse = _mp.MpSpItemResponse.nd;
+            this.responseForAssessee.itemModelScore = _mpe.CompositeModelScore.nd;
         }
     }
 
