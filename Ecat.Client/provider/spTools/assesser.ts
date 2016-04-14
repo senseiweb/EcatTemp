@@ -251,6 +251,12 @@ export default class EcProviderSpToolAssessTaker {
                 const ee = (error) ? error.entityErrors : null;
                 if (ee && ee.some(err => err.errorName === _mp.MpEntityError.wgNotOpen || err.errorName === _mp.MpEntityError.crseNotOpen)) {
                     this.c.swal(swalPubSettings);
+                    this.inventoryList.forEach(item => {
+                        item.responseForAssessee.entityAspect.rejectChanges();
+                        item['isChanged'] = false;
+                        if (item['showBehavior']) { this.closeEditAssessItem(item, false) }
+                    });
+                    this.$mi.close();
                     return null;
                 }
                 this.c.swal(swalSettings);
