@@ -213,6 +213,8 @@ export default class EcFacultyWgList {
 
         });
         $scope.wgMembers = members;
+        $scope.cache = wg['cache'];
+        $scope.remote = moment(wg['remote']).format('DD MMM HH:mm:ss');
     }
     
     private unwrapGrpFilterables(groups: Array<ecat.entity.IWorkGroup>): void {
@@ -276,7 +278,14 @@ export default class EcFacultyWgList {
         const modal = this.$uim;
         const c = this.c;
         this.dCtx.faculty.activeGroupId = wg.workGroupId;
-        this.dCtx.faculty.fetchActiveWorkGroup()
+        let force = false;
+        if (wg['remote'] !== undefined) {
+            let diff = moment(Date.now()).diff(wg['remote'], 'minutes');
+            if (diff > 1) {
+                force = true;
+            }
+        }
+        this.dCtx.faculty.fetchActiveWorkGroup(force)
         .then(getActiveWgReponse)
         .catch(getActiveWgResponseError);
         
