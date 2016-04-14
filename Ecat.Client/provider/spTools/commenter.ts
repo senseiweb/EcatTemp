@@ -72,6 +72,11 @@ export default class EcProviderSpToolCommenter {
         this.toOpts.push({ value: true, name: 'Anonymous' });
     }
 
+    //prevents files from being dropped in comment box
+    dropHandler(): boolean {
+        return true;
+    }
+
     cancel(): void {
 
         const that = this;
