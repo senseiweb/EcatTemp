@@ -40,6 +40,7 @@ export default class EcStudAssessList {
         peers: StudListViews.PeerList,
         strats: StudListViews.StratList
     }
+    private saveError: boolean = false;
     //#endregion
 
     constructor(private $scope: angular.IScope, private c: ICommon, private dCtx: IDataCtx, private spTools: ISpTools) {
@@ -213,13 +214,34 @@ export default class EcStudAssessList {
             .catch(saveChangesError);
 
         function saveChangesResponse(): void {
+            that.saveError = false;
             that.me.updateStatusOfPeer();
             that.log.success('Success, Your changes have been made.', null, true);
         }
 
         //TODO: Need to write error handler
-        function saveChangesError(reason: string): void {
-
+        function saveChangesError(error: any): void {
+            that.saveError = true;
+            const ee = (error) ? error.entityErrors : null;
+            if (ee && ee.some(err => err.errorName === _mp.MpEntityError.wgNotOpen || err.errorName === _mp.MpEntityError.crseNotOpen)) {
+                const swalPubSettings: SweetAlert.Settings = {
+                    title: 'Publication Started',
+                    text: 'The publication process has been started on this workgroup by an instructor, no changes are allowed!',
+                    type: 'error',
+                    allowEscapeKey: true,
+                    confirmButtonText: 'Ok'
+                }
+                that.c.swal(swalPubSettings);
+                return null;
+            }
+            const swalSettings: SweetAlert.Settings = {
+                title: 'Oh no!, there was a problem saving. Try saving again or attempt this again later.',
+                type: 'warning',
+                allowEscapeKey: true,
+                confirmButtonText: 'Ok'
+            }
+            that.c.swal(swalSettings);
+            return null;
         }
 
     }
@@ -247,18 +269,26 @@ export default class EcStudAssessList {
         });
 
         return this.saveChanges(changeSet).then(() => {
-            const groupMembers = this.dCtx.student.getActiveWgMemberships();
-            groupMembers.filter(gm => changeSet.some(cs => cs.assesseePersonId === gm.studentId))
-                .forEach(gm => {
-                    gm.stratValidationErrors = [];
-                    gm.stratIsValid = true;
-                    gm.proposedStratPosition = null;
-                });
-            this.peers = groupMembers.filter(gm => gm.studentId !== this.me.studentId);
-            this.me = groupMembers.filter(gm => gm.studentId === this.me.studentId)[0];
-            this.me.updateStatusOfPeer();
-            groupMembers.forEach(gm => { gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None'; });
-            this.log.success('Stratifications Updated!', null, true);
+            if (!this.saveError) {
+                const groupMembers = this.dCtx.student.getActiveWgMemberships();
+                groupMembers.filter(gm => changeSet.some(cs => cs.assesseePersonId === gm.studentId))
+                    .forEach(gm => {
+                        gm.stratValidationErrors = [];
+                        gm.stratIsValid = true;
+                        gm.proposedStratPosition = null;
+                    });
+                this.peers = groupMembers.filter(gm => gm.studentId !== this.me.studentId);
+                this.me = groupMembers.filter(gm => gm.studentId === this.me.studentId)[0];
+                this.me.updateStatusOfPeer();
+                groupMembers.forEach(gm => { gm['stratText'] = (this.me.statusOfPeer[gm.studentId].stratComplete) ? this.me.statusOfPeer[gm.studentId].stratedPosition : 'None'; });
+                this.log.success('Stratifications Updated!', null, true);
+            } else {
+                this.me.proposedStratPosition = null;
+                this.peers.forEach(peer => {
+                    peer.stratValidationErrors = [];
+                    peer.stratIsValid = true;
+                    peer.proposedStratPosition = null;});
+            }
         });
     }
 

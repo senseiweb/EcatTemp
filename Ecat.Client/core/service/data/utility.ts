@@ -127,7 +127,7 @@ export default class EcUtilityRepoServices {
                 err.entity.entityAspect.rejectChanges();
             });
             if (monitorErrors.some(err => err.errorName === _mp.MpEntityError.crseNotOpen)) this.log.error('Your changes have been rejected, the course changed to a published status!', monitorErrors, true);
-            if (monitorErrors.some(err => err.errorName === _mp.MpEntityError.wgNotOpen)) this.log.error('Your chagnes have been rejected, the workgroup is no longer opened for changes.', monitorErrors, true);
+            if (monitorErrors.some(err => err.errorName === _mp.MpEntityError.wgNotOpen)) this.log.error('Your changes have been rejected, the workgroup is no longer opened for changes.', monitorErrors, true);
         }
 
 

@@ -214,14 +214,15 @@ export default class EcProviderSpToolAssessTaker {
     }
 
     private save(): void {
+        const swalPubSettings: SweetAlert.Settings = {
+            title: 'Publication Started',
+            text: 'The publication process has been started on this workgroup by an instructor, no changes are allowed!',
+            type: 'error',
+            allowEscapeKey: true,
+            confirmButtonText: 'Ok'
+        }
+
         if (this.isPublished) {
-            const swalPubSettings: SweetAlert.Settings = {
-                title: 'How did you get here!',
-                text: 'The workgroup status has been set to published, no changes are allowed!',
-                type: 'error',
-                allowEscapeKey: true,
-                confirmButtonText: 'Ok'
-            }
             return this.c.swal(swalPubSettings);
         }
 
@@ -249,7 +250,7 @@ export default class EcProviderSpToolAssessTaker {
             .catch((error) => {
                 const ee = (error) ? error.entityErrors : null;
                 if (ee && ee.some(err => err.errorName === _mp.MpEntityError.wgNotOpen || err.errorName === _mp.MpEntityError.crseNotOpen)) {
-                    this.$mi.close();
+                    this.c.swal(swalPubSettings);
                     return null;
                 }
                 this.c.swal(swalSettings);
