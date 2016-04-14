@@ -51,7 +51,7 @@
         <div class="form-group">
             <div class="fg-line">
                 <div class="col-md-12">
-                    <div text-angular required ng-if="!commenter.isPublished" ng-model="commenter.comment.commentText" class="pmbb-edit"></div>
+                    <div text-angular required ng-if="!commenter.isPublished" ng-model="commenter.comment.commentText" ta-max-text="3000" ng-model-options="{allowInvalid: true}" class="pmbb-edit"></div>
                     <div ng-if="commenter.isPublished" class="pmbb-edit" ng-bind-html="commenter.comment.commentText"></div>
                 </div>
             </div>
