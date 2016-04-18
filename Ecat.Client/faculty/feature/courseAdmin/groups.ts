@@ -47,7 +47,7 @@ export default class EcCrseAdGrpList {
             .catch((reason) => console.log(reason));
 
         function initResponse(workGroups: Array<ecat.entity.IWorkGroup>) {
-                that.unwrapGrpFilterables(workGroups);
+            that.unwrapGrpFilterables(workGroups);
             that.workGroups = workGroups;
             that.activeView = that.view.list;
         }
@@ -109,6 +109,21 @@ export default class EcCrseAdGrpList {
             .catch(pollActiveGmError);
 
         function pollActiveGmResponse(reconResult: ecat.entity.IGrpMemRecon): void {
+            const alertSettings: SweetAlert.Settings = {
+                title: 'Polling Complete!',
+                text: '',
+                type: _mp.MpSweetAlertType.success,
+                html: true
+            }
+
+            if (!reconResult || (reconResult.numAdded === 0 && reconResult.numRemoved === 0)) {
+                alertSettings.text = 'No Changes Detected';
+            } else {
+                that.groupMembers = reconResult.groupMembers.map(gm => gm.studentProfile.person);
+                alertSettings.text = `The following memberships changes were made to workGroup: ${that.activeGroup.defaultName}<br/><br/><hr/>
+                       Accounts Added ${reconResult.numAdded}<br/> Accounts Removed ${reconResult.numRemoved}`;
+            }
+            _swal(alertSettings);
         }
 
         //TODO: Need to add error handler

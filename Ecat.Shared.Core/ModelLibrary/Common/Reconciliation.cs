@@ -44,6 +44,7 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
     {
         public int StudentId { get; set; }
         public string BbGroupMemId { get; set; }
+        public string BbCrseMemId { get; set; }
         public bool IsDeleted { get; set; }
         public bool PendingRemoval { get; set; }
         public bool HasChildren { get; set; }
