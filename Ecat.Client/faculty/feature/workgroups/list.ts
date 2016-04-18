@@ -270,10 +270,11 @@ export default class EcFacultyWgList {
         }
         
            const error: SweetAlert.Settings = {
-                    title: 'Not Found',
-                    text: 'Could not locate any members of this workgroup!',
-                    closeOnConfirm: true
-           }
+            title: 'Not Found',
+            text: 'Could not locate any members of this workgroup!',
+            closeOnConfirm: true
+        }
+
         const modal = this.$uim;
         const c = this.c;
         this.dCtx.faculty.activeGroupId = wg.workGroupId;

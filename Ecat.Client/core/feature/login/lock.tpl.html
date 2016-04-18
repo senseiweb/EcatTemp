@@ -1,15 +1,15 @@
-﻿<div class="lc-block lcb-alt toggled login-navigation" id="l-lockscreen" ng-class="{shake: lock.badAttempt}">
+﻿<div class="lc-block lcb-alt toggled" id="l-lockscreen" ng-class="{shake: login.badAttempt}">
 
-    <img class="lcb-user" ng-src="main.user.avatarLocation || main.user.defaultAvatarLocation" alt="">
+    <img class="lcb-user" ng-src="login.user.avatarLocation || login.user.defaultAvatarLocation" alt="">
 
     <div class="fg-line">
         <input type="password" class="form-control text-center" placeholder="Password">
     </div>
     <a href="" class="btn btn-login btn-danger btn-float"><i class="zmdi zmdi-arrow-forward"></i></a>
-    <button class="btn btn-default btn-icon-text waves-effect" ng-click="lock.notMe()">
-        Not {{main.user.firstName}} {{main.user.lastName}}  <i class="zmdi zmdi-info-outline "></i>
+    <button class="btn btn-default btn-icon-text waves-effect" ng-click="login.notMe()">
+        Not {{login.user.firstName}} {{login.user.lastName}}  <i class="zmdi zmdi-info-outline "></i>
     </button>
-    <button class="btn btn-default btn-icon-text waves-effect" ng-click="lock.forgotPassword()">
+    <button class="btn btn-default btn-icon-text waves-effect" ng-click="login.forgotPassword()">
         Forgot Password <i class="zmdi zmdi-help-outline"></i>
     </button>
 </div>
