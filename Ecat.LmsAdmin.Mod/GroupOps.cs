@@ -88,10 +88,9 @@ namespace Ecat.LmsAdmin.Mod
                 available = true,
             };
 
-            var client = await _bbWs.GetCourseClient();
-            var autoRetry = new Retrier<getGroupResponse>();
-            var query = await autoRetry.Try(() => client.getGroupAsync(ecatCourse.BbCourseId, groupFilter), 3);
-            var bbGroups = query.@return;
+            var autoRetry = new Retrier<GroupVO[]>();
+            var bbGroups = await autoRetry.Try(() => _bbWs.BbWorkGroups(ecatCourse.BbCourseId, groupFilter), 3);
+
             var courseGroups = ecatCourse.WorkGroups;
 
             var reconResult = new GroupReconResult
@@ -183,6 +182,7 @@ namespace Ecat.LmsAdmin.Mod
                         {
                             StudentId = gm.StudentId,
                             BbGroupMemId = gm.BbCrseStudGroupId,
+                            BbCrseMemId = gm.StudentInCourse.BbCourseMemId,
                             IsDeleted = gm.IsDeleted,
                             HasChildren = gm.AuthorOfComments.Any() ||
                                           gm.AssesseeSpResponses.Any() ||
@@ -219,6 +219,7 @@ namespace Ecat.LmsAdmin.Mod
                             {
                                 StudentId = gm.StudentId,
                                 BbGroupMemId = gm.BbCrseStudGroupId,
+                                BbCrseMemId = gm.StudentInCourse.BbCourseMemId,
                                 IsDeleted = gm.IsDeleted,
                                 HasChildren = gm.AuthorOfComments.Any() ||
                                               gm.AssesseeSpResponses.Any() ||
@@ -236,40 +237,37 @@ namespace Ecat.LmsAdmin.Mod
 
         private async Task<List<GroupMemReconResult>> DoReconciliation(GroupMemberReconcile crseGroupToReconcile)
         {
-            var allGroupMemsId = crseGroupToReconcile.WorkGroups.Select(wg => wg.BbWgId).ToArray();
+            var allGroupBbIds = crseGroupToReconcile.WorkGroups.Select(wg => wg.BbWgId).ToArray();
 
-            var client = await _bbWs.GetMemClient();
-            var autoRetry = new Retrier<getGroupMembershipResponse>();
+            var autoRetry = new Retrier<GroupMembershipVO[]>();
             var filter = new MembershipFilter
             {
                 filterTypeSpecified = true,
                 filterType = (int)GrpMemFilterType.LoadByGrpId,
-                groupIds = allGroupMemsId
+                groupIds = allGroupBbIds
             };
 
-            var query = await autoRetry.Try(() => client.getGroupMembershipAsync(crseGroupToReconcile.BbCrseId, filter), 3);
+            var allBbGrpMems = await autoRetry.Try(() => _bbWs.BbGroupMembership(crseGroupToReconcile.BbCrseId, filter), 3);
 
-            var allBbGrpMems = query.@return;
-
-            var wgWithNewMembers = new Dictionary<GmrGroup, List<GroupMembershipVO>>();
+            var wgsWithChanges = new Dictionary<GmrGroup, List<GroupMembershipVO>>();
 
             foreach (var grpMem in allBbGrpMems.GroupBy(bbgm => bbgm.groupId))
             {
                 var relatedWg = crseGroupToReconcile.WorkGroups.Single(wg => wg.BbWgId == grpMem.Key);
 
-                var existingGrpMemBbIds = relatedWg.Members
+                var existingCrseMemBbIds = relatedWg.Members
                     .Where(mem => !mem.IsDeleted)
-                    .Select(mem => mem.BbGroupMemId)
+                    .Select(mem => mem.BbCrseMemId)
                     .ToList();
 
-                var newGroupMem = grpMem.Where(gm => !existingGrpMemBbIds.Contains(gm.groupMembershipId))
+                var changeGrpMem = grpMem.Where(gm => !existingCrseMemBbIds.Contains(gm.courseMembershipId))
                     .Select(gm => gm)
                     .ToList();
 
-                var currentBbGmIds = grpMem.Select(gm => gm.groupMembershipId);
-                var removedGroupMem = existingGrpMemBbIds.Where(egmid => !currentBbGmIds.Contains(egmid)).ToList();
+                var currentBbGmIds = grpMem.Select(gm => gm.courseMembershipId);
+                var removedGroupMem = existingCrseMemBbIds.Where(ecmid => !currentBbGmIds.Contains(ecmid)).ToList();
 
-                if (!newGroupMem.Any() && !removedGroupMem.Any()) continue;
+                if (!changeGrpMem.Any() && !removedGroupMem.Any()) continue;
 
                 relatedWg.ReconResult = new GroupMemReconResult
                 {
@@ -287,45 +285,59 @@ namespace Ecat.LmsAdmin.Mod
                     gm.PendingRemoval = true;
                 }
 
-                wgWithNewMembers.Add(relatedWg, newGroupMem);
+                wgsWithChanges.Add(relatedWg, changeGrpMem);
             }
 
-            if (wgWithNewMembers.Any())
+            if (wgsWithChanges.Any(wgwc => wgwc.Value.Any()))
+                wgsWithChanges = await AddGroupMembers(crseGroupToReconcile.CrseId, wgsWithChanges);
+
+            if (wgsWithChanges.SelectMany(wg => wg.Key.Members).Any(gm => gm.PendingRemoval))
+                wgsWithChanges = await RemoveOrFlag(crseGroupToReconcile.CrseId, wgsWithChanges);
+
+            if (wgsWithChanges.Any())
             {
-             wgWithNewMembers = await AddGroupMembers(crseGroupToReconcile.CrseId, wgWithNewMembers);
+                var ids = wgsWithChanges.Select(wg => wg.Key.WgId);
+                var svrWgMembers = await (from wg in _mainCtx.WorkGroups
+                    where ids.Contains(wg.WorkGroupId)
+                    select new
+                    {
+                        wg,
+                        GroupMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new
+                        {
+                            gm,
+                            gm.StudentProfile,
+                            gm.StudentProfile.Person
+                        })
+                    }).ToListAsync();
+                                          
+                foreach (var wg in wgsWithChanges)
+                {
+                    wg.Key.ReconResult.GroupMembers =  svrWgMembers.Single(swg => swg.wg.WorkGroupId == wg.Key.WgId)
+                            .GroupMembers.Select(gm => gm.gm).ToList();
+                }
             }
 
-            wgWithNewMembers = await RemoveOrFlag(crseGroupToReconcile.CrseId, wgWithNewMembers);
-
-            var studInGroups = wgWithNewMembers
-                .SelectMany(wg => wg.Key.ReconResult.GroupMembers)
-                .Select(wg => wg.StudentId)
-                .Distinct();
-
-            await _mainCtx.Students
-                .Where(stud => studInGroups.Contains(stud.PersonId))
-                .Include(stud => stud.Person)
-                .ToListAsync();
-
-            var reconResults =  wgWithNewMembers.Select(wg => wg.Key.ReconResult).ToList();
+            var reconResults = wgsWithChanges.Select(wg => wg.Key.ReconResult).ToList();
 
             return reconResults;
         } 
 
         private async Task<GroupMemberMap> AddGroupMembers(int crseId, GroupMemberMap grpsWithMemToAdd)
         {
-
             //Deal with members that were previously removed from the group, flagged as deleted and then added
             //back to the group
 
             var studentsToReactivate = new List<CrseStudentInGroup>();
+            var reActivateStudIds = new List<string>();
 
             foreach (var gmrGroup in grpsWithMemToAdd)
             {
-                var newMemberIds = gmrGroup.Value.Select(gmvo => gmvo.groupMembershipId);
+                var newMemberCrseIds = gmrGroup.Value.Select(gmvo => gmvo.courseMembershipId);
 
-                var exisitingMembersWithDeletedFlag = gmrGroup.Key.Members.Where(mem => newMemberIds.Contains(mem.BbGroupMemId) && mem.IsDeleted).ToList();
-
+                var exisitingMembersWithDeletedFlag = gmrGroup.Key.Members
+                    .Where(mem => newMemberCrseIds.Contains(mem.BbCrseMemId) && mem.IsDeleted)
+                    .ToList();
+               
                 if (!exisitingMembersWithDeletedFlag.Any()) continue;
 
                 gmrGroup.Key.ReconResult.NumAdded += exisitingMembersWithDeletedFlag.Count;
@@ -335,6 +347,7 @@ namespace Ecat.LmsAdmin.Mod
                     StudentId = emwdg.StudentId,
                     CourseId = crseId,
                     WorkGroupId = gmrGroup.Key.WgId,
+                    BbCrseStudGroupId = emwdg.BbGroupMemId,
                     IsDeleted = false,
                     DeletedDate = null,
                     DeletedById = null,
@@ -343,6 +356,7 @@ namespace Ecat.LmsAdmin.Mod
                 });
 
                 studentsToReactivate.AddRange(studentsInGroup);
+                reActivateStudIds.AddRange(exisitingMembersWithDeletedFlag.Select(emwdg => emwdg.BbCrseMemId));
             }
 
             if (studentsToReactivate.Any())
@@ -357,6 +371,7 @@ namespace Ecat.LmsAdmin.Mod
 
             var studentToLookUp = grpsWithMemToAdd
                 .SelectMany(gm => gm.Value)
+                .Where(gm => !reActivateStudIds.Contains(gm.courseMembershipId))
                 .Select(gm => gm.courseMembershipId)
                 .Distinct();
 
@@ -373,7 +388,6 @@ namespace Ecat.LmsAdmin.Mod
                 .ToListAsync();
 
             var additions = new List<CrseStudentInGroup>();
-
             foreach (var gwmta in grpsWithMemToAdd)
             {
                 foreach (var studInGroup in 
@@ -409,28 +423,40 @@ namespace Ecat.LmsAdmin.Mod
         {
             foreach (var group in grpWithMems.Keys)
             {
-                foreach (var gmrMember in group.Members.Where(mem => mem.PendingRemoval))
-                {
-                    var grpMember = new CrseStudentInGroup
-                    {
-                        WorkGroupId = group.WgId,
-                        CourseId = crseId,
-                        StudentId = gmrMember.StudentId
-                    };
+                var gmsPendingRemovalWithChildren = group.Members.Where(mem => mem.PendingRemoval && mem.HasChildren).Select(mem => mem.StudentId).ToList();
 
-                    if (gmrMember.HasChildren)
+                if (gmsPendingRemovalWithChildren.Any())
+                {
+                    var existingStudToFlag =
+                        await _mainCtx.StudentInGroups.Where(
+                            sig =>
+                                gmsPendingRemovalWithChildren.Contains(sig.StudentId) && sig.WorkGroupId == group.WgId)
+                            .ToListAsync();
+
+                    foreach (var sig in existingStudToFlag)
                     {
-                        grpMember.IsDeleted = true;
-                        grpMember.DeletedById = Faculty?.PersonId;
-                        grpMember.DeletedDate = DateTime.Now;
-                        _mainCtx.Entry(grpMember).State = EntityState.Modified;
+                        sig.IsDeleted = true;
+                        sig.DeletedById = Faculty?.PersonId;
+                        sig.DeletedDate = DateTime.Now;
+                        sig.ModifiedById = Faculty?.PersonId;
+                        sig.ModifiedDate = DateTime.Now;
                     }
-                    else
-                    {
-                        _mainCtx.Entry(grpMember).State = EntityState.Deleted;
-                    }
-                    group.ReconResult.NumRemoved += 1;
                 }
+
+                foreach (
+                    var gmrMember in
+                        group.Members.Where(mem => mem.PendingRemoval && !mem.HasChildren)
+                            .Select(mem => new CrseStudentInGroup
+                            {
+                                WorkGroupId = group.WgId,
+                                CourseId = crseId,
+                                StudentId = mem.StudentId,
+                            }))
+                {
+                    _mainCtx.Entry(gmrMember).State = EntityState.Deleted;
+                }
+
+                group.ReconResult.NumRemoved = group.Members.Count(mem => mem.PendingRemoval);
             }
              await _mainCtx.SaveChangesAsync();
             return grpWithMems;

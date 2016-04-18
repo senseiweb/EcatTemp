@@ -57,15 +57,13 @@ namespace Ecat.LmsAdmin.Mod
 
         public async Task<List<CategoryVO>> GetBbCategories()
         {
-            var client = await _bbWs.GetCourseClient();
             var filter = new CategoryFilter
             {
                 filterType = (int)CategoryFilterTpe.GetAllCourseCategory,
                 filterTypeSpecified = true
             };
-            var autoRetry = new Retrier<getCategoriesResponse>();
-            var query = await autoRetry.Try(() => client.getCategoriesAsync(filter), 3);
-            var categories = query.@return.ToList();
+            var autoRetry = new Retrier<CategoryVO[]>();
+            var categories = await autoRetry.Try(() => _bbWs.BbCourseCategories(filter), 3);
 
             return categories.ToList();
         }
@@ -89,11 +87,8 @@ namespace Ecat.LmsAdmin.Mod
                 courseFilter.categoryIds = ids;
             }
 
-            var client = await _bbWs.GetCourseClient();
-
-            var autoRetry = new Retrier<getCourseResponse>();
-            var query = await autoRetry.Try(() => client.getCourseAsync(courseFilter), 3);
-            var bbCoursesResult = query.@return;
+            var autoRetry = new Retrier<CourseVO[]>();
+            var bbCoursesResult = await autoRetry.Try(() => _bbWs.BbCourses(courseFilter), 3);
 
             if (bbCoursesResult == null) throw new InvalidDataException("No Bb Responses received");
 
@@ -198,10 +193,7 @@ namespace Ecat.LmsAdmin.Mod
                 AcademyId = Faculty?.AcademyId
             };
 
-            var autoRetryCm = new Retrier<getCourseMembershipResponse>();
-            //var autoRetryCr = new Retrier<getCourseRolesResponse>();
-
-            var client = await _bbWs.GetMemClient();
+            var autoRetryCm = new Retrier<CourseMembershipVO[]>();
 
             var courseMemFilter = new MembershipFilter
             {
@@ -209,9 +201,7 @@ namespace Ecat.LmsAdmin.Mod
                 filterType = (int)CrseMembershipFilterType.LoadByCourseId,
             };
 
-            var queryCm = await autoRetryCm.Try(() => client.getCourseMembershipAsync(ecatCourse.Course.BbCourseId, courseMemFilter), 3);
-
-            var bbCourseMems = queryCm.@return;
+            var bbCourseMems = await autoRetryCm.Try(() => _bbWs.BbCourseMembership(ecatCourse.Course.BbCourseId, courseMemFilter), 3);
 
             var existingCrseUserIds = ecatCourse.FacultyToReconcile
                 .Select(fac => fac.BbUserId).ToList();
@@ -240,7 +230,7 @@ namespace Ecat.LmsAdmin.Mod
             return reconResult;
         }
 
-        public async Task<SaveResult> SaveClientChanges(JObject saveBundle)
+        public SaveResult SaveClientChanges(JObject saveBundle)
         {
             var efContext = new EFContextProvider<EcatContext>();
             return efContext.SaveChanges(saveBundle);
@@ -274,11 +264,8 @@ namespace Ecat.LmsAdmin.Mod
                     id = accountsNeedToCreate.Select(bbAccount => bbAccount.userId).ToArray()
                 };
 
-                var userClient = await _bbWs.GetUserClient();
-                var autoRetryUsers = new Retrier<getUserResponse>();
-
-                var userQuery = await autoRetryUsers.Try(() => userClient.getUserAsync(userFilter), 3);
-                var bbUsers = userQuery.@return;
+                var autoRetryUsers = new Retrier<UserVO[]>();
+                var bbUsers = await autoRetryUsers.Try(() => _bbWs.BbCourseUsers(userFilter), 3);
                 var courseMems = bbCms;
 
                 if (bbUsers == null) return reconResult;

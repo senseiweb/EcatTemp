@@ -21,8 +21,14 @@ namespace Ecat.Shared.DbMgr.Context
         private const string VendorId = "EPME";
         private const string ProgramId = "Ecat";
         private const string Secret = "p0i38e382ur";
+        private const string DefaultSession = "nosession";
+        private int _tryCount = 0;
         private readonly BasicHttpsBinding _defaultBinding;
-        private readonly string _sessionKey;
+        private ContextWSPortTypeClient _bbCtx;
+        private CourseMembershipWSPortTypeClient _memClient;
+        private CourseWSPortTypeClient _crseClient;
+        private UserWSPortTypeClient _userClient;
+        private string _sessionKey;
 
         public BbWsCnet()
         {
@@ -30,9 +36,105 @@ namespace Ecat.Shared.DbMgr.Context
             _sessionKey =  "nosession";
         }
 
+        public async Task<CourseVO[]> BbCourses(CourseFilter filter)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _crseClient = null;
+            }
+
+            if (_crseClient == null) _crseClient = await GetCourseClient();
+            var crseVo = await _crseClient.getCourseAsync(filter);
+            _tryCount = 0;
+            return crseVo.@return;
+        }
+
+        public async Task<CategoryVO[]> BbCourseCategories(CategoryFilter filter)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _crseClient = null;
+            }
+
+            if (_crseClient == null) _crseClient = await GetCourseClient();
+            var crseVo = await _crseClient.getCategoriesAsync(filter);
+            _tryCount = 0;
+            return crseVo.@return;
+        }
+
+        public async Task<UserVO[]> BbCourseUsers(UserFilter filter)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _userClient = null;
+            }
+
+            if (_userClient == null) _userClient = await GetUserClient();
+            var userVo = await _userClient.getUserAsync(filter);
+            _tryCount = 0;
+            return userVo.@return;
+        }
+
+        public async Task<CourseMembershipVO[]> BbCourseMembership(string courseId, MembershipFilter filter)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _memClient = null;
+            }
+
+            if (_memClient == null) _memClient = await GetMemClient();
+            var crseMemVo = await _memClient.getCourseMembershipAsync(courseId, filter);
+            _tryCount = 0;
+            return crseMemVo.@return;
+        }
+
+        public async Task<GroupMembershipVO[]> BbGroupMembership(string courseId, MembershipFilter filter)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _memClient = null;
+            }
+
+            if (_memClient == null) _memClient = await GetMemClient();
+            var gmVo = await _memClient.getGroupMembershipAsync(courseId, filter);
+            _tryCount = 0; 
+            return gmVo.@return;
+        }
+
+        public async Task<GroupVO[]> BbWorkGroups(string courseId, GroupFilter filter)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _crseClient = null;
+            }
+
+            if (_crseClient == null) _crseClient = await GetCourseClient();
+            var wkGrpVo = await _crseClient.getGroupAsync(courseId, filter);
+            _tryCount = 0;
+            return wkGrpVo.@return;
+        }
+
         private async Task Activate()
         {
-            if (_sessionKey != "nosession")
+            if (_sessionKey != DefaultSession)
             {
                 await Task.FromResult(0);
                 return;
@@ -45,20 +147,19 @@ namespace Ecat.Shared.DbMgr.Context
 
             var returnedSessionKey = await context.initializeAsync();
 
-            var initializedContext = new ContextWSPortTypeClient(_defaultBinding, endpoint);
+            _bbCtx = new ContextWSPortTypeClient(_defaultBinding, endpoint);
 
-            initializedContext.Endpoint.Behaviors.Add(
+            _bbCtx.Endpoint.Behaviors.Add(
                     new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", returnedSessionKey.@return))));
 
             try
             {
-                var loginResults = await initializedContext.loginToolAsync(Secret, VendorId, ProgramId, null, 1500);
+                var loginResults = await _bbCtx.loginToolAsync(Secret, VendorId, ProgramId, null, 120);
                 var success = loginResults.@return;
 
                 if (!success) throw new HttpRequestException();
 
-                BbWsStatus.SessionKey = returnedSessionKey.@return;
-                BbWsStatus.LoginExpire = DateTime.Now;
+                _sessionKey = returnedSessionKey.@return;
             }
             catch (Exception)
             {
@@ -67,72 +168,44 @@ namespace Ecat.Shared.DbMgr.Context
 
         }
 
-        public async Task<CourseWSPortTypeClient> GetCourseClient()
+        private async Task<CourseWSPortTypeClient> GetCourseClient()
         {
             await Activate();
             var endpoint = new EndpointAddress($"{BaseUrl}/Course.WS");
             var course  = new CourseWSPortTypeClient(_defaultBinding, endpoint);
             course.Endpoint.Behaviors.Add(
-                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", BbWsStatus.SessionKey))));
+                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", _sessionKey))));
             await course.initializeCourseWSAsync(false);
             return course;
         }
 
-        public async Task<CourseMembershipWSPortTypeClient> GetMemClient()
+        private async Task<CourseMembershipWSPortTypeClient> GetMemClient()
         {
             await Activate();
             var endpoint = new EndpointAddress($"{BaseUrl}/CourseMembership.WS");
             var mem = new CourseMembershipWSPortTypeClient(_defaultBinding, endpoint);
             mem.Endpoint.Behaviors.Add(
-                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", BbWsStatus.SessionKey))));
+                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", _sessionKey))));
             await mem.initializeCourseMembershipWSAsync(false);
             return mem;
         }
 
-        public async Task<UserWSPortTypeClient> GetUserClient()
+        private async Task<UserWSPortTypeClient> GetUserClient()
         {
             await Activate();
             var endpoint = new EndpointAddress($"{BaseUrl}/User.WS");
             var user = new UserWSPortTypeClient(_defaultBinding, endpoint);
             user.Endpoint.Behaviors.Add(
-                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", BbWsStatus.SessionKey))));
+                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", _sessionKey))));
             await user.initializeUserWSAsync(false);
             return user;
         }
 
+        private async Task ResetConnection()
+        {
+            await _bbCtx.logoutAsync();
+            _sessionKey = DefaultSession;
+        }
     }
 
-    public static class BbWsStatus
-    {
-        private static readonly object SessionKeyLock = new object();
-        private static readonly object LoginExpireLock = new object();
-        private static DateTime _loginExpire;
-        private static string _sessionKey;
-
-        public static string SessionKey
-        {
-            get { return _sessionKey; }
-            set
-            {
-                lock (SessionKeyLock)
-                {
-                    _sessionKey = value;
-                }
-            }
-        }
-
-        public static DateTime LoginExpire
-        {
-            set
-            {
-                lock (LoginExpireLock)
-                {
-                    _loginExpire = value.AddMinutes(15);
-                }
-            }
-        }
-
-        public static bool SessionActive => DateTime.Now <= _loginExpire;
-
-    }
 }

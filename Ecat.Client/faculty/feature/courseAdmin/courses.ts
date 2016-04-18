@@ -314,7 +314,7 @@ export default class EcCrseAdCrseList {
     }
 
     private processMembers(course: ecat.entity.ICourse): void {
-        var faculty = course.faculty.map(fic => {
+        const faculty = course.faculty.map(fic => {
             const me = fic.facultyProfile.person;
             const removeIds = fic.reconResult ? fic.reconResult.removedIds : null;
             me['role'] = 'Instructor';
@@ -337,10 +337,10 @@ export default class EcCrseAdCrseList {
             const me = sic.student.person;
             const removeIds = sic.reconResult ? sic.reconResult.removedIds : null;
             me['role'] = 'Student';
-            let status = 'Uncahanged';
-            if (sic.reconResult) status = 'Added';
-            if (removeIds && removeIds.some(id => id === sic.studentPersonId)) status = 'Removed';
-            me['status'] = status;
+            let studStatus = 'Uncahanged';
+            if (sic.reconResult) studStatus = 'Added';
+            if (removeIds && removeIds.some(id => id === sic.studentPersonId)) studStatus = 'Removed';
+            me['status'] = studStatus;
             return me;
         });
 
@@ -368,7 +368,7 @@ export default class EcCrseAdCrseList {
        const uniqueCatKeys = Object.keys(role).sort();
        const uniqueNameKeys = Object.keys(name)
            .sort((a: any, b: any) => a - b)
-           .map(name => `${name}`);
+           .map(n => `${n}`);
 
        const uniqueStatusKeys = Object.keys(status).sort();
 

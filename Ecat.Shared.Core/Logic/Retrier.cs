@@ -29,6 +29,7 @@ namespace Ecat.Shared.Core.Logic
                     {
                         throw;
                     }
+                    
                     await Task.Delay(TimeSpan.FromSeconds(delay)).ConfigureAwait(false);
                     delay += 5;
 

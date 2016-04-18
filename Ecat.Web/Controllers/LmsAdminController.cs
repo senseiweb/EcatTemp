@@ -41,9 +41,9 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<SaveResult> SaveChanges(JObject saveBundle)
+        public SaveResult SaveChanges(JObject saveBundle)
         {
-            return await _lmsCourseOps.SaveClientChanges(saveBundle);
+            return _lmsCourseOps.SaveClientChanges(saveBundle);
         }
 
         [HttpGet]

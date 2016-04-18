@@ -19,7 +19,7 @@ namespace Ecat.LmsAdmin.Mod
         Task<CourseReconResult> ReconcileCourses();
         Task<Course> GetAllCourseMembers(int courseId);
         Task<MemReconResult> ReconcileCourseMembers(int courseId);
-        Task<SaveResult> SaveClientChanges(JObject saveBundle);
+        SaveResult SaveClientChanges(JObject saveBundle);
     }
 
     public interface ILmsAdminGroupOps
