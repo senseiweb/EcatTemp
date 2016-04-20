@@ -53,6 +53,7 @@ namespace Ecat.StudMod.Core
             var requestedCourses = studCourseInit.Select(sic => sic.crse).ToList();
 
             var activeCourse = requestedCourses.OrderByDescending(crse => crse.StartDate).First();
+            if (activeCourse.WorkGroups == null) return requestedCourses;
             var activeGroup = activeCourse.WorkGroups.OrderByDescending(wg => wg.MpCategory).FirstOrDefault();
             if (crseId != null) requestedCourses = requestedCourses.Where(crse => crse.Id == crseId).ToList();
 

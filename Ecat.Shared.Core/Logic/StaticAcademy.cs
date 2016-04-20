@@ -54,10 +54,10 @@ namespace Ecat.Shared.Core.Logic
         public static Academy Keesler
         => new Academy
         {
-            Id = "KNCOA",
+            Id = "KENCOA",
             LongName = "Keesler Noncommissioned Officer Academy",
             ShortName = "Mathies NCOA",
-            MpEdLevel = MpEdLevel.None,
+            MpEdLevel = MpEdLevel.Ncoa,
             Base = AcademyBase.Gunter,
             BbCategoryId = MpAcadCat.Keesler,
             ParentBbCategoryId = MpAcadCat.NCOA

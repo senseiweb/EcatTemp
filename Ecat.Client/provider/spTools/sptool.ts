@@ -52,25 +52,31 @@ export default class EcSpTools {
         }
 
         function evaluate(): Array<ecat.entity.ICrseStudInGroup> {
-            const members = (isInstructor) ? that.dCtx.faculty.getActiveWgMembers() : that.dCtx.student.getActiveWgMemberships();
+            const members = (isInstructor) ?
+                that.dCtx.faculty.getActiveWgMembers() :
+                that.dCtx.student.getActiveWgMemberships();
        
-            if (members.length > 12) console.log('I have more than 12', members);
-                //if (!isInstructor) {
-                //    that.dCtx.student.getActiveWorkGroup().then((wg: ecat.entity.IWorkGroup) => {
-                //        members = wg.groupMembers;
-                //    });
-                //} else {
-                //}
                 members.forEach((member: ecat.entity.ICrseStudInGroup, i, array: Array<ecat.entity.ICrseStudInGroup>) => {
                     member.stratValidationErrors = [];
 
                     if (!isInstructor) {
-                        if (!member.assesseeStratResponse[0] && !member.proposedStratPosition) {
+                        //Look at the assessee stratResponses as view for the logged in member who is the assesssor.
+                        const assessStratResponse = member.assesseeStratResponse[0];
+
+                        if (!assessStratResponse && !member.proposedStratPosition) {
                             member.stratValidationErrors.push({
                                 cat: 'Required',
                                 text: 'Without a current strat, a numerical value greater than 0 must be entered in proposed change.'
                             });
                         }
+
+                        if (assessStratResponse && assessStratResponse.stratPosition > array.length ) {
+                            member.stratValidationErrors.push({
+                                cat: 'Invalid Value',
+                                text: 'The current stratification should not be greater than the number of group members.'
+                            });
+                        }
+
                     } else {
                         if ((!member.facultyStrat || !member.facultyStrat.stratPosition) && !member.proposedStratPosition) {
                             member.stratValidationErrors.push({
@@ -78,6 +84,8 @@ export default class EcSpTools {
                                 text: 'Proposed strat must be greater than 0'
                             });
                         }
+
+                      
                     }
 
                     if (member.proposedStratPosition) {

@@ -280,7 +280,7 @@ namespace Ecat.LmsAdmin.Mod
                     GroupMembers = new List<CrseStudentInGroup>()
                 };
 
-                foreach (var gm in removedGroupMem.Select(rgmId => relatedWg.Members.Single(mem => mem.BbGroupMemId == rgmId)))
+                foreach (var gm in removedGroupMem.Select(rgmId => relatedWg.Members.Single(mem => mem.BbCrseMemId == rgmId)))
                 {
                     gm.PendingRemoval = true;
                 }

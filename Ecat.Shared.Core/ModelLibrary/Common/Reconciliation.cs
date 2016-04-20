@@ -53,7 +53,6 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
 
     public class GmrMemberVo
     {
-
         public string CourseMembershipId { get; set; }
         public string GroupId { get; set; }
         public string GroupMembershipId { get; set; }

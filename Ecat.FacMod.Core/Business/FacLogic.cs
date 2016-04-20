@@ -67,7 +67,8 @@ namespace Ecat.FacMod.Core
                             gm =>
                                 gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
                                 inventoryCount*activeGroupCount &&
-                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount)
+                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount && 
+                                gm.AssessorStratResponse.Max(strat => strat.StratPosition) <= activeGroupCount)
                 }).ToListAsync();
 
             latestCourse.WorkGroups = new List<WorkGroup>();
@@ -97,7 +98,9 @@ namespace Ecat.FacMod.Core
                             gm =>
                                 gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
                                 inventoryCount * activeGroupCount &&
-                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount),
+                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount && 
+                                gm.AssessorStratResponse.Max(strat => strat.StratPosition) <= activeGroupCount),
+                                
                     GroupMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new
                     {
                         gm,
@@ -109,8 +112,8 @@ namespace Ecat.FacMod.Core
                         FacStrats = wg.FacStratResponses.FirstOrDefault(fs => fs.AssesseePersonId == gm.StudentId),
                         StudProfile = gm.StudentProfile,
                         StudPerson = gm.StudentProfile.Person,
-                        MissingStratCount = wg.GroupMembers.Count(
-                            peer => peer.AssesseeStratResponse.Count(strat => strat.AssessorPersonId == gm.StudentId) == 0)
+                        MissingStratCount = wg.GroupMembers.Where(peer => !peer.IsDeleted).Count(
+                            peer => peer.AssesseeStratResponse.Count(strat => strat.AssessorPersonId == gm.StudentId && strat.StratPosition <= activeGroupCount) == 0)
                     })
                 }).SingleAsync();
 
@@ -176,7 +179,9 @@ namespace Ecat.FacMod.Core
                         gm =>
                             gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
                             inventoryCount*activeGroupCount &&
-                            gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount),
+                            gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount &&
+                            gm.AssessorStratResponse.Max(strat => strat.StratPosition) <= activeGroupCount),
+
                     GroupMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new
                     {
                         gm,
