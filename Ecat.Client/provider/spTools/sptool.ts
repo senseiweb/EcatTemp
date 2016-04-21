@@ -70,7 +70,7 @@ export default class EcSpTools {
                             });
                         }
 
-                        if (assessStratResponse && assessStratResponse.stratPosition > array.length ) {
+                        if (assessStratResponse && assessStratResponse.stratPosition > array.length && !member.proposedStratPosition) {
                             member.stratValidationErrors.push({
                                 cat: 'Invalid Value',
                                 text: 'The current stratification should not be greater than the number of group members.'
