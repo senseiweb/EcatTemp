@@ -74,7 +74,12 @@ export default class EcStudAssess {
         }
 
         function courseError(error: any) {
-            that.log.warn('There was an error loading Courses', error, true);
+            if (that.courses.length > 0 && that.courses[0].workGroups.length === 0) {
+                that.grpDisplayName = 'None';
+                that.log.warn('No group enrollments for this course', error, true);
+            } else {
+                that.log.warn('There was an error loading Courses', error, true);
+            }
         }
     }
 
@@ -89,7 +94,13 @@ export default class EcStudAssess {
             that.workGroups = crse.workGroups;
             that.workGroups.forEach(wg => { wg['displayName'] = `${wg.mpCategory}: ${wg.customName || wg.defaultName}` });
             const wrkGrp = crse.workGroups[0];
-            that.setActiveGroup(wrkGrp);
+            if (wrkGrp !== undefined) {
+                that.setActiveGroup(wrkGrp);
+            } else {
+                that.grpDisplayName = 'None';
+                const params = { crseId: that.activeCourseId, wgId: 0 };
+                that.c.$state.go(that.c.stateMgr.student.assessment.name, params);
+            }
         }
     }
 

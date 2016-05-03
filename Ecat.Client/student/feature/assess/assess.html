@@ -27,8 +27,7 @@
                     <li ng-repeat="course in assess.courses track by course.id">
                         <a href="javascript:void(0)"
                            ng-click="assess.setActiveCourse(course)">
-                            <i ng-if="course.id === assess.activeCrseId"
-                               class="zmdi zmdi-chevron-right"></i>
+                            <i ng-if="course.id === assess.activeCourseId" class="zmdi zmdi-star"></i>
                             {{course.displayName}}
                         </a>
                     </li>
@@ -52,5 +51,8 @@
 
     <div class="card" id="assessments-main">
         <div ui-view></div>
+    </div>
+    <div ng-if="assess.workGroups.length === 0" class="text-center">
+        <h2>You are not in any workgroups in this course.</h2>
     </div>
 </div>
