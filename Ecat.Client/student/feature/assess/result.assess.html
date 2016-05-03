@@ -16,10 +16,8 @@
                         <th class="col-md-2 text-center f-400">Assessment</th>
                         <th class="col-md-2 text-center f-400">Comments</th>
                         <th class="col-md-2 text-center f-400"
-                            ng-click="ar.sortList(ar.sortOpt.strat)">
-
+                            ng-click="ar.sortList(ar.sortOpt.strat)" ng-if="ar.hideStrat" >
                             Strat
-
                             <i class="zmdi"
                                ng-if="ar.activeSort.opt === ar.sortOpt.strat"
                                ng-class="ar.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
@@ -42,10 +40,12 @@
                         <td class="text-center">
                             Not Available
                         </td>
-                        <td class="text-center">
+                        <!-- Strat location -->
+                        <td class="text-center" ng-if="ar.hideStrat">
                             <span style="font-size: 1.6em" ng-if="ar.me.stratText !== 'None'">{{ar.me.stratText}}</span>
                             <span ng-if="ar.me.stratText === 'None'">{{ar.me.stratText}}</span>
                         </td>
+
                         <td class="text-center p-b-0 p-t-0">
                             <div id="sp-chart-data-{{$index}}" ng-if="ar.me.hasChartData">
                                 <span class="sp-graph-composite">{{ar.me.statusOfPeer[ar.me.studentId].compositeScore}}</span>
@@ -86,11 +86,12 @@
                                 {{peer.commentText}}
                             </a>
                         </td>
-
-                        <td class="text-center">
+                        <!-- Strat location -->
+                        <td class="text-center" ng-if="ar.hideStrat">
                             <span style="font-size: 1.6em" ng-if="peer.stratText !== 'None'">{{peer.stratText}}</span>
                             <span ng-if="peer.stratText === 'None'">{{peer.stratText}}</span>
                         </td>
+
                         <td class="text-center p-b-0 p-t-0">
                             <div id="sp-chart-data-{{$index}}"
                                  ng-if="peer.hasChartData">

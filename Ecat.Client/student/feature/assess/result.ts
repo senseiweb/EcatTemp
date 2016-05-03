@@ -21,6 +21,7 @@ export default class EcStudAssessResult {
     protected routingParams = { crseId: 0, wgId: 0 }
     protected selectedComment: ecat.entity.ISantiziedComment;
     protected studentComments: Array<ecat.entity.ISantiziedComment>;
+    protected hideStrat = false;
     protected sortOpt = {
         student: 'nameSorter.last',
         assess: 'assessText',

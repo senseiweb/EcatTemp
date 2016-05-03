@@ -1,6 +1,26 @@
 ﻿<div class="listview lv-bordered lv-lg">
     <div class="lv-header-alt clearfix p-b-15">
-        
+
+        <div class="toggle-switch p-r-10 p-t-10" style="float:right" ng-if="ar.activeView === ar.view.assess">
+            
+                <label for="ts" style="padding-right:15px">
+                    Strat
+                </label>
+            
+            <input id="ts" ng-model="ar.hideStrat" type="checkbox" hidden="hidden" />
+            <label for="ts" class="ts-helper" style="background-color:#EDECEC"> 
+             
+            </label>
+        </div>
+
+        <!--<div>
+       
+           <label style="float:right" ng-if="ar.activeView === ar.view.assess">
+                Show Strat
+                <input type="checkbox" ng-model="ar.hideStrat" />
+            </label>
+        </div>-->
+
         <div class="btn-group clearfix m-l-5">
             <button type="button"
                     class="btn"
@@ -25,6 +45,8 @@
                 Comments Result
             </button>
         </div>
+
+        
     </div>
         <div class="lv-body">
             <div>
