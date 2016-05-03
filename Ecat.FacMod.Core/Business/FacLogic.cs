@@ -189,6 +189,7 @@ namespace Ecat.FacMod.Core
                         SpResult = wg.SpResults.FirstOrDefault(sr => sr.StudentId == gm.StudentId),
                         Strats = gm.AssesseeStratResponse.Where(asr => !asr.Assessor.IsDeleted),
                         SpRepsonses = gm.AssessorSpResponses.Where(aos => !aos.Assessee.IsDeleted),
+                        FacFacultyInCourse = wg.FacSpComments.Select(comment => comment.FacultyCourse),
                         FacFacultyPerson =
                             wg.FacSpComments.Select(comment => comment.FacultyCourse.FacultyProfile.Person),
                         FacFacultyProfile =

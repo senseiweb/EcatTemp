@@ -70,57 +70,71 @@ export default class EcFacultyWgResult {
     protected changeCommentView(view: string): void {
         if (view === 'Author') {
             this.commentPerspective = 'Author';
-            this.studentComments = this.activeStudResult
-                .authorOfComments
-                .map(comment => ({
-                    studentId: comment.recipientPersonId,
-                    nameSorter: comment.recipient.nameSorter,
-                    initials: `${comment.recipient.studentProfile.person.firstName.charAt(0)}${comment.recipient.studentProfile.person.lastName.charAt(0)}`,
-                    rankName: comment.recipient.rankName,
-                    commentType: comment.requestAnonymity ? 'Anonymous' : 'Signed',
-                    commentText: comment.commentText,
-                    isAppr: comment.flag.mpFaculty === _mp.MpCommentFlag.appr,
-                }))
-                .sort(this.sortsComment);
-            this.selectedComment = this.studentComments[0];
+            if (this.activeStudResult.authorOfComments.length > 0) {
+                this.hasComments = true;
+                this.studentComments = this.activeStudResult
+                    .authorOfComments
+                    .map(comment => ({
+                        studentId: comment.recipientPersonId,
+                        nameSorter: comment.recipient.nameSorter,
+                        initials: `${comment.recipient.studentProfile.person.firstName.charAt(0)}${comment.recipient.studentProfile.person.lastName.charAt(0)}`,
+                        rankName: comment.recipient.rankName,
+                        commentType: comment.requestAnonymity ? 'Anonymous' : 'Signed',
+                        commentText: comment.commentText,
+                        isAppr: comment.flag.mpFaculty === _mp.MpCommentFlag.appr,
+                    }))
+                    .sort(this.sortsComment);
+                this.selectedComment = this.studentComments[0];
+            } else {
+                this.hasComments = false;
+                this.studentComments = null;
+                this.selectedComment = null;
+            }
             return null;
         }
 
         this.commentPerspective = 'Recipient';
-        const comments = this.activeStudResult
-            .recipientOfComments
-            .map(comment => ({
-                studentId: comment.authorPersonId,
-                nameSorter: comment.author.nameSorter,
-                initials: `${comment.author.nameSorter.last.charAt(0)}${comment.author.nameSorter.first.charAt(0)}`,
-                rankName: comment.author.rankName,
-                commentType: comment.requestAnonymity ? 'Anonymous' : 'Signed',
-                commentText: comment.commentText,
-                isAppr: comment.flag.mpFaculty === _mp.MpCommentFlag.appr
-            }))
-            .sort(this.sortsComment);
+        if (this.activeStudResult.recipientOfComments.length > 0 || this.activeStudResult.facultyComment !== null) {
+            this.hasComments = true;
+            const comments = this.activeStudResult
+                .recipientOfComments
+                .map(comment => ({
+                    studentId: comment.authorPersonId,
+                    nameSorter: comment.author.nameSorter,
+                    initials: `${comment.author.nameSorter.last.charAt(0)}${comment.author.nameSorter.first.charAt(0)}`,
+                    rankName: comment.author.rankName,
+                    commentType: comment.requestAnonymity ? 'Anonymous' : 'Signed',
+                    commentText: comment.commentText,
+                    isAppr: comment.flag.mpFaculty === _mp.MpCommentFlag.appr
+                }))
+                .sort(this.sortsComment);
 
-        if (!this.activeStudResult.facultyComment) {
+            if (!this.activeStudResult.facultyComment) {
+                this.studentComments = comments.sort(this.sortsComment);
+                this.selectedComment = this.studentComments[0];
+                return null;
+            }
+
+            comments.push({
+                studentId: this.activeStudResult.facultyComment.facultyPersonId,
+                nameSorter: {
+                    last: this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName,
+                    first: this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName
+                },
+                initials: `${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName.charAt(0)}${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName.charAt(0)}`,
+                rankName: `${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName}, ${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName}`,
+                commentType: 'Faculty',
+                commentText: this.activeStudResult.facultyComment.commentText,
+                isAppr: true
+            });
             this.studentComments = comments.sort(this.sortsComment);
             this.selectedComment = this.studentComments[0];
             return null;
+        } else {
+            this.hasComments = false;
+            this.studentComments = null;
+            this.selectedComment = null;
         }
-
-        comments.push({
-            studentId: this.activeStudResult.facultyComment.facultyPersonId,
-            nameSorter: {
-                last: this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName,
-                first: this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName
-            },
-            initials: `${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName.charAt(0)}${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName.charAt(0)}`,
-            rankName: `${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.lastName}, ${this.activeStudResult.facultyComment.facultyCourse.facultyProfile.person.firstName}`,
-            commentType: 'Faculty',
-            commentText: this.activeStudResult.facultyComment.commentText,
-            isAppr: true
-        });
-        this.studentComments = comments.sort(this.sortsComment);
-        this.selectedComment = this.studentComments[0];
-        return null;
     }
 
     protected selectComment(comment: IResultComment): void {
@@ -155,8 +169,7 @@ export default class EcFacultyWgResult {
             break;
 
         case 'comment':
-            this.hasComments = this.activeStudResult.authorOfComments.length > 0 || this.activeStudResult.recipientOfComments.length > 0 ||
-                this.activeStudResult.facultyComment !== null;
+            this.hasComments = this.activeStudResult.authorOfComments.length > 0;
             this.changeCommentView('Author');
             this.viewState = WgResViews.Comment;
             break;
