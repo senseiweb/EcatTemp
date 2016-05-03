@@ -210,6 +210,7 @@ namespace Ecat.LmsAdmin.Mod
 
             var newMembers = bbCourseMems
                 .Where(cm => !existingCrseUserIds.Contains(cm.userId))
+                .Where(cm => cm.available == true)
                 .ToList();
 
             if (newMembers.Any())
@@ -268,71 +269,73 @@ namespace Ecat.LmsAdmin.Mod
                 var bbUsers = await autoRetryUsers.Try(() => _bbWs.BbCourseUsers(userFilter), 3);
                 var courseMems = bbCms;
 
-                if (bbUsers == null) return reconResult;
-
-                var users = bbUsers.Select(bbu =>
+                if (bbUsers != null)
                 {
-                    var cm = courseMems.First(bbcm => bbcm.userId == bbu.id);
-                    return new Person
+
+                    var users = bbUsers.Select(bbu =>
                     {
-                        MpInstituteRole = MpRoleTransform.BbWsRoleToEcat(cm.roleId),
-                        BbUserId = bbu.id,
-                        BbUserName = bbu.name,
-                        Email = $"{cm.id}-{bbu.extendedInfo.emailAddress}",
-                        IsActive = true,
-                        LastName = bbu.extendedInfo.familyName,
-                        FirstName = bbu.extendedInfo.givenName,
-                        MpGender = MpGender.Unk,
-                        MpAffiliation = MpAffiliation.Unk,
-                        MpComponent = MpComponent.Unk,
-                        RegistrationComplete = false,
-                        MpPaygrade = MpPaygrade.Unk,
-                        ModifiedById = Faculty.PersonId,
-                        ModifiedDate = DateTime.Now
-                    };
-                }).ToList();
+                        var cm = courseMems.First(bbcm => bbcm.userId == bbu.id);
+                        return new Person
+                        {
+                            MpInstituteRole = MpRoleTransform.BbWsRoleToEcat(cm.roleId),
+                            BbUserId = bbu.id,
+                            BbUserName = bbu.name,
+                            Email = $"{cm.id}-{bbu.extendedInfo.emailAddress}",
+                            IsActive = true,
+                            LastName = bbu.extendedInfo.familyName,
+                            FirstName = bbu.extendedInfo.givenName,
+                            MpGender = MpGender.Unk,
+                            MpAffiliation = MpAffiliation.Unk,
+                            MpComponent = MpComponent.Unk,
+                            RegistrationComplete = false,
+                            MpPaygrade = MpPaygrade.Unk,
+                            ModifiedById = Faculty.PersonId,
+                            ModifiedDate = DateTime.Now
+                        };
+                    }).ToList();
 
-                foreach (var user in users)
-                {
-                    _mainCtx.People.Add(user);
-                  
-                }
-
-                reconResult.NumOfAccountCreated = await _mainCtx.SaveChangesAsync();
-
-                foreach (var user in users)
-                {
-                    usersWithAccount.Add(new
+                    foreach (var user in users)
                     {
-                        user.BbUserId,
-                        user.PersonId,
-                        user.MpInstituteRole
-                    });
+                        _mainCtx.People.Add(user);
 
-                    switch (user.MpInstituteRole)
-                    {
-                        case MpInstituteRoleId.Faculty:
-                            user.Faculty = new ProfileFaculty
-                            {
-                                PersonId = user.PersonId,
-                                AcademyId = reconResult.AcademyId,
-                                HomeStation = StaticAcademy.AcadLookupById[reconResult.AcademyId].Base.ToString(),
-                                IsReportViewer = false,
-                                IsCourseAdmin = false
-                            };
-                            break;
-                        case MpInstituteRoleId.Student:
-                            user.Student = new ProfileStudent
-                            {
-                                PersonId = user.PersonId
-                            };
-                            break;
-                        default:
-                            user.Profile = new ProfileStudent();
-                            break;
                     }
+
+                    reconResult.NumOfAccountCreated = await _mainCtx.SaveChangesAsync();
+
+                    foreach (var user in users)
+                    {
+                        usersWithAccount.Add(new
+                        {
+                            user.BbUserId,
+                            user.PersonId,
+                            user.MpInstituteRole
+                        });
+
+                        switch (user.MpInstituteRole)
+                        {
+                            case MpInstituteRoleId.Faculty:
+                                user.Faculty = new ProfileFaculty
+                                {
+                                    PersonId = user.PersonId,
+                                    AcademyId = reconResult.AcademyId,
+                                    HomeStation = StaticAcademy.AcadLookupById[reconResult.AcademyId].Base.ToString(),
+                                    IsReportViewer = false,
+                                    IsCourseAdmin = false
+                                };
+                                break;
+                            case MpInstituteRoleId.Student:
+                                user.Student = new ProfileStudent
+                                {
+                                    PersonId = user.PersonId
+                                };
+                                break;
+                            default:
+                                user.Profile = new ProfileStudent();
+                                break;
+                        }
+                    }
+                    await _mainCtx.SaveChangesAsync();
                 }
-                await _mainCtx.SaveChangesAsync();
             }
 
             reconResult.Students = usersWithAccount
