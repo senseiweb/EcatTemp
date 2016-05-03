@@ -206,7 +206,7 @@ export default class EcLocalDataService {
         const pg = paygrade.toLowerCase();
 
         if (!paygradeList.hasOwnProperty(pg)) {
-            return 'Udf';
+            return '';
         }
 
         if (angular.isObject(paygradeList[pg]) && paygradeList[pg].designator === paygrade) {
@@ -225,7 +225,7 @@ export default class EcLocalDataService {
                 return 'Unknown';
             }
         }
-        return 'Udf';
+        return '';
     }
 
     static prettyInstituteRole(role: string): string {

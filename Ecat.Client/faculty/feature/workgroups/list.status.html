@@ -22,7 +22,7 @@
 
         <tr ng-repeat="gm in wgMembers | orderBy: 'studentProfile.person.lastName' track by gm.studentId">
             <td>
-                {{gm.studentProfile.person.mpPaygrade}} {{gm.studentProfile.person.lastName}}, {{gm.studentProfile.person.firstName}}
+                {{gm.rankName}}
             </td>
             
             <td>
