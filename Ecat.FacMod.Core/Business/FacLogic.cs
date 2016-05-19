@@ -63,12 +63,12 @@ namespace Ecat.FacMod.Core
                 select new
                 {
                     wg,
-                    CanPublish = wg.GroupMembers.All(
+                    CanPublish = wg.GroupMembers.Where(gm => !gm.IsDeleted).All(
                             gm =>
-                                gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
+                                gm.AssessorSpResponses.Count(assess => !assess.Assessee.IsDeleted) ==
                                 inventoryCount*activeGroupCount &&
-                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount && 
-                                gm.AssessorStratResponse.Max(strat => strat.StratPosition) <= activeGroupCount)
+                                gm.AssessorStratResponse.Count(strat => !strat.Assessee.IsDeleted) == activeGroupCount && 
+                                gm.AssessorStratResponse.Where(strat => !strat.Assessee.IsDeleted).Max(strat => strat.StratPosition) <= activeGroupCount)
                 }).ToListAsync();
 
             latestCourse.WorkGroups = new List<WorkGroup>();
@@ -94,12 +94,12 @@ namespace Ecat.FacMod.Core
                 select new
                 {
                     ActiveWg = wg,
-                    CanPublish = wg.GroupMembers.All(
+                    CanPublish = wg.GroupMembers.Where(gm => !gm.IsDeleted).All(
                             gm =>
-                                gm.AssessorSpResponses.Count(assess => !assess.Assessor.IsDeleted) ==
+                                gm.AssessorSpResponses.Count(assess => !assess.Assessee.IsDeleted) ==
                                 inventoryCount * activeGroupCount &&
-                                gm.AssessorStratResponse.Count(strat => !strat.Assessor.IsDeleted) == activeGroupCount && 
-                                gm.AssessorStratResponse.Max(strat => strat.StratPosition) <= activeGroupCount),
+                                gm.AssessorStratResponse.Count(strat => !strat.Assessee.IsDeleted) == activeGroupCount && 
+                                gm.AssessorStratResponse.Where(strat => !strat.Assessee.IsDeleted).Max(strat => strat.StratPosition) <= activeGroupCount),
                                 
                     GroupMembers = wg.GroupMembers.Where(gm => !gm.IsDeleted).Select(gm => new
                     {
