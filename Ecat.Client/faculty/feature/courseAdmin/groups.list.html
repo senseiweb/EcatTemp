@@ -1,11 +1,11 @@
 ﻿<div class="row">
     <div class="col-md-12 p-t-20">
-        <div class="table-responsive">
+        <div>
             <table class="table table-hover table-vmiddle">
                 <thead class="f-16">
                     <tr>
-                        <th class="header col-md-3 text-left f-16 f-400">Flight</th>
-                        <th class="header col-md-3 text-left f-400 f-16">
+                        <th class="header col-md-2 text-left f-16 f-400">Flight</th>
+                        <th class="header col-md-2 text-left f-400 f-16">
                             <button class="btn f-400 c-black btn-link f-16" 
                                     ng-click="cag.sortList(cag.sortOpt.group)">
                                 Group Type
@@ -14,7 +14,7 @@
                                    ng-class="cag.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                             </button>
                         </th>
-                        <th class="header col-md-3 text-left f-400 f-16">
+                        <th class="header col-md-2 text-left f-400 f-16">
                             <button class="btn f-400 c-black btn-link f-16"
                                     ng-click="cag.sortList(cag.sortOpt.status)">
                                 Status
@@ -23,15 +23,15 @@
                                    ng-class="cag.activeSort.desc ? ' zmdi-sort-amount-desc' : ' zmdi-sort-amount-asc'"></i>
                             </button>
                         </th>
-                        <th class="header col-md-3 text-left f-400 f-16">Last Modified By</th>
-                        <th class="header col-md-3 text-left f-400">Enrollments</th>
+                        <th class="header col-md-2 text-left f-400 f-16">Last Modified</th>
+                        <th class="header col-md-2 text-left f-400 f-16"></th>
                     </tr>
                     <tr table-filters>
                         <td class="filter">
                             <ui-select multiple
                                        ng-model="cag.filters.name.filterWith"
                                        theme="select2"
-                                       style="width: 100%">
+                                       style="width: 200px">
 
                                 <ui-select-match placeholder="--Filter By Flight Number--">
                                     {{$item.key}}
@@ -51,7 +51,7 @@
                             <ui-select multiple
                                        ng-model="cag.filters.cat.filterWith"
                                        theme="select2"
-                                       style="width: 100%">
+                                       style="width: 210px">
                                 
                                 <ui-select-match placeholder="--Filter By Group Category--">{{$item.key}}</ui-select-match>
                                 <ui-select-choices repeat="cat.key as cat in grps.filters.cat.optionList | filter: $select.search">
@@ -62,7 +62,7 @@
                         <td class="filter">
                             <ui-select multiple
                                        ng-model="cag.filters.status.filterWith"
-                                       theme="select2" style="width: 100%">
+                                       theme="select2" style="width: 180px">
 
                                 <ui-select-match placeholder="--Filter By Pub Status--">{{$item.key}}</ui-select-match>
 
@@ -76,17 +76,17 @@
                 <tr ng-repeat="group in cag.workGroups | orderBy: cag.activeSort.opt:grps.activeSort.desc | filter: cag.filteredGrpFlight | filter: cag.filteredGrpCat | filter: cag.filteredGrpStatus track by group.workGroupId"
                     ng-mouseover="group.isVisible = true"
                     ng-mouseleave="group.isVisible = false"
-                    style="height: 50px">
+                    style="height: 56px">
                     
-                    <td>{{group.defaultName}}</td>
-                    <td>{{group.mpCategory}}</td>
-                    <td>{{group.mpSpStatus}}</td>
-                    <td>{{cag.getFacultyById(group.modifiedById)}}</td>
-                    <td style="width: 100px">
+                    <td class="f-14">{{group.defaultName}}</td>
+                    <td class="f-14">{{group.mpCategory}}</td>
+                    <td class="f-14">{{group.mpSpStatus}}</td>
+                    <td class="f-14">{{cag.getFacultyById(group.modifiedById)}}</td>
+                    <td class="f-14">
                         <button type="button"
                                 ng-if="group.isVisible"
                                 ng-click="cag.goToGroup(group); group.isVisible=false;" 
-                                class="btn btn-link waves-effect">
+                                class="btn btn-link btn-sm btn-info waves-effect f-14">
                             Enrollments
                         </button>
                     </td>

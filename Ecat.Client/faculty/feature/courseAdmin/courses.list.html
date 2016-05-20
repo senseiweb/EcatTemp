@@ -1,21 +1,22 @@
 ﻿<div class="row">
     <div class="col-md-12 p-t-20">
-        <div class="table-responsive">
+        <div>
             <table class="table table-hover table-vmiddle">
                 <thead>
-                    <tr>
-                        <th class="header col-md-2">Name</th>
-                        <th class="header col-md-2 text-center">Class Num</th>
-                        <th class="header col-md-1 text-center">Start Date</th>
-                        <th class="header col-md-2 text-center">Grad Date</th>
-                        <th class="header col-md-2 text-center">Grad Report Status</th>
-                        <th class="header col-md-3 text-center">Options</th>
+                    <tr class="f-16 f-400">
+                        <th class="header col-md-2 f-400">Name</th>
+                        <th class="header col-md-1 text-center f-400">Class</th>
+                        <th class="header col-md-2 text-center f-400">Start Date</th>
+                        <th class="header col-md-2 text-center f-400">Grad Date</th>
+                        <th class="header col-md-2 text-center f-400">Grad Report</th>
+                        <th class="header col-md-3 text-center"></th>
                     </tr>
                 </thead>
                 <tr ng-repeat="course in cac.courses track by course.id"
                     ng-mouseover="course.menuVisible = true"
                     ng-mouseleave="course.menuVisible = false"
-                    style="height: 50px">
+                    style="height: 56px"
+                    class="f-14">
 
                     <td>
                         <i class="zmdi zmdi-bookmark-outline zmdi-hc-fw"

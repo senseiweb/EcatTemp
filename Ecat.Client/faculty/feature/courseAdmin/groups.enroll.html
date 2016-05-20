@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-md-12">
-        <div class="text-center">
+        <div class="text-center p-t-10">
             <h4 class="lead">{{cag.activeGroup.mpCategory}}-{{cag.activeGroup.defaultName}} Students</h4>
         </div>
     </div>
@@ -15,19 +15,19 @@
                         <th class="header col-md-2 text-center f-16 f-400">Rank</th>
                         <th class="header col-md-2 text-center f-16 f-400">Affiliation</th>
                         <th class="header col-md-2 text-center f-16 f-400">Component</th>
-                        <th class="header col-md-3 text-center f-16 f-400">View Info Card</th>
+                        <th class="header col-md-3 text-center f-16 f-400"></th>
                     </tr>
                 </thead>
                 <tr ng-repeat="gm in cag.groupMembers | orderBy:'lastName' track by gm.personId"
                     ng-mouseover="gm.isVisible = true"
                     ng-mouseleave="gm.isVisible = false"
-                    style="height: 50px">
+                    style="height: 56px">
                     
-                    <td>{{gm.lastName}}, {{gm.firstName}}</td>
-                    <td class="text-center">{{gm.mpPaygrade}}</td>
-                    <td class="text-center">{{gm.mpAffiliation}}</td>
-                    <td class="text-center">{{gm.mpComponent}}</td>
-                    <td class="text-center">
+                    <td class="f-14">{{gm.lastName}}, {{gm.firstName}}</td>
+                    <td class="text-center f-14">{{gm.mpPaygrade}}</td>
+                    <td class="text-center f-14">{{gm.mpAffiliation}}</td>
+                    <td class="text-center f-14">{{gm.mpComponent}}</td>
+                    <td class="text-center f-14">
                         <button ng-show="gm.isVisible" type="button" class="btn btn-link btn-sm waves-effect btn-info f-14" 
                                 ng-click="">View Info Card</button>
                     </td>

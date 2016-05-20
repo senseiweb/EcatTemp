@@ -59,20 +59,20 @@
                 <tr ng-repeat="member in cac.pagedMembers | orderBy:['role','lastName','firstName'] track by member.personId"
                     ng-if="cac.activeView==cac.view.enroll" 
                     style="height: 50px">
-                    <td>{{member.lastName}}, {{member.firstName}}</td>
+                    <td class="text-center">{{member.lastName}}, {{member.firstName}}</td>
                     <td class="text-center">{{member.mpPaygrade}}</td>
                     <td class="text-center">{{member.mpAffiliation}}</td>
                     <td class="text-center">{{member.mpComponent}}</td>
                     <td class="text-center">{{member.role}}</td>
                     <td class="text-center">{{member.status}}</td>
-                    <td>
+                    <td class="text-center">
                         <a href="javascript:void(0)">
                             View Info Card
                         </a>
                     </td>
                 </tr>
             </table>
-            <uib-pagination class="pagination-sm" total-items="cac.filteredMembers.length" items-per-page="25" boundary-links="true" first-text="<<" previous-text="<" next-text=">" last-text=">>" ng-model="cac.currentPage" ng-change="pageChanged()"></uib-pagination>
+            <uib-pagination class="pagination-sm p-l-20" total-items="cac.filteredMembers.length" items-per-page="25" boundary-links="true" first-text="<<" previous-text="<" next-text=">" last-text=">>" ng-model="cac.currentPage" ng-change="pageChanged()"></uib-pagination>
         </div>
     </div>
 </div>

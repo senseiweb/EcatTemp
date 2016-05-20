@@ -4,7 +4,7 @@
 
         <div class="listview lv-bordered lv-lg">
 
-            <div class="lv-header-alt clearfix p-b-5">
+            <div class="lv-header-alt clearfix p-b-15">
 
                 <a href="javascript:void(0)"
                    type="button"
@@ -27,20 +27,20 @@
 
                     <button type="button"
                             ng-if="cag.activeView===cag.view.list"
-                            class="btn btn-link waves-effect"
+                            class="btn btn-link waves-effect z-depth-1-bottom"
                             ng-click="cag.pollLmsGroups()">
                             Poll Bb Groups
                     </button>
 
-                    <div uib-dropdown  ng-if="cag.activeView===cag.view.enroll">
+                    <div class="btn-group dropdown" uib-dropdown  ng-if="cag.activeView===cag.view.enroll">
                         <button id="polloptionscat"
-                                class="btn btn-link waves-effect"
+                                class="btn btn-link waves-effect dropdown-toggle z-depth-1-bottom"
                                 uib-dropdown-toggle>
                             <i class="zmdi zmdi-menu"></i>
                             Poll Group Members
                         </button>
 
-                        <ul uib-dropdown-menu role="menu" aria-labelledby="polloptionscat">
+                        <ul class="dropdown-menu" role="menu">
 
                             <li role="menuitem">
                                 <a href="javascript:void(0)"
