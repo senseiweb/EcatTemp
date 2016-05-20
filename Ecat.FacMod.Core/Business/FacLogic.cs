@@ -144,12 +144,21 @@ namespace Ecat.FacMod.Core
 
         async Task<List<StudSpComment>> IFacLogic.GetStudSpComments(int courseId, int workGroupId)
         {
-            var comments = _repo.GetCourseWorkGroups
+            var comments = await _repo.GetCourseWorkGroups
                 .Where(wg => wg.CourseId == courseId && wg.WorkGroupId == workGroupId)
                 .SelectMany(wg => wg.SpComments)
-                .Include(comment => comment.Flag);
+                .Include(comment => comment.Flag)
+                .Include(comment => comment.Author)
+                .Include(comment => comment.Recipient).ToListAsync();
 
-            return  await comments.Where(comment => !comment.Author.IsDeleted || !comment.Recipient.IsDeleted).ToListAsync();
+            var activeComments =  comments.Where(comment => !comment.Author.IsDeleted && !comment.Recipient.IsDeleted).ToList();
+            foreach (var comment in activeComments)
+            {
+                comment.Author = null;
+                comment.Recipient = null;
+            }
+
+            return activeComments;
         }
 
         async Task<List<FacSpComment>> IFacLogic.GetFacSpComment(int courseId, int workGroupId)
@@ -158,6 +167,7 @@ namespace Ecat.FacMod.Core
                 .Where(wg => wg.CourseId == courseId && wg.WorkGroupId == workGroupId)
                 .SelectMany(wg => wg.FacSpComments)
                 .Include(comment => comment.Flag)
+                .Include(comment => comment.Recipient)
                 .Include(comment => comment.FacultyCourse.FacultyProfile.Person)
                 .Include(comment => comment.FacultyCourse.FacultyProfile);
 

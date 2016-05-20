@@ -188,9 +188,10 @@ namespace Ecat.FacMod.Core
             var ids = wgIds.ToList();
 
             var pubWgData = (from wg in efCtx.Context.WorkGroups
+                             let prundedGm = wg.GroupMembers.Where(gm => !gm.IsDeleted)
                 where ids.Contains(wg.WorkGroupId) &&
                       wg.MpSpStatus == MpSpStatus.UnderReview &&
-                      wg.SpComments.All(comment => comment.Flag.MpFaculty != null)
+                      wg.SpComments.Where(spc => !spc.Author.IsDeleted && !spc.Recipient.IsDeleted).All(comment => comment.Flag.MpFaculty != null)
                 select new PubWg
                 {
                     Id = wg.WorkGroupId,
@@ -246,17 +247,16 @@ namespace Ecat.FacMod.Core
                                     AssesseeId = strat.AssesseePersonId,
                                     StratPosition = strat.StratPosition
                                 }),
-                        PeersDidNotAssessMe =
-                            wg.GroupMembers.Where(peer => peer.AssessorSpResponses
+                        PeersDidNotAssessMe = prundedGm.Where(peer => peer.AssessorSpResponses
                                 .Count(response => response.AssesseePersonId == gm.StudentId) == 0)
                                 .Select(peer => peer.StudentId),
-                        PeersIdidNotAssess = wg.GroupMembers.Where(peer => peer.AssesseeSpResponses
+                        PeersIdidNotAssess = prundedGm.Where(peer => peer.AssesseeSpResponses
                             .Count(response => response.AssessorPersonId == gm.StudentId) == 0)
                             .Select(peer => peer.StudentId),
-                        PeersDidNotStratMe = wg.GroupMembers.Where(peer => peer.AssessorStratResponse
+                        PeersDidNotStratMe = prundedGm.Where(peer => peer.AssessorStratResponse
                             .Count(strat => strat.AssesseePersonId == gm.StudentId) == 0)
                             .Select(peer => peer.StudentId),
-                        PeersIdidNotStrat = wg.GroupMembers.Where(peer => peer.AssesseeStratResponse
+                        PeersIdidNotStrat = prundedGm.Where(peer => peer.AssesseeStratResponse
                             .Count(strat => strat.AssessorPersonId == gm.StudentId) == 0)
                             .Select(peer => peer.StudentId)
                     })
