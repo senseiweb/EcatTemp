@@ -5,18 +5,22 @@
     <title></title>
     <style>
         header{
-            background-color:cornflowerblue;
+            background-color:#3e6d92;
             text-align:center;
+            
             color:white;
-            padding:10px;
+            padding: 5px;
+            font-family:sans-serif;
+            height:70px;
         }
 
         footer{
         
-            background-color:cornflowerblue;
+            background-color:#3e6d92;
             height:auto;
             border-top:groove;
             color:black;
+            font-family:sans-serif;
         }
         #button{
             text-align:center;
@@ -40,54 +44,63 @@
             float:right;
         }
         section{
+            font-family:sans-serif;
             height:auto;
             padding:10px;
         }
     </style>
 </head>
-<body ng-app>
+<body style="background-color:#edecec">
     <header>
-        <h1>
-            ECAT Home
+        <h1 style="font-size:x-large;">
+            
+            <p>Welcome to EPME Course Application Toolkit</p>
         </h1>
     </header>
     <section>
-        <img src="BCEE.jpg" alt="BCEE logo" style="width:200px;height:200px;float:left;" />
+
+        <div style="text-align:center">
+            <img src="BCEE.png" alt="BCEE logo" style="width:150px;height:150px;" />
+        </div>
         <div id="button">
-            <button  style="height:40px;width:100px;font-family:'Comic Sans MS';font-size:medium;" onclick="location.href = '@[appCore]/feature/login/main.tpl.html'">
+            <button style="height:40px;width:100px;font-family:sans-serif;font-size:medium;" onclick="location.href = '@[appCore]/feature/login/main.tpl.html'">
                 Log In
             </button>
         </div>
+        <div style="border:groove;padding:20px 20px 20px 20px;text-align:center;font-size:small;margin:40px 40px 40px 40px;">
+            <div>
+                <h1>FOUO and Privacy Act</h1>
+                <p>The security accreditation levle of this site is UNCLASSIFIED//FOUO nad below. Do not process, store, or transmit information classified above the accreditation levle of this system. Privacy Act Information: Information accessed through this system must be protected in accordance with the Privacy Act of 1974, as ammended, and AFI 33-332</p>
+            </div>
 
-        <div>
-            <p>The security accreditation levle of this site is UNCLASSIFIED//FOUO nad below. Do not process, store, or transmit information classified above the accreditation levle of this system. Privacy Act Information: Information accessed through this system must be protected in accordance with the Privacy Act of 1974, as ammended, and AFI 33-332</p>
-        </div>
+            <div>
+                <h1>Privacy and Security Notice</h1>
+                <p>
+                    The ECAT Web site is provided as a public service by the Barnes Center.
+                    Use of appropriate byline/photo/image credits is requested.
+                </p>
+                <p>Information concerning visitors, use of this site is collected for analytical and statisticalpurposes, such as assessing what information is of most and least interest, determining technical design specifications, and identifying system performance or problem areas.</p>
+                <p>For site security purposes and to ensure that this service remains available to all users, this government computer system employs software programs to monitor network traffic to identify unauthorized attempts to upload or change information, or otherwise cause damage.</p>
+                <p>Raw data logs will only be used to identify individual users and their usage habits for authorized law enforcement investigations or national security purposes. These logs are scheduled for regular destruction in accordance with National Archives and Records Administration Guidelines</p>
+                <p>Unauthorized attempts to deny service, upload information, change information, or to attempt to access a non-public site from this service are strictly prohibited and may be punishable under Title 18 of the U.S. Code to include the Computer Fraud and Abuse Act of 1986 and the National Information Infrastructure Protection Act.</p>
 
-        <div>
-            <h1>Privacy and Security Notice</h1>
-            <p>The ECAT Web site is provided as a public service by the Barnes Center.
-                Use of appropriate byline/photo/image credits is requested.</p>
-            <p>Information concerning visitors, use of this site is collected for analytical and statisticalpurposes, such as assessing what information is of most and least interest, determining technical design specifications, and identifying system performance or problem areas.</p>
-            <p>For site security purposes and to ensure that this service remains available to all users, this government computer system employs software programs to monitor network traffic to identify unauthorized attempts to upload or change information, or otherwise cause damage.</p>
-            <p>Raw data logs will only be used to identify individual users and their usage habits for authorized law enforcement investigations or national security purposes. These logs are scheduled for regular destruction in accordance with National Archives and Records Administration Guidelines</p>
-            <p>Unauthorized attempts to deny service, upload information, change information, or to attempt to access a non-public site from this service are strictly prohibited and may be punishable under Title 18 of the U.S. Code to include the Computer Fraud and Abuse Act of 1986 and the National Information Infrastructure Protection Act.</p>
-
-        </div>
-        <div>
-            <h1>Notice and Consent</h1>
-            <p>You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.</p>
-            <p>By using this IS (which includes any device attached to this IS), you consent to the following conditions:</p>
-            <p>-The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations.</p>
-            <p>-At any time, the USG may inspect and seize data stored on this IS.</p>
-            <p>-Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG authorized purpose.</p>
-            <p>-This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy.</p>
-            <p>-Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential.</p>
+            </div>
+            <div>
+                <h1>Notice and Consent</h1>
+                <p>You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.</p>
+                <p>By using this IS (which includes any device attached to this IS), you consent to the following conditions:</p>
+                <p>-The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations.</p>
+                <p>-At any time, the USG may inspect and seize data stored on this IS.</p>
+                <p>-Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG authorized purpose.</p>
+                <p>-This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy.</p>
+                <p>-Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential.</p>
+            </div>
         </div>
     </section>
 
     <footer>
         <div id="left-footer">
-            <p>Barnes Center/DOT | (334)416-2030</p>
+            <a href="mailto:BarnesCenter.AADL@us.af.mil" >Barnes Center/DOT</a> | (334)416-2030
             <p >Last Reviewed: 18 May 2016</p>
         </div>
         <div id="right-footer">
