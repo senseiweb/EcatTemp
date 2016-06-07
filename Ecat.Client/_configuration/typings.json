@@ -1,20 +1,18 @@
 {
-  "dependencies": {},
-  "devDependencies": {},
-  "ambientDependencies": {
-    "Q": "github:DefinitelyTyped/DefinitelyTyped/q/Q.d.ts#4de74cb527395c13ba20b438c3a7a419ad931f1c",
-    "angular-ui-bootstrap": "github:DefinitelyTyped/DefinitelyTyped/angular-ui-bootstrap/angular-ui-bootstrap.d.ts#5d3116c83ea2aa0afcfef61c8cbbf6d7a4cbc09f",
-    "angular-ui-router": "github:DefinitelyTyped/DefinitelyTyped/angular-ui-router/angular-ui-router.d.ts#655f8c1bf3c71b0e1ba415b36309604f79326ac8",
-    "breeze": "github:DefinitelyTyped/DefinitelyTyped/breeze/breeze.d.ts#3209e89f21bd9fef15bd274885c8f7c186c31807",
-    "gulp": "github:DefinitelyTyped/DefinitelyTyped/gulp/gulp.d.ts#052725d74978d6b8d7c4ff537b5a3b21ee755a49",
-    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#470954c4f427e0805a2d633636a7c6aa7170def8",
-    "mCustomScrollbar": "github:DefinitelyTyped/DefinitelyTyped/mCustomScrollbar/mCustomScrollbar.d.ts#17d5157eb89cc9f1fbfa74bbb134bbd873152398",
-    "moment": "github:DefinitelyTyped/DefinitelyTyped/moment/moment.d.ts#b090bcf9ba9f756ec8ff53e7707269729172a325",
-    "oclazyload": "github:DefinitelyTyped/DefinitelyTyped/oclazyload/oclazyload.d.ts#18e1d3ad8c7b38e86ec6531c3f7308172a302072",
-    "orchestrator": "github:DefinitelyTyped/DefinitelyTyped/orchestrator/orchestrator.d.ts#422b006d39dd37fc667ce5464967ee3ff6135092",
-    "systemjs": "github:DefinitelyTyped/DefinitelyTyped/systemjs/systemjs.d.ts#83af898254689400de8fb6495c34119ae57ec3fe"
+  "resolution": {
+    "browser": "typings/browser"
   },
-  "ambientDevDependencies": {
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#20e1eb9616922d382d918cc5a21870a9dbe255f5"
+  "dependencies": {},
+  "globalDependencies": {
+    "angular-ui-bootstrap": "registry:dt/angular-ui-bootstrap#0.13.3+20160602140119",
+    "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
+    "breeze": "registry:dt/breeze#1.5.0+20160317120654",
+    "gulp": "registry:dt/gulp#3.8.0+20160316155526",
+    "jquery": "registry:dt/jquery#1.10.0+20160417213236",
+    "moment": "registry:dt/moment#2.8.0+20160316155526",
+    "oclazyload": "registry:dt/oclazyload#0.0.0+20160317120654",
+    "orchestrator": "registry:dt/orchestrator#0.0.0+20160316155526",
+    "q": "registry:dt/q#0.0.0+20160417152954",
+    "systemjs": "registry:dt/systemjs#0.18.4+20160417155658"
   }
 }
