@@ -129,12 +129,10 @@ namespace Ecat.FacMod.Core
                         stratKeeper.OrderByDescending(sk => sk.StratResult.StratCummScore)
                             .ThenBy(sk => sk.FacStratPosition))
                 {
-                    var studAwardedPoints = wg.WgSpTopStrat - spInterval*fi;
-                    var instrAwardPoints = Math.Max(0, wg.WgFacTopStrat - ((wg.WgFacTopStrat/wg.StratDivisor)*(gm.FacStratPosition - 1)));
+                    var studAwardedPoints = Math.Max(0, wg.WgSpTopStrat - spInterval*fi);
+                    var instrAwardPoints = Math.Max(0, wg.WgFacTopStrat - (facInterval * (gm.FacStratPosition - 1)));
 
                     var totalAward = studAwardedPoints + instrAwardPoints;
-
-                    totalAward = (totalAward < 0) ? 0 : totalAward;
 
                     gm.StratResult.StratAwardedScore = totalAward;
                     gm.StratResult.FinalStratPosition = fi + 1;
