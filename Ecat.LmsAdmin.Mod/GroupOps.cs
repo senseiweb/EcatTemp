@@ -12,6 +12,7 @@ using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
 using Ecat.Shared.DbMgr.BbWs.BbCourse;
 using Ecat.Shared.DbMgr.BbWs.BbMbrs;
+using Ecat.Shared.DbMgr.BbWs.BbGrades;
 using Ecat.Shared.DbMgr.Context;
 
 namespace Ecat.LmsAdmin.Mod
@@ -460,6 +461,93 @@ namespace Ecat.LmsAdmin.Mod
             }
              await _mainCtx.SaveChangesAsync();
             return grpWithMems;
+        }
+
+        public async Task<string[]> SyncBbGrades(int crseId, string wgCategory) {
+
+            var groups = await _mainCtx.WorkGroups.Where(wg => wg.CourseId == crseId && wg.MpCategory == wgCategory && wg.GroupMembers.Any())
+                .Include(wg => wg.WgModel)
+                .ToListAsync();
+
+            var grpIds = new List<int>();
+            //if (groups.Any(wg => wg.MpSpStatus != MpSpStatus.Published)) { }
+            foreach (var group in groups) {
+                if (group.MpSpStatus != MpSpStatus.Published) {
+                    string[] failed = { "failed", "Sync Failed! Not all flights in this group are published" };
+                    return failed;
+                }
+                grpIds.Add(group.WorkGroupId);
+            }
+
+            //Placeholder until gradebook column names are in the db
+            //var studStratCol = groups[0].WgModel.StudScoreCol
+            var studScoreCol = "SPWGStudent";
+            var facStratCol = "SPWGInst";
+            var names = new List<string>();
+            names.Add(facStratCol);
+
+            if (facStratCol != null) {
+                names.Add(studScoreCol);
+            } 
+
+            var columnFilter = new ColumnFilter {
+                filterType = 2, //"GET_COLUMN_BY_COURSE_ID_AND_COLUMN_NAME"
+                filterTypeSpecified = true,
+                names = names.ToArray()
+            };
+
+            var stratResults = await (from str in _mainCtx.SpStratResults
+                                      where grpIds.Contains(str.WorkGroupId)
+                                      select new
+                                      {
+                                          str,
+                                          person = str.ResultFor.StudentProfile.Person,
+                                          course = str.Course
+                                      }).ToListAsync();
+
+            var bbCrseId = stratResults[0].course.BbCourseId;
+
+            var autoRetry = new Retrier<ColumnVO[]>();
+            var colIds = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
+
+            if (!colIds.Any()) {
+                string[] failed = { "failed", "Sync Failed! Could not find the proper Blackboard Gradebook Columns!" };
+                return failed;
+            }
+
+            var scoreVOs = new List<ScoreVO>();
+
+            foreach (var str in stratResults) {
+                var studScore = new ScoreVO
+                {
+                    userId = str.person.BbUserId,
+                    courseId = str.course.BbCourseId,
+                    columnId = colIds[0].id,
+                    manualGrade = str.str.StratAwardedScore.ToString(),
+                    manualScore = decimal.ToDouble(str.str.StratAwardedScore),
+                    manualScoreSpecified = true
+                };
+                scoreVOs.Add(studScore);
+
+                //if (facStratCol != null)
+                //{
+                //    var facScore = new ScoreVO
+                //    {
+                //        userId = str.person.BbUserId,
+                //        courseId = str.course.BbCourseId,
+                //        columnId = colIds[1].id,
+                //        grade = str.str.StratAwardedScore.ToString()
+                //    };
+                //    scoreVOs.Add(facScore);
+                //}
+            }
+
+            //send to Bb
+            ScoreVO[] scoreVOArray = scoreVOs.ToArray();
+            var autoRetry2 = new Retrier<saveGradesResponse>();
+            var result = await autoRetry2.Try(() => _bbWs.SaveGrades(bbCrseId, scoreVOArray), 3);
+
+            return result.@return;
         }
     }
 }

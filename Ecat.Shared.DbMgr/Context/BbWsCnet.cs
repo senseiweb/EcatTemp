@@ -11,6 +11,7 @@ using Ecat.Shared.Core.Utility;
 using Ecat.Shared.DbMgr.BbWs.BbCourse;
 using Ecat.Shared.DbMgr.BbWs.BbMbrs;
 using Ecat.Shared.DbMgr.BbWs.BbUser;
+using Ecat.Shared.DbMgr.BbWs.BbGrades;
 using Ecat.Shared.DbMgr.BbWs.Context;
 
 namespace Ecat.Shared.DbMgr.Context
@@ -28,6 +29,7 @@ namespace Ecat.Shared.DbMgr.Context
         private CourseMembershipWSPortTypeClient _memClient;
         private CourseWSPortTypeClient _crseClient;
         private UserWSPortTypeClient _userClient;
+        private GradebookWSPortTypeClient _gradeClient;
         private string _sessionKey;
 
         public BbWsCnet()
@@ -132,6 +134,38 @@ namespace Ecat.Shared.DbMgr.Context
             return wkGrpVo.@return;
         }
 
+        public async Task<ColumnVO[]> BbColumns(string courseId, ColumnFilter filter)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _gradeClient = null;
+            }
+
+            if (_gradeClient == null) _gradeClient = await GetGradebookClient();
+            var colVo = await _gradeClient.getGradebookColumnsAsync(courseId, filter);
+            _tryCount = 0;
+            return colVo.@return;
+        }
+
+        public async Task<saveGradesResponse> SaveGrades(string courseId, ScoreVO[] grades)
+        {
+            _tryCount += 1;
+
+            if (_tryCount == 3)
+            {
+                await ResetConnection();
+                _gradeClient = null;
+            }
+
+            if (_gradeClient == null) _gradeClient = await GetGradebookClient();
+            var saveResp = await _gradeClient.saveGradesAsync(courseId, grades, false);
+            _tryCount = 0;
+            return saveResp;
+        }
+
         private async Task Activate()
         {
             if (_sessionKey != DefaultSession)
@@ -199,6 +233,17 @@ namespace Ecat.Shared.DbMgr.Context
                 new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", _sessionKey))));
             await user.initializeUserWSAsync(false);
             return user;
+        }
+
+        private async Task<GradebookWSPortTypeClient> GetGradebookClient()
+        {
+            await Activate();
+            var endpoint = new EndpointAddress($"{BaseUrl}/Gradebook.WS");
+            var gradebook = new GradebookWSPortTypeClient(_defaultBinding, endpoint);
+            gradebook.Endpoint.Behaviors.Add(
+                new WsSecurityBehavior(new MessageInspector(new SecurityHeader("session", _sessionKey))));
+            await gradebook.initializeGradebookWSAsync(false);
+            return gradebook;
         }
 
         private async Task ResetConnection()

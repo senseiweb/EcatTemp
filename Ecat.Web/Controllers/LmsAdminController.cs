@@ -99,5 +99,10 @@ namespace Ecat.Web.Controllers
         {
             return await _lmsGroupOps.ReconcileGroupMembers(courseId, category);
         }
+
+        [HttpGet]
+        public async Task<string[]> SyncBbGrades(int crseId, string wgCategory) {
+            return await _lmsGroupOps.SyncBbGrades(crseId, wgCategory);
+        }
     }
 }

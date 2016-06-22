@@ -194,6 +194,39 @@ export default class EcCrseAdGrpList {
         }
     }
 
+    protected syncBbGrades(wgCategory: string): void {
+        const that = this;
+
+        this.workGroups.forEach(group => {
+            if (group.mpCategory === wgCategory && group.groupMembers.length > 0 && group.mpSpStatus !== _mp.MpSpStatus.published) {
+                _swal('Cannot Sync ' + wgCategory + ' Grades', 'All flights with students must be published before syncing grades.', _mp.MpSweetAlertType.err);
+                return null;
+            }
+        });
+
+        this.dCtx.lmsAdmin.syncGrades(this.activeCourseId, wgCategory)
+            .then(syncGradesResponse)
+            .catch(syncGradesError);
+
+        function syncGradesResponse(response: ecat.entity.ISaveGradesResp): void {
+            const alertSettings: SweetAlert.Settings = {
+                title: wgCategory + ' Sync Complete!',
+                text: 'Grades were successfully uploaded to Blackboard for ' + response.result.length + ' students.',
+                type: _mp.MpSweetAlertType.success,
+                html: true
+            }
+
+            if (response === null) {
+                alertSettings.text = 'Something went wrong';
+            }
+            _swal(alertSettings);
+        }
+        //TODO: need to write error handler
+        function syncGradesError(reason: ecat.IQueryError): void {
+
+        }
+    }
+
     protected sortList(sortOpt: string): void {
         if (this.activeSort.opt === sortOpt) {
             this.activeSort.desc = !this.activeSort.desc;

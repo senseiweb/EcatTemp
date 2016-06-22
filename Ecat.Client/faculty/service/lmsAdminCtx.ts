@@ -34,7 +34,8 @@ export default class EcFacultyAdminContext extends IUtilityRepo{
         pollGroups: 'PollGroups',
         allGroupMembers: 'GetGroupMembers',
         pollGroupMembers: 'PollGroupMembers',
-        pollGroupCategory: 'PollGroupCategory'
+        pollGroupCategory: 'PollGroupCategory',
+        syncGrades: 'SyncBbGrades'
     }
 
     isActivated = false;
@@ -379,6 +380,39 @@ export default class EcFacultyAdminContext extends IUtilityRepo{
             }
 
             return grpRecon;
+        }
+    }
+
+    syncGrades(courseId: number, wgCategory: string): breeze.promises.IPromise<ecat.entity.ISaveGradesResp | angular.IPromise<void>> {
+
+        const that = this;
+
+        //if (this.isLoaded.grpRecon[courseId]) {
+        //    grpRecon = this.manager.getEntityByKey(_mp.MpEntityType.groupRecon, this.loadedKeys.grpRecon[courseId]) as ecat.entity.IGrpRecon;
+        //    if (grpRecon) {
+        //        this.log.success('Retrieved Course Member Reconciliation from local cache', grpRecon, false);
+        //        return this.c.$q.when(grpRecon);
+        //    }
+        //}
+
+        return this.query.from(this.apis.syncGrades)
+            .using(this.manager)
+            .withParameters({ crseId: courseId, wgCategory: wgCategory })
+            //.toType('SaveGradesResp')
+            .execute()
+            .then(syncGradesResponse)
+            .catch(this.queryFailed);
+
+        function syncGradesResponse(data: breeze.QueryResult): ecat.entity.ISaveGradesResp {
+            var response = data.results[0] as ecat.entity.ISaveGradesResp;
+
+            if (response.result[0] === 'failed') {
+                that.log.error(response.result[1], response, false);
+            } else {
+                that.log.success('Successfully ' + wgCategory + ' synced grades', response, false);
+            }
+
+            return response;
         }
     }
 }

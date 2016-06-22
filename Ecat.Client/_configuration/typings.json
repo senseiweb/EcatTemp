@@ -10,6 +10,7 @@
     "gulp": "registry:dt/gulp#3.8.0+20160316155526",
     "jquery": "registry:dt/jquery#1.10.0+20160417213236",
     "moment": "registry:dt/moment#2.8.0+20160316155526",
+    "node": "registry:dt/node#6.0.0+20160621231320",
     "oclazyload": "registry:dt/oclazyload#0.0.0+20160317120654",
     "orchestrator": "registry:dt/orchestrator#0.0.0+20160316155526",
     "q": "registry:dt/q#0.0.0+20160417152954",

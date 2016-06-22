@@ -28,6 +28,13 @@
                     <button type="button"
                             ng-if="cag.activeView===cag.view.list"
                             class="btn btn-link waves-effect z-depth-1-bottom"
+                            ng-click="cag.syncBbGrades('BC2')">
+                            Sync Grades to BB
+                    </button>
+
+                    <button type="button"
+                            ng-if="cag.activeView===cag.view.list"
+                            class="btn btn-link waves-effect z-depth-1-bottom"
                             ng-click="cag.pollLmsGroups()">
                             Poll Bb Groups
                     </button>

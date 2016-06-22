@@ -24,6 +24,7 @@
     "gulp-util": "^3.0.7",
     "lodash": "^4.6.1",
     "systemjs": "^0.19.9",
+    "typescript": "^1.8.10",
     "typings": "^0.6.10"
   },
   "dependencies": {

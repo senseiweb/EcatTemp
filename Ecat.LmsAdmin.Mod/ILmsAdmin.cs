@@ -30,5 +30,6 @@ namespace Ecat.LmsAdmin.Mod
         Task<GroupReconResult> ReconcileGroups(int courseId);
         Task<GroupMemReconResult> ReconcileGroupMembers(int wgId);
         Task<List<GroupMemReconResult>> ReconcileGroupMembers(int courseId, string groupCategory);
+        Task<string[]> SyncBbGrades(int crseId, string wgCategory);
     }
 }

@@ -322,6 +322,10 @@ declare module ecat.entity
         groups: IWorkGroup[];
     }
 
+    interface ISaveGradesResp extends breeze.Entity {
+        result: string[];
+    }
+
     interface ISpInventory extends breeze.Entity, s.designer.SpInventory, ext.ISpInventoryExtBase { }
 
     interface IFacSpInventory extends ISpInventory, ext.IFacSpInventoryExt { }
