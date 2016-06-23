@@ -467,53 +467,73 @@ namespace Ecat.LmsAdmin.Mod
 
             var groups = await _mainCtx.WorkGroups.Where(wg => wg.CourseId == crseId && wg.MpCategory == wgCategory && wg.GroupMembers.Any())
                 .Include(wg => wg.WgModel)
+                .Include(wg => wg.Course)
                 .ToListAsync();
 
+            if (!groups.Any()) {
+                string[] failed = { "failed", "No flights with enrollments found for" + wgCategory };
+                return failed;
+            }
+
             var grpIds = new List<int>();
-            //if (groups.Any(wg => wg.MpSpStatus != MpSpStatus.Published)) { }
             foreach (var group in groups) {
                 if (group.MpSpStatus != MpSpStatus.Published) {
-                    string[] failed = { "failed", "Sync Failed! Not all flights in this group are published" };
+                    string[] failed = { "failed", "All flights with enrollments in " + wgCategory + " must be published to sync grades" };
                     return failed;
                 }
                 grpIds.Add(group.WorkGroupId);
             }
 
+            var bbCrseId = groups[0].Course.BbCourseId;
+
             //Placeholder until gradebook column names are in the db
             //var studStratCol = groups[0].WgModel.StudScoreCol
             var studScoreCol = "SPWGStudent";
             var facStratCol = "SPWGInst";
-            var names = new List<string>();
-            names.Add(facStratCol);
+            string[] name = { studScoreCol };
 
-            if (facStratCol != null) {
-                names.Add(studScoreCol);
-            } 
-
-            var columnFilter = new ColumnFilter {
-                filterType = 2, //"GET_COLUMN_BY_COURSE_ID_AND_COLUMN_NAME"
+            var columnFilter = new ColumnFilter
+            {
+                filterType = (int)ColumnFilterType.GetColumnByCourseIdAndColumnName,
                 filterTypeSpecified = true,
-                names = names.ToArray()
+                names = name
             };
+
+            var columns = new List<ColumnVO>();
+            var autoRetry = new Retrier<ColumnVO[]>();
+            var wsColumn = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
+
+            if (!wsColumn.Any() || wsColumn.Length > 1)
+            {
+                string[] failed = { "failed", "Could not find the proper Blackboard Gradebook Columns" };
+                return failed;
+            }
+
+            columns.Add(wsColumn[0]);
+            
+            //If you specify column names in the column filter, Bb only brings back the column that matches the first name in the names array for some reason
+            //So either we go get all 100+ columns and filter it for what we want or we hit the WS twice...
+            if (facStratCol != null) {
+                name[0] = facStratCol;
+                columnFilter.names = name;
+                wsColumn = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
+            }
+
+            if (!wsColumn.Any() || wsColumn.Length > 1)
+            {
+                string[] failed = { "failed", "Could not find the proper Blackboard Gradebook Columns" };
+                return failed;
+            }
+
+            columns.Add(wsColumn[0]);
 
             var stratResults = await (from str in _mainCtx.SpStratResults
                                       where grpIds.Contains(str.WorkGroupId)
                                       select new
                                       {
                                           str,
-                                          person = str.ResultFor.StudentProfile.Person,
-                                          course = str.Course
+                                          person = str.ResultFor.StudentProfile.Person
                                       }).ToListAsync();
-
-            var bbCrseId = stratResults[0].course.BbCourseId;
-
-            var autoRetry = new Retrier<ColumnVO[]>();
-            var colIds = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
-
-            if (!colIds.Any()) {
-                string[] failed = { "failed", "Sync Failed! Could not find the proper Blackboard Gradebook Columns!" };
-                return failed;
-            }
 
             var scoreVOs = new List<ScoreVO>();
 
@@ -521,31 +541,32 @@ namespace Ecat.LmsAdmin.Mod
                 var studScore = new ScoreVO
                 {
                     userId = str.person.BbUserId,
-                    courseId = str.course.BbCourseId,
-                    columnId = colIds[0].id,
+                    courseId = bbCrseId,
+                    columnId = columns[0].id,
                     manualGrade = str.str.StratAwardedScore.ToString(),
                     manualScore = decimal.ToDouble(str.str.StratAwardedScore),
                     manualScoreSpecified = true
                 };
                 scoreVOs.Add(studScore);
 
-                //if (facStratCol != null)
-                //{
-                //    var facScore = new ScoreVO
-                //    {
-                //        userId = str.person.BbUserId,
-                //        courseId = str.course.BbCourseId,
-                //        columnId = colIds[1].id,
-                //        grade = str.str.StratAwardedScore.ToString()
-                //    };
-                //    scoreVOs.Add(facScore);
-                //}
+                if (facStratCol != null)
+                {
+                    var facScore = new ScoreVO
+                    {
+                        userId = str.person.BbUserId,
+                        courseId = bbCrseId,
+                        columnId = columns[1].id,
+                        manualGrade = str.str.StratAwardedScore.ToString(),
+                        manualScore = decimal.ToDouble(str.str.StratAwardedScore),
+                        manualScoreSpecified = true
+                    };
+                    scoreVOs.Add(facScore);
+                }
             }
 
             //send to Bb
-            ScoreVO[] scoreVOArray = scoreVOs.ToArray();
             var autoRetry2 = new Retrier<saveGradesResponse>();
-            var result = await autoRetry2.Try(() => _bbWs.SaveGrades(bbCrseId, scoreVOArray), 3);
+            var result = await autoRetry2.Try(() => _bbWs.SaveGrades(bbCrseId, scoreVOs.ToArray()), 3);
 
             return result.@return;
         }

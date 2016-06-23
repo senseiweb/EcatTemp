@@ -25,12 +25,24 @@
 
                 <div class="pull-right">
 
-                    <button type="button"
-                            ng-if="cag.activeView===cag.view.list"
-                            class="btn btn-link waves-effect z-depth-1-bottom"
-                            ng-click="cag.syncBbGrades('BC2')">
+                    <div class="btn-group dropdown" uib-dropdown ng-if="cag.activeView===cag.view.list">
+                        <button id="polloptionscat"
+                                class="btn btn-link waves-effect dropdown-toggle z-depth-1-bottom"
+                                uib-dropdown-toggle>
+                            <i class="zmdi zmdi-menu"></i>
                             Sync Grades to BB
-                    </button>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu">
+
+                            <li role="menuitem" ng-repeat="cat in cag.filters.cat.optionList">
+                                <a href="javascript:void(0)"
+                                   ng-click="cag.syncBbGrades(cat.key)">
+                                    Sync {{cat.key}} Grades
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
                     <button type="button"
                             ng-if="cag.activeView===cag.view.list"
@@ -59,28 +71,10 @@
 
                             <li class="divider"></li>
 
-                            <li role="menuitem">
+                            <li role="menuitem" ng-repeat="cat in cag.filters.cat.optionList">
                                 <a href="javascript:void(0)"
-                                   ng-click="cag.pollGroupCategory(cag.grpCat.bc1)">
-                                    Group Type: {{cag.grpCat.bc1}}
-                                </a>
-                            </li>
-                            <li role="menuitem">
-                                <a href="javascript:void(0)"
-                                   ng-click="cag.pollGroupCategory(cag.grpCat.bc2)">
-                                    Group Type: {{cag.grpCat.bc2}}
-                                </a>
-                            </li>
-                            <li role="menuitem">
-                                <a href="javascript:void(0)"
-                                   ng-click="cag.pollGroupCategory(cag.grpCat.bc3)">
-                                    Group Type: {{cag.grpCat.bc3}}
-                                </a>
-                            </li>
-                            <li role="menuitem">
-                                <a href="javascript:void(0)"
-                                   ng-click="cag.pollGroupCategory(cag.grpCat.bc4)">
-                                    Group Type: {{cag.grpCat.bc4}}
+                                   ng-click="cag.pollGroupCategory(cat.key)">
+                                    Group Type: {{cat.key}}
                                 </a>
                             </li>
                         </ul>

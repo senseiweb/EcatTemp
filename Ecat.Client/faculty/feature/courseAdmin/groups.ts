@@ -197,27 +197,22 @@ export default class EcCrseAdGrpList {
     protected syncBbGrades(wgCategory: string): void {
         const that = this;
 
-        this.workGroups.forEach(group => {
-            if (group.mpCategory === wgCategory && group.groupMembers.length > 0 && group.mpSpStatus !== _mp.MpSpStatus.published) {
-                _swal('Cannot Sync ' + wgCategory + ' Grades', 'All flights with students must be published before syncing grades.', _mp.MpSweetAlertType.err);
-                return null;
-            }
-        });
-
         this.dCtx.lmsAdmin.syncGrades(this.activeCourseId, wgCategory)
             .then(syncGradesResponse)
             .catch(syncGradesError);
 
-        function syncGradesResponse(response: ecat.entity.ISaveGradesResp): void {
-            const alertSettings: SweetAlert.Settings = {
+        function syncGradesResponse(response: Array<ecat.entity.ISaveGradesResp>): void {
+            var alertSettings: SweetAlert.Settings = {
                 title: wgCategory + ' Sync Complete!',
-                text: 'Grades were successfully uploaded to Blackboard for ' + response.result.length + ' students.',
+                text: response.length + ' grades were successfully uploaded to Blackboard for ' + wgCategory,
                 type: _mp.MpSweetAlertType.success,
                 html: true
             }
 
-            if (response === null) {
-                alertSettings.text = 'Something went wrong';
+            if (response === null || response[0].result === 'failed') {
+                alertSettings.text = response[1].result;
+                alertSettings.title = 'Sync Failed!';
+                alertSettings.type = _mp.MpSweetAlertType.err;
             }
             _swal(alertSettings);
         }

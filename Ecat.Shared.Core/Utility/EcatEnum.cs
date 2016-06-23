@@ -160,4 +160,12 @@ namespace Ecat.Shared.Core.Utility
         GetGroupByCourseId,
         GetEnrolledGroupByUserId
     }
+
+    public enum ColumnFilterType
+    {
+        GetColumnByCourseId = 1,
+        GetColumnByCourseIdAndColumnName,
+        GetColumnByIds,
+        GetColumnByExternalGradeFlag
+    }
 }

@@ -323,7 +323,7 @@ declare module ecat.entity
     }
 
     interface ISaveGradesResp extends breeze.Entity {
-        result: string[];
+        result: string;
     }
 
     interface ISpInventory extends breeze.Entity, s.designer.SpInventory, ext.ISpInventoryExtBase { }
