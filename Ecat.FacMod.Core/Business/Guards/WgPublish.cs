@@ -132,9 +132,10 @@ namespace Ecat.FacMod.Core
                     var studAwardedPoints = Math.Max(0, wg.WgSpTopStrat - spInterval*fi);
                     var instrAwardPoints = Math.Max(0, wg.WgFacTopStrat - (facInterval * (gm.FacStratPosition - 1)));
 
-                    var totalAward = studAwardedPoints + instrAwardPoints;
+                    //var totalAward = studAwardedPoints + instrAwardPoints;
 
-                    gm.StratResult.StratAwardedScore = totalAward;
+                    gm.StratResult.StudStratAwardedScore = studAwardedPoints;
+                    gm.StratResult.FacStratAwardedScore = instrAwardPoints;
                     gm.StratResult.FinalStratPosition = fi + 1;
 
                     var info = ctxProvider.CreateEntityInfo(gm.StratResult,

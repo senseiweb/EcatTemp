@@ -284,7 +284,8 @@ declare module ecat.entity.s.learner {
 		originalStratPosition: number;
 		finalStratPosition: number;
 		stratCummScore: number;
-		stratAwardedScore: number;
+        studStratAwardedScore: number;
+        facStratAwardedScore: number;
 		course: ecat.entity.s.school.Course;
 		resultFor: ecat.entity.s.school.CrseStudentInGroup;
 		facStrat: ecat.entity.s.faculty.FacStratResponse;

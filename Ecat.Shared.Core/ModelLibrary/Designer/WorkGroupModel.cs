@@ -19,8 +19,8 @@ namespace Ecat.Shared.Core.ModelLibrary.Designer
         public decimal MaxStratFaculty { get; set; }
         public bool IsActive { get; set; }
         public int StratDivisor { get; set; }
-
-       
+        public string StudStratCol { get; set; }
+        public string FacStratCol { get; set; }
 
         public SpInstrument AssignedSpInstr { get; set; }
         public KcInstrument AssignedKcInstr { get; set; }

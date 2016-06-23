@@ -13,7 +13,8 @@ namespace Ecat.Shared.DbMgr.Config
         public ConfigStratResult()
         {
             HasKey(p => new {p.StudentId, p.CourseId, p.WorkGroupId});
-            Property(p => p.StratAwardedScore).HasPrecision(18, 3);
+            Property(p => p.StudStratAwardedScore).HasPrecision(18, 3);
+            Property(p => p.FacStratAwardedScore).HasPrecision(18, 3);
             Ignore(p => p.StratResponses);
             Ignore(p => p.FacStrat);
 

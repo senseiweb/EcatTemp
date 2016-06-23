@@ -513,19 +513,19 @@ namespace Ecat.LmsAdmin.Mod
             
             //If you specify column names in the column filter, Bb only brings back the column that matches the first name in the names array for some reason
             //So either we go get all 100+ columns and filter it for what we want or we hit the WS twice...
-            if (facStratCol != null) {
+            if (groups[0].WgModel.MaxStratFaculty > 0 && facStratCol != null) {
                 name[0] = facStratCol;
                 columnFilter.names = name;
                 wsColumn = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
-            }
 
-            if (!wsColumn.Any() || wsColumn.Length > 1)
-            {
-                string[] failed = { "failed", "Could not find the proper Blackboard Gradebook Columns" };
-                return failed;
-            }
+                if (!wsColumn.Any() || wsColumn.Length > 1)
+                {
+                    string[] failed = { "failed", "Could not find the proper Blackboard Gradebook Columns" };
+                    return failed;
+                }
 
-            columns.Add(wsColumn[0]);
+                columns.Add(wsColumn[0]);
+            }
 
             var stratResults = await (from str in _mainCtx.SpStratResults
                                       where grpIds.Contains(str.WorkGroupId)
@@ -543,8 +543,8 @@ namespace Ecat.LmsAdmin.Mod
                     userId = str.person.BbUserId,
                     courseId = bbCrseId,
                     columnId = columns[0].id,
-                    manualGrade = str.str.StratAwardedScore.ToString(),
-                    manualScore = decimal.ToDouble(str.str.StratAwardedScore),
+                    manualGrade = str.str.StudStratAwardedScore.ToString(),
+                    manualScore = decimal.ToDouble(str.str.StudStratAwardedScore),
                     manualScoreSpecified = true
                 };
                 scoreVOs.Add(studScore);
@@ -556,8 +556,8 @@ namespace Ecat.LmsAdmin.Mod
                         userId = str.person.BbUserId,
                         courseId = bbCrseId,
                         columnId = columns[1].id,
-                        manualGrade = str.str.StratAwardedScore.ToString(),
-                        manualScore = decimal.ToDouble(str.str.StratAwardedScore),
+                        manualGrade = str.str.FacStratAwardedScore.ToString(),
+                        manualScore = decimal.ToDouble(str.str.FacStratAwardedScore),
                         manualScoreSpecified = true
                     };
                     scoreVOs.Add(facScore);
