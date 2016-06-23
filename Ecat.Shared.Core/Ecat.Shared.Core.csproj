@@ -85,6 +85,7 @@
     <Compile Include="Logic\SharedGuardian.cs" />
     <Compile Include="Logic\StaticAcademy.cs" />
     <Compile Include="ModelLibrary\Common\AcademyCategory.cs" />
+    <Compile Include="ModelLibrary\Common\SaveGradeResult.cs" />
     <Compile Include="ModelLibrary\Common\FacResultForStudent.cs" />
     <Compile Include="ModelLibrary\Common\PublishingWorkGroup.cs" />
     <Compile Include="ModelLibrary\Common\ReconcileResult.cs" />

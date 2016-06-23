@@ -457,7 +457,15 @@ declare module ecat.entity.s.lmsAdmin {
 	}
 	interface CourseReconResult extends Ecat.Shared.Core.ModelLibrary.Common.ReconcileResult {
 		courses: ecat.entity.s.school.Course[];
-	}
+    }
+    interface SaveGradesResult {
+        courseId: number;
+        wGCategory: string;
+        success: boolean;
+        studScores: number;
+        facScores: number;
+        message: string;
+    }
 }
 declare module Ecat.Shared.Core.ModelLibrary.Common {
 	interface ReconcileResult {

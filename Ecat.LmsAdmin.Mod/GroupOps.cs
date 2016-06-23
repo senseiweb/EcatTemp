@@ -463,7 +463,16 @@ namespace Ecat.LmsAdmin.Mod
             return grpWithMems;
         }
 
-        public async Task<string[]> SyncBbGrades(int crseId, string wgCategory) {
+        public async Task<SaveGradeResult> SyncBbGrades(int crseId, string wgCategory) {
+
+            var result = new SaveGradeResult() {
+                CourseId = crseId,
+                WGCategory = wgCategory,
+                Success = true,
+                StudScores = 0,
+                FacScores = 0,
+                Message = "Successfully Synced"
+            };
 
             var groups = await _mainCtx.WorkGroups.Where(wg => wg.CourseId == crseId && wg.MpCategory == wgCategory && wg.GroupMembers.Any())
                 .Include(wg => wg.WgModel)
@@ -471,26 +480,25 @@ namespace Ecat.LmsAdmin.Mod
                 .ToListAsync();
 
             if (!groups.Any()) {
-                string[] failed = { "failed", "No flights with enrollments found for" + wgCategory };
-                return failed;
+                result.Success = false;
+                result.Message = "No flights with enrolled students found ";
+                return result;
             }
 
             var grpIds = new List<int>();
             foreach (var group in groups) {
                 if (group.MpSpStatus != MpSpStatus.Published) {
-                    string[] failed = { "failed", "All flights with enrollments in " + wgCategory + " must be published to sync grades" };
-                    return failed;
+                    result.Success = false;
+                    result.Message = "All flights with enrollments must be published to sync grades";
+                    return result;
                 }
                 grpIds.Add(group.WorkGroupId);
             }
 
             var bbCrseId = groups[0].Course.BbCourseId;
 
-            //Placeholder until gradebook column names are in the db
-            //var studStratCol = groups[0].WgModel.StudScoreCol
-            var studScoreCol = "SPWGStudent";
-            var facStratCol = "SPWGInst";
-            string[] name = { studScoreCol };
+            var model = groups[0].WgModel;
+            string[] name = { model.StudStratCol };
 
             var columnFilter = new ColumnFilter
             {
@@ -505,23 +513,25 @@ namespace Ecat.LmsAdmin.Mod
 
             if (!wsColumn.Any() || wsColumn.Length > 1)
             {
-                string[] failed = { "failed", "Could not find the proper Blackboard Gradebook Columns" };
-                return failed;
+                result.Success = false;
+                result.Message = "Error matching ECAT and Blackboard Columns";
+                return result;
             }
 
             columns.Add(wsColumn[0]);
             
             //If you specify column names in the column filter, Bb only brings back the column that matches the first name in the names array for some reason
             //So either we go get all 100+ columns and filter it for what we want or we hit the WS twice...
-            if (groups[0].WgModel.MaxStratFaculty > 0 && facStratCol != null) {
-                name[0] = facStratCol;
+            if (model.MaxStratFaculty > 0 && model.FacStratCol != null) {
+                name[0] = model.FacStratCol;
                 columnFilter.names = name;
                 wsColumn = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
 
                 if (!wsColumn.Any() || wsColumn.Length > 1)
                 {
-                    string[] failed = { "failed", "Could not find the proper Blackboard Gradebook Columns" };
-                    return failed;
+                    result.Success = false;
+                    result.Message = "Error matching ECAT and Blackboard Columns";
+                    return result;
                 }
 
                 columns.Add(wsColumn[0]);
@@ -536,7 +546,6 @@ namespace Ecat.LmsAdmin.Mod
                                       }).ToListAsync();
 
             var scoreVOs = new List<ScoreVO>();
-
             foreach (var str in stratResults) {
                 var studScore = new ScoreVO
                 {
@@ -547,9 +556,10 @@ namespace Ecat.LmsAdmin.Mod
                     manualScore = decimal.ToDouble(str.str.StudStratAwardedScore),
                     manualScoreSpecified = true
                 };
+                result.StudScores += 1;
                 scoreVOs.Add(studScore);
 
-                if (facStratCol != null)
+                if (model.MaxStratFaculty > 0 && model.FacStratCol != null)
                 {
                     var facScore = new ScoreVO
                     {
@@ -560,15 +570,16 @@ namespace Ecat.LmsAdmin.Mod
                         manualScore = decimal.ToDouble(str.str.FacStratAwardedScore),
                         manualScoreSpecified = true
                     };
+                    result.FacScores += 1;
                     scoreVOs.Add(facScore);
                 }
             }
 
             //send to Bb
             var autoRetry2 = new Retrier<saveGradesResponse>();
-            var result = await autoRetry2.Try(() => _bbWs.SaveGrades(bbCrseId, scoreVOs.ToArray()), 3);
-
-            return result.@return;
+            var scoreReturn = await autoRetry2.Try(() => _bbWs.SaveGrades(bbCrseId, scoreVOs.ToArray()), 3);
+            //Figure out some sort of the check for the scoreReturn...
+            return result;
         }
     }
 }

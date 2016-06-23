@@ -383,25 +383,24 @@ export default class EcFacultyAdminContext extends IUtilityRepo{
         }
     }
 
-    syncGrades(courseId: number, wgCategory: string): breeze.promises.IPromise<Array<ecat.entity.ISaveGradesResp> | angular.IPromise<void>> {
+    syncGrades(courseId: number, wgCategory: string): breeze.promises.IPromise<ecat.entity.ISaveGradesResp | angular.IPromise<void>> {
 
         const that = this;
 
         return this.query.from(this.apis.syncGrades)
             .using(this.manager)
             .withParameters({ crseId: courseId, wgCategory: wgCategory })
-            //.toType('SaveGradesResp')
             .execute()
             .then(syncGradesResponse)
             .catch(this.queryFailed);
 
-        function syncGradesResponse(data: breeze.QueryResult): Array<ecat.entity.ISaveGradesResp> {
-            var response = data.results as Array<ecat.entity.ISaveGradesResp>;
+        function syncGradesResponse(data: breeze.QueryResult): ecat.entity.ISaveGradesResp {
+            var response = data.results[0] as ecat.entity.ISaveGradesResp;
 
-            if (response[0].result === 'failed') {
-                that.log.error(response[1].result, response, false);
+            if (response.success === false) {
+                that.log.error(response.message, response, false);
             } else {
-                that.log.success('Successfully synced ' + wgCategory + ' grades', response, false);
+                that.log.success(response.message, response, false);
             }
 
             return response;

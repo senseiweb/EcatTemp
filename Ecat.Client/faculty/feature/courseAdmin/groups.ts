@@ -201,17 +201,18 @@ export default class EcCrseAdGrpList {
             .then(syncGradesResponse)
             .catch(syncGradesError);
 
-        function syncGradesResponse(response: Array<ecat.entity.ISaveGradesResp>): void {
+        function syncGradesResponse(response: ecat.entity.ISaveGradesResp): void {
             var alertSettings: SweetAlert.Settings = {
-                title: wgCategory + ' Sync Complete!',
-                text: response.length + ' grades were successfully uploaded to Blackboard for ' + wgCategory,
+                title: `${response.wGCategory} Sync Complete!`,
+                text: `${response.message} evaluation scores to Blackboard: <br/>
+                        ${response.studScores} student evaluation scores <br/> ${response.facScores} instructor evaulation scores`,
                 type: _mp.MpSweetAlertType.success,
                 html: true
             }
 
-            if (response === null || response[0].result === 'failed') {
-                alertSettings.text = response[1].result;
-                alertSettings.title = 'Sync Failed!';
+            if (response === null || response.success === false) {
+                alertSettings.text = response.message;
+                alertSettings.title = `${response.wGCategory} Sync Failed!`;
                 alertSettings.type = _mp.MpSweetAlertType.err;
             }
             _swal(alertSettings);

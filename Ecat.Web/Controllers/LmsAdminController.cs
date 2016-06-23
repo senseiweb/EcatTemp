@@ -101,7 +101,7 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<string[]> SyncBbGrades(int crseId, string wgCategory) {
+        public async Task<SaveGradeResult> SyncBbGrades(int crseId, string wgCategory) {
             return await _lmsGroupOps.SyncBbGrades(crseId, wgCategory);
         }
     }
