@@ -460,10 +460,11 @@ declare module ecat.entity.s.lmsAdmin {
     }
     interface SaveGradesResult {
         courseId: number;
-        wGCategory: string;
+        wgCategory: string;
         success: boolean;
-        studScores: number;
-        facScores: number;
+        sentScores: number;
+        returnedScores: number;
+        numOfStudents: number;
         message: string;
     }
 }

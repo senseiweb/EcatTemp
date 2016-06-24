@@ -467,11 +467,12 @@ namespace Ecat.LmsAdmin.Mod
 
             var result = new SaveGradeResult() {
                 CourseId = crseId,
-                WGCategory = wgCategory,
-                Success = true,
-                StudScores = 0,
-                FacScores = 0,
-                Message = "Successfully Synced"
+                WgCategory = wgCategory,
+                Success = false,
+                SentScores = 0,
+                ReturnedScores = 0,
+                NumOfStudents = 0,
+                Message = "Bb Gradebook Sync"
             };
 
             var groups = await _mainCtx.WorkGroups.Where(wg => wg.CourseId == crseId && wg.MpCategory == wgCategory && wg.GroupMembers.Any())
@@ -511,7 +512,7 @@ namespace Ecat.LmsAdmin.Mod
             var autoRetry = new Retrier<ColumnVO[]>();
             var wsColumn = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
 
-            if (!wsColumn.Any() || wsColumn.Length > 1)
+            if (wsColumn[0] == null || wsColumn.Length > 1)
             {
                 result.Success = false;
                 result.Message = "Error matching ECAT and Blackboard Columns";
@@ -527,7 +528,7 @@ namespace Ecat.LmsAdmin.Mod
                 columnFilter.names = name;
                 wsColumn = await autoRetry.Try(() => _bbWs.BbColumns(bbCrseId, columnFilter), 3);
 
-                if (!wsColumn.Any() || wsColumn.Length > 1)
+                if (wsColumn[0] == null || wsColumn.Length > 1)
                 {
                     result.Success = false;
                     result.Message = "Error matching ECAT and Blackboard Columns";
@@ -556,7 +557,7 @@ namespace Ecat.LmsAdmin.Mod
                     manualScore = decimal.ToDouble(str.str.StudStratAwardedScore),
                     manualScoreSpecified = true
                 };
-                result.StudScores += 1;
+                result.SentScores += 1;
                 scoreVOs.Add(studScore);
 
                 if (model.MaxStratFaculty > 0 && model.FacStratCol != null)
@@ -570,15 +571,29 @@ namespace Ecat.LmsAdmin.Mod
                         manualScore = decimal.ToDouble(str.str.FacStratAwardedScore),
                         manualScoreSpecified = true
                     };
-                    result.FacScores += 1;
+                    result.SentScores += 1;
                     scoreVOs.Add(facScore);
                 }
+
+                result.NumOfStudents += 1;
             }
 
             //send to Bb
             var autoRetry2 = new Retrier<saveGradesResponse>();
             var scoreReturn = await autoRetry2.Try(() => _bbWs.SaveGrades(bbCrseId, scoreVOs.ToArray()), 3);
-            //Figure out some sort of the check for the scoreReturn...
+            
+            result.ReturnedScores = scoreReturn.@return.Length;
+            if (result.ReturnedScores != result.SentScores)
+            {
+                result.Message = "recieved a different number of scores than sent";
+                if (scoreReturn.@return[0] == null)
+                {
+                    result.Success = false;
+                    result.Message = "Something went wrong with the connection to Blackboard";
+                    return result;
+                }
+            }
+            result.Success = true;
             return result;
         }
     }

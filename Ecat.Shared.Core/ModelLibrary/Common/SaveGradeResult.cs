@@ -6,10 +6,11 @@ namespace Ecat.Shared.Core.ModelLibrary.Common
     public class SaveGradeResult 
     {
         public int CourseId { get; set; }
-        public string WGCategory { get; set; }
+        public string WgCategory { get; set; }
         public bool Success { get; set; }
-        public int StudScores { get; set; }
-        public int FacScores { get; set; }
+        public int NumOfStudents { get; set; }
+        public int SentScores { get; set; }
+        public int ReturnedScores { get; set; }
         public string Message { get; set; }
     }
 }

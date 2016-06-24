@@ -203,16 +203,15 @@ export default class EcCrseAdGrpList {
 
         function syncGradesResponse(response: ecat.entity.ISaveGradesResp): void {
             var alertSettings: SweetAlert.Settings = {
-                title: `${response.wGCategory} Sync Complete!`,
-                text: `${response.message} evaluation scores to Blackboard: <br/>
-                        ${response.studScores} student evaluation scores <br/> ${response.facScores} instructor evaulation scores`,
+                title: `${response.wgCategory} Sync Complete!`,
+                text: `Successfully synced ${response.returnedScores} evaluation scores to Blackboard`,
                 type: _mp.MpSweetAlertType.success,
                 html: true
             }
 
             if (response === null || response.success === false) {
                 alertSettings.text = response.message;
-                alertSettings.title = `${response.wGCategory} Sync Failed!`;
+                alertSettings.title = `${response.wgCategory} Sync Failed!`;
                 alertSettings.type = _mp.MpSweetAlertType.err;
             }
             _swal(alertSettings);

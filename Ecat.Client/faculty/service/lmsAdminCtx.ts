@@ -398,7 +398,7 @@ export default class EcFacultyAdminContext extends IUtilityRepo{
             var response = data.results[0] as ecat.entity.ISaveGradesResp;
 
             if (response.success === false) {
-                that.log.error(response.message, response, false);
+                that.log.error('Bb Gradebook Sync ' + response.message, response, false);
             } else {
                 that.log.success(response.message, response, false);
             }
