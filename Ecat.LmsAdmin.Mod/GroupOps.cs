@@ -499,6 +499,12 @@ namespace Ecat.LmsAdmin.Mod
             var bbCrseId = groups[0].Course.BbCourseId;
 
             var model = groups[0].WgModel;
+            if (model.StudStratCol == null) {
+                result.Success = false;
+                result.Message = "Error matching ECAT and Blackboard Columns";
+                return result;
+            }
+
             string[] name = { model.StudStratCol };
 
             var columnFilter = new ColumnFilter
