@@ -267,7 +267,7 @@ export default class EcCrseAdGrpList {
         });
 
         this.filters.status.optionList = uniqueStatusKeys.map(key => {
-            const count = groups.filter(g => g.mpCategory === key).length;
+            const count = groups.filter(g => g.mpSpStatus === key).length;
             return {
                 key: key,
                 count: count

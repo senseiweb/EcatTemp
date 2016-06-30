@@ -122,6 +122,10 @@ export default class EcFacultyWgList {
             }
 
             that.activeCourse = crse;
+
+            if (that.activeCourse.workGroups) {
+                that.unwrapGrpFilterables(that.activeCourse.workGroups);
+            }
        }
        
        function getActiveCourseError(response: ecat.IQueryError) {

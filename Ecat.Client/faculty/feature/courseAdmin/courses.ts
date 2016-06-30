@@ -304,7 +304,7 @@ export default class EcCrseAdCrseList {
 
             _swal(alertSettings);
              that.dCtx.lmsAdmin.fetchAllCourseMembers(that.selectedCourse.id)
-                 .then((course: ecat.entity.ICourse) => that.processMembers(course));
+                .then((course: ecat.entity.ICourse) => that.processMembers(course));
         }
 
         //TODO: Need to add error handlers
@@ -354,6 +354,7 @@ export default class EcCrseAdCrseList {
 
        this.members = faculty.concat(students);
        this.filteredMembers = this.members;
+       this.currentPage = 1;
 
        const role = {};
        const name = {};

@@ -31,16 +31,16 @@
                             <ui-select multiple
                                        ng-model="cag.filters.name.filterWith"
                                        theme="select2"
-                                       style="width: 200px">
+                                       style="width: 100%">
 
                                 <ui-select-match placeholder="--Filter By Flight Number--">
                                     {{$item.key}}
                                 </ui-select-match>
 
-                                <ui-select-choices repeat="name.key as name in grps.filters.name.optionList | filter: $select.search">
+                                <ui-select-choices repeat="name.key as name in cag.filters.name.optionList | filter: $select.search">
                                     <div>
                                         <span>
-                                            Name:
+                                            <!--Name:-->
                                             <span ng-bind-html="' ' + name.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{name.count}} items
                                         </span>
                                     </div>
@@ -51,23 +51,23 @@
                             <ui-select multiple
                                        ng-model="cag.filters.cat.filterWith"
                                        theme="select2"
-                                       style="width: 210px">
+                                       style="width: 100%">
                                 
                                 <ui-select-match placeholder="--Filter By Group Category--">{{$item.key}}</ui-select-match>
-                                <ui-select-choices repeat="cat.key as cat in grps.filters.cat.optionList | filter: $select.search">
-                                    <span>  Category: <span ng-bind-html="' ' + cat.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{cat.count}} items</span>
+                                <ui-select-choices repeat="cat.key as cat in cag.filters.cat.optionList | filter: $select.search">
+                                    <span>  <!--Category:--> <span ng-bind-html="' ' + cat.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{cat.count}} items</span>
                                 </ui-select-choices>
                             </ui-select>
                         </td>
                         <td class="filter">
                             <ui-select multiple
                                        ng-model="cag.filters.status.filterWith"
-                                       theme="select2" style="width: 180px">
+                                       theme="select2" style="width: 100%">
 
                                 <ui-select-match placeholder="--Filter By Pub Status--">{{$item.key}}</ui-select-match>
 
-                                <ui-select-choices repeat="status.key as status in grps.filters.status.optionList | filter: $select.search">
-                                    <span> Pub Status: <span ng-bind-html="' ' + status.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{status.count}} items</span>
+                                <ui-select-choices repeat="status.key as status in cag.filters.status.optionList | filter: $select.search">
+                                    <span> <!--Pub Status:--> <span ng-bind-html="' ' + status.key |highlight: $select.search"></span>&nbsp;|&nbsp;{{status.count}} items</span>
                                 </ui-select-choices>
                             </ui-select>
                         </td>
