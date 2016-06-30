@@ -478,6 +478,7 @@ namespace Ecat.LmsAdmin.Mod
             var groups = await _mainCtx.WorkGroups.Where(wg => wg.CourseId == crseId && wg.MpCategory == wgCategory && wg.GroupMembers.Any())
                 .Include(wg => wg.WgModel)
                 .Include(wg => wg.Course)
+                .Include(wg => wg.GroupMembers)
                 .ToListAsync();
 
             if (!groups.Any()) {
@@ -489,9 +490,14 @@ namespace Ecat.LmsAdmin.Mod
             var grpIds = new List<int>();
             foreach (var group in groups) {
                 if (group.MpSpStatus != MpSpStatus.Published) {
-                    result.Success = false;
-                    result.Message = "All flights with enrollments must be published to sync grades";
-                    return result;
+                    var notDeleted = group.GroupMembers.Where(mem => mem.IsDeleted == false).Count();
+                    if (notDeleted > 0)
+                    {
+                        result.Success = false;
+                        result.Message = "All flights with enrollments must be published to sync grades";
+                        return result;
+                    }
+                    else { continue; }
                 }
                 grpIds.Add(group.WorkGroupId);
             }
@@ -548,7 +554,7 @@ namespace Ecat.LmsAdmin.Mod
                                       where grpIds.Contains(str.WorkGroupId)
                                       select new
                                       {
-                                          str,
+                                          stratResult = str,
                                           person = str.ResultFor.StudentProfile.Person
                                       }).ToListAsync();
 
@@ -559,8 +565,8 @@ namespace Ecat.LmsAdmin.Mod
                     userId = str.person.BbUserId,
                     courseId = bbCrseId,
                     columnId = columns[0].id,
-                    manualGrade = str.str.StudStratAwardedScore.ToString(),
-                    manualScore = decimal.ToDouble(str.str.StudStratAwardedScore),
+                    manualGrade = str.stratResult.StudStratAwardedScore.ToString(),
+                    manualScore = decimal.ToDouble(str.stratResult.StudStratAwardedScore),
                     manualScoreSpecified = true
                 };
                 result.SentScores += 1;
@@ -573,8 +579,8 @@ namespace Ecat.LmsAdmin.Mod
                         userId = str.person.BbUserId,
                         courseId = bbCrseId,
                         columnId = columns[1].id,
-                        manualGrade = str.str.FacStratAwardedScore.ToString(),
-                        manualScore = decimal.ToDouble(str.str.FacStratAwardedScore),
+                        manualGrade = str.stratResult.FacStratAwardedScore.ToString(),
+                        manualScore = decimal.ToDouble(str.stratResult.FacStratAwardedScore),
                         manualScoreSpecified = true
                     };
                     result.SentScores += 1;
@@ -591,7 +597,7 @@ namespace Ecat.LmsAdmin.Mod
             result.ReturnedScores = scoreReturn.@return.Length;
             if (result.ReturnedScores != result.SentScores)
             {
-                result.Message = "recieved a different number of scores than sent";
+                result.Message += " recieved a different number of scores than sent";
                 if (scoreReturn.@return[0] == null)
                 {
                     result.Success = false;
