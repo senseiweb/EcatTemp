@@ -18,7 +18,11 @@ namespace Ecat.UserMod.Core
 
 
             mb.Configurations.Add(new ConfigPerson());
-            mb.Configurations.Add(new ConfigProfile());
+            mb.Configurations.Add(new ConfigProfileStudent());
+            mb.Configurations.Add(new ConfigProfileFaculty());
+            mb.Configurations.Add(new ConfigProfileStaff());
+            mb.Configurations.Add(new ConfigProfileDesigner());
+            mb.Configurations.Add(new ConfigProfileExternal());
             mb.Configurations.Add(new ConfigSecurity());
 
             mb.Entity<LoginToken>().HasKey(p => p.PersonId);
@@ -37,7 +41,6 @@ namespace Ecat.UserMod.Core
         }
 
         public IDbSet<Person> People { get; set; }
-        public IDbSet<ProfileBase> Profiles { get; set; }
         public IDbSet<ProfileStudent> Students { get; set; }
         public IDbSet<ProfileFaculty> Facilitators { get; set; }
         public IDbSet<ProfileExternal> Externals { get; set; }

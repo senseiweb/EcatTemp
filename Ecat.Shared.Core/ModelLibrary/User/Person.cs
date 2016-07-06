@@ -47,7 +47,6 @@ namespace Ecat.Shared.Core.ModelLibrary.User
         public virtual ProfileStaff HqStaff { get; set; }
         [TsIgnore]
         public virtual Security Security { get; set; }
-        public virtual ProfileBase Profile { get; set; }
 
         [JsonIgnore] [TsIgnore]
         public int? ModifiedById { get; set; }

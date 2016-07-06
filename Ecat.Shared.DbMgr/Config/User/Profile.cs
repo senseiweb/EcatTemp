@@ -8,11 +8,54 @@ using Ecat.Shared.Core.ModelLibrary.User;
 
 namespace Ecat.Shared.DbMgr.Config
 {
-    public class ConfigProfile : EntityTypeConfiguration<ProfileBase>
+    public class ConfigProfileStudent : EntityTypeConfiguration<ProfileStudent>
     {
-        public ConfigProfile()
+        public ConfigProfileStudent()
         {
-            ToTable("Profile");
+            HasKey(p => p.PersonId);
+
+            Property(p => p.Bio)
+                .HasMaxLength(6000);
+        }
+    }
+
+    public class ConfigProfileFaculty : EntityTypeConfiguration<ProfileFaculty>
+    {
+        public ConfigProfileFaculty()
+        {
+            HasKey(p => p.PersonId);
+
+            Property(p => p.Bio)
+                .HasMaxLength(6000);
+        }
+    }
+
+    public class ConfigProfileDesigner : EntityTypeConfiguration<ProfileDesigner>
+    {
+        public ConfigProfileDesigner()
+        {
+            HasKey(p => p.PersonId);
+
+            Property(p => p.Bio)
+                .HasMaxLength(6000);
+        }
+    }
+
+    public class ConfigProfileStaff : EntityTypeConfiguration<ProfileStaff>
+    {
+        public ConfigProfileStaff()
+        {
+            HasKey(p => p.PersonId);
+
+            Property(p => p.Bio)
+                .HasMaxLength(6000);
+        }
+    }
+
+    public class ConfigProfileExternal : EntityTypeConfiguration<ProfileExternal>
+    {
+        public ConfigProfileExternal()
+        {
             HasKey(p => p.PersonId);
 
             Property(p => p.Bio)

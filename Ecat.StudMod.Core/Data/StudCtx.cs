@@ -32,7 +32,6 @@ namespace Ecat.StudMod.Core
                 typeof (ProfileExternal),
                 typeof (ProfileDesigner),
                 typeof (ProfileFaculty),
-                typeof (ProfileBase),
                 typeof (Security),
                 typeof (ProfileStaff),
                 typeof (FacultyInCourse),

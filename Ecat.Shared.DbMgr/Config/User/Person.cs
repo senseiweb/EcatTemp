@@ -28,30 +28,26 @@ namespace Ecat.Shared.DbMgr.Config
 
             Property(p => p.MpGender).IsRequired();
             Property(p => p.MpInstituteRole).IsRequired();
-            
-            HasOptional(p => p.Profile)
+
+            HasOptional(p => p.External)
                 .WithRequired(p => p.Person)
                 .WillCascadeOnDelete(true);
 
-            HasOptional(p => p.External)
-                .WithRequired()
-                .WillCascadeOnDelete(false);
-
             HasOptional(p => p.HqStaff)
-                .WithRequired()
-                .WillCascadeOnDelete(false);
+                .WithRequired(p => p.Person)
+                .WillCascadeOnDelete(true);
 
             HasOptional(p => p.Student)
-                .WithRequired()
-               .WillCascadeOnDelete(false);
+                .WithRequired(p => p.Person)
+               .WillCascadeOnDelete(true);
 
             HasOptional(p => p.Faculty)
-                .WithRequired()
-                .WillCascadeOnDelete(false);
+                .WithRequired(p => p.Person)
+                .WillCascadeOnDelete(true);
 
             HasOptional(p => p.Designer)
-                .WithRequired()
-                .WillCascadeOnDelete(false);
+                .WithRequired(p => p.Person)
+                .WillCascadeOnDelete(true);
         }
     }
 

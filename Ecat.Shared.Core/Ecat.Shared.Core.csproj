@@ -77,6 +77,7 @@
     <Compile Include="Interface\IInstrument.cs" />
     <Compile Include="Interface\IInventory.cs" />
     <Compile Include="Interface\IMonitored.cs" />
+    <Compile Include="Interface\IProfileBase.cs" />
     <Compile Include="Interface\ISharedGuardian.cs" />
     <Compile Include="Interface\ISoftDelete.cs" />
     <Compile Include="Interface\ITests.cs" />
@@ -131,7 +132,6 @@
     <Compile Include="ModelLibrary\Staff\MeetingTaker\Discussion.cs" />
     <Compile Include="ModelLibrary\Staff\MeetingTaker\Meeting.cs" />
     <Compile Include="ModelLibrary\User\Person.cs" />
-    <Compile Include="ModelLibrary\User\ProfileBase.cs" />
     <Compile Include="ModelLibrary\User\ProfileDesigner.cs" />
     <Compile Include="ModelLibrary\User\ProfileExternal.cs" />
     <Compile Include="ModelLibrary\User\ProfileFaculty.cs" />

@@ -81,7 +81,6 @@ namespace Ecat.StudMod.Core
     {
         public StudConfigProfileStudent()
         {
-            ToTable("Profile");
             Ignore(p => p.Commander);
             Ignore(p => p.CommanderEmail);
             Ignore(p => p.Shirt);

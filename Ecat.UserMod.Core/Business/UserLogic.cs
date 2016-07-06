@@ -29,7 +29,24 @@ namespace Ecat.UserMod.Core
 
         public string Metadata => _efCtx.Metadata();
 
-        public async Task<object> GetProfile() => await _efCtx.Context.Profiles.Where(p => p.PersonId == User.PersonId).ToListAsync();
+        public async Task<List<object>> GetProfile() {
+            var userWithProfiles = await _efCtx.Context.People.Where(p => p.PersonId == User.PersonId)
+                .Include(p => p.Student)
+                .Include(p => p.Faculty)
+                .Include(p => p.Designer)
+                .Include(p => p.External)
+                .Include(p => p.HqStaff).SingleAsync();
+
+            var profiles = new List<object>();
+
+            if (userWithProfiles.Student != null) { profiles.Add(userWithProfiles.Student); }
+            if (userWithProfiles.Faculty != null) { profiles.Add(userWithProfiles.Faculty); }
+            if (userWithProfiles.External != null) { profiles.Add(userWithProfiles.External); }
+            if (userWithProfiles.Designer != null) { profiles.Add(userWithProfiles.Designer); }
+            if (userWithProfiles.HqStaff != null) { profiles.Add(userWithProfiles.HqStaff); }
+
+            return profiles;
+        }
 
         public async Task<Person> LoginUser(string userName, string password)
         {

@@ -299,1178 +299,1181 @@ insert into Person (IsActive, BbUserId, BbUserName, LastName, FirstName, GoByNam
 insert into Person (IsActive, BbUserId, BbUserName, LastName, FirstName, GoByName, ModifiedById, Gender, Affiliation, Paygrade, Component, Email, RegistrationComplete, InstituteRole, ModifiedDate) values ('true', '042015005-6', 'sburke8a', 'Burke', 'Ernest', 'Shawn', 299, 'Male', 'Air Force', 'E7', 'Active Duty', 'sburke8a@cloudflare.com', 'true', 'ECAT_04_Faculty', '2015-05-02T11:06:58Z');
 insert into Person (IsActive, BbUserId, BbUserName, LastName, FirstName, GoByName, ModifiedById, Gender, Affiliation, Paygrade, Component, Email, RegistrationComplete, InstituteRole, ModifiedDate) values ('true', '457346886-2', 'akelly8b', 'Kelly', 'Lois', 'Adam', 300, 'Female', 'Army', 'E6', 'Active Duty', 'akelly8b@umn.edu', 'true', 'ECAT_04_Faculty', '2015-09-11T04:32:20Z');
 
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (1, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Culasian', 'False', 'False', '63-(889)531-9263', 'Jesse Mcdonald', 'Samuel Foster', 'sfoster0@amazon.co.uk', 'sfoster0@seattletimes.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (2, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Qiuchuan', 'False', 'False', '86-(691)539-4412', 'Sara Smith', 'Cheryl Andrews', 'candrews1@opensource.org', 'candrews1@so-net.ne.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (3, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (1, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Culasian', '63-(889)531-9263', 'Jesse Mcdonald', 'Samuel Foster', 'sfoster0@amazon.co.uk', 'sfoster0@seattletimes.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (2, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Qiuchuan', '86-(691)539-4412', 'Sara Smith', 'Cheryl Andrews', 'candrews1@opensource.org', 'candrews1@so-net.ne.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (3, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Jungkat Selatan', 'False', 'False', '62-(563)154-0701', 'Gregory Gray', 'Judith Brown', 'jbrown2@fastcompany.com', 'jbrown2@mlb.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (4, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Novopavlovsk', 'False', 'False', '7-(362)304-9089', 'Patrick Cruz', 'Samuel Williamson', 'swilliamson3@moonfruit.com', 'swilliamson3@auda.org.au', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (5, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Jungkat Selatan', '62-(563)154-0701', 'Gregory Gray', 'Judith Brown', 'jbrown2@fastcompany.com', 'jbrown2@mlb.com');
+insert into ProfileStudent(PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (4, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Novopavlovsk', '7-(362)304-9089', 'Patrick Cruz', 'Samuel Williamson', 'swilliamson3@moonfruit.com', 'swilliamson3@auda.org.au');
+insert into ProfileStudent(PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (5, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
 
-Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Lubenia', 'False', 'False', '48-(464)946-9211', 'Jonathan Andrews', 'Kenneth Willis', 'kwillis4@feedburner.com', 'kwillis4@gmpg.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (6, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Alcalá', 'False', 'False', '57-(395)419-7681', 'Steven Nichols', 'Albert Mccoy', 'amccoy5@lulu.com', 'amccoy5@hibu.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (7, 'Fusce consequat. Nulla nisl. Nunc nisl.
+Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Lubenia', '48-(464)946-9211', 'Jonathan Andrews', 'Kenneth Willis', 'kwillis4@feedburner.com', 'kwillis4@gmpg.org');
+insert into ProfileStudent(PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (6, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Alcalá', '57-(395)419-7681', 'Steven Nichols', 'Albert Mccoy', 'amccoy5@lulu.com', 'amccoy5@hibu.com');
+insert into ProfileStudent(PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (7, 'Fusce consequat. Nulla nisl. Nunc nisl.
 
 Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Al Buq‘ah', 'False', 'False', '970-(181)788-3990', 'Janet Nguyen', 'Brandon Gonzalez', 'bgonzalez6@joomla.org', 'bgonzalez6@digg.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (8, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Tippi', 'False', 'False', '251-(486)319-0976', 'Carl Gordon', 'Justin Mendoza', 'jmendoza7@issuu.com', 'jmendoza7@parallels.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (9, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Al Buq‘ah', '970-(181)788-3990', 'Janet Nguyen', 'Brandon Gonzalez', 'bgonzalez6@joomla.org', 'bgonzalez6@digg.com');
+insert into ProfileStudent(PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (8, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Tippi', '251-(486)319-0976', 'Carl Gordon', 'Justin Mendoza', 'jmendoza7@issuu.com', 'jmendoza7@parallels.com');
+insert into ProfileStudent(PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (9, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
 
 Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.
 
-Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Yongtai', 'False', 'False', '86-(105)697-5666', 'Joseph Warren', 'Paul Boyd', 'pboyd8@ebay.co.uk', 'pboyd8@1und1.de', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (10, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Yongtai', '86-(105)697-5666', 'Joseph Warren', 'Paul Boyd', 'pboyd8@ebay.co.uk', 'pboyd8@1und1.de');
+insert into ProfileStudent(PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (10, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
 Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
 In congue. Etiam justo. Etiam pretium iaculis justo.
 
-In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Vol’nyy Aul', 'False', 'False', '7-(120)812-0680', 'Dennis Fields', 'Katherine Simpson', 'ksimpson9@virginia.edu', 'ksimpson9@sourceforge.net', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (11, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Vol’nyy Aul', '7-(120)812-0680', 'Dennis Fields', 'Katherine Simpson', 'ksimpson9@virginia.edu', 'ksimpson9@sourceforge.net');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (11, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
 Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
 Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
 
-Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Frýdlant', 'False', 'False', '420-(407)450-4786', 'Victor Fields', 'Nicole Alexander', 'nalexandera@1688.com', 'nalexandera@google.es', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (12, 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.
+Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Frýdlant', '420-(407)450-4786', 'Victor Fields', 'Nicole Alexander', 'nalexandera@1688.com', 'nalexandera@google.es');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (12, 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.
 
 Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.
 
-Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.', 'Tadotsu', 'False', 'False', '81-(252)294-8793', 'Nicole Long', 'Andrew Rivera', 'ariverab@nih.gov', 'ariverab@msn.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (13, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
+Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.', 'Tadotsu', '81-(252)294-8793', 'Nicole Long', 'Andrew Rivera', 'ariverab@nih.gov', 'ariverab@msn.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (13, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
 Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
 
-Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Caeté', 'False', 'False', '55-(582)508-7115', 'Jessica Burns', 'Jacqueline Garrett', 'jgarrettc@barnesandnoble.com', 'jgarrettc@woothemes.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (14, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
+Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Caeté', '55-(582)508-7115', 'Jessica Burns', 'Jacqueline Garrett', 'jgarrettc@barnesandnoble.com', 'jgarrettc@woothemes.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (14, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
 Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
 Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
-Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Naga', 'False', 'False', '63-(283)799-0254', 'Keith Walker', 'Paula Thomas', 'pthomasd@weather.com', 'pthomasd@fc2.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (15, 'In congue. Etiam justo. Etiam pretium iaculis justo.
+Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Naga', '63-(283)799-0254', 'Keith Walker', 'Paula Thomas', 'pthomasd@weather.com', 'pthomasd@fc2.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (15, 'In congue. Etiam justo. Etiam pretium iaculis justo.
 
 In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
 Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
-Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Coelho Neto', 'False', 'False', '55-(249)737-9597', 'Philip Lee', 'Ronald White', 'rwhitee@sitemeter.com', 'rwhitee@mac.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (16, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Coelho Neto', '55-(249)737-9597', 'Philip Lee', 'Ronald White', 'rwhitee@sitemeter.com', 'rwhitee@mac.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (16, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
 Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
 Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
 
-Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Davila', 'False', 'False', '63-(595)477-5809', 'Angela Carter', 'Earl Fields', 'efieldsf@ovh.net', 'efieldsf@fema.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (17, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Davila', '63-(595)477-5809', 'Angela Carter', 'Earl Fields', 'efieldsf@ovh.net', 'efieldsf@fema.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (17, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
-Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Pyt-Yakh', 'False', 'False', '7-(839)293-9416', 'Larry Fowler', 'Phyllis Graham', 'pgrahamg@moonfruit.com', 'pgrahamg@state.tx.us', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (18, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Tangxing', 'False', 'False', '86-(590)472-4324', 'Christina Hansen', 'Victor Alvarez', 'valvarezh@hhs.gov', 'valvarezh@ucoz.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (19, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
+Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Pyt-Yakh', '7-(839)293-9416', 'Larry Fowler', 'Phyllis Graham', 'pgrahamg@moonfruit.com', 'pgrahamg@state.tx.us');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (18, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Tangxing', '86-(590)472-4324', 'Christina Hansen', 'Victor Alvarez', 'valvarezh@hhs.gov', 'valvarezh@ucoz.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (19, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
 Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
-Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Youxi', 'False', 'False', '86-(781)113-4578', 'Earl Reid', 'Roger Johnston', 'rjohnstoni@howstuffworks.com', 'rjohnstoni@skyrock.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (20, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Kaédi', 'False', 'False', '222-(372)383-8072', 'Jimmy Cole', 'Arthur West', 'awestj@google.pl', 'awestj@de.vu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (21, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Nam Kliang', 'False', 'False', '66-(224)392-8626', 'Howard Hanson', 'Marie Fernandez', 'mfernandezk@engadget.com', 'mfernandezk@vkontakte.ru', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (22, 'Fusce consequat. Nulla nisl. Nunc nisl.
+Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Youxi', '86-(781)113-4578', 'Earl Reid', 'Roger Johnston', 'rjohnstoni@howstuffworks.com', 'rjohnstoni@skyrock.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (20, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Kaédi', '222-(372)383-8072', 'Jimmy Cole', 'Arthur West', 'awestj@google.pl', 'awestj@de.vu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (21, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Nam Kliang', '66-(224)392-8626', 'Howard Hanson', 'Marie Fernandez', 'mfernandezk@engadget.com', 'mfernandezk@vkontakte.ru');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (22, 'Fusce consequat. Nulla nisl. Nunc nisl.
 
-Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'Daxi', 'False', 'False', '86-(138)878-2289', 'Carolyn Mcdonald', 'Dorothy Mendoza', 'dmendozal@ebay.com', 'dmendozal@posterous.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (23, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
+Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'Daxi', '86-(138)878-2289', 'Carolyn Mcdonald', 'Dorothy Mendoza', 'dmendozal@ebay.com', 'dmendozal@posterous.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (23, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
 Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
-Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Xinpu', 'False', 'False', '86-(225)140-1403', 'Douglas Arnold', 'Philip Watkins', 'pwatkinsm@marketwatch.com', 'pwatkinsm@t-online.de', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (24, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Paulínia', 'False', 'False', '55-(120)713-3734', 'Edward Frazier', 'Daniel Burke', 'dburken@pagesperso-orange.fr', 'dburken@networksolutions.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (25, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Xinpu', '86-(225)140-1403', 'Douglas Arnold', 'Philip Watkins', 'pwatkinsm@marketwatch.com', 'pwatkinsm@t-online.de');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (24, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Paulínia', '55-(120)713-3734', 'Edward Frazier', 'Daniel Burke', 'dburken@pagesperso-orange.fr', 'dburken@networksolutions.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (25, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
 In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Wailiang', 'False', 'False', '62-(289)245-0277', 'Andrea Rogers', 'Steven Vasquez', 'svasquezo@google.cn', 'svasquezo@exblog.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (26, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Wailiang', '62-(289)245-0277', 'Andrea Rogers', 'Steven Vasquez', 'svasquezo@google.cn', 'svasquezo@exblog.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (26, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
 Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
 Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
-Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Cayenne', 'False', 'False', '594-(157)726-9013', 'Nancy Rose', 'Doris Arnold', 'darnoldp@psu.edu', 'darnoldp@furl.net', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (27, 'Fusce consequat. Nulla nisl. Nunc nisl.
+Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Cayenne', '594-(157)726-9013', 'Nancy Rose', 'Doris Arnold', 'darnoldp@psu.edu', 'darnoldp@furl.net');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (27, 'Fusce consequat. Nulla nisl. Nunc nisl.
 
 Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Nazaré', 'False', 'False', '55-(968)828-2477', 'Norma Hunt', 'Joyce Reid', 'jreidq@twitpic.com', 'jreidq@umn.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (28, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Nazaré', '55-(968)828-2477', 'Norma Hunt', 'Joyce Reid', 'jreidq@twitpic.com', 'jreidq@umn.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (28, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
 Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.
 
 Fusce consequat. Nulla nisl. Nunc nisl.
 
-Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'San Simón', 'False', 'False', '58-(915)894-7368', 'Laura Kelly', 'Philip Sims', 'psimsr@amazon.co.uk', 'psimsr@sitemeter.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (29, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Ballylinan', 'False', 'False', '353-(204)781-6440', 'Andrew Gilbert', 'Victor Lawson', 'vlawsons@ft.com', 'vlawsons@youtube.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (30, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'San Simón', '58-(915)894-7368', 'Laura Kelly', 'Philip Sims', 'psimsr@amazon.co.uk', 'psimsr@sitemeter.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (29, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Ballylinan', '353-(204)781-6440', 'Andrew Gilbert', 'Victor Lawson', 'vlawsons@ft.com', 'vlawsons@youtube.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (30, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
 Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
 
-Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Laotai', 'False', 'False', '86-(639)610-4249', 'Jean Howell', 'Theresa Adams', 'tadamst@4shared.com', 'tadamst@soundcloud.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (31, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Dunmanway', 'False', 'False', '353-(227)564-7755', 'Lisa Tucker', 'Martha Owens', 'mowensu@bloglovin.com', 'mowensu@youku.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (32, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
+Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Laotai', '86-(639)610-4249', 'Jean Howell', 'Theresa Adams', 'tadamst@4shared.com', 'tadamst@soundcloud.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (31, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Dunmanway', '353-(227)564-7755', 'Lisa Tucker', 'Martha Owens', 'mowensu@bloglovin.com', 'mowensu@youku.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (32, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
 
 Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
-Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Irákleia', 'False', 'False', '30-(228)915-8510', 'Alan Sullivan', 'Ralph Myers', 'rmyersv@wsj.com', 'rmyersv@who.int', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (33, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
+Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Irákleia', '30-(228)915-8510', 'Alan Sullivan', 'Ralph Myers', 'rmyersv@wsj.com', 'rmyersv@who.int');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (33, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
 Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
-Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Melun', 'False', 'False', '33-(932)482-4097', 'Patrick Davis', 'Martha Hill', 'mhillw@theatlantic.com', 'mhillw@exblog.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (34, 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
+Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Melun', '33-(932)482-4097', 'Patrick Davis', 'Martha Hill', 'mhillw@theatlantic.com', 'mhillw@exblog.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (34, 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
 Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
-Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Lérida', 'False', 'False', '57-(795)834-9926', 'Theresa Snyder', 'Jason Perkins', 'jperkinsx@parallels.com', 'jperkinsx@nih.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (35, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.
+Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Lérida', '57-(795)834-9926', 'Theresa Snyder', 'Jason Perkins', 'jperkinsx@parallels.com', 'jperkinsx@nih.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (35, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.
 
 Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
 
-Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Jurh', 'False', 'False', '86-(933)545-0547', 'Jacqueline Lane', 'Johnny Robertson', 'jrobertsony@istockphoto.com', 'jrobertsony@census.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (36, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Jurh', '86-(933)545-0547', 'Jacqueline Lane', 'Johnny Robertson', 'jrobertsony@istockphoto.com', 'jrobertsony@census.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (36, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
 In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
 Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
-Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Quezon', 'False', 'False', '63-(953)311-8204', 'Terry Ray', 'Donald Harper', 'dharperz@51.la', 'dharperz@ow.ly', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (37, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', 'Makariv', 'False', 'False', '380-(608)726-9624', 'Lisa Kim', 'Diane Johnston', 'djohnston10@google.co.uk', 'djohnston10@eepurl.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (38, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Quezon', '63-(953)311-8204', 'Terry Ray', 'Donald Harper', 'dharperz@51.la', 'dharperz@ow.ly');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (37, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', 'Makariv', '380-(608)726-9624', 'Lisa Kim', 'Diane Johnston', 'djohnston10@google.co.uk', 'djohnston10@eepurl.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (38, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
 Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
 
-Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Novyy Svit', 'False', 'False', '380-(309)551-1430', 'Catherine Webb', 'Wayne Graham', 'wgraham11@google.com.au', 'wgraham11@odnoklassniki.ru', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (39, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Chão de Couce', 'False', 'False', '351-(384)559-6429', 'Mark George', 'Willie Ellis', 'wellis12@narod.ru', 'wellis12@soup.io', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (40, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
+Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Novyy Svit', '380-(309)551-1430', 'Catherine Webb', 'Wayne Graham', 'wgraham11@google.com.au', 'wgraham11@odnoklassniki.ru');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (39, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Chão de Couce', '351-(384)559-6429', 'Mark George', 'Willie Ellis', 'wellis12@narod.ru', 'wellis12@soup.io');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (40, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
-Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Vyatskiye Polyany', 'False', 'False', '7-(509)486-4162', 'Janet Mendoza', 'Patricia Patterson', 'ppatterson13@reuters.com', 'ppatterson13@marriott.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (41, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
+Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Vyatskiye Polyany', '7-(509)486-4162', 'Janet Mendoza', 'Patricia Patterson', 'ppatterson13@reuters.com', 'ppatterson13@marriott.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (41, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 
-Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Dolinsk', 'False', 'False', '7-(964)318-0879', 'Christine Shaw', 'James Burton', 'jburton14@pinterest.com', 'jburton14@cnn.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (42, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Dolinsk', '7-(964)318-0879', 'Christine Shaw', 'James Burton', 'jburton14@pinterest.com', 'jburton14@cnn.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (42, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
 In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Svirsk', 'False', 'False', '7-(678)179-9318', 'Joyce Duncan', 'Dennis Tucker', 'dtucker15@dot.gov', 'dtucker15@sciencedaily.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (43, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Ikaalinen', 'False', 'False', '358-(512)336-7039', 'Martha Turner', 'Lois King', 'lking16@cdc.gov', 'lking16@whitehouse.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (44, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Svirsk', '7-(678)179-9318', 'Joyce Duncan', 'Dennis Tucker', 'dtucker15@dot.gov', 'dtucker15@sciencedaily.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (43, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Ikaalinen', '358-(512)336-7039', 'Martha Turner', 'Lois King', 'lking16@cdc.gov', 'lking16@whitehouse.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (44, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
 In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
-Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Solânea', 'False', 'False', '55-(797)158-9712', 'Kelly Ramirez', 'Larry Carr', 'lcarr17@google.com.au', 'lcarr17@ifeng.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (45, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Solânea', '55-(797)158-9712', 'Kelly Ramirez', 'Larry Carr', 'lcarr17@google.com.au', 'lcarr17@ifeng.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (45, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
 Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
-Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Králův Dvůr', 'False', 'False', '420-(918)186-0111', 'Helen Alexander', 'Angela Williamson', 'awilliamson18@booking.com', 'awilliamson18@answers.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (46, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Králův Dvůr', '420-(918)186-0111', 'Helen Alexander', 'Angela Williamson', 'awilliamson18@booking.com', 'awilliamson18@answers.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (46, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Niterói', 'False', 'False', '55-(858)792-5422', 'Sara Knight', 'Howard Sanchez', 'hsanchez19@mit.edu', 'hsanchez19@canalblog.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (47, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Niterói', '55-(858)792-5422', 'Sara Knight', 'Howard Sanchez', 'hsanchez19@mit.edu', 'hsanchez19@canalblog.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (47, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Emmeloord', 'False', 'False', '31-(371)948-5583', 'Tammy Hicks', 'Theresa Patterson', 'tpatterson1a@youtu.be', 'tpatterson1a@netlog.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (48, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Emmeloord', '31-(371)948-5583', 'Tammy Hicks', 'Theresa Patterson', 'tpatterson1a@youtu.be', 'tpatterson1a@netlog.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (48, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
 
-Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Argotirto Krajan', 'False', 'False', '62-(465)653-2992', 'Bobby Tucker', 'Wanda Elliott', 'welliott1b@uol.com.br', 'welliott1b@uiuc.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (49, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Yanghe', 'False', 'False', '86-(959)805-6509', 'Roger Garcia', 'Diane Martinez', 'dmartinez1c@dyndns.org', 'dmartinez1c@pinterest.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (50, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Villa Paula de Sarmiento', 'False', 'False', '54-(475)128-2103', 'Matthew Ferguson', 'Paula Baker', 'pbaker1d@senate.gov', 'pbaker1d@godaddy.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (51, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
+Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Argotirto Krajan', '62-(465)653-2992', 'Bobby Tucker', 'Wanda Elliott', 'welliott1b@uol.com.br', 'welliott1b@uiuc.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (49, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Yanghe', '86-(959)805-6509', 'Roger Garcia', 'Diane Martinez', 'dmartinez1c@dyndns.org', 'dmartinez1c@pinterest.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (50, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Villa Paula de Sarmiento', '54-(475)128-2103', 'Matthew Ferguson', 'Paula Baker', 'pbaker1d@senate.gov', 'pbaker1d@godaddy.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (51, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
-Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Novo Hamburgo', 'False', 'False', '55-(191)772-1853', 'Scott Johnston', 'Teresa Mccoy', 'tmccoy1e@accuweather.com', 'tmccoy1e@un.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (52, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.
+Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Novo Hamburgo', '55-(191)772-1853', 'Scott Johnston', 'Teresa Mccoy', 'tmccoy1e@accuweather.com', 'tmccoy1e@un.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (52, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.
 
-Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Marietta', 'False', 'False', '1-(770)811-8785', 'Rose Mason', 'Donna Morales', 'dmorales1f@biblegateway.com', 'dmorales1f@mozilla.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (53, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
+Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Marietta', '1-(770)811-8785', 'Rose Mason', 'Donna Morales', 'dmorales1f@biblegateway.com', 'dmorales1f@mozilla.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (53, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
 
-Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.', 'Kyjov', 'False', 'False', '420-(860)625-7147', 'Jerry Price', 'Scott Harris', 'sharris1g@phpbb.com', 'sharris1g@t-online.de', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (54, 'Phasellus in felis. Donec semper sapien a libero. Nam dui.
+Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.', 'Kyjov', '420-(860)625-7147', 'Jerry Price', 'Scott Harris', 'sharris1g@phpbb.com', 'sharris1g@t-online.de');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (54, 'Phasellus in felis. Donec semper sapien a libero. Nam dui.
 
 Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.
 
-Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Alberton', 'False', 'False', '1-(845)168-7839', 'Fred Reyes', 'Phyllis Morris', 'pmorris1h@cpanel.net', 'pmorris1h@stanford.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (55, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Bantarsari Kulon', 'False', 'False', '62-(163)878-7921', 'Sandra Parker', 'Joe Morrison', 'jmorrison1i@weibo.com', 'jmorrison1i@biglobe.ne.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (56, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Ampatuan', 'False', 'False', '63-(881)152-6759', 'Anthony Cook', 'Mildred Stephens', 'mstephens1j@businessinsider.com', 'mstephens1j@indiatimes.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (57, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Alberton', '1-(845)168-7839', 'Fred Reyes', 'Phyllis Morris', 'pmorris1h@cpanel.net', 'pmorris1h@stanford.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (55, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Bantarsari Kulon', '62-(163)878-7921', 'Sandra Parker', 'Joe Morrison', 'jmorrison1i@weibo.com', 'jmorrison1i@biglobe.ne.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (56, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Ampatuan', '63-(881)152-6759', 'Anthony Cook', 'Mildred Stephens', 'mstephens1j@businessinsider.com', 'mstephens1j@indiatimes.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (57, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 
-Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Luofang', 'False', 'False', '86-(689)411-2250', 'Lawrence Carr', 'Theresa Wilson', 'twilson1k@nbcnews.com', 'twilson1k@thetimes.co.uk', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (58, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Sịa', 'False', 'False', '84-(213)426-6633', 'Joe Flores', 'Jimmy Lynch', 'jlynch1l@friendfeed.com', 'jlynch1l@i2i.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (59, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
+Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Luofang', '86-(689)411-2250', 'Lawrence Carr', 'Theresa Wilson', 'twilson1k@nbcnews.com', 'twilson1k@thetimes.co.uk');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (58, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Sịa', '84-(213)426-6633', 'Joe Flores', 'Jimmy Lynch', 'jlynch1l@friendfeed.com', 'jlynch1l@i2i.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (59, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
 Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
 Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
-Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Khromtau', 'False', 'False', '7-(268)211-8188', 'Mildred Young', 'Chris Campbell', 'ccampbell1m@themeforest.net', 'ccampbell1m@bravesites.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (60, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
+Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Khromtau', '7-(268)211-8188', 'Mildred Young', 'Chris Campbell', 'ccampbell1m@themeforest.net', 'ccampbell1m@bravesites.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (60, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
 Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
-In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'São Pedro de Muel', 'False', 'False', '351-(635)847-1473', 'Daniel Brooks', 'Anna Chavez', 'achavez1n@163.com', 'achavez1n@wiley.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (61, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
+In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'São Pedro de Muel', '351-(635)847-1473', 'Daniel Brooks', 'Anna Chavez', 'achavez1n@163.com', 'achavez1n@wiley.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (61, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
 In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
-Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Juegang', 'False', 'False', '86-(586)552-8337', 'Joseph Garza', 'Jane Powell', 'jpowell1o@jigsy.com', 'jpowell1o@ibm.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (62, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Juegang', '86-(586)552-8337', 'Joseph Garza', 'Jane Powell', 'jpowell1o@jigsy.com', 'jpowell1o@ibm.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (62, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
-Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'La Purisima', 'False', 'False', '52-(202)414-2981', 'Patrick Oliver', 'Matthew Owens', 'mowens1p@google.es', 'mowens1p@acquirethisname.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (63, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Bantarmangu', 'False', 'False', '62-(199)605-4554', 'Catherine Grant', 'Stephen Woods', 'swoods1q@arizona.edu', 'swoods1q@thetimes.co.uk', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (64, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Zhenchuan', 'False', 'False', '86-(682)354-9706', 'Gary Rogers', 'Steven Fields', 'sfields1r@blogtalkradio.com', 'sfields1r@people.com.cn', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (65, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Aveiro', 'False', 'False', '351-(592)670-5835', 'Michelle Peterson', 'Christine Wright', 'cwright1s@dailymail.co.uk', 'cwright1s@bloglovin.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (66, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'La Purisima', '52-(202)414-2981', 'Patrick Oliver', 'Matthew Owens', 'mowens1p@google.es', 'mowens1p@acquirethisname.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (63, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Bantarmangu', '62-(199)605-4554', 'Catherine Grant', 'Stephen Woods', 'swoods1q@arizona.edu', 'swoods1q@thetimes.co.uk');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (64, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Zhenchuan', '86-(682)354-9706', 'Gary Rogers', 'Steven Fields', 'sfields1r@blogtalkradio.com', 'sfields1r@people.com.cn');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (65, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Aveiro', '351-(592)670-5835', 'Michelle Peterson', 'Christine Wright', 'cwright1s@dailymail.co.uk', 'cwright1s@bloglovin.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (66, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
 In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
 Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
-Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Salt Lake City', 'False', 'False', '1-(801)656-4366', 'Stephen Dixon', 'Harold Bowman', 'hbowman1t@sciencedirect.com', 'hbowman1t@seesaa.net', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (67, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
+Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Salt Lake City', '1-(801)656-4366', 'Stephen Dixon', 'Harold Bowman', 'hbowman1t@sciencedirect.com', 'hbowman1t@seesaa.net');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (67, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
 
 Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
 Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
-Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Orlovskiy', 'False', 'False', '7-(655)683-1304', 'Tammy Holmes', 'Craig Taylor', 'ctaylor1u@storify.com', 'ctaylor1u@theatlantic.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (68, 'Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Junbu', 'False', 'False', '86-(946)789-5685', 'Jeffrey Ross', 'Antonio Green', 'agreen1v@cnn.com', 'agreen1v@phoca.cz', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (69, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.
+Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Orlovskiy', '7-(655)683-1304', 'Tammy Holmes', 'Craig Taylor', 'ctaylor1u@storify.com', 'ctaylor1u@theatlantic.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (68, 'Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Junbu', '86-(946)789-5685', 'Jeffrey Ross', 'Antonio Green', 'agreen1v@cnn.com', 'agreen1v@phoca.cz');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (69, 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.
 
-Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Metallostroy', 'False', 'False', '7-(566)739-9451', 'Lori Jenkins', 'Wanda Smith', 'wsmith1w@jiathis.com', 'wsmith1w@barnesandnoble.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (70, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Toguchin', 'False', 'False', '7-(710)848-7785', 'Gregory Garza', 'Louis Wright', 'lwright1x@weather.com', 'lwright1x@ycombinator.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (71, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
+Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Metallostroy', '7-(566)739-9451', 'Lori Jenkins', 'Wanda Smith', 'wsmith1w@jiathis.com', 'wsmith1w@barnesandnoble.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (70, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Toguchin', '7-(710)848-7785', 'Gregory Garza', 'Louis Wright', 'lwright1x@weather.com', 'lwright1x@ycombinator.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (71, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
 
 Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
 Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
 
-Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Mosrentgen', 'False', 'False', '7-(228)968-0577', 'Lisa Nguyen', 'Joshua Davis', 'jdavis1y@webmd.com', 'jdavis1y@acquirethisname.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (72, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
+Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Mosrentgen', '7-(228)968-0577', 'Lisa Nguyen', 'Joshua Davis', 'jdavis1y@webmd.com', 'jdavis1y@acquirethisname.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (72, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
 Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
 
 Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
 
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 'Ostrožská Lhota', 'False', 'False', '420-(291)513-1501', 'Lisa Davis', 'Jesse Ramirez', 'jramirez1z@google.ca', 'jramirez1z@hud.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (73, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 'Ostrožská Lhota', '420-(291)513-1501', 'Lisa Davis', 'Jesse Ramirez', 'jramirez1z@google.ca', 'jramirez1z@hud.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (73, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
-Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Kolwezi', 'False', 'False', '242-(832)269-4578', 'Maria James', 'Jennifer Ruiz', 'jruiz20@nsw.gov.au', 'jruiz20@vimeo.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (74, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
+Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Kolwezi', '242-(832)269-4578', 'Maria James', 'Jennifer Ruiz', 'jruiz20@nsw.gov.au', 'jruiz20@vimeo.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (74, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
 Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
 
-Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Daru', 'False', 'False', '232-(993)193-6693', 'Phillip Sanchez', 'Michael Young', 'myoung21@timesonline.co.uk', 'myoung21@buzzfeed.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (75, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Jincheng', 'False', 'False', '86-(466)799-5384', 'Kathleen Long', 'Patrick Ryan', 'pryan22@businesswire.com', 'pryan22@angelfire.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (76, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Huangzhuang', 'False', 'False', '86-(384)391-9171', 'Melissa Simpson', 'Martin Miller', 'mmiller23@networksolutions.com', 'mmiller23@soup.io', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (77, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
+Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Daru', '232-(993)193-6693', 'Phillip Sanchez', 'Michael Young', 'myoung21@timesonline.co.uk', 'myoung21@buzzfeed.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (75, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Jincheng', '86-(466)799-5384', 'Kathleen Long', 'Patrick Ryan', 'pryan22@businesswire.com', 'pryan22@angelfire.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (76, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Huangzhuang', '86-(384)391-9171', 'Melissa Simpson', 'Martin Miller', 'mmiller23@networksolutions.com', 'mmiller23@soup.io');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (77, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
 Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
 Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
-Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Dallas', 'False', 'False', '1-(469)495-5163', 'Carol Torres', 'Ernest Gibson', 'egibson24@shutterfly.com', 'egibson24@miibeian.gov.cn', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (78, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
+Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Dallas', '1-(469)495-5163', 'Carol Torres', 'Ernest Gibson', 'egibson24@shutterfly.com', 'egibson24@miibeian.gov.cn');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (78, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
-In congue. Etiam justo. Etiam pretium iaculis justo.', 'Hongzhou', 'False', 'False', '86-(723)221-2995', 'Wanda Cook', 'Howard Allen', 'hallen25@mlb.com', 'hallen25@bing.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (79, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
+In congue. Etiam justo. Etiam pretium iaculis justo.', 'Hongzhou', '86-(723)221-2995', 'Wanda Cook', 'Howard Allen', 'hallen25@mlb.com', 'hallen25@bing.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (79, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
 Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
-Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Bang Kruai', 'False', 'False', '66-(161)322-7723', 'Louise Schmidt', 'Rebecca Green', 'rgreen26@facebook.com', 'rgreen26@census.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (80, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
+Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Bang Kruai', '66-(161)322-7723', 'Louise Schmidt', 'Rebecca Green', 'rgreen26@facebook.com', 'rgreen26@census.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (80, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
 
 Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 
-Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Shuangyang', 'False', 'False', '86-(479)204-5333', 'Evelyn Kelley', 'Dorothy Harvey', 'dharvey27@spiegel.de', 'dharvey27@google.co.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (81, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
+Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Shuangyang', '86-(479)204-5333', 'Evelyn Kelley', 'Dorothy Harvey', 'dharvey27@spiegel.de', 'dharvey27@google.co.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (81, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Longxi', 'False', 'False', '86-(406)644-2299', 'Louise Taylor', 'Dorothy Gutierrez', 'dgutierrez28@miitbeian.gov.cn', 'dgutierrez28@cafepress.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (82, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Longxi', '86-(406)644-2299', 'Louise Taylor', 'Dorothy Gutierrez', 'dgutierrez28@miitbeian.gov.cn', 'dgutierrez28@cafepress.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (82, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
 Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
-Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Zaandam', 'False', 'False', '31-(273)781-0031', 'Patricia Stanley', 'Betty Torres', 'btorres29@yahoo.com', 'btorres29@about.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (83, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
+Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Zaandam', '31-(273)781-0031', 'Patricia Stanley', 'Betty Torres', 'btorres29@yahoo.com', 'btorres29@about.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (83, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
-Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Leiguan', 'False', 'False', '86-(611)737-9731', 'Louis Wilson', 'Carolyn Myers', 'cmyers2a@joomla.org', 'cmyers2a@nsw.gov.au', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (84, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Pushchino', 'False', 'False', '7-(232)199-3469', 'Jeremy Flores', 'George Powell', 'gpowell2b@infoseek.co.jp', 'gpowell2b@multiply.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (85, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
+Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Leiguan', '86-(611)737-9731', 'Louis Wilson', 'Carolyn Myers', 'cmyers2a@joomla.org', 'cmyers2a@nsw.gov.au');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (84, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Pushchino', '7-(232)199-3469', 'Jeremy Flores', 'George Powell', 'gpowell2b@infoseek.co.jp', 'gpowell2b@multiply.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (85, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
-Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Marly', 'False', 'False', '33-(543)841-0002', 'James Perkins', 'Jane Baker', 'jbaker2c@amazonaws.com', 'jbaker2c@nature.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (86, 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Marly', '33-(543)841-0002', 'James Perkins', 'Jane Baker', 'jbaker2c@amazonaws.com', 'jbaker2c@nature.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (86, 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 
-Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Mompós', 'False', 'False', '57-(362)792-2701', 'Brenda Harvey', 'Lawrence Wells', 'lwells2d@digg.com', 'lwells2d@biglobe.ne.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (87, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
+Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Mompós', '57-(362)792-2701', 'Brenda Harvey', 'Lawrence Wells', 'lwells2d@digg.com', 'lwells2d@biglobe.ne.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (87, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
-Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Satinka', 'False', 'False', '7-(681)901-1242', 'Jonathan Richardson', 'Peter Garza', 'pgarza2e@ted.com', 'pgarza2e@hc360.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (88, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Germiston', 'False', 'False', '27-(673)308-7076', 'Denise Roberts', 'Raymond Cook', 'rcook2f@mashable.com', 'rcook2f@uol.com.br', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (89, 'In congue. Etiam justo. Etiam pretium iaculis justo.
+Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Satinka', '7-(681)901-1242', 'Jonathan Richardson', 'Peter Garza', 'pgarza2e@ted.com', 'pgarza2e@hc360.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (88, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Germiston', '27-(673)308-7076', 'Denise Roberts', 'Raymond Cook', 'rcook2f@mashable.com', 'rcook2f@uol.com.br');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (89, 'In congue. Etiam justo. Etiam pretium iaculis justo.
 
 In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
-Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Tha Bo', 'False', 'False', '66-(628)403-5159', 'Bonnie Torres', 'Albert Davis', 'adavis2g@homestead.com', 'adavis2g@etsy.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (90, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Mercedes', 'False', 'False', '54-(904)244-4927', 'Frances Roberts', 'Anna Owens', 'aowens2h@elegantthemes.com', 'aowens2h@mapy.cz', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (91, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Tha Bo', '66-(628)403-5159', 'Bonnie Torres', 'Albert Davis', 'adavis2g@homestead.com', 'adavis2g@etsy.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (90, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Mercedes', '54-(904)244-4927', 'Frances Roberts', 'Anna Owens', 'aowens2h@elegantthemes.com', 'aowens2h@mapy.cz');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (91, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Dagestanskiye Ogni', 'False', 'False', '7-(526)768-5858', 'Jack Kennedy', 'Fred Willis', 'fwillis2i@npr.org', 'fwillis2i@walmart.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (92, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Dagestanskiye Ogni', '7-(526)768-5858', 'Jack Kennedy', 'Fred Willis', 'fwillis2i@npr.org', 'fwillis2i@walmart.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (92, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
-Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Agenebode', 'False', 'False', '234-(332)158-8552', 'Tina Anderson', 'Brandon Ramirez', 'bramirez2j@skyrock.com', 'bramirez2j@facebook.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (93, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
+Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Agenebode', '234-(332)158-8552', 'Tina Anderson', 'Brandon Ramirez', 'bramirez2j@skyrock.com', 'bramirez2j@facebook.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (93, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 
-Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Estância Velha', 'False', 'False', '55-(774)343-4737', 'Annie Bowman', 'Billy Carroll', 'bcarroll2k@hubpages.com', 'bcarroll2k@bloomberg.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (94, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Baranowo', 'False', 'False', '48-(223)514-7310', 'Matthew Stevens', 'Diana Young', 'dyoung2l@nbcnews.com', 'dyoung2l@multiply.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (95, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
+Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Estância Velha', '55-(774)343-4737', 'Annie Bowman', 'Billy Carroll', 'bcarroll2k@hubpages.com', 'bcarroll2k@bloomberg.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (94, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Baranowo', '48-(223)514-7310', 'Matthew Stevens', 'Diana Young', 'dyoung2l@nbcnews.com', 'dyoung2l@multiply.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (95, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
 Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Mudian', 'False', 'False', '86-(136)717-5971', 'Russell Edwards', 'Samuel George', 'sgeorge2m@cnet.com', 'sgeorge2m@goo.ne.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (96, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Mudian', '86-(136)717-5971', 'Russell Edwards', 'Samuel George', 'sgeorge2m@cnet.com', 'sgeorge2m@goo.ne.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (96, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
 In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
-Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Wonokerto', 'False', 'False', '62-(613)982-8915', 'Helen Alexander', 'Christina Harris', 'charris2n@umich.edu', 'charris2n@ftc.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (97, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
+Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Wonokerto', '62-(613)982-8915', 'Helen Alexander', 'Christina Harris', 'charris2n@umich.edu', 'charris2n@ftc.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (97, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
 
-Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.', 'Pandan Niog', 'False', 'False', '63-(690)813-1033', 'Michelle Fox', 'Margaret Ward', 'mward2o@netvibes.com', 'mward2o@constantcontact.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (98, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
+Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.', 'Pandan Niog', '63-(690)813-1033', 'Michelle Fox', 'Margaret Ward', 'mward2o@netvibes.com', 'mward2o@constantcontact.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (98, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
 
 Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
 Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
-In congue. Etiam justo. Etiam pretium iaculis justo.', 'Meukek', 'False', 'False', '62-(898)838-7338', 'Laura Stone', 'Russell Henderson', 'rhenderson2p@icq.com', 'rhenderson2p@sfgate.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (99, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
+In congue. Etiam justo. Etiam pretium iaculis justo.', 'Meukek', '62-(898)838-7338', 'Laura Stone', 'Russell Henderson', 'rhenderson2p@icq.com', 'rhenderson2p@sfgate.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (99, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
 Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Odessa', 'False', 'False', '1-(432)297-6425', 'Brenda Garrett', 'Todd Hudson', 'thudson2q@noaa.gov', 'thudson2q@sun.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (100, 'Fusce consequat. Nulla nisl. Nunc nisl.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Odessa', '1-(432)297-6425', 'Brenda Garrett', 'Todd Hudson', 'thudson2q@noaa.gov', 'thudson2q@sun.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (100, 'Fusce consequat. Nulla nisl. Nunc nisl.
 
 Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Dongchen', 'False', 'False', '86-(521)122-6316', 'Angela Pierce', 'Jason Diaz', 'jdiaz2r@blog.com', 'jdiaz2r@pagesperso-orange.fr', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (101, 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Baini', 'False', 'False', '86-(236)856-7457', 'Alan Black', 'Evelyn Castillo', 'ecastillo2s@nydailynews.com', 'ecastillo2s@ihg.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (102, 'Fusce consequat. Nulla nisl. Nunc nisl.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Dongchen', '86-(521)122-6316', 'Angela Pierce', 'Jason Diaz', 'jdiaz2r@blog.com', 'jdiaz2r@pagesperso-orange.fr');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (101, 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Baini', '86-(236)856-7457', 'Alan Black', 'Evelyn Castillo', 'ecastillo2s@nydailynews.com', 'ecastillo2s@ihg.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (102, 'Fusce consequat. Nulla nisl. Nunc nisl.
 
-Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'Komendantsky aerodrom', 'False', 'False', '7-(500)537-5975', 'Anne Hill', 'Paula Collins', 'pcollins2t@examiner.com', 'pcollins2t@1688.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (103, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'Komendantsky aerodrom', '7-(500)537-5975', 'Anne Hill', 'Paula Collins', 'pcollins2t@examiner.com', 'pcollins2t@1688.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (103, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
-Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Khlung', 'False', 'False', '66-(792)771-5248', 'Brenda Thompson', 'Pamela Henry', 'phenry2u@senate.gov', 'phenry2u@fda.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (104, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Khlung', '66-(792)771-5248', 'Brenda Thompson', 'Pamela Henry', 'phenry2u@senate.gov', 'phenry2u@fda.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (104, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
-Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Songqiao', 'False', 'False', '86-(289)487-2205', 'Bruce Weaver', 'Andrea Bennett', 'abennett2v@icio.us', 'abennett2v@tripod.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (105, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Songqiao', '86-(289)487-2205', 'Bruce Weaver', 'Andrea Bennett', 'abennett2v@icio.us', 'abennett2v@tripod.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (105, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Mabu', 'False', 'False', '86-(931)691-2060', 'Gregory Anderson', 'Joshua Campbell', 'jcampbell2w@cbslocal.com', 'jcampbell2w@google.cn', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (106, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Huangshi', 'False', 'False', '86-(988)165-2761', 'Thomas Graham', 'Robert Cook', 'rcook2x@apple.com', 'rcook2x@latimes.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (107, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Dashtavan', 'False', 'False', '374-(583)611-7916', 'Antonio Gilbert', 'Jose Phillips', 'jphillips2y@github.io', 'jphillips2y@cloudflare.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (108, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Mabu', '86-(931)691-2060', 'Gregory Anderson', 'Joshua Campbell', 'jcampbell2w@cbslocal.com', 'jcampbell2w@google.cn');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (106, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Huangshi', '86-(988)165-2761', 'Thomas Graham', 'Robert Cook', 'rcook2x@apple.com', 'rcook2x@latimes.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (107, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Dashtavan', '374-(583)611-7916', 'Antonio Gilbert', 'Jose Phillips', 'jphillips2y@github.io', 'jphillips2y@cloudflare.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (108, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
-Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Jiguaní', 'False', 'False', '53-(345)421-7665', 'Janet Davis', 'Harold Peterson', 'hpeterson2z@seattletimes.com', 'hpeterson2z@rakuten.co.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (109, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Jiguaní', '53-(345)421-7665', 'Janet Davis', 'Harold Peterson', 'hpeterson2z@seattletimes.com', 'hpeterson2z@rakuten.co.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (109, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Akoupé', 'False', 'False', '225-(761)818-2701', 'Jimmy Lewis', 'Amanda Day', 'aday30@taobao.com', 'aday30@51.la', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (110, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Akoupé', '225-(761)818-2701', 'Jimmy Lewis', 'Amanda Day', 'aday30@taobao.com', 'aday30@51.la');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (110, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
 Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
-In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Dungang', 'False', 'False', '86-(988)624-3315', 'George Mcdonald', 'Nicholas Jones', 'njones31@techcrunch.com', 'njones31@zdnet.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (111, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
+In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Dungang', '86-(988)624-3315', 'George Mcdonald', 'Nicholas Jones', 'njones31@techcrunch.com', 'njones31@zdnet.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (111, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
 In congue. Etiam justo. Etiam pretium iaculis justo.
 
-In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Watthana Nakhon', 'False', 'False', '66-(457)543-4726', 'Albert Ray', 'Tina Burke', 'tburke32@lycos.com', 'tburke32@unicef.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (112, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Mithi', 'False', 'False', '92-(300)917-8416', 'Aaron Nguyen', 'Keith Rice', 'krice33@china.com.cn', 'krice33@ycombinator.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (113, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
+In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Watthana Nakhon', '66-(457)543-4726', 'Albert Ray', 'Tina Burke', 'tburke32@lycos.com', 'tburke32@unicef.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (112, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Mithi', '92-(300)917-8416', 'Aaron Nguyen', 'Keith Rice', 'krice33@china.com.cn', 'krice33@ycombinator.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (113, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
 Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
-Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Voždovac', 'False', 'False', '381-(184)526-2473', 'Susan Cruz', 'Ernest Romero', 'eromero34@state.gov', 'eromero34@mozilla.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (114, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
+Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Voždovac', '381-(184)526-2473', 'Susan Cruz', 'Ernest Romero', 'eromero34@state.gov', 'eromero34@mozilla.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (114, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
-Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 'Lárdos', 'False', 'False', '30-(946)411-9856', 'Todd Grant', 'Dennis Lewis', 'dlewis35@biglobe.ne.jp', 'dlewis35@youtu.be', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (115, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
+Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 'Lárdos', '30-(946)411-9856', 'Todd Grant', 'Dennis Lewis', 'dlewis35@biglobe.ne.jp', 'dlewis35@youtu.be');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (115, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
 Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
 Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
-Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Ojos de Agua', 'False', 'False', '504-(911)510-2291', 'Angela Olson', 'Kelly Griffin', 'kgriffin36@phpbb.com', 'kgriffin36@reverbnation.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (116, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Ojos de Agua', '504-(911)510-2291', 'Angela Olson', 'Kelly Griffin', 'kgriffin36@phpbb.com', 'kgriffin36@reverbnation.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (116, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 
-Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Guanhães', 'False', 'False', '55-(144)225-5066', 'Rose Mills', 'Carl Sims', 'csims37@hatena.ne.jp', 'csims37@rambler.ru', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (117, 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 'Potok Złoty', 'False', 'False', '48-(323)956-4326', 'Douglas Snyder', 'Paul Snyder', 'psnyder38@nba.com', 'psnyder38@amazon.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (118, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Biao', 'False', 'False', '63-(237)963-6148', 'Andrew Jacobs', 'Heather Dunn', 'hdunn39@oakley.com', 'hdunn39@sphinn.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (119, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Guanhães', '55-(144)225-5066', 'Rose Mills', 'Carl Sims', 'csims37@hatena.ne.jp', 'csims37@rambler.ru');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (117, 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 'Potok Złoty', '48-(323)956-4326', 'Douglas Snyder', 'Paul Snyder', 'psnyder38@nba.com', 'psnyder38@amazon.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (118, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Biao', '63-(237)963-6148', 'Andrew Jacobs', 'Heather Dunn', 'hdunn39@oakley.com', 'hdunn39@sphinn.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (119, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
-Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'El Refugio', 'False', 'False', '52-(772)348-3711', 'Maria Adams', 'Robin Burton', 'rburton3a@bandcamp.com', 'rburton3a@china.com.cn', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (120, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
+Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'El Refugio', '52-(772)348-3711', 'Maria Adams', 'Robin Burton', 'rburton3a@bandcamp.com', 'rburton3a@china.com.cn');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (120, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
 Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
-Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Katoúna', 'False', 'False', '30-(517)339-9051', 'Katherine Nguyen', 'Timothy Patterson', 'tpatterson3b@prweb.com', 'tpatterson3b@europa.eu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (121, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
+Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Katoúna', '30-(517)339-9051', 'Katherine Nguyen', 'Timothy Patterson', 'tpatterson3b@prweb.com', 'tpatterson3b@europa.eu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (121, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
 Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
 Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
-Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Itambé', 'False', 'False', '55-(499)580-9234', 'Shirley Washington', 'Jerry Snyder', 'jsnyder3c@sbwire.com', 'jsnyder3c@usda.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (122, 'Fusce consequat. Nulla nisl. Nunc nisl.
+Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Itambé', '55-(499)580-9234', 'Shirley Washington', 'Jerry Snyder', 'jsnyder3c@sbwire.com', 'jsnyder3c@usda.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (122, 'Fusce consequat. Nulla nisl. Nunc nisl.
 
 Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Zafarwāl', 'False', 'False', '92-(102)105-3976', 'Jessica Mills', 'Amy Frazier', 'afrazier3d@nhs.uk', 'afrazier3d@slashdot.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (123, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Zafarwāl', '92-(102)105-3976', 'Jessica Mills', 'Amy Frazier', 'afrazier3d@nhs.uk', 'afrazier3d@slashdot.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (123, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
 In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
-Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Fengyang', 'False', 'False', '86-(764)306-1791', 'Marilyn Foster', 'Lillian Simmons', 'lsimmons3e@youku.com', 'lsimmons3e@fema.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (124, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
+Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Fengyang', '86-(764)306-1791', 'Marilyn Foster', 'Lillian Simmons', 'lsimmons3e@youku.com', 'lsimmons3e@fema.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (124, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
-Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Asamboka', 'False', 'False', '62-(833)823-0068', 'David Watson', 'Katherine Garza', 'kgarza3f@google.co.jp', 'kgarza3f@statcounter.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (125, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Haeju', 'False', 'False', '850-(531)130-2168', 'Brandon Gutierrez', 'James Richardson', 'jrichardson3g@wordpress.com', 'jrichardson3g@bbc.co.uk', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (126, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Asamboka', '62-(833)823-0068', 'David Watson', 'Katherine Garza', 'kgarza3f@google.co.jp', 'kgarza3f@statcounter.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (125, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Haeju', '850-(531)130-2168', 'Brandon Gutierrez', 'James Richardson', 'jrichardson3g@wordpress.com', 'jrichardson3g@bbc.co.uk');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (126, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
-In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Zhangshui', 'False', 'False', '86-(247)311-0901', 'Diane Wagner', 'Andrew Anderson', 'aanderson3h@diigo.com', 'aanderson3h@ca.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (127, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
+In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Zhangshui', '86-(247)311-0901', 'Diane Wagner', 'Andrew Anderson', 'aanderson3h@diigo.com', 'aanderson3h@ca.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (127, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Korogan Timur', 'False', 'False', '62-(543)890-7385', 'Pamela Long', 'Thomas Miller', 'tmiller3i@discovery.com', 'tmiller3i@vkontakte.ru', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (128, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Korogan Timur', '62-(543)890-7385', 'Pamela Long', 'Thomas Miller', 'tmiller3i@discovery.com', 'tmiller3i@vkontakte.ru');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (128, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
 
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 'Looc', 'False', 'False', '63-(871)899-2614', 'Ruby Stanley', 'Jack Wood', 'jwood3j@purevolume.com', 'jwood3j@clickbank.net', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (129, 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
+Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 'Looc', '63-(871)899-2614', 'Ruby Stanley', 'Jack Wood', 'jwood3j@purevolume.com', 'jwood3j@clickbank.net');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (129, 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
 Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
 Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.
 
-Fusce consequat. Nulla nisl. Nunc nisl.', 'Kapasan', 'False', 'False', '62-(462)227-3253', 'Rose Cole', 'Gregory Tucker', 'gtucker3k@nsw.gov.au', 'gtucker3k@soundcloud.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (130, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Tangga’an', 'False', 'False', '86-(522)136-3023', 'Sharon Ryan', 'Julia Nichols', 'jnichols3l@bluehost.com', 'jnichols3l@businessweek.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (131, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Mataguži', 'False', 'False', '382-(824)854-6584', 'Marilyn Harris', 'Elizabeth Oliver', 'eoliver3m@microsoft.com', 'eoliver3m@lycos.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (132, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
+Fusce consequat. Nulla nisl. Nunc nisl.', 'Kapasan', '62-(462)227-3253', 'Rose Cole', 'Gregory Tucker', 'gtucker3k@nsw.gov.au', 'gtucker3k@soundcloud.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (130, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Tangga’an', '86-(522)136-3023', 'Sharon Ryan', 'Julia Nichols', 'jnichols3l@bluehost.com', 'jnichols3l@businessweek.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (131, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Mataguži', '382-(824)854-6584', 'Marilyn Harris', 'Elizabeth Oliver', 'eoliver3m@microsoft.com', 'eoliver3m@lycos.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (132, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
 Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
-Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Sabaneta', 'False', 'False', '57-(448)682-5560', 'Ralph Walker', 'Jeffrey Cruz', 'jcruz3n@arstechnica.com', 'jcruz3n@rambler.ru', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (133, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.
+Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Sabaneta', '57-(448)682-5560', 'Ralph Walker', 'Jeffrey Cruz', 'jcruz3n@arstechnica.com', 'jcruz3n@rambler.ru');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (133, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
 Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
 
 Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
-Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Herrera', 'False', 'False', '54-(744)509-6982', 'Linda Stephens', 'Gloria Washington', 'gwashington3o@stumbleupon.com', 'gwashington3o@is.gd', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (134, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
+Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Herrera', '54-(744)509-6982', 'Linda Stephens', 'Gloria Washington', 'gwashington3o@stumbleupon.com', 'gwashington3o@is.gd');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (134, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Nakhon Phanom', 'False', 'False', '66-(788)961-3287', 'Johnny Gonzalez', 'Julia Baker', 'jbaker3p@hhs.gov', 'jbaker3p@reddit.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (135, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Nakhon Phanom', '66-(788)961-3287', 'Johnny Gonzalez', 'Julia Baker', 'jbaker3p@hhs.gov', 'jbaker3p@reddit.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (135, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
 Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
 In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
-Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'San Jose', 'False', 'False', '52-(386)688-1241', 'Craig Holmes', 'Marilyn Duncan', 'mduncan3q@booking.com', 'mduncan3q@washington.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (136, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
+Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'San Jose', '52-(386)688-1241', 'Craig Holmes', 'Marilyn Duncan', 'mduncan3q@booking.com', 'mduncan3q@washington.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (136, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Bārah', 'False', 'False', '249-(359)288-7116', 'Jessica Fisher', 'Margaret Lane', 'mlane3r@skyrock.com', 'mlane3r@miibeian.gov.cn', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (137, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Bārah', '249-(359)288-7116', 'Jessica Fisher', 'Margaret Lane', 'mlane3r@skyrock.com', 'mlane3r@miibeian.gov.cn');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (137, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
 Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
 Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
 
-Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', 'Cabugao', 'False', 'False', '63-(392)406-1498', 'Angela Campbell', 'Carolyn Ryan', 'cryan3s@telegraph.co.uk', 'cryan3s@wufoo.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (138, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
+Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', 'Cabugao', '63-(392)406-1498', 'Angela Campbell', 'Carolyn Ryan', 'cryan3s@telegraph.co.uk', 'cryan3s@wufoo.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (138, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
 Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
-In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Sudikampir', 'False', 'False', '62-(918)137-1784', 'Linda Mitchell', 'Donald Wagner', 'dwagner3t@unicef.org', 'dwagner3t@princeton.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (139, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
+In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Sudikampir', '62-(918)137-1784', 'Linda Mitchell', 'Donald Wagner', 'dwagner3t@unicef.org', 'dwagner3t@princeton.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (139, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
 Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
 Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Taoyuan', 'False', 'False', '86-(919)536-8300', 'Patrick Olson', 'Jane Stephens', 'jstephens3u@hugedomains.com', 'jstephens3u@livejournal.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (140, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Rublëvo', 'False', 'False', '7-(248)632-7321', 'Samuel Wheeler', 'David Stone', 'dstone3v@si.edu', 'dstone3v@hexun.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (141, 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Bomadi', 'False', 'False', '234-(693)574-8452', 'Johnny Mendoza', 'Marilyn Hughes', 'mhughes3w@ifeng.com', 'mhughes3w@ebay.co.uk', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (142, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Taoyuan', '86-(919)536-8300', 'Patrick Olson', 'Jane Stephens', 'jstephens3u@hugedomains.com', 'jstephens3u@livejournal.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (140, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Rublëvo', '7-(248)632-7321', 'Samuel Wheeler', 'David Stone', 'dstone3v@si.edu', 'dstone3v@hexun.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (141, 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Bomadi', '234-(693)574-8452', 'Johnny Mendoza', 'Marilyn Hughes', 'mhughes3w@ifeng.com', 'mhughes3w@ebay.co.uk');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (142, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
 
 Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
-Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 'Esperanza', 'False', 'False', '63-(353)577-1994', 'Kathryn Simpson', 'Carolyn Flores', 'cflores3x@businessinsider.com', 'cflores3x@aboutads.info', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (143, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
+Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.', 'Esperanza', '63-(353)577-1994', 'Kathryn Simpson', 'Carolyn Flores', 'cflores3x@businessinsider.com', 'cflores3x@aboutads.info');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (143, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
 Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
-Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Wuyang', 'False', 'False', '86-(909)485-7564', 'Lori Clark', 'Patrick Woods', 'pwoods3y@cocolog-nifty.com', 'pwoods3y@friendfeed.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (144, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
+Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Wuyang', '86-(909)485-7564', 'Lori Clark', 'Patrick Woods', 'pwoods3y@cocolog-nifty.com', 'pwoods3y@friendfeed.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (144, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
 
 Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
 Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
-Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Ash Shuhadā’', 'False', 'False', '20-(431)704-4048', 'Jerry Shaw', 'Ruth Young', 'ryoung3z@delicious.com', 'ryoung3z@dyndns.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (145, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
+Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Ash Shuhadā’', '20-(431)704-4048', 'Jerry Shaw', 'Ruth Young', 'ryoung3z@delicious.com', 'ryoung3z@dyndns.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (145, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
-Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Xinqiao', 'False', 'False', '86-(807)119-4101', 'Carolyn Hunt', 'William Garcia', 'wgarcia40@bandcamp.com', 'wgarcia40@ameblo.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (146, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+Sed ante. Vivamus tortor. Duis mattis egestas metus.', 'Xinqiao', '86-(807)119-4101', 'Carolyn Hunt', 'William Garcia', 'wgarcia40@bandcamp.com', 'wgarcia40@ameblo.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (146, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Bieto', 'False', 'False', '62-(997)794-7084', 'Rachel Riley', 'Rachel Clark', 'rclark41@state.tx.us', 'rclark41@icio.us', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (147, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Limbuhan', 'False', 'False', '63-(524)516-9836', 'Cheryl Webb', 'Sandra Holmes', 'sholmes42@facebook.com', 'sholmes42@netlog.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (148, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Bieto', '62-(997)794-7084', 'Rachel Riley', 'Rachel Clark', 'rclark41@state.tx.us', 'rclark41@icio.us');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (147, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Limbuhan', '63-(524)516-9836', 'Cheryl Webb', 'Sandra Holmes', 'sholmes42@facebook.com', 'sholmes42@netlog.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (148, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
 Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
 In congue. Etiam justo. Etiam pretium iaculis justo.
 
-In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Donglai', 'False', 'False', '86-(975)500-9057', 'Stephanie Coleman', 'Deborah Stewart', 'dstewart43@weebly.com', 'dstewart43@w3.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (149, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
+In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Donglai', '86-(975)500-9057', 'Stephanie Coleman', 'Deborah Stewart', 'dstewart43@weebly.com', 'dstewart43@w3.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (149, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
-Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Hujiagou', 'False', 'False', '86-(337)586-4942', 'Marie Riley', 'Tammy West', 'twest44@vkontakte.ru', 'twest44@discovery.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (150, 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
+Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Hujiagou', '86-(337)586-4942', 'Marie Riley', 'Tammy West', 'twest44@vkontakte.ru', 'twest44@discovery.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (150, 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
 
 Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
 Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
-In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Braga', 'False', 'False', '351-(490)734-9664', 'Louis Morrison', 'Jonathan Lawson', 'jlawson45@smugmug.com', 'jlawson45@toplist.cz', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (151, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Polyarnyy', 'False', 'False', '7-(723)265-0845', 'Chris Elliott', 'Julia Thomas', 'jthomas46@is.gd', 'jthomas46@shareasale.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (152, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
+In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Braga', '351-(490)734-9664', 'Louis Morrison', 'Jonathan Lawson', 'jlawson45@smugmug.com', 'jlawson45@toplist.cz');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (151, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Polyarnyy', '7-(723)265-0845', 'Chris Elliott', 'Julia Thomas', 'jthomas46@is.gd', 'jthomas46@shareasale.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (152, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
 Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
 Phasellus in felis. Donec semper sapien a libero. Nam dui.
 
-Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Canturay', 'False', 'False', '63-(303)963-0126', 'Teresa Rogers', 'Richard Gibson', 'rgibson47@samsung.com', 'rgibson47@icq.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (153, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
+Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Canturay', '63-(303)963-0126', 'Teresa Rogers', 'Richard Gibson', 'rgibson47@samsung.com', 'rgibson47@icq.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (153, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
-Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Denver', 'False', 'False', '1-(303)839-7940', 'Matthew Simpson', 'Wanda Bryant', 'wbryant48@archive.org', 'wbryant48@hao123.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (154, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
+Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Denver', '1-(303)839-7940', 'Matthew Simpson', 'Wanda Bryant', 'wbryant48@archive.org', 'wbryant48@hao123.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (154, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
 
 Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.
 
-Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Chemin Grenier', 'False', 'False', '230-(473)873-7032', 'Philip Ray', 'Catherine Nichols', 'cnichols49@newsvine.com', 'cnichols49@jugem.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (155, 'In congue. Etiam justo. Etiam pretium iaculis justo.
+Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Chemin Grenier', '230-(473)873-7032', 'Philip Ray', 'Catherine Nichols', 'cnichols49@newsvine.com', 'cnichols49@jugem.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (155, 'In congue. Etiam justo. Etiam pretium iaculis justo.
 
 In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
-Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Dongxiang', 'False', 'False', '86-(902)754-1832', 'Joshua Weaver', 'Michelle Marshall', 'mmarshall4a@booking.com', 'mmarshall4a@youku.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (156, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Dongxiang', '86-(902)754-1832', 'Joshua Weaver', 'Michelle Marshall', 'mmarshall4a@booking.com', 'mmarshall4a@youku.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (156, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Warmare', 'False', 'False', '62-(886)225-3367', 'Ronald Chavez', 'Cynthia Morrison', 'cmorrison4b@arizona.edu', 'cmorrison4b@unc.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (157, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Huanglong', 'False', 'False', '86-(239)726-0934', 'Anne Wright', 'Linda Rogers', 'lrogers4c@theglobeandmail.com', 'lrogers4c@soundcloud.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (158, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Niepos', 'False', 'False', '51-(303)318-3760', 'Nicholas Bryant', 'Beverly Taylor', 'btaylor4d@jalbum.net', 'btaylor4d@va.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (159, 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Warmare', '62-(886)225-3367', 'Ronald Chavez', 'Cynthia Morrison', 'cmorrison4b@arizona.edu', 'cmorrison4b@unc.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (157, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Huanglong', '86-(239)726-0934', 'Anne Wright', 'Linda Rogers', 'lrogers4c@theglobeandmail.com', 'lrogers4c@soundcloud.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (158, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Niepos', '51-(303)318-3760', 'Nicholas Bryant', 'Beverly Taylor', 'btaylor4d@jalbum.net', 'btaylor4d@va.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (159, 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.
 
-Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Usol’ye', 'False', 'False', '7-(637)730-6001', 'Lawrence Mccoy', 'Amy Harvey', 'aharvey4e@dailymotion.com', 'aharvey4e@ow.ly', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (160, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
+Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Usol’ye', '7-(637)730-6001', 'Lawrence Mccoy', 'Amy Harvey', 'aharvey4e@dailymotion.com', 'aharvey4e@ow.ly');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (160, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
-Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Camias', 'False', 'False', '63-(174)305-7757', 'Janet Hall', 'Melissa Jordan', 'mjordan4f@nytimes.com', 'mjordan4f@gnu.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (161, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Camias', '63-(174)305-7757', 'Janet Hall', 'Melissa Jordan', 'mjordan4f@nytimes.com', 'mjordan4f@gnu.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (161, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
 Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
-Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Mangero', 'False', 'False', '63-(667)546-9339', 'Bonnie Romero', 'Nicole Gardner', 'ngardner4g@sbwire.com', 'ngardner4g@wufoo.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (162, 'Phasellus in felis. Donec semper sapien a libero. Nam dui.
+Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Mangero', '63-(667)546-9339', 'Bonnie Romero', 'Nicole Gardner', 'ngardner4g@sbwire.com', 'ngardner4g@wufoo.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (162, 'Phasellus in felis. Donec semper sapien a libero. Nam dui.
 
 Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.
 
 Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.
 
-Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.', 'Zaria', 'False', 'False', '234-(377)902-4276', 'Doris Romero', 'Margaret Meyer', 'mmeyer4h@gnu.org', 'mmeyer4h@so-net.ne.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (163, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
+Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.', 'Zaria', '234-(377)902-4276', 'Doris Romero', 'Margaret Meyer', 'mmeyer4h@gnu.org', 'mmeyer4h@so-net.ne.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (163, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
 
-Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Cikaras', 'False', 'False', '62-(634)475-1395', 'Steven Berry', 'Henry Watson', 'hwatson4i@ebay.co.uk', 'hwatson4i@mapquest.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (164, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Chencai', 'False', 'False', '86-(869)298-1161', 'Emily Alexander', 'Phyllis Holmes', 'pholmes4j@wikia.com', 'pholmes4j@sbwire.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (165, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Cikaras', '62-(634)475-1395', 'Steven Berry', 'Henry Watson', 'hwatson4i@ebay.co.uk', 'hwatson4i@mapquest.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (164, 'In congue. Etiam justo. Etiam pretium iaculis justo.', 'Chencai', '86-(869)298-1161', 'Emily Alexander', 'Phyllis Holmes', 'pholmes4j@wikia.com', 'pholmes4j@sbwire.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (165, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
-Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Salvacion', 'False', 'False', '63-(146)513-1557', 'Mark Meyer', 'Randy Wagner', 'rwagner4k@chronoengine.com', 'rwagner4k@ezinearticles.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (166, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
+Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Salvacion', '63-(146)513-1557', 'Mark Meyer', 'Randy Wagner', 'rwagner4k@chronoengine.com', 'rwagner4k@ezinearticles.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (166, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
 Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
 Phasellus in felis. Donec semper sapien a libero. Nam dui.
 
-Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Puerto Plata', 'False', 'False', '1-(194)890-6829', 'Jack Murray', 'Donna Payne', 'dpayne4l@qq.com', 'dpayne4l@nationalgeographic.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (167, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
+Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Puerto Plata', '1-(194)890-6829', 'Jack Murray', 'Donna Payne', 'dpayne4l@qq.com', 'dpayne4l@nationalgeographic.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (167, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
 Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
-Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Vista Hermosa', 'False', 'False', '52-(925)788-9370', 'Nicole Ryan', 'Sandra Knight', 'sknight4m@hostgator.com', 'sknight4m@blogtalkradio.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (168, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
+Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Vista Hermosa', '52-(925)788-9370', 'Nicole Ryan', 'Sandra Knight', 'sknight4m@hostgator.com', 'sknight4m@blogtalkradio.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (168, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
-Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Acobambilla', 'False', 'False', '51-(981)797-7703', 'Denise Young', 'Adam Rogers', 'arogers4n@technorati.com', 'arogers4n@narod.ru', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (169, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
+Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Acobambilla', '51-(981)797-7703', 'Denise Young', 'Adam Rogers', 'arogers4n@technorati.com', 'arogers4n@narod.ru');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (169, 'Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
 Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
 Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
-Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Bokkos', 'False', 'False', '234-(672)196-5145', 'Janice Gonzales', 'Jason Vasquez', 'jvasquez4o@sogou.com', 'jvasquez4o@usgs.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (170, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
+Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Bokkos', '234-(672)196-5145', 'Janice Gonzales', 'Jason Vasquez', 'jvasquez4o@sogou.com', 'jvasquez4o@usgs.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (170, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
-Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Casuguran', 'False', 'False', '63-(883)780-6980', 'Bruce Payne', 'Betty Chapman', 'bchapman4p@4shared.com', 'bchapman4p@sciencedaily.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (171, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Casuguran', '63-(883)780-6980', 'Bruce Payne', 'Betty Chapman', 'bchapman4p@4shared.com', 'bchapman4p@sciencedaily.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (171, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
 Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
-In congue. Etiam justo. Etiam pretium iaculis justo.', 'Kryry', 'False', 'False', '420-(647)264-4396', 'Phillip Chavez', 'Raymond Reyes', 'rreyes4q@census.gov', 'rreyes4q@sphinn.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (172, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Piława Górna', 'False', 'False', '48-(999)689-3095', 'Earl Ramos', 'Kathryn Johnston', 'kjohnston4r@bluehost.com', 'kjohnston4r@tiny.cc', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (173, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Soubré', 'False', 'False', '225-(128)740-5490', 'Maria Kelley', 'Larry Hart', 'lhart4s@bandcamp.com', 'lhart4s@cnbc.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (174, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', 'Monteiro', 'False', 'False', '55-(501)296-5691', 'Wanda Hughes', 'Brandon Greene', 'bgreene4t@discuz.net', 'bgreene4t@yale.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (175, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
+In congue. Etiam justo. Etiam pretium iaculis justo.', 'Kryry', '420-(647)264-4396', 'Phillip Chavez', 'Raymond Reyes', 'rreyes4q@census.gov', 'rreyes4q@sphinn.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (172, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Piława Górna', '48-(999)689-3095', 'Earl Ramos', 'Kathryn Johnston', 'kjohnston4r@bluehost.com', 'kjohnston4r@tiny.cc');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (173, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Soubré', '225-(128)740-5490', 'Maria Kelley', 'Larry Hart', 'lhart4s@bandcamp.com', 'lhart4s@cnbc.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (174, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', 'Monteiro', '55-(501)296-5691', 'Wanda Hughes', 'Brandon Greene', 'bgreene4t@discuz.net', 'bgreene4t@yale.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (175, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
 Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
-Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Tékane', 'False', 'False', '222-(334)549-6559', 'Charles Price', 'Christopher Burke', 'cburke4u@businesswire.com', 'cburke4u@shinystat.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (176, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
+Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Tékane', '222-(334)549-6559', 'Charles Price', 'Christopher Burke', 'cburke4u@businesswire.com', 'cburke4u@shinystat.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (176, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
-Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Guangli', 'False', 'False', '86-(805)223-6029', 'Nicole Hunter', 'Eric Bishop', 'ebishop4v@ucla.edu', 'ebishop4v@nps.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (177, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
+Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Guangli', '86-(805)223-6029', 'Nicole Hunter', 'Eric Bishop', 'ebishop4v@ucla.edu', 'ebishop4v@nps.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (177, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
-Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Srinjine', 'False', 'False', '385-(754)293-3477', 'Carolyn Harrison', 'Steve White', 'swhite4w@facebook.com', 'swhite4w@networkadvertising.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (178, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Srinjine', '385-(754)293-3477', 'Carolyn Harrison', 'Steve White', 'swhite4w@facebook.com', 'swhite4w@networkadvertising.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (178, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
 Phasellus in felis. Donec semper sapien a libero. Nam dui.
 
-Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Iţsā', 'False', 'False', '20-(701)194-2824', 'Carlos Patterson', 'Frances Gomez', 'fgomez4x@trellian.com', 'fgomez4x@hugedomains.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (179, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Khabarovsk', 'False', 'False', '7-(654)661-6910', 'Jerry Kennedy', 'Jeremy Cook', 'jcook4y@liveinternet.ru', 'jcook4y@webs.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (180, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
+Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Iţsā', '20-(701)194-2824', 'Carlos Patterson', 'Frances Gomez', 'fgomez4x@trellian.com', 'fgomez4x@hugedomains.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (179, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Khabarovsk', '7-(654)661-6910', 'Jerry Kennedy', 'Jeremy Cook', 'jcook4y@liveinternet.ru', 'jcook4y@webs.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (180, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
-In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Bayart Huxu', 'False', 'False', '86-(202)452-9044', 'Irene Hanson', 'Virginia Kennedy', 'vkennedy4z@usatoday.com', 'vkennedy4z@businessinsider.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (181, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Perosinho', 'False', 'False', '351-(368)190-3163', 'Thomas Henry', 'Judith Mcdonald', 'jmcdonald50@rakuten.co.jp', 'jmcdonald50@ustream.tv', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (182, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
+In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Bayart Huxu', '86-(202)452-9044', 'Irene Hanson', 'Virginia Kennedy', 'vkennedy4z@usatoday.com', 'vkennedy4z@businessinsider.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (181, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Perosinho', '351-(368)190-3163', 'Thomas Henry', 'Judith Mcdonald', 'jmcdonald50@rakuten.co.jp', 'jmcdonald50@ustream.tv');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (182, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
 Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
 
 Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
-In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Croissy-sur-Seine', 'False', 'False', '33-(281)685-8385', 'Christina Hawkins', 'Adam Warren', 'awarren51@liveinternet.ru', 'awarren51@chicagotribune.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (183, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
+In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Croissy-sur-Seine', '33-(281)685-8385', 'Christina Hawkins', 'Adam Warren', 'awarren51@liveinternet.ru', 'awarren51@chicagotribune.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (183, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
-Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Chenjiatan', 'False', 'False', '86-(825)360-8623', 'Elizabeth Long', 'Jacqueline Sanchez', 'jsanchez52@who.int', 'jsanchez52@lulu.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (184, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.
+Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Chenjiatan', '86-(825)360-8623', 'Elizabeth Long', 'Jacqueline Sanchez', 'jsanchez52@who.int', 'jsanchez52@lulu.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (184, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.
 
 Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.
 
-Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Örebro', 'False', 'False', '46-(891)659-9717', 'Dorothy Mason', 'Jimmy Fernandez', 'jfernandez53@nyu.edu', 'jfernandez53@taobao.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (185, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Örebro', '46-(891)659-9717', 'Dorothy Mason', 'Jimmy Fernandez', 'jfernandez53@nyu.edu', 'jfernandez53@taobao.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (185, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Khemisset', 'False', 'False', '212-(393)503-7503', 'Judith Brooks', 'Stephanie Ross', 'sross54@vimeo.com', 'sross54@php.net', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (186, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Arão', 'False', 'False', '351-(998)984-3311', 'Janice Watkins', 'Kathryn Cruz', 'kcruz55@howstuffworks.com', 'kcruz55@usatoday.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (187, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Khemisset', '212-(393)503-7503', 'Judith Brooks', 'Stephanie Ross', 'sross54@vimeo.com', 'sross54@php.net');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (186, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Arão', '351-(998)984-3311', 'Janice Watkins', 'Kathryn Cruz', 'kcruz55@howstuffworks.com', 'kcruz55@usatoday.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (187, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Growong Lor', 'False', 'False', '62-(902)107-6071', 'Victor Black', 'Kevin Carroll', 'kcarroll56@state.gov', 'kcarroll56@stumbleupon.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (188, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Growong Lor', '62-(902)107-6071', 'Victor Black', 'Kevin Carroll', 'kcarroll56@state.gov', 'kcarroll56@stumbleupon.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (188, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Polos', 'False', 'False', '62-(508)460-8798', 'Cheryl Burns', 'Rachel Roberts', 'rroberts57@eepurl.com', 'rroberts57@1688.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (189, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Polos', '62-(508)460-8798', 'Cheryl Burns', 'Rachel Roberts', 'rroberts57@eepurl.com', 'rroberts57@1688.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (189, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
-In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Stoszowice', 'False', 'False', '48-(241)389-3979', 'Jerry Turner', 'Carol Lawrence', 'clawrence58@ftc.gov', 'clawrence58@1und1.de', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (190, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'La Labor', 'False', 'False', '504-(418)593-3592', 'Kevin Wilson', 'Patricia Bryant', 'pbryant59@privacy.gov.au', 'pbryant59@xing.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (191, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Stoszowice', '48-(241)389-3979', 'Jerry Turner', 'Carol Lawrence', 'clawrence58@ftc.gov', 'clawrence58@1und1.de');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (190, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'La Labor', '504-(418)593-3592', 'Kevin Wilson', 'Patricia Bryant', 'pbryant59@privacy.gov.au', 'pbryant59@xing.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (191, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
 In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
-Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Lederaba', 'False', 'False', '62-(533)161-7076', 'Janice Harris', 'Albert Welch', 'awelch5a@cafepress.com', 'awelch5a@about.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (192, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Markova', 'False', 'False', '380-(330)268-5732', 'Emily Hernandez', 'Christine Stone', 'cstone5b@sourceforge.net', 'cstone5b@blogger.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (193, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
+Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Lederaba', '62-(533)161-7076', 'Janice Harris', 'Albert Welch', 'awelch5a@cafepress.com', 'awelch5a@about.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (192, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Markova', '380-(330)268-5732', 'Emily Hernandez', 'Christine Stone', 'cstone5b@sourceforge.net', 'cstone5b@blogger.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (193, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
 Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.
 
-Fusce consequat. Nulla nisl. Nunc nisl.', 'Lampa', 'False', 'False', '62-(893)554-4830', 'Stephanie Alvarez', 'Christine Fowler', 'cfowler5c@nasa.gov', 'cfowler5c@sourceforge.net', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (194, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Fusce consequat. Nulla nisl. Nunc nisl.', 'Lampa', '62-(893)554-4830', 'Stephanie Alvarez', 'Christine Fowler', 'cfowler5c@nasa.gov', 'cfowler5c@sourceforge.net');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (194, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 
 Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
-Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Galátsi', 'False', 'False', '30-(255)517-0611', 'Bonnie Hamilton', 'Judith Palmer', 'jpalmer5d@nature.com', 'jpalmer5d@usgs.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (195, 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Jeminay', 'False', 'False', '86-(655)689-0346', 'Helen Miller', 'George Fernandez', 'gfernandez5e@dailymail.co.uk', 'gfernandez5e@sitemeter.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (196, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Galátsi', '30-(255)517-0611', 'Bonnie Hamilton', 'Judith Palmer', 'jpalmer5d@nature.com', 'jpalmer5d@usgs.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (195, 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Jeminay', '86-(655)689-0346', 'Helen Miller', 'George Fernandez', 'gfernandez5e@dailymail.co.uk', 'gfernandez5e@sitemeter.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (196, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
 Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
 Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
 
-Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Yeroẖam', 'False', 'False', '972-(801)318-8510', 'Gloria Ryan', 'Stephen Sanders', 'ssanders5f@opensource.org', 'ssanders5f@umn.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (197, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
+Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Yeroẖam', '972-(801)318-8510', 'Gloria Ryan', 'Stephen Sanders', 'ssanders5f@opensource.org', 'ssanders5f@umn.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (197, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
 Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
-Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'København', 'False', 'False', '45-(699)770-7562', 'Joyce Wheeler', 'Margaret Andrews', 'mandrews5g@si.edu', 'mandrews5g@is.gd', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (198, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Yima', 'False', 'False', '86-(782)864-3605', 'Pamela Cox', 'Johnny Hayes', 'jhayes5h@earthlink.net', 'jhayes5h@chicagotribune.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (199, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
+Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'København', '45-(699)770-7562', 'Joyce Wheeler', 'Margaret Andrews', 'mandrews5g@si.edu', 'mandrews5g@is.gd');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (198, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Yima', '86-(782)864-3605', 'Pamela Cox', 'Johnny Hayes', 'jhayes5h@earthlink.net', 'jhayes5h@chicagotribune.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (199, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
 
 Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
 In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
-Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Evijärvi', 'False', 'False', '358-(301)136-1321', 'David Sullivan', 'Jeffrey Collins', 'jcollins5i@loc.gov', 'jcollins5i@zdnet.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (200, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Muqui', 'False', 'False', '51-(809)134-9510', 'Carlos Owens', 'Martha Webb', 'mwebb5j@tumblr.com', 'mwebb5j@google.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (201, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Stockholm', 'False', 'False', '46-(683)507-8770', 'Earl Riley', 'Julie Morgan', 'jmorgan5k@stanford.edu', 'jmorgan5k@cnn.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (202, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Fushi', 'False', 'False', '86-(401)340-7451', 'Lisa Turner', 'Frank Vasquez', 'fvasquez5l@businessweek.com', 'fvasquez5l@deliciousdays.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (203, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Al Ya‘rubīyah', 'False', 'False', '963-(588)482-0057', 'Douglas Hanson', 'Roger Anderson', 'randerson5m@jimdo.com', 'randerson5m@cdc.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (204, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
+Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Evijärvi', '358-(301)136-1321', 'David Sullivan', 'Jeffrey Collins', 'jcollins5i@loc.gov', 'jcollins5i@zdnet.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (200, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Muqui', '51-(809)134-9510', 'Carlos Owens', 'Martha Webb', 'mwebb5j@tumblr.com', 'mwebb5j@google.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (201, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Stockholm', '46-(683)507-8770', 'Earl Riley', 'Julie Morgan', 'jmorgan5k@stanford.edu', 'jmorgan5k@cnn.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (202, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Fushi', '86-(401)340-7451', 'Lisa Turner', 'Frank Vasquez', 'fvasquez5l@businessweek.com', 'fvasquez5l@deliciousdays.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (203, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Al Ya‘rubīyah', '963-(588)482-0057', 'Douglas Hanson', 'Roger Anderson', 'randerson5m@jimdo.com', 'randerson5m@cdc.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (204, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
-In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Mata Grande', 'False', 'False', '55-(608)311-7664', 'Cheryl Mcdonald', 'Angela Williamson', 'awilliamson5n@webmd.com', 'awilliamson5n@xing.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (205, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
+In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Mata Grande', '55-(608)311-7664', 'Cheryl Mcdonald', 'Angela Williamson', 'awilliamson5n@webmd.com', 'awilliamson5n@xing.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (205, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
 In congue. Etiam justo. Etiam pretium iaculis justo.
 
 In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
-Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Kuishan', 'False', 'False', '86-(362)941-5025', 'Jason Jordan', 'Debra Carter', 'dcarter5o@earthlink.net', 'dcarter5o@nps.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (206, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
+Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 'Kuishan', '86-(362)941-5025', 'Jason Jordan', 'Debra Carter', 'dcarter5o@earthlink.net', 'dcarter5o@nps.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (206, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
 
 Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
 Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
 
-Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', '20 de Noviembre', 'False', 'False', '52-(299)349-1169', 'Kathryn Carter', 'Christina Green', 'cgreen5p@cam.ac.uk', 'cgreen5p@typepad.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (207, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
+Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', '20 de Noviembre', '52-(299)349-1169', 'Kathryn Carter', 'Christina Green', 'cgreen5p@cam.ac.uk', 'cgreen5p@typepad.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (207, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
 Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
-Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Bitanjuan', 'False', 'False', '63-(538)739-1900', 'Charles Holmes', 'Judy Sullivan', 'jsullivan5q@amazonaws.com', 'jsullivan5q@cocolog-nifty.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (208, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
+Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Bitanjuan', '63-(538)739-1900', 'Charles Holmes', 'Judy Sullivan', 'jsullivan5q@amazonaws.com', 'jsullivan5q@cocolog-nifty.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (208, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
 
 Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
-Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Calamba', 'False', 'False', '63-(195)145-2699', 'Philip Watkins', 'Louise Hill', 'lhill5r@arizona.edu', 'lhill5r@youtu.be', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (209, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
+Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Calamba', '63-(195)145-2699', 'Philip Watkins', 'Louise Hill', 'lhill5r@arizona.edu', 'lhill5r@youtu.be');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (209, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
 Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
-Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Sevilla', 'False', 'False', '57-(969)892-9539', 'Roy Peters', 'Deborah Nguyen', 'dnguyen5s@trellian.com', 'dnguyen5s@yahoo.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (210, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
+Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Sevilla', '57-(969)892-9539', 'Roy Peters', 'Deborah Nguyen', 'dnguyen5s@trellian.com', 'dnguyen5s@yahoo.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (210, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
 Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
 Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.
 
-Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Wonokromo', 'False', 'False', '62-(685)669-7773', 'Ann Kennedy', 'Susan Lane', 'slane5t@diigo.com', 'slane5t@drupal.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (211, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Wonokromo', '62-(685)669-7773', 'Ann Kennedy', 'Susan Lane', 'slane5t@diigo.com', 'slane5t@drupal.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (211, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
 In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
-Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Bonga', 'False', 'False', '63-(364)994-7126', 'Shawn Knight', 'Carl Jenkins', 'cjenkins5u@drupal.org', 'cjenkins5u@lycos.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (212, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Despotovac', 'False', 'False', '381-(806)243-3286', 'Linda Montgomery', 'Mildred Grant', 'mgrant5v@blogspot.com', 'mgrant5v@yahoo.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (213, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Al Qiţena', 'False', 'False', '249-(371)577-8709', 'Kathryn Parker', 'Marilyn Gilbert', 'mgilbert5w@google.it', 'mgilbert5w@aol.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (214, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
+Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Bonga', '63-(364)994-7126', 'Shawn Knight', 'Carl Jenkins', 'cjenkins5u@drupal.org', 'cjenkins5u@lycos.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (212, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Despotovac', '381-(806)243-3286', 'Linda Montgomery', 'Mildred Grant', 'mgrant5v@blogspot.com', 'mgrant5v@yahoo.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (213, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Al Qiţena', '249-(371)577-8709', 'Kathryn Parker', 'Marilyn Gilbert', 'mgilbert5w@google.it', 'mgilbert5w@aol.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (214, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
-Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Jaleswar', 'False', 'False', '977-(893)185-1006', 'Theresa Peters', 'Kevin King', 'kking5x@reverbnation.com', 'kking5x@deviantart.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (215, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Jaleswar', '977-(893)185-1006', 'Theresa Peters', 'Kevin King', 'kking5x@reverbnation.com', 'kking5x@deviantart.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (215, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
-Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Sergelen', 'False', 'False', '976-(904)976-8256', 'Joe Kennedy', 'Rose Carpenter', 'rcarpenter5y@infoseek.co.jp', 'rcarpenter5y@scribd.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (216, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
+Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.', 'Sergelen', '976-(904)976-8256', 'Joe Kennedy', 'Rose Carpenter', 'rcarpenter5y@infoseek.co.jp', 'rcarpenter5y@scribd.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (216, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 
 Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
 
-Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Hongxing', 'False', 'False', '86-(398)312-7182', 'Ann Robinson', 'William Chapman', 'wchapman5z@mozilla.com', 'wchapman5z@cmu.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (217, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Hongxing', '86-(398)312-7182', 'Ann Robinson', 'William Chapman', 'wchapman5z@mozilla.com', 'wchapman5z@cmu.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (217, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
 Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
 
-Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Arkalyk', 'False', 'False', '7-(641)629-6085', 'Christopher Flores', 'Carlos Daniels', 'cdaniels60@yellowpages.com', 'cdaniels60@java.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (218, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
+Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Arkalyk', '7-(641)629-6085', 'Christopher Flores', 'Carlos Daniels', 'cdaniels60@yellowpages.com', 'cdaniels60@java.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (218, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
 Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
 
-Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Damiao', 'False', 'False', '86-(730)469-9947', 'Nicole Campbell', 'Jean Lee', 'jlee61@bing.com', 'jlee61@senate.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (219, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
+Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Damiao', '86-(730)469-9947', 'Nicole Campbell', 'Jean Lee', 'jlee61@bing.com', 'jlee61@senate.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (219, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
-Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Gorichevo', 'False', 'False', '359-(690)193-4953', 'Bruce Ross', 'Lillian Hayes', 'lhayes62@wufoo.com', 'lhayes62@etsy.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (220, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Gorichevo', '359-(690)193-4953', 'Bruce Ross', 'Lillian Hayes', 'lhayes62@wufoo.com', 'lhayes62@etsy.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (220, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
 In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
-Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Erdao', 'False', 'False', '86-(736)748-2911', 'Craig Fowler', 'Roy Simmons', 'rsimmons63@plala.or.jp', 'rsimmons63@amazon.de', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (221, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
+Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Erdao', '86-(736)748-2911', 'Craig Fowler', 'Roy Simmons', 'rsimmons63@plala.or.jp', 'rsimmons63@amazon.de');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (221, 'Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
 Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
-In congue. Etiam justo. Etiam pretium iaculis justo.', 'Sapeken', 'False', 'False', '62-(829)224-5156', 'Edward Turner', 'Carl Hicks', 'chicks64@apache.org', 'chicks64@ucsd.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (222, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
+In congue. Etiam justo. Etiam pretium iaculis justo.', 'Sapeken', '62-(829)224-5156', 'Edward Turner', 'Carl Hicks', 'chicks64@apache.org', 'chicks64@ucsd.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (222, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
 
 Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
 Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
-Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Acheng', 'False', 'False', '86-(367)770-8722', 'Christine Powell', 'James Andrews', 'jandrews65@plala.or.jp', 'jandrews65@dyndns.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (223, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
+Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Acheng', '86-(367)770-8722', 'Christine Powell', 'James Andrews', 'jandrews65@plala.or.jp', 'jandrews65@dyndns.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (223, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
 Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.
 
 Fusce consequat. Nulla nisl. Nunc nisl.
 
-Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'Paris 12', 'False', 'False', '33-(384)833-9460', 'Kelly Fuller', 'Theresa Dean', 'tdean66@youtube.com', 'tdean66@delicious.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (224, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
+Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 'Paris 12', '33-(384)833-9460', 'Kelly Fuller', 'Theresa Dean', 'tdean66@youtube.com', 'tdean66@delicious.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (224, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Jinhai', 'False', 'False', '86-(354)172-1154', 'Paula Payne', 'Harry Turner', 'hturner67@scientificamerican.com', 'hturner67@patch.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (225, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Los Juríes', 'False', 'False', '54-(854)268-7734', 'Alice Riley', 'Michael Brown', 'mbrown68@symantec.com', 'mbrown68@naver.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (226, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Aţ Ţurrah', 'False', 'False', '962-(973)982-6598', 'Terry Sanchez', 'Harold Rose', 'hrose69@godaddy.com', 'hrose69@about.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (227, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Jinhai', '86-(354)172-1154', 'Paula Payne', 'Harry Turner', 'hturner67@scientificamerican.com', 'hturner67@patch.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (225, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Los Juríes', '54-(854)268-7734', 'Alice Riley', 'Michael Brown', 'mbrown68@symantec.com', 'mbrown68@naver.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (226, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Aţ Ţurrah', '962-(973)982-6598', 'Terry Sanchez', 'Harold Rose', 'hrose69@godaddy.com', 'hrose69@about.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (227, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
 Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
 
-Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Châteaurenard', 'False', 'False', '33-(955)910-9854', 'Eugene Moore', 'Raymond Payne', 'rpayne6a@cocolog-nifty.com', 'rpayne6a@bloglovin.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (228, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Xinglin', 'False', 'False', '86-(410)672-4618', 'Jose Fowler', 'Jesse Kelly', 'jkelly6b@cpanel.net', 'jkelly6b@mapquest.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (229, 'Phasellus in felis. Donec semper sapien a libero. Nam dui.
+Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Châteaurenard', '33-(955)910-9854', 'Eugene Moore', 'Raymond Payne', 'rpayne6a@cocolog-nifty.com', 'rpayne6a@bloglovin.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (228, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Xinglin', '86-(410)672-4618', 'Jose Fowler', 'Jesse Kelly', 'jkelly6b@cpanel.net', 'jkelly6b@mapquest.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (229, 'Phasellus in felis. Donec semper sapien a libero. Nam dui.
 
-Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Chechenglu', 'False', 'False', '86-(945)467-7660', 'Thomas Chapman', 'Diana Bell', 'dbell6c@t-online.de', 'dbell6c@jigsy.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (230, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
+Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Chechenglu', '86-(945)467-7660', 'Thomas Chapman', 'Diana Bell', 'dbell6c@t-online.de', 'dbell6c@jigsy.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (230, 'Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.
 
 Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.
 
 Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
-In congue. Etiam justo. Etiam pretium iaculis justo.', 'Rosario', 'False', 'False', '63-(396)153-6254', 'Jeremy Stone', 'Lawrence Kelly', 'lkelly6d@wikispaces.com', 'lkelly6d@nhs.uk', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (231, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+In congue. Etiam justo. Etiam pretium iaculis justo.', 'Rosario', '63-(396)153-6254', 'Jeremy Stone', 'Lawrence Kelly', 'lkelly6d@wikispaces.com', 'lkelly6d@nhs.uk');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (231, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
 Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
 
-Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Sernovodsk', 'False', 'False', '7-(487)575-4907', 'Jessica Murphy', 'Anthony Crawford', 'acrawford6e@blogtalkradio.com', 'acrawford6e@cafepress.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (232, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Sernovodsk', '7-(487)575-4907', 'Jessica Murphy', 'Anthony Crawford', 'acrawford6e@blogtalkradio.com', 'acrawford6e@cafepress.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (232, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 
 Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
-Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Oliveira', 'False', 'False', '351-(952)193-3398', 'Betty Montgomery', 'Kathleen Bailey', 'kbailey6f@ucla.edu', 'kbailey6f@devhub.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (233, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Yangsan', 'False', 'False', '82-(292)364-0811', 'Lois Morgan', 'Ashley Perkins', 'aperkins6g@mail.ru', 'aperkins6g@github.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (234, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Baiyangwan', 'False', 'False', '86-(229)277-0606', 'Arthur Thomas', 'Kelly Wheeler', 'kwheeler6h@accuweather.com', 'kwheeler6h@blog.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (235, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
+Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Oliveira', '351-(952)193-3398', 'Betty Montgomery', 'Kathleen Bailey', 'kbailey6f@ucla.edu', 'kbailey6f@devhub.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (233, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Yangsan', '82-(292)364-0811', 'Lois Morgan', 'Ashley Perkins', 'aperkins6g@mail.ru', 'aperkins6g@github.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (234, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Baiyangwan', '86-(229)277-0606', 'Arthur Thomas', 'Kelly Wheeler', 'kwheeler6h@accuweather.com', 'kwheeler6h@blog.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (235, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
 Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
 Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
-Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Leiguan', 'False', 'False', '86-(256)922-3760', 'Paula Peterson', 'Andrew Roberts', 'aroberts6i@cbslocal.com', 'aroberts6i@exblog.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (236, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Dongpu', 'False', 'False', '86-(403)688-9961', 'Douglas Parker', 'Daniel Porter', 'dporter6j@artisteer.com', 'dporter6j@cdc.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (237, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Leiguan', '86-(256)922-3760', 'Paula Peterson', 'Andrew Roberts', 'aroberts6i@cbslocal.com', 'aroberts6i@exblog.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (236, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Dongpu', '86-(403)688-9961', 'Douglas Parker', 'Daniel Porter', 'dporter6j@artisteer.com', 'dporter6j@cdc.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (237, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
-Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Phú Thái', 'False', 'False', '84-(743)945-4825', 'Johnny Carr', 'Jack Gilbert', 'jgilbert6k@dion.ne.jp', 'jgilbert6k@prweb.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (238, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.
+Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Phú Thái', '84-(743)945-4825', 'Johnny Carr', 'Jack Gilbert', 'jgilbert6k@dion.ne.jp', 'jgilbert6k@prweb.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (238, 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.
 
 Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.
 
-Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Tayzhina', 'False', 'False', '7-(377)900-6093', 'Tammy Matthews', 'Jimmy Edwards', 'jedwards6l@ted.com', 'jedwards6l@bloglines.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (239, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
+Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 'Tayzhina', '7-(377)900-6093', 'Tammy Matthews', 'Jimmy Edwards', 'jedwards6l@ted.com', 'jedwards6l@bloglines.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (239, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
 
 Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.
 
-Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Pirojpur', 'False', 'False', '880-(540)183-4293', 'Mildred Wilson', 'Debra Ford', 'dford6m@drupal.org', 'dford6m@live.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (240, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
+Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Pirojpur', '880-(540)183-4293', 'Mildred Wilson', 'Debra Ford', 'dford6m@drupal.org', 'dford6m@live.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (240, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.
 
 Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
-Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Lichengdao', 'False', 'False', '86-(138)207-3996', 'Lillian Vasquez', 'Gregory Marshall', 'gmarshall6n@upenn.edu', 'gmarshall6n@360.cn', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (241, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
+Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Lichengdao', '86-(138)207-3996', 'Lillian Vasquez', 'Gregory Marshall', 'gmarshall6n@upenn.edu', 'gmarshall6n@360.cn');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (241, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
-In congue. Etiam justo. Etiam pretium iaculis justo.', 'Ramotswa', 'False', 'False', '267-(570)779-0544', 'Diana Collins', 'Kimberly White', 'kwhite6o@seesaa.net', 'kwhite6o@china.com.cn', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (242, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+In congue. Etiam justo. Etiam pretium iaculis justo.', 'Ramotswa', '267-(570)779-0544', 'Diana Collins', 'Kimberly White', 'kwhite6o@seesaa.net', 'kwhite6o@china.com.cn');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (242, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
 Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
 
-Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Dongming', 'False', 'False', '86-(978)358-3863', 'Betty Smith', 'Jose Vasquez', 'jvasquez6p@mlb.com', 'jvasquez6p@cnet.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (243, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
+Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.', 'Dongming', '86-(978)358-3863', 'Betty Smith', 'Jose Vasquez', 'jvasquez6p@mlb.com', 'jvasquez6p@cnet.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (243, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
 
 Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
 Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.
 
-Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Rungis', 'False', 'False', '33-(434)708-0214', 'Teresa Wright', 'Jimmy Mills', 'jmills6q@alexa.com', 'jmills6q@washington.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (244, 'Fusce consequat. Nulla nisl. Nunc nisl.
+Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Rungis', '33-(434)708-0214', 'Teresa Wright', 'Jimmy Mills', 'jmills6q@alexa.com', 'jmills6q@washington.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (244, 'Fusce consequat. Nulla nisl. Nunc nisl.
 
 Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
 In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
-Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Antananarivo', 'False', 'False', '261-(142)566-5194', 'Walter Hudson', 'Michael Foster', 'mfoster6r@phpbb.com', 'mfoster6r@gmpg.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (245, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Jeberos', 'False', 'False', '51-(503)796-5251', 'Deborah Wallace', 'Sean Henry', 'shenry6s@geocities.jp', 'shenry6s@shutterfly.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (246, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.
+Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Antananarivo', '261-(142)566-5194', 'Walter Hudson', 'Michael Foster', 'mfoster6r@phpbb.com', 'mfoster6r@gmpg.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (245, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Jeberos', '51-(503)796-5251', 'Deborah Wallace', 'Sean Henry', 'shenry6s@geocities.jp', 'shenry6s@shutterfly.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (246, 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.
 
 Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
 
 Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
-Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Obock', 'False', 'False', '253-(780)225-6706', 'Virginia Burns', 'Fred Henry', 'fhenry6t@rambler.ru', 'fhenry6t@businessweek.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (247, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Bürenhayrhan', 'False', 'False', '976-(702)457-2959', 'Denise Ferguson', 'Joshua Mccoy', 'jmccoy6u@imageshack.us', 'jmccoy6u@webnode.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (248, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
+Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'Obock', '253-(780)225-6706', 'Virginia Burns', 'Fred Henry', 'fhenry6t@rambler.ru', 'fhenry6t@businessweek.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (247, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Bürenhayrhan', '976-(702)457-2959', 'Denise Ferguson', 'Joshua Mccoy', 'jmccoy6u@imageshack.us', 'jmccoy6u@webnode.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (248, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 
 Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.
 
-Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Wartburg', 'False', 'False', '27-(753)656-3140', 'Philip Taylor', 'Lois Stanley', 'lstanley6v@sogou.com', 'lstanley6v@wordpress.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (249, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
+Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Wartburg', '27-(753)656-3140', 'Philip Taylor', 'Lois Stanley', 'lstanley6v@sogou.com', 'lstanley6v@wordpress.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (249, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
-Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'María la Baja', 'False', 'False', '57-(973)733-5702', 'Jason Andrews', 'Ashley Gibson', 'agibson6w@barnesandnoble.com', 'agibson6w@meetup.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (250, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Puerto Colombia', 'False', 'False', '57-(171)357-2284', 'Eugene Torres', 'Dorothy Fowler', 'dfowler6x@liveinternet.ru', 'dfowler6x@usgs.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (251, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
+Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 'María la Baja', '57-(973)733-5702', 'Jason Andrews', 'Ashley Gibson', 'agibson6w@barnesandnoble.com', 'agibson6w@meetup.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (250, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Puerto Colombia', '57-(171)357-2284', 'Eugene Torres', 'Dorothy Fowler', 'dfowler6x@liveinternet.ru', 'dfowler6x@usgs.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (251, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
-Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Yirga ‘Alem', 'False', 'False', '251-(340)402-5665', 'Laura Cook', 'Wayne Payne', 'wpayne6y@un.org', 'wpayne6y@statcounter.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (252, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Bay Roberts', 'False', 'False', '1-(877)547-7171', 'Joyce Hunt', 'Aaron Arnold', 'aarnold6z@cisco.com', 'aarnold6z@spotify.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (253, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Yirga ‘Alem', '251-(340)402-5665', 'Laura Cook', 'Wayne Payne', 'wpayne6y@un.org', 'wpayne6y@statcounter.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (252, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Bay Roberts', '1-(877)547-7171', 'Joyce Hunt', 'Aaron Arnold', 'aarnold6z@cisco.com', 'aarnold6z@spotify.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (253, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
 In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.
 
-Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Gaiyang', 'False', 'False', '86-(803)912-8029', 'Paul Wagner', 'Diana Hayes', 'dhayes70@printfriendly.com', 'dhayes70@ameblo.jp', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (254, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Segovia', 'False', 'False', '57-(836)632-2000', 'Henry West', 'George Johnston', 'gjohnston71@last.fm', 'gjohnston71@ycombinator.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (255, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Chybie', 'False', 'False', '48-(484)464-4192', 'Kathryn Rice', 'Amanda White', 'awhite72@indiegogo.com', 'awhite72@wordpress.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (256, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
+Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Gaiyang', '86-(803)912-8029', 'Paul Wagner', 'Diana Hayes', 'dhayes70@printfriendly.com', 'dhayes70@ameblo.jp');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (254, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Segovia', '57-(836)632-2000', 'Henry West', 'George Johnston', 'gjohnston71@last.fm', 'gjohnston71@ycombinator.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (255, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Chybie', '48-(484)464-4192', 'Kathryn Rice', 'Amanda White', 'awhite72@indiegogo.com', 'awhite72@wordpress.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (256, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
 Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Pniewy', 'False', 'False', '48-(849)551-3521', 'Douglas Diaz', 'Todd West', 'twest73@bloglines.com', 'twest73@pen.io', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (257, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Pniewy', '48-(849)551-3521', 'Douglas Diaz', 'Todd West', 'twest73@bloglines.com', 'twest73@pen.io');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (257, 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.
 
-In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Unecha', 'False', 'False', '7-(229)171-3221', 'Jacqueline Jordan', 'Philip Rogers', 'progers74@usatoday.com', 'progers74@mit.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (258, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Bystra', 'False', 'False', '48-(513)285-2297', 'Frank Sanchez', 'Gary Frazier', 'gfrazier75@timesonline.co.uk', 'gfrazier75@google.ca', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (259, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
+In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 'Unecha', '7-(229)171-3221', 'Jacqueline Jordan', 'Philip Rogers', 'progers74@usatoday.com', 'progers74@mit.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (258, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Bystra', '48-(513)285-2297', 'Frank Sanchez', 'Gary Frazier', 'gfrazier75@timesonline.co.uk', 'gfrazier75@google.ca');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (259, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.
 
-In congue. Etiam justo. Etiam pretium iaculis justo.', 'Selopuro', 'False', 'False', '62-(315)180-0700', 'Anna Cox', 'Betty Larson', 'blarson76@artisteer.com', 'blarson76@booking.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (260, 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.
+In congue. Etiam justo. Etiam pretium iaculis justo.', 'Selopuro', '62-(315)180-0700', 'Anna Cox', 'Betty Larson', 'blarson76@artisteer.com', 'blarson76@booking.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (260, 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.
 
 Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 
 Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
-Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Berehomet', 'False', 'False', '380-(513)909-2874', 'Shawn Howard', 'Sandra Stewart', 'sstewart77@lulu.com', 'sstewart77@deliciousdays.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (261, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'San Isidro', 'False', 'False', '52-(160)915-4498', 'Bobby Kelly', 'Ryan Carter', 'rcarter78@dmoz.org', 'rcarter78@blinklist.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (262, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
+Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Berehomet', '380-(513)909-2874', 'Shawn Howard', 'Sandra Stewart', 'sstewart77@lulu.com', 'sstewart77@deliciousdays.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (261, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'San Isidro', '52-(160)915-4498', 'Bobby Kelly', 'Ryan Carter', 'rcarter78@dmoz.org', 'rcarter78@blinklist.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (262, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
 
 Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
 Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
-Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Jaboatão', 'False', 'False', '55-(276)812-6255', 'Joshua Shaw', 'Thomas Armstrong', 'tarmstrong79@instagram.com', 'tarmstrong79@1688.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (263, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Jaboatão', '55-(276)812-6255', 'Joshua Shaw', 'Thomas Armstrong', 'tarmstrong79@instagram.com', 'tarmstrong79@1688.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (263, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Putrajaya', 'False', 'False', '60-(984)965-5189', 'Judy Brooks', 'Lois Walker', 'lwalker7a@wikia.com', 'lwalker7a@statcounter.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (264, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Putrajaya', '60-(984)965-5189', 'Judy Brooks', 'Lois Walker', 'lwalker7a@wikia.com', 'lwalker7a@statcounter.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (264, 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 
 Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
 Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
-Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Temblador', 'False', 'False', '58-(613)498-2110', 'Ashley Gilbert', 'Paula Day', 'pday7b@jimdo.com', 'pday7b@eepurl.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (265, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
+Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Temblador', '58-(613)498-2110', 'Ashley Gilbert', 'Paula Day', 'pday7b@jimdo.com', 'pday7b@eepurl.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (265, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
 Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
 Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Kitui', 'False', 'False', '254-(742)380-8512', 'Michael Murphy', 'Scott Phillips', 'sphillips7c@example.com', 'sphillips7c@github.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (266, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Kitui', '254-(742)380-8512', 'Michael Murphy', 'Scott Phillips', 'sphillips7c@example.com', 'sphillips7c@github.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (266, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.
 
-Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Qiaole', 'False', 'False', '86-(125)135-7027', 'Rose Simpson', 'Jeremy King', 'jking7d@webeden.co.uk', 'jking7d@unc.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (267, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
+Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', 'Qiaole', '86-(125)135-7027', 'Rose Simpson', 'Jeremy King', 'jking7d@webeden.co.uk', 'jking7d@unc.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (267, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.
 
-Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Shinyanga', 'False', 'False', '255-(459)382-5942', 'Sandra Mccoy', 'Debra Larson', 'dlarson7e@prweb.com', 'dlarson7e@craigslist.org', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (268, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Panyingkiran', 'False', 'False', '62-(842)327-0597', 'Janice Dixon', 'Alan Berry', 'aberry7f@simplemachines.org', 'aberry7f@intel.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (269, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
+Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Shinyanga', '255-(459)382-5942', 'Sandra Mccoy', 'Debra Larson', 'dlarson7e@prweb.com', 'dlarson7e@craigslist.org');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (268, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Panyingkiran', '62-(842)327-0597', 'Janice Dixon', 'Alan Berry', 'aberry7f@simplemachines.org', 'aberry7f@intel.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (269, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
-In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Bistrica ob Sotli', 'False', 'False', '386-(285)977-2714', 'Julia Murphy', 'Kenneth Butler', 'kbutler7g@slideshare.net', 'kbutler7g@cnbc.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (270, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.
+In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Bistrica ob Sotli', '386-(285)977-2714', 'Julia Murphy', 'Kenneth Butler', 'kbutler7g@slideshare.net', 'kbutler7g@cnbc.com');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (270, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
-Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Niños Heroes', 'False', 'False', '52-(579)127-7091', 'Julia Washington', 'Amy Ramos', 'aramos7h@fc2.com', 'aramos7h@tamu.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (271, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
+Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Niños Heroes', '52-(579)127-7091', 'Julia Washington', 'Amy Ramos', 'aramos7h@fc2.com', 'aramos7h@tamu.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (271, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.
 
-Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Mönhbulag', 'False', 'False', '976-(336)847-0979', 'Maria Peters', 'Jose Payne', 'jpayne7i@domainmarket.com', 'jpayne7i@msu.edu', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (272, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
+Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', 'Mönhbulag', '976-(336)847-0979', 'Maria Peters', 'Jose Payne', 'jpayne7i@domainmarket.com', 'jpayne7i@msu.edu');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (272, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.
 
 Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
 Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Tagbilaran City', 'False', 'False', '63-(833)314-0574', 'Kathleen Russell', 'Rose Harvey', 'rharvey7j@storify.com', 'rharvey7j@ed.gov', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (273, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Tagbilaran City', '63-(833)314-0574', 'Kathleen Russell', 'Rose Harvey', 'rharvey7j@storify.com', 'rharvey7j@ed.gov');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (273, 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.
 
-Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Maia', 'False', 'False', '351-(559)743-5830', 'Ashley Hunter', 'Virginia Cunningham', 'vcunningham7k@blogger.com', 'vcunningham7k@t-online.de', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (274, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
+Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Maia', '351-(559)743-5830', 'Ashley Hunter', 'Virginia Cunningham', 'vcunningham7k@blogger.com', 'vcunningham7k@t-online.de');
+insert into ProfileStudent (PersonId, Bio, HomeStation, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail) values (274, 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.
 
-Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Dessalines', 'False', 'False', '509-(566)843-5148', 'Pamela Palmer', 'Louise Gardner', 'lgardner7l@bing.com', 'lgardner7l@scientificamerican.com', 'ProfileStudent');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (275, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Novaya Lyalya', 'False', 'False', '7-(955)970-4744', 'Barbara Morrison', 'Samuel Walker', 'swalker7m@weibo.com', 'swalker7m@smh.com.au', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (276, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
+Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 'Dessalines', '509-(566)843-5148', 'Pamela Palmer', 'Louise Gardner', 'lgardner7l@bing.com', 'lgardner7l@scientificamerican.com');
+
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (275, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Novaya Lyalya', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (276, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
 Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
 Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
-Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Chapultepec', 'False', 'False', '52-(205)278-2307', 'Rose Cole', 'Bruce Mendoza', 'bmendoza7n@163.com', 'bmendoza7n@bloglovin.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (277, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
+Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Chapultepec', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (277, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Villa Nueva', 'False', 'False', '504-(157)809-5782', 'Gregory Willis', 'Steve Dunn', 'sdunn7o@over-blog.com', 'sdunn7o@house.gov', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (278, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Villa Nueva', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (278, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
 Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.
 
-Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', 'Ḩājjīābād', 'False', 'False', '98-(431)281-6957', 'Philip Larson', 'Kathy Knight', 'kknight7p@prlog.org', 'kknight7p@networkadvertising.org', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (279, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
+Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', 'Ḩājjīābād', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (279, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
 
 Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
 
 Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.
 
-Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Wschowa', 'False', 'False', '48-(442)280-2920', 'Louis Marshall', 'Ashley Watkins', 'awatkins7q@prnewswire.com', 'awatkins7q@sina.com.cn', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (280, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Vicente Guerrero', 'False', 'False', '52-(488)761-1479', 'Paula Gray', 'Tammy Martin', 'tmartin7r@dmoz.org', 'tmartin7r@smh.com.au', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (281, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Wschowa', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (280, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Vicente Guerrero', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (281, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
 In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
-Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Lunao', 'False', 'False', '63-(391)386-0477', 'Joseph Mendoza', 'Timothy Marshall', 'tmarshall7s@si.edu', 'tmarshall7s@eepurl.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (282, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', 'Lunao', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (282, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
-Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Rawaapu', 'False', 'False', '62-(414)426-5378', 'Alan Alexander', 'Frank Hill', 'fhill7t@friendfeed.com', 'fhill7t@ovh.net', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (283, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Phasellus in felis. Donec semper sapien a libero. Nam dui.', 'Rawaapu', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (283, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Vári', 'False', 'False', '30-(168)430-6566', 'Rebecca Evans', 'Billy Collins', 'bcollins7u@freewebs.com', 'bcollins7u@accuweather.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (284, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Vári', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (284, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
-Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Emiliano Zapata', 'False', 'False', '52-(862)889-3439', 'Sandra Owens', 'Sean Price', 'sprice7v@vistaprint.com', 'sprice7v@chicagotribune.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (285, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.
+Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.', 'Emiliano Zapata', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (285, 'Sed ante. Vivamus tortor. Duis mattis egestas metus.
 
-Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Solnechnoye', 'False', 'False', '7-(693)335-7347', 'Kathy Howell', 'Paula Ward', 'pward7w@gizmodo.com', 'pward7w@google.nl', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (286, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', 'Solnechnoye', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (286, 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 
 Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
-Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Danglang Hudong', 'False', 'False', '86-(813)275-2187', 'Samuel Gardner', 'Adam Gilbert', 'agilbert7x@bizjournals.com', 'agilbert7x@lulu.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (287, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
+Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Danglang Hudong', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (287, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.
 
 Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
 Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
 
-Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Lixi', 'False', 'False', '86-(678)851-3151', 'Margaret Ross', 'Kevin Pierce', 'kpierce7y@cargocollective.com', 'kpierce7y@nba.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (288, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
+Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Lixi', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (288, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.
 
 Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Kukushtan', 'False', 'False', '7-(807)643-7228', 'Ernest Garrett', 'Andrea West', 'awest7z@unc.edu', 'awest7z@hc360.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (289, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Kukushtan', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (289, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.
 
-Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Dushanbe', 'False', 'False', '992-(367)121-5962', 'Angela Morrison', 'Robin Cunningham', 'rcunningham80@dmoz.org', 'rcunningham80@blinklist.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (290, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
+Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.', 'Dushanbe', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (290, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.
 
 Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.
 
 Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.
 
-Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Shumerlya', 'False', 'False', '7-(442)854-8222', 'Barbara Washington', 'David Robertson', 'drobertson81@trellian.com', 'drobertson81@mozilla.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (291, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.', 'Shumerlya', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (291, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
 Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.
 
-Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Al Bawīţī', 'False', 'False', '20-(353)158-1905', 'Thomas King', 'Thomas Spencer', 'tspencer82@pcworld.com', 'tspencer82@discuz.net', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (292, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
+Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Al Bawīţī', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (292, 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.
 
 Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.
 
-In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Enköping', 'False', 'False', '46-(860)213-3409', 'Helen Moore', 'Brian Dixon', 'bdixon83@hao123.com', 'bdixon83@github.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (293, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
+In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Enköping', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (293, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.
 
 Phasellus in felis. Donec semper sapien a libero. Nam dui.
 
 Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.
 
-Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Lousa', 'False', 'False', '351-(929)934-1859', 'Tina Boyd', 'Mark Rogers', 'mrogers84@360.cn', 'mrogers84@apache.org', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (294, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Lousa', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (294, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
-Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Saint-Quentin', 'False', 'False', '33-(870)451-0390', 'Philip Mccoy', 'Robert Jordan', 'rjordan85@weather.com', 'rjordan85@census.gov', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (295, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
+Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Saint-Quentin', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (295, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.
 
-In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Ravne na Koroškem', 'False', 'False', '386-(519)292-6651', 'Teresa Ross', 'Jesse Hudson', 'jhudson86@parallels.com', 'jhudson86@flavors.me', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (296, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
+In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Ravne na Koroškem', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (296, 'Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.
 
-Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Ban Huai Thalaeng', 'False', 'False', '66-(660)289-3618', 'Joan Matthews', 'Philip Jenkins', 'pjenkins87@cocolog-nifty.com', 'pjenkins87@scientificamerican.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (297, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Juàzeirinho', 'False', 'False', '55-(718)310-7183', 'Deborah Woods', 'Deborah Burton', 'dburton88@hatena.ne.jp', 'dburton88@google.pl', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (298, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
+Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Ban Huai Thalaeng', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (297, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 'Juàzeirinho', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (298, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.
 
-Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Englewood', 'False', 'False', '1-(303)452-1164', 'Carol King', 'Anne Carter', 'acarter89@trellian.com', 'acarter89@seattletimes.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (299, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
+Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', 'Englewood', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (299, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.
 
 Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.
 
-Fusce consequat. Nulla nisl. Nunc nisl.', 'Haliut', 'False', 'False', '86-(232)479-7386', 'Johnny Reyes', 'Terry Little', 'tlittle8a@youtu.be', 'tlittle8a@bing.com', 'ProfileFaculty');
-insert into Profile (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer, ContactNumber, Commander, Shirt, CommanderEmail, ShirtEmail, Discriminator) values (300, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
+Fusce consequat. Nulla nisl. Nunc nisl.', 'Haliut', 'False', 'False');
+insert into ProfileFaculty (PersonId, Bio, HomeStation, IsCourseAdmin, IsReportViewer) values (300, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.
 
 Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.
 
-Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Guadalupe', 'False', 'False', '52-(996)760-1577', 'Linda Carpenter', 'Jerry Bennett', 'jbennett8b@hibu.com', 'jbennett8b@scribd.com', 'ProfileFaculty');
+Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 'Guadalupe', 'False', 'False');
+
+
 
 
 insert into "Security" (PersonId, PasswordHash, ModifiedDate, ModifiedById, BadPasswordCount) values (1, '1200:zlz/+uf+L2sOQcNGrOb+B5LvOxS8m3d0yvZ/toDxN++PYrOR:QU+XS2TGodnR5lY7hhTnEROa7kTFBq2n165KOjovUZs=', '2015-10-03 04:40:08', '1', 0);

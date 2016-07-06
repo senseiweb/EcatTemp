@@ -237,7 +237,7 @@ namespace Ecat.LmsAdmin.Mod
             return efContext.SaveChanges(saveBundle);
         }
 
-        private async Task<MemReconResult> AddNewUsers(IEnumerable<CourseMembershipVO> bbCmsVo,  MemReconResult reconResult)
+        private async Task<MemReconResult> AddNewUsers(IEnumerable<CourseMembershipVO> bbCmsVo, MemReconResult reconResult)
         {
             var bbCms = bbCmsVo.ToList();
             var bbCmUserIds = bbCms.Select(bbcm => bbcm.userId).ToList();
@@ -330,7 +330,10 @@ namespace Ecat.LmsAdmin.Mod
                                 };
                                 break;
                             default:
-                                user.Profile = new ProfileStudent();
+                                user.Student = new ProfileStudent
+                                {
+                                    PersonId = user.PersonId
+                                };
                                 break;
                         }
                     }
@@ -339,7 +342,10 @@ namespace Ecat.LmsAdmin.Mod
             }
 
             reconResult.Students = usersWithAccount
-                .Where(ecm => ecm.MpInstituteRole == MpInstituteRoleId.Student)
+                .Where(ecm => {
+                    var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                    return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) != MpInstituteRoleId.Faculty;
+                })
                 .Select(ecm => new StudentInCourse
                 {
                     StudentPersonId = ecm.PersonId,
@@ -349,7 +355,10 @@ namespace Ecat.LmsAdmin.Mod
                 }).ToList();
 
             reconResult.Faculty = usersWithAccount
-              .Where(ecm => ecm.MpInstituteRole == MpInstituteRoleId.Faculty)
+              .Where(ecm => {
+                  var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                  return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) == MpInstituteRoleId.Faculty;
+              })
               .Select(ecm => new FacultyInCourse
               {
                   FacultyPersonId = ecm.PersonId,
@@ -357,6 +366,47 @@ namespace Ecat.LmsAdmin.Mod
                   ReconResultId = reconResult.Id,
                   BbCourseMemId = bbCms.First(bbcm => bbcm.userId == ecm.BbUserId).id
               }).ToList();
+
+            var neededFacultyProfiles = usersWithAccount.Where(ecm =>
+            {
+                var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) == MpInstituteRoleId.Faculty;
+            }).Select(ecm => ecm.PersonId);
+
+            var existingFacultyProfiles = _mainCtx.Faculty
+                .Where(fac => neededFacultyProfiles.Contains(fac.PersonId))
+                .Select(fac => fac.PersonId);
+
+            var newFacultyProfiles = neededFacultyProfiles
+                .Where(id => !existingFacultyProfiles.Contains(id))
+                .Select(id => new ProfileFaculty
+                {
+                    PersonId = id,
+                    AcademyId = reconResult.AcademyId,
+                    HomeStation = StaticAcademy.AcadLookupById[reconResult.AcademyId].Base.ToString(),
+                    IsReportViewer = false,
+                    IsCourseAdmin = false
+                });
+
+            var neededStudentProfiles = usersWithAccount.Where(ecm =>
+            {
+                var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) != MpInstituteRoleId.Faculty;
+            }).Select(ecm => ecm.PersonId);
+
+            var existingStudentProfiles = _mainCtx.Students
+                .Where(stud => neededStudentProfiles.Contains(stud.PersonId))
+                .Select(stud => stud.PersonId);
+
+            var newStudentProfiles = neededStudentProfiles
+                .Where(id => !existingStudentProfiles.Contains(id))
+                .Select(id => new ProfileStudent
+                {
+                    PersonId = id,
+                });
+
+            if (newFacultyProfiles.Any()) _mainCtx.Faculty.AddRange(newFacultyProfiles);
+            if (newStudentProfiles.Any()) _mainCtx.Students.AddRange(newStudentProfiles);
 
             if (reconResult.Students.Any()) _mainCtx.StudentInCourses.AddRange(reconResult.Students);
 

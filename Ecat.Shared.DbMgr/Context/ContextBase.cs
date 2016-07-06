@@ -32,8 +32,6 @@ namespace Ecat.Shared.DbMgr.Context
         {
             mb.Conventions.Remove<PluralizingTableNameConvention>();
 
-            mb.Entity<ProfileBase>().ToTable("Profile");
-
             mb.Properties<string>().Configure(s => s.HasMaxLength(50));
 
             mb.Properties()

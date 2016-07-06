@@ -25,18 +25,6 @@ namespace Ecat.FacMod.Core
         }
     }
 
-    internal class FacConfigProfileBase : EntityTypeConfiguration<ProfileBase>
-    {
-        public FacConfigProfileBase()
-        {
-            ToTable("Profile");
-
-            HasKey(p => p.PersonId)
-              .HasRequired(p => p.Person)
-               .WithOptional(p => p.Profile);
-        }
-    }
-
     internal class FacConfigProfileStudent : EntityTypeConfiguration<ProfileStudent>
     {
         public FacConfigProfileStudent()
