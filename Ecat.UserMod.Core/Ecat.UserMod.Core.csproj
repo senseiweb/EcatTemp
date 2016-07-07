@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\UserExceptions.cs" />
     <Compile Include="Business\GuardUserSave.cs" />
     <Compile Include="Business\UserGuardian.cs" />
     <Compile Include="Business\UserLogic.cs" />

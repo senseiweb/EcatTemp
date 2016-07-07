@@ -46,14 +46,28 @@ namespace Ecat.Web.Controllers
 
             ltiRequest.ParseRequest(Request);
 
-            var person = await _userLogic.ProcessLtiUser(ltiRequest);
+            var person = new Person();
+
+            try
+            {
+                person = await _userLogic.ProcessLtiUser(ltiRequest);
+            }
+            catch (InvalidEmailException ex)
+            {
+                ViewBag.Error = ex.Message + "\n\n Please update your email address in both Blackboard and AU Portal to use ECAT.";
+                return View();
+            }
+            catch (UserUpdateException) {
+                ViewBag.Error = "There was an error updating your account with the information from Blackboard. Please try again.";
+                return View();
+            }
             
             var token = new LoginToken
             {
                 PersonId = person.PersonId,
                 Person = person,
-                TokenExpire = DateTime.Now.Add(TimeSpan.FromMinutes(60)),
-                TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromMinutes(55)),
+                TokenExpire = DateTime.Now.Add(TimeSpan.FromHours(24)),
+                TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromHours(23)),
             };
 
             var identity = UserAuthToken.GetClaimId;
@@ -76,7 +90,7 @@ namespace Ecat.Web.Controllers
             var ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
 
             ticket.Properties.IssuedUtc = DateTime.Now;
-            ticket.Properties.ExpiresUtc = DateTime.Now.AddMinutes(60);
+            ticket.Properties.ExpiresUtc = DateTime.Now.AddHours(24);
 
             token.AuthToken = AuthServerOptions.OabOpts.AccessTokenFormat.Protect(ticket);
 

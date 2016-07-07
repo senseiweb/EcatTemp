@@ -79,12 +79,29 @@ namespace Ecat.UserMod.Core
              .Include(s => s.Student)
              .SingleOrDefaultAsync(person => person.BbUserId == parsedRequest.UserId);
 
+            var emailChecker = new ValidEmailChecker();
             if (user != null)
             {
+                if (user.Email != parsedRequest.LisPersonEmailPrimary) {
+                    if (!emailChecker.IsValidEmail(parsedRequest.LisPersonEmailPrimary)) {
+                        throw new InvalidEmailException("The email address associated with your Blackboard account (" + parsedRequest.LisPersonEmailPrimary + ") is not a valid email address.");
+                    }
+                    if (!await UniqueEmailCheck(parsedRequest.LisPersonEmailPrimary)) {
+                        throw new InvalidEmailException("The email address associated with your Blackboard account (" + parsedRequest.LisPersonEmailPrimary + ") is already being used in ECAT.");
+                    }
+                }
                 user.ModifiedById = user.PersonId;
             }
             else
             {
+                if (!emailChecker.IsValidEmail(parsedRequest.LisPersonEmailPrimary))
+                {
+                    throw new InvalidEmailException("The email address associated with your Blackboard account (" + parsedRequest.LisPersonEmailPrimary + ") is not a valid email address.");
+                }
+                if (!await UniqueEmailCheck(parsedRequest.LisPersonEmailPrimary)) {
+                    throw new InvalidEmailException("The email address associated with your Blackboard account (" + parsedRequest.LisPersonEmailPrimary + ") is already being used in ECAT.");
+                }
+
                 user = new Person
                 {
                     IsActive = true,
@@ -146,7 +163,7 @@ namespace Ecat.UserMod.Core
                 return user;
             }
 
-            throw new DbUpdateException("Save User Changes did not succeed!");
+            throw new UserUpdateException("Save User Changes did not succeed!");
         }
 
         public async Task<bool> UniqueEmailCheck(string email) => await _efCtx.Context.People.CountAsync(user => user.Email == email) == 0;

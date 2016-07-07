@@ -41,7 +41,7 @@ namespace Ecat.Web.Provider
             AuthenticationType = OAuthDefaults.AuthenticationType,
             AuthenticationMode = AuthenticationMode.Active,
             TokenEndpointPath = new PathString("/ecat-token"),
-            AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
+            AccessTokenExpireTimeSpan = TimeSpan.FromHours(24),
             Provider = _authProvider
         };
 
@@ -88,8 +88,8 @@ namespace Ecat.Web.Provider
 
             _loginToken = new LoginToken
             {
-                TokenExpire = DateTime.Now.Add(TimeSpan.FromMinutes(60)),
-                TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromMinutes(55)),
+                TokenExpire = DateTime.Now.Add(TimeSpan.FromHours(24)),
+                TokenExpireWarning = DateTime.Now.Add(TimeSpan.FromHours(23)),
                 Person = person,
                 PersonId = person.PersonId
             };

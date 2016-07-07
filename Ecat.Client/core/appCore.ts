@@ -49,6 +49,22 @@ export default class EcAppCore {
     static moduleId = 'app.core';
     static load = () => new EcAppCore();
     private setUserStatic = (): ecat.entity.ILoginToken => {
+
+        if (angular.element('#user-token').data('error-string') !== '' && angular.element('#user-token').data('error-string') !== '@ViewBag.Error') {
+            let promptSettings: SweetAlert.Settings = {
+                title: 'Login Error!',
+                text: angular.element('#user-token').data('error-string'),
+                type: 'error',
+                showConfirmButton: true,
+                showCancelButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonText: "Close Window"
+            }
+            swal(promptSettings, function () { window.close(); });
+            return null;
+        }
+
         let existingUserToken = window.sessionStorage.getItem('ECAT:TOKEN') || window.localStorage.getItem('ECAT:TOKEN');
 
         if (!existingUserToken) {
@@ -116,7 +132,7 @@ export default class EcAppCore {
                 if (tokenStatus === _mpe.TokenStatus.Expired) {
                     error.errorCode = _mpe.SysErrorType.AuthExpired;
                     error.redirectTo = stateMgr.core.login.name;
-                    error.message = 'You authenication token has expired. Please re-login.';
+                    error.message = 'Your authentication token has expired. Please re-login.';
                     notifyError(error);
                     $event.preventDefault();
                     return $state.go(stateMgr.core.login.name, { mode: 'lock', redirect: to, params: toParams });
@@ -125,7 +141,7 @@ export default class EcAppCore {
                 if (tokenStatus === _mpe.TokenStatus.Missing) {
                     error.errorCode = _mpe.SysErrorType.AuthNoToken;
                     error.redirectTo = stateMgr.core.login.name;
-                    error.message = 'You authenication token was not found. Please login.';
+                    error.message = 'Your authentication token was not found. Please login.';
                     error.params = { mode: 'login' };
                     notifyError(error);
                     $event.preventDefault();
