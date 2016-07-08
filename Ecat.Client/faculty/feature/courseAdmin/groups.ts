@@ -187,6 +187,7 @@ export default class EcCrseAdGrpList {
             }
             _swal(alertSettings);
             that.workGroups = that.dCtx.lmsAdmin.getAllWorkGroups(that.activeCourseId);
+            that.unwrapGrpFilterables(that.workGroups);
         }
         //TODO: need to write error handler
         function pollLmsGroupError(reason: ecat.IQueryError): void {

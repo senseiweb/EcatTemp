@@ -101,15 +101,17 @@ export default class EcProviderSpToolCommenter {
 
             _swal(alertSetting, (confirmed?: boolean) => {
                 if (confirmed) {
-
-
                     if (this.comment.flag.entityAspect.entityState.isAddedModifiedOrDeleted()) {
                         this.comment.flag.entityAspect.rejectChanges();
                     }
 
                     if (this.comment.entityAspect.entityState.isAddedModifiedOrDeleted()) {
                         this.comment.entityAspect.rejectChanges();
+                    }
 
+                    if (this.comment.entityAspect.entityState.isAdded()) {
+                        this.comment.flag.entityAspect.setDetached();
+                        this.comment.entityAspect.setDetached();
                     }
 
                     this.$mi.dismiss('Changes not saved');
@@ -117,6 +119,10 @@ export default class EcProviderSpToolCommenter {
             });
 
         } else {
+            if (this.comment.entityAspect.entityState.isAdded()) {
+                this.comment.flag.entityAspect.setDetached();
+                this.comment.entityAspect.setDetached();
+            }
             this.$mi.dismiss('Canceled');
         }
     }
