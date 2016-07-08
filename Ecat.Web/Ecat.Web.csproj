@@ -215,9 +215,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BCEE.png" />
-    <Content Include="BCEE.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
+    <Content Include="skydiving.jpeg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
