@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecat.Web", "Ecat.Web\Ecat.Web.csproj", "{E41A82D9-AB22-421E-BFA6-46915AB53092}"
 EndProject
@@ -41,6 +41,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Designer", "Designer", "{922E1837-4C94-42FA-BBDA-AE6D29834094}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecat.DesignerMod.Core", "Ecat.DesignerMod.Core\Ecat.DesignerMod.Core.csproj", "{D85CCEA2-4227-4AD6-A889-73FEAA4A81E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Artifacts", "_Artifacts", "{780501F6-63AD-4ECA-AB46-9E850742B77D}"
+	ProjectSection(SolutionItems) = preProject
+		InitDatabase.sql = InitDatabase.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
