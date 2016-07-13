@@ -239,11 +239,20 @@
             BCEE = "_206_1",
             CLC = "_892_1",
             ECAT = "_897_1",
+            ECATILE = "_907_1",
+            ECATALE = "_908_1",
             EPMEIC = "_894_1",
             NCOA = "_889_1",
             Keesler = "_890_1",
             Sheppard = "_893_1",
-            Tyndall = "_891_1";
+            Tyndall = "_891_1",
+            Elmendorf = "_903_1",
+            Hickam = "_904_1",
+            Kadena = "_905_1",
+            Kapaun = "_906_1",
+            Lackland = "_900_1",
+            Peterson = "_901_1",
+            McGheeTyson = "_902_1";
     }
     
     public static class MpEntityError

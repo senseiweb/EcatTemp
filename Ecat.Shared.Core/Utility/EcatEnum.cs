@@ -76,7 +76,7 @@ namespace Ecat.Shared.Core.Utility
         Elmendorf,
         Hickam,
         Kadena,
-        Kisling
+        Kapaun
     }
 
     public enum CategoryFilterTpe

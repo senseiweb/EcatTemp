@@ -1,4 +1,5 @@
 ﻿var moduleConfiguraton = {
+    //TODO: Change before production deployment
     "baseURL": 'Client/',
     "map": {
         "angular": '_vendor/bower/angular/angular.js',

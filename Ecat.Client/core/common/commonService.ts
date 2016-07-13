@@ -51,6 +51,7 @@ export default class EcatCommonService {
         public stateMgr: IStateMgr,
         private userStatic: ecat.entity.ILoginToken) {
 
+        //TODO: Change before production deployment
         const environment = window.localStorage.getItem(this.localStorageKeysBak.appServer);
         this.serverEnvironment = environment || `${window.location.protocol}//${window.location.host}`;
 
