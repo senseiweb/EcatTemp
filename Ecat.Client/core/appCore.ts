@@ -73,7 +73,7 @@ export default class EcAppCore {
 
             if (existingUserToken && existingUserToken !== '@ViewBag.User') {
                 window.sessionStorage.setItem('ECAT:TOKEN', JSON.stringify(existingUserToken));
-                return existingUserToken;
+                return existingUserToken as any;
             } else {
                 return null;
             }
