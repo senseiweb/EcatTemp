@@ -13,6 +13,7 @@ using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.Context;
 using Ecat.Web.Utility;
 using Newtonsoft.Json.Linq;
 
@@ -34,6 +35,7 @@ namespace Ecat.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public string Metadata()
         {
             return _facLogic.GetMetadata;
@@ -48,7 +50,19 @@ namespace Ecat.Web.Controllers
         [HttpGet]
         public async Task<List<Course>> GetCourses()
         {
-            return await _facLogic.GetActiveCourse();
+            try
+            {
+                return await _facLogic.GetActiveCourse();
+            }
+            catch (Exception ex)
+            {
+                using (var ctx = new EcatContext())
+                {
+                    ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('{ex.Message}');");
+                    ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('{ex.InnerException}');");
+                }
+                throw;
+            }
         }
 
         [HttpGet]

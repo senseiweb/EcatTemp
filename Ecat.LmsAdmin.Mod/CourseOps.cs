@@ -50,9 +50,9 @@ namespace Ecat.LmsAdmin.Mod
 
         public async Task<List<Course>> GetAllCourses()
         {
-            return await _mainCtx.Courses
-                .Where(course => course.AcademyId == Faculty.AcademyId)
-                .ToListAsync();
+                return await _mainCtx.Courses
+                    .Where(course => course.AcademyId == Faculty.AcademyId)
+                    .ToListAsync();
         }
 
         public async Task<List<CategoryVO>> GetBbCategories()
@@ -343,7 +343,7 @@ namespace Ecat.LmsAdmin.Mod
 
             reconResult.Students = usersWithAccount
                 .Where(ecm => {
-                    var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                    var bbCM = bbCmsVo.First(cm => cm.userId == ecm.BbUserId);
                     return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) != MpInstituteRoleId.Faculty;
                 })
                 .Select(ecm => new StudentInCourse
@@ -356,7 +356,7 @@ namespace Ecat.LmsAdmin.Mod
 
             reconResult.Faculty = usersWithAccount
               .Where(ecm => {
-                  var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                  var bbCM = bbCmsVo.First(cm => cm.userId == ecm.BbUserId);
                   return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) == MpInstituteRoleId.Faculty;
               })
               .Select(ecm => new FacultyInCourse
@@ -369,7 +369,7 @@ namespace Ecat.LmsAdmin.Mod
 
             var neededFacultyProfiles = usersWithAccount.Where(ecm =>
             {
-                var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                var bbCM = bbCmsVo.First(cm => cm.userId == ecm.BbUserId);
                 return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) == MpInstituteRoleId.Faculty;
             }).Select(ecm => ecm.PersonId);
 
@@ -390,7 +390,7 @@ namespace Ecat.LmsAdmin.Mod
 
             var neededStudentProfiles = usersWithAccount.Where(ecm =>
             {
-                var bbCM = bbCmsVo.Where(cm => cm.userId == ecm.BbUserId).First();
+                var bbCM = bbCmsVo.First(cm => cm.userId == ecm.BbUserId);
                 return MpRoleTransform.BbWsRoleToEcat(bbCM.roleId) != MpInstituteRoleId.Faculty;
             }).Select(ecm => ecm.PersonId);
 

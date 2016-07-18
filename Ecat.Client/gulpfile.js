@@ -8,7 +8,7 @@ var modelProj = '../Ecat.Shared.Core/Utility';
 var linksRegex = /@\[[a-z]+[A-Z]\w+\]\S+\.html/g;
 var modCfgRegEx = /_vendor\/\S+\/(\S+.js)/g;
 var paths = {
-    webroot: webProj + '/Client',
+    webroot: webProj + '/ecat/Client',
     app: '/app',
     config: '/config',
     content: '/content',

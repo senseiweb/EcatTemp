@@ -10,6 +10,7 @@ using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.Context;
 using Ecat.StudMod.Core.Guards;
 
 namespace Ecat.StudMod.Core
@@ -18,7 +19,7 @@ namespace Ecat.StudMod.Core
     public class StudentGuardian
     {
 
-        private readonly EFContextProvider<StudCtx> _efCtx;
+        private readonly EFContextProvider<EcatContext> _efCtx;
         private readonly Person _loggedInUser;
         private readonly Type _tStudInGroup = typeof (CrseStudentInGroup);
         private readonly Type _tStudComment = typeof(StudSpComment);
@@ -26,7 +27,7 @@ namespace Ecat.StudMod.Core
         private readonly Type _tSpResponse = typeof(SpResponse);
         private readonly Type _tStratResponse = typeof(StratResponse);
 
-        public StudentGuardian(EFContextProvider<StudCtx> efCtx, Person loggedInUser)
+        public StudentGuardian(EFContextProvider<EcatContext> efCtx, Person loggedInUser)
         {
             _efCtx = efCtx;
             _loggedInUser = loggedInUser;

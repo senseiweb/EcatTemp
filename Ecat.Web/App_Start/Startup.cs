@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Ecat.Web;
 using Ecat.Web.Provider;
+using Elmah.Contrib.WebApi;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Ninject.Web.Common.OwinHost;
@@ -26,6 +28,10 @@ namespace Ecat.Web
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             #endregion
 
+            #region Service-wide logging
+            config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
+            #endregion
+
             #region MVC Route Configuration
             RouteTable.Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             RouteTable.Routes.MapRoute(name: "Default",
@@ -44,6 +50,12 @@ namespace Ecat.Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
                 );
+
+            //config.Routes.MapHttpRoute(
+            //    name: "NotFound",
+            //    routeTemplate: "{*path}",
+            //    defaults: new {controller = "Error", action = "NotFound"}
+            //    );
             #endregion
 
             #region Add/Remove Formatters

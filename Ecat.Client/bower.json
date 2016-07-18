@@ -9,12 +9,12 @@
     "tests"
   ],
   "dependencies": {
-    "angular-animate": "^1.5.3",
+    "angular-animate": "^1.5.7",
     "angular-bootstrap": "^0.14.3",
     "angular-chosen-localytics": "^1.0.7",
     "angular-messages": "^1.4.8",
     "angular-nouislider": "^0.3.1",
-    "angular-resource": "^1.4.8",
+    "angular-resource": "^1.5.7",
     "angular-ui-router": "0.2.18",
     "animate.css": "^3.4.0",
     "autosize": "^3.0.13",
@@ -57,7 +57,7 @@
   },
   "resolutions": {
     "nouislider": "^8.0.2",
-    "angular": "^1.5.3"
+    "angular": "1.5.7"
   },
   "devDependencies": {
     "ocLazyLoad-SystemJS-Router": "https://github.com/lookfirst/ocLazyLoad-SystemJS-Router.git#1.2.2",

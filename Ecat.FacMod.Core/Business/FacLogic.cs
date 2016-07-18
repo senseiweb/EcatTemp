@@ -73,6 +73,8 @@ namespace Ecat.FacMod.Core
 
             latestCourse.WorkGroups = new List<WorkGroup>();
 
+            if (wgProj == null) return courses;
+
             foreach (var wgp in wgProj)
             {
                 var workGroup = wgp.wg;

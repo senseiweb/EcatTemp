@@ -18,11 +18,11 @@ namespace Ecat.StudMod.Core
 
     public class StudLogic : IStudLogic
     {
-        private readonly EFContextProvider<StudCtx> _efCtx;
+        private readonly EFContextProvider<EcatContext> _efCtx;
 
         public Person StudentPerson { get; set; }
 
-        public StudLogic(EFContextProvider<StudCtx> efCtx)
+        public StudLogic(EFContextProvider<EcatContext> efCtx)
         {
             _efCtx = efCtx;
         }
@@ -51,6 +51,11 @@ namespace Ecat.StudMod.Core
 
 
             var requestedCourses = studCourseInit.Select(sic => sic.crse).ToList();
+
+            if (requestedCourses == null)
+            {
+                return null;
+            }
 
             var activeCourse = requestedCourses.OrderByDescending(crse => crse.StartDate).First();
             if (activeCourse.WorkGroups == null) return requestedCourses;

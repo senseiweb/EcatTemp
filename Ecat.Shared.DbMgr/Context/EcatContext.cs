@@ -20,7 +20,7 @@ namespace Ecat.Shared.DbMgr.Context
     {
         public EcatContext() : base("ecat")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EcatContext, EcatCtxConfig>());
+            Database.SetInitializer<EcatContext>(null);
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
         }

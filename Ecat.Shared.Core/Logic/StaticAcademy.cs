@@ -81,7 +81,7 @@ namespace Ecat.Shared.Core.Logic
            ShortName = "ECAT ILE",
            MpEdLevel = MpEdLevel.Ncoa,
            Base = AcademyBase.Gunter,
-           BbCategoryId = MpAcadCat.ECAT,
+           BbCategoryId = MpAcadCat.ECATILE,
            ParentBbCategoryId = MpAcadCat.NCOA
        };
 
@@ -93,7 +93,7 @@ namespace Ecat.Shared.Core.Logic
            ShortName = "ECAT ALE",
            MpEdLevel = MpEdLevel.Sncoa,
            Base = AcademyBase.Gunter,
-           BbCategoryId = MpAcadCat.ECAT,
+           BbCategoryId = MpAcadCat.ECATALE,
            ParentBbCategoryId = MpAcadCat.BCEE
        };
 

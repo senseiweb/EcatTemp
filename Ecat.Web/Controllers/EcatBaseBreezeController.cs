@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Breeze.WebApi2;
 using Ecat.Shared.Core.ModelLibrary.User;
+using Ecat.Shared.DbMgr.Context;
 
 namespace Ecat.Web.Controllers
 {
@@ -15,8 +16,14 @@ namespace Ecat.Web.Controllers
         internal virtual void SetUser(Person person) { }
 
         [HttpGet]
+        [AllowAnonymous]
         public string Ping()
         {
+            using (var ctx = new EcatContext())
+            {
+                ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('Pinging');");
+            }
+
             return "Pong";
         }
 
@@ -24,7 +31,18 @@ namespace Ecat.Web.Controllers
         [Authorize]
         public string SecuredPing()
         {
-            return "Secured Pong";
+            try
+            {
+                return "Secured Pong";
+            }
+            catch (Exception)
+            {
+                using (var ctx = new EcatContext())
+                {
+                    ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('Secured Pong Error');");
+                }
+                throw;
+            }
         }
     }
 }

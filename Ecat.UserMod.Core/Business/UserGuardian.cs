@@ -8,6 +8,7 @@ using Ecat.Shared.Core.Logic;
 using Ecat.Shared.Core.ModelLibrary.Learner;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.Context;
 
 namespace Ecat.UserMod.Core
 {
@@ -15,7 +16,7 @@ namespace Ecat.UserMod.Core
     public class UserGuardian
     {
 
-        private readonly EFContextProvider<UserCtx> _efCtx;
+        private readonly EFContextProvider<EcatContext> _efCtx;
         private readonly Person _loggedInUser;
         private readonly Type _tPerson = typeof(Person);
         private readonly Type _tProfileExternal = typeof(ProfileExternal);
@@ -25,7 +26,7 @@ namespace Ecat.UserMod.Core
         private readonly Type _tProfileSecurity = typeof(Security);
 
 
-        public UserGuardian(EFContextProvider<UserCtx> efCtx, Person loggedInUser)
+        public UserGuardian(EFContextProvider<EcatContext> efCtx, Person loggedInUser)
         {
             _efCtx = efCtx;
             _loggedInUser = loggedInUser;

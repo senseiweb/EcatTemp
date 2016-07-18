@@ -45,7 +45,7 @@ namespace Ecat.Web.Provider
 
             if (principal == null || !principal.Identity.IsAuthenticated)
             {
-                if (!SkipAuthorization(httpContext)) throw new ArgumentNullException(nameof(principal));
+                if (!SkipAuthorization(httpContext)) throw new Exception("ECAT Error: Unable to detect principal users");
                 await Task.FromResult<object>(null);
                 return;
             }

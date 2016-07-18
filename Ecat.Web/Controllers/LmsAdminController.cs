@@ -12,6 +12,7 @@ using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.School;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.Context;
 using Ecat.Web.Utility;
 using Newtonsoft.Json.Linq;
 
@@ -49,7 +50,28 @@ namespace Ecat.Web.Controllers
         [HttpGet]
         public async Task<List<Course>> GetAllCourses()
         {
-            return await _lmsCourseOps.GetAllCourses();
+            using (var ctx = new EcatContext())
+            {
+                ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('Arriving in Get All Courses');");
+            }
+            try
+            {
+                using (var ctx = new EcatContext())
+                {
+                    ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('Executing Get All Courses');");
+                }
+
+                return await _lmsCourseOps.GetAllCourses();
+            }
+            catch (Exception ex)
+            {
+                using (var ctx = new EcatContext())
+                {
+                    ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('{ex.Message}');");
+                    ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('{ex.InnerException}');");
+                }
+                throw;
+            }
         }
 
         [HttpGet]

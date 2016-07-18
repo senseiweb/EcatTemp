@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Ecat.Shared.Core.ModelLibrary.Common;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.Context;
 using Ecat.UserMod.Core;
 using Ecat.Web.Provider;
 using LtiLibrary.AspNet.Extensions;
@@ -378,7 +379,24 @@ namespace Ecat.Web.Controllers
 
         public ActionResult Ping()
         {
-            return View();
+            try
+            {
+                using (var ctx = new EcatContext())
+                {
+                    ctx.Database.ExecuteSqlCommand("Insert into dbo.EventLogs (LogEvent) Values ('Doing A Ping');");
+                }
+                return View();
+            }
+            catch (Exception ex) 
+            {
+                using (var ctx = new EcatContext())
+                {
+                    ctx.Database.ExecuteSqlCommand("Insert into dbo.EventLogs (LogEvent) Values ('Doing A Ping');");
+                    ctx.Database.ExecuteSqlCommand($"Insert into dbo.EventLogs (LogEvent) Values ('{ex.InnerException}');");
+                }
+                throw;
+            }
+          
         }
     }
 }

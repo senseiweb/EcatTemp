@@ -19,15 +19,22 @@ namespace Ecat.UserMod.Core
     {
         public Person User { get; set; }
 
-        private readonly EFContextProvider<UserCtx> _efCtx;
+        private readonly EFContextProvider<EcatContext> _efCtx;
     
 
-        public UserLogic(EFContextProvider<UserCtx> efCtx)
+        public UserLogic(EFContextProvider<EcatContext> efCtx)
         {
             _efCtx = efCtx;
         }
 
-        public string Metadata => _efCtx.Metadata();
+        public string Metadata
+        {
+            get
+            {
+                var metaCtx = new EFContextProvider<UserCtx>();
+                return metaCtx.Metadata();
+            }
+        }
 
         public async Task<List<object>> GetProfile() {
             var userWithProfiles = await _efCtx.Context.People.Where(p => p.PersonId == User.PersonId)

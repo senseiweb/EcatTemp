@@ -6,7 +6,7 @@ export class PersonInitializer implements ecat.entity.ext.PersonClientExtensions
 
     constructor(person: ecat.entity.IPerson) {
         if (person.avatarLocation === null) {
-            const imgDirectory = '/Client/content/img/avatars/';
+            const imgDirectory = 'Client/content/img/avatars/';
             person.defaultAvatarLocation = `${imgDirectory}default.png`;
             this.salutation = _staticDs.getSalutation(person.mpPaygrade, person.mpComponent, person.mpAffiliation);
             this.prettyInstituteRole = _staticDs.prettyInstituteRole(person.mpInstituteRole);

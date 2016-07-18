@@ -5,14 +5,15 @@ using Breeze.ContextProvider.EF6;
 using Ecat.Shared.Core.Interface;
 using Ecat.Shared.Core.ModelLibrary.User;
 using Ecat.Shared.Core.Utility;
+using Ecat.Shared.DbMgr.Context;
 
 namespace Ecat.StudMod.Core.Guards
 {
     public class GuardMonitored
     {
-        private EFContextProvider<StudCtx> _efCtx; 
+        private EFContextProvider<EcatContext> _efCtx; 
 
-        public GuardMonitored(EFContextProvider<StudCtx> efCtx)
+        public GuardMonitored(EFContextProvider<EcatContext> efCtx)
         {
             _efCtx = efCtx;
         }
